@@ -56,12 +56,17 @@ data/catalog/.catalog.lock
 data/catalog/.transactions/
 data/catalog/.staging/
 data/catalog/.backup/
-# 工程文档（架构/需求/运维/归档/原型等）整体不入库；
-# 只允许用户说明类 md 入库，约定放在 docs/manual/ 下
-docs/*
-!docs/manual/
-docs/manual/**
-!docs/manual/**/*.md
+# 系统级契约文档与手册白名单入库；临时计划与本地工作稿不入库
+/docs/*
+!/docs/architecture.md
+!/docs/content-quality.md
+!/docs/decisions.md
+!/docs/hotspot-workflow.md
+!/docs/operations.md
+!/docs/requirements.md
+!/docs/manual/
+/docs/manual/**
+!/docs/manual/**/*.md
 
 # ===== 第三方 Skills 插件缓存 =====
 # mattpocock-skills 等第三方 skill 含配置文件，不入库

@@ -1,0 +1,25 @@
+# Project-scoped Codex settings. Credentials, MCP logins and personal permissions
+# stay in the user-level Codex configuration.
+project_doc_max_bytes = 65536
+project_doc_fallback_filenames = ["TEAM_GUIDE.md", ".agents.md"]
+
+# Lightweight, fail-open project hooks. They do not read credentials, edit files,
+# invoke MCP servers, or replace Codex approvals.
+[[hooks.SessionStart]]
+matcher = "startup|resume|clear|compact"
+
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
+command_windows = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
+timeout = 15
+statusMessage = "Checking project agent configuration"
+
+[[hooks.Stop]]
+
+[[hooks.Stop.hooks]]
+type = "command"
+command = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
+command_windows = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
+timeout = 15
+statusMessage = "Checking patch formatting"

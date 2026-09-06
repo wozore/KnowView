@@ -634,6 +634,12 @@ node scripts/catalog-series-migration.js --apply <targetRevision>  # 原子 Appl
 - **同厂商多候选顺序规划**：批量前置按顺序维护投影成员数，第 3 个正常加入、第 4 个触发迁移阻断；`migration_required` 与 `fail_closed` 天然使后续同家族候选持续阻断。
 - **from-preview / resume 复用**：`--from-preview` 复用上次 dry-run 的 seed（含 `placement_decision`），确定性判定短路，**不重复调用 AI**；已持久化 decision 的 seed 在重跑/续跑时直接采用。
 
+### SeriesBundle 与普通 Draft 架构边界（schema v3 vs v4）
+
+- **普通 Draft（schema v3）**：由单工具 `new/resume/review/apply` 链路管理，`schema_version: 3`，负责单一工具五层目录记录的确定性规划与 Apply。
+- **SeriesBundle Draft（schema v4）**：在批量处理或工作台系列打包流程中，使用独立的 `series_bundle` Draft（`draft_kind: 'series_bundle'`, `schema_version: 4`）。它将同厂商/同系列的多个模型成员聚合成原子管理单元，维护独立的成员归属判定（`existing`/`create`/`deferred`）、增量富化确认 token（`enrichment_confirmation_token`）与硬上限（`enrichment_hard_limits`）。
+- **版本隔离与政策自洽**：SeriesBundle Draft 与普通 schema v3 Draft 状态机与存储结构隔离，不混为同一版本；系列成员规划严格依循 `llm-series-policy.json`，确保系列容量、拆分门槛与模型键（model_key）桥接数据全局自洽。
+
 ## 13. 概念批量生成（热点待补概念 → glossary.json）
 
 `min-review feedback` 产出的 `data/manual/concepts/concept-cards-pending.json` 由**独立的 concept-generator 入口**转成正式 `data/catalog/glossary.json` 条目。概念生成产出的是 AI 概念知识库（glossary.json），不是五模块厂商/工具目录，故独立成入口，不挂在 catalog-generator 下。与工具批量链路（§11）不同，概念**不自动 apply**：batch 只合成出预览文件并停下，由维护者查看后再显式 `apply` 写入。

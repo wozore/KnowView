@@ -1,7 +1,7 @@
 /**
  * check-standards.js — 零依赖代码规范静态检查器（Node 20 原生，无 npm 依赖）
  *
- * 检测范围：src/**\/*.{js,mjs}。检测项（规范正文见 docs/codebase-refactor-plan.md §1.7）：
+ * 检测范围：src/**\/*.{js,mjs}。检测项（规范正文见 docs/manual/codebase-standards.md）：
  *   1. dependency-direction — 域间互引 / src→scripts / 浏览器域→Node 模块 /
  *      shared→其他域 / 函数体内 require
  *   2. shim — module.exports = require(...) 透传、整体仅 re-export 或 ESM 纯 re-export 垫片文件

@@ -285,12 +285,24 @@
 - [catalog-seed.js](src/pending/catalog-seed.js) — 待补候选到 Catalog Seed 的严格转换。
 - [rules.js](src/pending/rules.js) — 待补候选名称与知识库匹配规则。
 
-## docs/manual/ — 用户说明
-- [catalog-generator.md](docs/manual/catalog-generator.md) — schema v3 五模块目录生成器手册；CatalogProfile/OfficialSource/FieldCoverage/LayerPatch、plan/new/resume/review/apply、硬成本账本和恢复安全规则；含 LLM 二级系列自动归属（政策 + AI hint + migration_required）、二级系列迁移 CLI、批量成本门禁（三本账/零确认零付费/from-preview 复用）。
-- [comparison-data-sources.md](docs/manual/comparison-data-sources.md) — 对比页数据源选型核实记录；AA/SWE-bench/LiveBench/HF Leaderboard/OpenRouter 可用通路、LMArena 仅第三方快照、DeepSWE 抓站、HF 网络镜像坑与推荐组合。
-- [comparison-data-contract.md](docs/manual/comparison-data-contract.md) — 对比页数据契约（integrated 层）：文件布局、维度键枚举与归一化口径、index.json/data.json/view-config/models-alias 契约、raw 快照形状、前端渲染规则映射、i18n 键、管线实现红线。
-- [icons.md](docs/manual/icons.md) — 品牌图标资产维护说明：官方 logo 获取、Simple Icons 备选、manifest 键规则和三级模型按系列继承/单模型覆盖。
-- [dev-log.md](docs/manual/dev-log.md) — 开发日志（开发过程记录，公开可见，供回顾开发背景；开发计划不入库仅本地）。
+## docs/ — 系统契约与工程规范
+
+### docs/ — 系统级设计与契约
+- [requirements.md](docs/requirements.md) — 业务需求规格、MVP 范围边界与验收条件。
+- [architecture.md](docs/architecture.md) — 系统拓扑、模块边界、数据流与公开/内部边界。
+- [hotspot-workflow.md](docs/hotspot-workflow.md) — 热点管线 v2 全流程（采集、去重、分类、评分、审核、落地与公开投影）。
+- [operations.md](docs/operations.md) — 运维操作（环境变量、CLI 与批处理速查、CI 调度、本地运行与灾备恢复）。
+- [decisions.md](docs/decisions.md) — 关键架构决策记录（背景、选择、理由与影响）。
+- [content-quality.md](docs/content-quality.md) — 内容质量标准与审核规范（硬过滤、评分权重、审核分流与公开门禁）。
+
+### docs/manual/ — 专项手册、工程规范与开发记录
+- [codebase-standards.md](docs/manual/codebase-standards.md) — 代码编写与架构规范、通用工程红线、文档治理原则与 T1–T14 架构模板。
+- [catalog-generator.md](docs/manual/catalog-generator.md) — schema v3 五模块目录生成器手册与 schema v4 SeriesBundle 批量系列打包契约。
+- [comparison-data-contract.md](docs/manual/comparison-data-contract.md) — 模型对比页数据契约（integrated 层）、字段定义与归一化标准。
+- [comparison-data-sources.md](docs/manual/comparison-data-sources.md) — 对比页数据源选型核实记录与抓取限制。
+- [editorial-and-data-policy.md](docs/manual/editorial-and-data-policy.md) — AI 内容编辑方针、来源核验与数据上传政策。
+- [icons.md](docs/manual/icons.md) — 品牌与模型图标资产维护说明。
+- [dev-log.md](docs/manual/dev-log.md) — 开发日志（开发过程记录，公开可见；开发计划为本地维护者工作稿）。
 
 ## src/content/ — 内容生成
 - [generate-rss.js](src/content/generate-rss.js) — RSS 生成。导出: `getFeedItems, generateRss`
@@ -309,9 +321,9 @@
 ## tests/ — 自动化回归
 - [index.js](tests/index.js) — 跨平台全量测试目录入口；递归加载所有 `*.test.js`，使 `node --test tests/` 可用。
 - [static-site.test.js](tests/build/static-site.test.js) — 静态站点复制构建与历史产物清理测试。
-- [web-date-display.test.js](tests/web-date-display.test.js) — 前端 typed 日期、无日期/套餐及场景类型标签纯函数回归。
+- [web-date-display.test.js](tests/web/web-date-display.test.js) — 前端 typed 日期、无日期/套餐及场景类型标签纯函数回归。
 - [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引纯逻辑回归：hidden_history 可见性、存量系列回退判定、最长词匹配角色（成员/系列/并列系列优先）、全角归一化。
-- [catalog-interface.test.js](tests/catalog-interface.test.js) — 五模块目录 Interface、字段所有权、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
+- [catalog-interface.test.js](tests/catalog/catalog-interface.test.js) — 五模块目录 Interface、字段所有权、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
 - [catalog-date-audit.test.js](tests/catalog/catalog-date-audit.test.js) — 日期语义审计保守分类、目标字段和输入不变回归。
 - [catalog-date-repair.test.js](tests/catalog/catalog-date-repair.test.js) — 日期字段级修补与 `advance_update` 回归：目标类型、官方 metadata/正文/根域门禁、向前日期、批量 preview、approved queue、revision/preview 冲突、字段零漂移和 atomic commit。
 - [catalog-generator.test.js](tests/catalog/catalog-generator.test.js) — v3 官方查询、单段 Synthesis Adapter、LayerPatch planner 和 revision 回归；含统一模型键/系列字段契约（builders 门禁、条件字段豁免、snapshot 校验器存在才校验与同名 L2/L3 合法锁定）。

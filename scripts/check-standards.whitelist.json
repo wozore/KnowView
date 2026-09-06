@@ -1,6 +1,6 @@
 {
   "_comment": [
-    "check-standards 存量违规白名单（规范见 docs/codebase-refactor-plan.md §1.7-1.8）。",
+    "check-standards 存量违规白名单（规范见 docs/manual/codebase-standards.md）。",
     "铁律：只减不增。count = 存量违规处数，checker 机器校验：实际违规数超过 count 即报 whitelist-growth。",
     "新增违规必须改代码消除，不得加白名单条目；条目指向的文件已删除时被静默忽略。",
     "清理违规后随手删除条目并同步递减 count。"

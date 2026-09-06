@@ -1,12 +1,10 @@
-# InfoCatcher 开发日志
+# 知览（KnowView）开发日志
 
-> **文件定位**：只记录已经发生的开发变更、实际验证结果和已知未验证边界；未来任务、实施步骤、优先级和验收条件统一维护在 [开发计划.md](开发计划.md)。两份文件不重复复述。
+> **文件定位**：只记录已经发生的开发变更、实际验证结果和已知未验证边界；未来任务、实施步骤、优先级和验收条件统一维护在 [开发计划.md](../../开发计划.md)（本地维护者工作稿）。两份文件不重复复述。
 >
 > **记录原则**：没有执行的测试、没有触发的 Actions、没有打开的线上页面和没有收到的用户反馈，不写成已完成事实。
 >
-> **计划文件**：[开发计划.md](开发计划.md)
->
-> **生命周期规则**：[software-lifecycle-guard](.claude/skills/software-lifecycle-guard/SKILL.md)
+> **计划文件**：[开发计划.md](../../开发计划.md)（本地维护者工作稿）
 
 ## 状态标记
 
@@ -38,7 +36,6 @@
 - [2026-07-27 · 环 B / S3 · N02 · 第一批工具情报扩展 — Mistral AI](#log-entry-19)
 - [2026-07-27 · 环 B / S3 · B11 · 时效标注系统](#log-entry-20)
 - [2026-07-27 · 环 B / S3 · B17 · AI 热点 RSS 订阅源](#log-entry-21)
-- [2026-09-06 · 模型系列反哺、统一模型键、SeriesBundle 事务与目录收口](#log-entry-22)
 - [2026-07-28 · 环 B / S3 · B19 · 推荐视图开发](#log-entry-22)
 - [2026-07-28 · 环 B / S3 · N02-2 + N02-3 · 第二、三批工具情报扩展](#log-entry-23)
 - [2026-07-28 · 环 B / S3 · N02 · Tree 集合渲染路径统一](#log-entry-24)
@@ -102,6 +99,13 @@
 - [2026-08-21 · 模型身份歧义解析修复 + 手动审计入口](#log-entry-82)
 - [2026-09-02 · 维护者工作台知识闭环恢复与配置诊断](#log-entry-83)
 - [2026-09-03 · 外部 AI provider 开关：接入智谱 Messages 兼容端点，默认切 glm-5.3-flash（对齐 Lite 套餐）](#log-entry-84)
+- [2026-09-04 · 重构 R1 轮（shared 重构收口）+ D8 拍板执行 + R2 收尾](#log-entry-85)
+- [2026-09-04 · 重构 R3 轮（news：provider 正名、旧卡兼容抹除、加工流程拆分）](#log-entry-86)
+- [2026-09-04 · 重构 R4 轮（catalog：子域重组、事务独立与 pending 域独立）](#log-entry-87)
+- [2026-09-05 · 重构 R5–R9 轮（comparison 子域化、工作台解耦、web 原生模块化与路径规范化）](#log-entry-88)
+- [2026-09-05 · 架构重构最终收口（News 注入解耦、Web 目录组织、scripts 薄壳化与规范门禁强化）](#log-entry-89)
+- [2026-09-06 · 模型系列反哺、统一模型键、SeriesBundle 事务与目录收口（阶段 0–6B）](#log-entry-90)
+- [2026-09-06 · 文档体系重构、事实校准与规范治理](#log-entry-91)
 
 ---
 
@@ -126,12 +130,12 @@
 
 ### 证据
 
-- [问题定义归档](docs/archive/problem-definition-full.md)
+- 问题定义归档
 - 工程提交：`28d8372`、`85828e4`、`ca3e1ca`
 
 ### 遗留事实
 
-- `[ ]` 后续用户反馈需覆盖更多非学生用户；该项的收集步骤和验收条件见 [开发计划.md](开发计划.md)。
+- `[ ]` 后续用户反馈需覆盖更多非学生用户；该项的收集步骤和验收条件见 开发计划.md。
 
 ---
 
@@ -150,7 +154,7 @@
 
 ### 证据
 
-- [可行性研究归档](docs/archive/feasibility-study-full.md)
+- 可行性研究归档
 - 工程提交：`34e46d7`、`5b5e049`、`cf9ac54`
 
 ### 已验证
@@ -179,9 +183,9 @@
 ### 证据
 
 - 工程提交：`4724db6`、`b3c7d85`
-- [当前需求规格](docs/requirements.md)
-- [当前架构](docs/architecture.md)
-- [开发计划.md](开发计划.md)
+- [当前需求规格](../../docs/requirements.md)
+- [当前架构](../../docs/architecture.md)
+- 开发计划.md
 
 ### 遗留
 
@@ -200,13 +204,13 @@
 - B03：对比模式增加“不适合/限制”等实用维度。
 - B08：完成43条 AI 概念、6个分类、搜索、筛选和展开交互。
 - 完成工具库、场景导航、对比、概念词典、关于等静态视图及数据校验。
-- 首次建立 [架构文档](docs/architecture.md) 和 [mvp-architecture.drawio](docs/diagrams/mvp-architecture.drawio)。
+- 首次建立 [架构文档](../../docs/architecture.md) 和 mvp-architecture.drawio。
 
 ### 证据
 
 - 工程提交：`29cc39d`
-- [tools.json](data/catalog/tools.json)
-- [glossary.json](data/catalog/glossary.json)
+- `tools.json`
+- [glossary.json](../../data/catalog/glossary.json)
 
 ### 已验证
 
@@ -285,12 +289,12 @@
 
 ### 主要产物
 
-- [热点信息源清单.md](resources/source-lists/热点信息源清单.md)
-- [AI热点质量评估标准.md](docs/content-quality.md)
-- [build-news.js](scripts/build-news.js)
-- [news-tests.test.js](tests/news/news-tests.test.js)
-- [hotspots.json](data/news/output/hotspots.json)
-- [collect-news.yml](.github/workflows/collect-news.yml)
+- 热点信息源清单.md
+- [AI热点质量评估标准.md](../../docs/content-quality.md)
+- [build-news.js](../../scripts/build-news.js)
+- `news-tests.test.js`
+- [hotspots.json](../../data/news/output/hotspots.json)
+- [collect-news.yml](../../.github/workflows/collect-news.yml)
 
 ### 证据
 
@@ -423,20 +427,20 @@
 
 ### 完成内容
 
-- 将 [架构文档](docs/architecture.md) 从 v0.2 更新为 v0.3，补齐六视图、构建时管线、持久状态、测试和 CI/CD。
-- 更新 [mvp-architecture.drawio](docs/diagrams/mvp-architecture.drawio)，明确外部来源、Actions 构建、平台适配、Registry/调度/额度/授权、静态数据和浏览器运行时之间的关系。
+- 将 [架构文档](../../docs/architecture.md) 从 v0.2 更新为 v0.3，补齐六视图、构建时管线、持久状态、测试和 CI/CD。
+- 更新 mvp-architecture.drawio，明确外部来源、Actions 构建、平台适配、Registry/调度/额度/授权、静态数据和浏览器运行时之间的关系。
 - 修正 `index.html` 工具数量的静态初值：26 → 43；运行时仍由 `renderTools()` 按筛选结果更新。
 - 重整本开发日志，补齐 S1、部署拆仓和 B14 两轮工作，删除已经过时的“25个工具”“尚未部署”等计划性叙述。
 
 ### 说明
 
-- 原日志中的问题定义、可行性方法、瀑布与敏捷比较属于教程/复盘，不适合作为按时间维护的开发日志正文；对应细节继续由 [问题定义归档](docs/archive/problem-definition-full.md)、[可行性研究归档](docs/archive/feasibility-study-full.md) 和生命周期 Skill 保存。
+- 原日志中的问题定义、可行性方法、瀑布与敏捷比较属于教程/复盘，不适合作为按时间维护的开发日志正文；对应细节继续由 问题定义归档、可行性研究归档 和生命周期 Skill 保存。
 - 本次已实际完成日志结构整理，并在文件头部明确了“只记录已发生结果”的边界。
 - 本次文档修改尚未由开发者提交或推送；这属于当前工作树事实，不代表项目功能未完成。
 
 ### 尚未验证事实
 
-- `[~]` B14 真实 Actions 采集、跨批次恢复和线上浏览器冒烟仍未执行；对应未完成任务见 [开发计划.md](开发计划.md)。
+- `[~]` B14 真实 Actions 采集、跨批次恢复和线上浏览器冒烟仍未执行；对应未完成任务见 开发计划.md。
 
 ---
 
@@ -557,7 +561,7 @@
 
 - [x] 用户确认 B10 当前范围完成：OpenAI、Anthropic、Gemini 树形试点及 OpenAI 独立节点页保留现状。
 - [x] 其他工具栏暂不进行结构迁移；原因是信息获取通道尚未建立，后续扩展不在当前 B10 范围内。
-- [x] 后续优先任务确定为建立信息获取通道，完成后再按批次评估其他工具情报扩展；对应任务见 [开发计划.md](开发计划.md)。N01 已于 2026-07-27 交付。
+- [x] 后续优先任务确定为建立信息获取通道，完成后再按批次评估其他工具情报扩展；对应任务见 开发计划.md。N01 已于 2026-07-27 交付。
 
 ### 当前边界
 
@@ -872,10 +876,10 @@
 
 ### 实际变更
 
-- [x] 将可行性研究中的 R2、R4 风险缓解材料收束为 [risk-mitigation.md](docs/archive/risk-mitigation.md)，保留风险评分、措施、执行清单、决策关口和原文件迁移映射。
-- [x] 将 YouTube、X、Bilibili、知乎四份平台采集材料收束为 [platform-acquisition-study.md](docs/archive/platform-acquisition-study.md)，保留配额、成本、风险、流程、待办与原始状态；Bilibili 的旧自动化路线明确标注为历史候选，当前人工精选边界置于文档开头。
-- [x] 将通用可行性研究方法论文档移动至 [通用可行性方法](docs/archive/feasibility-methodology.md)，更新可行性报告引用；移动前后文件 SHA-256 一致。
-- [x] 删除错位且含过时测试命令的 `docs/lifecycle/06-implementation/README.md`；根 [README.md](README.md) 补充仍有效的本地运行、内容维护入口和凭据边界。
+- [x] 将可行性研究中的 R2、R4 风险缓解材料收束为 risk-mitigation.md，保留风险评分、措施、执行清单、决策关口和原文件迁移映射。
+- [x] 将 YouTube、X、Bilibili、知乎四份平台采集材料收束为 platform-acquisition-study.md，保留配额、成本、风险、流程、待办与原始状态；Bilibili 的旧自动化路线明确标注为历史候选，当前人工精选边界置于文档开头。
+- [x] 将通用可行性研究方法论文档移动至 通用可行性方法，更新可行性报告引用；移动前后文件 SHA-256 一致。
+- [x] 删除错位且含过时测试命令的 `docs/lifecycle/06-implementation/README.md`；根 [README.md](../../README.md) 补充仍有效的本地运行、内容维护入口和凭据边界。
 - [x] 修复总体设计、模块文档、详细设计、SRS、开发日志与开发计划中的失效目录/文件链接；总体设计和模块文档明确区分生命周期设计与当前实现事实。
 
 ### 验证结果
@@ -924,7 +928,7 @@
 - [x] 事件聚合由对每个主题全量扫描 assessments 并按主题双重排序改为 `content_id → assessment[]` 索引 + 单遍时间边界计算，事件/assessment/内容顺序不变。
 - [x] 最新来源采集启用有界并发：使用 `collection.concurrency`（默认5）并行网络采集，按 `selected` 原顺序归并 registry、freshItems、state、coverage，保证重复记录首项优先与输出确定性；quota 采用先完成先占用策略（用户已确认）。
 - [x] 移除共享 `context.currentSourceId`：YouTube 统计补充改为显式 `sourceId` 参数，消除并发时额度审计归属串源风险。
-- [x] 清理运行态 [news-state.json](data/news/runtime/news-state.json)：删除全部 192 条历史来源进度中的 212 个 `details`/`items`/`routes` 字段。
+- [x] 清理运行态 `news-state.json`：删除全部 192 条历史来源进度中的 212 个 `details`/`items`/`routes` 字段。
 
 ### 验证结果
 
@@ -940,11 +944,11 @@
 - [~] 生产状态压缩依赖下一次真实成功构建的原子写回；本次仅清理了仓库内运行态文件。
 - [~] 并发采集的 quota 先完成先占用策略在低额度下的来源额度归属顺序不固定（预期行为），总量与账本一致性不变。
 - [ ] 历史采集的真实 pageToken 暂停恢复仍仅由单元测试覆盖，未在真实 API 下取得证据。
-- [ ] 剩余候选优化（时间层语义统一、registry 保留策略、配置契约澄清、CPU 热点 benchmark 等）已整理至 [开发计划.md](开发计划.md)。
+- [ ] 剩余候选优化（时间层语义统一、registry 保留策略、配置契约澄清、CPU 热点 benchmark 等）已整理至 开发计划.md。
 
 ## 当前记录边界
 
-后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 [开发计划.md](开发计划.md)。
+后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 开发计划.md。
 
 ---
 
@@ -954,7 +958,7 @@
 
 ### 实际变更
 
-- [x] 完成 [B16 UI 系统重构方案](docs/b16-ui-reconstruction-plan.md) 的全文结构审查；修正重复章节编号、补齐第 9 章编号和第 11 章一级标题。
+- [x] 完成 B16 UI 系统重构方案 的全文结构审查；修正重复章节编号、补齐第 9 章编号和第 11 章一级标题。
 - [x] 通过交互确认并整理 B16 方案中的 11 项重复/结构请求；将静态演示边界、搜索阶段、概念预览、公开资格、视频处理、PR 批次流程、AI 依据审核和审核日志字段等内容集中为权威定义或交叉引用。
 - [x] 记录并统一已确认的产品规则：视频内容经字幕/文字稿和人工审核后可公开；技术获取失败使用 `ai_processing_status: error`；证据不足使用 `review_status: held`；热点可展示已审核静态 AI 浓缩摘要；概念索引作为不改变数据契约的 UI 增强层。
 - [x] 补入决策 101–103：前三阶段安排、原型验收标准，以及 MVP 剩余功能完成且业务/数据稳定后再实施 UI 的前置依赖。
@@ -978,7 +982,7 @@
 
 ### 实际变更
 
-- [x] 根据 [B16 UI 系统重构方案](docs/b16-ui-reconstruction-plan.md) 新增原型审查目录、共享原型样式、共享演示交互和固定演示数据。
+- [x] 根据 B16 UI 系统重构方案 新增原型审查目录、共享原型样式、共享演示交互和固定演示数据。
 - [x] 新增 AI 搜索首页、搜索结果与引用主线、工具/场景/对比/推荐、热点/概念和关于页面原型。
 - [x] 保留既有视觉方向、引用布局、查询编辑和来源粘性比较原型，未覆盖或修改其内容。
 - [x] 所有新增原型均使用原生 HTML/CSS/JavaScript，不调用真实 AI、外部搜索或业务 API，并保留静态演示边界说明。
@@ -1059,7 +1063,7 @@
 
 ## 当前记录边界
 
-后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 [开发计划.md](开发计划.md)。
+后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 开发计划.md。
 
 ---
 
@@ -1070,7 +1074,7 @@
 ### 实际变更
 
 - [x] 只读核对 B16 后续任务实现：内部候选层 / 双状态轴 / 公开资格门禁 / 追加式审核日志 / 30 天时间窗口 / RSS 统一过滤 / 字幕 enrichment / legacy 迁移 / 批次审核 PR 与自动投影（决策 46–73）及前端 P1-B 热点（决策 74–89）均正确落地；未修改业务数据契约。
-- [x] 修复真实 bug（`now` 类型不一致）：[build-news.js](src/news/pipeline/build-news.js) 两处把 ISO 字符串 `fetchedAt` 传给 `news-public-gate.js` 的 `markAnomalousTimeCandidates` / `filterProjectionByWindow`；字符串参与 `now - time` 算术得到 `NaN`，导致「未来时间超容错 → held」与「公开投影二次窗口过滤」两条路径静默失效。改为传数字时间戳 `now`，并在 `resolvePublicWindow` 增加字符串时间戳归一化防御，避免同类回归。
+- [x] 修复真实 bug（`now` 类型不一致）：`build-news.js` 两处把 ISO 字符串 `fetchedAt` 传给 `news-public-gate.js` 的 `markAnomalousTimeCandidates` / `filterProjectionByWindow`；字符串参与 `now - time` 算术得到 `NaN`，导致「未来时间超容错 → held」与「公开投影二次窗口过滤」两条路径静默失效。改为传数字时间戳 `now`，并在 `resolvePublicWindow` 增加字符串时间戳归一化防御，避免同类回归。
 - [x] 修复 CI 门禁缺口：新增的 6 个测试文件（candidates / review-events / public-gate / transcripts / audit / rss）未接入 CI；collect / publish / deploy 三个 workflow 的测试命令改为显式运行全部 8 个测试文件（目录参数在 Node 20/24 下不可靠）。
 
 ### 验证结果
@@ -1089,7 +1093,7 @@
 
 ## 当前记录边界
 
-后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 [开发计划.md](开发计划.md)。
+后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 开发计划.md。
 
 ---
 
@@ -1099,12 +1103,12 @@
 
 ### 实际变更
 
-- [x] 对比代码库与 [b16-ui-reconstruction-plan.md](docs/b16-ui-reconstruction-plan.md)、[b16-content-type-fix-plan.md](docs/b16-content-type-fix-plan.md)、[decisions.md](docs/decisions.md)，确认本次 B16 任务的完成范围，新增 [docs/b16-task-status.md](docs/b16-task-status.md) 记录「已完成 / 文档偏差 / 后续清单」。
+- [x] 对比代码库与 b16-ui-reconstruction-plan.md、b16-content-type-fix-plan.md、[decisions.md](../../docs/decisions.md)，确认本次 B16 任务的完成范围，新增 docs/b16-task-status.md 记录「已完成 / 文档偏差 / 后续清单」。
 - [x] 核对 content_type ↔ source_type 拆分（路径 B）已在工作区全链路落地：采集层（build-news.js、news-bilibili.js）输出 `source_type`；手工条目 `ALLOWED_SOURCE_TYPES` + `content_type` 默认 `unclassified`；CLI / 候选层透传；validate.js 拆分 `SOURCE_TYPES` 与 `CONTENT_TYPES`；新增幂等 `--migrate-content-type` 迁移子命令；前端 `contentTypeLabels` 改内容类型映射、`SOURCE_TYPE_LABELS` 进来源核验层、全 unclassified 时隐藏类型筛选区。
 - [x] 核对数据迁移结果：`hotspots.json` 为 `schema_version: 3`，100 条 `content_type` 全部 `unclassified`、`content_type_status` 全部 `unclassified`、`source_type` 保留媒体类型（x_post 47 / youtube_video 53，无缺失）。
 - [x] 确认 UI 重构 P0 / P1-A / P1-B（决策 101–103）已前端落地；本工作区另含复制查询/摘要（决策 10.2/100）与搜索匹配热点项打开详情对话框（决策 9.1/81）增量。
 - [x] 发现文档状态偏差：b16-content-type-fix-plan.md 头部仍标「规划中，只做方案不改代码」，与已落地代码不符，已列入开发计划 B16-R8。
-- [x] 执行 B16-R8：更新 [b16-content-type-fix-plan.md](docs/b16-content-type-fix-plan.md) 头部状态、§4 已选路径、§9 实施状态、§11 达成度；标注路径 A 待办（见开发计划 B16-R5）。
+- [x] 执行 B16-R8：更新 b16-content-type-fix-plan.md 头部状态、§4 已选路径、§9 实施状态、§11 达成度；标注路径 A 待办（见开发计划 B16-R5）。
 
 ### 验证结果
 
@@ -1119,7 +1123,7 @@
 
 ## 当前记录边界
 
-后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 [开发计划.md](开发计划.md)。
+后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 开发计划.md。
 
 ---
 
@@ -1129,7 +1133,7 @@
 
 ### 实际变更
 
-- [x] 只读核对 [开发计划.md](开发计划.md) 中 B16-Rx（8 项）与 N-Px（6 项）的实现状态，未修改业务代码与数据契约。
+- [x] 只读核对 开发计划.md 中 B16-Rx（8 项）与 N-Px（6 项）的实现状态，未修改业务代码与数据契约。
 - [x] B16-R1（概念联动适配层）、B16-R8（fix-plan 文档同步）确认已解决；B16-R3（过时注释）确认实质已完成——原引用行号已因重构漂移，现 `app.js:21` 已为「内容类型筛选+最近/热度排序」、全仓平台注释均说明「平台属来源核验信息」且与实现一致。
 - [x] B16-R2（字幕开关）、B16-R5（路径 A 分类）确认卡在业务/渠道确认；B16-R6（tools.json 时间字段 0/45）、B16-R7（related_resources 0/100）确认数据待补；B16-R4（候选层复核）待首次真实采集。
 - [x] N-Px 六项确认全部未完成，并核实三处实质差异：
@@ -1157,8 +1161,8 @@
 
 - [x] **本地 HTTP 服务人工验收完成**（`python -m http.server 8000` → `http://localhost:8000/dist/`），决策 102 六类标准全部通过、无阻塞问题：主流程可走通 / 全站视图覆盖（8 视图）/ 状态覆盖 / 响应式 / 无障碍基线 / 能力边界诚实。
 - [x] 热点「全部 unclassified」下确认符合决策 80：类型筛选区隐藏、卡片「类型待确认」、无平台级筛选泄漏；最近/热度排序正常。类型筛选功能待路径 A（B16-R5）填充真实 `content_type` 后自动显示，非缺陷。
-- [x] 修正 [b16-task-status.md](docs/b16-task-status.md) 过时表述：fix-plan 状态同步、提交方式两项标注已完成；§2 偏差表仅留待定 ADR；§3「立即」仅剩验收项并回填结果；§1.3 标题改为「随提交 4bb2f73 落地」。
-- [x] [decisions.md](docs/decisions.md) 新增 ADR-010：`content_type`/`source_type` 字段拆分（路径 B）、`unclassified` 占位与路径 A 后续。
+- [x] 修正 b16-task-status.md 过时表述：fix-plan 状态同步、提交方式两项标注已完成；§2 偏差表仅留待定 ADR；§3「立即」仅剩验收项并回填结果；§1.3 标题改为「随提交 4bb2f73 落地」。
+- [x] [decisions.md](../../docs/decisions.md) 新增 ADR-010：`content_type`/`source_type` 字段拆分（路径 B）、`unclassified` 占位与路径 A 后续。
 - [x] 重建 `dist/`（`node scripts/build-dist.js`），hotspots.json 更新至 `schema_version: 3`。
 
 ### 验证结果
@@ -1173,7 +1177,7 @@
 
 ## 当前记录边界
 
-后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 [开发计划.md](开发计划.md)。
+后续完成任务时，在本文件追加实际变更和验证证据；不要在这里维护未来任务清单。下一步、优先级和验收条件只维护在 开发计划.md。
 
 ---
 
@@ -1190,7 +1194,7 @@
 ### 验证结果
 
 - [x] 候选层 `hotspot-candidates.json` 仍为 0 条（`schema_version: 1, candidates: []`），端到端验证须待首次真实采集（collect-news.yml 需 YOUTUBE/X API 渠道）后执行。
-- [x] [b16-task-status.md](docs/b16-task-status.md) §3「开发计划项（B16-R*）」与 [开发计划.md](开发计划.md) B16-R2/R4 状态已同步。
+- [x] b16-task-status.md §3「开发计划项（B16-R*）」与 开发计划.md B16-R2/R4 状态已同步。
 
 ### 已知边界
 
@@ -1204,14 +1208,14 @@
 
 ### 实际变更
 
-- [x] **首次真实采集填充候选层**：本地 `node src/news/pipeline/build-news.js`（94 个启用来源，58/58 覆盖）完成真实采集，[hotspot-candidates.json](data/news/runtime/hotspot-candidates.json) 由空占位（68B）填充为 100 条真实候选（x/youtube/bilibili，非手工）；该次本地运行耗时约 8 小时（网络慢 + 94 来源串行重试），正常完成并释放构建锁。
+- [x] **首次真实采集填充候选层**：本地 `node src/news/pipeline/build-news.js`（94 个启用来源，58/58 覆盖）完成真实采集，`hotspot-candidates.json` 由空占位（68B）填充为 100 条真实候选（x/youtube/bilibili，非手工）；该次本地运行耗时约 8 小时（网络慢 + 94 来源串行重试），正常完成并释放构建锁。
 - [x] **B16-R4 端到端复核**：以真实候选 `x-9dd3da0625fba183ab33` 走通完整闭环——`review set --status pending` → `publish-news.js` 门禁剔除（100→99）→ `review set --status approved` → 恢复（99→100）；审核事件日志只追加记录流转（`candidate_version` 1→2→3、`from_status`、reviewer 留痕）；公开投影无内部字段泄漏（`INTERNAL_FIELDS` 生效）、schema_version 3；`publish-news.js` 全量重建 + RSS 同步 + dist 重建（14 文件）全部通过。
 - [x] **人工审核流启用**（决策 51/69，用户确认）：
-  - [news-candidates.js](src/news/core/news-candidates.js) `DEFAULT_REVIEW_STATUS` 由 `approved` 改为 `pending`：新采集候选默认进入候选层待审、不自动公开；既有 approved 候选经 `mergeCandidates` 保留审核结论。
-  - [build-news.js](src/news/pipeline/build-news.js)：公开投影为空时跳过写 hotspots.json（保留上一版公开数据）并打印提示；`runCollection` 新增 `defaultReviewStatus` 选项（测试/覆盖用，生产路径不传）。
-  - [publish-news.js](scripts/publish-news.js)：公开投影为空（候选层无 approved）时不覆盖 hotspots.json。
+  - `news-candidates.js` `DEFAULT_REVIEW_STATUS` 由 `approved` 改为 `pending`：新采集候选默认进入候选层待审、不自动公开；既有 approved 候选经 `mergeCandidates` 保留审核结论。
+  - `build-news.js`：公开投影为空时跳过写 hotspots.json（保留上一版公开数据）并打印提示；`runCollection` 新增 `defaultReviewStatus` 选项（测试/覆盖用，生产路径不传）。
+  - [publish-news.js](../../scripts/publish-news.js)：公开投影为空（候选层无 approved）时不覆盖 hotspots.json。
   - 测试同步：news-candidates.test.js（默认 pending 断言 + schema_version 3 修正）、news-audit.test.js（`from_status` 变更前状态改 pending 语义）、news-tests.test.js（管线测试用 `defaultReviewStatus: 'approved'` 保持断言公开投影）。
-  - 文档同步：`news-candidates.js` 头部注释、[b16-task-status.md](docs/b16-task-status.md) B16-R4 条目与头部状态。
+  - 文档同步：`news-candidates.js` 头部注释、b16-task-status.md B16-R4 条目与头部状态。
 
 ### 验证结果
 
@@ -1236,10 +1240,10 @@
 
 ### 实际变更
 
-- [x] **根因定位**：log-entry-40 已知边界中记录的 6 个 B站相关测试失败，经 `git show 4bb2f73` 核对确认为 **B16 路径 B（content_type→source_type 改名）遗留**——提交 4bb2f73 改了代码全链路（采集/手工/CLI/候选层/校验/前端）却未同步 [news-tests.test.js](tests/news/news-tests.test.js)，测试夹具仍用旧字段名 `content_type` 表示媒体类型，导致该提交起 6 个测试持续失败；与人工审核流（pending）改动无关。
+- [x] **根因定位**：log-entry-40 已知边界中记录的 6 个 B站相关测试失败，经 `git show 4bb2f73` 核对确认为 **B16 路径 B（content_type→source_type 改名）遗留**——提交 4bb2f73 改了代码全链路（采集/手工/CLI/候选层/校验/前端）却未同步 `news-tests.test.js`，测试夹具仍用旧字段名 `content_type` 表示媒体类型，导致该提交起 6 个测试持续失败；与人工审核流（pending）改动无关。
 - [x] **修复**（仅测试文件 8 处字段名，零生产代码改动）：
   - 「B站动态区分转发与文字」：`normalizeRssItem` 产物断言 `content_type` → `source_type`（RSS 路径已不设 `content_type`）。
-  - 「转发贡献低于原创动态」：`assessItem` 降权判断键是 `source_type`（[build-news.js](src/news/pipeline/build-news.js) `contentTypeFactor`/`light_user_experience`），测试覆写字段 `content_type` → `source_type`。
+  - 「转发贡献低于原创动态」：`assessItem` 降权判断键是 `source_type`（`build-news.js` `contentTypeFactor`/`light_user_experience`），测试覆写字段 `content_type` → `source_type`。
   - 「人工B站校验链接类型 / 批量导入 / 默认人工模式」：`normalizeManualItem` 校验键是 `source_type`（`ALLOWED_SOURCE_TYPES`），测试输入 `content_type` → `source_type`。
   - 「保留 B站动态并记录降级」：公开投影断言 `content_type` → `source_type`（投影中内容类型已为 `unclassified`，媒体类型在 `source_type`）。
   - 顺带修复通过中测试的一处同源隐患：`buildProvenance` 的 repost 分支（按键 `source_type`）此前从未被测试真正触发，改为 `source_type` 后该分支纳入覆盖。
@@ -1251,7 +1255,7 @@
 
 ### 已知边界
 
-- [~] `bilibili_dynamic_video`（RSS 动态含视频链接时 `inferBilibiliType` 产出、validate.js SOURCE_TYPES 接受）**不在** [news-manual.js](src/content/news-manual.js) 手工录入 `ALLOWED_SOURCE_TYPES` 中——**经用户确认为刻意决定**：当前 B站采集有问题，暂以手工为主，动态+视频稿件暂不能手工录入，后续再放开。
+- [~] `bilibili_dynamic_video`（RSS 动态含视频链接时 `inferBilibiliType` 产出、validate.js SOURCE_TYPES 接受）**不在** `news-manual.js` 手工录入 `ALLOWED_SOURCE_TYPES` 中——**经用户确认为刻意决定**：当前 B站采集有问题，暂以手工为主，动态+视频稿件暂不能手工录入，后续再放开。
 - [~] 本次修复与 log-entry-40 的改动均尚未提交（工作区 16 个变更文件）。
 
 ---
@@ -1262,12 +1266,12 @@
 
 ### 实际变更
 
-- [x] **新增 [llm-provider.js](src/news/classify/llm-provider.js)**：DeepSeek chat completions 封装（OpenAI 兼容协议，默认 `deepseek-chat`）。与采集器一致用 fetch 注入模式（`options.fetchImpl` 可 mock）；缺 key / 无 fetch / 网络失败 / 超时 / 非 200 / 输出无法映射到六类——一律 resolve 降级对象 `{ ok: false, code, error }`，**绝不 reject、不抛错**，保证采集管线不被 LLM 故障阻塞。输入裁剪（标题 ≤200 / 描述 ≤600 字符）控制单条 token 成本。
-- [x] **[content-classifier.js](src/news/classify/content-classifier.js)**：`classifyCandidate` / `classifyCandidates` 改 async；`provider=deepseek` 分支由占位改为真调用——成功用 L1 结果（`classifier=llm_deepseek`、`ai_confidence=0.85` 为调用成功经验值），任何失败自动回退 L0（`classifier=rule_based_fallback`，reasons 保留失败原因供审核回溯）；未知 provider 同样回退 L0（不再产出 unclassified 占位）。模块头注释同步更新（不再承诺「零网络/零消费」）。
-- [x] **[news-cli.js](src/news/cli/news-cli.js)**：`classifyCommand` 改 async，`classify` 命令透传 `--model`（默认 `deepseek-chat`）。
-- [x] **[build-news.js](src/news/pipeline/build-news.js)**：候选创建阶段接入 `classifyCandidates`（决策 65/66/79）——**L0 规则式恒兜底**（新候选默认得 `ai_suggested` 建议，不再无条件 `unclassified`）；L1 显式启用（`INFOCATCHER_CLASSIFY_PROVIDER=deepseek` 或存在 `DEEPSEEK_API_KEY`），缺 key 时自动退化 L0，build 不因 LLM 失败中断；批量并发上限 5。
-- [x] **[news-candidates.js](src/news/core/news-candidates.js)**：`mergeCandidates` 保留人工确认的内容类型结论（`content_type_status=reviewed` 及 reviewer/reviewed_at 不因重新采集被 AI 建议覆盖），与 `review_status` 保留语义一致（决策 55/70 审计）。
-- [x] **新增 [content-classifier-llm.test.js](tests/news/content-classifier-llm.test.js)**：17 个测试（请求体结构 / 超长裁剪 / 脏输出规整 / L1 成功 / 缺 key / 网络失败 / 非 200 / 无法映射 / 回退 L0 / 未知 provider / 跳过 reviewed / 并发保持顺序 / 跳过无标题 / 空输入），全部 mock fetch、不发真实请求。
+- [x] **新增 [llm-provider.js](../../src/news/classify/llm-provider.js)**：DeepSeek chat completions 封装（OpenAI 兼容协议，默认 `deepseek-chat`）。与采集器一致用 fetch 注入模式（`options.fetchImpl` 可 mock）；缺 key / 无 fetch / 网络失败 / 超时 / 非 200 / 输出无法映射到六类——一律 resolve 降级对象 `{ ok: false, code, error }`，**绝不 reject、不抛错**，保证采集管线不被 LLM 故障阻塞。输入裁剪（标题 ≤200 / 描述 ≤600 字符）控制单条 token 成本。
+- [x] **[content-classifier.js](../../src/news/classify/content-classifier.js)**：`classifyCandidate` / `classifyCandidates` 改 async；`provider=deepseek` 分支由占位改为真调用——成功用 L1 结果（`classifier=llm_deepseek`、`ai_confidence=0.85` 为调用成功经验值），任何失败自动回退 L0（`classifier=rule_based_fallback`，reasons 保留失败原因供审核回溯）；未知 provider 同样回退 L0（不再产出 unclassified 占位）。模块头注释同步更新（不再承诺「零网络/零消费」）。
+- [x] **[news-cli.js](../../src/news/cli/news-cli.js)**：`classifyCommand` 改 async，`classify` 命令透传 `--model`（默认 `deepseek-chat`）。
+- [x] **`build-news.js`**：候选创建阶段接入 `classifyCandidates`（决策 65/66/79）——**L0 规则式恒兜底**（新候选默认得 `ai_suggested` 建议，不再无条件 `unclassified`）；L1 显式启用（`INFOCATCHER_CLASSIFY_PROVIDER=deepseek` 或存在 `DEEPSEEK_API_KEY`），缺 key 时自动退化 L0，build 不因 LLM 失败中断；批量并发上限 5。
+- [x] **`news-candidates.js`**：`mergeCandidates` 保留人工确认的内容类型结论（`content_type_status=reviewed` 及 reviewer/reviewed_at 不因重新采集被 AI 建议覆盖），与 `review_status` 保留语义一致（决策 55/70 审计）。
+- [x] **新增 [content-classifier-llm.test.js](../../tests/news/content-classifier-llm.test.js)**：17 个测试（请求体结构 / 超长裁剪 / 脏输出规整 / L1 成功 / 缺 key / 网络失败 / 非 200 / 无法映射 / 回退 L0 / 未知 provider / 跳过 reviewed / 并发保持顺序 / 跳过无标题 / 空输入），全部 mock fetch、不发真实请求。
 
 ### 验证结果
 
@@ -1290,7 +1294,7 @@
 
 ### 实际变更
 
-- [x] **新增 [scripts/benchmark-news.js](scripts/benchmark-news.js)**：1k/10k/100k 确定性基准工具，直接 require [build-news.js](src/news/pipeline/build-news.js) 导出的纯函数、用真实 `news-config.json` 参数、不联网。合成输入覆盖 N-P4 验收要求的四场景：**高离散主题**（每条例目独立主题，事件分组最分散）/ **单一大来源**（MAD 样本集中、事件收敛）/ **大量重复**（native_id 周期复用，考验去重溯源）/ **边界时间**（未来日期、超 270 天窗口、近期混合）。支持 `--sizes` 与 `--repeat`（重复取样取中位数耗时 + heap 峰值增量）。
+- [x] **新增 `scripts/benchmark-news.js`**：1k/10k/100k 确定性基准工具，直接 require `build-news.js` 导出的纯函数、用真实 `news-config.json` 参数、不联网。合成输入覆盖 N-P4 验收要求的四场景：**高离散主题**（每条例目独立主题，事件分组最分散）/ **单一大来源**（MAD 样本集中、事件收敛）/ **大量重复**（native_id 周期复用，考验去重溯源）/ **边界时间**（未来日期、超 270 天窗口、近期混合）。支持 `--sizes` 与 `--repeat`（重复取样取中位数耗时 + heap 峰值增量）。
 - [x] 测量清单（对应 N-P4）：排序（new Date 比较）、日期解析（classifyTimeLayer）、关键词（matchesAi / detectLightExperience / detectCommercial）、评分组合（assessItem）、MAD（applyAnomalyDetection）、事件聚合（buildEvents/topicKey）、去重溯源（buildProvenance）、RSS 正则（parseFeed）。
 
 ### 验证结果（100k 规模耗时，1k/10k 见脚本运行输出）
@@ -1335,11 +1339,11 @@
 
 ### 实际变更
 
-- [x] **[news-scheduler.js](src/news/core/news-scheduler.js)**：`classifyTimeLayer(publishedAt, layers, nowUtcMs, opts)` 加边界策略参数——`{ future:'recent'|'none', overflow:'older'|'none', invalid:'older'|'none' }`，默认（none）保持调度语义（未来/超窗/无效→null，内容不进入调度层）。函数头注释记录统一实现与两用途约定。
-- [x] **[build-news.js](src/news/pipeline/build-news.js)**：删除独立 `classifyTimeLayer` 实现，改为真正转发 scheduler（`TIME_LAYER_STATS_OPTS = { future:'recent', overflow:'older', invalid:'older' }` 统计策略，行为与历史一致）；**修复「注释谎称转发」误导**。内部 4 处调用点（layer_coverage / registry / coverage 统计 / 公开投影 layer_id）与导出保持不变。
-- [x] **[build-news.js](src/news/pipeline/build-news.js)**：排序预解析 `published_at` 时间戳（N-P4 印证的 new Date 热点）——`.map(item => [item, ts]).sort(数值).map(解构)`，行为等价（相同时间戳稳定排序保持原顺序）。
-- [x] **[news-foundation.test.js](tests/news/news-foundation.test.js)**：新增策略参数测试（调度默认边界 null + 统计策略 future→recent / 超窗·无效→older + 正常边界不受策略影响）。
-- [x] **[validate.js](src/maintenance/validate.js)**：原则 4 零外部依赖的 `NODE_BUILTINS` 白名单补 `perf_hooks`（Node 内置模块，与 fs/path 同类；benchmark 脚本用其性能测量导致误报）。
+- [x] **`news-scheduler.js`**：`classifyTimeLayer(publishedAt, layers, nowUtcMs, opts)` 加边界策略参数——`{ future:'recent'|'none', overflow:'older'|'none', invalid:'older'|'none' }`，默认（none）保持调度语义（未来/超窗/无效→null，内容不进入调度层）。函数头注释记录统一实现与两用途约定。
+- [x] **`build-news.js`**：删除独立 `classifyTimeLayer` 实现，改为真正转发 scheduler（`TIME_LAYER_STATS_OPTS = { future:'recent', overflow:'older', invalid:'older' }` 统计策略，行为与历史一致）；**修复「注释谎称转发」误导**。内部 4 处调用点（layer_coverage / registry / coverage 统计 / 公开投影 layer_id）与导出保持不变。
+- [x] **`build-news.js`**：排序预解析 `published_at` 时间戳（N-P4 印证的 new Date 热点）——`.map(item => [item, ts]).sort(数值).map(解构)`，行为等价（相同时间戳稳定排序保持原顺序）。
+- [x] **`news-foundation.test.js`**：新增策略参数测试（调度默认边界 null + 统计策略 future→recent / 超窗·无效→older + 正常边界不受策略影响）。
+- [x] **[validate.js](../../src/maintenance/validate.js)**：原则 4 零外部依赖的 `NODE_BUILTINS` 白名单补 `perf_hooks`（Node 内置模块，与 fs/path 同类；benchmark 脚本用其性能测量导致误报）。
 
 ### 验证结果
 
@@ -1366,9 +1370,9 @@
 
 ## 2026-08-05 · N-P6 去重键语义确认 + dedupeItems 注释修正
 
-### 分析（真实重复率，[scripts/np6-analysis.js](scripts/np6-analysis.js)）
+### 分析（真实重复率，`scripts/np6-analysis.js`）
 
-用与 [build-news.js:180](src/news/pipeline/build-news.js#L180) `normalizeUrl` 完全一致的规则（保留查询参数，仅去 `utm_*`/`feature`/`si`/`spm_id_from` 与 hash）只读重算：
+用与 `build-news.js:180` `normalizeUrl` 完全一致的规则（保留查询参数，仅去 `utm_*`/`feature`/`si`/`spm_id_from` 与 hash）只读重算：
 
 | 数据面 | 规模 | platform:native_id | URL | url+title |
 |---|---:|---:|---:|---:|
@@ -1377,7 +1381,7 @@
 | 候选层跨平台同标题 | — | 0 组 | — | — |
 
 - 结论：当前数据下两种键**观察等价**（registry 先按 `platform:native_id` 去重，候选层无 URL/跨平台重复），修正注释**不改变任何输出条数/评分**，满足 N-P6 验收「防止输出变化」。
-- 键语义判定：实现 `platform:native_id` 与 registry 主键一致（[news-registry.js:69](src/news/core/news-registry.js#L69)）；注释宣称「url+title」为**过时且错误**——若真按 url+title 去重会误合并跨平台同标题内容与同平台同标题不同视频，违背 B16 决策 46/47「跨平台重复观察由 `buildProvenance` 溯源保留各自观点」的架构约定。
+- 键语义判定：实现 `platform:native_id` 与 registry 主键一致（`news-registry.js:69`）；注释宣称「url+title」为**过时且错误**——若真按 url+title 去重会误合并跨平台同标题内容与同平台同标题不同视频，违背 B16 决策 46/47「跨平台重复观察由 `buildProvenance` 溯源保留各自观点」的架构约定。
 
 ### 业务决策（用户拍板，2026-08-05）
 
@@ -1385,10 +1389,10 @@
 
 ### 实际变更
 
-- [x] **[build-news.js:760](src/news/pipeline/build-news.js#L760)**：注释改为「按 `platform:native_id` 去重（与 registry 主键一致）；跨平台重复观察由 `buildProvenance` 溯源保留，不在此合并；保留先出现的条目」，并记录历史（原注释宣称 url+title 与实现不符、语义错误的依据）。
-- [x] **[build-news.js](src/news/pipeline/build-news.js)**：`module.exports` 导出 `dedupeItems`（此前仅内部使用，无法单测）。
-- [x] **[news-tests.test.js](tests/news/news-tests.test.js)**：第 3 组新增 dedupeItems 测试（30 项）——同平台同 native_id 去重并保留先出现者；同 native_id 不同 URL 仍去重（键是 platform:native_id）；跨平台同 URL 不去重、由溯源记为 `duplicate_observation` 且条目全部保留。
-- [x] **[scripts/np6-analysis.js](scripts/np6-analysis.js)**：新建只读重复率分析脚本（仅 Node 内置模块，原则 4 合规），随候选层/registry 增长可重跑复核。
+- [x] **`build-news.js:760`**：注释改为「按 `platform:native_id` 去重（与 registry 主键一致）；跨平台重复观察由 `buildProvenance` 溯源保留，不在此合并；保留先出现的条目」，并记录历史（原注释宣称 url+title 与实现不符、语义错误的依据）。
+- [x] **`build-news.js`**：`module.exports` 导出 `dedupeItems`（此前仅内部使用，无法单测）。
+- [x] **`news-tests.test.js`**：第 3 组新增 dedupeItems 测试（30 项）——同平台同 native_id 去重并保留先出现者；同 native_id 不同 URL 仍去重（键是 platform:native_id）；跨平台同 URL 不去重、由溯源记为 `duplicate_observation` 且条目全部保留。
+- [x] **`scripts/np6-analysis.js`**：新建只读重复率分析脚本（仅 Node 内置模块，原则 4 合规），随候选层/registry 增长可重跑复核。
 
 ### 验证结果
 
@@ -1413,12 +1417,12 @@
 
 ### 实际变更
 
-- [x] **[news-registry.js](src/news/core/news-registry.js)**：新增 `pruneRegistry(index, { now, retentionDays, dryRun, runId })`——纯函数（模块仍无 fs 依赖）。dry-run 只返回候选不修改；apply 同步移除 byKey/byUrl/bySource 三份索引 + registry.videos + stats.count；裁剪 >0 时写 `stats.last_prune` 审计（run_id/时间/规则/计数）；`last_seen_at` 缺失或无效的**保留**（无法判断年龄时不删除）；边界半开（恰好 retentionDays 天保留）。
-- [x] **[build-news.js](src/news/pipeline/build-news.js)**：finalizeRegistry 后调用 pruneRegistry（阈值取 `config.collection.registry_retention_days`，此前 src/ 零使用，N-P2 首次接线）。归档批次**先于** registry 写盘：归档写失败则异常先抛，registry 文件保持旧版，下一轮重新裁剪，安全。coverage.registry 增加 `pruned_in_run` 审计字段。
-- [x] **[paths.js](src/shared/paths.js)**：`NEWS_FILES.registryPruned` 新增 `news-registry-pruned.json`（归档路径；validate 原则 5 自动覆盖）。
-- [x] **[news-cli.js](src/news/cli/news-cli.js)**：新增 `registry prune` 命令——默认 `--dry-run` 预览，`--apply` 才裁剪并归档（同 build 顺序：归档先写再写 registry）；`--retention-days <n>` 可临时覆盖阈值（默认取配置 270）。
-- [x] **[news-foundation.test.js](tests/news/news-foundation.test.js)**：第 2 组新增 4 项——dry-run 不修改、apply 同步三份索引 + 计数 + last_prune 审计、半开边界（恰好 270 天保留 / 271 天裁剪 / 无效日期保留）、无超期不写审计。
-- [x] **[news-tests.test.js](tests/news/news-tests.test.js)**：新增 build 集成测试——runCollection 传入含超期记录的 registryIndex，断言 `coverage.registry.pruned_in_run=1`、stats.count 同步、`youtube:old` 已移除。
+- [x] **`news-registry.js`**：新增 `pruneRegistry(index, { now, retentionDays, dryRun, runId })`——纯函数（模块仍无 fs 依赖）。dry-run 只返回候选不修改；apply 同步移除 byKey/byUrl/bySource 三份索引 + registry.videos + stats.count；裁剪 >0 时写 `stats.last_prune` 审计（run_id/时间/规则/计数）；`last_seen_at` 缺失或无效的**保留**（无法判断年龄时不删除）；边界半开（恰好 retentionDays 天保留）。
+- [x] **`build-news.js`**：finalizeRegistry 后调用 pruneRegistry（阈值取 `config.collection.registry_retention_days`，此前 src/ 零使用，N-P2 首次接线）。归档批次**先于** registry 写盘：归档写失败则异常先抛，registry 文件保持旧版，下一轮重新裁剪，安全。coverage.registry 增加 `pruned_in_run` 审计字段。
+- [x] **[paths.js](../../src/shared/paths.js)**：`NEWS_FILES.registryPruned` 新增 `news-registry-pruned.json`（归档路径；validate 原则 5 自动覆盖）。
+- [x] **[news-cli.js](../../src/news/cli/news-cli.js)**：新增 `registry prune` 命令——默认 `--dry-run` 预览，`--apply` 才裁剪并归档（同 build 顺序：归档先写再写 registry）；`--retention-days <n>` 可临时覆盖阈值（默认取配置 270）。
+- [x] **`news-foundation.test.js`**：第 2 组新增 4 项——dry-run 不修改、apply 同步三份索引 + 计数 + last_prune 审计、半开边界（恰好 270 天保留 / 271 天裁剪 / 无效日期保留）、无超期不写审计。
+- [x] **`news-tests.test.js`**：新增 build 集成测试——runCollection 传入含超期记录的 registryIndex，断言 `coverage.registry.pruned_in_run=1`、stats.count 同步、`youtube:old` 已移除。
 
 ### 验证结果
 
@@ -1459,11 +1463,11 @@
 
 ### 实际变更
 
-- [x] **[news-quota.js](src/news/core/news-quota.js)**：`createQuotaLedger` 读取 `quota_low_watermark`；`reserveQuota` 在 `remaining ≤ watermark` 时拒绝新预留（reason `low_watermark`、状态 `low_watermark`），保护最后一点预算头寸；未配置该字段时低水位禁用（保持既有语义）。
-- [x] **[news-scheduler.js](src/news/core/news-scheduler.js)**：初始进度新增 `items_contributed` 字段（跨 run 累计，配合 max_items）。
-- [x] **[build-news.js](src/news/pipeline/build-news.js)**：`runHistoricalLayerPass` 加预算强制——`max_pages_per_source_layer` 前置守卫（已达页数 → 强制 partial/`max_pages_reached`，不再翻页，病理频道不阻塞层推进）+ `pages_fetched` 跨 run 累计 + `max_items_per_source_layer` 截断贡献 + `items_contributed` 累计 + 达限强制 partial/`max_items_reached`（不覆盖 quota_paused/失败状态）；**透传 `fetchImpl` 进历史采集**（修复历史路径网络不可注入的短板，测试可隔离）；`classifyCandidates` 改传 `config.collection.concurrency`（此前硬编码 5）。
-- [x] **[news-config.json](data/news/config/news-config.json)**：移除 `lock_stale_after_ms`（死配置）。
-- [x] **[news-storage.js](src/news/core/news-storage.js)**：契约注释明确「锁从不自动过期（并发安全），不配置锁过期阈值字段」。
+- [x] **`news-quota.js`**：`createQuotaLedger` 读取 `quota_low_watermark`；`reserveQuota` 在 `remaining ≤ watermark` 时拒绝新预留（reason `low_watermark`、状态 `low_watermark`），保护最后一点预算头寸；未配置该字段时低水位禁用（保持既有语义）。
+- [x] **`news-scheduler.js`**：初始进度新增 `items_contributed` 字段（跨 run 累计，配合 max_items）。
+- [x] **`build-news.js`**：`runHistoricalLayerPass` 加预算强制——`max_pages_per_source_layer` 前置守卫（已达页数 → 强制 partial/`max_pages_reached`，不再翻页，病理频道不阻塞层推进）+ `pages_fetched` 跨 run 累计 + `max_items_per_source_layer` 截断贡献 + `items_contributed` 累计 + 达限强制 partial/`max_items_reached`（不覆盖 quota_paused/失败状态）；**透传 `fetchImpl` 进历史采集**（修复历史路径网络不可注入的短板，测试可隔离）；`classifyCandidates` 改传 `config.collection.concurrency`（此前硬编码 5）。
+- [x] **`news-config.json`**：移除 `lock_stale_after_ms`（死配置）。
+- [x] **`news-storage.js`**：契约注释明确「锁从不自动过期（并发安全），不配置锁过期阈值字段」。
 
 ### 测试（+3）
 
@@ -1479,7 +1483,7 @@
 
 - [~] 低水位早停改变未来采集的预算停止点（bilibili 预算 300 → 剩 5 时停），当前数据零即时影响；quota 账本状态新增 `low_watermark`（validate 只校验余额数学，不白名单状态）。
 - [~] max_pages/max_items 只影响未来历史回溯（当前 270 天回溯已完成）；`pages_fetched`/`items_contributed` 为新增累计字段，旧 news-state.json 无此字段时按 0 起算（`|| 0` 兜底）。
-- [~] YouTube 最近路径 RSS 仍用全局 fetch（[build-news.js:348](src/news/pipeline/build-news.js#L348)），测试经 collector 桩隔离，生产正确；不在 N-P3 范围。
+- [~] YouTube 最近路径 RSS 仍用全局 fetch（`build-news.js:348`），测试经 collector 桩隔离，生产正确；不在 N-P3 范围。
 - [~] 工作区全部改动（本会话 N-P1/N-P4/B16-R5/N-P6/N-P2/N-P3 + 另一会话 B站修复）仍未提交。
 
 ---
@@ -1490,7 +1494,7 @@
 
 ### 背景
 
-用户反馈「之前 deepseek 的 api 直接显式显示在代码中，不能提交」。经全仓取证（工作树含 gitignore、全部可达提交 + reflog、不可达 commit/blob 的精确 key 扫描）确认：**真实 key 从未写入任何文件**——B16-R5 联调时 key 只经进程环境变量注入（[llm-provider.js:123](src/news/classify/llm-provider.js#L123) 读 `process.env.DEEPSEEK_API_KEY`），`git log -S` / `git fsck` / `git grep` 全部零匹配。问题本质是「无 .env 支持 + 无守卫」，据此落地密钥治理。
+用户反馈「之前 deepseek 的 api 直接显式显示在代码中，不能提交」。经全仓取证（工作树含 gitignore、全部可达提交 + reflog、不可达 commit/blob 的精确 key 扫描）确认：**真实 key 从未写入任何文件**——B16-R5 联调时 key 只经进程环境变量注入（[llm-provider.js:123](../../src/news/classify/llm-provider.js#L123) 读 `process.env.DEEPSEEK_API_KEY`），`git log -S` / `git fsck` / `git grep` 全部零匹配。问题本质是「无 .env 支持 + 无守卫」，据此落地密钥治理。
 
 ### 业务决策（用户拍板）
 
@@ -1499,19 +1503,19 @@
 
 ### 实际变更
 
-- [x] **[env.js](src/shared/env.js)**（新增）：零依赖 `loadDotEnv()`——解析 dotenv 子集（注释/空行/`export` 前缀/成对引号剥离），**不覆盖已有环境变量**（CI Secrets 优先级高于 .env），缺文件静默返回 0（CI 无 .env 是常态）。
-- [x] **[build-news.js](scripts/build-news.js) / [news-cli.js](scripts/news-cli.js)**：入口在 require 实现之前 `loadDotEnv()`，本地 `.env` 自动生效；测试走 `src/` 直连不受影响。
-- [x] **[check-secrets.js](scripts/check-secrets.js)**（新增）：零依赖密钥扫描守卫，8 个高熵形态模式（OpenAI/DeepSeek `sk-` 24+、Anthropic `sk-ant-`、GitHub `gh[pousr]_`36 / `github_pat_`、AWS `AKIA|ASIA`16、Google `AIza`35、Slack `xox`、Stripe `sk_live_`），长度限定避免命中低熵文本/第三方 bundle 自带正则；`git ls-files -c -o --exclude-standard` 只扫「会进 git 的」文件（.env、第三方 skills 天然不扫）；二进制跳过；`--selftest` 模式自检。
-- [x] **[validate.js](src/maintenance/validate.js)**：新增**原则6 密钥扫描**（调用 check-secrets），开发原则门禁 1-5 → 1-6。
-- [x] **[collect-news.yml](.github/workflows/collect-news.yml)**：build 前加 `Secret scan guard` 步骤；build 步骤 env 预留 `DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}`（未配置时空值走 L0，不阻塞构建）。
-- [x] **[.gitignore](.gitignore)**：`!.env.example` 放行模板提交；`.obsidian/plugins/` 忽略。
-- [x] **[.env.example](.env.example)**（新增）：模板含 DEEPSEEK_API_KEY 占位与注入说明，可安全提交。
+- [x] **[env.js](../../src/shared/env.js)**（新增）：零依赖 `loadDotEnv()`——解析 dotenv 子集（注释/空行/`export` 前缀/成对引号剥离），**不覆盖已有环境变量**（CI Secrets 优先级高于 .env），缺文件静默返回 0（CI 无 .env 是常态）。
+- [x] **[build-news.js](../../scripts/build-news.js) / [news-cli.js](../../scripts/news-cli.js)**：入口在 require 实现之前 `loadDotEnv()`，本地 `.env` 自动生效；测试走 `src/` 直连不受影响。
+- [x] **[check-secrets.js](../../scripts/check-secrets.js)**（新增）：零依赖密钥扫描守卫，8 个高熵形态模式（OpenAI/DeepSeek `sk-` 24+、Anthropic `sk-ant-`、GitHub `gh[pousr]_`36 / `github_pat_`、AWS `AKIA|ASIA`16、Google `AIza`35、Slack `xox`、Stripe `sk_live_`），长度限定避免命中低熵文本/第三方 bundle 自带正则；`git ls-files -c -o --exclude-standard` 只扫「会进 git 的」文件（.env、第三方 skills 天然不扫）；二进制跳过；`--selftest` 模式自检。
+- [x] **[validate.js](../../src/maintenance/validate.js)**：新增**原则6 密钥扫描**（调用 check-secrets），开发原则门禁 1-5 → 1-6。
+- [x] **[collect-news.yml](../../.github/workflows/collect-news.yml)**：build 前加 `Secret scan guard` 步骤；build 步骤 env 预留 `DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}`（未配置时空值走 L0，不阻塞构建）。
+- [x] **[.gitignore](../../.gitignore)**：`!.env.example` 放行模板提交；`.obsidian/plugins/` 忽略。
+- [x] **[.env.example](../../.env.example)**（新增）：模板含 DEEPSEEK_API_KEY 占位与注入说明，可安全提交。
 - [x] **.obsidian/plugins/ 解除跟踪**：`git rm --cached` 12 个第三方插件文件（obdrawio/realclaudian/terminal），磁盘保留。
 
 ### 测试（+9）
 
-- [x] 新增 [tests/maintenance/env.test.js](tests/maintenance/env.test.js)（5 项）：引号剥离、export 前缀、注释/空行/无等号/空 key 行跳过、不覆盖已有变量、缺文件/空文件返回 0。
-- [x] 新增 [tests/maintenance/check-secrets.test.js](tests/maintenance/check-secrets.test.js)（4 项）：内置自检通过、合成高熵 key 命中而低熵短占位不命中、scanRepo 命中未跟踪探针文件并带定位、清理后零命中。合成 key 均用 `'sk-' + 'A'.repeat(n)` 动态拼接，测试源码不污染扫描器。
+- [x] 新增 [tests/maintenance/env.test.js](../../tests/maintenance/env.test.js)（5 项）：引号剥离、export 前缀、注释/空行/无等号/空 key 行跳过、不覆盖已有变量、缺文件/空文件返回 0。
+- [x] 新增 [tests/maintenance/check-secrets.test.js](../../tests/maintenance/check-secrets.test.js)（4 项）：内置自检通过、合成高熵 key 命中而低熵短占位不命中、scanRepo 命中未跟踪探针文件并带定位、清理后零命中。合成 key 均用 `'sk-' + 'A'.repeat(n)` 动态拼接，测试源码不污染扫描器。
 
 ### 验证结果
 
@@ -1535,7 +1539,7 @@
 
 ### 背景
 
-核对 [b16-ui-reconstruction-plan.md](docs/b16-ui-reconstruction-plan.md) 热点决策完成度时发现：[开发计划.md](开发计划.md) B16-R7 与 [b16-task-status.md](docs/b16-task-status.md) 均记录「已为 69/100 条热点填充 `related_resources`（词边界匹配 + 人工抽查）」，但逐层取证与记录不符。
+核对 b16-ui-reconstruction-plan.md 热点决策完成度时发现：开发计划.md B16-R7 与 b16-task-status.md 均记录「已为 69/100 条热点填充 `related_resources`（词边界匹配 + 人工抽查）」，但逐层取证与记录不符。
 
 ### 取证结论（2026-08-05）
 
@@ -1550,19 +1554,19 @@
 - 方案 A：**URL 精确身份匹配 + 标题词边界匹配**双维度，写入公开投影并保证 upgrade 幂等。
 - 决策 89「关联关系来自已有数据关系」据此补充扩展说明（标题词边界匹配是确定性推导，非普通词模糊推荐）。
 
-### 实际变更（[build-news.js](src/news/pipeline/build-news.js)）
+### 实际变更（`build-news.js`）
 
 - [x] **`buildRelatedTitleLexicon()`**：构建标题词表——工具 name（含括号身份后缀剥离品牌 token，如 `Mistral AI（产品入口）`→`Mistral`）、概念 term/full_name、场景 name（**不收泛化 search_terms**，如「研究/视频」会大量误关联）。
 - [x] **`titleContainsKeyword()`**：中文按连续子串（`写作论文` 天然不含 `写论文`，无需额外词边界）；英文/数字按两侧非字母数字（防 `ChatGPTX` 误命中 `ChatGPT`）。
 - [x] **`matchRelatedByTitle()`**：去重 + 工具→概念→场景优先级 + 单热点 **≤3 上限**。
-- [x] **`searchConceptKey()`**：ADR-007 概念稳定 ID 适配层，与前端 [app.js](src/web/js/app.js) `searchConceptKey` 同构，保证前后端一致。
+- [x] **`searchConceptKey()`**：ADR-007 概念稳定 ID 适配层，与前端 `app.js` `searchConceptKey` 同构，保证前后端一致。
 - [x] **stopword 策略**：工具名不过滤（品牌身份，避免 DeepSeek 被误滤）；stopword 只过滤概念泛化 full_name。
 - [x] **`enrichHotspotProjection`**：合并 URL + 标题双维度，保持确定性幂等。
 - [x] `--upgrade-hotspots` 输出补充填充条数统计。
 
 ### 测试（+6）
 
-- [x] [news-tests.test.js](tests/news/news-tests.test.js) 新增 6 项：searchConceptKey 稳定 ID、词表构建（括号剥离/概念映射/场景仅 name）、英文词边界防误报、中文子串与 `写作论文` 防误报、去重/优先级/上限、enrich 双维度合并 + 幂等。
+- [x] `news-tests.test.js` 新增 6 项：searchConceptKey 稳定 ID、词表构建（括号剥离/概念映射/场景仅 name）、英文词边界防误报、中文子串与 `写作论文` 防误报、去重/优先级/上限、enrich 双维度合并 + 幂等。
 
 ### 验证结果
 
@@ -1585,7 +1589,7 @@
 
 ### 背景
 
-用户要求再次核对 [b16-ui-reconstruction-plan.md](docs/b16-ui-reconstruction-plan.md) 热点决策完成度。上次已核对前端 UI（决策 74-89）并落地 B16-R7 方案 A（[log-entry-49](开发日志.md#log-entry-49)）；本次补齐**数据管道侧审核流程决策（46-73）**的系统核对，并当场修复发现的真实缺口。
+用户要求再次核对 b16-ui-reconstruction-plan.md 热点决策完成度。上次已核对前端 UI（决策 74-89）并落地 B16-R7 方案 A（[log-entry-49](#log-entry-49)）；本次补齐**数据管道侧审核流程决策（46-73）**的系统核对，并当场修复发现的真实缺口。
 
 ### 核对方法
 
@@ -1599,14 +1603,14 @@
 ### 缺口 1：决策 80 内部字段泄漏（已修复）
 
 - **问题**：公开投影 `hotspots.json` 泄漏 6 个内部分类字段——`ai_confidence`（AI 置信度，决策 77/86 明确禁止对外）、`classify_reasons`、`content_type_status`、`classifier`、`reviewed_content_type_at`、`content_type_reviewer`。前端不渲染这些字段（app.js 零消费），但 **JSON 载荷公开可读**，违反决策 80「不泄露内部状态」。
-- **根因**：[INTERNAL_FIELDS](src/news/core/news-candidates.js)（[news-candidates.js:147](src/news/core/news-candidates.js#L147)）剔除了审核状态轴与字幕字段，但**漏了分类元数据**。
-- **修复**：`INTERNAL_FIELDS` 补入 6 个分类元数据字段（`content_type` 本体保留，供前端内容类型筛选）；新增剥离测试断言（[news-candidates.test.js](tests/news/news-candidates.test.js)）。
+- **根因**：`INTERNAL_FIELDS`（`news-candidates.js:147`）剔除了审核状态轴与字幕字段，但**漏了分类元数据**。
+- **修复**：`INTERNAL_FIELDS` 补入 6 个分类元数据字段（`content_type` 本体保留，供前端内容类型筛选）；新增剥离测试断言（`news-candidates.test.js`）。
 
 ### 缺口 2：publish 重建丢失 enrich（已修复）
 
-- **问题**：修复缺口 1 时发现 [publish-news.js](scripts/publish-news.js) 从候选层重建公开投影**不跑 `enrichHotspotProjection`**，导致 `--upgrade-hotspots` 填充的 related_resources（19/100）与 hot_score 在 `publish` 重建时丢失。
+- **问题**：修复缺口 1 时发现 [publish-news.js](../../scripts/publish-news.js) 从候选层重建公开投影**不跑 `enrichHotspotProjection`**，导致 `--upgrade-hotspots` 填充的 related_resources（19/100）与 hot_score 在 `publish` 重建时丢失。
 - **根因**：候选层不存热度/依据片段/关联（这些由公开投影阶段确定性推导），`buildProjectionFromStore` 只做门禁过滤 + 字段剥离，未补 enrich。
-- **修复**：[publish-news.js](scripts/publish-news.js) 重建后补跑 `enrichHotspotProjection(output.items)`，与 build-news 的公开投影输出保持一致。
+- **修复**：[publish-news.js](../../scripts/publish-news.js) 重建后补跑 `enrichHotspotProjection(output.items)`，与 build-news 的公开投影输出保持一致。
 
 ### 验证结果
 
@@ -1617,7 +1621,7 @@
 
 ### 已知边界（探索代理标注，未修复）
 
-- [~] 决策 73 重试上限 3 次未在代码强制（[news-transcripts.js](src/news/collectors/news-transcripts.js) 仅递增 retry_count，无 ≥3 封顶检查）。
+- [~] 决策 73 重试上限 3 次未在代码强制（`news-transcripts.js` 仅递增 retry_count，无 ≥3 封顶检查）。
 - [~] error 候选专项筛选 CLI 缺 `--ai-status error` 参数（`review list` 仅支持 `--status`/`--platform`）。
 - [~] 公开投影改动仍未提交（同 log-entry-48/49 所述，工作树整体未提交）。
 
@@ -1643,17 +1647,17 @@
 
 ### 实际变更
 
-**前端** `src/web/js/`：app.js（3729 行）→ 9 个 ES module（data/search/tools/compare/featured/glossary/trending/scenes/main）；[index.html](src/web/index.html) 入口改 `<script type="module" src="js/main.js">`；函数按视图归属模块、跨模块显式 export/import；62 处事件绑定集中在 main.js 的 DOMContentLoaded。index.html 零内联事件、app.js 无 window 全局挂载，转模块无副作用。
+**前端** `src/web/js/`：app.js（3729 行）→ 9 个 ES module（data/search/tools/compare/featured/glossary/trending/scenes/main）；[index.html](../../src/web/index.html) 入口改 `<script type="module" src="js/main.js">`；函数按视图归属模块、跨模块显式 export/import；62 处事件绑定集中在 main.js 的 DOMContentLoaded。index.html 零内联事件、app.js 无 window 全局挂载，转模块无副作用。
 
-**新闻管线** `src/news/pipeline/`：build-news.js（1827 行）→ [feed-parser.js](src/news/pipeline/feed-parser.js) / [scoring.js](src/news/pipeline/scoring.js) / [projection.js](src/news/pipeline/projection.js) + 缩减编排入口；双份采集实现消重（新建 [news-x.js](src/news/collectors/news-x.js)，YouTube/B站合并进已有 collectors 模块）。`classifyTimeLayer`（pipeline 940 行版）与 scheduler 版是不同签名不同用途，未动。
+**新闻管线** `src/news/pipeline/`：build-news.js（1827 行）→ [feed-parser.js](../../src/news/pipeline/feed-parser.js) / `scoring.js` / [projection.js](../../src/news/pipeline/projection.js) + 缩减编排入口；双份采集实现消重（新建 `news-x.js`，YouTube/B站合并进已有 collectors 模块）。`classifyTimeLayer`（pipeline 940 行版）与 scheduler 版是不同签名不同用途，未动。
 
-**校验** `src/maintenance/`：validate.js（888 行）→ [validate-catalog.js](src/maintenance/validate-catalog.js) / [validate-news.js](src/maintenance/validate-news.js) + 聚合入口。
+**校验** `src/maintenance/`：validate.js（888 行）→ [validate-catalog.js](../../src/maintenance/validate-catalog.js) / [validate-news.js](../../src/maintenance/validate-news.js) + 聚合入口。
 
 **CLI** `src/news/cli/`：news-cli.js（771 行）→ cmd-sources / cmd-content / cmd-ops / cmd-registry + 分发器（按既有 8 个命令组归并）。
 
-**工具情报采集** `src/acquisition/`：fetch-tool-intel.js（684 行）→ [fetch-intel-http.js](src/acquisition/fetch-intel-http.js) / [normalize-intel.js](src/acquisition/normalize-intel.js) + 编排入口。
+**工具情报采集** `src/acquisition/`：fetch-tool-intel.js（684 行）→ `fetch-intel-http.js` / `normalize-intel.js` + 编排入口。
 
-**维护机制**：新增根目录 [CODEBASE-MAP.md](CODEBASE-MAP.md)（一行一文件：链接 + 一句话职责 + 关键导出，覆盖 src/ 44 文件 + scripts/）。
+**维护机制**：新增根目录 [CODEBASE-MAP.md](../../CODEBASE-MAP.md)（一行一文件：链接 + 一句话职责 + 关键导出，覆盖 src/ 44 文件 + scripts/）。
 
 ### 修复的回归（agent 引入）
 
@@ -1693,19 +1697,19 @@
 
 ### 实际变更
 
-**试点批（5 文件）**：[search.js](src/web/js/search.js)（8 处非显然点：demo 门控设计、子串匹配语义、结果可用性状态机、引用反向表、处理动画防竞态 runId）、[news-manual.js](src/content/news-manual.js)（模块头 + parseBilibiliUrl/normalizeManualItem/importManualItems 三函数契约，含动态类型前缀放行与导入原子性）、[generate-og-image.js](src/content/generate-og-image.js)（中文模块头 + CRC-32/像素行/PNG chunk 结构）、[scripts/build-news.js](scripts/build-news.js)、[scripts/news-cli.js](scripts/news-cli.js)（薄包装 CLI+库双角色 + require.main 防副作用）。
+**试点批（5 文件）**：`search.js`（8 处非显然点：demo 门控设计、子串匹配语义、结果可用性状态机、引用反向表、处理动画防竞态 runId）、`news-manual.js`（模块头 + parseBilibiliUrl/normalizeManualItem/importManualItems 三函数契约，含动态类型前缀放行与导入原子性）、[generate-og-image.js](../../src/content/generate-og-image.js)（中文模块头 + CRC-32/像素行/PNG chunk 结构）、[scripts/build-news.js](../../scripts/build-news.js)、[scripts/news-cli.js](../../scripts/news-cli.js)（薄包装 CLI+库双角色 + require.main 防副作用）。
 
-**批 2**：[feed-parser.js](src/news/pipeline/feed-parser.js)（decodeXml/matchTag/parseFeed/normalizeUrl/inferBilibiliType/extractTweetArray 六函数 JSDoc）、[scoring.js](src/news/pipeline/scoring.js)（detectLightExperience ≥2 类规则、detectCommercial、**interactionScore 占位实现**、assessItem repost 特例、applyAnomalyDetection MAD 公式）。
+**批 2**：[feed-parser.js](../../src/news/pipeline/feed-parser.js)（decodeXml/matchTag/parseFeed/normalizeUrl/inferBilibiliType/extractTweetArray 六函数 JSDoc）、`scoring.js`（detectLightExperience ≥2 类规则、detectCommercial、**interactionScore 占位实现**、assessItem repost 特例、applyAnomalyDetection MAD 公式）。
 
-**批 3**：[news-x.js](src/news/collectors/news-x.js)（normalizeTweet 多字段兜底 + hash 兜底、collectX cursor 翻页）。
+**批 3**：`news-x.js`（normalizeTweet 多字段兜底 + hash 兜底、collectX cursor 翻页）。
 
-**批 6**：[fetch-intel-http.js](src/acquisition/fetch-intel-http.js)（requestText 的 forbidden/not_found 不重试语义）。
+**批 6**：`fetch-intel-http.js`（requestText 的 forbidden/not_found 不重试语义）。
 
-**批 7**：[build-dist.js](scripts/build-dist.js)、[np6-analysis.js](scripts/np6-analysis.js)（含「为何内联复刻 normUrl 而非 require」）、[scripts/sync-news-sources.js](scripts/sync-news-sources.js)、[scripts/generate-og-image.js](scripts/generate-og-image.js)、[scripts/validate.js](scripts/validate.js) 补模块头。
+**批 7**：[build-dist.js](../../scripts/build-dist.js)、`np6-analysis.js`（含「为何内联复刻 normUrl 而非 require」）、`scripts/sync-news-sources.js`、[scripts/generate-og-image.js](../../scripts/generate-og-image.js)、[scripts/validate.js](../../scripts/validate.js) 补模块头。
 
-**死代码清理**：[generate-rss.js](src/content/generate-rss.js) 移除未导出、未调用的 `writeJsonAtomic` 空壳（grep 确认无任何引用、不在导出面）。
+**死代码清理**：[generate-rss.js](../../src/content/generate-rss.js) 移除未导出、未调用的 `writeJsonAtomic` 空壳（grep 确认无任何引用、不在导出面）。
 
-**validate 门禁调整**：[validate.js](src/maintenance/validate.js) 原则 3 的 CLAUDE.md 清单同步检查（`tools.json # N 个工具` 数量声明 + scripts/data 子目录登记）由硬失败降为软警告。背景：代码索引已迁移至根目录 [CODEBASE-MAP.md](CODEBASE-MAP.md)（CLAUDE.md 仅 `@../CODEBASE-MAP.md`），原则 3 前提过时；且 `.claude/CLAUDE.md` 的 Data inventory 段再次被删（log-entry-51 已修复过同类 agent 误删）。已核对 `tests/` 无断言依赖原则 3 硬失败，改动安全。
+**validate 门禁调整**：[validate.js](../../src/maintenance/validate.js) 原则 3 的 CLAUDE.md 清单同步检查（`tools.json # N 个工具` 数量声明 + scripts/data 子目录登记）由硬失败降为软警告。背景：代码索引已迁移至根目录 [CODEBASE-MAP.md](../../CODEBASE-MAP.md)（CLAUDE.md 仅 `@../CODEBASE-MAP.md`），原则 3 前提过时；且 `.claude/CLAUDE.md` 的 Data inventory 段再次被删（log-entry-51 已修复过同类 agent 误删）。已核对 `tests/` 无断言依赖原则 3 硬失败，改动安全。
 
 **合计**：15 个代码文件（14 个注释 + 1 个门禁逻辑），新增 171 行注释、删除 5 行（注释替换）+ generate-rss 死代码 -4 行 + validate 原则 3 降级。
 
@@ -1736,22 +1740,22 @@
 **实现：两层 i18n 分离**
 
 1. **前端 i18n 框架**（`src/web/`）：
-   - 新增 [i18n/zh.js](src/web/i18n/zh.js)：简体中文语言字典（trending 视图 + 共享工具，约 70 key；未来加 `en.js` 即多语言）。
-   - 新增 [js/i18n.js](src/web/js/i18n.js)：`t(key, params)` UI 文案翻译（缺 key 回退 zh → 原 key，UI 不空）；`setLang/getCurrentLang` 语言状态（当前仅 zh）；`getLocalizedField(item, field)` 内容本地化读取（`localizations[lang][field]`，字符串非空才返回）；`applyStaticTranslations()` 扫描 `[data-i18n]`/`[data-i18n-aria]` 替换静态 HTML。
-   - [index.html](src/web/index.html) trending 视图静态文案加 `data-i18n` 属性。
-   - [trending.js](src/web/js/trending.js)：视图全部文案 → `t()`；内容标题/描述 → `getLocalizedField()`（原文兜底）。
-   - [data.js](src/web/js/data.js)：`timeAgo`/`formatMetric`/`contentTypeLabels`/`SOURCE_TYPE_LABELS`/`platformMeta` → 字典（函数/常量值从 `t()` 初始化，其他视图引用不变）。
-   - [main.js](src/web/js/main.js)：DOMContentLoaded 先 `applyStaticTranslations()`。
+   - 新增 [i18n/zh.js](../../src/web/i18n/zh.js)：简体中文语言字典（trending 视图 + 共享工具，约 70 key；未来加 `en.js` 即多语言）。
+   - 新增 `js/i18n.js`：`t(key, params)` UI 文案翻译（缺 key 回退 zh → 原 key，UI 不空）；`setLang/getCurrentLang` 语言状态（当前仅 zh）；`getLocalizedField(item, field)` 内容本地化读取（`localizations[lang][field]`，字符串非空才返回）；`applyStaticTranslations()` 扫描 `[data-i18n]`/`[data-i18n-aria]` 替换静态 HTML。
+   - [index.html](../../src/web/index.html) trending 视图静态文案加 `data-i18n` 属性。
+   - `trending.js`：视图全部文案 → `t()`；内容标题/描述 → `getLocalizedField()`（原文兜底）。
+   - `data.js`：`timeAgo`/`formatMetric`/`contentTypeLabels`/`SOURCE_TYPE_LABELS`/`platformMeta` → 字典（函数/常量值从 `t()` 初始化，其他视图引用不变）。
+   - [main.js](../../src/web/js/main.js)：DOMContentLoaded 先 `applyStaticTranslations()`。
    - **试点边界**：只接入 trending 视图 + data.js 共享工具；其余 6 个视图 + index.html 其他部分文案后续按同框架接入。
 
 2. **数据侧内容翻译**（AI 加工层第 4 模块）：
-   - [llm-provider.js](src/news/classify/llm-provider.js) 新增第四调用 `localizeWithDeepSeek` + `buildLocalizePayload` + `normalizeLocalization`（失败 resolve 降级不 reject；prompt 要求品牌名/专有名词/URL/代码保留原文）。
-   - 新增 [content-localizer.js](src/news/classify/content-localizer.js)：`collectLocalizeSource`/`localizeCandidate`/`localizeCandidates`/`enrichCandidateLocalizations`。输出 `localizations[locale] = { title, description }`（当前 zh），**原文顶层 title/description 保留**（溯源基线 + 未来多语言翻译源）。
-   - [news-candidates.js](src/news/core/news-candidates.js)：`mergeCandidates` 保留既有 `localizations`（不重复翻译）；`INTERNAL_FIELDS` 加 `localizations_meta`（内部痕迹），`localizations` **不进** INTERNAL_FIELDS（公开字段，用户决策）。
-   - [build-news.js](src/news/pipeline/build-news.js) Phase 4：审核 enrichment 之后、投影之前插入 `enrichCandidateLocalizations`（只消费原文 title/desc，放最后避免影响审核用原文素材）。
-   - [news-config.json](data/news/config/news-config.json)：`localize_enabled:false` / `localize_max_items_per_run:30` / `localize_timeout_ms:15000` / `localize_target_locale:"zh"`。
-   - [validate-news.js](src/maintenance/validate-news.js)：候选层 + 公开投影的 `localizations` 形状校验；`localizations_meta` 不应出现在公开投影。
-   - [cmd-content.js](src/news/cli/cmd-content.js) + [news-cli.js](src/news/cli/news-cli.js)：新增 `localize preview / candidates` 命令（默认 `--dry-run` 成本预览）。
+   - [llm-provider.js](../../src/news/classify/llm-provider.js) 新增第四调用 `localizeWithDeepSeek` + `buildLocalizePayload` + `normalizeLocalization`（失败 resolve 降级不 reject；prompt 要求品牌名/专有名词/URL/代码保留原文）。
+   - 新增 [content-localizer.js](../../src/news/classify/content-localizer.js)：`collectLocalizeSource`/`localizeCandidate`/`localizeCandidates`/`enrichCandidateLocalizations`。输出 `localizations[locale] = { title, description }`（当前 zh），**原文顶层 title/description 保留**（溯源基线 + 未来多语言翻译源）。
+   - `news-candidates.js`：`mergeCandidates` 保留既有 `localizations`（不重复翻译）；`INTERNAL_FIELDS` 加 `localizations_meta`（内部痕迹），`localizations` **不进** INTERNAL_FIELDS（公开字段，用户决策）。
+   - `build-news.js` Phase 4：审核 enrichment 之后、投影之前插入 `enrichCandidateLocalizations`（只消费原文 title/desc，放最后避免影响审核用原文素材）。
+   - `news-config.json`：`localize_enabled:false` / `localize_max_items_per_run:30` / `localize_timeout_ms:15000` / `localize_target_locale:"zh"`。
+   - [validate-news.js](../../src/maintenance/validate-news.js)：候选层 + 公开投影的 `localizations` 形状校验；`localizations_meta` 不应出现在公开投影。
+   - [cmd-content.js](../../src/news/cli/cmd-content.js) + [news-cli.js](../../src/news/cli/news-cli.js)：新增 `localize preview / candidates` 命令（默认 `--dry-run` 成本预览）。
 
 **存量迁移（用户确认执行）**：
 - `content localize candidates`：100 条候选全部翻译写入 `localizations.zh`（2 条原文无 description → zh.desc 空，诚实降级；前端回退处理）。
@@ -1791,7 +1795,7 @@
 ### 配置治理
 
 - [x] 清理 `news-config-v2.json` 中 **16 个死配置字段**（仅配置声明、src/ 零使用的字段），保留实际生效项。
-- [x] 新建 [news-config-v2.说明.md](data/news/config/news-config-v2.说明.md) 逐字段说明配置含义（用户要求 JSON 无注释、希望知道每个配置量的含义）。
+- [x] 新建 [news-config-v2.说明.md](../../data/news/config/news-config-v2.说明.md) 逐字段说明配置含义（用户要求 JSON 无注释、希望知道每个配置量的含义）。
 
 ### 验证结果
 
@@ -1801,7 +1805,7 @@
 ### 已知边界
 
 - [~] mostPopular 降级只作为 search 桶耗尽兜底，产出内容相关性弱于关键词 search（预期）。
-- [~] 本次改动与 v2 转正（两阶段审核 / v1 删除）同批在工作树，未提交（见 [开发日志.md](开发日志.md#log-entry-55)）。
+- [~] 本次改动与 v2 转正（两阶段审核 / v1 删除）同批在工作树，未提交（见 [开发日志.md](#log-entry-55)）。
 
 ---
 
@@ -1823,10 +1827,10 @@
 ### 中文原文标题精炼（问题二）
 
 - [x] **根因**：本地化 prompt 只约束"忠实翻译"，对 `language: zh` 的候选 DeepSeek 把中文原文当翻译对象原样返回（或繁转简），从不做标题精炼 → `localizations.zh.title` 带 `#` 标签 / emoji / 情绪化开场（如 `👉AI，第一次开始"自己找路"😱`）。
-- [x] **修复**：[llm-provider.js](src/news/classify/llm-provider.js) `LOCALIZE_USER_PROMPT_TEMPLATE` 追加第 6 条规则：原文已是中文（含繁体）时不做逐字翻译，改为精炼为简洁新闻标题（去 # 标签 / emoji / 情绪化开场，20~40 字）——未来采集自动生效。
-- [x] **回填存量**：新建 [scripts/refine-zh-localizations.js](scripts/refine-zh-localizations.js) 一次性脚本（支持 `--dry-run` / `--apply`，并发 3，失败保留旧值诚实降级），重跑 approved 的 zh 候选 38 条 → **37 成功 / 1 失败**（SK海力士，400 token 截断，不在 top_selected 保留旧值）。publish 重建后 5 条公开标题全干净（`AI首次自主行动引发安全警报` 等）。
+- [x] **修复**：[llm-provider.js](../../src/news/classify/llm-provider.js) `LOCALIZE_USER_PROMPT_TEMPLATE` 追加第 6 条规则：原文已是中文（含繁体）时不做逐字翻译，改为精炼为简洁新闻标题（去 # 标签 / emoji / 情绪化开场，20~40 字）——未来采集自动生效。
+- [x] **回填存量**：新建 `scripts/refine-zh-localizations.js` 一次性脚本（支持 `--dry-run` / `--apply`，并发 3，失败保留旧值诚实降级），重跑 approved 的 zh 候选 38 条 → **37 成功 / 1 失败**（SK海力士，400 token 截断，不在 top_selected 保留旧值）。publish 重建后 5 条公开标题全干净（`AI首次自主行动引发安全警报` 等）。
 
-### v1 删除执行（按 [docs/热点管线-v1-删除清单.md](docs/热点管线-v1-删除清单.md)）
+### v1 删除执行（按 docs/热点管线-v1-删除清单.md）
 
 - [x] **删 18 个 v1 源码模块**：pipeline/build-news、scoring；collectors/news-youtube、news-x、news-transcripts；core/news-candidates、news-quota、news-registry、news-scheduler、news-authorization、news-review-events；cli/cmd-sources、cmd-ops、cmd-registry；scripts/benchmark-news、np6-analysis、sync-news-sources（scripts+maintenance）。
 - [x] **删 10 个 v1 数据文件**：hotspot-candidates、news-state、news-registry、news-quota、pending-authorizations、review-events、transcripts/、news-sources、news-config、tests/fixtures/youtube.xml。
@@ -1837,7 +1841,7 @@
 
 ### 文档同步
 
-- [x] 更新 [docs/热点管线-v1-删除清单.md](docs/热点管线-v1-删除清单.md) 顶部加"已执行完毕"状态注记（正文保留为历史操作记录）。
+- [x] 更新 docs/热点管线-v1-删除清单.md 顶部加"已执行完毕"状态注记（正文保留为历史操作记录）。
 - [x] 6 份活文档改写为 v2 主链现状：hotspot-workflow.md（重写 v2）/ operations.md / architecture.md / requirements.md / content-quality.md / acquisition.md。
 
 ### 验证结果
@@ -1859,7 +1863,7 @@
 
 ## 2026-08-08 · 人工审核清单自动化（自动生成 + apply 一键写回）
 
-**背景**：两阶段人工审核流程已定稿（见 [log-entry-55](开发日志.md#log-entry-55)），但待审清单需手动 `min-review list --manual` 生成、审核结论需手动 `min-review batch --ids` 逐个传 id。本次把「清单自动生成 + 结论一键写回」程序化，让「AI 审核完 → 人工审 → 结论落库」全链路少手动作业。
+**背景**：两阶段人工审核流程已定稿（见 [log-entry-55](#log-entry-55)），但待审清单需手动 `min-review list --manual` 生成、审核结论需手动 `min-review batch --ids` 逐个传 id。本次把「清单自动生成 + 结论一键写回」程序化，让「AI 审核完 → 人工审 → 结论落库」全链路少手动作业。
 
 ### 决策（用户拍板）
 
@@ -1871,15 +1875,15 @@
 
 ### 实际变更
 
-- [x] 新建 [src/news/min/review-list.js](src/news/min/review-list.js)（cmd-min 与 pipeline-min 共用纯逻辑）：
+- [x] 新建 [src/news/min/review-list.js](../../src/news/min/review-list.js)（cmd-min 与 pipeline-min 共用纯逻辑）：
   - `scoreOf` / `suggestReview` 从 cmd-min 移至此处（cmd-min re-export 保持导出兼容）；
   - `buildReviewList(store, config, {now, force})` 生成待审清单（带 id、只含 pending、评分倒序；**覆盖保护**：目标清单已含非 pending 结论且非 force 时不覆盖）；
   - `loadReviewList(path)` 读取 + 校验 `kind==='review_candidates'`；
   - `applyReviewList(store, list)` pending 跳过 / approved+discarded 按 id 写回 / 无 id 旧格式抛错 / 未命中汇入 missing / 状态相同 noop（幂等不刷新 reviewed_at）/ 非法状态计入 invalid。
-- [x] [cmd-min.js](src/news/cli/cmd-min.js)：`--manual` 改调 `buildReviewList`（与管线同一实现，清单新增 id，`--force` 覆盖已审清单）；新增 `min-review apply --file <清单>` 命令。
-- [x] [pipeline-min.js](src/news/min/pipeline-min.js)：runMin 候选落地后（9.5 步，投影前）自动生成待审清单，失败降级记 coverage 不阻塞；`options.autoReviewList=false` 可关（测试已用，避免污染 data/manual/）。
-- [x] 新建 [bat/apply-review.bat](bat/apply-review.bat)：`%~dp0..` 定位项目根（bat/ 子目录向上跳一级）、`chcp 65001` UTF-8 代码页、双击自动找 `data/manual/` 最新 review-*.json / 拖拽指定清单、跑完 pause 停留显示结果。
-- [x] 测试 [tests/news/news-review-list.test.js](tests/news/news-review-list.test.js) 7 用例：pending 过滤 / 带 id / 评分倒序 / 覆盖保护与 --force / loadReviewList 校验 / 批量写回 / 旧格式拒绝 / 未命中+幂等 / 非法状态。
+- [x] [cmd-min.js](../../src/news/cli/cmd-min.js)：`--manual` 改调 `buildReviewList`（与管线同一实现，清单新增 id，`--force` 覆盖已审清单）；新增 `min-review apply --file <清单>` 命令。
+- [x] [pipeline-min.js](../../src/news/min/pipeline-min.js)：runMin 候选落地后（9.5 步，投影前）自动生成待审清单，失败降级记 coverage 不阻塞；`options.autoReviewList=false` 可关（测试已用，避免污染 data/manual/）。
+- [x] 新建 `bat/apply-review.bat`：`%~dp0..` 定位项目根（bat/ 子目录向上跳一级）、`chcp 65001` UTF-8 代码页、双击自动找 `data/manual/` 最新 review-*.json / 拖拽指定清单、跑完 pause 停留显示结果。
+- [x] 测试 [tests/news/news-review-list.test.js](../../tests/news/news-review-list.test.js) 7 用例：pending 过滤 / 带 id / 评分倒序 / 覆盖保护与 --force / loadReviewList 校验 / 批量写回 / 旧格式拒绝 / 未命中+幂等 / 非法状态。
 - [x] CODEBASE-MAP 加 review-list.js 条目 + pipeline-min/cmd-min 描述同步；各模块注释统一为 `bat/apply-review.bat` 位置。
 
 ### 验证结果
@@ -1912,18 +1916,18 @@
 
 ### 实际变更
 
-- [x] [paths.js](src/shared/paths.js)：`NEWS_FILES.lastRun` → `data/news/runtime/last-run.json`。
-- [x] [pipeline-min.js](src/news/min/pipeline-min.js)：runMin 末尾（状态汇总后、return 前）写 last-run.json（`{run_id, collected_at, platforms, collectors:{youtube,x:{status,items,error,reason}}}`），每次采集结束都写（含失败）；`options.lastRunOut` 注入可覆盖；写失败仅降级记 coverage 不阻塞管线。
-- [x] [cmd-min.js](src/news/cli/cmd-min.js)：
+- [x] [paths.js](../../src/shared/paths.js)：`NEWS_FILES.lastRun` → `data/news/runtime/last-run.json`。
+- [x] [pipeline-min.js](../../src/news/min/pipeline-min.js)：runMin 末尾（状态汇总后、return 前）写 last-run.json（`{run_id, collected_at, platforms, collectors:{youtube,x:{status,items,error,reason}}}`），每次采集结束都写（含失败）；`options.lastRunOut` 注入可覆盖；写失败仅降级记 coverage 不阻塞管线。
+- [x] [cmd-min.js](../../src/news/cli/cmd-min.js)：
   - 纯函数 `hasYouTubeInLastRun(lastRun)`（youtube.items > 0）+ `resolveAiTopConfig(approved, lastRun, config)`（无 approved / 缺 last-run / 有或无 YouTube → topN 15/10）；
   - `ai-top` 判定改按 last-run；**失败一律抛错**（无 approved / 缺 last-run / AI 挑选失败 → exit 1，供 bat errorlevel 判定，不静默成功）；
   - `ai-top` 产物 candidates **每条补 id**；
   - 纯函数 `applyTopSelectedList(store, list)`（读 top 清单应用 top_selected=true，false 跳过、无 id 抛错、未命中 missing）+ 新增 `min-review top-apply --file <top 清单>` 命令。
-- [x] [bat/apply-review.bat](bat/apply-review.bat)：合并两步——第 1 步 `min-review apply`、第 2 步 `min-review ai-top`；errorlevel 判定（第 1 步失败停止不跑第 2 步）；UTF-8 BOM + CRLF。
-- [x] 新建 [bat/apply-top.bat](bat/apply-top.bat)：两步——第 1 步 `min-review top-apply`、第 2 步 `publish-news.js` 重建公开投影 + RSS（显示前端）；UTF-8 BOM + CRLF。
-- [x] 新建 [bat/build-dist.bat](bat/build-dist.bat)：`node scripts/build-dist.js` 清空重建 dist/（含最新 hotspots/feed，供 GitHub Pages 部署）；UTF-8 BOM + CRLF。
+- [x] `bat/apply-review.bat`：合并两步——第 1 步 `min-review apply`、第 2 步 `min-review ai-top`；errorlevel 判定（第 1 步失败停止不跑第 2 步）；UTF-8 BOM + CRLF。
+- [x] 新建 [bat/apply-top.bat](../../bat/apply-top.bat)：两步——第 1 步 `min-review top-apply`、第 2 步 `publish-news.js` 重建公开投影 + RSS（显示前端）；UTF-8 BOM + CRLF。
+- [x] 新建 [bat/build-dist.bat](../../bat/build-dist.bat)：`node scripts/build-dist.js` 清空重建 dist/（含最新 hotspots/feed，供 GitHub Pages 部署）；UTF-8 BOM + CRLF。
 - [x] 测试基建修复：cmd-min 与 pipeline-min 两个测试文件并行 worker 都写真实 min-candidates.json → Windows rename **EPERM** 冲突；cmd-min 测试改为**纯函数测试**（不写真实数据文件），pipeline-min 独占该文件，冲突消除。
-- [x] 测试 [tests/news/news-cmd-min.test.js](tests/news/news-cmd-min.test.js) 11 用例：hasYouTubeInLastRun 3 + resolveAiTopConfig 6 + applyTopSelectedList 3；[news-pipeline-min.test.js](tests/news/news-pipeline-min.test.js) 加 last-run 写入断言（platforms/items/status）。
+- [x] 测试 [tests/news/news-cmd-min.test.js](../../tests/news/news-cmd-min.test.js) 11 用例：hasYouTubeInLastRun 3 + resolveAiTopConfig 6 + applyTopSelectedList 3；[news-pipeline-min.test.js](../../tests/news/news-pipeline-min.test.js) 加 last-run 写入断言（platforms/items/status）。
 
 ### 验证结果
 
@@ -1971,18 +1975,18 @@
 
 ### 实际变更
 
-- [x] [keyword-refine.js](src/news/min/keyword-refine.js) 仅提取 `review_status === 'approved'` 的顶层 `title` / `description` / `comments` 原文，明确不读取 `localizations`；规则层仅做跨语言候选召回。
-- [x] [llm-provider.js](src/news/classify/llm-provider.js) 新增 DeepSeek 批量关键词提纯调用：模型将原文当作不可信分析数据，完成跨语言同义归并、English 规范化、分类、`repeated` / `emerging` 判定和计数；缺 key、网络、HTTP、JSON 或 schema 失败均显式失败，关键词链路不降级为规则清单。
+- [x] [keyword-refine.js](../../src/news/min/keyword-refine.js) 仅提取 `review_status === 'approved'` 的顶层 `title` / `description` / `comments` 原文，明确不读取 `localizations`；规则层仅做跨语言候选召回。
+- [x] [llm-provider.js](../../src/news/classify/llm-provider.js) 新增 DeepSeek 批量关键词提纯调用：模型将原文当作不可信分析数据，完成跨语言同义归并、English 规范化、分类、`repeated` / `emerging` 判定和计数；缺 key、网络、HTTP、JSON 或 schema 失败均显式失败，关键词链路不降级为规则清单。
 - [x] 关键词清单精简为 `schema_version`、`kind`、`date`、`source_review_status`、四字段 `candidates` 与 `adopted_keywords`；同日已有清单时拒绝覆盖，避免抹掉维护者填写的采纳结果。
-- [x] [cmd-min.js](src/news/cli/cmd-min.js) 新增 `min-review refine-apply --file` 与纯函数 `applyRefineKeywords`：整批校验清单和采纳词，未知词直接拒绝；去重、跳过已有词、重复运行幂等；仅在确有新增时原子写 `news-config-v2.json` 的 `keywords.ai_keywords`，不发布热点、不构建 dist。
-- [x] 原 `bat/apply-review.bat` 重命名为 [bat/after-first-review.bat](bat/after-first-review.bat)：先串行应用首审结论，成功后通过 [scripts/run-after-first-review.js](scripts/run-after-first-review.js) 安全并行 `refine` 与 `ai-top`。任一子任务失败会等待收尾、只尝试停止本次脚本记录的另一 PID，且整体返回失败。
-- [x] 新增 [bat/apply-keywords.bat](bat/apply-keywords.bat)：支持双击选取最新清单或拖拽指定清单，调用 `refine-apply`，仅写后续采集关键词。
+- [x] [cmd-min.js](../../src/news/cli/cmd-min.js) 新增 `min-review refine-apply --file` 与纯函数 `applyRefineKeywords`：整批校验清单和采纳词，未知词直接拒绝；去重、跳过已有词、重复运行幂等；仅在确有新增时原子写 `news-config-v2.json` 的 `keywords.ai_keywords`，不发布热点、不构建 dist。
+- [x] 原 `bat/apply-review.bat` 重命名为 [bat/after-first-review.bat](../../bat/after-first-review.bat)：先串行应用首审结论，成功后通过 [scripts/run-after-first-review.js](../../scripts/run-after-first-review.js) 安全并行 `refine` 与 `ai-top`。任一子任务失败会等待收尾、只尝试停止本次脚本记录的另一 PID，且整体返回失败。
+- [x] 新增 [bat/apply-keywords.bat](../../bat/apply-keywords.bat)：支持双击选取最新清单或拖拽指定清单，调用 `refine-apply`，仅写后续采集关键词。
 
 ### 验证结果
 
 - [x] 聚焦轻量测试 **21/21 通过**：approved 原文边界、localizations 排除、DeepSeek `fetchImpl` mock、JSON/HTTP 失败、关键词清单校验与幂等、并行任务双成功/失败/启动失败。
-- [x] 已运行 `node --check` 校验 [llm-provider.js](src/news/classify/llm-provider.js)、[keyword-refine.js](src/news/min/keyword-refine.js)、[cmd-min.js](src/news/cli/cmd-min.js)、[run-after-first-review.js](scripts/run-after-first-review.js) 语法。
-- [x] [scripts/check-secrets.js](scripts/check-secrets.js) 额外跳过 Git 可见目录条目，修复遗留 `.claude/worktrees/` 空目录被当文件读取造成的 `EISDIR`；`node scripts/validate.js` 已完整通过。
+- [x] 已运行 `node --check` 校验 [llm-provider.js](../../src/news/classify/llm-provider.js)、[keyword-refine.js](../../src/news/min/keyword-refine.js)、[cmd-min.js](../../src/news/cli/cmd-min.js)、[run-after-first-review.js](../../scripts/run-after-first-review.js) 语法。
+- [x] [scripts/check-secrets.js](../../scripts/check-secrets.js) 额外跳过 Git 可见目录条目，修复遗留 `.claude/worktrees/` 空目录被当文件读取造成的 `EISDIR`；`node scripts/validate.js` 已完整通过。
 - [x] 未调用真实 DeepSeek，未修改正式 `min-candidates.json`、正式配置或生成业务关键词/top 产物。
 
 ### 已知边界
@@ -2004,16 +2008,16 @@
 ### 实际变更
 
 - [x] `data/manual` 清单文件名去掉日期后缀（固定名）：`review.json` / `transcript-requests.json` / `keyword-refine.json` / `top.json` / `tool-cards-pending.json` / `concept-cards-pending.json`；JSON 内部 `date` / `generated_at` 字段保留。
-- [x] [review-list.js](src/news/min/review-list.js) `buildReviewList` 追加合并：`review.json` 已存在时按 id 去重把新 pending 追加到尾部、保留已有人工结论与顺序；本次无新 pending 时跳过不写盘；`--force` 强制重建。新增纯函数 `mergeReviewCandidates`。
-- [x] `min-review archive`（唯一入口 [bat/archive-min.bat](bat/archive-min.bat)）在轻量历史写入 + 候选清空成功后，重置 `data/manual` 当日人工清单（`removeManualLists` 白名单：review / transcript / keyword-refine / top / 两张待补卡）；候选为空时也重置清单；历史写入或清空失败会抛错，不删除清单。
+- [x] [review-list.js](../../src/news/min/review-list.js) `buildReviewList` 追加合并：`review.json` 已存在时按 id 去重把新 pending 追加到尾部、保留已有人工结论与顺序；本次无新 pending 时跳过不写盘；`--force` 强制重建。新增纯函数 `mergeReviewCandidates`。
+- [x] `min-review archive`（唯一入口 [bat/archive-min.bat](../../bat/archive-min.bat)）在轻量历史写入 + 候选清空成功后，重置 `data/manual` 当日人工清单（`removeManualLists` 白名单：review / transcript / keyword-refine / top / 两张待补卡）；候选为空时也重置清单；历史写入或清空失败会抛错，不删除清单。
 - [x] 三个 bat 同步：`after-first-review` / `apply-keywords` / `apply-top` 由 `review-*.json` 等通配符改为检查固定名文件。
-- [x] 采集调度改北京时间：X 每天 **13:00 / 22:00**、YouTube 每 3 天 **20:00**；GitHub Actions cron 按 UTC 写入（`0 5 * * *` / `0 14 * * *` / `0 12 */3 * *`），[collect-news.yml](.github/workflows/collect-news.yml) 平台映射与注释同步。
-- [x] 新增 [beijing-time.js](src/shared/beijing-time.js)（UTC+8 固定偏移，不依赖运行环境时区，CI=UTC / 本地=北京结果一致）：`resolveXWindow` 缺省「北京今天 0 点 → now」、review 内部 `date`、投影按北京自然日分组、transcript / keyword-refine / tool-feedback 的 `dateKeyOf` 全部统一北京时间；归档批次时间原本即北京时间（+8）。
-- [x] [news-config-v2.json](data/news/config/news-config-v2.json) `schedule` 段 cron 值同步为新 UTC 值；说明文档纠正语义——`*_cron` 为 **UTC 值**、`*_tz` 为意图时区（Asia/Shanghai）；[hotspot-workflow.md](docs/hotspot-workflow.md) 同步。
+- [x] 采集调度改北京时间：X 每天 **13:00 / 22:00**、YouTube 每 3 天 **20:00**；GitHub Actions cron 按 UTC 写入（`0 5 * * *` / `0 14 * * *` / `0 12 */3 * *`），[collect-news.yml](../../.github/workflows/collect-news.yml) 平台映射与注释同步。
+- [x] 新增 [beijing-time.js](../../src/shared/beijing-time.js)（UTC+8 固定偏移，不依赖运行环境时区，CI=UTC / 本地=北京结果一致）：`resolveXWindow` 缺省「北京今天 0 点 → now」、review 内部 `date`、投影按北京自然日分组、transcript / keyword-refine / tool-feedback 的 `dateKeyOf` 全部统一北京时间；归档批次时间原本即北京时间（+8）。
+- [x] [news-config-v2.json](../../data/news/config/news-config-v2.json) `schedule` 段 cron 值同步为新 UTC 值；说明文档纠正语义——`*_cron` 为 **UTC 值**、`*_tz` 为意图时区（Asia/Shanghai）；[hotspot-workflow.md](../../docs/hotspot-workflow.md) 同步。
 
 ### 验证结果
 
-- [x] 新增 [beijing-time.test.js](tests/news/beijing-time.test.js)（跨日边界 4 例）；全部 news 测试 **132 通过**（含 review 追加合并、`removeManualLists` 白名单删除），未调用真实 DeepSeek。
+- [x] 新增 [beijing-time.test.js](../../tests/news/beijing-time.test.js)（跨日边界 4 例）；全部 news 测试 **132 通过**（含 review 追加合并、`removeManualLists` 白名单删除），未调用真实 DeepSeek。
 - [x] `node scripts/validate.js` 通过。
 
 ### 已知边界
@@ -2036,7 +2040,7 @@
 - [x] 数量、空状态和目录提示根据当前视图显示“厂商”或“工具”。
 - [x] 保留现有厂商详情、模型/工具树、具体工具详情及对比入口，不改动数据契约。
 - [x] Toggle 调整为工具库内容区域右上角对齐；标题文字保留阅读宽度，移动端改为正常流式布局，避免覆盖内容。
-- [x] 同步 [CODEBASE-MAP.md](CODEBASE-MAP.md) 中 `tools.js` 的视图职责和导出说明。
+- [x] 同步 [CODEBASE-MAP.md](../../CODEBASE-MAP.md) 中 `tools.js` 的视图职责和导出说明。
 
 ### 验证结果
 
@@ -2068,9 +2072,9 @@
 - [x] 在 SVG 噪声链加入 `feColorMatrix type="saturate" values="0"`，将 turbulence 的 RGB 输出转换为灰度噪声；同时支持 `prefers-reduced-motion`，用户要求减少动态效果时关闭边框动画。
 - [x] 清理工具详情页遗留的普通工具旧模板：普通 `concrete` 工具改为复用 GPT-5.6 Sol 使用的叶节点详情渲染器，统一标题、徽标、摘要、适用/不适用场景、资料来源和对比入口。
 - [x] 删除普通工具详情中的旧版价格、访问门槛、中文支持和评分兼容模块；普通工具不再自动渲染旧 `free_tier / paid_tiers` 字段，只有新模板认可的 `api_pricing.rate_cards` 或 `plan` 存在真实数据时才显示价格区。
-- [x] 普通工具缺失新模板字段时保持缺省隐藏，不伪造 1M 上下文、API 价格或评分；同步更新 [CODEBASE-MAP.md](CODEBASE-MAP.md) 的详情渲染职责说明。
+- [x] 普通工具缺失新模板字段时保持缺省隐藏，不伪造 1M 上下文、API 价格或评分；同步更新 [CODEBASE-MAP.md](../../CODEBASE-MAP.md) 的详情渲染职责说明。
 - [x] 隔离两类卡片的悬停状态：具体工具卡保留主题边框噪声流动，厂商集合卡恢复浅色背景、边框高亮和轻阴影，避免共用 `.tool-card` 基础类导致厂商卡片变为深色。
-- [x] 同步 [CODEBASE-MAP.md](CODEBASE-MAP.md) 中的前端目录控制器与侧边索引职责说明。
+- [x] 同步 [CODEBASE-MAP.md](../../CODEBASE-MAP.md) 中的前端目录控制器与侧边索引职责说明。
 
 ### 验证结果
 
@@ -2096,8 +2100,8 @@
 ### 实际变更
 
 - [x] 在 `data/news/config/news-config-v2.json` 的 `collection` 中增加 `enabled: true`，作为项目层总开关。
-- [x] 在 [pipeline-min.js](src/news/min/pipeline-min.js) 增加严格布尔判定 `isCollectionEnabled`；缺失、字符串 `"true"` 或其他类型均视为关闭。关闭时 `runMin` 在采集前短路，不调用平台采集器、LLM，也不写候选、历史、公开投影或 `last-run`。
-- [x] 在 [collect-news.yml](.github/workflows/collect-news.yml) 增加两阶段 Actions 门禁：Repository Variable `NEWS_COLLECTION_ENABLED` 必须为字符串 `true`，且版本化 JSON 开关也必须为布尔 `true`，含 Secrets 的 `collect` job 才会启动。
+- [x] 在 [pipeline-min.js](../../src/news/min/pipeline-min.js) 增加严格布尔判定 `isCollectionEnabled`；缺失、字符串 `"true"` 或其他类型均视为关闭。关闭时 `runMin` 在采集前短路，不调用平台采集器、LLM，也不写候选、历史、公开投影或 `last-run`。
+- [x] 在 [collect-news.yml](../../.github/workflows/collect-news.yml) 增加两阶段 Actions 门禁：Repository Variable `NEWS_COLLECTION_ENABLED` 必须为字符串 `true`，且版本化 JSON 开关也必须为布尔 `true`，含 Secrets 的 `collect` job 才会启动。
 - [x] GitHub Repository Variable `NEWS_COLLECTION_ENABLED` 已由维护者在网页 Settings → Secrets and variables → Actions → Variables 中创建，当前值为 `false`；因此当前预期行为是跳过热点采集 job，不读取或注入平台 Key。
 - [x] CLI 在采集关闭时输出明确的 disabled 状态；同步更新 README 和 CODEBASE-MAP。
 
@@ -2121,14 +2125,14 @@
 
 ### 实际变更
 
-- [x] 在 [collector-x-v2.js](src/news/collectors/collector-x-v2.js) 增加请求级预占：tweet 接口按 `x_tweets_per_request_max=20` 与每条 15 credits 先预占 300；成功响应按完整返回条数结算，窗外/重复/无效条目仍计费；失败重试的预占保留。
+- [x] 在 [collector-x-v2.js](../../src/news/collectors/collector-x-v2.js) 增加请求级预占：tweet 接口按 `x_tweets_per_request_max=20` 与每条 15 credits 先预占 300；成功响应按完整返回条数结算，窗外/重复/无效条目仍计费；失败重试的预占保留。
 - [x] 长文接口每次尝试预占 100 credits；空正文、失败和重试均不退款，预算不足时通过 `requestText` 的 `beforeAttempt` 阻止真实请求。
 - [x] 边界复核补强：显式零预算保持 0、非法预算 fail closed、高预算钳制到 3750；tweet/article 单价和每请求条数不能低于供应商安全下界；超量 tweet 响应按完整条数结算、标记异常并停止后续请求。
 - [x] X collector 增加 `collection.enabled` 防御层复核，直接调用底层采集器时显式关闭也保持零网络。
-- [x] credits 账本增加 `budget`、tweet/article 计数和 `requests.total/tweet/article/retries`，并由 [pipeline-min.js](src/news/min/pipeline-min.js) 透传至 coverage 与 `last-run.json`。
+- [x] credits 账本增加 `budget`、tweet/article 计数和 `requests.total/tweet/article/retries`，并由 [pipeline-min.js](../../src/news/min/pipeline-min.js) 透传至 coverage 与 `last-run.json`。
 - [x] 修正管线总状态：任一启用平台 failed/partial 时总状态为 `partial`，仅全部启用平台失败时为 `failed`。
-- [x] [validate-news.js](src/maintenance/validate-news.js) 增加 news-config-v2 安全边界与 last-run credits/request schema 校验；损坏账本、超预算和请求计数不自洽会阻断 validate。
-- [x] [build-news.js](scripts/build-news.js) 输出 X credits/请求用量；[collect-news.yml](.github/workflows/collect-news.yml) 在 Actions Step Summary 写入状态、失败原因与用量。
+- [x] [validate-news.js](../../src/maintenance/validate-news.js) 增加 news-config-v2 安全边界与 last-run credits/request schema 校验；损坏账本、超预算和请求计数不自洽会阻断 validate。
+- [x] [build-news.js](../../scripts/build-news.js) 输出 X credits/请求用量；[collect-news.yml](../../.github/workflows/collect-news.yml) 在 Actions Step Summary 写入状态、失败原因与用量。
 - [x] 测试覆盖窗外推文、空长文、重试、零/高预算、低安全上限、超量响应、collector 直调门禁、管线状态汇总和配置/账本 schema。
 - [x] Repository Variable `NEWS_COLLECTION_ENABLED` 继续保持 `false`，修复验证未触发真实 GitHub Actions、未读取真实 Key 或调用 TwitterAPI.io。
 
@@ -2160,7 +2164,7 @@
 - [x] 新增 Node 与浏览器两侧 `catalog` 唯一 Interface，统一列表、单项查询、稳定引用解析和三级详情原子替换语义；模块不直接读取其他模块的 JSON 或实现。
 - [x] 删除旧的 `data/catalog/tools.json` 与 `data/catalog/tool-intelligence.json` 运行时事实文件；采集、校验、热点工具索引和工具反馈改为通过 Node catalog Interface 访问新模块。
 - [x] 前端新增五个展示模块，工具目录主列表、厂商/工具详情主路径已切换到对应模块和三级详情渲染器；data.js 暂保留只读兼容投影，供尚未完全迁移的精选、对比、场景、搜索和热点视图使用。
-- [x] 新增五模块迁移脚本、目录 Interface 回归测试，并同步维护 [CODEBASE-MAP.md](CODEBASE-MAP.md)。
+- [x] 新增五模块迁移脚本、目录 Interface 回归测试，并同步维护 [CODEBASE-MAP.md](../../CODEBASE-MAP.md)。
 
 ### 验证结果
 
@@ -2192,7 +2196,7 @@
 - [x] 收缩二级预览：删除 `child_previews`；三级子卡片只通过 `detail_refs` 查询三级详情，不再复制三级摘要投影。
 - [x] 收缩一级预览：删除固定值 `tree_mode`；一级页面直接使用 `level2_refs`，旧兼容投影在内存中固定保留旧树形值。
 - [x] 收缩三级详情：删除未被主路径消费的 `parent_level2_ref`、`relation_source_refs`、`compare`；层级由二级 `detail_refs` 表达，类型由三级 `kind` 表达，来源由 `source_refs`/`sources` 表达。
-- [x] 同步迁移脚本、浏览器兼容投影、目录字段白名单校验、目录 Interface 测试和 [CODEBASE-MAP.md](CODEBASE-MAP.md)。
+- [x] 同步迁移脚本、浏览器兼容投影、目录字段白名单校验、目录 Interface 测试和 [CODEBASE-MAP.md](../../CODEBASE-MAP.md)。
 
 ### 验证结果
 
@@ -2220,7 +2224,7 @@
 - [x] `scripts/catalog-generator.js` 入口补 `loadDotEnv()`（B16-R9 密钥治理遗漏，同批 `news-cli.js`/`build-news.js` 已有；`.env` 可正常读取 `DEEPSEEK_API_KEY`）。
 - [x] 新增可复用模块 `src/shared/deepseek-websearch.js`：`webSearchDeepSeek` 封装两段式工具循环（第一段强制 `web_search` → 提取 `web_search_call` → 全量回传含 `reasoning_text` → 循环至模型不再搜索，`maxRounds` 兜底）；从最终文本提取来源 URL（markdown 链接标题 + 所在行 excerpt，排除中文/标点）；`twoStage` 开关缺省 `true`（DeepSeek 特有行为），接入其他工具（OpenAI 等单段 `web_search`）时传 `false` 绕过回传循环只发一次请求。
 - [x] `src/catalog/ai/deepseek-catalog-ai.js`：`probeDeepSeekCapabilities` / `collectEvidence` 接入两段式模块（显式 `twoStage: true`）；新增 `safeEvidenceArray` 健壮解析（容忍数组 / `{evidence:[...]}` 包裹 / 多个并列对象三种 JSON 形态）；`buildSearchPayload` 等原导出保留兼容。
-- [x] 新增 `tests/shared/deepseek-websearch.test.js`（3 用例：单段绕过只发 1 次请求、两段式回传恢复结果、URL 提取去重与标点清理）；同步 [CODEBASE-MAP.md](CODEBASE-MAP.md) 与 `docs/manual/catalog-generator.md`。
+- [x] 新增 `tests/shared/deepseek-websearch.test.js`（3 用例：单段绕过只发 1 次请求、两段式回传恢复结果、URL 提取去重与标点清理）；同步 [CODEBASE-MAP.md](../../CODEBASE-MAP.md) 与 `docs/manual/catalog-generator.md`。
 - [x] 桌面文档《DeepSeek联网搜索链路说明.md》记录完整排查过程（三处误判、两段式正确做法、验证证据、模块用法）。
 
 ### 验证结果
@@ -2249,7 +2253,7 @@
 - [x] 将 `src/shared/deepseek-client.js` 抽象为 provider-aware `requestResponses`，保留 `requestDeepSeek` 兼容包装；Messages provider 在 Responses transport 中 fail-closed。
 - [x] 将 `src/shared/deepseek-websearch.js` 改为根据 registry 自动选择 DeepSeek 两段式或其他 Responses provider 单段调用，并保留 `webSearchDeepSeek` 与新增 `webSearchResponses` 导出。
 - [x] 卡片生成器研究、草案生成和 repair 全部读取 catalog 模块的 provider/model/protocol；DeepSeek 两段式不再由调用方硬编码，OpenAI 不触发该循环。
-- [x] 更新 `config/catalog-generator.example.json`、`docs/manual/catalog-generator.md`、桌面链路说明和 [CODEBASE-MAP.md](CODEBASE-MAP.md)；Key 不进入配置文件。
+- [x] 更新 `config/catalog-generator.example.json`、`docs/manual/catalog-generator.md`、桌面链路说明和 [CODEBASE-MAP.md](../../CODEBASE-MAP.md)；Key 不进入配置文件。
 - [x] 新增 provider/config 测试，并补充 OpenAI 单段、Messages 拒绝和 catalog 配置映射回归。
 
 ### 验证结果
@@ -2300,12 +2304,12 @@
 
 ### 实际变更
 
-- [x] 新增 [src/shared/tavily-client.js](src/shared/tavily-client.js)：使用原生 `fetch` 调用 Tavily Search/Extract，统一处理 `TAVILY_API_KEY`、HTTP/超时/限流错误、Search/Extract 响应映射和 URL canonicalization。
-- [x] 新增 [src/catalog/ai/catalog-adapters.js](src/catalog/ai/catalog-adapters.js)：Tavily 负责官方来源发现和清洗正文，DeepSeek 只负责 AtomicClaim 提取与 LayerField 合成。
-- [x] 重写 [src/catalog/catalog-research.js](src/catalog/catalog-research.js)：来源按 ResearchScope 关联；只获取当前 scope 的来源；Extract 前按 URL 扣减 page budget；保留 Tavily excerpt；拒绝无效/非官方 URL；旧 HTML 壳正文不会作为新研究正文复用。
-- [x] 重写 [src/catalog/ai/deepseek-catalog-ai.js](src/catalog/ai/deepseek-catalog-ai.js)：删除旧 Evidence/flat draft、DeepSeek web_search、repair 兼容入口，只保留无工具 AtomicClaim 和 LayerField 调用。
+- [x] 新增 [src/shared/tavily-client.js](../../src/shared/tavily-client.js)：使用原生 `fetch` 调用 Tavily Search/Extract，统一处理 `TAVILY_API_KEY`、HTTP/超时/限流错误、Search/Extract 响应映射和 URL canonicalization。
+- [x] 新增 `src/catalog/ai/catalog-adapters.js`：Tavily 负责官方来源发现和清洗正文，DeepSeek 只负责 AtomicClaim 提取与 LayerField 合成。
+- [x] 重写 `src/catalog/catalog-research.js`：来源按 ResearchScope 关联；只获取当前 scope 的来源；Extract 前按 URL 扣减 page budget；保留 Tavily excerpt；拒绝无效/非官方 URL；旧 HTML 壳正文不会作为新研究正文复用。
+- [x] 重写 `src/catalog/ai/deepseek-catalog-ai.js`：删除旧 Evidence/flat draft、DeepSeek web_search、repair 兼容入口，只保留无工具 AtomicClaim 和 LayerField 调用。
 - [x] 删除 `src/shared/deepseek-websearch.js`、对应测试、旧 `catalog-draft-contract.js` 和 legacy flat planner；事务 Apply 只接受 schema v3 `layerPatches`。
-- [x] 更新 catalog 配置、CLI、BAT、用户手册和 [CODEBASE-MAP.md](CODEBASE-MAP.md)：检索 Key 为 `TAVILY_API_KEY`，结构化提取 Key 仍为 `DEEPSEEK_API_KEY`；两者均不写入文件。
+- [x] 更新 catalog 配置、CLI、BAT、用户手册和 [CODEBASE-MAP.md](../../CODEBASE-MAP.md)：检索 Key 为 `TAVILY_API_KEY`，结构化提取 Key 仍为 `DEEPSEEK_API_KEY`；两者均不写入文件。
 - [x] 新增 Tavily client、catalog adapter、来源 canonicalization 和失败预算回归；保留 schema v3 Profile、Coverage、Synthesis、Draft、Review、事务 Apply 和前端字段门禁。
 
 ### 验证结果
@@ -2333,14 +2337,14 @@
 
 ### 实际变更
 
-- [x] 重写 [src/catalog/catalog-research.js](src/catalog/catalog-research.js)：删除 extract/claims 阶段与 `validateAtomicClaim`/`coverageOf`，只做 Tavily discover+acquire；增量研究按缺失字段对应层 scope 收敛（新增 `scopeKindsOfFields`）；成本账本删除 extraction_calls。
-- [x] 重写 [src/catalog/catalog-synthesis.js](src/catalog/catalog-synthesis.js)：删除 FIELD_PREDICATES/claims provenance，改为字段级 FieldCoverage（值非缺省且引用真实 source_id 才 covered）；api_model 缺 access_level/price_badge/api_pricing 仍建议 product_variant；provenance 从 claim_ids 改为 source_ids。
-- [x] 新增 [src/catalog/ai/catalog-synthesis-prompt.js](src/catalog/ai/catalog-synthesis-prompt.js)：按层分组官方来源正文（限量/截断），生成合成 instructions 与 input。
-- [x] 重写 [src/catalog/ai/deepseek-catalog-ai.js](src/catalog/ai/deepseek-catalog-ai.js)：删除 extractAtomicClaims、DEFAULT_DRAFT_MODEL、model 三阶回退、claims 双外壳；只保留单段 synthesizeLayerFields（ledger 必传，缺账本 fail-closed）。
-- [x] 调整 [src/catalog/ai/catalog-adapters.js](src/catalog/ai/catalog-adapters.js)：删除 extract 键与 manages_response_budget。
-- [x] 调整 [src/catalog/catalog-assistant.js](src/catalog/catalog-assistant.js)/[src/catalog/catalog-draft-envelope.js](src/catalog/catalog-draft-envelope.js)/[src/catalog/catalog-draft-store.js](src/catalog/catalog-draft-store.js)/[scripts/catalog-generator.js](scripts/catalog-generator.js)：resume 按缺失字段收敛 scope；Draft 只存 official_sources + 顶层字段级 coverage；ready 用 fieldCoverageOf 重算防伪造；CLI 输出 missing_field_count。
+- [x] 重写 `src/catalog/catalog-research.js`：删除 extract/claims 阶段与 `validateAtomicClaim`/`coverageOf`，只做 Tavily discover+acquire；增量研究按缺失字段对应层 scope 收敛（新增 `scopeKindsOfFields`）；成本账本删除 extraction_calls。
+- [x] 重写 `src/catalog/catalog-synthesis.js`：删除 FIELD_PREDICATES/claims provenance，改为字段级 FieldCoverage（值非缺省且引用真实 source_id 才 covered）；api_model 缺 access_level/price_badge/api_pricing 仍建议 product_variant；provenance 从 claim_ids 改为 source_ids。
+- [x] 新增 `src/catalog/ai/catalog-synthesis-prompt.js`：按层分组官方来源正文（限量/截断），生成合成 instructions 与 input。
+- [x] 重写 `src/catalog/ai/deepseek-catalog-ai.js`：删除 extractAtomicClaims、DEFAULT_DRAFT_MODEL、model 三阶回退、claims 双外壳；只保留单段 synthesizeLayerFields（ledger 必传，缺账本 fail-closed）。
+- [x] 调整 `src/catalog/ai/catalog-adapters.js`：删除 extract 键与 manages_response_budget。
+- [x] 调整 `src/catalog/catalog-assistant.js`/`src/catalog/catalog-draft-envelope.js`/`src/catalog/catalog-draft-store.js`/[scripts/catalog-generator.js](../../scripts/catalog-generator.js)：resume 按缺失字段收敛 scope；Draft 只存 official_sources + 顶层字段级 coverage；ready 用 fieldCoverageOf 重算防伪造；CLI 输出 missing_field_count。
 - [x] 删除兼容代码：deepseek-structured 的 ledger 可选分支、ai-config 旧平铺 catalog 配置、旧含 claims 草案 draft-20260814172138-d626bf2b.json。
-- [x] 共享 [src/shared/deepseek-client.js](src/shared/deepseek-client.js) 不动（news 管线 Chat Completions 依赖）。
+- [x] 共享 `src/shared/deepseek-client.js` 不动（news 管线 Chat Completions 依赖）。
 
 ### 验证结果
 
@@ -2397,24 +2401,24 @@
 ### 实际变更
 
 **批量编排层（②→③）**
-- [x] 新增 [src/catalog/catalog-batch.js](src/catalog/catalog-batch.js)：读卡 → 三层查重（正式 tool-card / 进行中 draft / 同批）→ 厂商/官方源解析 → 成本估算/全局确认 → 逐 seed `prepare→review→自动 apply` → 批量报告；单 seed 失败跳过、保留 draft 可 resume。导出 `readPendingCards/dedupeBatchCandidates/resolveBatchCandidates/planBatchCost/runCatalogBatch/runBatchFromCards`。
-- [x] 新增 [src/catalog/official-url-registry.js](src/catalog/official-url-registry.js) + [data/manual/official-url-registry.json](data/manual/official-url-registry.json)：人工官方 URL 登记表（key 工具名/厂商名同命名空间，可配 aliases，命中免 Tavily 解析）。
-- [x] [src/catalog/ai/catalog-adapters.js](src/catalog/ai/catalog-adapters.js) 新增 `resolveOfficialSource`：Tavily 搜工具名 → DeepSeek 结构化提取厂商名+官方域名（`requestStructuredJson` + ledger 预占，缺 key/账本 fail-closed）。
-- [x] [src/news/feedback/catalog-draft-adapter.js](src/news/feedback/catalog-draft-adapter.js) `pendingCandidateToSeed` 增强：接受解析结果 `vendor_name/official_url`，`discovery_sources` 携带 `official_hint`，不再硬编码 `new_group_title`（分组名由 `deriveKeys` 回退 `seed.name`）。
-- [x] [scripts/catalog-generator.js](scripts/catalog-generator.js) 新增 `batch`（`--confirm-cost` 全局确认自动 apply / `--dry-run` 预览 / `--from-preview` 复用解析）与 `url-registry` 子命令。
-- [x] [src/shared/paths.js](src/shared/paths.js) `CATALOG_GENERATOR_FILES` 加 `urlRegistry`/`batchSeedsPreview`。
-- [x] 新增 [tests/catalog/catalog-batch.test.js](tests/catalog/catalog-batch.test.js) 9 用例；[docs/manual/catalog-generator.md](docs/manual/catalog-generator.md) 补 batch/url-registry 文档。
+- [x] 新增 `src/catalog/catalog-batch.js`：读卡 → 三层查重（正式 tool-card / 进行中 draft / 同批）→ 厂商/官方源解析 → 成本估算/全局确认 → 逐 seed `prepare→review→自动 apply` → 批量报告；单 seed 失败跳过、保留 draft 可 resume。导出 `readPendingCards/dedupeBatchCandidates/resolveBatchCandidates/planBatchCost/runCatalogBatch/runBatchFromCards`。
+- [x] 新增 `src/catalog/official-url-registry.js` + `data/manual/official-url-registry.json`：人工官方 URL 登记表（key 工具名/厂商名同命名空间，可配 aliases，命中免 Tavily 解析）。
+- [x] `src/catalog/ai/catalog-adapters.js` 新增 `resolveOfficialSource`：Tavily 搜工具名 → DeepSeek 结构化提取厂商名+官方域名（`requestStructuredJson` + ledger 预占，缺 key/账本 fail-closed）。
+- [x] `src/news/feedback/catalog-draft-adapter.js` `pendingCandidateToSeed` 增强：接受解析结果 `vendor_name/official_url`，`discovery_sources` 携带 `official_hint`，不再硬编码 `new_group_title`（分组名由 `deriveKeys` 回退 `seed.name`）。
+- [x] [scripts/catalog-generator.js](../../scripts/catalog-generator.js) 新增 `batch`（`--confirm-cost` 全局确认自动 apply / `--dry-run` 预览 / `--from-preview` 复用解析）与 `url-registry` 子命令。
+- [x] [src/shared/paths.js](../../src/shared/paths.js) `CATALOG_GENERATOR_FILES` 加 `urlRegistry`/`batchSeedsPreview`。
+- [x] 新增 [tests/catalog/catalog-batch.test.js](../../tests/catalog/catalog-batch.test.js) 9 用例；[docs/manual/catalog-generator.md](../../docs/manual/catalog-generator.md) 补 batch/url-registry 文档。
 
 **冗余清理（旧模块兼容残留，无需兼容）**
-- [x] [src/shared/paths.js](src/shared/paths.js) `NEWS_FILES` 删 12 个 v1 死路径常量 + `NEWS_SOURCES_DIR`/`NEWS_MANUAL_DIR` 孤儿 const。
-- [x] [src/news/min/pipeline-min.js](src/news/min/pipeline-min.js) / [scripts/publish-news.js](scripts/publish-news.js) / [src/news/core/news-public-gate.js](src/news/core/news-public-gate.js) / [src/maintenance/validate-news.js](src/maintenance/validate-news.js) / [src/web/js/data.js](src/web/js/data.js) 删除 hotspots `events/provenance/assessments` 旧字段保活、过滤与校验/默认值。
-- [x] [src/web/js/trending.js](src/web/js/trending.js) 删 `coverage.platforms` 双兼容回退。
-- [x] [scripts/build-news.js](scripts/build-news.js) / [scripts/publish-news.js](scripts/publish-news.js) 删 `--min` 兼容 no-op 注释与 publish-news `main→mainMin` 转发壳。
-- [x] [src/news/pipeline/projection.js](src/news/pipeline/projection.js) 删 `upgradeHotspotsProjection`/`migrateContentTypeProjection` 两个零调用方迁移工具及连带 `HEAT_DEFINITION`/`CONTENT_TYPE_VALUES`/`OUTPUT_PATH` 与死导入。
-- [x] [src/maintenance/validate.js](src/maintenance/validate.js) 删原则3 的 `tools.json` 旧格式回退分支。
+- [x] [src/shared/paths.js](../../src/shared/paths.js) `NEWS_FILES` 删 12 个 v1 死路径常量 + `NEWS_SOURCES_DIR`/`NEWS_MANUAL_DIR` 孤儿 const。
+- [x] [src/news/min/pipeline-min.js](../../src/news/min/pipeline-min.js) / [scripts/publish-news.js](../../scripts/publish-news.js) / [src/news/core/news-public-gate.js](../../src/news/core/news-public-gate.js) / [src/maintenance/validate-news.js](../../src/maintenance/validate-news.js) / `src/web/js/data.js` 删除 hotspots `events/provenance/assessments` 旧字段保活、过滤与校验/默认值。
+- [x] `src/web/js/trending.js` 删 `coverage.platforms` 双兼容回退。
+- [x] [scripts/build-news.js](../../scripts/build-news.js) / [scripts/publish-news.js](../../scripts/publish-news.js) 删 `--min` 兼容 no-op 注释与 publish-news `main→mainMin` 转发壳。
+- [x] [src/news/pipeline/projection.js](../../src/news/pipeline/projection.js) 删 `upgradeHotspotsProjection`/`migrateContentTypeProjection` 两个零调用方迁移工具及连带 `HEAT_DEFINITION`/`CONTENT_TYPE_VALUES`/`OUTPUT_PATH` 与死导入。
+- [x] [src/maintenance/validate.js](../../src/maintenance/validate.js) 删原则3 的 `tools.json` 旧格式回退分支。
 
 **事务层 Windows 修复（真实 E2E 中发现）**
-- [x] [src/catalog/catalog-transaction-store.js](src/catalog/catalog-transaction-store.js) `replaceDirectory` 改"旧目录改名腾位 → 新目录就位 → 删旧"：原实现先删目标再 rename，Windows 上 rename 覆盖非空目录报 EPERM 且删除失败被吞 → 目标目录可能被删而新目录未就位（曾导致 dist 丢失，dist 为 gitignore 可重建）；失败现可还原、错误清晰。
+- [x] `src/catalog/catalog-transaction-store.js` `replaceDirectory` 改"旧目录改名腾位 → 新目录就位 → 删旧"：原实现先删目标再 rename，Windows 上 rename 覆盖非空目录报 EPERM 且删除失败被吞 → 目标目录可能被删而新目录未就位（曾导致 dist 丢失，dist 为 gitignore 可重建）；失败现可还原、错误清晰。
 
 ### 验证结果
 
@@ -2439,13 +2443,13 @@
 
 ### 实际变更
 
-- [x] [src/shared/tavily-client.js](src/shared/tavily-client.js)：认证按 operation 路由（`KEYLESS_OPERATIONS={search,extract}`，`TAVILY_ACCESS_MODE=auto|keyless|keyed` 运维总开关）；`buildHeaders` 严格二选一（同一请求绝不同时带两个认证头）；缺 key 语义调整——search/extract 缺 key 走 keyless 不再报 AUTH_REQUIRED，keyed 端点（map/crawl/research）缺 key 仍 fail-closed；keyless 429（`error.code==='hourly_cap_reached'`）自动冷却 + 配置 key 时自动带 Bearer 重试同一请求（`fallbackToKey` 默认 true）；本地最小间隔（默认 1s）+ 冷却（默认 90s）纯 JS 实现，模块级共享状态 + promise 链互斥，全部经 `options.keylessState/keylessNow/keylessSleep` 可注入（测试隔离）。新增导出 `resolveAccessMode/isKeylessCapResult`；对外 `searchTavily/extractTavily/probeTavily` 签名不变。
+- [x] [src/shared/tavily-client.js](../../src/shared/tavily-client.js)：认证按 operation 路由（`KEYLESS_OPERATIONS={search,extract}`，`TAVILY_ACCESS_MODE=auto|keyless|keyed` 运维总开关）；`buildHeaders` 严格二选一（同一请求绝不同时带两个认证头）；缺 key 语义调整——search/extract 缺 key 走 keyless 不再报 AUTH_REQUIRED，keyed 端点（map/crawl/research）缺 key 仍 fail-closed；keyless 429（`error.code==='hourly_cap_reached'`）自动冷却 + 配置 key 时自动带 Bearer 重试同一请求（`fallbackToKey` 默认 true）；本地最小间隔（默认 1s）+ 冷却（默认 90s）纯 JS 实现，模块级共享状态 + promise 链互斥，全部经 `options.keylessState/keylessNow/keylessSleep` 可注入（测试隔离）。新增导出 `resolveAccessMode/isKeylessCapResult`；对外 `searchTavily/extractTavily/probeTavily` 签名不变。
 - [x] **真实 429 修复**（真实 cap 触发验证暴露）：429 分支先读 `response.text()` 再读 `response.json()`，而 fetch Response 的 body 只能消费一次 → json() 抛错、`capCode` 落空、429 被误判普通限流不回退。修复为 429 分支**优先读 json()**，text() 仅在非 cap 路径读。单测 mock 的 json/text 无单次消费语义，故 mock 下测不出——新增「single-use body」回归用例（修复前必挂）。
-- [x] [src/catalog/ai/catalog-adapters.js](src/catalog/ai/catalog-adapters.js)：4 处 Tavily 调用透传 `accessMode/fallbackToKey`；其余语义不变。
-- [x] [tests/shared/tavily-client.test.js](tests/shared/tavily-client.test.js)：重写认证相关用例（keyless 头铁律、缺 key 走 keyless、keyed 缺 key fail-closed、429 cap 回退成功/无 key、冷却期间回退/无回退、最小间隔节流、非 cap 429）。
-- [x] [tests/catalog/catalog-cli.test.js](tests/catalog/catalog-cli.test.js)：探针测试改「无 TAVILY key 走 keyless 成功」+「无 DeepSeek key fail-closed」。
-- [x] [tests/catalog/catalog-batch.test.js](tests/catalog/catalog-batch.test.js)：`resolveOfficialSource` 无 key 断言 `TAVILY_SEARCH_FAILED`（keyless），keyed 模式仍 AUTH_REQUIRED。
-- [x] [.env.example](.env.example) / [docs/manual/catalog-generator.md](docs/manual/catalog-generator.md) / [CODEBASE-MAP.md](CODEBASE-MAP.md)：keyless 说明与 `TAVILY_ACCESS_MODE`。
+- [x] `src/catalog/ai/catalog-adapters.js`：4 处 Tavily 调用透传 `accessMode/fallbackToKey`；其余语义不变。
+- [x] [tests/shared/tavily-client.test.js](../../tests/shared/tavily-client.test.js)：重写认证相关用例（keyless 头铁律、缺 key 走 keyless、keyed 缺 key fail-closed、429 cap 回退成功/无 key、冷却期间回退/无回退、最小间隔节流、非 cap 429）。
+- [x] [tests/catalog/catalog-cli.test.js](../../tests/catalog/catalog-cli.test.js)：探针测试改「无 TAVILY key 走 keyless 成功」+「无 DeepSeek key fail-closed」。
+- [x] [tests/catalog/catalog-batch.test.js](../../tests/catalog/catalog-batch.test.js)：`resolveOfficialSource` 无 key 断言 `TAVILY_SEARCH_FAILED`（keyless），keyed 模式仍 AUTH_REQUIRED。
+- [x] [.env.example](../../.env.example) / [docs/manual/catalog-generator.md](../../docs/manual/catalog-generator.md) / [CODEBASE-MAP.md](../../CODEBASE-MAP.md)：keyless 说明与 `TAVILY_ACCESS_MODE`。
 
 ### 验证结果
 
@@ -2470,11 +2474,11 @@
 
 ### 实际变更
 
-- [x] [src/news/feedback/llm-entity-extract.js](src/news/feedback/llm-entity-extract.js)：`extractEntitiesWithLlm`（requestStructuredJson + ledger 缺省内部自建；成功返回 string[]，失败抛错供降级）；`buildEntityExtractInstructions`（概念/工具/模型/API/套餐、完整名、排除泛称/人名/机构、无则 []、检查遗漏）；`validateExtractOutput/toNameList`。
-- [x] [src/news/cli/cmd-min.js](src/news/cli/cmd-min.js)：`feedback` 分支注入 `llmExtract`（`feedback.llm_extract !== false` 且配 DEEPSEEK key 时；LLM 失败 catch 降级 `extractEntitiesDefault` 宁多勿漏，不阻断反哺）。
-- [x] [data/news/config/news-config-v2.json](data/news/config/news-config-v2.json)：feedback 段加 `"llm_extract": true`、`"llm_model": "deepseek-v4-flash"`。
-- [x] [tests/news/feedback/llm-entity-extract.test.js](tests/news/feedback/llm-entity-extract.test.js)（7 用例）：prompt 规则、validate/toNameList 归一化、成功/对象输出/失败抛错/缺 ledger 内部自建。
-- [x] **既有 bug 修复** [src/news/feedback/tool-feedback.js](src/news/feedback/tool-feedback.js)：缺 `CATALOG_FILES` import（L175 `readJson(CATALOG_FILES.glossary)` 未注入 glossary 时 ReferenceError）——真实的 `min-review feedback` 命令一直会崩，本轮端到端验证撞出。补 `const { CATALOG_FILES } = require('../../shared/paths');`。
+- [x] [src/news/feedback/llm-entity-extract.js](../../src/news/feedback/llm-entity-extract.js)：`extractEntitiesWithLlm`（requestStructuredJson + ledger 缺省内部自建；成功返回 string[]，失败抛错供降级）；`buildEntityExtractInstructions`（概念/工具/模型/API/套餐、完整名、排除泛称/人名/机构、无则 []、检查遗漏）；`validateExtractOutput/toNameList`。
+- [x] [src/news/cli/cmd-min.js](../../src/news/cli/cmd-min.js)：`feedback` 分支注入 `llmExtract`（`feedback.llm_extract !== false` 且配 DEEPSEEK key 时；LLM 失败 catch 降级 `extractEntitiesDefault` 宁多勿漏，不阻断反哺）。
+- [x] [data/news/config/news-config-v2.json](../../data/news/config/news-config-v2.json)：feedback 段加 `"llm_extract": true`、`"llm_model": "deepseek-v4-flash"`。
+- [x] [tests/news/feedback/llm-entity-extract.test.js](../../tests/news/feedback/llm-entity-extract.test.js)（7 用例）：prompt 规则、validate/toNameList 归一化、成功/对象输出/失败抛错/缺 ledger 内部自建。
+- [x] **既有 bug 修复** [src/news/feedback/tool-feedback.js](../../src/news/feedback/tool-feedback.js)：缺 `CATALOG_FILES` import（L175 `readJson(CATALOG_FILES.glossary)` 未注入 glossary 时 ReferenceError）——真实的 `min-review feedback` 命令一直会崩，本轮端到端验证撞出。补 `const { CATALOG_FILES } = require('../../shared/paths');`。
 
 ### 验证结果
 
@@ -2499,10 +2503,10 @@
   - `tools/`：工具链路 —— catalog-seed-kling.json、catalog-drafts/、tool-cards-pending.json（未来）、batch-seeds-preview.json（未来）
   - `concepts/`：概念链路 —— concept-cards-pending.json、concept-previews.json
   - 根：news 人工清单（review/top/keyword-refine/transcript-requests，`manual_folder` 配置不变）
-- [x] [src/shared/paths.js](src/shared/paths.js)：新增 `ARCHIVE_DIR/TOOLS_DIR/CONCEPTS_DIR` 与 `DIRS.manual`；`CATALOG_GENERATOR_FILES`（draftsDir/urlRegistry/batchSeedsPreview → 新目录，新增 `pendingTools`）、`CONCEPT_FILES`（previews/vibeHubCache → 新目录，新增 `pendingConcepts`）。
-- [x] [src/news/feedback/tool-feedback.js](src/news/feedback/tool-feedback.js)：待补卡写入路径从 `manual_folder` 拼接收拢为 `CATALOG_GENERATOR_FILES.pendingTools` / `CONCEPT_FILES.pendingConcepts`（写前 mkdir 新目录）。
-- [x] [src/news/cli/cmd-min.js](src/news/cli/cmd-min.js)：`MANUAL_LIST_FILES` 移除待补卡（工具/概念待补卡移入子目录后由 batch/apply 消费，**archive 归档不再清理待补卡**，语义变化）；feedback 打印实际路径（paths.js 常量）。
-- [x] [.gitignore](.gitignore)（catalog-drafts 路径 → data/manual/tools/catalog-drafts/）；[refresh-vibe-hub-cache.yml](.github/workflows/refresh-vibe-hub-cache.yml)（缓存 git 路径 → data/manual/archive/vibe-hub-cache.json）；各模块注释/提示文本同步新路径。
+- [x] [src/shared/paths.js](../../src/shared/paths.js)：新增 `ARCHIVE_DIR/TOOLS_DIR/CONCEPTS_DIR` 与 `DIRS.manual`；`CATALOG_GENERATOR_FILES`（draftsDir/urlRegistry/batchSeedsPreview → 新目录，新增 `pendingTools`）、`CONCEPT_FILES`（previews/vibeHubCache → 新目录，新增 `pendingConcepts`）。
+- [x] [src/news/feedback/tool-feedback.js](../../src/news/feedback/tool-feedback.js)：待补卡写入路径从 `manual_folder` 拼接收拢为 `CATALOG_GENERATOR_FILES.pendingTools` / `CONCEPT_FILES.pendingConcepts`（写前 mkdir 新目录）。
+- [x] [src/news/cli/cmd-min.js](../../src/news/cli/cmd-min.js)：`MANUAL_LIST_FILES` 移除待补卡（工具/概念待补卡移入子目录后由 batch/apply 消费，**archive 归档不再清理待补卡**，语义变化）；feedback 打印实际路径（paths.js 常量）。
+- [x] [.gitignore](../../.gitignore)（catalog-drafts 路径 → data/manual/tools/catalog-drafts/）；[refresh-vibe-hub-cache.yml](../../.github/workflows/refresh-vibe-hub-cache.yml)（缓存 git 路径 → data/manual/archive/vibe-hub-cache.json）；各模块注释/提示文本同步新路径。
 - [x] 文件移动：`git mv` 保留历史（official-url-registry.json、catalog-seed-kling.json）；未跟踪文件普通 mv（vibe-hub-cache/concept-previews/concept-cards-pending）。
 
 ### 验证结果
@@ -2525,17 +2529,17 @@
 
 ### 实际变更
 
-- [x] [src/catalog/vibe-hub-evidence.js](src/catalog/vibe-hub-evidence.js)：vibe-hub 概念页提取与本地缓存（纯 HTTP 零 API 成本）。`vibeHubSlugOf`（term→英文 kebab slug，含中文返回 null）；`extractVibeHubText`（JSON-LD `#vibehub-page-jsonld` DefinedTerm 为主 + 正文 `.prerequisite-links`/`.alias-row`/`.reference-*` 补充）；`loadVibeHubCache/saveVibeHubCache`；`fetchVibeHubDefinition`（缓存优先，未命中/过期才 GET，404/网络/超时返回 null 静默跳过）；`fetchPage`（串行 ≥500ms 节流 + User-Agent + AbortSignal.timeout）；`refreshStaleVibeHubCache`（只刷 `fetched_at` 距今 > TTL 默认 3 天条目）。注入点 readCache/writeCache/fetchImpl/throttleState 对齐 tavily-client.js。
-- [x] [src/catalog/ai/concept-synthesis-prompt.js](src/catalog/ai/concept-synthesis-prompt.js)：`buildConceptSynthesisInput`（card + evidence → input）+ `buildConceptSynthesisInstructions`（硬规则：中文、category 从枚举选、related_terms 尽量引用现有 glossary term、source.url 无把握只给 name、禁编造、单 JSON 7 字段）。`DEFAULT_CONCEPT_CATEGORIES`（模型架构/训练与微调/推理与部署/多模态/Agent/评估与基准，与现有 glossary 43 条一致）。
-- [x] [src/catalog/ai/concept-synthesis-ai.js](src/catalog/ai/concept-synthesis-ai.js)：`synthesizeConceptFields`（ledger 必传 fail-closed、reserve('synthesis_calls',1) 预占，responses_calls 由深 Module 内部预占；validate term/category/summary/source.name 非空；`normalizeConceptEntry` term 以待补卡为准防改词）。
-- [x] [src/catalog/concept-batch.js](src/catalog/concept-batch.js)：编排层。`readPendingConcepts` / `dedupeConceptCandidates`（同批 + 正式 glossary，大小写不敏感） / `collectConceptEvidence`（approved+summary 按 term 子串匹配取前 K=3 每条 ≤1200 字主证据 + vibe-hub 尽力补充失败静默） / `planConceptCost`（每概念 1 合成） / `runConceptBatch`（dry-run 零 AI 零网络、成本门禁 COST_CONFIRMATION_REQUIRED、合成写预览文件失败隔离） / `applyConceptPreviews`（必填校验 + term 唯一 + 合并保序 + `--terms` 子集，writeJsonAtomic 原子写，不调 AI）。
-- [x] [src/shared/paths.js](src/shared/paths.js)：新增 `CONCEPT_FILES`（previews/vibeHubCache 路径登记，validate 原则5 覆盖数 17→19）。
-- [x] [scripts/concept-generator.js](scripts/concept-generator.js) + [bat/concept-generator.bat](bat/concept-generator.bat)：概念生成独立成入口。概念批量产出的是 AI 概念知识库（glossary.json）而非五模块厂商/工具目录，故从 `catalog-generator.js` 拆出；`catalog-generator.js` 移除 concept 命令组，回归五模块目录 + 工具 batch + url-registry，其 .bat 菜单补上 batch/url-registry 说明并指向新入口。
+- [x] `src/catalog/vibe-hub-evidence.js`：vibe-hub 概念页提取与本地缓存（纯 HTTP 零 API 成本）。`vibeHubSlugOf`（term→英文 kebab slug，含中文返回 null）；`extractVibeHubText`（JSON-LD `#vibehub-page-jsonld` DefinedTerm 为主 + 正文 `.prerequisite-links`/`.alias-row`/`.reference-*` 补充）；`loadVibeHubCache/saveVibeHubCache`；`fetchVibeHubDefinition`（缓存优先，未命中/过期才 GET，404/网络/超时返回 null 静默跳过）；`fetchPage`（串行 ≥500ms 节流 + User-Agent + AbortSignal.timeout）；`refreshStaleVibeHubCache`（只刷 `fetched_at` 距今 > TTL 默认 3 天条目）。注入点 readCache/writeCache/fetchImpl/throttleState 对齐 tavily-client.js。
+- [x] `src/catalog/ai/concept-synthesis-prompt.js`：`buildConceptSynthesisInput`（card + evidence → input）+ `buildConceptSynthesisInstructions`（硬规则：中文、category 从枚举选、related_terms 尽量引用现有 glossary term、source.url 无把握只给 name、禁编造、单 JSON 7 字段）。`DEFAULT_CONCEPT_CATEGORIES`（模型架构/训练与微调/推理与部署/多模态/Agent/评估与基准，与现有 glossary 43 条一致）。
+- [x] `src/catalog/ai/concept-synthesis-ai.js`：`synthesizeConceptFields`（ledger 必传 fail-closed、reserve('synthesis_calls',1) 预占，responses_calls 由深 Module 内部预占；validate term/category/summary/source.name 非空；`normalizeConceptEntry` term 以待补卡为准防改词）。
+- [x] `src/catalog/concept-batch.js`：编排层。`readPendingConcepts` / `dedupeConceptCandidates`（同批 + 正式 glossary，大小写不敏感） / `collectConceptEvidence`（approved+summary 按 term 子串匹配取前 K=3 每条 ≤1200 字主证据 + vibe-hub 尽力补充失败静默） / `planConceptCost`（每概念 1 合成） / `runConceptBatch`（dry-run 零 AI 零网络、成本门禁 COST_CONFIRMATION_REQUIRED、合成写预览文件失败隔离） / `applyConceptPreviews`（必填校验 + term 唯一 + 合并保序 + `--terms` 子集，writeJsonAtomic 原子写，不调 AI）。
+- [x] [src/shared/paths.js](../../src/shared/paths.js)：新增 `CONCEPT_FILES`（previews/vibeHubCache 路径登记，validate 原则5 覆盖数 17→19）。
+- [x] [scripts/concept-generator.js](../../scripts/concept-generator.js) + [bat/concept-generator.bat](../../bat/concept-generator.bat)：概念生成独立成入口。概念批量产出的是 AI 概念知识库（glossary.json）而非五模块厂商/工具目录，故从 `catalog-generator.js` 拆出；`catalog-generator.js` 移除 concept 命令组，回归五模块目录 + 工具 batch + url-registry，其 .bat 菜单补上 batch/url-registry 说明并指向新入口。
 - [x] **bat 编码坑（已修 + 全目录排查）**：Windows cmd 解析含中文的 .bat 必须用 **CRLF 行尾**——新建的 concept-generator.bat 是 LF-only，cmd 把中文行当命令误解析（`'o' is not recognized` / `'�库。' is not recognized`），且 chcp 65001 救不了 LF 解析错乱。已转 CRLF（`\r?\n → \r\n`）并重跑验证中文正常；全目录 7 个 bat 均为 CRLF、无乱码风险。
-- [x] [scripts/refresh-vibe-hub-cache.js](scripts/refresh-vibe-hub-cache.js) + [.github/workflows/refresh-vibe-hub-cache.yml](.github/workflows/refresh-vibe-hub-cache.yml)：定时刷新缓存，cron `0 11 */3 * *`（YouTube 采集前 1h），validate + check-secrets 后 github-actions[bot] 直接提交 main；空缓存/全新鲜零网络，纯 HTTP 不读 Key。
-- [x] [tests/catalog/vibe-hub-evidence.test.js](tests/catalog/vibe-hub-evidence.test.js)（15 用例）+ [tests/catalog/concept-batch.test.js](tests/catalog/concept-batch.test.js)（11 用例）：提取/缓存/节流/刷新 + 查重/证据/成本门禁/失败隔离/apply 合并。
-- [x] **测试隔离 bug 修复** [tests/news/news-cmd-min.test.js](tests/news/news-cmd-min.test.js)：`removeManualLists` 缺省回退相对路径 `data/manual` 会解析到真实项目目录，旧测试 `removeManualLists({})` 真删 data/manual 白名单文件（本链冒烟被误删 concept-cards-pending.json 暴露）。修复为临时 chdir 到临时目录，保留「缺省回退且不报错」断言意图。
-- [x] 文档：[docs/manual/catalog-generator.md](docs/manual/catalog-generator.md) 新增 §12 概念批量生成（原 §12 顺延 §13）；[CODEBASE-MAP.md](CODEBASE-MAP.md) 新增 6 条模块/2 测试/1 脚本。
+- [x] [scripts/refresh-vibe-hub-cache.js](../../scripts/refresh-vibe-hub-cache.js) + [.github/workflows/refresh-vibe-hub-cache.yml](../../.github/workflows/refresh-vibe-hub-cache.yml)：定时刷新缓存，cron `0 11 */3 * *`（YouTube 采集前 1h），validate + check-secrets 后 github-actions[bot] 直接提交 main；空缓存/全新鲜零网络，纯 HTTP 不读 Key。
+- [x] [tests/catalog/vibe-hub-evidence.test.js](../../tests/catalog/vibe-hub-evidence.test.js)（15 用例）+ [tests/catalog/concept-batch.test.js](../../tests/catalog/concept-batch.test.js)（11 用例）：提取/缓存/节流/刷新 + 查重/证据/成本门禁/失败隔离/apply 合并。
+- [x] **测试隔离 bug 修复** [tests/news/news-cmd-min.test.js](../../tests/news/news-cmd-min.test.js)：`removeManualLists` 缺省回退相对路径 `data/manual` 会解析到真实项目目录，旧测试 `removeManualLists({})` 真删 data/manual 白名单文件（本链冒烟被误删 concept-cards-pending.json 暴露）。修复为临时 chdir 到临时目录，保留「缺省回退且不报错」断言意图。
+- [x] 文档：[docs/manual/catalog-generator.md](../../docs/manual/catalog-generator.md) 新增 §12 概念批量生成（原 §12 顺延 §13）；[CODEBASE-MAP.md](../../CODEBASE-MAP.md) 新增 6 条模块/2 测试/1 脚本。
 
 ### 验证结果
 
@@ -2576,11 +2580,11 @@
 
 ## 2026-08-17 · 搜索索引四层分层重构 + catalog 数据修复（vendor_key / feature_preview / 损坏价格）
 
-**背景**：前端 AI 搜索的 3 个固定示例（`SEARCH_DEMOS`）在 commit `2760ede` 重写 tool-cards.json 后「写论文/深度研究」匹配归零（新 API 模型卡 `search_terms` 无中文场景词）；厂商卡「0 个可查看叶节点」因 [vendor-cards.json](data/catalog/vendor-cards.json) 4 个 vendor_key（OpenAI/Anthropic/Google/iflytek）与其它四模块小写 slug 分裂；另发现 minimax/xai 两处损坏价格（`/usr/bin/bash.30` 系 bash 变量误展开）。
+**背景**：前端 AI 搜索的 3 个固定示例（`SEARCH_DEMOS`）在 commit `2760ede` 重写 tool-cards.json 后「写论文/深度研究」匹配归零（新 API 模型卡 `search_terms` 无中文场景词）；厂商卡「0 个可查看叶节点」因 [vendor-cards.json](../../data/catalog/vendor-cards.json) 4 个 vendor_key（OpenAI/Anthropic/Google/iflytek）与其它四模块小写 slug 分裂；另发现 minimax/xai 两处损坏价格（`/usr/bin/bash.30` 系 bash 变量误展开）。
 
 ### 实际变更
 
-**搜索索引四层分层重构（[search.js](src/web/js/search.js) + [style.css](src/web/css/style.css)）**
+**搜索索引四层分层重构（`search.js` + [style.css](../../src/web/css/style.css)）**
 - [x] 移除硬编码 `SEARCH_DEMOS`，改为四层关键词索引：统一提取器 `extractKeywords`（query 子串扫描词表、≥2 字符、去重、长词优先）三层共用。
 - [x] ① 场景层：词表复用 scenes.json 12 场景 name + search_terms（与场景模式共用映射词）；命中后用场景词匹配工具。
 - [x] ② 内容层：词表 = 工具卡 title/vendor_label/search_terms + 品牌短形式派生（`GPT-5.5`→`gpt`，`deriveWordForms`），混杂查询「推荐一下gpt和claude模型」可提取多词命中。
@@ -2588,10 +2592,10 @@
 - [x] 首页示例 chips 改为 12 个场景名；门控/提示文案从「固定示例」改为场景/工具/概念通用。
 
 **catalog 数据修复**
-- [x] [vendor-cards.json](data/catalog/vendor-cards.json)：4 处 vendor_key 对齐小写 slug（OpenAI→openai、Anthropic→anthropic、Google→google、iflytek→xunfei，含 id）；12 厂商 feature_preview 精简为 1 正 1 负并去「优点：/限制：」前缀（渲染端统一加标签）。
-- [x] [vendor-preview-level1.json](data/catalog/vendor-preview-level1.json)：minimax/xai 两处损坏价格还原（`$0.30/MTok`、`$0.20/$0.50`，用户确认）。
-- [x] [tool-cards.json](data/catalog/tool-cards.json)：13 张模型卡 search_terms 补「写论文/深度研究」场景词（写论文 11、深度研究 8 匹配恢复，对齐 commit 2760ede 前水平）。
-- [x] [catalog-seed-kling.json](data/manual/tools/catalog-seed-kling.json)：official_url + discovery_sources 从 kling.ai / 失效 ir.kuaishou.com 重新映射到 klingai.com 文档站（含 video 能力/计价页，全部 200 可用）。
+- [x] [vendor-cards.json](../../data/catalog/vendor-cards.json)：4 处 vendor_key 对齐小写 slug（OpenAI→openai、Anthropic→anthropic、Google→google、iflytek→xunfei，含 id）；12 厂商 feature_preview 精简为 1 正 1 负并去「优点：/限制：」前缀（渲染端统一加标签）。
+- [x] [vendor-preview-level1.json](../../data/catalog/vendor-preview-level1.json)：minimax/xai 两处损坏价格还原（`$0.30/MTok`、`$0.20/$0.50`，用户确认）。
+- [x] [tool-cards.json](../../data/catalog/tool-cards.json)：13 张模型卡 search_terms 补「写论文/深度研究」场景词（写论文 11、深度研究 8 匹配恢复，对齐 commit 2760ede 前水平）。
+- [x] `catalog-seed-kling.json`：official_url + discovery_sources 从 kling.ai / 失效 ir.kuaishou.com 重新映射到 klingai.com 文档站（含 video 能力/计价页，全部 200 可用）。
 
 **前端修复**
 - [x] 搜索无结果框 `.state` margin 覆盖居中规则（`.state.search-result-state { margin: 18px auto }` 双类提高特异性）；search.js 内容层关键词匹配统一小写（曾「GPT」匹配小写文本失败）。
@@ -2614,25 +2618,25 @@
 
 ## 2026-08-17 · 本地 AI 迁移（Bonsai-27B）与自动启动
 
-**背景**：DeepSeek API 涨价，10 个 LLM 调用点想尽量迁移到本地模型省钱。本地部署 Bonsai-27B（Qwen3.6-27B 的 1-bit 量化版，8GB 显存，~45 tok/s，OpenAI 兼容端点 `http://127.0.0.1:8080/v1/chat/completions`，必须带 `chat_template_kwargs: { enable_thinking: false }` 关思维链否则思考吃光 max_tokens 预算）。实测方案见 [local-bonsai-migration-plan.md](docs/local-bonsai-migration-plan.md)：用真实 prompt + 真实数据（1034 条带标签候选）全量质量实测后拍板路线 B。
+**背景**：DeepSeek API 涨价，10 个 LLM 调用点想尽量迁移到本地模型省钱。本地部署 Bonsai-27B（Qwen3.6-27B 的 1-bit 量化版，8GB 显存，~45 tok/s，OpenAI 兼容端点 `http://127.0.0.1:8080/v1/chat/completions`，必须带 `chat_template_kwargs: { enable_thinking: false }` 关思维链否则思考吃光 max_tokens 预算）。实测方案见 local-bonsai-migration-plan.md：用真实 prompt + 真实数据（1034 条带标签候选）全量质量实测后拍板路线 B。
 
 **决策（路线 B）**：分类（L1）留 DeepSeek——`max_tokens: 8` 成本可忽略、本地分类有 `ai_product` 偏好偏差（一致率仅 48.8%）且分类是 L1 门控，污染下游代价大；目录合成留 DeepSeek——需 ≥32K 上下文 + 12000 token 输出，8GB 本地跑不动。**其余 8 个任务切本地**（news 侧总结/审核/翻译/选 top/关键词提纯 + catalog 侧实体提取/厂商解析/概念合成）。服务不可用时**报错即走各自降级语义，不自动回退 DeepSeek**（用户拍板）。
 
 ### 实际变更
 
 **迁移（8 个任务切本地）**
-- [x] [src/shared/llm-endpoints.js](src/shared/llm-endpoints.js)（新增）：`LOCAL_API_BASE`（本地 OpenAI 兼容端点）+ `LOCAL_MODEL`，本地化任务统一引用。
-- [x] [src/news/classify/llm-provider.js](src/news/classify/llm-provider.js)：5 个任务（总结/审核/翻译/选 top/关键词提纯）的 payload 默认模型改 `LOCAL_MODEL`、fetch 地址改 `LOCAL_API_BASE`、build 返回对象加 `chat_template_kwargs: { enable_thinking: false }`；**分类路径不动**（`requestLegacyDeepSeek`/`buildDeepSeekPayload` 仍走 `API_BASE` + `DEFAULT_MODEL`）。保留 `API_BASE` 导出名（content-classifier-llm.test.js 引用）。
-- [x] [src/shared/deepseek-client.js](src/shared/deepseek-client.js)：endpoint HTTPS 校验放行本地 `localhost`/`127.0.0.1` HTTP。
-- [x] [src/catalog/ai/deepseek-structured.js](src/catalog/ai/deepseek-structured.js)：`requestStructuredJson` 按 endpoint 分支——本地走 Chat Completions payload（`instructions`→system、`input`→user、去 `reasoning`/`text.format`、加关思维链），DeepSeek 走原 Responses；响应解析复用 `textFromResponse`（兼容 `choices[0].message.content`）。
-- [x] [src/catalog/ai/catalog-adapters.js](src/catalog/ai/catalog-adapters.js)（厂商解析）、[src/catalog/ai/concept-synthesis-ai.js](src/catalog/ai/concept-synthesis-ai.js)（概念合成）、[src/news/feedback/llm-entity-extract.js](src/news/feedback/llm-entity-extract.js)（实体提取）：`requestStructuredJson` options 透传 `endpoint: LOCAL_API_BASE`。
-- [x] [tests/news/feedback/llm-entity-extract.test.js](tests/news/feedback/llm-entity-extract.test.js)：本地分支 payload 断言 `instructions/input` → `messages` 数组 + 关思维链。
+- [x] [src/shared/llm-endpoints.js](../../src/shared/llm-endpoints.js)（新增）：`LOCAL_API_BASE`（本地 OpenAI 兼容端点）+ `LOCAL_MODEL`，本地化任务统一引用。
+- [x] [src/news/classify/llm-provider.js](../../src/news/classify/llm-provider.js)：5 个任务（总结/审核/翻译/选 top/关键词提纯）的 payload 默认模型改 `LOCAL_MODEL`、fetch 地址改 `LOCAL_API_BASE`、build 返回对象加 `chat_template_kwargs: { enable_thinking: false }`；**分类路径不动**（`requestLegacyDeepSeek`/`buildDeepSeekPayload` 仍走 `API_BASE` + `DEFAULT_MODEL`）。保留 `API_BASE` 导出名（content-classifier-llm.test.js 引用）。
+- [x] `src/shared/deepseek-client.js`：endpoint HTTPS 校验放行本地 `localhost`/`127.0.0.1` HTTP。
+- [x] `src/catalog/ai/deepseek-structured.js`：`requestStructuredJson` 按 endpoint 分支——本地走 Chat Completions payload（`instructions`→system、`input`→user、去 `reasoning`/`text.format`、加关思维链），DeepSeek 走原 Responses；响应解析复用 `textFromResponse`（兼容 `choices[0].message.content`）。
+- [x] `src/catalog/ai/catalog-adapters.js`（厂商解析）、`src/catalog/ai/concept-synthesis-ai.js`（概念合成）、[src/news/feedback/llm-entity-extract.js](../../src/news/feedback/llm-entity-extract.js)（实体提取）：`requestStructuredJson` options 透传 `endpoint: LOCAL_API_BASE`。
+- [x] [tests/news/feedback/llm-entity-extract.test.js](../../tests/news/feedback/llm-entity-extract.test.js)：本地分支 payload 断言 `instructions/input` → `messages` 数组 + 关思维链。
 
 **自动启动（遗留事项落地）**
-- [x] [src/shared/local-model.js](src/shared/local-model.js)（新增）：`ensureLocalModel`——探测本地端点（fetch 未在连接层抛错即在线）；离线自动 `spawn powershell -File start_server.ps1`（detached 独立存活）并轮询就绪（默认间隔 2s、总超时 120s）；幂等（确认在线后 60s TTL 内不重复探测）；启动超时后 120s 内不重复拉起（防多进程）；失败返回 `LOCAL_MODEL_OFFLINE/STARTING/START_FAILED/START_TIMEOUT` 并 `console.error` 报错。**测试隔离**：注入自定义 fetchImpl（项目测试 mock 模式）一律放行不探测不启动，只对真实全局 fetch 生效。
-- [x] [llm-provider.js](src/news/classify/llm-provider.js)：5 个本地任务请求前经 `ensureLocalModelOrError` 过本地门；[deepseek-structured.js](src/catalog/ai/deepseek-structured.js)：本地分支请求前过本地门（fail-closed）。
-- [x] [tests/shared/local-model.test.js](tests/shared/local-model.test.js)（新增 6 用例）：注入放行 / 探测成功+TTL 缓存 / 自动启动禁用 OFFLINE / 自动启动成功（spawn 一次+轮询就绪）/ 启动超时 / 超时后 TTL 内不重复拉起。
-- [x] [CODEBASE-MAP.md](CODEBASE-MAP.md)：新增 llm-endpoints.js、local-model.js 登记；更新 llm-provider.js / deepseek-structured.js / catalog-adapters.js / concept-synthesis-ai.js / llm-entity-extract.js / deepseek-client.js 职责描述。
+- [x] [src/shared/local-model.js](../../src/shared/local-model.js)（新增）：`ensureLocalModel`——探测本地端点（fetch 未在连接层抛错即在线）；离线自动 `spawn powershell -File start_server.ps1`（detached 独立存活）并轮询就绪（默认间隔 2s、总超时 120s）；幂等（确认在线后 60s TTL 内不重复探测）；启动超时后 120s 内不重复拉起（防多进程）；失败返回 `LOCAL_MODEL_OFFLINE/STARTING/START_FAILED/START_TIMEOUT` 并 `console.error` 报错。**测试隔离**：注入自定义 fetchImpl（项目测试 mock 模式）一律放行不探测不启动，只对真实全局 fetch 生效。
+- [x] [llm-provider.js](../../src/news/classify/llm-provider.js)：5 个本地任务请求前经 `ensureLocalModelOrError` 过本地门；`deepseek-structured.js`：本地分支请求前过本地门（fail-closed）。
+- [x] [tests/shared/local-model.test.js](../../tests/shared/local-model.test.js)（新增 6 用例）：注入放行 / 探测成功+TTL 缓存 / 自动启动禁用 OFFLINE / 自动启动成功（spawn 一次+轮询就绪）/ 启动超时 / 超时后 TTL 内不重复拉起。
+- [x] [CODEBASE-MAP.md](../../CODEBASE-MAP.md)：新增 llm-endpoints.js、local-model.js 登记；更新 llm-provider.js / deepseek-structured.js / catalog-adapters.js / concept-synthesis-ai.js / llm-entity-extract.js / deepseek-client.js 职责描述。
 
 ### 验证结果
 
@@ -2659,16 +2663,16 @@
 ### 实际变更
 
 **上次提交（commit `f8ebf2d`，对比系统初版，已提交）**
-- [x] 管线 [src/comparison/](src/comparison/)：抓取共享层 compare-http/store/schema（白名单投影 + fail-closed）+ 4 源抓取器 fetch-openrouter/lmarena/livebench/llm-stats（免 key 官方通路）+ rebuild-comparison（主键对齐/合并/归一化/综合分/性价比）+ run-comparison（每源独立计数 + 全绿才重建）；数据 data/comparison/（4 raw 快照 + integrated index/data + models-alias + refresh-config + view-config）。
-- [x] 前端 [compare-models.js](src/web/js/compare-models.js)（846 行：选择器/已选 chips/变体圆圈/维度块/柱状↔雷达 toggle/表格/来源 footer）+ [compare.js](src/web/js/compare.js) 桥接 + style.css/zh.js/index.html；维护 validate-comparison.js + validate.js 聚合；CI refresh-comparison.yml（每日 cron）；文档 comparison-data-contract.md + comparison-data-sources.md。
+- [x] 管线 [src/comparison/](../../src/comparison/)：抓取共享层 compare-http/store/schema（白名单投影 + fail-closed）+ 4 源抓取器 fetch-openrouter/lmarena/livebench/llm-stats（免 key 官方通路）+ rebuild-comparison（主键对齐/合并/归一化/综合分/性价比）+ run-comparison（每源独立计数 + 全绿才重建）；数据 data/comparison/（4 raw 快照 + integrated index/data + models-alias + refresh-config + view-config）。
+- [x] 前端 `compare-models.js`（846 行：选择器/已选 chips/变体圆圈/维度块/柱状↔雷达 toggle/表格/来源 footer）+ `compare.js` 桥接 + style.css/zh.js/index.html；维护 validate-comparison.js + validate.js 聚合；CI refresh-comparison.yml（每日 cron）；文档 comparison-data-contract.md + comparison-data-sources.md。
 
 **本次增强（未提交）**
-- [x] [src/comparison/rebuild-comparison.js](src/comparison/rebuild-comparison.js)：`stripCanonicalDates`——剥离尾部或中缀日期 token（YYYY-MM-DD / YYYYMMDD / YYYY-MM / YYYYMM / MM-YYYY / YY-MM-DD / MM-DD，分隔符兼容连字符/下划线/空格），同 base 多版本合并到同一 canonical「先到先得」取最新；`openrouterCanonical` 与新增 `llmStatsCanonical` 统一走它（llm-stats model_id 常带日期，此前与 lmarena 同 base 分裂）。
+- [x] `src/comparison/rebuild-comparison.js`：`stripCanonicalDates`——剥离尾部或中缀日期 token（YYYY-MM-DD / YYYYMMDD / YYYY-MM / YYYYMM / MM-YYYY / YY-MM-DD / MM-DD，分隔符兼容连字符/下划线/空格），同 base 多版本合并到同一 canonical「先到先得」取最新；`openrouterCanonical` 与新增 `llmStatsCanonical` 统一走它（llm-stats model_id 常带日期，此前与 lmarena 同 base 分裂）。
 - [x] 同上：`cleanModelDisplay`——展示名只留「品牌 + 代数 + 产品线名」，剥离括号内容（日期/供应标记）、日期 token、规格 token（`\d+B`/`A\d+B`/`E\d+B`/`\d+x\d+B`/`\d+T`/`\d+K`）、能力/变体后缀（instruct/thinking/preview/high/no-thinking/distill/chat/fp8 等）；版本号（4.5/4o/mini/opus/flash）保留。
-- [x] [src/web/js/compare-models.js](src/web/js/compare-models.js) + [zh.js](src/web/i18n/zh.js) + [style.css](src/web/css/style.css)：维度实时渲染——默认勾选**全量 30 维度**（view-config 可收敛）；无选择模型 → 各维度 Top 10 排行浏览态（`renderBrowse`，新增 `browseLead` 文案 + `.cmp-browse-lead` 样式）；选择模型后 → 图块实时收敛到「所有已选模型都有数据」的维度（缺任一即整块不显示，无「数据不足」噪声行），无共同维度显示 `noSharedDims` 空态；`barRowHtml` 提取复用。
-- [x] 数据重建：[data/comparison/integrated/](data/comparison/integrated/) data.json/index.json 重建（display 清洗后日期变体合并，明显瘦身）；[view-config.json](data/comparison/view-config.json) `default_dimensions` 更新为全量 30 维度。
-- [x] 契约文档 [comparison-data-contract.md](docs/manual/comparison-data-contract.md)：`display` 字段说明（管线已剥离日期型号，与 canonical 同步去日期）、`default_dimensions` 全量语义、维度块渲染规则（实时收敛 + 浏览态 Top N）。
-- [x] 测试 [tests/comparison/rebuild-comparison.test.js](tests/comparison/rebuild-comparison.test.js)：新增 2 组用例——主键日期剥离（openrouter 中缀/MM-DD/MM-YYYY/`:变体`、llm-stats 带日期、空格分隔）+ 展示名清洗（olmo-2/qwen3.5/Llama-2/deepseek-r1 蒸馏家族词保留/括号日期/空值 null）。
+- [x] `src/web/js/compare-models.js` + [zh.js](../../src/web/i18n/zh.js) + [style.css](../../src/web/css/style.css)：维度实时渲染——默认勾选**全量 30 维度**（view-config 可收敛）；无选择模型 → 各维度 Top 10 排行浏览态（`renderBrowse`，新增 `browseLead` 文案 + `.cmp-browse-lead` 样式）；选择模型后 → 图块实时收敛到「所有已选模型都有数据」的维度（缺任一即整块不显示，无「数据不足」噪声行），无共同维度显示 `noSharedDims` 空态；`barRowHtml` 提取复用。
+- [x] 数据重建：[data/comparison/integrated/](../../data/comparison/integrated/) data.json/index.json 重建（display 清洗后日期变体合并，明显瘦身）；[view-config.json](../../data/comparison/view-config.json) `default_dimensions` 更新为全量 30 维度。
+- [x] 契约文档 [comparison-data-contract.md](../../docs/manual/comparison-data-contract.md)：`display` 字段说明（管线已剥离日期型号，与 canonical 同步去日期）、`default_dimensions` 全量语义、维度块渲染规则（实时收敛 + 浏览态 Top N）。
+- [x] 测试 [tests/comparison/rebuild-comparison.test.js](../../tests/comparison/rebuild-comparison.test.js)：新增 2 组用例——主键日期剥离（openrouter 中缀/MM-DD/MM-YYYY/`:变体`、llm-stats 带日期、空格分隔）+ 展示名清洗（olmo-2/qwen3.5/Llama-2/deepseek-r1 蒸馏家族词保留/括号日期/空值 null）。
 
 ### 验证结果
 
@@ -2690,12 +2694,12 @@
 
 ### 实际变更
 
-- [x] [model-identity.js](src/comparison/model-identity.js)：集中解析模型名称语义，新增 `degree`、`evaluation_profile` 和 `ambiguous_tokens`；`codex-harness` 进入评测环境，不再进入 canonical 或 degree；日期括号进入 revision 处理；`high-fidelity`、`thinking`、`nano-banana` 等未知语义不自动删除或合并。
-- [x] [rebuild-comparison.js](src/comparison/rebuild-comparison.js)：LMArena/LiveBench 统一消费身份解析结果；同一模型的 degree 收进变体，评测环境分数单独存入 `lmarena_profiles`，不生成选择器行。
-- [x] 新增 [identity-review.js](src/comparison/identity-review.js) 与 [identity-review-ai.js](src/comparison/identity-review-ai.js)：歧义 token 离线审计；本地 Bonsai 作为默认 AI Adapter，低置信或高风险项才升级 DeepSeek，所有建议强制人工确认，不自动写 alias。
-- [x] 新增 [identity-review.bat](bat/identity-review.bat)：维护者双击即可执行 `fetch-comparison.js review`，输出零网络、零写入的待人工确认清单；不会影响正常抓取、重建或校验链路。
-- [x] [comparison-data-contract.md](docs/manual/comparison-data-contract.md) 和 [CODEBASE-MAP.md](CODEBASE-MAP.md)：补充 `evaluation_profiles`、`lmarena_profiles`、AI 审计边界及 BAT 入口说明。
-- [x] [tests/comparison/model-identity.test.js](tests/comparison/model-identity.test.js)、[tests/comparison/rebuild-comparison.test.js](tests/comparison/rebuild-comparison.test.js)、[tests/comparison/identity-review.test.js](tests/comparison/identity-review.test.js)、[tests/maintenance/validate-comparison.test.js](tests/maintenance/validate-comparison.test.js)：新增 GPT-5.5、Codex Harness、AI Adapter、人工确认和 degree 门禁回归。
+- [x] `model-identity.js`：集中解析模型名称语义，新增 `degree`、`evaluation_profile` 和 `ambiguous_tokens`；`codex-harness` 进入评测环境，不再进入 canonical 或 degree；日期括号进入 revision 处理；`high-fidelity`、`thinking`、`nano-banana` 等未知语义不自动删除或合并。
+- [x] `rebuild-comparison.js`：LMArena/LiveBench 统一消费身份解析结果；同一模型的 degree 收进变体，评测环境分数单独存入 `lmarena_profiles`，不生成选择器行。
+- [x] 新增 `identity-review.js` 与 `identity-review-ai.js`：歧义 token 离线审计；本地 Bonsai 作为默认 AI Adapter，低置信或高风险项才升级 DeepSeek，所有建议强制人工确认，不自动写 alias。
+- [x] 新增 [identity-review.bat](../../bat/identity-review.bat)：维护者双击即可执行 `fetch-comparison.js review`，输出零网络、零写入的待人工确认清单；不会影响正常抓取、重建或校验链路。
+- [x] [comparison-data-contract.md](../../docs/manual/comparison-data-contract.md) 和 [CODEBASE-MAP.md](../../CODEBASE-MAP.md)：补充 `evaluation_profiles`、`lmarena_profiles`、AI 审计边界及 BAT 入口说明。
+- [x] [tests/comparison/model-identity.test.js](../../tests/comparison/model-identity.test.js)、[tests/comparison/rebuild-comparison.test.js](../../tests/comparison/rebuild-comparison.test.js)、[tests/comparison/identity-review.test.js](../../tests/comparison/identity-review.test.js)、[tests/maintenance/validate-comparison.test.js](../../tests/maintenance/validate-comparison.test.js)：新增 GPT-5.5、Codex Harness、AI Adapter、人工确认和 degree 门禁回归。
 
 ### 验证结果
 
@@ -2796,11 +2800,11 @@
 
 ### 修复实现（用户拍板：每日 cron + 管线 72h 到期闸，手动采集不影响到期闸）
 
-- [x] [collect-news.yml](.github/workflows/collect-news.yml)：YouTube cron 改为每日 `0 12 * * *`（北京 20:00）；`collection_gate` job 增加 YouTube 到期预检（`isYoutubeDue`，仅 YouTube 调度槽生效，X 槽/手动恒 due），预检不过则 collect job 整体不启动；collect 步骤仅在 `schedule` 触发时传 `--scheduled`；review 分支步骤把 `data/news/runtime/schedule-state.json` 纳入 diff 检查与提交（YouTube 零新候选时它可能是唯一变更，漏提交会导致到期闸失效）。
-- [x] [pipeline-min.js](src/news/min/pipeline-min.js)：新增纯函数 `isYoutubeDue(config, scheduleState, now)`（缺状态/非法时间戳/时钟倒挂均视为到期，宁可多采不可漏采）；`options.scheduled` + `options.scheduleStateIn/Out` 注入点；仅「调度运行 + YouTube 采集 success/partial」写 `schedule-state.json`（not_due/failed/手动/本地一律不写——失败不吞窗口，手动不挤压调度节奏）；未到期时 youtube 槽记 `status: 'not_due'`。
-- [x] [build-news.js](scripts/build-news.js)：解析 `--scheduled` 标志传入 runMin；fixture 模式补齐 `lastRunOut`/`scheduleStateIn/Out` 内存存根（修复 fixture 会覆盖真实 `last-run.json` 的存量问题，冒烟时已实测触碰并还原）。
-- [x] 配置：`news-config-v2.json` `schedule.youtube_cron` → `"0 12 * * *"`，新增 `youtube_interval_hours: 72`；[news-config-v2.说明.md](data/news/config/news-config-v2.说明.md) 同步。
-- [x] 联动：[refresh-vibe-hub-cache.yml](.github/workflows/refresh-vibe-hub-cache.yml) 改每日 `0 11 * * *`（北京 19:00，采集前 1h；缓存全新鲜时零网络，每日触发无额外成本），与到期闸节奏保持对齐。
+- [x] [collect-news.yml](../../.github/workflows/collect-news.yml)：YouTube cron 改为每日 `0 12 * * *`（北京 20:00）；`collection_gate` job 增加 YouTube 到期预检（`isYoutubeDue`，仅 YouTube 调度槽生效，X 槽/手动恒 due），预检不过则 collect job 整体不启动；collect 步骤仅在 `schedule` 触发时传 `--scheduled`；review 分支步骤把 `data/news/runtime/schedule-state.json` 纳入 diff 检查与提交（YouTube 零新候选时它可能是唯一变更，漏提交会导致到期闸失效）。
+- [x] [pipeline-min.js](../../src/news/min/pipeline-min.js)：新增纯函数 `isYoutubeDue(config, scheduleState, now)`（缺状态/非法时间戳/时钟倒挂均视为到期，宁可多采不可漏采）；`options.scheduled` + `options.scheduleStateIn/Out` 注入点；仅「调度运行 + YouTube 采集 success/partial」写 `schedule-state.json`（not_due/failed/手动/本地一律不写——失败不吞窗口，手动不挤压调度节奏）；未到期时 youtube 槽记 `status: 'not_due'`。
+- [x] [build-news.js](../../scripts/build-news.js)：解析 `--scheduled` 标志传入 runMin；fixture 模式补齐 `lastRunOut`/`scheduleStateIn/Out` 内存存根（修复 fixture 会覆盖真实 `last-run.json` 的存量问题，冒烟时已实测触碰并还原）。
+- [x] 配置：`news-config-v2.json` `schedule.youtube_cron` → `"0 12 * * *"`，新增 `youtube_interval_hours: 72`；[news-config-v2.说明.md](../../data/news/config/news-config-v2.说明.md) 同步。
+- [x] 联动：[refresh-vibe-hub-cache.yml](../../.github/workflows/refresh-vibe-hub-cache.yml) 改每日 `0 11 * * *`（北京 19:00，采集前 1h；缓存全新鲜时零网络，每日触发无额外成本），与到期闸节奏保持对齐。
 - [x] 测试：news-pipeline-min.test.js 新增到期闸 5 组用例（纯函数边界 + 调度跳过/到期写状态/partial 写状态/失败不写/手动不受闸不写状态）。
 
 ### 验证结果
@@ -2861,13 +2865,13 @@
 
 ### 变更实现
 
-- [x] C1/C2 兼容垫片删除：[deepseek-structured.js](../../../src/catalog/ai/deepseek-structured.js)（re-export llm-gateway）与 [ai-provider-registry.js](../../../src/shared/ai-provider-registry.js)（透传 providers）两个垫片删除，18 个调用方文件全部改指真身 `src/shared/llm-gateway.js` / `src/shared/providers/index.js`；deepseek-structured.test.js 有效用例并入 llm-gateway.test.js，ai-provider-registry.test.js 改名 providers.test.js（断言不变）。全仓零转发残留。
+- [x] C1/C2 兼容垫片删除：`deepseek-structured.js`（re-export llm-gateway）与 `ai-provider-registry.js`（透传 providers）两个垫片删除，18 个调用方文件全部改指真身 `src/shared/llm-gateway.js` / `src/shared/providers/index.js`；deepseek-structured.test.js 有效用例并入 llm-gateway.test.js，ai-provider-registry.test.js 改名 providers.test.js（断言不变）。全仓零转发残留。
 - [x] C3 死导出：paths.js 删 `SOURCE_LIST_PATH`（全仓无消费者；`RSS_FEED_PATH` 保留待 R2 接线 generate-rss）。
 - [x] C4 OG 链修正（拍板保留手动工具）：generate-og-image.js 默认输出改经 `DIRS.public` 指向 `public/og-image.png`。
 - [x] C6 旧契约定点清扫（按计划 §1.4 定义：删除对象是"描述已不存在事物的叙述"，装饰形式不动）：validate-news.js 三处、news-public-gate.js、projection.js 历史叙事删除；feed-parser.js 头注释失实消费者改写、vibe-hub-evidence.js sitemap 失实描述如实化；validate-intel.js 与 catalog-snapshot-validator.js 活门禁保留逻辑本体、错误文案改写为当前契约表述（"不允许包含 queried_at/id/publisher/source_type"）。
 - [x] C7 导出面收敛：fetch-tool-intel.js 删除全部无人消费的库导出（collectIntelligence 全仓零消费者），收敛为纯 CLI 入口（require.main 守卫自运行）。
-- [x] C8 规范门禁：新增零依赖静态检查器 [check-standards.js](../../../scripts/check-standards.js)——7 类检测（依赖方向单向 / 垫片 / 旧契约叙事短语 / 体量与导出阈值 / require 图环 / console·process.exit·process.env 组装纪律 / src 文件 CODEBASE-MAP 登记完整性），前置接入 [validate.js](../../../scripts/validate.js)（全部 6 个 CI 工作流生效）；存量违规白名单 [check-standards.whitelist.json](../../../scripts/check-standards.whitelist.json)（98 条全带机器校验 count，豁免文件内违规增长报 whitelist-growth 且不可豁免；铁律只减不增）。配套 19 项 fixture 隔离测试。
-- [x] D1：[CLAUDE.md](../../../.claude/CLAUDE.md) 增补"代码规范"节（依赖方向、禁垫片、模板落位声明、旧契约判定、白名单铁律、CODEBASE-MAP 同步）。
+- [x] C8 规范门禁：新增零依赖静态检查器 [check-standards.js](../../scripts/check-standards.js)——7 类检测（依赖方向单向 / 垫片 / 旧契约叙事短语 / 体量与导出阈值 / require 图环 / console·process.exit·process.env 组装纪律 / src 文件 CODEBASE-MAP 登记完整性），前置接入 [validate.js](../../scripts/validate.js)（全部 6 个 CI 工作流生效）；存量违规白名单 [check-standards.whitelist.json](../../scripts/check-standards.whitelist.json)（98 条全带机器校验 count，豁免文件内违规增长报 whitelist-growth 且不可豁免；铁律只减不增）。配套 19 项 fixture 隔离测试。
+- [x] D1：[CLAUDE.md](../../.claude/CLAUDE.md) 增补"代码规范"节（依赖方向、禁垫片、模板落位声明、旧契约判定、白名单铁律、CODEBASE-MAP 同步）。
 - [x] C5/C9/C10 本地清理：删除草稿去重本地备份 `.duplicates-backup-20260904/`、`output/workbench-acceptance.js`（一次性未提交脚本）、4 个旧 worktree 及其分支（移除前逐一确认无未提交改动）；CODEBASE-MAP 补登记 `scripts/maintainer-workbench.js`（工作台唯一启动器，此前全仓零记载）。
 - [x] CODEBASE-MAP 同步：删 4 条已删文件死条目，改写 paths/fetch-tool-intel/generate-og-image 失实条目，登记 4 个新文件。
 
@@ -2889,15 +2893,17 @@
 - [x] 本机 Node v24.13.0 下 `node --test <目录>` 不展开目录（MODULE_NOT_FOUND），全量回归继续走 tests/index.js 聚合入口——计划 R8-4"统一测试入口"需按此环境事实重新评估。
 - [x] T3 验收曾因 sonnet 429 限额中断一次，限额重置后对终态完整重验通过。
 
+<a id="log-entry-85"></a>
+
 ## 2026-09-04 · 重构 R1 轮（shared 重构收口）+ D8 拍板执行（acquisition 整链删除）+ R2 收尾
 
 > 全仓重构计划第二轮。D4 按推荐方案执行（news-storage 上移 shared）；D8 经维护者拍板整链删除（不再手动使用工具情报链路，仅保留维护者平台与 build-dist.bat 手动入口）。全程零行为变更。
 
 ### 变更实现
 
-- [x] R1-2 存储层上移（D4 第一步）：[news-storage.js](../../../src/news/core/news-storage.js) → [json-store.js](../../../src/shared/json-store.js)（git mv 保历史），28 处 require 调用方全量迁移（catalog 9 + maintenance 1 + news 12 + scripts 1 + tests 1）；catalog→news 的 6 条纯 storage 依赖边归零。
-- [x] R1-1 传输层正名：[deepseek-client.js](../../../src/shared/deepseek-client.js) → [ai-transport.js](../../../src/shared/ai-transport.js)（实际承载 zhipu/anthropic/openai/local 全协议，命名去厂商化）；5 个调用方迁移；纯兼容别名 `requestDeepSeek` 删除（消费方仅 catalog-cli.test.js，已改用底层 `requestResponses` 等价透传）。
-- [x] R1-3 配置下沉：[ai-config.js](../../../src/catalog/ai-config.js) 从 shared 下沉 catalog（88 行仅服务 catalog-assistant）；测试随移 tests/catalog/；news 死配置段（enabled:false 且全仓无消费方）删除。
+- [x] R1-2 存储层上移（D4 第一步）：`news-storage.js` → [json-store.js](../../src/shared/json-store.js)（git mv 保历史），28 处 require 调用方全量迁移（catalog 9 + maintenance 1 + news 12 + scripts 1 + tests 1）；catalog→news 的 6 条纯 storage 依赖边归零。
+- [x] R1-1 传输层正名：`deepseek-client.js` → [ai-transport.js](../../src/shared/ai-transport.js)（实际承载 zhipu/anthropic/openai/local 全协议，命名去厂商化）；5 个调用方迁移；纯兼容别名 `requestDeepSeek` 删除（消费方仅 catalog-cli.test.js，已改用底层 `requestResponses` 等价透传）。
+- [x] R1-3 配置下沉：[ai-config.js](../../src/catalog/ai-config.js) 从 shared 下沉 catalog（88 行仅服务 catalog-assistant）；测试随移 tests/catalog/；news 死配置段（enabled:false 且全仓无消费方）删除。
 - [x] R1-4 legacy 抹除：local-model.js 删 `LEGACY_AUTOSTART_ENV`（INFOCATCHER_AUTOSTART_LOCAL_MODEL 旧环境变量回退）；.env.example 核实无提及。
 - [x] R1-5 样板整理：json-store/ai-transport 文件头注释与新事实同步。
 - [x] D8 整链删除：src/acquisition/ 四文件（fetch-intel-http/normalize-intel/fetch-tool-intel/validate-intel，约 920 行）、data/acquisition/intel-sources.json、validate.js 门禁接入、paths.js 的 ACQUISITION_FILES 登记、check-standards LAYERS 域表条目、本地文档（operations.md 段落、acquisition.md 整份、architecture.md 七处、content-quality.md 一处）。
@@ -2914,6 +2920,8 @@
 - [x] local-model.js:22 的 `INFOCATCHER_LOCAL_MODEL_SCRIPT` 环境变量回退保留（属启动脚本路径指定，非本轮 legacy 范围）。
 - [x] R4-1（待补卡域独立 src/pending/）未做——D4 第二半归 R4 轮；catalog→news 剩余边（catalog-batch 1、catalog-transaction-store 1、concept-batch 3、validate.js 3 等）在白名单中待 R4 清。
 
+<a id="log-entry-86"></a>
+
 ## 2026-09-04 · 重构 R3 轮（news：provider 正名、旧卡兼容抹除、加工流程拆分）
 
 ### 变更实现
@@ -2927,6 +2935,8 @@
 ### 验证结果
 
 - [x] 全量测试 711/711 通过；`check-standards`（138 个 src 文件，白名单外 0）、`validate.js` 与 `build-dist.js` 全部通过。
+
+<a id="log-entry-87"></a>
 
 ## 2026-09-04 · 重构 R4 轮（catalog：子域重组、事务独立与 pending 域独立）
 
@@ -2942,6 +2952,8 @@
 
 - [x] 全量测试 720/720 全部通过；`check-standards`（160 个 src 文件，白名单外 0 违规）、`validate.js` 与 `build-dist.js`（93 个文件）全部通过。
 - [x] 提交基线：`b6e9ed8`。
+
+<a id="log-entry-88"></a>
 
 ## 2026-09-05 · 重构 R5–R9 轮（comparison 子域化、工作台解耦、web 原生模块化与路径规范化）
 
@@ -2979,6 +2991,8 @@
 - [x] `node tests/index.js`：全量测试 100% 通过（0 failure）；
 - [x] `node scripts/build-dist.js`：静态站构建完成，生成 107 个文件；
 - [x] `node scripts/browser-acceptance.js`：真实 Edge/CDP 浏览器端到端全链路验收全部通过（45 项 PASS）。
+
+<a id="log-entry-89"></a>
 
 ## 2026-09-05 · 架构重构最终收口（News 注入解耦、Web 目录组织、scripts 薄壳化与规范门禁强化）
 
@@ -3021,7 +3035,8 @@
 - [x] Edge/CDP 端口超时环境缺口已彻底消除，端到端浏览器自动化已常态化可跑通；
 - 真实第三方平台连续采集受外部配额与网络窗口约束。
 
-<a id="log-entry-22"></a>
+<a id="log-entry-90"></a>
+
 ## 2026-09-06 · 模型系列反哺、统一模型键、SeriesBundle 事务与目录收口（阶段 0–6B）
 
 > 彻底解决热点反哺将模型系列（如 GPT-5.6）误建单卡、系列识别缺失与同名二级系列脱节问题。跨 Catalog 与 Comparison 建立统一模型键契约，引入 SeriesBundle 事务、官方正文核验、Model Identity Bridge 与工作台审核流，并安全完成阶段 6A 目录存量脏卡清理与 6B Comparison 键迁移重建。
@@ -3067,4 +3082,40 @@
 
 - [x] 阶段 6A/6B 存量清理已在本机单一事务中安全闭环，未向外部发起真实付费 API 调用；
 - 真实外部 LLM 富化与 Tavily 检索受运行环境 `.env` 配额管理。
+
+<a id="log-entry-91"></a>
+
+## 2026-09-06 · 文档体系重构、事实校准与规范治理
+
+> 依据 docs/docs-refactor-plan.md 实施全仓文档体系重构。校准核心系统文档事实，消除死链与过时架构残留；在工程规范与协作规则中落地文档两层结构与生命周期红线；.gitignore 启用白名单放行模式；受控清理过期冲刺清单与废弃目录。
+
+### 变更实现
+
+- [x] **事实校准与陈述修复**：
+  - [requirements.md](../requirements.md)：校准品牌为知览（KnowView）；明确 FR-COMP-04（费用估算）、FR-REC-02/03/04（个性化推荐）、FR-PLATFORM-01/02（账户与插件）为延期/后续规划，不伪装已实现；摘除已废弃的 archive 引用；
+  - [architecture.md](../architecture.md)：校准品牌为知览（KnowView）；更新系统拓扑，将 CI 工作流校准为实际活跃的 6 个（热点采集/发布、对比刷新、工具更新周审、Vibe Hub 缓存、构建部署）；移除已删除的工具情报采集残留叙事，对齐当前对比数据流与概念更新；
+  - [hotspot-workflow.md](../hotspot-workflow.md)：校准 L1 审核状态机事实（明确高置信 approve 直接落 approved，公开展示须经人工 top_selected 确认；待审项附 L2 建议）；校准 YouTube 调度事实（每日 cron + 72h 到期闸，避免月界连续触发）；更新底层存储引用为 [src/shared/json-store.js](../../src/shared/json-store.js)；摘除热点管线-v1-删除清单引用；
+  - [decisions.md](../decisions.md)：将已删除历史模块 news-bilibili.js 超链接转为纯文本说明；
+  - [catalog-generator.md](catalog-generator.md)：明确普通单工具 Draft（schema v3）与 SeriesBundle（schema v4）的架构与版本隔离边界，保持系列政策与 Bundle 事实自洽；
+  - [resources/survey/README.md](../../resources/survey/README.md)：摘除 archive 超链接，转为早期调查历史说明；
+  - [scripts/check-standards.js](../../scripts/check-standards.js) 与 [scripts/check-standards.whitelist.json](../../scripts/check-standards.whitelist.json)：将注释中引用的旧代码计划统一更新为 [docs/manual/codebase-standards.md](codebase-standards.md)（只改注释文字，白名单 count 与脚本逻辑零变更）。
+- [x] **规范与边界落地**：
+  - [codebase-standards.md](codebase-standards.md)：在 §1 通用工程红线中新增第 8 条「文档治理与生命周期」，严格定义双层目录结构（docs/*.md 系统设计与契约 + docs/manual/*.md 专项手册与开发记录）、单一权威源原则，以及临时计划完工即物理清理的生命周期；
+  - [AGENTS.md](../../AGENTS.md)：修正第 24 行提交边界，放行系统契约文档与 manual 手册，明确临时清单完工即清理；
+  - [CODEBASE-MAP.md](../../CODEBASE-MAP.md)：全面更新 docs 导航说明，反映系统契约与专项手册双层结构；修复测试路径笔误；
+  - [.gitignore](../../.gitignore)：采用逐文件白名单放行模式，精准放行 6 份核心系统文档与 manual 文档，临时计划及本地工作稿继续保持忽略。
+- [x] **历史日志治理**：
+  - [dev-log.md](dev-log.md)：修复头部相对路径，移除过时 software-lifecycle-guard 技能引用；移除错误跨域路径（如 ../../../src/）与错位相对路径；将正文历史记录中指向已删除/待删除文件（archive、b16-*.md 等）的超链接转为纯文本代码标记，杜绝悬空死链；补齐目录连续锚点。
+
+### 验证结果
+
+- [x] node scripts/check-standards.js：扫描 224 个 src 模块，白名单外违规 0 处（退出码 0）；
+- [x] node scripts/validate.js：五模块 catalog 与 news/comparison/扩展点校验全部通过（退出码 0）；
+- [x] git check-ignore：验证 6 份核心系统文档与 manual 成功放行，docs/docs-refactor-plan.md 等临时计划保持忽略；
+- [x] 全仓 Markdown 相对链接自测：保留的文档、手册与说明中相对链接 0 broken links。
+
+### 已知边界
+
+- 本次全流程离线执行，无外部网络请求，未读取凭据；业务代码行为零变更；
+- 按照安全规范未执行任何 git commit 或 git push。
 
