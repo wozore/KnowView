@@ -140,35 +140,22 @@ jobs:
           fi
           node scripts/build-news.js --platforms "$NEWS_PLATFORMS" $FLAGS
 
-      - name: Record X usage summary
+      - name: Record collection summary
         if: always()
         run: |
           node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
           const fs = require('fs');
+          const { formatRunSummary } = require('./src/news/min/pipeline-schedule');
           const path = 'data/news/runtime/last-run.json';
           if (!fs.existsSync(path)) {
-            console.log('## X 采集额度');
-            console.log('本次没有可用的 last-run.json 额度记录。');
+            console.log('## 热点采集摘要\n本次没有可用的 last-run.json 记录。');
             process.exit(0);
           }
           try {
             const run = JSON.parse(fs.readFileSync(path, 'utf8'));
-            const x = run.collectors && run.collectors.x;
-            const c = x && x.credits;
-            console.log('## X 采集额度');
-            if (!c) {
-              console.log('本次运行未写入 credits 记录。');
-            } else {
-              const r = c.requests || {};
-              console.log(`- run_id: ${run.run_id || 'unknown'}`);
-              console.log(`- status: ${(x && x.status) || 'unknown'}${x && x.reason ? ` (${x.reason})` : ''}`);
-              console.log(`- credits: ${c.used || 0}/${c.budget || 0}`);
-              console.log(`- billable tweets: ${c.tweets || 0}`);
-              console.log(`- successful articles: ${c.articles || 0}`);
-              console.log(`- requests: ${r.total || 0} (tweet=${r.tweet || 0}, article=${r.article || 0}, retries=${r.retries || 0})`);
-            }
+            console.log(formatRunSummary(run));
           } catch (error) {
-            console.log(`## X 采集额度\n读取记录失败：${error.message}`);
+            console.log(`## 热点采集摘要\n读取记录失败：${error.message}`);
           }
           NODE
 
@@ -184,7 +171,10 @@ jobs:
           # schedule-state.json 是 YouTube 72h 到期闸状态，随批次一并提交（YouTube 全新收录、
           # 候选零变化时它可能是唯一变更，漏提交会导致到期闸失效、每天都采）。
           # 公开投影在审核 PR 合并后由 publish-news.yml 重建，不在此直接提交 main。
-          if git diff --quiet -- data/news/runtime/min-candidates.json data/manual/review.json data/news/runtime/schedule-state.json; then
+          # 检查候选层与调度状态是否有变更（git status --porcelain 兼顾已跟踪修改与新生成未跟踪文件）
+          TARGET_FILES="data/news/runtime/min-candidates.json data/manual/review.json data/news/runtime/schedule-state.json"
+          CHANGES=$(git status --porcelain -- $TARGET_FILES)
+          if [ -z "$CHANGES" ]; then
             echo "No candidate changes"
             exit 0
           fi
@@ -196,7 +186,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "${branch}"
-          git add data/news/runtime/min-candidates.json data/manual/review.json data/news/runtime/schedule-state.json
+          for file in $TARGET_FILES; do
+            if [ -f "$file" ]; then
+              git add "$file"
+            fi
+          done
+          if git diff --cached --quiet; then
+            echo "No staged candidate changes"
+            exit 0
+          fi
           git commit -m "chore(data): update min candidates + review list (${batch})"
           git push origin "${branch}"
 

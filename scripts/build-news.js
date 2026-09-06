@@ -47,6 +47,10 @@ async function mainMin(platforms) {
   const x = coverage.collectors && coverage.collectors.x;
   const fmt = slot => slot ? (slot.status === 'not_run' ? '未运行' : `${slot.status}/${slot.items || 0} 条`) : '未运行';
   console.log(`ℹ️ v2 覆盖：${coverage.status}（youtube=${fmt(youtube)}，x=${fmt(x)}）`);
+  if (youtube && youtube.quota) {
+    const q = youtube.quota;
+    console.log(`   📹 YouTube 调用：search=${q.search_calls || 0}，videos=${q.videos_calls || 0}，comments=${q.comments_calls || 0}，categories=${q.categories_calls || 0}`);
+  }
   if (x && x.credits) {
     const requests = x.credits.requests || {};
     console.log(`   💳 X credits：${x.credits.used}/${x.credits.budget}（tweets=${x.credits.tweets || 0}，articles=${x.credits.articles || 0}，requests=${requests.total || 0}，retries=${requests.retries || 0}）`);

@@ -105,6 +105,7 @@ function buildLastRunRecord(coverage, { runId, now, platforms }) {
         items: coverage.collectors.youtube.items,
         error: coverage.collectors.youtube.error,
         reason: coverage.collectors.youtube.reason || null,
+        quota: coverage.collectors.youtube.quota || null,
       },
       x: {
         status: coverage.collectors.x.status,
@@ -117,9 +118,72 @@ function buildLastRunRecord(coverage, { runId, now, platforms }) {
   };
 }
 
+/**
+ * 格式化采集运行记录为 Markdown 摘要（供 GitHub Actions Step Summary 或 CLI 展示）。
+ * 按本次实际运行平台动态渲染 YouTube 与 X 的采集明细与配额消耗。
+ * @param {object} run last-run.json 记录对象
+ * @returns {string}
+ */
+function formatRunSummary(run) {
+  if (!run || typeof run !== 'object') {
+    return '## 热点采集摘要\n本次没有可用的采集记录。';
+  }
+  const lines = ['## 热点采集摘要 (Collection Summary)'];
+  lines.push(`- run_id: ${run.run_id || 'unknown'}`);
+  lines.push(`- 采集时间: ${run.collected_at || 'unknown'}`);
+  const platforms = Array.isArray(run.platforms) && run.platforms.length > 0
+    ? run.platforms
+    : Object.keys(run.collectors || {});
+  lines.push(`- 触发平台: ${platforms.join(', ') || 'none'}`);
+
+  if (platforms.includes('youtube')) {
+    const yt = run.collectors && run.collectors.youtube;
+    lines.push('\n### 📹 YouTube 采集');
+    if (!yt) {
+      lines.push('本次运行未包含 YouTube 采集数据。');
+    } else {
+      lines.push(`- status: ${yt.status || 'unknown'}${yt.reason ? ` (${yt.reason})` : ''}`);
+      lines.push(`- 采集条数: ${yt.items ?? 0}`);
+      if (yt.error) lines.push(`- error: ${yt.error}`);
+      if (yt.status === 'not_due') {
+        lines.push('- 说明: 处于 72h 间隔保护期内，未到期跳过采集');
+      }
+      if (yt.quota) {
+        const q = yt.quota;
+        lines.push(`- API 调用: search=${q.search_calls || 0}, videos=${q.videos_calls || 0}, comments=${q.comments_calls || 0}, categories=${q.categories_calls || 0}`);
+      }
+    }
+  }
+
+  if (platforms.includes('x')) {
+    const x = run.collectors && run.collectors.x;
+    lines.push('\n### 💳 X 采集额度');
+    if (!x) {
+      lines.push('本次运行未包含 X 采集数据。');
+    } else {
+      const c = x.credits;
+      lines.push(`- status: ${x.status || 'unknown'}${x.reason ? ` (${x.reason})` : ''}`);
+      lines.push(`- 采集条数: ${x.items ?? 0}`);
+      if (x.error) lines.push(`- error: ${x.error}`);
+      if (!c) {
+        lines.push('- 本次运行未写入 credits 记录。');
+      } else {
+        const r = c.requests || {};
+        lines.push(`- credits: ${c.used || 0}/${c.budget || 0}`);
+        lines.push(`- billable tweets: ${c.tweets || 0}`);
+        lines.push(`- successful articles: ${c.articles || 0}`);
+        lines.push(`- requests: ${r.total || 0} (tweet=${r.tweet || 0}, article=${r.article || 0}, retries=${r.retries || 0})`);
+      }
+    }
+  }
+
+  return lines.join('\n');
+}
+
 module.exports = {
   DEFAULT_YOUTUBE_INTERVAL_HOURS,
   buildLastRunRecord,
+  formatRunSummary,
   isCollectionEnabled,
   isYoutubeDue,
   loadV2Config,

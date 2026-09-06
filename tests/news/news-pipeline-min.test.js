@@ -21,6 +21,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const { runMin, isCollectionEnabled, isYoutubeDue, normalizeNow, resolveXWindow } = require('../../src/news/min/pipeline-min');
+const { formatRunSummary } = require('../../src/news/min/pipeline-schedule');
 const { NEWS_FILES } = require('../../src/shared/paths');
 const { readJson, writeJsonAtomic } = require('../../src/shared/json-store');
 
@@ -167,7 +168,11 @@ const previousPublicItem = {
 
 // ── mock 注入 ──
 const collectors = {
-  youtube: async () => ({ items: [ytItem1, ytItem2], quota: {}, coverage: { status: 'success' } }),
+  youtube: async () => ({
+    items: [ytItem1, ytItem2],
+    quota: { search_calls: 2, videos_calls: 1, comments_calls: 0, categories_calls: 1 },
+    coverage: { status: 'success' },
+  }),
   x: async () => ({
     items: [xItem1, xItem2],
     credits: {
@@ -459,6 +464,12 @@ test('pipeline-min 全链：L0 丢弃 → 分类 → 评分 → 审核 → 候�
     assert.deepEqual(lastRun.platforms, ['youtube', 'x'], 'last-run 记录启用平台');
     assert.equal(lastRun.collectors.youtube.status, 'success');
     assert.equal(lastRun.collectors.youtube.items, 2, 'YouTube 实际采到 2 条');
+    assert.deepEqual(lastRun.collectors.youtube.quota, {
+      search_calls: 2,
+      videos_calls: 1,
+      comments_calls: 0,
+      categories_calls: 1,
+    });
     assert.equal(lastRun.collectors.x.status, 'success');
     assert.equal(lastRun.collectors.x.items, 2, 'X 实际采到 2 条');
     assert.deepEqual(lastRun.collectors.x.credits, {
@@ -511,3 +522,109 @@ test('pipeline-min 审核失败降级：全部保留为 pending，不抛错', as
     restoreAll();
   }
 });
+
+// ── formatRunSummary：根据实际采集平台动态渲染摘要 ──
+
+test('formatRunSummary：仅采 YouTube 时只展示 YouTube 摘要，不含 X', () => {
+  const run = {
+    schema_version: 1,
+    run_id: 'min-yt-only',
+    collected_at: '2026-09-06T12:00:00.000Z',
+    platforms: ['youtube'],
+    collectors: {
+      youtube: {
+        status: 'success',
+        items: 12,
+        error: null,
+        reason: null,
+        quota: { search_calls: 3, videos_calls: 1, comments_calls: 10, categories_calls: 1 },
+      },
+      x: { status: 'not_run', items: 0, error: null, reason: null, credits: null },
+    },
+  };
+  const summary = formatRunSummary(run);
+  assert.ok(summary.includes('## 热点采集摘要 (Collection Summary)'));
+  assert.ok(summary.includes('触发平台: youtube'));
+  assert.ok(summary.includes('### 📹 YouTube 采集'));
+  assert.ok(summary.includes('status: success'));
+  assert.ok(summary.includes('采集条数: 12'));
+  assert.ok(summary.includes('search=3, videos=1, comments=10, categories=1'));
+  assert.equal(summary.includes('### 💳 X 采集额度'), false, '纯 YouTube 运行不输出 X 采集小节');
+});
+
+test('formatRunSummary：仅采 X 时只展示 X 摘要，不含 YouTube', () => {
+  const run = {
+    schema_version: 1,
+    run_id: 'min-x-only',
+    collected_at: '2026-09-06T05:00:00.000Z',
+    platforms: ['x'],
+    collectors: {
+      youtube: { status: 'not_run', items: 0, error: null, reason: null },
+      x: {
+        status: 'partial',
+        items: 20,
+        error: null,
+        reason: 'credits_exhausted',
+        credits: {
+          used: 3600,
+          budget: 3750,
+          tweets: 200,
+          articles: 0,
+          requests: { total: 10, tweet: 10, article: 0, retries: 0 },
+        },
+      },
+    },
+  };
+  const summary = formatRunSummary(run);
+  assert.ok(summary.includes('## 热点采集摘要 (Collection Summary)'));
+  assert.ok(summary.includes('触发平台: x'));
+  assert.ok(summary.includes('### 💳 X 采集额度'));
+  assert.ok(summary.includes('status: partial (credits_exhausted)'));
+  assert.ok(summary.includes('credits: 3600/3750'));
+  assert.ok(summary.includes('billable tweets: 200'));
+  assert.equal(summary.includes('### 📹 YouTube 采集'), false, '纯 X 运行不输出 YouTube 采集小节');
+});
+
+test('formatRunSummary：双平台采集时并列展示 YouTube 和 X 摘要', () => {
+  const run = {
+    schema_version: 1,
+    run_id: 'min-both',
+    collected_at: '2026-09-06T14:00:00.000Z',
+    platforms: ['youtube', 'x'],
+    collectors: {
+      youtube: {
+        status: 'not_due',
+        items: 0,
+        error: null,
+        reason: 'not_due',
+        quota: null,
+      },
+      x: {
+        status: 'success',
+        items: 15,
+        error: null,
+        reason: null,
+        credits: {
+          used: 120,
+          budget: 3750,
+          tweets: 15,
+          articles: 0,
+          requests: { total: 2, tweet: 2, article: 0, retries: 0 },
+        },
+      },
+    },
+  };
+  const summary = formatRunSummary(run);
+  assert.ok(summary.includes('触发平台: youtube, x'));
+  assert.ok(summary.includes('### 📹 YouTube 采集'));
+  assert.ok(summary.includes('处于 72h 间隔保护期内，未到期跳过采集'));
+  assert.ok(summary.includes('### 💳 X 采集额度'));
+  assert.ok(summary.includes('status: success'));
+  assert.ok(summary.includes('credits: 120/3750'));
+});
+
+test('formatRunSummary：非法或空输入安全兜底', () => {
+  assert.ok(formatRunSummary(null).includes('本次没有可用的采集记录'));
+  assert.ok(formatRunSummary({}).includes('## 热点采集摘要 (Collection Summary)'));
+});
+

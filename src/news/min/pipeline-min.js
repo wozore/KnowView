@@ -85,7 +85,7 @@ async function runMin(options = {}) {
     collection_enabled: isCollectionEnabled(config),
     started_at: now.toISOString(),
     collectors: {
-      youtube: { status: 'not_run', items: 0, error: null },
+      youtube: { status: 'not_run', items: 0, error: null, quota: null },
       x: { status: 'not_run', items: 0, error: null, credits: null },
     },
     collected_total: 0,

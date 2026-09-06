@@ -58,6 +58,7 @@ async function collectPlatforms({ options, config, now, runId, coverage, noteErr
         slot.items = collected.length;
         slot.status = (result && result.coverage && result.coverage.status) || 'success';
         slot.reason = (result && result.coverage && result.coverage.reason) || null;
+        slot.quota = result && result.quota ? result.quota : null;
         return collected;
       } catch (error) {
         slot.status = 'failed';
