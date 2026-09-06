@@ -2,8 +2,9 @@
 
 const fs = require('fs');
 const path = require('path');
-const { DIRS, CATALOG_GENERATOR_FILES } = require('../../shared/paths');
+const { DIRS, CATALOG_GENERATOR_FILES, SHARED_FILES } = require('../../shared/paths');
 const { readJson, writeJsonAtomic, acquireLock, releaseLock } = require('../../shared/json-store');
+const { validateModelIdentityBridgeEntries, readModelIdentityBridge, writeModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { validateCatalogSnapshot } = require('../core/catalog-snapshot-validator');
 const { revisionOf } = require('../core/catalog-revision');
 const { loadCatalogSnapshot, FILE_BY_AREA } = require('../core/catalog-snapshot-store');
@@ -37,6 +38,7 @@ function transactionPaths(options = {}) {
     backupDir,
     lock: options.lockPath || path.join(catalogDir, path.basename(CATALOG_GENERATOR_FILES.lock)),
     journal: options.journalPath || path.join(transactionDir, 'journal.json'),
+    bridgeFile: options.bridgeFile || SHARED_FILES.modelIdentityBridge,
   };
 }
 
@@ -66,20 +68,84 @@ function writeSnapshotFiles(snapshot, stagingCatalog, paths, fsImpl) {
   }
 }
 
-function finalizeTransaction(staging, backup, paths, fsImpl) {
-  removeIfExists(staging, fsImpl);
-  removeIfExists(backup, fsImpl);
-  removeIfExists(paths.journal, fsImpl);
+function stageBridgeFile(entries, target, fsImpl) {
+  const errors = validateModelIdentityBridgeEntries(entries);
+  if (errors.length) {
+    const error = new Error('SHARED_MODEL_IDENTITY_BRIDGE_INVALID');
+    error.code = 'SHARED_MODEL_IDENTITY_BRIDGE_INVALID';
+    error.errors = errors;
+    throw error;
+  }
+  fsImpl.mkdirSync(path.dirname(target), { recursive: true });
+  const result = writeModelIdentityBridge(entries, target, { fsImpl });
+  if (!result.ok) {
+    const error = new Error(result.code || 'SHARED_MODEL_IDENTITY_BRIDGE_WRITE_FAILED');
+    error.code = result.code || 'SHARED_MODEL_IDENTITY_BRIDGE_WRITE_FAILED';
+    error.errors = result.errors;
+    throw error;
+  }
+}
+
+function replaceBridgeFile(staged, target, fsImpl) {
+  fsImpl.mkdirSync(path.dirname(target), { recursive: true });
+  const temp = `${target}.txn.${process.pid}`;
+  removeIfExists(temp, fsImpl);
+  try {
+    fsImpl.copyFileSync(staged, temp);
+    fsImpl.renameSync(temp, target);
+  } catch (error) {
+    removeIfExists(temp, fsImpl);
+    throw error;
+  }
+}
+
+function backupBridgeFile(target, backup, fsImpl) {
+  if (fsImpl.existsSync(target)) {
+    fsImpl.mkdirSync(path.dirname(backup), { recursive: true });
+    fsImpl.copyFileSync(target, backup);
+    return true;
+  }
+  return false;
+}
+
+function rollbackBridgeFromJournal(journal, paths, fsImpl) {
+  if (!journal?.bridge_replaced) return;
+  const hasBackup = journal.bridge_backup_existed === true
+    || (journal.bridge_backup_existed === undefined
+      && journal.bridge_backup && fsImpl.existsSync(journal.bridge_backup));
+  if (hasBackup && journal.bridge_backup && fsImpl.existsSync(journal.bridge_backup)) {
+    replaceBridgeFile(journal.bridge_backup, paths.bridgeFile, fsImpl);
+  } else if (!hasBackup) {
+    removeIfExists(paths.bridgeFile, fsImpl);
+  } else {
+    throw new Error('BRIDGE_BACKUP_MISSING');
+  }
+}
+
+function rollbackDistFromJournal(journal, paths, fsImpl) {
+  if (!(journal?.dist_replacement_started || journal?.dist_replaced)) return;
+  const dist = path.join(paths.projectDir, 'dist');
+  if (journal.backup_dist && fsImpl.existsSync(journal.backup_dist)) {
+    replaceDirectory(journal.backup_dist, dist, { fsImpl });
+  } else if (journal.dist_existed === false) {
+    removeIfExists(dist, fsImpl);
+  } else if (journal.dist_existed === true) {
+    throw new Error('DIST_BACKUP_MISSING');
+  }
 }
 
 function rollbackFromJournal(journal, paths, fsImpl) {
   if (journal?.replaced?.length && journal.backup_catalog) {
     replaceCatalogFiles(journal.backup_catalog, paths.catalogFiles, { fsImpl });
   }
-  if ((journal?.dist_replacement_started || journal?.dist_replaced)
-    && journal.backup_dist && fsImpl.existsSync(journal.backup_dist)) {
-    replaceDirectory(journal.backup_dist, path.join(paths.projectDir, 'dist'), { fsImpl });
-  }
+  rollbackBridgeFromJournal(journal, paths, fsImpl);
+  rollbackDistFromJournal(journal, paths, fsImpl);
+}
+
+function finalizeTransaction(staging, backup, paths, fsImpl) {
+  removeIfExists(staging, fsImpl);
+  removeIfExists(backup, fsImpl);
+  removeIfExists(paths.journal, fsImpl);
 }
 
 function builderOf(options) {
@@ -104,7 +170,10 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
   const backup = path.join(paths.backupDir, runId);
   const backupCatalog = path.join(backup, 'catalog');
   const stagedDist = path.join(staging, 'dist');
+  const stagedBridge = path.join(staging, 'model-identity-bridge.json');
+  const distTarget = path.join(paths.projectDir, 'dist');
   const backupDist = path.join(backup, 'dist');
+  const backupBridge = path.join(backup, 'model-identity-bridge.json');
   let lockHeld = false;
   try {
     acquireLock(paths.lock, { run_id: runId, pid: process.pid, ...(includeLockOperation ? { operation } : {}), ...(includeDraftId ? { draft_id: options.draftId || null } : {}), at: new Date().toISOString() });
@@ -114,12 +183,38 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
     if (options.expectedRevision && before.revision !== options.expectedRevision) {
       return { ok: false, code: 'REVISION_CONFLICT', revision: before.revision };
     }
-    const prepared = prepare ? prepare(before) : { ok: true, snapshot: target };
+    const prepared = prepare
+      ? prepare(before)
+      : { ok: true, snapshot: target, ...(Array.isArray(options.bridgeEntries) ? { bridgeEntries: options.bridgeEntries } : {}) };
     if (!prepared.ok) return prepared;
     const nextSnapshot = prepared.snapshot;
+    const hasBridge = Array.isArray(prepared.bridgeEntries);
     const validation = validateCatalogSnapshot(nextSnapshot);
     if (!validation.ok) return { ok: false, code: 'SNAPSHOT_INVALID', errors: validation.errors };
     const targetRevision = revisionOf(nextSnapshot);
+    let bridgeState = null;
+    if (hasBridge) {
+      const bridgeExpected = options.expectedBridgeRevision !== undefined
+        ? options.expectedBridgeRevision
+        : options.bridgeExpectedRevision !== undefined
+          ? options.bridgeExpectedRevision
+          : options.expected_bridge_revision;
+      if (bridgeExpected === undefined) {
+        return { ok: false, code: 'BRIDGE_EXPECTED_REVISION_REQUIRED' };
+      }
+      bridgeState = readModelIdentityBridge(paths.bridgeFile, { fsImpl });
+      if (bridgeState.validation_errors || bridgeState.revision !== bridgeExpected) {
+        return {
+          ok: false,
+          code: 'BRIDGE_REVISION_CONFLICT',
+          revision: bridgeState.revision,
+          expectedRevision: bridgeExpected,
+          ...(bridgeState.validation_errors ? { validation_errors: bridgeState.validation_errors } : {}),
+        };
+      }
+      const targetBridgeEntries = prepared.bridgeEntries.map(entry => ({ ...entry, catalog_revision: targetRevision }));
+      stageBridgeFile(targetBridgeEntries, stagedBridge, fsImpl);
+    }
     const journal = {
       schema_version: 1,
       run_id: runId,
@@ -132,7 +227,12 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
       backup_catalog: backupCatalog,
       staged_dist: stagedDist,
       backup_dist: backupDist,
+      staged_bridge: hasBridge ? stagedBridge : null,
+      bridge_backup: hasBridge ? backupBridge : null,
+      bridge_replaced: false,
+      bridge_backup_existed: null,
       replaced: [],
+      dist_existed: null,
       dist_replaced: false,
       at: new Date().toISOString(),
     };
@@ -144,11 +244,17 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
     journal.phase = options.buildDist === false ? 'catalog_staged' : 'dist_staged';
     journalWrite(paths, journal, runId);
     copyCatalogFiles(backupCatalog, paths.catalogFiles, { fsImpl });
-    if (options.buildDist !== false) backupDirectory(backupDist, paths.projectDir, { fsImpl });
+    if (hasBridge) journal.bridge_backup_existed = backupBridgeFile(paths.bridgeFile, backupBridge, fsImpl);
+    if (options.buildDist !== false) journal.dist_existed = backupDirectory(backupDist, paths.projectDir, { fsImpl });
     journal.phase = 'committing';
     journal.replaced = Object.keys(paths.catalogFiles);
     journalWrite(paths, journal, runId);
     replaceCatalogFiles(stagingCatalog, paths.catalogFiles, { fsImpl });
+    if (hasBridge) {
+      journal.bridge_replaced = true;
+      journalWrite(paths, journal, runId);
+      replaceBridgeFile(stagedBridge, paths.bridgeFile, fsImpl);
+    }
     journal.phase = 'catalog_validated';
     journalWrite(paths, journal, runId);
     const after = loadSnapshot();
@@ -156,7 +262,7 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
     if (options.buildDist !== false) {
       journal.dist_replacement_started = true;
       journalWrite(paths, journal, runId);
-      replaceDirectory(stagedDist, path.join(paths.projectDir, 'dist'), { fsImpl });
+      replaceDirectory(stagedDist, distTarget, { fsImpl });
       journal.dist_replaced = true;
       journal.phase = 'dist_verified';
       journalWrite(paths, journal, runId);
@@ -170,10 +276,9 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
     const journal = journalRead(paths);
     try {
       if (journal?.run_id === runId) rollbackFromJournal(journal, paths, fsImpl);
+      finalizeTransaction(staging, backup, paths, fsImpl);
     } catch (rollbackError) {
       return { ok: false, code: 'ROLLBACK_FAILED', error: rollbackError.message, originalError: error.message };
-    } finally {
-      finalizeTransaction(staging, backup, paths, fsImpl);
     }
     return { ok: false, code: error.code || 'BUILD_FAILED', error: error.message };
   } finally {
@@ -211,7 +316,7 @@ function commitCatalogChange(seed, options = {}) {
     prepare(before) {
       if (!Array.isArray(options.layerPatches)) return { ok: false, code: 'LAYER_PATCHES_REQUIRED', error: 'schema v3 Apply 必须提供 layerPatches' };
       const plan = planCatalogPatches(before.snapshot, options.layerPatches);
-      return { ok: true, snapshot: plan.snapshot, plan };
+      return { ok: true, snapshot: plan.snapshot, plan, ...(Array.isArray(options.bridgeEntries) ? { bridgeEntries: options.bridgeEntries } : {}) };
     },
     result(prepared) { return { plan: prepared.plan }; },
     includeDraftId: true,

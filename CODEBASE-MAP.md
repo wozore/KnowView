@@ -31,6 +31,7 @@
 - [retention.json](data/shared/retention.json) — 14 个月滚动删除日期 cutoff 状态（months/retention_year_month/last_advanced_at）；comparison 经 `advanceRetentionToNow` 写、catalog prune 经 `readRetentionState` 只读。
 - [model-release-dates.json](data/shared/model-release-dates.json) — 模型 release_date 查找索引（model_key + catalog_aliases）；comparison 重建经 `writeReleaseIndex` 写、catalog 生成器经 `readReleaseIndex` 机械查找只读。
 - [catalog-release-dates.json](data/shared/catalog-release-dates.json) — catalog api_model/product_variant release_date 投影（detail_id/detail_kind/vendor_key/title/tool_key/release_date）；catalog 落盘后经 `writeCatalogReleaseDates` 发布、comparison 反查经 `readCatalogReleaseDates` 只读。
+- [model-identity-bridge.json](data/shared/model-identity-bridge.json) — 统一模型键 ↔ 目录实体桥接投影（model_key/title/vendor_key/detail_id/tool_card_id/series_id/official_url/content_hash/verified_at/catalog_revision）；Catalog 事务提交路径经 `writeModelIdentityBridge` 唯一写、反哺查重与系列审计经 `readModelIdentityBridge` 只读。
 ## 根领域文档
 - [CONTEXT.md](CONTEXT.md) — catalog 领域词汇表；定义 CatalogProfile、ResearchScope、OfficialSource、FieldCoverage、DerivedField、LayerPatch、CatalogDraft、Readiness、UpdateCandidate、ToolUpdateReviewQueue 与 Apply。
 
@@ -67,6 +68,8 @@
 - [retention.js](src/shared/retention.js) — 共享段 retention 校验接口（纯逻辑 + 文件 IO 分离）：cutoff = 当前年月 − 14 个月，`advanceRetentionCutoff` 幂等跨自然月推进、漏跑自愈 snap；`readRetentionState` 读端唯一入口（校验后冻结）、`advanceRetentionToNow` 写端唯一入口（推进 + 校验 + 原子写，失败降级沿用旧 cutoff）；`writeRetention` 形状校验 fail-closed 防误篡改。comparison 写、catalog 只读。导出: `DEFAULT_MONTHS, currentCutoffYearMonth, cutoffDateOf, advanceRetentionCutoff, readRetentionFromPayload, validateRetentionPayload, readRetentionState, advanceRetentionToNow, readRetention, writeRetention, ensureSharedDir`
 - [release-index.js](src/shared/release-index.js) — 共享段 `model-release-dates.json` 校验接口（comparison 写 / catalog 只读）：`readReleaseIndex` 校验后冻结读取（缺失/损坏回退空）、`writeReleaseIndex` 逐条形状校验 fail-closed 原子写。导出: `isIsoDate, validateReleaseIndexEntries, readReleaseIndex, writeReleaseIndex`
 - [catalog-release-dates.js](src/shared/catalog-release-dates.js) — 共享段 `catalog-release-dates.json` 校验接口（catalog 写 / comparison 只读）：`readCatalogReleaseDates` 校验后冻结读取、`writeCatalogReleaseDates` 逐条形状校验 fail-closed 原子写。导出: `isIsoDate, validateCatalogReleaseDatesEntries, readCatalogReleaseDates, writeCatalogReleaseDates`
+- [model-key-contract.js](src/shared/model-key-contract.js) — 统一模型键（model_key）唯一算法与校验契约：identity 归一化（trim→NFKC→小写→空白/下划线/Unicode 破折号折叠、'.' 仅数字间保留）、vendor 最长前缀切分；任何模块不得手拼 `vendor+'-'+name`，非法输入 fail-closed。导出: `VENDOR_KEY_RE, normalizeModelIdentity, modelKeyOf, parseModelKey, isModelIdentity, isModelKey, findModelKeyCollisions`
+- [model-identity-bridge.js](src/shared/model-identity-bridge.js) — 共享段 `model-identity-bridge.json` 校验接口（Catalog 事务提交路径写 / 反哺查重与系列审计只读）：`readModelIdentityBridge` 缺失/损坏回退空+validation_errors、`writeModelIdentityBridge` 十字段逐条校验 fail-closed + 内部重算 revision 原子写。导出: `REQUIRED_STRING_FIELDS, bridgeRevisionOf, validateModelIdentityBridgeEntries, readModelIdentityBridge, writeModelIdentityBridge`
 
 ## src/catalog/ — 目录数据接口与生成器
 - [interface.js](src/catalog/interface.js) — Catalog 统一只读 Interface 与三级替换入口。
@@ -95,15 +98,22 @@
 - [draft/catalog-batch.js](src/catalog/draft/catalog-batch.js) — 批量 Draft 解析、预览与应用编排。
 - [draft/catalog-draft-envelope.js](src/catalog/draft/catalog-draft-envelope.js) — Draft Envelope 与 Apply 前 readiness 门禁。
 - [draft/catalog-draft-store.js](src/catalog/draft/catalog-draft-store.js) — Draft 创建、读取、更新、列举与删除。
+- [draft/catalog-bundle.js](src/catalog/draft/catalog-bundle.js) — SeriesBundle Draft 的计划、准备、预览、审核、原子应用与丢弃。
 - [draft/draft-options.js](src/catalog/draft/draft-options.js) — Draft 配置、Seed 校验与研究成本预算。
 - [intake/index.js](src/catalog/intake/index.js) — Intake 子域真实聚合门面。
 - [intake/catalog-adapters.js](src/catalog/intake/catalog-adapters.js) — Catalog 研究与合成默认适配器。
 - [intake/catalog-batch.js](src/catalog/intake/catalog-batch.js) — 待补卡批量导入与 Draft 生命周期。
 - [intake/resolution.js](src/catalog/intake/resolution.js) — 待补卡解析、登记表查重与 placement 编排。
+- [intake/model-identity-verification.js](src/catalog/intake/model-identity-verification.js) — 模型/系列官方正文身份核验、系列成员发现、model_key 索引与 24 小时回执。
+- [intake/identity-receipts.js](src/catalog/intake/identity-receipts.js) — 身份核验回执的单一文件读写、去重与 7 天压缩。
 - [series/index.js](src/catalog/series/index.js) — Series 子域真实聚合门面。
 - [series/catalog-series-policy.js](src/catalog/series/catalog-series-policy.js) — LLM 系列政策读取、校验与确定性 placement。
 - [series/catalog-series-migration.js](src/catalog/series/catalog-series-migration.js) — 系列容量拆分迁移编排。
 - [series/catalog-series-placement-ai.js](src/catalog/series/catalog-series-placement-ai.js) — 系列 placement AI 建议适配器。
+- [series/series-data-audit.js](src/catalog/series/series-data-audit.js) — 目录系列/模型键数据纯只读审计：非法/重复/点号丢失 model_key、同名不同键、悬空引用、已知污染卡、厂商别名冲突、跨实体复制、可见成员超容、hidden_history 残留引用、桥接失配；全部输入纯对象注入，零 comparison require、零写入、零真实 policy 读取。导出: `AUDIT_ACTIONS, AUDIT_FINDING_CODES, FINDING_ACTION_BY_CODE, summaryFingerprint, auditCatalogSeriesData`
+- [series/series-bundle-contract.js](src/catalog/series/series-bundle-contract.js) — SeriesBundle 结构、成员分类、Patch 覆盖集、基线漂移与删除禁令校验。
+- [series/series-bundle-planner.js](src/catalog/series/series-bundle-planner.js) — 基于政策、快照和官方核验 verdict 规划系列成员、容量历史转移、Catalog patch 与 identity bridge。
+- [series/series-bundle-finalizer.js](src/catalog/series/series-bundle-finalizer.js) — 复用 Catalog 研究/合成结果，在内存中富化 Bundle 成员并确定性重算 future snapshot、hash 与 token。
 - [tool-update/index.js](src/catalog/tool-update/index.js) — Tool Update 子域真实聚合门面。
 - [tool-update/tool-update-collector.js](src/catalog/tool-update/tool-update-collector.js) — 官方工具更新证据收集。
 - [tool-update/html-collector.js](src/catalog/tool-update/html-collector.js) — 官方更新页 HTML 抓取与文本清洗。
@@ -167,7 +177,7 @@
 
 ## src/web/ — 前端静态站（原生 ES module，无打包器；build-dist.js 原样复制到 dist/）
 - [index.html](src/web/index.html) — 页面骨架与八视图 HTML 结构；AI 搜索首页为左中右布局（左侧「怎么用」三步引导栏 + 中间原样搜索主区 + 右侧留白），结果页三栏答案引擎。
-- [css/style.css](src/web/css/style.css) — 全站样式；工具视图分类索引含极简编辑部科技风格、左侧独立定位、移动端横向布局与具体工具卡片主题/微纹理；厂商卡片与具体工具卡片的悬停样式作用域隔离；工具卡片适合/不适合提示使用颜色竖线；搜索主区热点概念层知识块（热点在上、概念在下）；搜索首页左中右引导栏布局（<main> 限宽按 :has 条件放开，窄视口收起为单列）
+- [css/style.css](src/web/css/style.css) — 全站样式；工具视图分类索引含极简编辑部科技风格、左侧独立定位、移动端横向布局与具体工具卡片主题/微纹理；厂商卡片与具体工具卡片的悬停样式作用域隔离；工具卡片适合/不适合提示使用颜色竖线；搜索主区热点概念层知识块（热点在上、概念在下）；搜索首页左中右引导栏布局（<main> 限宽按 :has 条件放开，窄视口收起为单列）；搜索结果系列上下文徽标样式
 - [i18n/zh.js](src/web/i18n/zh.js) — 语言字典（试点：trending 视图 + 共享工具；未来加 en.js 等）。导出: `messages`
 - [icons/](src/web/icons/) — 手工维护的品牌图标资产与 `manifest.json` 映射；build-dist 原样复制到 dist/icons，二级系列 icon 不直接渲染，仅供其三级详情继承。
 - [js/main.js](src/web/js/main.js) — 前端入口：路由装配与事件绑定。导出: `currentView, switchView`
@@ -175,10 +185,11 @@
 
 ### src/web/js/data/ — 数据访问层
 - [data/catalog-interface.js](src/web/js/data/catalog-interface.js) — 浏览器侧五模块目录 Interface。导出: `catalog`
-- [data/data-catalog.js](src/web/js/data/data-catalog.js) — 前端目录 Interface 统一读取适配层。
+- [data/data-catalog.js](src/web/js/data/data-catalog.js) — 前端目录 Interface 统一读取适配层；hidden_history 工具卡可见过滤（undefined 视为 visible）与模型系列索引构建入口。
+- [data/model-series-index.mjs](src/web/js/data/model-series-index.mjs) — 前端模型系列索引与匹配纯逻辑：系列判定（model_series 或存量任一成员 api_model 回退）、bySeriesWord/byMemberWord 词形索引、matchSeries 最长词决定（成员词取单成员、系列词取全成员、并列系列优先）。导出: `isHiddenHistory, buildSeriesIndex, matchSeries, normalizeWord, deriveWordForms`
 - [data/data-comparison.js](src/web/js/data/data-comparison.js) — 前端模型对比数据加载与索引桥接。
 - [data/data-filters.js](src/web/js/data/data-filters.js) — 前端工具、场景与概念内存过滤管线。
-- [data/data-loader.js](src/web/js/data/data-loader.js) — 前端静态数据异步加载与骨架屏控制器。
+- [data/data-loader.js](src/web/js/data/data-loader.js) — 前端静态数据异步加载与骨架屏控制器；state.tools 采用 hidden_history 可见过滤。
 
 ### src/web/js/ui/ — 共享 UI 组件与工具
 - [ui/brand-icons.js](src/web/js/ui/brand-icons.js) — 手工品牌图标清单加载与统一渲染。
@@ -199,11 +210,11 @@
 - [views/glossary.js](src/web/js/views/glossary.js) — AI 概念视图。
 - [views/scenes.js](src/web/js/views/scenes.js) — 场景模式视图。
 - [views/search.js](src/web/js/views/search.js) — AI 搜索视图主流程与答案引擎。
-- [views/search-index.js](src/web/js/views/search-index.js) — 搜索三层关键词与概念词边界探测索引。
-- [views/search-render.js](src/web/js/views/search-render.js) — 搜索结果下拉面板与高亮卡片渲染。
+- [views/search-index.js](src/web/js/views/search-index.js) — 搜索分层关键词索引（场景层 → 系列层 → 内容层 → 热点概念层）与概念词边界探测；内容平铺层仅含非 api_model 卡，api_model 经系列层进入并附 series_context。
+- [views/search-render.js](src/web/js/views/search-render.js) — 搜索结果下拉面板与高亮卡片渲染；系列上下文徽标（系列标注 + 成员数 + 查看系列入口）。
 - [views/tool-cards.js](src/web/js/views/tool-cards.js) — 工具卡片渲染器。
 - [views/tool-preview-level3.js](src/web/js/views/tool-preview-level3.js) — 厂商三级预览与工具详情模块。
-- [views/tools.js](src/web/js/views/tools.js) — 工具库视图控制器。
+- [views/tools.js](src/web/js/views/tools.js) — 工具库视图控制器；同名 L2/L3 分别标注「系列」「具体模型」。
 - [views/trending.js](src/web/js/views/trending.js) — AI 热点视图。
 - [views/vendor-cards.js](src/web/js/views/vendor-cards.js) — 厂商卡片渲染器。
 - [views/vendor-preview-level1.js](src/web/js/views/vendor-preview-level1.js) — 厂商一级预览模块。
@@ -299,10 +310,11 @@
 - [index.js](tests/index.js) — 跨平台全量测试目录入口；递归加载所有 `*.test.js`，使 `node --test tests/` 可用。
 - [static-site.test.js](tests/build/static-site.test.js) — 静态站点复制构建与历史产物清理测试。
 - [web-date-display.test.js](tests/web-date-display.test.js) — 前端 typed 日期、无日期/套餐及场景类型标签纯函数回归。
+- [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引纯逻辑回归：hidden_history 可见性、存量系列回退判定、最长词匹配角色（成员/系列/并列系列优先）、全角归一化。
 - [catalog-interface.test.js](tests/catalog-interface.test.js) — 五模块目录 Interface、字段所有权、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
 - [catalog-date-audit.test.js](tests/catalog/catalog-date-audit.test.js) — 日期语义审计保守分类、目标字段和输入不变回归。
 - [catalog-date-repair.test.js](tests/catalog/catalog-date-repair.test.js) — 日期字段级修补与 `advance_update` 回归：目标类型、官方 metadata/正文/根域门禁、向前日期、批量 preview、approved queue、revision/preview 冲突、字段零漂移和 atomic commit。
-- [catalog-generator.test.js](tests/catalog/catalog-generator.test.js) — v3 官方查询、单段 Synthesis Adapter、LayerPatch planner 和 revision 回归。
+- [catalog-generator.test.js](tests/catalog/catalog-generator.test.js) — v3 官方查询、单段 Synthesis Adapter、LayerPatch planner 和 revision 回归；含统一模型键/系列字段契约（builders 门禁、条件字段豁免、snapshot 校验器存在才校验与同名 L2/L3 合法锁定）。
 - [catalog-synthesis-prompt.test.js](tests/catalog/catalog-synthesis-prompt.test.js) — 合成 prompt 按层分组、来源截断限量、跳过无正文来源与指令规则回归。
 - [catalog-adapters.test.js](tests/catalog/catalog-adapters.test.js) — Tavily 官方域名发现、清洗正文、能力探针与 DeepSeek 组合 Adapter 回归。
 - [catalog-batch.test.js](tests/catalog/catalog-batch.test.js) — 批量生成编排回归：读卡、三层查重、双表登记/解析/detail_kind_hint、`update_sources` 严格契约与 batch 兼容性、dry-run 预览、全局成本门禁、批量循环失败隔离、登记表增删。
@@ -310,6 +322,8 @@
 - [catalog-integrated-lookup.test.js](tests/catalog/catalog-integrated-lookup.test.js) — 共享 release_date 索引机械查找回归：tool_key/标题/slug/identity 对齐、deterministic 来源跳过官方来源校验。
 - [catalog-retention-prune.test.js](tests/catalog/catalog-retention-prune.test.js) — 14 个月滚动级联删除回归：过期 tool/api_model 判据、级联删 vendor 链、无日期/subscription_plan 保守保留、引用清理、featured 悬空只报不改。
 - [catalog-release-dates.test.js](tests/catalog/catalog-release-dates.test.js) — catalog→comparison 共享投影发布回归：只投影 api_model/product_variant、tool_key join、逐条形状校验 fail-closed、读写冻结。
+- [model-key-contract.test.js](tests/shared/model-key-contract.test.js) — 统一模型键算法契约回归：identity 归一化样例（'GPT-5.6 Sol'/'ＧＰＴ－５.６'/'a.b'）、fail-closed 错误码、最长前缀切分、语法判定与碰撞检测。
+- [model-identity-bridge.test.js](tests/shared/model-identity-bridge.test.js) — 模型身份桥接共享段读写回归：十字段必填校验 fail-closed、revision 确定性键序无关、缺失/损坏回退空、冻结、原子写、忽略调用方 revision。
 - [tool-update-collector.test.js](tests/catalog/tool-update-collector.test.js) — 专用更新网页 collector 全离线回归：GitHub REST/raw 请求构造、来源仓库/路径校验、release 过滤、限流重试、tag-only discovery、Tavily Extract-only 和统一证据。
 - [tool-update-review.test.js](tests/catalog/tool-update-review.test.js) — 工具更新 AI/planner/store 全离线回归：五字段结构化输出、本地/DeepSeek 成本门禁、实体/组件/日期阻断、队列幂等、人工结论保留和 evidence hash 重开。
 - [tool-update-review-cli.test.js](tests/catalog/tool-update-review-cli.test.js) — 工具更新 CLI 离线回归：参数解析、Tavily/DeepSeek 门禁、本地模型汉化与失败重试、外部摘要成本门禁、scan 不 Apply、localize 回填/list 只读和 Apply 三重确认门禁。
@@ -319,6 +333,7 @@
 - [catalog-series-policy.test.js](tests/catalog/catalog-series-policy.test.js) — LLM 二级系列政策契约回归：16 厂商矩阵、validator fail-closed、usageKindOf general/专用/uncovered 分类、vendor 别名、人工 placement ref（kind/存在性/vendor 归属）、稳定 ID 与 slugify 点号冲突。
 - [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、全新创建、专用改名、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、孤儿为空、既有浮空详情入 warnings、非政策厂商零漂移；集成真实快照迁移后校验通过且关键终态符合政策。
 - [catalog-series-placement-ai.test.js](tests/catalog/catalog-series-placement-ai.test.js) — 二级系列 AI 分类 Adapter 回归：prompt 白名单无密钥、结构校验、缺 ledger fail-closed、resolveSeriesPlacement 人工优先/非法拒绝、确定性 decision existing/create、专用与无政策厂商 not_applicable、GLM 第 4 个成员 migration_required、needs_ai 未放行/放行+AI hint/冲突/失败各分支、applyPlacementToSeed 写入 seed。
+- [series-data-audit.test.js](tests/catalog/series-data-audit.test.js) — 系列/模型键数据纯只读审计回归：12 类 finding 与 5 类建议动作枚举、干净快照零 finding、全注入输入零改动、空输入鲁棒。
 - [catalog-research.test.js](tests/catalog/catalog-research.test.js) — 官方域名过滤、Tavily-only 成本、字段级 missing-only resume 和硬成本账本回归。
 - [catalog-synthesis.test.js](tests/catalog/catalog-synthesis.test.js) — 完整层字段合成、来源 provenance、字段级 Profile mismatch、占位/伪造覆盖拒绝和 noop 层回归。
 - [catalog-transaction-store.test.js](tests/catalog/catalog-transaction-store.test.js) — 精确 area/id 删除规划、引用清理、缺失目标和不完整删除集回归。

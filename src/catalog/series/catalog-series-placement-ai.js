@@ -24,6 +24,7 @@ const { requestStructuredJson } = require('../../shared/llm-gateway');
 const {
   normalizeVendorKey,
   policyForVendor,
+  matchFamily,
   allowedTargetSeries,
   validatePlacementRef,
   planSeriesPlacement,
@@ -33,6 +34,38 @@ const VALID_USAGE = Object.freeze([
   'general_llm', 'coding', 'image', 'video', 'audio_realtime',
   'translation', 'omni', 'media', 'tool', 'subscription', 'unknown',
 ]);
+
+function normalizedMemberKey(value) {
+  return String(value || '').trim().toLowerCase().replace(/^tool-level3:/, '').replace(/[.\s_]+/g, '-');
+}
+
+function ordinaryPlacementGate(policy, snapshot, candidate, planned) {
+  if (planned?.kind !== 'decision') return planned;
+  const vendorKey = normalizeVendorKey(policy, candidate?.vendor_key || candidate?.vendor_name);
+  const vendorPolicy = vendorKey ? policyForVendor(policy, vendorKey) : null;
+  const matched = vendorPolicy ? matchFamily(policy, vendorPolicy, candidate?.name) : null;
+  if (matched && matched.usage_kind !== 'general_llm') {
+    return { kind: 'not_applicable', reason: 'SPECIALIZED_MODEL_NOT_SERIES' };
+  }
+  const family = vendorPolicy?.families?.find(item => item.family === planned.family);
+  const target = family?.series?.find(item => item.id === planned.target_level2_id);
+  const expected = (target?.expected_members || []).map(normalizedMemberKey).filter(Boolean);
+  const targetSnapshot = (snapshot?.['vendor-level2'] || []).find(item => item.id === planned.target_level2_id);
+  const projectedRefs = new Set((targetSnapshot?.detail_refs || []).map(ref => normalizedMemberKey(ref?.id)));
+  const hasCompleteExpectedSet = expected.length > 0 && expected.every(key => projectedRefs.has(key));
+  const candidateKey = normalizedMemberKey(candidate?.name);
+  if (family?.version_axis && family.version_axis !== 'none' && hasCompleteExpectedSet && !expected.includes(candidateKey)) {
+    return {
+      kind: 'migration_required',
+      code: 'PLACEMENT_MIGRATION_REQUIRED',
+      vendor: planned.vendor,
+      family: planned.family,
+      series: target,
+      reason: `目标系列 ${planned.target_level2_id} 已达到政策成员边界，需先运行迁移 CLI 对齐`,
+    };
+  }
+  return planned;
+}
 
 /** 构建 AI 分类输入（纯函数）。 */
 function buildSeriesPlacementInput({ candidate, policy, currentSeries }) {
@@ -177,7 +210,7 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
   if (planned.kind === 'not_applicable' || planned.kind === 'migration_required' || planned.kind === 'fail_closed') {
     return planned;
   }
-  if (planned.kind === 'decision') return planned;
+  if (planned.kind === 'decision') return ordinaryPlacementGate(policy, snapshot, candidate, planned);
 
   // 3. needs_ai：仅当显式允许才调用 AI；否则 fail-closed（绝不由模型名兜底建组）
   if (planned.kind !== 'needs_ai') return planned;
@@ -202,8 +235,9 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
     confidence: suggestion.hint.confidence,
   };
   const replanned = planSeriesPlacement(policy, snapshot, candidate, hint);
-  if (replanned.kind === 'decision' || replanned.kind === 'not_applicable' || replanned.kind === 'migration_required') {
-    return { ...replanned, source: 'ai', ai_confidence: suggestion.hint.confidence };
+  const gated = ordinaryPlacementGate(policy, snapshot, candidate, replanned);
+  if (gated.kind === 'decision' || gated.kind === 'not_applicable' || gated.kind === 'migration_required') {
+    return { ...gated, source: 'ai', ai_confidence: suggestion.hint.confidence };
   }
   return { kind: 'fail_closed', code: 'PLACEMENT_AI_NOT_CONFIRMED', reason: replanned.reason };
 }

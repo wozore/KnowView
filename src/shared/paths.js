@@ -90,6 +90,7 @@ const CATALOG_GENERATOR_FILES = Object.freeze({
   dateAudit: path.join(TOOLS_DIR, 'catalog-date-audit.json'), // 日期语义审计清单（只读正式 catalog 后生成）
   toolUpdateReview: path.join(TOOLS_DIR, 'tool-update-review.json'), // 编程工具更新人工审核清单（后续步骤使用）
   seriesPolicy: REGISTRIES_FILES.seriesPolicy, // 厂商 LLM 系列分类政策（阶段 1 政策契约，阶段 2 迁移与阶段 4 AI 分类规则源）
+  identityReceipts: path.join(TOOLS_DIR, 'identity-receipts.json'), // 模型身份核验回执（data/manual/tools/identity-receipts.json；仅常量登记）
 });
 
 const CONCEPT_FILES = Object.freeze({
@@ -133,6 +134,7 @@ const SHARED_FILES = Object.freeze({
   retention: path.join(SHARED_DIR, 'retention.json'), // 14 个月滚动删除日期（cutoff 状态，comparison 写 / catalog prune 读）
   modelReleaseDates: path.join(SHARED_DIR, 'model-release-dates.json'), // 模型 release_date 查找索引（comparison 写 / catalog 生成器读）
   catalogReleaseDates: path.join(SHARED_DIR, 'catalog-release-dates.json'), // catalog api_model/product_variant release_date 投影（catalog 写 / comparison 反查读）
+  modelIdentityBridge: path.join(SHARED_DIR, 'model-identity-bridge.json'), // 统一模型键 ↔ 目录实体桥接投影（catalog 事务提交路径写 / 反哺查重与系列审计读）
 });
 
 const RSS_FEED_PATH = path.join(PUBLIC_DIR, 'feed.xml');

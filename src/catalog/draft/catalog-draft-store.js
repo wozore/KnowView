@@ -4,10 +4,69 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const { CATALOG_GENERATOR_FILES } = require('../../shared/paths');
-const { readJson, writeJsonAtomic } = require('../../shared/json-store');
+const { readJson, writeJsonAtomic, acquireLock, releaseLock } = require('../../shared/json-store');
+
+const BUNDLE_PREPARE_LOCK_TTL_MS = 15 * 60 * 1000;
 
 function ensureDraftDir() {
   fs.mkdirSync(CATALOG_GENERATOR_FILES.draftsDir, { recursive: true });
+}
+
+function bundlePrepareLockPath() {
+  return path.join(CATALOG_GENERATOR_FILES.draftsDir, '.series-bundle-prepare.lock');
+}
+
+function ownerAlive(pid) {
+  if (!Number.isInteger(pid) || pid <= 0) return false;
+  try { process.kill(pid, 0); return true; }
+  catch (error) { return error.code === 'EPERM'; }
+}
+
+function staleBundlePrepareLock(lock) {
+  const pid = Number(lock?.pid);
+  const started = Date.parse(lock?.started_at || lock?.acquired_at || '');
+  return Number.isFinite(started)
+    && Date.now() - started > BUNDLE_PREPARE_LOCK_TTL_MS
+    && !ownerAlive(pid);
+}
+
+function recoverStaleBundlePrepareLock(lockPath) {
+  const current = readJson(lockPath, null);
+  if (!staleBundlePrepareLock(current)) return false;
+  const currentAgain = readJson(lockPath, null);
+  if (!currentAgain || currentAgain.run_id !== current.run_id || currentAgain.pid !== current.pid
+    || currentAgain.started_at !== current.started_at) return false;
+  const stalePath = `${lockPath}.stale.${process.pid}.${Date.now()}`;
+  try {
+    fs.renameSync(lockPath, stalePath);
+    try { fs.unlinkSync(stalePath); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    return true;
+  } catch (error) {
+    if (error.code === 'ENOENT') return true;
+    return false;
+  }
+}
+
+function acquireBundlePrepareLock() {
+  ensureDraftDir();
+  const lockPath = bundlePrepareLockPath();
+  const runId = `series-bundle-${process.pid}-${Date.now()}`;
+  const metadata = {
+    owner: runId,
+    run_id: runId,
+    pid: process.pid,
+    started_at: new Date().toISOString(),
+  };
+  try { acquireLock(lockPath, metadata); }
+  catch (error) {
+    if (error.code !== 'EEXIST' || !recoverStaleBundlePrepareLock(lockPath)) throw error;
+    acquireLock(lockPath, metadata);
+  }
+  return { lockPath, runId };
+}
+
+function releaseBundlePrepareLock(lock) {
+  return releaseLock(lock.lockPath, lock.runId);
 }
 
 function newDraftId() {
@@ -51,6 +110,10 @@ function createDraft(input) {
     readiness: input?.readiness || { status: 'blocked', blocking_reasons: [], warnings: [] },
     change_preview: input?.change_preview || null,
     preview_hash: input?.preview_hash || null,
+    bundle: input?.bundle || null,
+    bundle_token: input?.bundle_token || null,
+    bundle_id: input?.bundle_id || null,
+    draft_kind: input?.draft_kind || 'catalog',
     apply_checkpoint: input?.apply_checkpoint || null,
     recovery_checkpoint: input?.recovery_checkpoint || null,
     last_error: input?.last_error || null,
@@ -73,11 +136,15 @@ function deleteDraft(draftId) {
   }
 }
 
-function listDrafts() {
+function listDrafts(options = {}) {
   ensureDraftDir();
+  const schemaVersion = options.include_all === true ? null : (options.schema_version ?? 3);
+  const draftKind = options.include_all === true ? null : (options.draft_kind || 'catalog');
   return fs.readdirSync(CATALOG_GENERATOR_FILES.draftsDir)
     .filter(file => file.endsWith('.json'))
-    .map(file => readDraft(file.slice(0, -5)));
+    .map(file => readDraft(file.slice(0, -5)))
+    .filter(draft => (schemaVersion === null || draft.schema_version === schemaVersion)
+      && (draftKind === null || draft.draft_kind === draftKind));
 }
 
-module.exports = { newDraftId, draftPath, readDraft, writeDraft, createDraft, updateDraft, deleteDraft, listDrafts };
+module.exports = { newDraftId, draftPath, readDraft, writeDraft, createDraft, updateDraft, deleteDraft, listDrafts, acquireBundlePrepareLock, releaseBundlePrepareLock };

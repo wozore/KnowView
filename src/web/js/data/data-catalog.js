@@ -4,6 +4,7 @@
  */
 
 import { catalog } from './catalog-interface.js';
+import { isHiddenHistory, buildSeriesIndex } from './model-series-index.mjs';
 
 export function getCatalogItems(area) {
   const result = catalog({ area, operation: 'list' });
@@ -20,6 +21,22 @@ export function getVendorCardItem(vendorKey) {
 
 export function getToolCardItems() {
   return [...getCatalogItems('tool-card')];
+}
+
+export function isVisibleToolCard(card) {
+  return !isHiddenHistory(card); // undefined 视为 visible（存量兼容）
+}
+
+export function getVisibleToolCardItems() {
+  return getToolCardItems().filter(isVisibleToolCard);
+}
+
+export function getSeriesIndex() {
+  return buildSeriesIndex({
+    toolCards: getVisibleToolCardItems(),
+    level2s: getCatalogItems('vendor-level2'),
+    level3s: getCatalogItems('tool-level3'),
+  });
 }
 
 export function getToolCardItem(toolKey, itemKey = null) {

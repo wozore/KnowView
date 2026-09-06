@@ -57,7 +57,9 @@ function copyCatalogFiles(targetDir, catalogFiles, options = {}) {
 function backupDirectory(target, projectDir, options = {}) {
   const fsImpl = options.fsImpl || fs;
   const dist = path.join(projectDir, 'dist');
-  if (fsImpl.existsSync(dist)) fsImpl.cpSync(dist, target, { recursive: true });
+  if (!fsImpl.existsSync(dist)) return false;
+  fsImpl.cpSync(dist, target, { recursive: true });
+  return true;
 }
 
 module.exports = { removeIfExists, replaceDirectory, replaceCatalogFiles, copyCatalogFiles, backupDirectory };

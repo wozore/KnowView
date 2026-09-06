@@ -12,6 +12,8 @@ function klingVideoSeed(overrides = {}) {
     vendor_name: '可灵',
     vendor_key: 'kuaishou',
     tool_key: 'kling-2-6-pro',
+    model_key: 'kuaishou-kling-2.6-pro',
+    series_kind: 'model_series',
     official_url: OFFICIAL_URL,
     placement: {
       existing_level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:kuaishou' },

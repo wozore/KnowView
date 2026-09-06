@@ -56,14 +56,30 @@ function buildSearchAnswer(query, tools, matches = {}) {
   ];
 }
 
-function renderSearchToolMinis(tools) {
+function seriesBadgeHtml(tool) {
+  const context = tool.series_context;
+  if (!context) return '';
+  const label = context.role === 'series' ? '系列' : '所属系列';
+  return '<div class="search-tool-mini-series">' +
+    '<button class="search-series-link" type="button" ' +
+      'onclick="event.stopPropagation();openDetail(\'' + escapeHtml(context.series_id) + '\')" ' +
+      'aria-label="查看' + escapeHtml(label) + '：' + escapeHtml(context.series_title) + '，共 ' + escapeHtml(String(context.member_count)) + ' 个成员">' +
+      '<span class="search-series-tag">' + escapeHtml(label) + '</span>' +
+      '<span class="search-series-name">' + escapeHtml(context.series_title) + '</span>' +
+      '<span class="search-series-count">' + escapeHtml(String(context.member_count)) + ' 个成员</span>' +
+      '<span class="search-series-open">查看系列 →</span>' +
+    '</button>' +
+  '</div>';
+}
+
+function renderSearchToolMinis(tools, layer = null) {
   const section = document.querySelector('.search-tool-minis');
   const title = document.getElementById('searchToolMinisTitle');
   const list = document.getElementById('searchToolMiniList');
   if (!list) return;
-  if (title) title.textContent = '匹配的工具';
+  if (title) title.textContent = layer === 'series' ? '匹配的模型系列' : '匹配的工具';
   const eyebrow = section && section.querySelector('.eyebrow');
-  if (eyebrow) eyebrow.textContent = '工具列表';
+  if (eyebrow) eyebrow.textContent = layer === 'series' ? '模型系列' : '工具列表';
   const faint = section && section.querySelector('.faint');
   if (faint) faint.hidden = false;
 
@@ -79,6 +95,7 @@ function renderSearchToolMinis(tools) {
         '</div>' +
         '<a class="search-tool-mini-ext" href="' + escapeHtml(safeExternalUrl(tool.official_url)) + '" target="_blank" rel="noopener noreferrer" aria-label="访问 ' + escapeHtml(tool.title) + ' 官网">↗</a>' +
       '</div>' +
+      seriesBadgeHtml(tool) +
       '<p class="search-tool-mini-summary" data-search-concept-text>' + escapeHtml(tool.summary || '') + '</p>' +
       (scenes ? '<div class="search-tool-mini-tags">' + scenes + '</div>' : '') +
     '</article>';
@@ -355,7 +372,7 @@ export function renderSearchResults(query, searchState) {
     renderSearchKnowledge(matches);
   } else {
     summary.innerHTML = buildSearchAnswer(query, tools, matches).join('');
-    renderSearchToolMinis(tools);
+    renderSearchToolMinis(tools, matches.layer);
   }
 
   renderSearchFeedback(true, searchState?.feedback);

@@ -448,6 +448,21 @@ main:has(#view-search.active):has(#searchResultsPanel:not([hidden])) { max-width
 .search-tool-mini-link .icon { width: 16px; height: 16px; }
 .search-more-tools { flex: none; align-self: center; }
 
+/* 搜索结果系列上下文徽标：系列标注 + 成员数 + 查看系列入口（series 层与所属系列标注共用） */
+.search-tool-mini-series { flex-basis: 100%; margin: 0; }
+.search-series-link {
+  display: inline-flex; align-items: center; gap: 6px; max-width: 100%;
+  padding: 3px 10px; border: 1px solid var(--border); border-radius: 999px;
+  background: transparent; color: var(--muted); font-size: 12px; line-height: 1.7;
+  cursor: pointer; text-align: left; transition: border-color .15s ease, color .15s ease;
+}
+.search-series-link:hover { border-color: var(--primary); color: var(--ink); }
+.search-series-link:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+.search-series-tag { flex: none; font-weight: 600; color: var(--editorial-accent); }
+.search-series-name { font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.search-series-count { flex: none; opacity: .75; }
+.search-series-open { flex: none; color: var(--link); }
+
 /* 概念左栏索引：术语名 + 摘要（摘要取自 glossary.json 的 summary 字段，最多 2 行截断） */
 .search-concepts-list { display: grid; gap: 2px; }
 .search-concept-rail-item {

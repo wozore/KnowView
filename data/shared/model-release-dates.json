@@ -1,12 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-26T16:31:33.560Z",
+  "generated_at": "2026-09-05T18:02:50.316Z",
   "entries": [
-    {
-      "model_key": "allenai--olmo-3-32b-think",
-      "release_date": "2025-11-21",
-      "catalog_aliases": []
-    },
     {
       "model_key": "amazon--nova-2-lite",
       "release_date": "2025-12-02",
@@ -556,7 +551,7 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "moonshotai--kimi-k2-instruct@2025-09-05",
+      "model_key": "moonshotai--kimi-k2-instruct@09-05",
       "release_date": "2025-09-05",
       "catalog_aliases": []
     },
@@ -566,7 +561,7 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "moonshotai--kimi-k2-thinking@2025-09-05",
+      "model_key": "moonshotai--kimi-k2-thinking@09-05",
       "release_date": "2025-09-05",
       "catalog_aliases": []
     },
@@ -586,7 +581,7 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "moonshotai--kimi-k2@2025-09-05",
+      "model_key": "moonshotai--kimi-k2@09-05",
       "release_date": "2025-09-05",
       "catalog_aliases": []
     },
@@ -635,11 +630,6 @@
     {
       "model_key": "openai--gpt-5",
       "release_date": "2025-08-07",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "openai--gpt-5-codex",
-      "release_date": "2025-09-23",
       "catalog_aliases": []
     },
     {
@@ -746,15 +736,6 @@
       "model_key": "openai--gpt-5.5-pro",
       "release_date": "2026-04-23",
       "catalog_aliases": []
-    },
-    {
-      "model_key": "openai--gpt-5.6",
-      "release_date": "2026-07-30",
-      "catalog_aliases": [
-        "GPT 5.6",
-        "gpt-5-6",
-        "GPT-5.6"
-      ]
     },
     {
       "model_key": "openai--gpt-5.6-luna",
@@ -982,12 +963,22 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "qwen--qwen3.8-flash-next",
+      "release_date": "2026-08-26",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "qwen--qwen3.8-max",
       "release_date": "2026-08-02",
       "catalog_aliases": [
         "qwen3-8-max",
         "Qwen3.8 Max"
       ]
+    },
+    {
+      "model_key": "qwen--qwen3.8-max@09-02",
+      "release_date": "2026-07-19",
+      "catalog_aliases": []
     },
     {
       "model_key": "reve--reve-2.1",
@@ -1026,6 +1017,11 @@
       ]
     },
     {
+      "model_key": "tencent--hy4-preview",
+      "release_date": "2026-08-28",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "thinking-machines--inkling-small",
       "release_date": "2026-07-30",
       "catalog_aliases": []
@@ -1042,7 +1038,7 @@
     },
     {
       "model_key": "xai--grok-4",
-      "release_date": "2025-07-09",
+      "release_date": "2025-08-28",
       "catalog_aliases": []
     },
     {
@@ -1135,57 +1131,57 @@
       ]
     },
     {
-      "model_key": "zai--glm-4.5",
+      "model_key": "zhipu--glm-4.5",
       "release_date": "2025-07-28",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-4.5-air",
+      "model_key": "zhipu--glm-4.5-air",
       "release_date": "2025-07-28",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-4.5v",
+      "model_key": "zhipu--glm-4.5v",
       "release_date": "2025-08-11",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-4.6",
+      "model_key": "zhipu--glm-4.6",
       "release_date": "2025-09-30",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-4.6v",
+      "model_key": "zhipu--glm-4.6v",
       "release_date": "2025-12-08",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-4.7",
+      "model_key": "zhipu--glm-4.7",
       "release_date": "2025-12-22",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-4.7-flash",
+      "model_key": "zhipu--glm-4.7-flash",
       "release_date": "2026-01-19",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-5",
+      "model_key": "zhipu--glm-5",
       "release_date": "2026-02-11",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-5.1",
+      "model_key": "zhipu--glm-5.1",
       "release_date": "2026-04-07",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-5.2",
+      "model_key": "zhipu--glm-5.2",
       "release_date": "2026-06-16",
       "catalog_aliases": []
     },
     {
-      "model_key": "zai--glm-5.3",
+      "model_key": "zhipu--glm-5.3",
       "release_date": "2026-08-14",
       "catalog_aliases": [
         "glm-5-3",
@@ -1193,7 +1189,12 @@
       ]
     },
     {
-      "model_key": "zai--glm-5v-turbo",
+      "model_key": "zhipu--glm-5.3-flash",
+      "release_date": "2026-08-26",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "zhipu--glm-5v-turbo",
       "release_date": "2026-04-02",
       "catalog_aliases": []
     }

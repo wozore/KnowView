@@ -2,7 +2,7 @@
  * catalog-series-policy.test.js — LLM 二级系列政策契约回归（阶段 1）
  *
  * 覆盖面：
- *   - 16 厂商政策矩阵完整：每厂商至少有 general_llm 家族、目标系列集合、evidence 状态合法；
+ *   - 28 厂商政策矩阵完整：每家有方向与系列，LLM 厂商有 general_llm 家族、evidence 状态合法；
  *   - validateSeriesPolicy 对缺 top 字段 / 重复 vendor / 重复 series id / 非法 usage /
  *     capacity 区间 / evidence 非法等 fail-closed；
  *   - usageKindOf 正确区分 general_llm / 专用 / 未覆盖（含无 modality 的 pending）；
@@ -40,19 +40,22 @@ test('政策文件加载合法，无校验错误', () => {
   assert.equal(validateSeriesPolicy(p).length, 0);
 });
 
-test('厂商矩阵：16 个厂商，每家至少有 general_llm 家族且目标系列非空', () => {
+test('厂商矩阵：28 个厂商，每家有方向与目标系列', () => {
   const p = policy();
   const vendors = p.vendors.map(v => v.vendor_key);
-  assert.deepEqual(vendors, ['openai', 'anthropic', 'google', 'deepseek', 'zhipu', 'baidu', 'mistral', 'cohere', 'xai', 'minimax', 'moonshot', 'alibaba', 'tencent', 'stepfun', 'xiaomi', 'nvidia']);
+  assert.deepEqual(vendors, ['openai', 'anthropic', 'google', 'deepseek', 'zhipu', 'baidu', 'minimax', 'xai', 'mistral', 'cohere', 'moonshot', 'alibaba', 'tencent', 'meta', 'stepfun', 'xiaomi', 'bytedance', 'upstage', 'microsoft', 'antgroup', 'kuaishou', 'luma', 'vidu', 'black-forest-labs', 'reve', 'perplexity', 'nvidia', 'thinking-machines']);
   for (const vendor of p.vendors) {
-    const generalIdx = vendor.families.findIndex(f => f.usage_kind === 'general_llm');
-    assert.ok(generalIdx >= 0, `${vendor.vendor_key} 缺 general_llm 家族`);
-    const series = allowedTargetSeries(p, vendor, vendor.families[generalIdx].family);
-    assert.ok(series.length > 0, `${vendor.vendor_key} 的 general_llm 家族缺目标系列`);
-    for (const s of series) {
-      assert.match(s.id, /^vendor-level2:/, `${vendor.vendor_key} 系列 id 前缀非法`);
-      assert.ok(['newest', 'previous'].includes(s.cohort), `${vendor.vendor_key} 系列 cohort 非法`);
-      assert.ok(Array.isArray(s.expected_members), `${vendor.vendor_key} 系列缺 expected_members`);
+    assert.ok(['llm', 'video', 'image', 'search_platform', 'infrastructure'].includes(vendor.direction), `${vendor.vendor_key} direction 非法`);
+    assert.ok(Array.isArray(vendor.families), `${vendor.vendor_key} families 非法`);
+    if (vendor.direction === 'llm' && vendor.families.length && !['upstage', 'microsoft', 'antgroup'].includes(vendor.vendor_key)) assert.ok(vendor.families.some(f => f.usage_kind === 'general_llm'), `${vendor.vendor_key} 缺 general_llm 家族`);
+    for (const family of vendor.families) {
+      const series = allowedTargetSeries(p, vendor, family.family);
+      assert.ok(series.length > 0, `${vendor.vendor_key}/${family.family} 缺目标系列`);
+      for (const s of series) {
+        assert.match(s.id, /^vendor-level2:/, `${vendor.vendor_key} 系列 id 前缀非法`);
+        assert.ok(['newest', 'previous'].includes(s.generation_state), `${vendor.vendor_key} 系列 generation_state 非法`);
+        assert.ok(Array.isArray(s.expected_members), `${vendor.vendor_key} 系列缺 expected_members`);
+      }
     }
   }
 });
@@ -63,7 +66,7 @@ function basePolicy() {
   return {
     schema_version: 1,
     verified_at: '2026-08-25',
-    capacity: { merge_up_to: 3, split_when_member_count_exceeds: 3 },
+    capacity: { visible_members: 6, history_retention_months: 14 },
     defaults: { unknown_vendor_policy: 'fail_closed' },
     vendor_aliases: { openai: ['openai', 'open ai'] },
     vendors: [
@@ -88,10 +91,10 @@ test('validateSeriesPolicy：缺 top 字段 / 根节点非法', () => {
   assert.ok(validateSeriesPolicy(missing).some(e => e === 'SERIES_POLICY_MISSING_TOP:vendors'));
 });
 
-test('validateSeriesPolicy：capacity 区间非法拒绝（merge 须小于 split 阈值）', () => {
+test('validateSeriesPolicy：capacity 区间非法拒绝', () => {
   const bad = basePolicy();
-  bad.capacity = { merge_up_to: 3, split_when_member_count_exceeds: 2 };
-  assert.ok(validateSeriesPolicy(bad).includes('SERIES_POLICY_CAPACITY_RANGE_INVALID'));
+  bad.capacity = { visible_members: 0, history_retention_months: 14 };
+  assert.ok(validateSeriesPolicy(bad).includes('SERIES_POLICY_CAPACITY_INVALID'));
 });
 
 test('validateSeriesPolicy：vendor 重复 / series id 重复拒绝', () => {
@@ -135,7 +138,8 @@ test('normalizeVendorKey：别名/大小写/未命中', () => {
 test('policyForVendor：命中与未命中', () => {
   const p = policy();
   assert.equal(policyForVendor(p, 'openai').vendor_key, 'openai');
-  assert.equal(policyForVendor(p, 'kuaishou'), null);
+  assert.equal(policyForVendor(p, 'kuaishou').vendor_key, 'kuaishou');
+  assert.equal(policyForVendor(p, 'unknown vendor'), null);
 });
 
 // ── 第 4 组：用途判定 ──────────────────────────────────────────
@@ -163,9 +167,9 @@ test('usageKindOf：无 pattern 命中的通用缺省 → general_llm', () => {
   assert.equal(usageKindOf(p, policyForVendor(p, 'cohere'), seed({ vendor_key: 'cohere', name: 'Command A+' })), 'general_llm');
 });
 
-test('usageKindOf：厂商未覆盖（可灵 Kling）→ uncovered，不当作通用 LLM', () => {
+test('usageKindOf：厂商政策中的视频家族 → video', () => {
   const p = policy();
-  assert.equal(usageKindOf(p, policyForVendor(p, 'kuaishou'), seed({ vendor_key: 'kuaishou', name: 'Kling 3.0' })), 'uncovered');
+  assert.equal(usageKindOf(p, policyForVendor(p, 'kuaishou'), seed({ vendor_key: 'kuaishou', name: 'Kling 3.0' })), 'video');
 });
 
 test('usageKindOf：subscription / tool 归入专用，不进入 general_llm', () => {
@@ -181,7 +185,7 @@ test('usageKindOf：显式 modality 兜底映射', () => {
 
 // ── 第 5 组：目标系列集合 ──────────────────────────────────────
 
-test('allowedTargetSeries：zhipu GLM 当前仅一个系列（GLM 5）且成员数 = merge_up_to 上限', () => {
+test('allowedTargetSeries：zhipu GLM 共享一个真实系列且容量为 6', () => {
   const p = policy();
   const zhipu = policyForVendor(p, 'zhipu');
   const series = allowedTargetSeries(p, zhipu, 'glm');
@@ -189,20 +193,19 @@ test('allowedTargetSeries：zhipu GLM 当前仅一个系列（GLM 5）且成员�
   assert.equal(series[0].id, 'vendor-level2:zhipu:glm');
   assert.equal(series[0].title, 'GLM 5');
   assert.equal(series[0].expected_members.length, 3);
-  assert.equal(p.capacity.merge_up_to, 3);
-  assert.equal(p.capacity.split_when_member_count_exceeds, 3, 'GLM 第 4 个成员才触发拆分阈值');
-  assert.equal(zhipu.families[0].split_rule, 'auto_after_4');
+  assert.equal(p.capacity.visible_members, 6);
+  assert.equal(p.capacity.history_retention_months, 14);
 });
 
-test('allowedTargetSeries：OpenAI/Anthropic 有 manual_split_exception 且保留双系列', () => {
+test('allowedTargetSeries：OpenAI/Anthropic 使用真实系列 ID 与 generation_state', () => {
   const p = policy();
   const gpt = policyForVendor(p, 'openai').families.find(f => f.family === 'gpt');
-  assert.equal(gpt.manual_split_exception, true);
-  assert.equal(gpt.series.length, 2);
+  assert.deepEqual(gpt.series.map(s => s.generation_state), ['newest', 'previous']);
+  assert.ok(gpt.series.every(s => !s.id.endsWith(':newest') && !s.id.endsWith(':previous')));
 
   const claude = policyForVendor(p, 'anthropic').families.find(f => f.family === 'claude');
-  assert.equal(claude.manual_split_exception, true);
-  assert.deepEqual(claude.series.map(s => s.cohort), ['newest', 'previous']);
+  assert.ok(claude.series.some(s => s.generation_state === 'newest'));
+  assert.ok(claude.series.every(s => ['newest', 'previous'].includes(s.generation_state)));
 });
 
 // ── 第 6 组：人工 placement 引用校验 ───────────────────────────

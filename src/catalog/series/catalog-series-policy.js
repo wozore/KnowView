@@ -10,12 +10,13 @@ const USAGE_KINDS = Object.freeze([
 ]);
 
 const EVIDENCE_STATUS = Object.freeze(['verified', 'repository_only', 'inferred']);
-const COHORTS = Object.freeze(['newest', 'previous']);
-const SPLIT_RULES = Object.freeze(['family', 'auto', 'auto_after_4', 'none']);
+const GENERATION_STATES = Object.freeze(['newest', 'previous']);
+const VENDOR_DIRECTIONS = Object.freeze(['llm', 'video', 'image', 'search_platform', 'infrastructure']);
+const FAMILY_MODALITIES = Object.freeze(['text', 'image', 'video', 'audio', 'omni']);
+const FAMILY_SERIES_KINDS = Object.freeze(['model_series', 'subscription_series', 'tool_series']);
 
 const DETAIL_REF_KIND = 'tool-level3';
 
-/** 1. 读取政策原始 JSON。 */
 function readSeriesPolicy(filePath) {
   const payload = readJson(filePath || CATALOG_GENERATOR_FILES.seriesPolicy, null);
   if (payload === null || typeof payload !== 'object' || Array.isArray(payload)) {
@@ -24,14 +25,12 @@ function readSeriesPolicy(filePath) {
   return payload;
 }
 
-/** 校验成员 id 是否为合法 detail ref 短 id（允许带或不带 tool-level3: 前缀）。 */
 function detailKeyOf(value) {
   const text = String(value || '').trim();
   if (!text) return null;
   return text.startsWith(`${DETAIL_REF_KIND}:`) ? text.slice(DETAIL_REF_KIND.length + 1) : text;
 }
 
-/** 把短/完整成员 id 规范为完整 detail ref id。 */
 function detailRefIdOf(value) {
   const key = detailKeyOf(value);
   if (!key) return null;
@@ -40,7 +39,6 @@ function detailRefIdOf(value) {
 
 const REQUIRED_TOPS = ['schema_version', 'capacity', 'defaults', 'vendor_aliases', 'vendors'];
 
-/** 2. 结构校验：失败返回错误数组，成功返回空数组。 */
 function validateSeriesPolicy(policy) {
   const errors = [];
   if (!policy || typeof policy !== 'object' || Array.isArray(policy)) {
@@ -55,10 +53,13 @@ function validateSeriesPolicy(policy) {
   if (typeof policy.verified_at !== 'string' || !policy.verified_at) errors.push('SERIES_POLICY_VERIFIED_AT_INVALID');
 
   const cap = policy.capacity;
-  if (!cap || !Number.isInteger(cap.merge_up_to) || !Number.isInteger(cap.split_when_member_count_exceeds)) {
+  if (!cap || !Number.isInteger(cap.visible_members) || cap.visible_members < 1
+    || !Number.isInteger(cap.history_retention_months) || cap.history_retention_months < 1) {
     errors.push('SERIES_POLICY_CAPACITY_INVALID');
-  } else if (cap.merge_up_to < 1 || cap.split_when_member_count_exceeds < 1 || cap.split_when_member_count_exceeds < cap.merge_up_to) {
-    errors.push('SERIES_POLICY_CAPACITY_RANGE_INVALID');
+  }
+
+  if (policy.vendor_direction_suggestions !== undefined && !Array.isArray(policy.vendor_direction_suggestions)) {
+    errors.push('SERIES_POLICY_DIRECTION_SUGGESTIONS_INVALID');
   }
 
   if (!policy.defaults || typeof policy.defaults !== 'object') errors.push('SERIES_POLICY_DEFAULTS_INVALID');
@@ -83,8 +84,9 @@ function validateSeriesPolicy(policy) {
     if (!vk || typeof vk !== 'string') { errors.push('SERIES_POLICY_VENDOR_KEY_INVALID'); continue; }
     if (seenVendor.has(vk)) errors.push(`SERIES_POLICY_VENDOR_DUPLICATE:${vk}`);
     seenVendor.add(vk);
+    if (!VENDOR_DIRECTIONS.includes(vendor.direction)) errors.push(`SERIES_POLICY_VENDOR_DIRECTION_INVALID:${vk}:${vendor.direction}`);
 
-    if (!Array.isArray(vendor.families) || !vendor.families.length) {
+    if (!Array.isArray(vendor.families)) {
       errors.push(`SERIES_POLICY_VENDOR_NO_FAMILY:${vk}`);
       continue;
     }
@@ -99,19 +101,25 @@ function validateSeriesPolicy(policy) {
       if (!USAGE_KINDS.includes(family.usage_kind)) {
         errors.push(`SERIES_POLICY_USAGE_INVALID:${vk}:${family.family}:${family.usage_kind}`);
       }
+      if (!FAMILY_MODALITIES.includes(family.modality)) errors.push(`SERIES_POLICY_FAMILY_MODALITY_INVALID:${vk}:${family.family}:${family.modality}`);
+      if (!FAMILY_SERIES_KINDS.includes(family.series_kind)) errors.push(`SERIES_POLICY_FAMILY_SERIES_KIND_INVALID:${vk}:${family.family}:${family.series_kind}`);
       if (family.version_axis && typeof family.version_axis !== 'string') errors.push(`SERIES_POLICY_VERSION_AXIS_INVALID:${vk}:${family.family}`);
-      if (family.split_rule && !SPLIT_RULES.includes(family.split_rule)) errors.push(`SERIES_POLICY_SPLIT_RULE_INVALID:${vk}:${family.family}:${family.split_rule}`);
       if (family.name_patterns && !Array.isArray(family.name_patterns)) errors.push(`SERIES_POLICY_NAME_PATTERNS_INVALID:${vk}:${family.family}`);
 
       if (!Array.isArray(family.series) || !family.series.length) {
         errors.push(`SERIES_POLICY_FAMILY_NO_SERIES:${vk}:${family.family}`);
       } else {
+        const newestCount = family.series.filter(series => series && series.generation_state === 'newest').length;
+        const previousCount = family.series.filter(series => series && series.generation_state === 'previous').length;
+        if (newestCount !== 1 || previousCount > 1) {
+          errors.push(`SERIES_POLICY_GENERATION_STATE_INVALID:${vk}:${family.family}:newest=${newestCount},previous=${previousCount}`);
+        }
         for (const series of family.series) {
           if (!series || typeof series.id !== 'string' || !series.id) errors.push(`SERIES_POLICY_SERIES_ID_INVALID:${vk}:${family.family}`);
           if (series.id && seenSeriesId.has(series.id)) errors.push(`SERIES_POLICY_SERIES_DUPLICATE:${series.id}`);
           if (series.id) seenSeriesId.add(series.id);
           if (typeof series.title !== 'string' || !series.title) errors.push(`SERIES_POLICY_SERIES_TITLE_INVALID:${series.id || vk}`);
-          if (!COHORTS.includes(series.cohort)) errors.push(`SERIES_POLICY_SERIES_COHORT_INVALID:${series.id || vk}:${series.cohort}`);
+          if (!GENERATION_STATES.includes(series.generation_state)) errors.push(`SERIES_POLICY_SERIES_GENERATION_STATE_INVALID:${series.id || vk}:${series.generation_state}`);
           if (!Array.isArray(series.expected_members)) errors.push(`SERIES_POLICY_SERIES_MEMBERS_INVALID:${series.id || vk}`);
           for (const member of series.expected_members || []) {
             if (detailKeyOf(member) === null) errors.push(`SERIES_POLICY_SERIES_MEMBER_KEY_INVALID:${series.id || vk}:${member}`);
@@ -136,7 +144,6 @@ function validateSeriesPolicy(policy) {
   return errors;
 }
 
-/** 3. 读取 + 校验，失败抛错（fail-closed）。 */
 function loadSeriesPolicy(filePath) {
   const policy = readSeriesPolicy(filePath);
   const errors = validateSeriesPolicy(policy);
@@ -144,7 +151,6 @@ function loadSeriesPolicy(filePath) {
   return policy;
 }
 
-/** 4. 把任意 vendor 名/别名规范为政策里的 canonical vendor_key。未命中返回 null。 */
 function normalizeVendorKey(policy, value) {
   const text = String(value || '').trim().toLowerCase();
   if (!text) return null;
@@ -156,13 +162,11 @@ function normalizeVendorKey(policy, value) {
   return null;
 }
 
-/** 5. 获取某厂商政策条目。未命中返回 null。 */
 function policyForVendor(policy, vendorKey) {
   const key = String(vendorKey || '').trim().toLowerCase();
   return policy.vendors.find(v => v.vendor_key === key) || null;
 }
 
-/** 6. 用候选名匹配厂商下的模型家族。返回 { family, source: 'pattern' } 或在第 2 个参数下的默认 general family 上回退。 */
 function matchFamily(policy, vendorPolicy, modelName) {
   if (!vendorPolicy) return null;
   const name = String(modelName || '').toLowerCase();
@@ -176,7 +180,6 @@ function matchFamily(policy, vendorPolicy, modelName) {
   return null;
 }
 
-/** 按 modality 直接映射用途。 */
 function usageFromModality(modality) {
   if (modality === 'video') return 'video';
   if (modality === 'image') return 'image';
@@ -193,34 +196,28 @@ function usageKindOf(policy, vendorPolicy, seed) {
     return matched ? matched.usage_kind : 'tool';
   }
 
-  // api_model：先用厂商家族 pattern 匹配（覆盖无 modality 的 pending，如 Realtime/Image/H3/Kling）
   const matched = matchFamily(policy, vendorPolicy, seed.name);
   if (matched) return matched.usage_kind;
 
-  // 其次显式 modality
   if (seed.modality) {
     const usage = usageFromModality(seed.modality);
     if (usage) return usage;
   }
 
-  // 厂商在政策内但无任何家族命中：缺省按该厂商默认，否则 uncovered
   if (vendorPolicy) {
     const defaultFamily = vendorPolicy.families.find(f => f.usage_kind === 'general_llm');
     if (defaultFamily) return 'general_llm';
     return 'uncovered';
   }
-  // 厂商不在政策（例如视频专用厂商可灵）→ 未覆盖，调用方不得自动建通用组
   return 'uncovered';
 }
 
-/** 8. 返回某厂商某家族允许的目标二级系列（policy_series）。 */
 function allowedTargetSeries(policy, vendorPolicy, familyKey) {
   if (!vendorPolicy) return [];
   const family = vendorPolicy.families.find(f => f.family === familyKey);
   return family ? family.series : [];
 }
 
-/** 9. 校验人工 placement 引用：kind / 存在性 / 厂商归属。返回 { ok, violations }。 */
 function validatePlacementRef(policy, snapshotInput, placement, vendorKey) {
   const violations = [];
   const snapshot = snapshotInput || emptySnapshot();
@@ -251,29 +248,11 @@ function validatePlacementRef(policy, snapshotInput, placement, vendorKey) {
   return { ok: violations.length === 0, violations };
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 确定性 Placement 规划（阶段 4）
-// 输出 kind：
-//   - 'not_applicable'   非通用 LLM / 无政策厂商 → 调用方走现有路径，不改 seed
-//   - 'decision'         目标已定：existing（加入已有组）或 create（用 policy 稳定 id/title 新建）
-//   - 'migration_required' 第 4 个成员触发容量拆分 → 阻断普通 Draft，走迁移
-//   - 'needs_ai'         政策无法确定 usage/family → 调用方可用 AI 建议作 hint 后重跑
-//   - 'fail_closed'      非法/冲突 → 绝不由模型名兜底建组
-// ═══════════════════════════════════════════════════════════════
-
-/** 统计某目标系列在快照中的成员数。 */
-function memberCountOfSeries(snapshot, seriesId) {
-  const l2 = (snapshot['vendor-level2'] || []).find(x => x.id === seriesId);
-  return l2 ? (l2.detail_refs || []).length : 0;
-}
-
-/** 从目标系列 id 提取 group key（最后一个 `:` 段）。 */
 function groupKeyOfSeriesId(seriesId) {
   const parts = String(seriesId || '').split(':');
   return parts[parts.length - 1] || null;
 }
 
-/** 由通用家族派生品牌提示词（家族名 + 系列标题词 + 成员名），用于识别已知 LLM 品牌名。 */
 function brandHintsOfFamily(familyDef) {
   const hints = [String(familyDef.family || '')];
   for (const series of familyDef.series || []) {
@@ -286,18 +265,7 @@ function brandHintsOfFamily(familyDef) {
   return [...new Set(hints.map(h => h.toLowerCase()).filter(h => h.length >= 2))];
 }
 
-/**
- * 确定性判定候选模型的二级系列归属。
- * @param {object} policy
- * @param {object} snapshot normalized 五模块快照
- * @param {object} candidate seed 片段（name/detail_kind/vendor_key/vendor_name/modality）
- * @param {object} [hint] 可选 AI 建议 { usage_kind, canonical_family, release_cohort, modality }
- * @returns {object}
- */
 function planSeriesPlacement(policy, snapshot, candidate, hint) {
-  const cap = policy.capacity || {};
-  const splitThreshold = cap.split_when_member_count_exceeds;
-
   // 1. 厂商归一化：无政策厂商 → 现有路径
   const vendorKey = normalizeVendorKey(policy, candidate.vendor_key || candidate.vendor_name);
   if (!vendorKey) return { kind: 'not_applicable', reason: 'VENDOR_NOT_IN_POLICY' };
@@ -305,7 +273,7 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
   if (!vendorPolicy) return { kind: 'not_applicable', reason: 'VENDOR_NOT_IN_POLICY' };
   const generalFamilies = vendorPolicy.families.filter(f => f.usage_kind === 'general_llm');
 
-  // 2. 用途判定：pattern 命中 / 显式 modality / AI hint 均视为高置信；
+  // 2. 用途/家族判定：pattern 命中（任意家族）/ 显式 modality / AI hint 均视为高置信；
   //    无任何品牌命中的“默认通用”属歧义，交由 AI 或人工确认。
   const lowerName = String(candidate.name || '').toLowerCase();
   const matched = matchFamily(policy, vendorPolicy, candidate.name);
@@ -321,53 +289,68 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
     else return { kind: 'needs_ai', reason: 'USAGE_UNCOVERED' };
   }
   if (usage === 'uncovered' || usage === 'unknown') return { kind: 'needs_ai', reason: `USAGE_UNKNOWN:${usage}` };
-  if (usage !== 'general_llm') return { kind: 'not_applicable', reason: `NOT_GENERAL_LLM:${usage}` };
   if (!confident) return { kind: 'needs_ai', reason: 'USAGE_AMBIGUOUS_DEFAULT' };
 
-  // 3. 家族判定
-  let family = matched?.family || brandFamily || (hint && hint.canonical_family) || null;
+  // 3. 家族判定：pattern 命中优先；其次 hint 指定家族；再次 modality 同族；再次通用品牌；最后通用默认
+  let family = matched?.family || null;
+  if (!family && hint?.canonical_family) {
+    const hinted = vendorPolicy.families.find(f => f.family === hint.canonical_family);
+    if (hinted && (hinted.usage_kind === usage || !matched)) family = hint.canonical_family;
+  }
+  if (!family && candidate.modality) {
+    family = vendorPolicy.families.find(f => f.modality === candidate.modality)?.family || null;
+  }
+  if (!family) family = brandFamily;
+  if (!family) {
+    const usageFamily = vendorPolicy.families.find(f => f.usage_kind === usage);
+    if (usageFamily) family = usageFamily.family;
+  }
   if (!family) {
     const generalFamily = generalFamilies[0];
     if (!generalFamily) return { kind: 'fail_closed', code: 'PLACEMENT_NO_GENERAL_FAMILY', vendor: vendorKey };
     family = generalFamily.family;
   }
   const familyDef = vendorPolicy.families.find(f => f.family === family);
-  if (!familyDef || familyDef.usage_kind !== 'general_llm') {
-    return { kind: 'fail_closed', code: 'PLACEMENT_FAMILY_NOT_GENERAL', vendor: vendorKey, family };
+  if (!familyDef) {
+    return { kind: 'fail_closed', code: 'PLACEMENT_FAMILY_NOT_IN_POLICY', vendor: vendorKey, family };
   }
+  usage = familyDef.usage_kind;
 
-  // 4. 目标系列
+  // 4. 目标系列：按 generation_state 选目标（AI hint 的 release_cohort 作软提示）
   const seriesList = allowedTargetSeries(policy, vendorPolicy, family);
   if (!seriesList.length) return { kind: 'fail_closed', code: 'PLACEMENT_NO_SERIES', vendor: vendorKey, family };
+  const wantedState = hint?.release_cohort === 'previous' ? 'previous' : 'newest';
+  const target = seriesList.find(s => s.generation_state === wantedState)
+    || seriesList.find(s => s.generation_state === 'newest')
+    || seriesList[0];
 
-  let target;
-  if (seriesList.length === 1) {
-    target = seriesList[0];
-    // 单系列容量：达到/超过拆分阈值且家族允许拆分 → 第 4 个触发迁移
-    const count = memberCountOfSeries(snapshot, target.id);
-    const canSplit = familyDef.split_rule === 'auto' || familyDef.split_rule === 'auto_after_4';
-    if (canSplit && Number.isInteger(splitThreshold) && count >= splitThreshold) {
+  // 5. 结构对齐检查：目标不在快照，且同厂商存在占用政策成员的非政策系列 → 需迁移对齐
+  const exists = (snapshot['vendor-level2'] || []).some(l2 => l2.id === target.id);
+  if (!exists) {
+    const targetMemberIds = new Set((target.expected_members || []).map(memberRef => detailKeyOf(memberRef)).filter(Boolean));
+    const allPolicyTargetIds = new Set(vendorPolicy.families.flatMap(f => (f.series || []).map(s => s.id)));
+    const misaligned = (snapshot['vendor-level2'] || []).some(l2 => l2.vendor_key === vendorKey
+      && !allPolicyTargetIds.has(l2.id)
+      && (l2.detail_refs || []).some(ref => targetMemberIds.has(detailKeyOf(ref.id))));
+    if (misaligned) {
       return {
         kind: 'migration_required',
+        code: 'SERIES_MIGRATION_REQUIRED',
         vendor: vendorKey,
         family,
         series: target,
-        reason: `成员数 ${count} ≥ 拆分阈值 ${splitThreshold}`,
+        reason: `目标系列 ${target.id} 不在快照，且存在占用政策成员的旧系列，需先运行迁移 CLI 对齐`,
       };
     }
-  } else {
-    // 多系列（newest/last）：按 cohort 选目标
-    const cohort = (hint && hint.release_cohort === 'previous') ? 'previous' : 'newest';
-    target = seriesList.find(s => s.cohort === cohort) || seriesList[0];
   }
 
-  const exists = (snapshot['vendor-level2'] || []).some(l2 => l2.id === target.id);
   return {
     kind: 'decision',
     vendor: vendorKey,
     family,
-    usage_kind: 'general_llm',
-    release_cohort: target.cohort,
+    usage_kind: usage,
+    generation_state: target.generation_state,
+    release_cohort: target.generation_state,
     target_mode: exists ? 'existing' : 'create',
     target_level2_id: target.id,
     target_level2_title: target.title,

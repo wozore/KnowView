@@ -82,6 +82,7 @@ function createMaintainerWorkbenchService(options = {}) {
   const catalogWorkbench = options.catalogWorkbench || createCatalogWorkbench({
     ...(options.catalogWorkbenchOptions || {}),
     readPending: () => pending.read('tools'),
+    setIntakeOutcome: pending.setIntakeOutcome,
     ...(options.catalogApi || {}),
   });
 
@@ -99,6 +100,7 @@ function createMaintainerWorkbenchService(options = {}) {
     concepts,
     catalogWorkbench,
     toolUpdatesProjection: toolUpdates,
+    catalogBundleList: typeof catalogWorkbench.bundleList === 'function' ? () => catalogWorkbench.bundleList() : null,
   });
 
   return Object.freeze({
@@ -222,6 +224,13 @@ function createMaintainerWorkbenchService(options = {}) {
     catalogDrafts() { return catalogWorkbench.list(); },
     catalogDraft(draftId) { return catalogWorkbench.read(draftId); },
     catalogReview(draftId) { return catalogWorkbench.review(draftId); },
+    catalogBundlePlan() { return catalogWorkbench.bundlePlan(); },
+    catalogBundlePrepare(body = {}) { return catalogWorkbench.bundlePrepare(body); },
+    catalogBundles() { return catalogWorkbench.bundleList(); },
+    catalogBundle(draftId) { return catalogWorkbench.bundleRead(draftId); },
+    catalogBundleReview(draftId, body = {}) { return catalogWorkbench.bundleReview(draftId, body); },
+    catalogBundleApply(body = {}) { return catalogWorkbench.bundleApply(body); },
+    async catalogBundleDiscard(draftId, body = {}) { return catalogWorkbench.bundleDiscard(draftId, body); },
     catalogRecoveryPlan(draftId, body = {}) {
       const allowed = new Set(['expected_revision', 'generator_options']);
       if (!body || typeof body !== 'object' || Array.isArray(body) || Object.keys(body).some(key => !allowed.has(key))) {
@@ -246,6 +255,17 @@ function createMaintainerWorkbenchService(options = {}) {
       const allowed = new Set(['draft_ids', 'expected_revision', 'batch_token', 'confirm']);
       if (Object.keys(body).some(key => !allowed.has(key))) throw new Error('批量 Catalog 请求字段无效');
       return catalogWorkbench.applyBatch({
+        draft_ids: body.draft_ids,
+        expected_revision: body.expected_revision,
+        batch_token: body.batch_token,
+        confirm: body.confirm,
+      });
+    },
+    catalogCleanup(body) {
+      if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('Catalog 清理请求无效');
+      const allowed = new Set(['draft_ids', 'expected_revision', 'batch_token', 'confirm']);
+      if (Object.keys(body).some(key => !allowed.has(key))) throw new Error('Catalog 清理请求字段无效');
+      return catalogWorkbench.cleanup({
         draft_ids: body.draft_ids,
         expected_revision: body.expected_revision,
         batch_token: body.batch_token,

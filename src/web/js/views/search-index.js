@@ -4,7 +4,8 @@
  */
 
 import { state, dataLoadFailures } from '../state.js';
-import { getToolSearchText } from '../data/data-catalog.js';
+import { getToolSearchText, getSeriesIndex } from '../data/data-catalog.js';
+import { matchSeries } from '../data/model-series-index.mjs';
 import { getLocalizedField } from '../ui/i18n.js';
 
 export function hotspotField(item, field) {
@@ -39,10 +40,11 @@ function buildSceneWordTable() {
   return table;
 }
 
-function matchToolsByKeywords(keywords) {
+function matchToolsByKeywords(keywords, { excludeApiModels = false } = {}) {
   if (!keywords.length) return [];
   const needles = keywords.map(word => String(word).toLocaleLowerCase('zh-CN').normalize('NFKC')).filter(Boolean);
   return state.tools
+    .filter(tool => !excludeApiModels || tool.detail_kind !== 'api_model')
     .map(tool => {
       const text = getToolSearchText(tool);
       const hits = needles.filter(needle => text.includes(needle));
@@ -65,6 +67,7 @@ function deriveWordForms(word) {
 function buildToolWordTable() {
   const table = [];
   for (const tool of state.tools || []) {
+    if (tool.detail_kind === 'api_model') continue; // api_model 仅经系列层进入搜索
     for (const word of [tool.title, tool.vendor_label, ...(tool.search_terms || [])]) {
       for (const form of deriveWordForms(word)) {
         if (form.length >= 2) table.push({ word: form, source: tool });
@@ -108,10 +111,19 @@ export function getSearchMatches(query) {
     return { query: normalizedQuery, layer: 'scene', demoKey: scene.id, demoHint: scene.description || '', keywords, scene, tools: matchToolsByKeywords(keywords), unavailable };
   }
 
+  // 系列层：api_model 只经系列感知匹配进入结果（成员词命中取单成员，系列词命中取全成员）。
+  const seriesMatch = matchSeries(getSeriesIndex(), normalizedQuery);
+  if (seriesMatch) {
+    const leadSeries = seriesMatch.entries[0]?.series_context;
+    const keywords = leadSeries ? [leadSeries.series_title] : [];
+    const tools = seriesMatch.entries.map(entry => ({ ...entry.card, series_context: entry.series_context }));
+    return { query: normalizedQuery, layer: 'series', demoKey: 'series', demoHint: '', keywords, series: seriesMatch, tools, unavailable };
+  }
+
   const contentHits = extractKeywords(normalizedQuery, buildToolWordTable());
   if (contentHits.length) {
     const keywords = contentHits.map(hit => hit.word);
-    return { query: normalizedQuery, layer: 'content', demoKey: 'content', demoHint: '', keywords, tools: matchToolsByKeywords(keywords), unavailable };
+    return { query: normalizedQuery, layer: 'content', demoKey: 'content', demoHint: '', keywords, tools: matchToolsByKeywords(keywords, { excludeApiModels: true }), unavailable };
   }
 
   const conceptHits = extractKeywords(normalizedQuery, buildConceptWordTable());
@@ -138,7 +150,7 @@ export function getSearchResultAvailability(matches) {
 
 export function getSearchResultProjection(query) {
   const matches = getSearchMatches(query);
-  return { matches, tools: matches.layer === 'scene' || matches.layer === 'content' ? matches.tools : [] };
+  return { matches, tools: ['scene', 'series', 'content'].includes(matches.layer) ? matches.tools : [] };
 }
 
 export function getSearchHotspotRanking(query, limit = 5) {

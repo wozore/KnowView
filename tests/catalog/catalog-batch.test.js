@@ -23,6 +23,7 @@ const {
   readPendingCards,
   dedupeBatchCandidates,
   resolveBatchCandidates,
+  estimateResolutionNeed,
   runCatalogBatch,
   runBatchFromCards,
   resolveBatchPlacements,
@@ -38,8 +39,40 @@ const {
   validateProductUrlRegistry,
 } = require('../../src/catalog/url-registry/index');
 const { CATALOG_GENERATOR_FILES } = require('../../src/shared/paths');
+const pendingStore = require('../../src/pending');
 
 const GEN_OPTIONS = { maxSearchQueries: 2, maxPages: 2, maxResponsesCalls: 2, maxSynthesisCalls: 1 };
+
+/** 核验成功 mock：全离线，verdict 由契约字段构成（model_key 语义 = vendor-identity）。 */
+function verifiedModelIdentity(overrides = {}) {
+  return async candidate => ({
+    ok: true,
+    reused: false,
+    verdict: {
+      entity_class: candidate.entity_type === 'series' ? 'series' : 'model',
+      vendor_key: candidate.vendor_hint || 'alibaba',
+      model_key: `${candidate.vendor_hint || 'alibaba'}-${String(candidate.name).toLowerCase().replace(/\s+/g, '-')}`,
+      series_title: null,
+      family: null,
+      confidence: 0.9,
+      evidence: { official_url: 'https://example.com/official', content_hash: 'sha256:mock' },
+      reasons: ['mock'],
+    },
+    receipt: { receipt_id: 'receipt-mock0000000' },
+    ...overrides,
+  });
+}
+
+/** model 轴核验测试的最小 identityContext（零网络零真实文件读取）。 */
+function mockIdentityContext() {
+  return {
+    snapshot: require('../../src/catalog/core/index').emptySnapshot(),
+    policy: null,
+    policyRevision: 'policy-rev-mock',
+    bridgeRevision: 'bridge-rev-mock',
+    ledger: { reserve: () => ({ ok: true }) },
+  };
+}
 
 // ── 第 1 组：读入 ─────────────────────────────────────────────
 
@@ -53,7 +86,7 @@ test('readPendingCards 读取待补卡 cards 数组，缺 cards 拒绝', () => {
 
 // ── 第 2 组：查重三态 ──────────────────────────────────────────
 
-test('dedupeBatchCandidates 三层查重：目录已存在 / 进行中 draft / 同批重复', () => {
+test('dedupeBatchCandidates：同批去重 / draft 跳过 / 目录已存在降级 needsVerification 仍进 unique', () => {
   const cards = [
     { name: 'DeepSeek' },
     { name: 'Kling 2.6 Pro' },
@@ -64,11 +97,24 @@ test('dedupeBatchCandidates 三层查重：目录已存在 / 进行中 draft / �
   const tools = [{ title: 'DeepSeek', tool_key: 'deepseek' }];
   const drafts = [{ draft_id: 'draft-x', seed: { name: 'Kling 2.6 Pro' } }];
   const result = dedupeBatchCandidates(cards, { tools, drafts });
-  assert.deepEqual(result.skippedExisting.map(item => item.name), ['DeepSeek']);
+  assert.deepEqual(result.needsVerification.map(item => item.name), ['DeepSeek'], 'title/tool_key 相等只作提示');
+  assert.ok(result.unique.some(card => card.name === 'DeepSeek'), '目录已存在不再跳过，进 unique 全量核验');
   assert.equal(result.skippedDraft.length, 1);
   assert.equal(result.skippedDraft[0].draft_id, 'draft-x');
   assert.equal(result.duplicateInBatch.length, 1);
-  assert.deepEqual(result.unique.map(card => card.name), ['Brand New Tool A', 'Brand New Tool B']);
+  assert.deepEqual(result.unique.map(card => card.name), ['DeepSeek', 'Brand New Tool A', 'Brand New Tool B']);
+});
+
+// ── 第 3 组：厂商/官方源解析三路 ───────────────────────────────
+
+test('estimateResolutionNeed：registry 命中免 vendor 解析，核验上限按全量卡计', () => {
+  const cards = [{ name: 'DeepSeek' }, { name: 'Brand New Tool A' }, { name: 'Third Tool' }];
+  const need = estimateResolutionNeed(cards, { tools: [{ title: 'DeepSeek', tool_key: 'deepseek' }], drafts: [] });
+  assert.equal(need.cards_free, 1);
+  assert.equal(need.cards_paid, 2);
+  assert.equal(need.vendor_search_upper_bound, 2, 'vendor 解析上限 = 未命中数');
+  assert.equal(need.verification_search_upper_bound, 3, '核验上限按全 unique 卡计');
+  assert.equal(need.verification_responses_upper_bound, 3);
 });
 
 // ── 第 3 组：厂商/官方源解析三路 ───────────────────────────────
@@ -128,20 +174,132 @@ test('resolveBatchCandidates 兼容旧待补卡：带版本号模型误标 tool 
   assert.deepEqual(result.seeds.map(seed => seed.vendor_name), ['阿里巴巴（通义千问）', '深度求索', 'Google', '阿里巴巴（通义千问）', 'OpenAI', '深度求索', '智谱 AI（Z.ai）', '阿里巴巴（通义千问）']);
 });
 
-test('resolveBatchCandidates 保留候选指定的稳定层级引用', async () => {
+test('resolveBatchCandidates 保留候选指定的稳定层级引用（api_model 走核验分流）', async () => {
   const registry = { schema_version: 1, entries: { 'Gemini 3.7 Flash': { vendor_name: 'Google', official_url: 'https://ai.google.dev' } } };
+  const outcomeKeys = [];
   const result = await resolveBatchCandidates([{
     name: 'Gemini 3.7 Flash', vendor_key: 'google', detail_kind_hint: 'api_model',
+    candidate_key: 'key-gemini',
     placement: {
       existing_level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:google' },
       existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:google:gemini' },
     },
-  }], { registry });
+  }], {
+    registry,
+    identityContext: mockIdentityContext(),
+    verifyModelIdentity: verifiedModelIdentity(),
+    catalogModelKeyIndex: () => new Map(),
+    setIntakeOutcome: null,
+    // 记录 outcome 写入意图（setIntakeOutcome null 禁用真实写入；此处验证分流不写 outcome）
+    discoverSeriesMembers: null,
+  });
+  assert.equal(result.seeds.length, 1);
   assert.deepEqual(result.seeds[0].placement, {
     existing_level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:google' },
     existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:google:gemini' },
   });
+  assert.equal(result.seeds[0].model_key, 'google-gemini-3.7-flash', '核验通过的 api_model seed 带 model_key');
+  assert.equal(result.intake_outcomes.length, 0, '核验通过且不存在的新模型不写 outcome');
 });
+
+test('resolveBatchCandidates 核验分流：already_complete / verification_blocked / series', async () => {
+  const registry = { schema_version: 1, entries: {} };
+  const outcomes = [];
+  const common = {
+    registry,
+    identityContext: mockIdentityContext(),
+    catalogModelKeyIndex: () => new Map([['alibaba-existing-model', [{ kind: 'tool-level3', id: 'x' }]]]),
+    setIntakeOutcome: async (kind, key, outcome) => { outcomes.push({ key, outcome }); return { candidate_key: key, outcome }; },
+  };
+  // 1. model_key 已存在 → already_complete，不建 seed
+  const existing = await resolveBatchCandidates(
+    [{ name: 'Existing Model', vendor_key: 'alibaba', entity_type: 'model', candidate_key: 'k1' }],
+    { ...common, verifyModelIdentity: verifiedModelIdentity() },
+  );
+  assert.equal(existing.seeds.length, 0);
+  assert.deepEqual(outcomes, [{ key: 'k1', outcome: 'already_complete' }]);
+
+  // 2. 核验失败（无 adapters → EVIDENCE_MISSING）→ verification_blocked
+  outcomes.length = 0;
+  const failedVerify = async () => ({ ok: false, code: 'IDENTITY_NAME_NOT_IN_BODY', error: '正文未命中' });
+  const blocked = await resolveBatchCandidates(
+    [{ name: 'Ghost Model', vendor_key: 'alibaba', entity_type: 'model', candidate_key: 'k2' }],
+    { ...common, verifyModelIdentity: failedVerify },
+  );
+  assert.equal(blocked.seeds.length, 0);
+  assert.equal(blocked.verification_blocked[0].code, 'IDENTITY_NAME_NOT_IN_BODY');
+  assert.deepEqual(outcomes, [{ key: 'k2', outcome: 'verification_blocked' }]);
+
+  // 3. series verdict + 成员清单 → series_candidates，不建普通 seed
+  outcomes.length = 0;
+  const seriesVerify = async candidate => {
+    const result = await verifiedModelIdentity()(candidate);
+    result.verdict.entity_class = 'series';
+    result.verdict.series_title = candidate.name;
+    return result;
+  };
+  const series = await resolveBatchCandidates(
+    [{ name: 'New Series', vendor_key: 'alibaba', entity_type: 'series', candidate_key: 'k3' }],
+    {
+      ...common,
+      verifyModelIdentity: seriesVerify,
+      discoverSeriesMembers: async () => ({ ok: true, members: [{ name: 'Member A', identity_key: 'member-a', evidence: {} }] }),
+    },
+  );
+  assert.equal(series.seeds.length, 0, 'series 候选不建普通卡');
+  assert.equal(series.series_candidates.length, 1);
+  assert.equal(series.series_candidates[0].members.length, 1);
+  assert.equal(outcomes.length, 0, 'series 候选的 bundled/committed 由 Bundle 流程写');
+
+  // 4. series 成员证据不足 → deferred_insufficient_evidence
+  outcomes.length = 0;
+  const deferred = await resolveBatchCandidates(
+    [{ name: 'Thin Series', vendor_key: 'alibaba', entity_type: 'series', candidate_key: 'k4' }],
+    {
+      ...common,
+      verifyModelIdentity: seriesVerify,
+      discoverSeriesMembers: async () => ({ ok: true, members: [] }),
+    },
+  );
+  assert.equal(deferred.series_candidates.length, 0);
+  assert.deepEqual(outcomes, [{ key: 'k4', outcome: 'deferred_insufficient_evidence' }]);
+});
+test('resolveBatchCandidates 多候选 outcome 写入逐次 fresh-read，不复用旧 pending revision', async () => {
+  const toolFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'cb-outcome-')), 'pending.json');
+  const initial = await pendingStore.mergePending('tools', [
+    { name: 'Outcome Model A', entity_type: 'model', detail_kind_hint: 'api_model' },
+    { name: 'Outcome Model B', entity_type: 'model', detail_kind_hint: 'api_model' },
+  ], { toolFile });
+  const cards = initial.cards;
+  const result = await resolveBatchCandidates(cards, {
+    registry: { schema_version: 1, entries: {} },
+    pendingToolFile: toolFile,
+    identityContext: mockIdentityContext(),
+    verifyModelIdentity: async candidate => ({
+      ok: true,
+      verdict: {
+        entity_class: 'model',
+        vendor_key: 'alibaba',
+        model_key: `alibaba-${candidate.name.toLowerCase().replace(/\s+/g, '-')}`,
+        series_title: null,
+        family: null,
+        confidence: 0.9,
+        evidence: { official_url: 'https://example.com/model', content_hash: 'sha256:mock' },
+        reasons: ['mock'],
+      },
+      receipt: { receipt_id: `receipt-${candidate.name}` },
+    }),
+    catalogModelKeyIndex: () => new Map([
+      ['alibaba-outcome-model-a', [{ kind: 'tool-level3', id: 'a' }]],
+      ['alibaba-outcome-model-b', [{ kind: 'tool-level3', id: 'b' }]],
+    ]),
+  });
+  assert.equal(result.intake_outcomes.length, 2);
+  assert.deepEqual(result.intake_outcomes.map(item => item.outcome), ['already_complete', 'already_complete']);
+  const final = pendingStore.readPending('tools', { toolFile });
+  assert.deepEqual(final.cards.map(card => card.intake_outcome), ['already_complete', 'already_complete']);
+});
+
 test('resolveOfficialSource fail-closed：缺 name / 缺 TAVILY key 均不抛错', async () => {
   const noName = await resolveOfficialSource('   ');
   assert.equal(noName.ok, false);
@@ -754,10 +912,14 @@ test('runBatchFromCards --dry-run：写 placement_decision 进 preview，from-pr
     ok: true, hint: { usage_kind: 'general_llm', canonical_family: 'qwen', release_cohort: 'newest', confidence: 0.8 }, usage: {}, raw: {},
   });
   const dry = await runBatchFromCards(
-    [{ name: 'X-Futuristic-Model-3000', vendor_name: '阿里', vendor_key: 'alibaba', detail_kind_hint: 'api_model', review_status: 'approved' }],
+    [{ name: 'X-Futuristic-Model-3000', vendor_name: '阿里', vendor_key: 'alibaba', detail_kind_hint: 'api_model', entity_type: 'model', review_status: 'approved' }],
     {
       dryRun: true, previewFile, generatorOptions: GEN_OPTIONS, snapshotOf: () => snap,
       tools: [], drafts: [], // 隔离真实目录/草稿状态（查重仅针对本批）
+      identityContext: mockIdentityContext(),
+      verifyModelIdentity: verifiedModelIdentity(),
+      catalogModelKeyIndex: () => new Map(),
+      setIntakeOutcome: null,
       resolveOfficialSource: resolveFn, allowAiPlacement: true, placementLedger: { reserve: () => ({ ok: true }) },
       suggestSeriesPlacement: mockSuggest,
     },

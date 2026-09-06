@@ -3,13 +3,22 @@
 const { readJson } = require('../../shared/json-store');
 const { catalog } = require('../interface');
 const { pendingCandidateToSeed } = require('../../pending');
+const { readPending, setIntakeOutcome } = require('../../pending');
 const { listDrafts } = require('../draft/catalog-draft-store');
 const { planCatalogDraft, normalizeGeneratorOptions, loadGeneratorConfig } = require('../draft');
 const { resolveOfficialSource } = require('./catalog-adapters');
 const { resolveSeriesPlacement, applyPlacementToSeed, loadSeriesPolicy } = require('../series');
 const { loadSharedReleaseIndex, buildIntegratedLookup, lookupReleaseDateForSeed } = require('../catalog-integrated-lookup');
 const { loadCatalogSnapshot, createCostLedger, slugify } = require('../core');
+const { revisionOf } = require('../core/catalog-revision');
 const { lookupOfficialUrl } = require('../url-registry');
+const {
+  verifyModelIdentity,
+  discoverSeriesMembers,
+  catalogModelKeyIndex,
+  readIdentityReceipts,
+} = require('./model-identity-verification');
+const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 
 const MODEL_NAME_PATTERN = /(?:GPT|Claude|Gemini|Qwen|Llama|GLM|Mistral|DeepSeek|MiniMax|Grok|Kling)[\s-]?[A-Za-z]*\d/i;
 
@@ -34,7 +43,10 @@ function effectiveCardForResolution(card, resolution) {
 }
 
 
-/** 预估待补卡中需要付费 vendor 解析的数量（registry 命中零成本）。 */
+/**
+ * 批量成本估算：registry 命中仅免 vendor_resolution；核验上限按全 unique 卡计
+ * （每张卡至少一次官方源发现 + 一次 AI 身份建议，registry 命中不免核验）。
+ */
 function estimateResolutionNeed(cards, options = {}) {
   let paid = 0;
   let free = 0;
@@ -44,11 +56,14 @@ function estimateResolutionNeed(cards, options = {}) {
     const hit = lookupRegistryForCard(card, options);
     if (hit.ok) free += 1; else paid += 1;
   }
+  const total = paid + free;
   return {
     cards_paid: paid,
     cards_free: free,
     vendor_search_upper_bound: paid,
     vendor_responses_upper_bound: paid,
+    verification_search_upper_bound: total,
+    verification_responses_upper_bound: total,
   };
 }
 
@@ -67,7 +82,7 @@ function cloneSnapshot(snapshot) {
 }
 
 /** 把一次 decision 的成员数累加进投影快照，使同批后续同厂商候选看到最新成员数。 */
-function bumpProjectedSeries(projected, decision) {
+function bumpProjectedSeries(projected, decision, candidate) {
   if (!decision || !decision.target_mode) return;
   const targetId = decision.target_level2_id;
   if (!targetId) return;
@@ -85,7 +100,8 @@ function bumpProjectedSeries(projected, decision) {
     };
     projected['vendor-level2'].push(l2);
   }
-  l2.detail_refs.push({ kind: 'tool-level3', id: 'tool-level3:__batch_placeholder__' });
+  const key = candidate?.name ? slugify(candidate.name, 'batch_member') : '__batch_placeholder__';
+  l2.detail_refs.push({ kind: 'tool-level3', id: `tool-level3:${key}` });
 }
 
 /**
@@ -110,7 +126,7 @@ async function resolveBatchPlacements(seeds, options = {}) {
     });
     if (placement.kind === 'decision') {
       applyPlacementToSeed(seed, placement);
-      bumpProjectedSeries(projected, placement);
+      bumpProjectedSeries(projected, placement, seed);
     } else if (placement.kind === 'migration_required' || placement.kind === 'fail_closed') {
       blocked.push({
         name: seed.name,
@@ -166,16 +182,17 @@ function listCatalogDrafts(options) {
 }
 
 /**
- * 三层查重：已存在正式 tool-card / 进行中 draft / 同批重复。
+ * 三层查重：同批去重 / 进行中 draft 跳过 / 目录已存在降级为 needs_verification 提示。
+ * 目录 title/tool_key 精确相等不再跳过（由官方核验与 model_key 查重裁决），仍进 unique 全量核验。
  * @param {Array<object>} cards 待补卡
  * @param {object} [options] { tools, drafts }
- * @returns {{ unique: [], skippedExisting: [], skippedDraft: [], duplicateInBatch: [] }}
+ * @returns {{ unique: [], needsVerification: [], skippedDraft: [], duplicateInBatch: [] }}
  */
 function dedupeBatchCandidates(cards, options = {}) {
   const tools = listCatalogTools(options);
   const drafts = listCatalogDrafts(options);
   const seenInBatch = new Set();
-  const result = { unique: [], skippedExisting: [], skippedDraft: [], duplicateInBatch: [] };
+  const result = { unique: [], needsVerification: [], skippedDraft: [], duplicateInBatch: [] };
   for (const card of cards || []) {
     const name = String(card.name || card.title || '').trim();
     if (!name) continue;
@@ -189,7 +206,9 @@ function dedupeBatchCandidates(cards, options = {}) {
       (tool.title && String(tool.title).toLowerCase() === name.toLowerCase()) ||
       (tool.tool_key && String(tool.tool_key).toLowerCase() === name.toLowerCase())
     );
-    if (existsExact) { result.skippedExisting.push({ name, reason: '目录已存在' }); continue; }
+    if (existsExact) {
+      result.needsVerification.push({ name, reason: '目录可能已存在（title/tool_key 相等，交官方核验与 model_key 查重裁决）' });
+    }
     const draftHit = (drafts || []).find(draft => {
       const seedName = draft?.seed && (draft.seed.name || draft.seed.title);
       return seedName && String(seedName).trim().toLowerCase() === name.toLowerCase();
@@ -204,23 +223,133 @@ function dedupeBatchCandidates(cards, options = {}) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 2. 厂商/官方源解析（登记表 → Tavily）
+// 2. 厂商/官方源解析 + 官方身份核验分流
 // ═══════════════════════════════════════════════════════════════
 
+/** 工具链路核验上下文（全部可注入；缺省读真实快照/政策/桥接/pending）。 */
+function identityContextOf(options) {
+  const snapshot = options.identitySnapshotOf ? options.identitySnapshotOf() : loadCatalogSnapshot().snapshot;
+  const policy = options.identityPolicy || loadSeriesPolicy();
+  const bridge = readModelIdentityBridge();
+  return {
+    snapshot,
+    policy,
+    policyRevision: options.policyRevision || revisionOf(policy),
+    bridgeRevision: options.bridgeRevision ?? bridge.revision,
+    receipts: options.identityReceipts,
+    ledger: options.identityLedger || createCostLedger({ responses_calls: Math.max(1, options.identityBudgetSize || 8) }),
+    suggestIdentity: options.suggestIdentity,
+    normalizeVendorKey: options.normalizeVendorKey,
+  };
+}
+
+/** 按 verdict 分流写 intake_outcome（CAS 短重试；仅系统管线调用）。 */
+async function writeIntakeOutcome(card, outcome, options = {}) {
+  if (!card?.candidate_key || options.setIntakeOutcome === null) return null;
+  const setFn = options.setIntakeOutcome || setIntakeOutcome;
+  const pendingOptions = options.pendingToolFile ? { toolFile: options.pendingToolFile } : {};
+  for (let attempt = 0; attempt < 3; attempt++) {
+    let revision;
+    try { revision = readPending('tools', pendingOptions).revision; } catch { return { candidate_key: card.candidate_key, outcome: null, code: 'PENDING_FILE_INVALID' }; }
+    try {
+      await setFn('tools', card.candidate_key, outcome, revision, pendingOptions);
+      return { candidate_key: card.candidate_key, outcome };
+    } catch (error) {
+      if (error?.code !== 'REVISION_CONFLICT' || attempt === 2) {
+        return { candidate_key: card.candidate_key, outcome: null, code: error?.code || 'INTAKE_OUTCOME_WRITE_FAILED' };
+      }
+    }
+  }
+  return null;
+}
+
 /**
- * 逐卡解析：先查人工登记表（命中零成本），未命中走 Tavily+DeepSeek。
- * 解析结果经 pendingCandidateToSeed 落成 seed（含 official_url + official_hint）。
- * @returns {Promise<{ seeds: [], unresolved: [], resolve_cost: object }>}
+ * 逐卡解析 + 官方身份核验（fail-closed）：
+ *   - tool 类候选：registry 命中零解析成本，未命中走 Tavily+DeepSeek（既有路径）；
+ *   - model/series 候选：registry 命中仅注入 official_urls 域提示 → 全量核验 → 分流：
+ *       verdict.model_key 已存在 → already_complete（不建卡）；
+ *       entity_class=series 且成员清单非空 → series 候选（交 SeriesBundle，不建普通卡）；
+ *       series 成员证据不足 → deferred_insufficient_evidence；
+ *       其余核验失败（缺正文/未命中/冲突/低置信/预算/缺 AI）→ verification_blocked；
+ *       通过 → 普通 api_model seed（带 model_key 程序重算值）。
+ * @returns {Promise<{ seeds: [], unresolved: [], series_candidates: [], verification_blocked: [],
+ *                     verdicts: [], intake_outcomes: [], resolve_cost: object }>}
  */
 async function resolveBatchCandidates(cards, options = {}) {
   const resolveFn = options.resolveOfficialSource || resolveOfficialSource;
-  const ledger = options.resolveLedger || createCostLedger({ responses_calls: Math.max(1, cards.length) });
+  const verifyFn = options.verifyModelIdentity || verifyModelIdentity;
+  const membersFn = options.discoverSeriesMembers || discoverSeriesMembers;
+  const indexFn = options.catalogModelKeyIndex || catalogModelKeyIndex;
+  const ledger = options.resolveLedger || createCostLedger({ responses_calls: Math.max(1, (cards || []).length) });
+  const context = options.identityContext || identityContextOf(options);
+  const modelKeyIndex = indexFn(context.snapshot);
   const seeds = [];
   const unresolved = [];
+  const seriesCandidates = [];
+  const blocked = [];
+  const verdicts = [];
+  const intakeOutcomes = [];
   for (const card of cards || []) {
     const name = String(card.name || card.title || '').trim();
     if (!name) continue;
     const registryHit = lookupRegistryForCard(card, options);
+    const isModelAxis = card.entity_type === 'series' || card.entity_type === 'model'
+      || card.detail_kind_hint === 'api_model';
+    if (isModelAxis) {
+      const officialUrls = [
+        ...(Array.isArray(registryHit?.official_urls) ? registryHit.official_urls : []),
+        ...(registryHit?.ok && registryHit.official_url ? [registryHit.official_url] : []),
+        ...(Array.isArray(card.official_urls) ? card.official_urls : []),
+      ].filter(Boolean);
+      const result = await verifyFn(
+        { name, entity_type: card.entity_type || 'model', vendor_hint: card.vendor_key || card.vendor_hint, official_urls: officialUrls },
+        context,
+        options.identityAdapters || {},
+      );
+      if (!result.ok) {
+        blocked.push({ name, code: result.code, reason: result.error || '' });
+        intakeOutcomes.push(await writeIntakeOutcome(card, 'verification_blocked', options));
+        continue;
+      }
+      verdicts.push({ name, verdict: result.verdict, receipt: result.receipt, reused: result.reused === true });
+      if (result.verdict.entity_class === 'series') {
+        let members = { ok: true, members: [] };
+        if (options.discoverSeriesMembers !== null) {
+          members = await membersFn(result.verdict, options.identityAdapters || {}, context);
+        }
+        if (!members.ok || !members.members.length) {
+          blocked.push({ name, code: members.code || 'IDENTITY_MEMBERS_INSUFFICIENT', reason: '系列成员证据不足' });
+          intakeOutcomes.push(await writeIntakeOutcome(card, 'deferred_insufficient_evidence', options));
+          continue;
+        }
+        seriesCandidates.push({
+          candidate_key: card.candidate_key || null,
+          name,
+          vendor_key: result.verdict.vendor_key,
+          verdict: result.verdict,
+          members: members.members,
+          receipt: result.receipt,
+        });
+        continue;
+      }
+      if (modelKeyIndex.has(result.verdict.model_key)) {
+        intakeOutcomes.push(await writeIntakeOutcome(card, 'already_complete', options));
+        continue;
+      }
+      // 普通 api_model seed：registry 命中仅作域提示，official_urls 全量注入
+      try {
+        const seed = pendingCandidateToSeed(effectiveCardForResolution(card, registryHit.ok ? registryHit : card), {
+          ...(registryHit.ok ? registryHit : {}),
+          vendor_key: result.verdict.vendor_key,
+          official_urls: officialUrls,
+        });
+        seed.model_key = result.verdict.model_key;
+        seeds.push(seed);
+      } catch (error) {
+        unresolved.push({ name: card.name, reason: error?.message || String(error) });
+      }
+      continue;
+    }
     if (registryHit.ok) {
       // registry 命中零解析成本，但 seed 转换（vague/非法 kind）仍可能抛错，须收进 unresolved 而非中断整批。
       try {
@@ -241,7 +370,15 @@ async function resolveBatchCandidates(cards, options = {}) {
       unresolved.push({ name, reason: error?.message || String(error) });
     }
   }
-  return { seeds, unresolved, resolve_cost: ledger.snapshot() };
+  return {
+    seeds,
+    unresolved,
+    series_candidates: seriesCandidates,
+    verification_blocked: blocked,
+    verdicts,
+    intake_outcomes: intakeOutcomes.filter(Boolean),
+    resolve_cost: ledger.snapshot(),
+  };
 }
 
 

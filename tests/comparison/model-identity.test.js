@@ -86,7 +86,7 @@ test('模型身份：评测环境位于 degree 之后时仍归并为同一模型
 test('模型身份：厂商别名统一，但仅模型 key 相同才合并', () => {
   assert.equal(normalizeVendor('mistralai'), 'mistral');
   assert.equal(normalizeVendor('alibaba'), 'qwen');
-  assert.equal(normalizeVendor('zai-org'), 'zai');
+  assert.equal(normalizeVendor('zai-org'), 'zhipu');
   assert.equal(normalizeVersionSeparators('claude-opus-4-8'), 'claude-opus-4.8');
   assert.deepEqual(removeTerminalOfferings('gpt-5.6-sol-batch-free'), { identity: 'gpt-5.6-sol', offerings: ['batch', 'free'] });
 });

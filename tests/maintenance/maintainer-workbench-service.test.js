@@ -230,3 +230,34 @@ test('mutations require expected revision and delegate guarded commits', () => {
   assert.equal(service.applyKeywords({ ids: ['kw'], expected_revision: 'keyword-r1' }).revision, 'keyword-r2');
   assert.equal(service.reviewToolUpdate('tool-key', { decision: 'approved', expected_revision: 'tool-r1' }).expected_revision, 'tool-r1');
 });
+
+test('service catalogCleanup enforces parameter allowlist and delegates to workbench cleanup', () => {
+  let cleanupPayload = null;
+  const service = createMaintainerWorkbenchService({
+    catalogWorkbench: {
+      cleanup: body => { cleanupPayload = body; return { ok: true, status: 'cleanup_only', cleanup_only: true }; },
+    },
+    topFile: require('path').join(require('os').tmpdir(), 'knowview-wb-no-top.json'),
+    newsApi: { readStore: () => ({ candidates: [] }), revisionOfStore: () => 'n', commit: () => ({}), reviewMutation: () => ({}), topMutation: () => ({}), readKeywords: () => ({ candidates: [] }), readConfig: () => ({}), revisionOfConfig: () => 'k', commitKeywords: () => ({}) },
+    toolsApi: { readQueue: () => ({ revision: 't', items: [] }), review: () => ({}) },
+    conceptsApi: { readPreviews: () => ({ cards: [] }) },
+  });
+
+  assert.throws(() => service.catalogCleanup(null), /Catalog 清理请求无效/);
+  assert.throws(() => service.catalogCleanup({ draft_ids: ['d1'], expected_revision: 'r1', batch_token: 'b', confirm: 'c', extra: 1 }), /Catalog 清理请求字段无效/);
+
+  const result = service.catalogCleanup({
+    draft_ids: ['d1'],
+    expected_revision: 'r1',
+    batch_token: 'b',
+    confirm: 'APPLY CATALOG DRAFTS b',
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.cleanup_only, true);
+  assert.deepEqual(cleanupPayload, {
+    draft_ids: ['d1'],
+    expected_revision: 'r1',
+    batch_token: 'b',
+    confirm: 'APPLY CATALOG DRAFTS b',
+  });
+});

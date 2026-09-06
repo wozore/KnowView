@@ -9,6 +9,7 @@ const { synthesizeCatalog, normalizeFeaturePreview } = require('../../src/catalo
 function seed(overrides = {}) {
   return {
     detail_kind: 'api_model', modality: 'video', name: 'Kling 2.6 Pro', vendor_name: '可灵', vendor_key: 'kuaishou', tool_key: 'kling-2-6-pro',
+    model_key: 'kuaishou-kling-2.6-pro', series_kind: 'model_series',
     placement: { new_group_title: 'Kling' }, known_fields: { theme: 'media' }, discovery_sources: [{ url: 'https://kling.ai', kind: 'official_hint' }],
     ...overrides,
   };

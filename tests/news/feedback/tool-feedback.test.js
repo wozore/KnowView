@@ -6,6 +6,7 @@ const fs = require('fs');
 const { CATALOG_GENERATOR_FILES, CONCEPT_FILES } = require('../../../src/shared/paths');
 const {
   feedbackFromSummaries,
+  classifyEntityForPending,
   extractEntities,
   normalizeEntities,
   isVagueName,
@@ -45,7 +46,20 @@ test('normalizeEntities 兼容类型数组、裸字符串与对象，非法 type
   assert.deepEqual(normalizeEntities(['Cursor', 'RAG']), [{ name: 'Cursor', type: 'tool' }, { name: 'RAG', type: 'tool' }]);
   assert.deepEqual(normalizeEntities({ names: ['Cursor'] }), [{ name: 'Cursor', type: 'tool' }]);
   assert.deepEqual(normalizeEntities([{ name: 'X', type: 'bogus' }]), [{ name: 'X', type: 'tool' }]);
+  assert.deepEqual(normalizeEntities([{ name: 'GPT-5.6', type: 'series' }]), [{ name: 'GPT-5.6', type: 'series' }]);
   assert.deepEqual(normalizeEntities(null), []);
+});
+
+// ── classifyEntityForPending：待补路由纯函数 ───────────────────
+test('classifyEntityForPending 按契约路由五种实体类型', () => {
+  assert.deepEqual(classifyEntityForPending({ name: 'GPT-5.6', type: 'series' }), { target: 'tools', entity_type: 'series' });
+  assert.deepEqual(classifyEntityForPending({ name: '可灵', type: 'vague' }), { target: 'filtered', entity_type: 'vague' });
+  assert.deepEqual(classifyEntityForPending({ name: 'RAG', type: 'concept' }), { target: 'concepts', entity_type: 'concept' });
+  assert.deepEqual(classifyEntityForPending({ name: 'Cursor', type: 'tool' }), { target: 'tools', entity_type: 'tool' });
+  assert.deepEqual(classifyEntityForPending({ name: 'Claude Opus 4.8', type: 'model' }), { target: 'tools', entity_type: 'model' });
+  // 未知/缺类型：filtered（绝不静默当 tool）
+  assert.deepEqual(classifyEntityForPending({ name: 'X' }), { target: 'filtered', entity_type: 'unknown' });
+  assert.deepEqual(classifyEntityForPending(null), { target: 'filtered', entity_type: 'unknown' });
 });
 
 // ── feedbackFromSummaries：笼统名不进入待补工具卡 ──────────────
@@ -77,10 +91,11 @@ test('feedback 路由：笼统名被排除、模型带 api_model 提示、概念
     // 笼统名绝不进入待补工具卡（即使 LLM 标 tool）
     assert.equal(result.toolsPending.some(c => c.name === '可灵'), false, '可灵不得出现在待补工具卡');
     assert.equal(result.toolsPending.some(c => c.name === 'ChatGPT'), false);
-    // 具体模型 → 待补工具卡 + api_model 提示
+    // 具体模型 → 待补工具卡 + api_model 提示 + entity_type
     const model = result.toolsPending.find(c => c.name === 'Qwen3.8-Max');
     assert.ok(model, 'Qwen3.8-Max 应进入待补工具卡');
     assert.equal(model.detail_kind_hint, 'api_model');
+    assert.equal(model.entity_type, 'model');
     // 已有工具 → toolsFound
     assert.deepEqual(result.toolsFound, ['Cursor']);
     assert.equal(result.toolsPending.some(c => c.name === 'Cursor'), false);
@@ -88,6 +103,38 @@ test('feedback 路由：笼统名被排除、模型带 api_model 提示、概念
     assert.equal(result.conceptsPending.some(c => c.term === 'RAG'), true);
     assert.equal(result.toolsPending.some(c => c.name === 'RAG'), false);
     assert.equal(result.conceptsPending.some(c => c.term === 'Qwen3.8-Max'), false);
+  } finally {
+    restore(saved);
+  }
+});
+
+// ── feedback 路由：series 进待补工具卡（无 detail_kind_hint），走 Bundle 管线 ──
+test('feedback 路由：series 实体进待补工具卡，entity_type=series 且省略 detail_kind_hint', async () => {
+  const saved = backup();
+  try {
+    const store = {
+      candidates: [
+        { review_status: 'approved', summary: 'GPT-5.6 系列发布了，含 Sol 与 Terra 两个型号。' },
+      ],
+    };
+    const llmExtract = async () => [{ name: 'GPT-5.6', type: 'series' }, { name: 'Sol', type: 'model' }];
+    const result = await feedbackFromSummaries(store, { feedback: {} }, {
+      tools: [],
+      glossary: [],
+      llmExtract,
+    });
+    const series = result.toolsPending.find(c => c.name === 'GPT-5.6');
+    assert.ok(series, 'GPT-5.6 系列应进入待补工具卡');
+    assert.equal(series.entity_type, 'series');
+    assert.equal(Object.hasOwn(series, 'detail_kind_hint'), false, 'series 候选必须省略 detail_kind_hint');
+    // 具体型号仍按 model 路由
+    const model = result.toolsPending.find(c => c.name === 'Sol');
+    assert.ok(model, '具体型号 Sol 应按 model 进入待补工具卡');
+    assert.equal(model.entity_type, 'model');
+    assert.equal(model.detail_kind_hint, 'api_model');
+    // identity_key 由 normalizeModelIdentity 统一算法生成
+    assert.equal(series.identity_key, 'gpt-5.6');
+    assert.equal(model.identity_key, 'sol');
   } finally {
     restore(saved);
   }

@@ -112,6 +112,17 @@ export function setToolsViewMode(value) {
   return toolsViewMode;
 }
 
+// 同名 L2/L3 标注：二级系列与三级具体模型同名时，分别标注「系列」「具体模型」帮助区分。
+function sameNameSeriesKeys() {
+  return new Map(getCatalogItems('vendor-level2')
+    .map(group => [group.vendor_key + '|' + group.title, group.id]));
+}
+
+function hasSameNameLeaf(item) {
+  return getCatalogItems('tool-level3')
+    .some(leaf => leaf.vendor_key === item.vendor_key && leaf.title === item.title && leaf.detail_kind === 'api_model');
+}
+
 class VendorDirectoryView {
   constructor() {
     this.root = document.getElementById('vendorDirectoryView');
@@ -130,7 +141,10 @@ class VendorDirectoryView {
     if (this.grid) {
       this.grid.innerHTML = items.map(item => {
         const level2Items = getVendorLevel2Items(item.vendor_key);
-        const quickItems = level2Items.slice(0, 5).map(level2 => ({ id: level2.id, title: level2.title }));
+        const quickItems = level2Items.slice(0, 5).map(level2 => ({
+          id: level2.id,
+          title: hasSameNameLeaf({ vendor_key: item.vendor_key, title: level2.title }) ? level2.title + '（系列）' : level2.title,
+        }));
         const leafCount = level2Items.reduce((count, level2) => count + level2.detail_refs.length, 0);
         return vendorCards({ card: item, quickItems, leafCount });
       }).join('');
@@ -225,6 +239,7 @@ class ToolDirectoryView {
   render(items) {
     if (!this.grid) return;
     const visibleTypes = [];
+    const seriesByVendorTitle = sameNameSeriesKeys();
     this.grid.classList.add('tool-groups');
     this.grid.innerHTML = TOOL_GROUPS.map(group => {
       const groupItems = items.filter(tool => tool.theme === group.type);
@@ -234,10 +249,14 @@ class ToolDirectoryView {
         '<h3 class="tool-group-title">' + escapeHtml(group.title) +
           ' <span class="tool-group-count">' + groupItems.length + '</span></h3>' +
         '<div class="tool-group-divider" aria-hidden="true"></div>' +
-        '<div class="tool-grid">' + groupItems.map(item => toolCards({
-          card: item,
-          compareSelected: isCompareSelected(item.detail_ref.id, item.detail_ref.id),
-        })).join('') + '</div>' +
+        '<div class="tool-grid">' + groupItems.map(item => {
+          const hasSameNameSeries = seriesByVendorTitle.has(item.vendor_key + '|' + item.title);
+          const card = hasSameNameSeries ? { ...item, title: item.title + '（具体模型）' } : item;
+          return toolCards({
+            card,
+            compareSelected: isCompareSelected(item.detail_ref.id, item.detail_ref.id),
+          });
+        }).join('') + '</div>' +
         '</section>';
     }).join('');
     this.syncIndex(visibleTypes);

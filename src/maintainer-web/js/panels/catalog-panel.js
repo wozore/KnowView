@@ -1,13 +1,5 @@
 import { request, listFrom, ApiError } from '../api.js';
-import {
-  state,
-  $,
-  addText,
-  addBadge,
-  clearChildren,
-  showNotice,
-} from '../state.js';
-
+import { state, $, addText, addBadge, clearChildren, showNotice } from '../state.js';
 export function recoveryControlsFor(draft, content, onRefreshAll) {
   if (!draft.recovery_kind || draft.readiness === 'ready') return;
   const panel = document.createElement('div');
@@ -60,7 +52,6 @@ export function recoveryControlsFor(draft, content, onRefreshAll) {
   action.addEventListener('click', () => recoverDraft(draft, { action, checkbox, inputs, result }, onRefreshAll));
   content.appendChild(panel);
 }
-
 export async function recoverDraft(draft, controls, onRefreshAll) {
   const id = draft.draft_id;
   controls.action.disabled = true;
@@ -118,6 +109,27 @@ export async function recoverDraft(draft, controls, onRefreshAll) {
     controls.action.disabled = false;
   }
 }
+export async function cleanupCatalogDraft(draft, button, onRefreshAll) {
+  const action = draft.cleanup_action;
+  if (!action) {
+    showNotice('该 Draft 缺少可验证的 cleanup-only 参数，请刷新工作台。', 'error');
+    return;
+  }
+  button.disabled = true;
+  try {
+    const result = await request('catalog/cleanup', {
+      method: 'POST',
+      body: JSON.stringify(action),
+    });
+    if (!result?.ok) throw new Error(result?.code || 'Draft 清理被阻断');
+    showNotice('Draft cleanup-only 清理完成。', 'success');
+    if (typeof onRefreshAll === 'function') await onRefreshAll();
+  } catch (error) {
+    showNotice(error.message || 'Draft 清理失败。', 'error');
+  } finally {
+    button.disabled = false;
+  }
+}
 
 export function renderCatalogDrafts(payload, onRefreshAll) {
   state.catalogDrafts = listFrom(payload, ['items', 'drafts']);
@@ -135,13 +147,114 @@ export function renderCatalogDrafts(payload, onRefreshAll) {
     addText(content, 'h3', draft.candidate_name || '工具 / 模型 Draft', 'item-title');
     addText(content, 'p', `状态：${draft.state || draft.readiness || 'unknown'}`, 'item-summary');
     if (draft.reused) addBadge(content, '已复用', 'reused');
-    recoveryControlsFor(draft, content, onRefreshAll);
+    if (draft.cleanup_pending || draft.state === 'cleanup_pending') {
+      addText(content, 'p', '正式 Catalog 已提交，仅待完成 Draft 清理。', 'item-blocked');
+      const toolbar = document.createElement('div');
+      toolbar.className = 'toolbar';
+      const cleanup = document.createElement('button');
+      cleanup.type = 'button';
+      cleanup.className = 'button button-quiet';
+      cleanup.textContent = '执行 cleanup-only 清理';
+      toolbar.appendChild(cleanup);
+      content.appendChild(toolbar);
+      cleanup.addEventListener('click', () => cleanupCatalogDraft(draft, cleanup, onRefreshAll));
+    } else {
+      recoveryControlsFor(draft, content, onRefreshAll);
+    }
     row.appendChild(document.createElement('span'));
     row.appendChild(content);
     root.appendChild(row);
   }
 }
-
+function bundleTitle(bundle) {   return bundle?.series?.title || bundle?.candidate?.name || bundle?.bundle_id || 'SeriesBundle'; }
+function bundleMembers(bundle) {   return Array.isArray(bundle?.members) ? bundle.members : []; }
+async function reviewBundle(draft, row, onRefreshAll) {   const id = draft.draft_id;   const action = row.querySelector('[data-bundle-review]');   if (action) action.disabled = true;   try {     const review = await request(`catalog/bundles/${encodeURIComponent(id)}/review`, {       method: 'POST',       body: JSON.stringify({}),     });     if (!review?.ok) throw new Error(review?.code || 'Bundle 审核被阻断');     state.catalogBundleReviews.set(id, review);     renderBundleReview(draft, row, review, onRefreshAll);   } catch (error) {     showNotice(error.message || 'Bundle 审核失败。', 'error');   } finally {     if (action) action.disabled = false;   } }
+function renderBundleReview(draft, row, review, onRefreshAll) {   const content = row.querySelector('.item-content');   if (!content) return;   const old = content.querySelector('.bundle-review');   if (old) old.remove();   const panel = document.createElement('div');   panel.className = 'bundle-review';   addText(panel, 'p', `预览已锁定：Catalog revision ${review.current_revision}`, 'item-id');   addText(panel, 'p', `${bundleMembers(review.draft).length} 个成员；请核对后再确认写入。`, 'item-summary');   const toolbar = document.createElement('div');   toolbar.className = 'toolbar';   const apply = document.createElement('button');   apply.type = 'button';   apply.className = 'button button-danger';   apply.textContent = 'Apply Bundle';   const discard = document.createElement('button');   discard.type = 'button';   discard.className = 'button button-quiet';   discard.textContent = '丢弃 Bundle';   toolbar.append(apply, discard);   panel.appendChild(toolbar);   content.appendChild(panel);   apply.addEventListener('click', () => applyBundle(review, apply, onRefreshAll));   discard.addEventListener('click', () => discardBundle(review, discard, onRefreshAll)); }
+async function applyBundle(review, button, onRefreshAll) {   button.disabled = true;   try {     const result = await request('catalog/apply-bundle', {       method: 'POST',       body: JSON.stringify({         draft_id: review.draft_id,         expected_revision: review.current_revision,         bundle_token: review.bundle_token,         confirm: review.confirmation,       }),     });     if (!result?.ok) throw new Error(result?.code || 'Bundle Apply 被拒绝');     state.catalogBundleOutcome = result;     const suffix = result.cleanup_only ? 'cleanup-only 恢复待处理' : result.cleanup_pending ? 'Draft 清理待处理' : result.outcome_pending ? 'pending outcome warning' : '';     showNotice(`Bundle 已应用，目标 revision：${result.target_revision || '未返回'}。${suffix ? `（${suffix}）` : ''}`, result.outcome_pending || result.cleanup_pending ? 'conflict' : 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     showNotice(error.message || 'Bundle Apply 失败。', 'error');   } finally {     button.disabled = false;   } }
+async function discardBundle(review, button, onRefreshAll) {   button.disabled = true;   try {     const result = await request(`catalog/bundles/${encodeURIComponent(review.draft_id)}/discard`, {       method: 'POST',       body: JSON.stringify({ expected_revision: review.current_revision, confirm: review.discard_confirmation }),     });     if (!result?.ok) throw new Error(result?.code || 'Bundle 丢弃被拒绝');     showNotice('Bundle 已丢弃。', 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     showNotice(error.message || 'Bundle 丢弃失败。', 'error');   } finally {     button.disabled = false;   } }
+function renderBundlePlan(payload) {   const root = $('#catalogBundlePlanPreview');   if (!root) return;   clearChildren(root);   if (!payload?.ok) {     addText(root, 'p', payload?.code || 'Bundle 计划被阻断。', 'item-blocked');     return;   }   const resolution = payload.cost_plan || payload.resolution || {};   addText(root, 'p', `身份核验：搜索上限 ${Number(resolution.verification_search_upper_bound || 0)}，responses 上限 ${Number(resolution.verification_responses_upper_bound || 0)}。`, 'item-summary');   addText(root, 'p', payload.enrichment_cost?.message || '成员富化成本将在 prepare 阶段按成员上限计入。', 'item-summary');   addText(root, 'p', `本次 ${Number(payload.candidates?.length || 0)} 个系列候选需要确认身份核验与成员富化成本。`, 'item-id'); }
+export async function planBundle(button) {   button.disabled = true;   try {     const plan = await request('catalog/bundle-plan');     state.catalogBundlePlan = plan;     state.catalogBundleEnrichmentToken = null;     if (plan?.catalog_revision) state.revisions.catalog = plan.catalog_revision;     renderBundlePlan(plan);     const prepare = $('#catalogBundlePrepareButton');     if (prepare) prepare.disabled = !plan?.ok || !$('#catalogBundleCostConfirm')?.checked;     showNotice(plan?.ok ? 'Bundle 计划已生成，请确认身份核验与成员富化成本。' : (plan?.code || '当前没有可进入 Bundle 的系列候选。'), plan?.ok ? 'success' : 'error');   } catch (error) {     showNotice(error.message || 'Bundle 计划失败。', 'error');   } finally {     button.disabled = false;   } }
+export async function prepareBundle(button, onRefreshAll) {   const plan = state.catalogBundlePlan;   if (!plan?.ok || !$('#catalogBundleCostConfirm')?.checked) {     showNotice('请先生成 Bundle 计划并确认身份核验与成员富化成本。', 'error');     return;   }   button.disabled = true;   try {     const payload = { pending_revision: plan.pending_revision, catalog_revision: plan.catalog_revision, plan_hash: plan.plan_hash, confirm_cost: true };     if (state.catalogBundleEnrichmentToken) payload.enrichment_confirmation_token = state.catalogBundleEnrichmentToken;     const result = await request('catalog/bundle-prepare', { method: 'POST', body: JSON.stringify(payload) });     if (!result?.ok) {       if (result?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED' || result?.status === 'enrichment_cost_confirmation_required') {         state.catalogBundleEnrichmentToken = result.enrichment_confirmation_token;         const limits = result.enrichment_hard_limits || {};         showNotice(`已计算成员富化上限（搜索 ${Number(limits.max_total_search_queries || 0)} 次，综合调用 ${Number(limits.max_total_synthesis_calls || 0)} 次）。请再次点击准备以确认富化。`, 'warning');         return;       }       throw new Error(result?.code || 'Bundle Draft 准备被阻断');     }     state.catalogBundleEnrichmentToken = null;     showNotice('Bundle Draft 已准备，请逐项审核或丢弃。', 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     const p = error?.payload;     if (error?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED' || p?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED') {       state.catalogBundleEnrichmentToken = p?.enrichment_confirmation_token || error?.enrichment_confirmation_token;       const limits = p?.enrichment_hard_limits || {};       showNotice(`已计算成员富化上限（搜索 ${Number(limits.max_total_search_queries || 0)} 次，综合调用 ${Number(limits.max_total_synthesis_calls || 0)} 次）。请再次点击准备以确认富化。`, 'warning');       return;     }     showNotice(error.message || 'Bundle Draft 准备失败。', 'error');   } finally {     button.disabled = false;   } }
+export function renderCatalogBundles(payload, onRefreshAll) {
+  state.catalogBundles = listFrom(payload, ['items', 'bundles']);
+  state.catalogBundleReviews.clear();
+  if (payload?.catalog_revision) state.revisions.catalog = payload.catalog_revision;
+  const root = $('#catalogBundleList');
+  const stateNode = $('#catalogBundleState');
+  if (stateNode) stateNode.textContent = `${state.catalogBundles.length} 条`;
+  if (!root) return;
+  clearChildren(root);
+  const outcome = state.catalogBundleOutcome;
+  if (outcome && (outcome.outcome_pending || outcome.cleanup_pending || outcome.cleanup_only)) {
+    addText(root, 'p', `上次 Apply 状态：${outcome.cleanup_only ? 'cleanup-only 恢复待处理' : outcome.cleanup_pending ? 'Draft 清理待处理' : 'pending outcome warning'}。请保留此状态并刷新确认。`, 'item-blocked');
+  }
+  if (!state.catalogBundles.length) {
+    addText(root, 'p', '当前没有待审核 SeriesBundle。', 'empty-state');
+    return;
+  }
+  for (const bundle of state.catalogBundles) {
+    const row = document.createElement('article');
+    row.className = 'queue-item';
+    const content = document.createElement('div');
+    content.className = 'item-content';
+    addText(content, 'h3', bundleTitle(bundle), 'item-title');
+    addText(content, 'p', `状态：${bundle.state || bundle.readiness?.status || 'unknown'}；成员 ${bundleMembers(bundle).length}`, 'item-summary');
+    if (Array.isArray(bundle.deferred_models) && bundle.deferred_models.length) {
+      addText(content, 'p', `延后成员：${bundle.deferred_models.length}`, 'item-blocked');
+    }
+    const toolbar = document.createElement('div');
+    toolbar.className = 'toolbar';
+    if (bundle.state === 'cleanup_pending') {
+      addText(content, 'p', '正式 Catalog 已写入，仅待完成 Draft 清理。', 'item-blocked');
+      const cleanup = document.createElement('button');
+      cleanup.type = 'button';
+      cleanup.className = 'button button-quiet';
+      cleanup.textContent = '执行 Bundle cleanup-only 清理';
+      toolbar.appendChild(cleanup);
+      cleanup.addEventListener('click', () => applyBundle({
+        draft_id: bundle.draft_id,
+        current_revision: state.revisions.catalog || payload.catalog_revision,
+        bundle_token: bundle.bundle_token,
+        confirmation: `APPLY CATALOG BUNDLE ${bundle.bundle_token}`,
+      }, cleanup, onRefreshAll));
+    } else if (bundle.state === 'outcome_pending') {
+      addText(content, 'p', '正式 Catalog 已写入，待收敛 pending outcome。', 'item-blocked');
+      const converge = document.createElement('button');
+      converge.type = 'button';
+      converge.className = 'button button-quiet';
+      converge.textContent = '收敛 pending outcome';
+      toolbar.appendChild(converge);
+      converge.addEventListener('click', () => applyBundle({
+        draft_id: bundle.draft_id,
+        current_revision: state.revisions.catalog || payload.catalog_revision,
+        bundle_token: bundle.bundle_token,
+        confirmation: `APPLY CATALOG BUNDLE ${bundle.bundle_token}`,
+      }, converge, onRefreshAll));
+    } else {
+      const review = document.createElement('button');
+      review.type = 'button';
+      review.className = 'button button-quiet';
+      review.dataset.bundleReview = 'true';
+      review.textContent = '审核预览';
+      toolbar.appendChild(review);
+      const discard = document.createElement('button');
+      discard.type = 'button';
+      discard.className = 'button button-quiet';
+      discard.textContent = '丢弃 Bundle';
+      toolbar.appendChild(discard);
+      review.addEventListener('click', () => reviewBundle(bundle, row, onRefreshAll));
+      discard.addEventListener('click', () => discardBundle({
+        draft_id: bundle.draft_id,
+        current_revision: state.revisions.catalog || payload.catalog_revision,
+        bundle_token: bundle.bundle_token,
+        discard_confirmation: bundle.discard_confirmation || `DISCARD CATALOG BUNDLE ${bundle.bundle_token}`,
+      }, discard, onRefreshAll));
+    }
+    content.appendChild(toolbar);
+    row.append(document.createElement('span'), content);
+    root.appendChild(row);
+  }
+}
 export function renderCatalogBatchPreview(payload) {
   const root = $('#catalogBatchPreview');
   if (!root) return;
@@ -172,7 +285,6 @@ export function renderCatalogBatchPreview(payload) {
   const applyBtn = $('#catalogApplyButton');
   if (applyBtn) applyBtn.disabled = false;
 }
-
 export async function planCatalog(button) {
   button.disabled = true;
   try {
@@ -187,7 +299,6 @@ export async function planCatalog(button) {
     button.disabled = false;
   }
 }
-
 export async function prepareCatalog(button, onRefreshAll) {
   const plan = state.catalogPlan;
   if (!plan || !$('#catalogCostConfirm').checked) {
@@ -212,7 +323,6 @@ export async function prepareCatalog(button, onRefreshAll) {
     button.disabled = false;
   }
 }
-
 export async function previewCatalogBatch(button) {
   button.disabled = true;
   try {
@@ -225,7 +335,6 @@ export async function previewCatalogBatch(button) {
     button.disabled = false;
   }
 }
-
 export async function applyCatalog(button, onRefreshAll) {
   const batch = state.catalogBatch;
   if (!batch?.ok || !batch.draft_ids?.length) {
@@ -255,8 +364,16 @@ export async function applyCatalog(button, onRefreshAll) {
     button.disabled = false;
   }
 }
-
 export function setupCatalogPanel(onRefreshAll) {
+  const bundlePlanBtn = $('#catalogBundlePlanButton');
+  if (bundlePlanBtn) bundlePlanBtn.addEventListener('click', (event) => planBundle(event.currentTarget));
+  const bundlePrepareBtn = $('#catalogBundlePrepareButton');
+  if (bundlePrepareBtn) bundlePrepareBtn.addEventListener('click', (event) => prepareBundle(event.currentTarget, onRefreshAll));
+  const bundleCostConfirm = $('#catalogBundleCostConfirm');
+  if (bundleCostConfirm) bundleCostConfirm.addEventListener('change', () => {
+    const prepare = $('#catalogBundlePrepareButton');
+    if (prepare) prepare.disabled = !state.catalogBundlePlan?.ok || !bundleCostConfirm.checked;
+  });
   const planBtn = $('#catalogPlanButton');
   if (planBtn) planBtn.addEventListener('click', (event) => planCatalog(event.currentTarget));
   const prepBtn = $('#catalogPrepareButton');

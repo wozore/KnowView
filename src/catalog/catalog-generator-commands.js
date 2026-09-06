@@ -70,6 +70,14 @@ function readSeed(flags) {
   return JSON.parse(fs.readFileSync(flags.seed, 'utf8'));
 }
 
+function catalogDraftOnly(draft) {
+  return draft?.schema_version === 3 && (draft.draft_kind || 'catalog') === 'catalog';
+}
+
+function listCatalogDraftsOnly() {
+  return listDrafts().filter(catalogDraftOnly);
+}
+
 function printPreview(result, io) {
   if (!result.ok) {
     io.printError(result);
@@ -112,7 +120,7 @@ async function runCommand(parsed = { positional: [], flags: {} }, io) {
     return result;
   }
   if (command === 'list') {
-    const result = { ok: true, drafts: listDrafts().map(draft => ({ draft_id: draft.draft_id, state: draft.state, readiness: draft.readiness })) };
+    const result = { ok: true, drafts: listCatalogDraftsOnly().map(draft => ({ draft_id: draft.draft_id, state: draft.state, readiness: draft.readiness })) };
     io.print(result);
     return result;
   }
@@ -163,6 +171,12 @@ async function runCommand(parsed = { positional: [], flags: {} }, io) {
   }
   if (command === 'cancel') {
     if (!id) throw new Error('请提供 draft-id');
+    const existing = listDrafts().find(draft => draft.draft_id === id);
+    if (existing && !catalogDraftOnly(existing)) {
+      const result = { ok: false, code: 'BUNDLE_DRAFT_NOT_SUPPORTED', draft_id: id };
+      io.print(result);
+      return result;
+    }
     const result = discardCatalogDraft(id);
     io.print(result);
     return result;

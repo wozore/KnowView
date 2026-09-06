@@ -16,6 +16,7 @@ const TOOL_CARD_FIELDS = Object.freeze([
   'id', 'tool_key', 'vendor_key', 'title', 'vendor_label', 'icon', 'summary', 'theme',
   'scenes', 'best_for_preview', 'not_for_preview', 'price_badge',
   'access_level', 'search_terms', 'detail_ref', 'detail_kind',
+  'model_key', 'visibility', 'historical_since',
 ]);
 const VENDOR_LEVEL1_FIELDS = Object.freeze([
   'id', 'vendor_key', 'title', 'icon', 'official_url',
@@ -24,15 +25,31 @@ const VENDOR_LEVEL1_FIELDS = Object.freeze([
 const VENDOR_LEVEL2_FIELDS = Object.freeze([
   'id', 'level1_ref', 'vendor_key', 'title', 'official_url', 'summary', 'status',
   'detail_refs',
+  'series_kind', 'generation_state',
 ]);
 const TOOL_LEVEL3_FIELDS = Object.freeze([
   'id', 'vendor_key', 'detail_kind', 'theme', 'title', 'vendor_label', 'icon', 'official_url',
   'status', 'summary', 'one_m_context', 'api_pricing', 'plan',
   'applicable_scenarios', 'inapplicable_scenarios', 'sources',
   'release_date', 'last_updated_date',
+  'model_key', 'visibility', 'historical_since',
 ]);
 
 const DATE_FIELDS = Object.freeze(['release_date', 'last_updated_date']);
+
+// 统一模型键/系列字段枚举（阶段反哺与系列聚合契约）：model_key 只经
+// src/shared/model-key-contract 算法生成；visibility/series_kind/generation_state
+// 为条件字段（存在才校验，存量数据缺失合法）。
+const SERIES_KINDS = Object.freeze(['model_series', 'subscription_series', 'tool_series']);
+const GENERATION_STATES = Object.freeze(['newest', 'previous']);
+const VISIBILITIES = Object.freeze(['visible', 'hidden_history']);
+
+// 各层级条件字段：不做无条件必填检查，存在才校验（存量兼容）。
+const CONDITIONAL_FIELDS = Object.freeze({
+  'tool-level3': Object.freeze(['model_key', 'visibility', 'historical_since']),
+  'tool-card': Object.freeze(['model_key', 'visibility', 'historical_since']),
+  'vendor-level2': Object.freeze(['series_kind', 'generation_state']),
+});
 
 const ALLOWED_FIELDS = Object.freeze({
   'vendor-card': VENDOR_CARD_FIELDS,
@@ -82,6 +99,10 @@ module.exports = {
   DETAIL_KINDS,
   TOOL_CARD_KINDS,
   THEMES,
+  SERIES_KINDS,
+  GENERATION_STATES,
+  VISIBILITIES,
+  CONDITIONAL_FIELDS,
   DATE_FIELDS,
   REF_TARGETS,
   isHttpUrl,

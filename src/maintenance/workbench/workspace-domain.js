@@ -46,7 +46,7 @@ function listItems(value, keys) {
   return [];
 }
 
-function checkWorkspaceStatus({ store, news, options, pending, concepts, catalogWorkbench, toolUpdatesProjection }) {
+function checkWorkspaceStatus({ store, news, options, pending, concepts, catalogWorkbench, catalogBundleList, toolUpdatesProjection }) {
   const current = store();
   const blockers = [];
   const newsPending = current.candidates.filter(item => item.review_status === 'pending').length;
@@ -68,7 +68,9 @@ function checkWorkspaceStatus({ store, news, options, pending, concepts, catalog
   })()).items.filter(item => item.review_status === 'pending' || (item.review_status === 'approved' && item.workflow_state !== 'completed'));
   if (pendingConceptItems.length) blockers.push({ code: 'CONCEPTS_PENDING', count: pendingConceptItems.length, message: `还有 ${pendingConceptItems.length} 个概念待补卡未完成` });
   const drafts = listItems(catalogWorkbench.list(), ['items', 'drafts']);
+  const bundles = typeof catalogBundleList === 'function' ? listItems(catalogBundleList(), ['items', 'drafts']) : [];
   if (drafts.length) blockers.push({ code: 'CATALOG_DRAFTS_PENDING', count: drafts.length, message: `还有 ${drafts.length} 个 Catalog Draft 未完成` });
+  if (bundles.length) blockers.push({ code: 'CATALOG_BUNDLES_PENDING', count: bundles.length, message: `还有 ${bundles.length} 个 SeriesBundle Draft 未完成` });
   const preview = concepts.readPreviews();
   const conceptPreviewPending = preview?.schema_version === 2 && Array.isArray(preview.cards) && preview.cards.length > 0;
   if (conceptPreviewPending) blockers.push({ code: 'CONCEPT_PREVIEW_PENDING', count: preview.cards.length, message: `还有 ${preview.cards.length} 个概念预览待 Apply` });
@@ -78,7 +80,7 @@ function checkWorkspaceStatus({ store, news, options, pending, concepts, catalog
     status: blockers.length ? 'incomplete' : 'complete',
     clearable: blockers.length === 0,
     blockers,
-    counts: { news_pending: newsPending, keywords_pending: keywordPending, top_candidates: topItems.length, top_selected: topSelected, tools_pending: pendingTools.length, concepts_pending: pendingConceptItems.length, catalog_drafts: drafts.length, concept_previews: conceptPreviewPending ? preview.cards.length : 0, tool_updates_pending: toolUpdateItems.length },
+    counts: { news_pending: newsPending, keywords_pending: keywordPending, top_candidates: topItems.length, top_selected: topSelected, tools_pending: pendingTools.length, concepts_pending: pendingConceptItems.length, catalog_drafts: drafts.length, catalog_bundles: bundles.length, concept_previews: conceptPreviewPending ? preview.cards.length : 0, tool_updates_pending: toolUpdateItems.length },
   };
 }
 

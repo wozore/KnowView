@@ -16,6 +16,7 @@ const SAFE_ERROR_CODES = new Set([
   'PREVIEW_CHANGED', 'PREVIEW_INVALID', 'PREVIEW_CANDIDATES_INVALID', 'PREVIEW_SCHEMA_UNSUPPORTED',
   'REVISION_CONFLICT', 'BATCH_TOKEN_CHANGED', 'BATCH_TOKEN_EXPIRED', 'DRAFT_BATCH_STALE', 'SOURCE_PENDING_REVISION_CHANGED',
   'DRAFT_IDS_INVALID', 'DRAFTS_NOT_READY',
+  'BUNDLE_DRAFT_SCHEMA_UNSUPPORTED', 'BUNDLE_BLOCKED', 'BUNDLE_REQUEST_INVALID', 'BUNDLE_TOKEN_CHANGED', 'BUNDLE_PREVIEW_CHANGED', 'BUNDLE_DISCARD_FORBIDDEN', 'BUNDLE_REVIEW_FORBIDDEN', 'BUNDLE_DISCARD_CONFIRMATION_REQUIRED', 'SERIES_CANDIDATE_NOT_APPROVED', 'SERIES_RESOLUTION_FAILED', 'INTAKE_OUTCOME_WRITE_FAILED', 'BRIDGE_REVISION_CONFLICT', 'ENRICHMENT_COST_CONFIRMATION_REQUIRED', 'ENRICHMENT_CONFIRMATION_INVALID',
   'RECOVERY_OPTIONS_INVALID', 'MODEL_REQUIRED', 'RECOVERY_TOKEN_REQUIRED', 'RECOVERY_TOKEN_CHANGED', 'DRAFT_RECOVERY_FORBIDDEN', 'DRAFT_RECOVERY_IN_PROGRESS',
   'CONCEPT_TERM_NOT_FOUND', 'CONCEPT_TERM_ALREADY_EXISTS', 'CONCEPT_PREVIEW_INCOMPLETE', 'CONCEPT_TERMS_REQUIRED',
   'CONCEPT_TERMS_INVALID', 'CONCEPT_APPLY_MODE_INVALID', 'PENDING_REVIEW_DECISION_INVALID', 'PENDING_FILE_INVALID', 'PENDING_KIND_INVALID',
@@ -83,6 +84,22 @@ function authorizeMutation(req, token, address) {
   return req.headers.origin === expectedOrigin(req, address);
 }
 
+function assertAllowedBody(body, allowed, label) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)
+    || Object.keys(body).some(key => !allowed.includes(key))) {
+    throw Object.assign(new Error(`${label} 请求字段无效`), { code: 'BUNDLE_REQUEST_INVALID' });
+  }
+}
+
+function isConflictCode(code) {
+  return new Set([
+    'REVISION_CONFLICT', 'PREVIEW_CHANGED', 'BATCH_TOKEN_CHANGED', 'BATCH_TOKEN_EXPIRED',
+    'DRAFT_BATCH_STALE', 'SOURCE_PENDING_REVISION_CHANGED', 'PLAN_CHANGED', 'RECOVERY_TOKEN_CHANGED',
+    'RECOVERY_PLAN_CHANGED', 'DRAFT_RECOVERY_IN_PROGRESS', 'BUNDLE_TOKEN_CHANGED',
+    'BUNDLE_PREVIEW_CHANGED', 'BRIDGE_REVISION_CONFLICT',
+  ]).has(code) || String(code || '').startsWith('BUNDLE_BASE_REVISION_DRIFT');
+}
+
 function createMaintainerWorkbenchServer(options = {}) {
   const host = options.host || '127.0.0.1';
   if (host !== '127.0.0.1') throw new Error('维护者工作台只能绑定 127.0.0.1');
@@ -143,6 +160,25 @@ function createMaintainerWorkbenchServer(options = {}) {
         else if (method === 'POST' && route === '/knowledge/extract') result = service.extractKnowledge(body);
         else if (method === 'GET' && route === '/catalog/plan') result = service.catalogPlan();
         else if (method === 'POST' && route === '/catalog/prepare') result = service.catalogPrepare(body);
+        else if (method === 'GET' && route === '/catalog/bundle-plan') result = service.catalogBundlePlan();
+        else if (method === 'POST' && route === '/catalog/bundle-prepare') {
+          assertAllowedBody(body, ['pending_revision', 'catalog_revision', 'plan_hash', 'confirm_cost', 'enrichment_confirmation_token'], 'Bundle prepare');
+          result = service.catalogBundlePrepare(body);
+        }
+        else if (method === 'GET' && route === '/catalog/bundles') result = service.catalogBundles();
+        else if (method === 'GET' && /^\/catalog\/bundles\/[^/]+$/.test(route)) result = service.catalogBundle(decodeURIComponent(route.split('/')[3]));
+        else if (method === 'POST' && /^\/catalog\/bundles\/[^/]+\/review$/.test(route)) {
+          assertAllowedBody(body, [], 'Bundle review');
+          result = service.catalogBundleReview(decodeURIComponent(route.split('/')[3]), body);
+        }
+        else if (method === 'POST' && /^\/catalog\/bundles\/[^/]+\/discard$/.test(route)) {
+          assertAllowedBody(body, ['expected_revision', 'confirm'], 'Bundle discard');
+          result = service.catalogBundleDiscard(decodeURIComponent(route.split('/')[3]), body);
+        }
+        else if (method === 'POST' && route === '/catalog/apply-bundle') {
+          assertAllowedBody(body, ['draft_id', 'expected_revision', 'bundle_token', 'confirm'], 'Bundle apply');
+          result = service.catalogBundleApply(body);
+        }
         else if (method === 'GET' && route === '/catalog/drafts') result = service.catalogDrafts();
         else if (method === 'GET' && /^\/catalog\/drafts\/[^/]+$/.test(route)) result = service.catalogDraft(decodeURIComponent(route.split('/')[3]));
         else if (method === 'POST' && /^\/catalog\/drafts\/[^/]+\/review$/.test(route)) result = service.catalogReview(decodeURIComponent(route.split('/')[3]));
@@ -151,6 +187,10 @@ function createMaintainerWorkbenchServer(options = {}) {
         else if (method === 'POST' && /^\/catalog\/drafts\/[^/]+\/discard$/.test(route)) result = service.catalogDiscard(decodeURIComponent(route.split('/')[3]), body);
         else if (method === 'GET' && route === '/catalog/batch-preview') result = service.catalogBatchPreview();
         else if (method === 'POST' && route === '/catalog/apply-batch') result = service.catalogApplyBatch(body);
+        else if (method === 'POST' && route === '/catalog/cleanup') {
+          assertAllowedBody(body, ['draft_ids', 'expected_revision', 'batch_token', 'confirm'], 'Catalog cleanup');
+          result = service.catalogCleanup(body);
+        }
         else if (method === 'POST' && route === '/catalog/apply') result = service.catalogApply(body);
         else if (method === 'GET' && route === '/concepts/plan') result = service.conceptPlan();
         else if (method === 'POST' && route === '/concepts/prepare') result = service.conceptPrepare(body);
@@ -160,8 +200,7 @@ function createMaintainerWorkbenchServer(options = {}) {
         result = await result;
         if (res.destroyed || res.writableEnded) return;
         if (result && result.ok === false) {
-          const conflict = new Set(['REVISION_CONFLICT', 'PREVIEW_CHANGED', 'BATCH_TOKEN_CHANGED', 'BATCH_TOKEN_EXPIRED', 'DRAFT_BATCH_STALE', 'SOURCE_PENDING_REVISION_CHANGED', 'PLAN_CHANGED', 'RECOVERY_TOKEN_CHANGED', 'RECOVERY_PLAN_CHANGED', 'DRAFT_RECOVERY_IN_PROGRESS']);
-          return send(res, conflict.has(result.code) ? 409 : 400, result);
+          return send(res, isConflictCode(result.code) ? 409 : 400, result);
         }
         return send(res, 200, result);
       }
@@ -173,8 +212,8 @@ function createMaintainerWorkbenchServer(options = {}) {
       return res.end(content);
     } catch (error) {
       if (res.destroyed || res.writableEnded) return;
-      if (error?.code === 'REVISION_CONFLICT') {
-        return send(res, 409, { error: 'REVISION_CONFLICT', message: '数据已变化，请刷新后重试。' });
+      if (isConflictCode(error?.code)) {
+        return send(res, 409, { error: error.code, message: '数据已变化，请刷新后重试。' });
       }
       const status = Number.isInteger(error?.status) ? error.status : 400;
       if (status === 413) return send(res, 413, { error: 'PAYLOAD_TOO_LARGE' });

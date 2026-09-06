@@ -29,6 +29,8 @@ function pendingCandidateToSeed(candidate, resolution = {}) {
   if (!candidate || typeof candidate !== 'object') throw new Error('PENDING_CANDIDATE_INVALID');
   const name = String(candidate.name || candidate.title || '').trim();
   if (!name) throw new Error('PENDING_CANDIDATE_NAME_REQUIRED');
+  // 系列候选绝不转 seed：series 走 SeriesBundle 管线（fail-closed 防御）。
+  if (candidate.entity_type === 'series') throw new Error('PENDING_CANDIDATE_SERIES');
   // 笼统名防御：即使上游漏网，也拒绝转 seed（工具栏不出现笼统名卡）
   if (isVagueName(name)) throw new Error('PENDING_CANDIDATE_VAGUE');
   // 官方 URL 优先级：登记表多 URL official_urls > 登记表单 official_url > 候选自带 url；去重保序，全部作 official_hint。
@@ -60,6 +62,8 @@ function pendingCandidateToSeed(candidate, resolution = {}) {
     vendor_name: vendorName,
     vendor_key: resolution.vendor_key || resolution.matched_key || candidate.vendor_key || null,
     tool_key: candidate.tool_key || null,
+    ...(candidate.entity_type ? { entity_type: candidate.entity_type } : {}),
+    ...(candidate.model_key ? { model_key: candidate.model_key } : {}),
     ...(candidate.modality ? { modality: candidate.modality } : {}),
     official_url: officialUrl,
     placement,

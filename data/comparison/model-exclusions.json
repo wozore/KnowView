@@ -3,6 +3,18 @@
   "rules": [
     {
       "vendor": "openai",
+      "identity_prefix": "gpt-6",
+      "reason": "无官方发布事实的污染记录，不升级为正式模型。"
+    },
+    {
+      "vendor": "openai",
+      "identities": [
+        "gpt-5-6"
+      ],
+      "reason": "点号丢失与未带档位词的污染单模型别名。"
+    },
+    {
+      "vendor": "openai",
       "identity_prefix": "gpt-5.2",
       "reason": "旧覆盖清单中未纳入本轮工具卡范围。"
     },

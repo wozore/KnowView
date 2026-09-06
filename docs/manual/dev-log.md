@@ -38,6 +38,7 @@
 - [2026-07-27 · 环 B / S3 · N02 · 第一批工具情报扩展 — Mistral AI](#log-entry-19)
 - [2026-07-27 · 环 B / S3 · B11 · 时效标注系统](#log-entry-20)
 - [2026-07-27 · 环 B / S3 · B17 · AI 热点 RSS 订阅源](#log-entry-21)
+- [2026-09-06 · 模型系列反哺、统一模型键、SeriesBundle 事务与目录收口](#log-entry-22)
 - [2026-07-28 · 环 B / S3 · B19 · 推荐视图开发](#log-entry-22)
 - [2026-07-28 · 环 B / S3 · N02-2 + N02-3 · 第二、三批工具情报扩展](#log-entry-23)
 - [2026-07-28 · 环 B / S3 · N02 · Tree 集合渲染路径统一](#log-entry-24)
@@ -3019,4 +3020,51 @@
 
 - [x] Edge/CDP 端口超时环境缺口已彻底消除，端到端浏览器自动化已常态化可跑通；
 - 真实第三方平台连续采集受外部配额与网络窗口约束。
+
+<a id="log-entry-22"></a>
+## 2026-09-06 · 模型系列反哺、统一模型键、SeriesBundle 事务与目录收口（阶段 0–6B）
+
+> 彻底解决热点反哺将模型系列（如 GPT-5.6）误建单卡、系列识别缺失与同名二级系列脱节问题。跨 Catalog 与 Comparison 建立统一模型键契约，引入 SeriesBundle 事务、官方正文核验、Model Identity Bridge 与工作台审核流，并安全完成阶段 6A 目录存量脏卡清理与 6B Comparison 键迁移重建。
+
+### 变更实现
+
+- [x] **阶段 0（数据审计与污染排查）**：
+  - 新增只读审计模块 [series-data-audit.js](../../src/catalog/series/series-data-audit.js)，支持 12 类异常模式（非法/重复/点号丢失模型键、同名不同键、悬空引用、已知污染卡、厂商别名冲突、跨实体复制、可见成员超容与桥接失配）；
+  - 配套针对性测试（[series-data-audit.test.js](../../tests/catalog/series-data-audit.test.js)，11/11 项全部通过）。
+- [x] **阶段 1（统一模型键与共享身份桥接）**：
+  - 新增纯格式契约模块 [model-key-contract.js](../../src/shared/model-key-contract.js)：规定跨域统一模型键格式为 `vendor-model-identity`（全小写、单词单短横线、版本保留小数点，如 `zhipu-glm-5.3`、`openai-gpt-5.6-sol`），严禁破坏性抹除小数点；
+  - 新增跨域桥接契约 [model-identity-bridge.js](../../src/shared/model-identity-bridge.js) 与数据文件 [model-identity-bridge.json](../../data/shared/model-identity-bridge.json)：Catalog 事务为其唯一写入方，Comparison 只读消费；
+  - 升级事务引擎 [engine.js](../../src/catalog/transaction/engine.js)：支持双预期 Revision CAS 校验（Catalog revision + Bridge revision），在目录锁内完成五模块与 Bridge 的原子 Staging、替换、备份与故障对称回滚。
+- [x] **阶段 2（反哺实体提取与官方身份核验）**：
+  - 反哺实体提取 [llm-entity-extract.js](../../src/news/feedback/llm-entity-extract.js) 正式支持 `series` 类型，移除误导示例，将泛称平台标记为 `vague` 过滤，保留待补候选规范键；
+  - 新增官方核验引擎 [model-identity-verification.js](../../src/catalog/intake/model-identity-verification.js) 与回执管理 [identity-receipts.js](../../src/catalog/intake/identity-receipts.js)：所有候选强制经过官方域搜索、正文提取与智能身份核验，支持 5 条件安全复用与 7 天 TTL 压缩。
+- [x] **阶段 3（28 家厂商政策与 SeriesBundle 规划）**：
+  - 厂商系列政策 [llm-series-policy.json](../../data/manual/registries/llm-series-policy.json) 与 [catalog-series-policy.js](../../src/catalog/series/catalog-series-policy.js) 扩展至 28 家有效厂商，锁定智谱唯一 canonical 为 `zhipu`；可见容量锁定为 6，超容按最旧发布日期转入 `hidden_history` 保留 14 个月；
+  - 新增 [series-bundle-contract.js](../../src/catalog/series/series-bundle-contract.js) 与 [series-bundle-planner.js](../../src/catalog/series/series-bundle-planner.js)：定义八条覆盖规则、确定性 token/preview_hash，严密校验 L3、Tool Card 与 Bridge 条目间 `official_url` 一致性。
+- [x] **阶段 4（SeriesBundle Draft 生命周期与工作台加固）**：
+  - 核心生命周期 [catalog-bundle.js](../../src/catalog/draft/catalog-bundle.js) 与 [series-bundle-finalizer.js](../../src/catalog/series/series-bundle-finalizer.js)：严格隔离 v4 Bundle Draft，实现二阶段富化成本门禁（未确认上限前 0 外部调用）与多成员共享账本；独占锁支持 PID 存活探测与 15 分钟 TTL 安全回收；
+  - 协调器 [catalog-workbench.js](../../src/catalog/catalog-workbench.js) 与 HTTP 服务 [maintainer-workbench-server.js](../../src/maintenance/maintainer-workbench-server.js)：普通候选过滤排除 series 实体，服务端协调层注入内部授权参数，路由严格白名单约束并暴露受控 `/catalog/cleanup` 端点；
+  - 前端面板 [catalog-panel.js](../../src/maintainer-web/js/panels/catalog-panel.js)：捕获 `ENRICHMENT_COST_CONFIRMATION_REQUIRED` 展示硬上限并支持二次确认，隔离 ready-only 审核与丢弃入口，单文件收敛至 392 行（≤ 400 行）。
+- [x] **阶段 5（系列聚合搜索与可见性投影）**：
+  - 新增确定性系列索引投影 [model-series-index.mjs](../../src/web/js/data/model-series-index.mjs)，Web 搜索层（`search-index.js`、`search-render.js`、`tools.js`）升级为系列聚合搜索与隐藏历史条目过滤。
+- [x] **阶段 6A（Catalog 存量脏卡清理与原子事务提交）**：
+  - 经 `commitSnapshotChange` 原子事务提交清理：删除 OpenAI `gpt-5-6`、`gpt-6` 关联单卡与冗余二级系列，更新 `vendor-level1:openai` 引用；删除 `ai-z-ai` 冗余厂商卡、一级、二级与 `glm-5-2` 伪造卡，彻底去重合并归入 `zhipu`；删除混入 GLM 正文的 `qwen-3-8-max` 脏卡与 `qwen-3-8-flash` 重复单卡系列；
+  - 五模块目录收敛为：**厂商卡 28 · 工具卡 88 · 一级 28 · 二级 60 · 三级 97**；`catalog-release-dates.json` 同步刷新。
+- [x] **阶段 6B（Comparison 键迁移与独立重建）**：
+  - [model-identity.js](../../src/comparison/identity/model-identity.js) 厂商别名表与前缀表将 `zai`、`z-ai` 等全面归一至 `zhipu`；
+  - [models-alias.json](../../data/comparison/models-alias.json) 迁移 `zhipu--glm-5.3`；[model-series.json](../../data/comparison/model-series.json) 迁移 `zhipu--glm-v`；[model-exclusions.json](../../data/comparison/model-exclusions.json) 补齐 `gpt-6` 与 `gpt-5-6` 排除规则；
+  - 成功重建 comparison integrated 数据集（421 个模型，zai 彻底归零，zhipu 模型 18 个）与 `data/shared/model-release-dates.json`。
+
+### 验证结果
+
+- [x] `node scripts/check-standards.js`：扫描 224 个 src 模块，白名单外违规 0 处；白名单条目纯缩减，0 新增。
+- [x] `node scripts/validate.js`：五模块目录校验通过，开发原则 1–6 全部通过。
+- [x] `node --test --test-concurrency=1`：全量回归测试 **857 项全部通过（0 failure）**。
+- [x] `node scripts/build-dist.js`：静态站构建完成，产出 107 个文件。
+- [x] 独立代码复审（Reviewer，Opus）：经两轮闭环审查与对抗性推演，最终判定为 **PASS (APPROVED)**。
+
+### 已知边界
+
+- [x] 阶段 6A/6B 存量清理已在本机单一事务中安全闭环，未向外部发起真实付费 API 调用；
+- 真实外部 LLM 富化与 Tavily 检索受运行环境 `.env` 配额管理。
 

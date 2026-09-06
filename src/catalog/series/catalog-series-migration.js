@@ -29,7 +29,7 @@ const { normalizeSnapshot, emptySnapshot } = require('../core/catalog-contract')
 const { detailKeyOf, detailRefIdOf } = require('./catalog-series-policy');
 const { validateCatalogSnapshot } = require('../core/catalog-snapshot-validator');
 
-/** 归一化成员引用：统一为完整 detail ref id。 */
+/** 归一化成员引用：统一为完整 detail ref id；hidden_history 成员不参与可见系列重组。 */
 function memberRef(value) {
   const id = detailRefIdOf(value);
   return id ? { kind: 'tool-level3', id } : null;
@@ -49,7 +49,8 @@ function allTargetSeriesByVendor(policy, vendor) {
  * 规划一个厂商的二级系列重组。
  * @returns {{ plan: Array, removed: Array }}
  */
-function planVendorMigration(policy, vendor, level2s, detailIdToVendor) {
+function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHistoryIds) {
+  const hidden = hiddenHistoryIds || new Set();
   const targets = allTargetSeriesByVendor(policy, vendor);
   const targetIds = new Set(Object.keys(targets));
   const existingById = new Map(level2s.map(l2 => [l2.id, l2]));
@@ -60,7 +61,8 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor) {
   for (const [id, { series, general }] of Object.entries(targets)) {
     const members = (series.expected_members || [])
       .map(memberRef)
-      .filter(ref => ref && detailIdToVendor.get(ref.id) === vendor.vendor_key);
+      .filter(ref => ref && detailIdToVendor.get(ref.id) === vendor.vendor_key)
+      .filter(ref => !hidden.has(ref.id)); // hidden_history 成员不回挂可见系列
     const memberIdSet = new Set(members.map(m => m.id));
 
     // 基座选择
@@ -158,7 +160,11 @@ function planSeriesMigration(policy, snapshotInput) {
   const warnings = [];
 
   const detailIdToVendor = new Map();
-  for (const detail of snapshot['tool-level3']) detailIdToVendor.set(detail.id, detail.vendor_key);
+  const hiddenHistoryIds = new Set();
+  for (const detail of snapshot['tool-level3']) {
+    detailIdToVendor.set(detail.id, detail.vendor_key);
+    if (detail.visibility === 'hidden_history') hiddenHistoryIds.add(detail.id);
+  }
 
   const level2ByVendor = new Map();
   for (const l2 of snapshot['vendor-level2']) {
@@ -184,7 +190,7 @@ function planSeriesMigration(policy, snapshotInput) {
     const hasGeneral = vendor.families.some(f => f.usage_kind === 'general_llm');
     if (!hasGeneral) continue;
 
-    const { plan, removed } = planVendorMigration(policy, vendor, l2s, detailIdToVendor);
+    const { plan, removed } = planVendorMigration(policy, vendor, l2s, detailIdToVendor, hiddenHistoryIds);
     const targetIds = new Set(plan.map(p => p.id));
     targetIdsByVendor.set(vendor.vendor_key, targetIds);
 
@@ -255,6 +261,8 @@ function planSeriesMigration(policy, snapshotInput) {
   for (const detail of snapshot['tool-level3']) {
     const key = detailKeyOf(detail.id);
     if (!policyVendorKeys.has(detail.vendor_key)) continue;
+    // hidden_history 只标不改不删：移出可见窗口的成员不参与父级对账，绝不报 orphan
+    if (hiddenHistoryIds.has(detail.id)) continue;
     if (parentedBeforeKeys.has(key) && !parentedAfterKeys.has(key)) {
       orphaned.push({ detail: detail.id, vendor_key: detail.vendor_key });
     } else if (!parentedBeforeKeys.has(key) && !parentedAfterKeys.has(key)) {

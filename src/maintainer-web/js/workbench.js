@@ -16,7 +16,7 @@ import { loadNewsReview, setupNewsPanel } from './panels/news-panel.js';
 import { loadKeywords, setupKeywordsPanel } from './panels/keywords-panel.js';
 import { loadTopAndTranscripts, loadPreview, setupTopPanel } from './panels/top-panel.js';
 import { renderPendingCards, setupKnowledgePanel } from './panels/knowledge-panel.js';
-import { renderCatalogDrafts, setupCatalogPanel } from './panels/catalog-panel.js';
+import { renderCatalogDrafts, renderCatalogBundles, setupCatalogPanel } from './panels/catalog-panel.js';
 import { renderConcepts, renderKnowledgeConceptPreview, setupConceptPanel } from './panels/concept-panel.js';
 import { renderToolUpdates, setupToolUpdatePanel } from './panels/tool-update-panel.js';
 
@@ -40,16 +40,18 @@ export async function loadOverview() {
 export async function loadKnowledgeLoop() {
   setLoadState('knowledgeLoopState', '加载中…', 'loading');
   try {
-    const [toolsPayload, conceptsPayload, draftsPayload] = await Promise.all([
+    const [toolsPayload, conceptsPayload, draftsPayload, bundlesPayload] = await Promise.all([
       request('feedback/tools'),
       request('feedback/concepts'),
       request('catalog/drafts'),
+      request('catalog/bundles'),
     ]);
     state.revisions.pendingTools = revisionFrom(toolsPayload);
     state.revisions.pendingConcepts = revisionFrom(conceptsPayload);
     renderPendingCards('tools', toolsPayload, refreshAll);
     renderPendingCards('concepts', conceptsPayload, refreshAll);
     renderCatalogDrafts(draftsPayload, refreshAll);
+    renderCatalogBundles(bundlesPayload, refreshAll);
     state.catalogBatch = null;
     clearChildren($('#catalogBatchPreview'));
     addText($('#catalogBatchPreview'), 'p', '准备 Draft 后，可预览整批变更。', 'muted');

@@ -5,7 +5,7 @@
 
 import { catalog } from './catalog-interface.js';
 import { state, dataLoadFailures } from '../state.js';
-import { getToolCardItems } from './data-catalog.js';
+import { getVisibleToolCardItems } from './data-catalog.js';
 
 export function renderSkeletons() {
   const skeleton = '<div class="skeleton-list">' +
@@ -30,7 +30,7 @@ export async function loadData() {
     dataLoadFailures.add('catalog');
     state.tools = [];
   } else {
-    state.tools = getToolCardItems();
+    state.tools = getVisibleToolCardItems(); // hidden_history 卡对工具库/搜索不可见
     const dateEl = document.getElementById('dataDate');
     if (dateEl) {
       dateEl.textContent = '数据更新: ' + new Date().toISOString().slice(0, 10);

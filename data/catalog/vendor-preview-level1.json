@@ -51,14 +51,6 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:openai:gpt-image-2"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:openai:gpt-5-6"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:openai:gpt-6"
         }
       ]
     },
@@ -550,15 +542,7 @@
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:alibaba:qwen-3-8-max"
-        },
-        {
-          "kind": "vendor-level2",
           "id": "vendor-level2:alibaba:qwen3-7-max"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:alibaba:qwen-3-8-flash"
         },
         {
           "kind": "vendor-level2",
@@ -969,35 +953,6 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:vidu:vidu-s1"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level1:ai-z-ai",
-      "vendor_key": "ai-z-ai",
-      "title": "智谱 AI（Z.ai）",
-      "icon": "🤖",
-      "official_url": "https://open.bigmodel.cn",
-      "description": "智谱AI开放平台是北京智谱华章科技股份有限公司旗下的AI模型服务平台，提供从旗舰到免费的多种GLM系列模型，支持文本、视觉等多模态API调用，并配套控制台、文档等开发者资源。",
-      "status": "verified",
-      "features": [
-        {
-          "tone": "positive",
-          "text": "支持1M上下文处理长任务"
-        },
-        {
-          "tone": "positive",
-          "text": "提供多种规格模型适配不同场景"
-        },
-        {
-          "tone": "positive",
-          "text": "新用户注册赠送2000万Tokens"
-        }
-      ],
-      "level2_refs": [
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:ai-z-ai:glm-5-2"
         }
       ]
     }

@@ -1076,42 +1076,6 @@
       ]
     },
     {
-      "id": "vendor-level2:openai:gpt-5-6",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "GPT 5.6",
-      "official_url": "https://learn.chatgpt.com/api/docs",
-      "summary": "OpenAI API 平台提供 GPT-5.6 系列模型，包括 Sol、Terra 和 Luna，分别针对前沿能力、平衡性能与成本、高效高吞吐量场景。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-5-6"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:ai-z-ai:glm-5-2",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:ai-z-ai"
-      },
-      "vendor_key": "ai-z-ai",
-      "title": "GLM 5.2",
-      "official_url": "https://docs.z.ai",
-      "summary": "智谱AI的Z.AI开发者文档提供国际版GLM模型API与定价信息。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:glm-5-2"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:alibaba:qwen3-8-max",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -1148,24 +1112,6 @@
       ]
     },
     {
-      "id": "vendor-level2:alibaba:qwen-3-8-max",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen 3.8 Max",
-      "official_url": "https://www.aliyun.com/product/bailian",
-      "summary": "阿里云百炼是面向企业客户及合作伙伴的一站式大模型服务平台，提供模型训练、微调、评估等工具及丰富的应用插件。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen-3-8-max"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:deepseek:deepseek-v4-pro",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -1198,42 +1144,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-7-max"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:alibaba:qwen-3-8-flash",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen 3.8 Flash",
-      "official_url": "https://help.aliyun.com/zh/model-studio/models",
-      "summary": "阿里云百炼提供千问及第三方文本生成模型服务，覆盖 qwen3.8-max、deepseek-v4-flash-0731、GLM-5.2、kimi-k3 等多种文本生成与深度思考模型。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen-3-8-flash"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:openai:gpt-6",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "GPT-6",
-      "official_url": "https://platform.openai.com/docs/changelog",
-      "summary": "GPT-5.6 是 OpenAI 最新发布的旗舰模型家族，包含面向前沿能力的 GPT-5.6 Sol、平衡智能与成本的 GPT-5.6 Terra，以及面向高吞吐工作负载的 GPT-5.6 Luna，gpt-5.6 别名默认路由到 gpt-5.6-sol。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-6"
         }
       ]
     },

@@ -63,6 +63,7 @@ function createDefaultPendingApi(options = {}) {
   return {
     read: kind => pendingStore.readPending(kind, { toolFile: options.pendingToolFile, conceptFile: options.pendingConceptFile }),
     review: (kind, key, decision, revision) => pendingStore.reviewPending(kind, key, decision, revision, { toolFile: options.pendingToolFile, conceptFile: options.pendingConceptFile }),
+    setIntakeOutcome: (kind, key, outcome, revision) => pendingStore.setIntakeOutcome(kind, key, outcome, revision, { toolFile: options.pendingToolFile, conceptFile: options.pendingConceptFile }),
   };
 }
 

@@ -221,7 +221,7 @@ async function runBatchFromCards(cards, options = {}) {
     .map(card => ({ name: card?.name || card?.title || '?', reason: '未经人工审核（需先在工作台批准）' }));
   const dedup = dedupeBatchCandidates(approvedCards, options);
   const skipped = {
-    skippedExisting: dedup.skippedExisting,
+    needsVerification: dedup.needsVerification,
     skippedDraft: dedup.skippedDraft,
     duplicateInBatch: dedup.duplicateInBatch,
     skippedNotApproved: notApproved,

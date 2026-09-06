@@ -18,7 +18,7 @@ const service = Object.freeze({
   overview: () => ({ ok: 'overview' }), clearWorkspace: () => ({ ok: true, status: 'cleared' }), newsReview: () => ({ items: [] }), reviewNews: body => ({ body }),
   keywords: () => ({ list: null }), generateKeywords: async () => ({ generated: 'keywords' }), applyKeywords: body => ({ body }), top: () => ({ items: [] }), generateTop: async () => ({ generated: 'top' }), applyTop: body => ({ body }),
   publishNews: () => ({ published: true }), publishPreview: () => ({ items: [] }), toolUpdates: () => ({ items: [] }), previewToolUpdates: () => ({ ok: true, preview_hash: 'hash' }), applyToolUpdates: body => ({ ok: true, body }), reviewToolUpdate: (key, body) => ({ key, body }), uploadTranscript: body => ({ ok: true, candidate_id: body.candidate_id }), summarizeTranscripts: body => ({ ok: true, summarized: (body.ids || []).map(id => ({ id })) }), conceptPreviews: () => ({ preview: null }),
-  pendingTools: () => ({ revision: 'p-r1', items: [] }), pendingConcepts: () => ({ revision: 'p-r1', items: [] }), reviewPendingTool: body => ({ ok: true, candidate_key: body.candidate_key, revision: 'p-r2' }), reviewPendingConcept: body => ({ ok: true, candidate_key: body.candidate_key, revision: 'p-r2' }), extractKnowledge: async () => ({ ok: true, tools_pending: 0, concepts_pending: 0 }), catalogPlan: () => ({ ok: true, plan_hash: 'plan-h', catalog_revision: 'c-r1', pending_revision: 'p-r1' }), catalogPrepare: async () => ({ ok: true, drafts: [] }), catalogDrafts: () => ({ items: [] }), catalogDraft: id => ({ draft_id: id }), catalogReview: id => ({ ok: true, draft_id: id, current_revision: 'c-r1', preview_hash: 'ph' }), catalogRecoveryPlan: (id, body) => ({ ok: true, draft_id: id, body }), catalogResume: async (id, body) => ({ ok: true, draft: { draft_id: id }, body }), catalogDiscard: (id, body) => ({ ok: true, draft_id: id, expected_revision: body?.expected_revision }), catalogApply: body => ({ ok: true, body }), catalogBatchPreview: () => ({ ok: true, batch_token: 'batch-token', draft_ids: ['draft-abc'] }), catalogApplyBatch: body => ({ ok: true, body }), conceptPlan: async () => ({ ok: true, plan_hash: 'cplan-h', glossary_revision: 'g-r1', pending_revision: 'p-r1' }), conceptPrepare: async () => ({ ok: true, preview: null }), conceptApply: body => ({ ok: true, added: (body.terms || []).map(term => ({ term })) }),
+  pendingTools: () => ({ revision: 'p-r1', items: [] }), pendingConcepts: () => ({ revision: 'p-r1', items: [] }), reviewPendingTool: body => ({ ok: true, candidate_key: body.candidate_key, revision: 'p-r2' }), reviewPendingConcept: body => ({ ok: true, candidate_key: body.candidate_key, revision: 'p-r2' }), extractKnowledge: async () => ({ ok: true, tools_pending: 0, concepts_pending: 0 }), catalogPlan: () => ({ ok: true, plan_hash: 'plan-h', catalog_revision: 'c-r1', pending_revision: 'p-r1' }), catalogPrepare: async () => ({ ok: true, drafts: [] }), catalogDrafts: () => ({ items: [] }), catalogDraft: id => ({ draft_id: id }), catalogReview: id => ({ ok: true, draft_id: id, current_revision: 'c-r1', preview_hash: 'ph' }), catalogRecoveryPlan: (id, body) => ({ ok: true, draft_id: id, body }), catalogResume: async (id, body) => ({ ok: true, draft: { draft_id: id }, body }), catalogDiscard: (id, body) => ({ ok: true, draft_id: id, expected_revision: body?.expected_revision }), catalogApply: body => ({ ok: true, body }), catalogBatchPreview: () => ({ ok: true, batch_token: 'batch-token', draft_ids: ['draft-abc'] }), catalogApplyBatch: body => ({ ok: true, body }), catalogBundleReview: id => ({ ok: true, draft_id: id, current_revision: 'c-r1', bundle_token: 'bt', confirmation: 'APPLY CATALOG BUNDLE bt', discard_confirmation: 'DISCARD CATALOG BUNDLE bt', draft: { draft_id: id, members: [] } }), catalogBundleApply: body => ({ ok: true, target_revision: 'c-r2', dist_built: true, cleanup_pending: false, cleanup_only: false, outcome_warning: null, body }), catalogBundleDiscard: (id, body) => ({ ok: true, draft_id: id, body }), catalogBundles: () => ({ catalog_revision: 'c-r1', items: [] }), catalogBundle: id => ({ draft_id: id }), catalogBundlePlan: () => ({ ok: true }), catalogBundlePrepare: body => ({ ok: true, body }), conceptPlan: async () => ({ ok: true, plan_hash: 'cplan-h', glossary_revision: 'g-r1', pending_revision: 'p-r1' }), conceptPrepare: async () => ({ ok: true, preview: null }), conceptApply: body => ({ ok: true, added: (body.terms || []).map(term => ({ term })) }),
 });
 
 test('server binds localhost, provides GET API security headers, and protects mutations', async t => {
@@ -196,4 +196,151 @@ test('knowledge-loop mutations require Bearer and same-origin, and reject stale 
   });
   assert.equal(response.status, 409);
   assert.deepEqual(JSON.parse(response.body), { error: 'REVISION_CONFLICT', message: '数据已变化，请刷新后重试。' });
+});
+
+
+test('Bundle mutation routes enforce field allowlists and map bridge/token conflicts to 409', async t => {
+  const app = createMaintainerWorkbenchServer({ service, token: 'test-token' });
+  t.after(() => app.close());
+  const { port } = await app.start();
+  const auth = { Authorization: 'Bearer test-token', Origin: `http://127.0.0.1:${port}` };
+  const invalid = await request(port, 'POST', '/api/workbench/v1/catalog/apply-bundle', {
+    body: { draft_id: 'draft-v4', expected_revision: 'c-r1', bundle_token: 'bt', confirm: 'APPLY CATALOG BUNDLE bt', api_key: 'secret' }, headers: auth,
+  });
+  assert.equal(invalid.status, 400);
+  assert.equal(JSON.parse(invalid.body).error, 'BUNDLE_REQUEST_INVALID');
+  const review = await request(port, 'POST', '/api/workbench/v1/catalog/bundles/draft-v4/review', { body: {}, headers: auth });
+  assert.equal(review.status, 200);
+  assert.equal(JSON.parse(review.body).confirmation, 'APPLY CATALOG BUNDLE bt');
+  const applied = await request(port, 'POST', '/api/workbench/v1/catalog/apply-bundle', {
+    body: { draft_id: 'draft-v4', expected_revision: 'c-r1', bundle_token: 'bt', confirm: JSON.parse(review.body).confirmation }, headers: auth,
+  });
+  assert.equal(applied.status, 200);
+  assert.equal(JSON.parse(applied.body).dist_built, true);
+
+  const conflictService = { ...service, catalogBundleApply: () => ({ ok: false, code: 'BRIDGE_REVISION_CONFLICT' }) };
+  const conflictApp = createMaintainerWorkbenchServer({ service: conflictService, token: 'test-token' });
+  t.after(() => conflictApp.close());
+  const conflictPort = (await conflictApp.start()).port;
+  const conflict = await request(conflictPort, 'POST', '/api/workbench/v1/catalog/apply-bundle', {
+    body: { draft_id: 'draft-v4', expected_revision: 'c-r1', bundle_token: 'bt', confirm: 'APPLY CATALOG BUNDLE bt' },
+    headers: { Authorization: 'Bearer test-token', Origin: `http://127.0.0.1:${conflictPort}` },
+  });
+  assert.equal(conflict.status, 409);
+});
+
+test('端到端 HTTP 测试覆盖 blocked Bundle discard 成功且拒绝内部授权字段注入', async t => {
+  let innerDiscardReceived = null;
+  const bundleCoordinator = {
+    bundleRead: (id) => ({
+      ok: true,
+      draft_id: id,
+      state: 'preview_blocked',
+      bundle_token: 'bt-blocked',
+      discard_confirmation: 'DISCARD CATALOG BUNDLE bt-blocked',
+    }),
+    bundleDiscard: async (id, input) => {
+      innerDiscardReceived = { id, input };
+      return { ok: true, draft_id: id, status: 'discarded', outcome: 'pending' };
+    },
+  };
+  const liveService = {
+    ...service,
+    catalogBundleDiscard: (id, body) => bundleCoordinator.bundleDiscard(id, body),
+    catalogCleanup: (body) => ({ ok: true, status: 'cleanup_only', body }),
+  };
+  const app = createMaintainerWorkbenchServer({ service: liveService, token: 'test-token' });
+  t.after(() => app.close());
+  const { port } = await app.start();
+  const auth = { Authorization: 'Bearer test-token', Origin: `http://127.0.0.1:${port}` };
+
+  // 1. 如果请求体夹带 allowBundleDiscard 或 operation 内部授权字段，HTTP 严格按白名单拒绝 400
+  const leaked1 = await request(port, 'POST', '/api/workbench/v1/catalog/bundles/draft-v4/discard', {
+    body: {
+      expected_revision: 'c-r1',
+      confirm: 'DISCARD CATALOG BUNDLE bt-blocked',
+      allowBundleDiscard: true,
+    },
+    headers: auth,
+  });
+  assert.equal(leaked1.status, 400);
+  assert.equal(JSON.parse(leaked1.body).error, 'BUNDLE_REQUEST_INVALID');
+
+  const leaked2 = await request(port, 'POST', '/api/workbench/v1/catalog/bundles/draft-v4/discard', {
+    body: {
+      expected_revision: 'c-r1',
+      confirm: 'DISCARD CATALOG BUNDLE bt-blocked',
+      operation: 'catalog-bundle-discard',
+    },
+    headers: auth,
+  });
+  assert.equal(leaked2.status, 400);
+
+  // 2. 正常公开 DTO 请求（仅包含 expected_revision 和 confirm），HTTP 返回 200 成功
+  const success = await request(port, 'POST', '/api/workbench/v1/catalog/bundles/draft-v4/discard', {
+    body: {
+      expected_revision: 'c-r1',
+      confirm: 'DISCARD CATALOG BUNDLE bt-blocked',
+    },
+    headers: auth,
+  });
+  assert.equal(success.status, 200);
+  const successJson = JSON.parse(success.body);
+  assert.equal(successJson.ok, true);
+  assert.equal(successJson.status, 'discarded');
+  assert.equal(successJson.outcome, 'pending');
+  assert.deepEqual(innerDiscardReceived, {
+    id: 'draft-v4',
+    input: { expected_revision: 'c-r1', confirm: 'DISCARD CATALOG BUNDLE bt-blocked' },
+  });
+
+  // 3. /catalog/cleanup 端点测试：白名单校验与成功返回
+  const cleanupBad = await request(port, 'POST', '/api/workbench/v1/catalog/cleanup', {
+    body: { draft_ids: ['d1'], expected_revision: 'c-r1', batch_token: 'btk', confirm: 'yes', forbidden_field: 1 },
+    headers: auth,
+  });
+  assert.equal(cleanupBad.status, 400);
+
+  const cleanupOk = await request(port, 'POST', '/api/workbench/v1/catalog/cleanup', {
+    body: { draft_ids: ['d1'], expected_revision: 'c-r1', batch_token: 'btk', confirm: 'APPLY CATALOG DRAFTS btk' },
+    headers: auth,
+  });
+  assert.equal(cleanupOk.status, 200);
+  assert.equal(JSON.parse(cleanupOk.body).status, 'cleanup_only');
+});
+
+test('Bundle prepare 端点支持 enrichment_confirmation_token 二阶段确认并严格校验字段白名单', async t => {
+  let prepareInput = null;
+  const liveService = {
+    ...service,
+    catalogBundlePrepare: (body) => {
+      prepareInput = body;
+      return { ok: true, drafts: ['draft-v4'] };
+    },
+  };
+  const app = createMaintainerWorkbenchServer({ service: liveService, token: 'test-token' });
+  t.after(() => app.close());
+  const { port } = await app.start();
+  const auth = { Authorization: 'Bearer test-token', Origin: `http://127.0.0.1:${port}` };
+
+  const badReq = await request(port, 'POST', '/api/workbench/v1/catalog/bundle-prepare', {
+    body: { pending_revision: 'p-r1', catalog_revision: 'c-r1', plan_hash: 'ph', confirm_cost: true, extra: 123 },
+    headers: auth,
+  });
+  assert.equal(badReq.status, 400);
+  assert.equal(JSON.parse(badReq.body).error, 'BUNDLE_REQUEST_INVALID');
+
+  const okReq = await request(port, 'POST', '/api/workbench/v1/catalog/bundle-prepare', {
+    body: {
+      pending_revision: 'p-r1',
+      catalog_revision: 'c-r1',
+      plan_hash: 'ph',
+      confirm_cost: true,
+      enrichment_confirmation_token: 'enrich-token-999',
+    },
+    headers: auth,
+  });
+  assert.equal(okReq.status, 200);
+  assert.equal(JSON.parse(okReq.body).ok, true);
+  assert.equal(prepareInput.enrichment_confirmation_token, 'enrich-token-999');
 });

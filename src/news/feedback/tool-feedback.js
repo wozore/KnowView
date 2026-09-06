@@ -23,6 +23,7 @@
 
 const { readMinStore } = require('../min/min-store');
 const { beijingDateKey } = require('../../shared/beijing-time');
+const { normalizeModelIdentity } = require('../../shared/model-key-contract');
 const {
   mergePending,
   candidateKeyOf,
@@ -110,7 +111,7 @@ function normalizeEntities(result) {
   const entities = [];
   for (const item of list) {
     if (item && typeof item === 'object' && typeof item.name === 'string') {
-      const type = ['tool', 'model', 'concept', 'vague'].includes(item.type) ? item.type : 'tool';
+      const type = ['tool', 'model', 'series', 'concept', 'vague'].includes(item.type) ? item.type : 'tool';
       const name = item.name.trim();
       if (name) entities.push({ name, type });
     } else {
@@ -119,6 +120,22 @@ function normalizeEntities(result) {
     }
   }
   return entities;
+}
+
+/**
+ * 实体待补路由纯函数（S2a 契约冻结接口）：
+ *   series → tools 待补卡（entity_type:'series'，走系列 Bundle 管线，绝不直接转 seed）
+ *   vague  → filtered（不生成待补卡）
+ *   concept→ concepts 待补卡
+ *   tool / model → tools 待补卡
+ */
+function classifyEntityForPending(entity) {
+  const type = entity && typeof entity === 'object' ? entity.type : null;
+  if (type === 'vague') return { target: 'filtered', entity_type: 'vague' };
+  if (type === 'concept') return { target: 'concepts', entity_type: 'concept' };
+  if (type === 'series') return { target: 'tools', entity_type: 'series' };
+  if (type === 'tool' || type === 'model') return { target: 'tools', entity_type: type };
+  return { target: 'filtered', entity_type: type || 'unknown' };
 }
 
 /** 生成 id 占位（英文名 → kebab；中文名原样）。 *//** 生成 id 占位（英文名 → kebab；中文名原样）。 */
@@ -195,9 +212,10 @@ async function feedbackFromSummaries(store, config, options = {}) {
   const conceptsPending = [];
 
   for (const [name, { count, type }] of allEntities) {
-    // 笼统名兜底拦截：即使 LLM/正则把笼统名标成 tool，也绝不生成待补工具卡
-    if (isVagueName(name) || type === 'vague') continue;
-    if (type === 'concept') {
+    const route = classifyEntityForPending({ name, type });
+    // 笼统名兜底拦截：即使 LLM/正则把笼统名标成 tool，也绝不生成待补卡
+    if (route.target === 'filtered' || isVagueName(name)) continue;
+    if (route.target === 'concepts') {
       if (feedback.concept_feedback !== false) {
         if (conceptExists(name, glossary)) conceptsFound.push(name);
         else conceptsPending.push({
@@ -213,15 +231,18 @@ async function feedbackFromSummaries(store, config, options = {}) {
       }
       continue;
     }
-    // tool / model：进待补工具卡；具体模型带 api_model 提示，供批量生成器定 detail_kind
+    // tools 待补卡：tool / model / series；仅 model 带 api_model 提示，tool 显式 'tool'，series 省略
     if (feedback.tool_feedback !== false) {
       if (toolExists(name, tools)) toolsFound.push(name);
       else toolsPending.push({
         id: placeholderId(name),
         name,
+        entity_type: route.entity_type,
+        ...(route.entity_type === 'model' ? { detail_kind_hint: 'api_model' } : {}),
+        ...(route.entity_type === 'tool' ? { detail_kind_hint: 'tool' } : {}),
+        identity_key: normalizeModelIdentity(name),
         url: '', // 占位：待人工补全
         description: '', // 留空：待人工补全
-        detail_kind_hint: type === 'model' ? 'api_model' : 'tool',
         source_hotspot: true,
         pending: true,
         mentioned_in_summaries: count,
@@ -255,6 +276,7 @@ async function feedbackFromSummaries(store, config, options = {}) {
 
 module.exports = {
   feedbackFromSummaries,
+  classifyEntityForPending,
   extractEntities,
   extractEntitiesDefault,
   normalizeEntities,

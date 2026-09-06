@@ -18,6 +18,26 @@ const { CATALOG_GENERATOR_FILES, CONCEPT_FILES } = require('../shared/paths');
 const SCHEMA_VERSION = 2;
 const KINDS = Object.freeze({ tools: 'tool_cards_pending', concepts: 'concept_cards_pending' });
 const REVIEW_STATUSES = new Set(['pending', 'approved', 'discarded']);
+/** 系统轴 intake_outcome 枚举（与人工轴 review_status 正交；新卡缺省 'pending'）。 */
+const INTAKE_OUTCOMES = Object.freeze([
+  'pending',
+  'verification_blocked',
+  'deferred_insufficient_evidence',
+  'already_complete',
+  'bundled_for_review',
+  'committed',
+]);
+
+// 系统轴只允许向前收口；pending 是新候选的唯一初始态。
+// bundled_for_review -> pending 不在默认表内，只能由 Bundle discard 显式授权。
+const INTAKE_OUTCOME_TRANSITIONS = Object.freeze({
+  pending: Object.freeze(['verification_blocked', 'deferred_insufficient_evidence', 'already_complete', 'bundled_for_review']),
+  verification_blocked: Object.freeze(['deferred_insufficient_evidence', 'already_complete', 'bundled_for_review']),
+  deferred_insufficient_evidence: Object.freeze(['verification_blocked', 'already_complete', 'bundled_for_review']),
+  already_complete: Object.freeze([]),
+  bundled_for_review: Object.freeze(['committed']),
+  committed: Object.freeze([]),
+});
 const LOCK_RETRIES = 20;
 const LOCK_DELAY_MS = 50;
 
@@ -84,7 +104,7 @@ function readRaw(kind, options = {}) {
 
 function businessPayload(kind, card) {
   const fields = kind === 'tools'
-    ? ['name', 'url', 'description', 'detail_kind_hint', 'vendor_key', 'tool_key', 'modality', 'official_url', 'official_urls', 'new_group_title', 'existing_level1_ref', 'existing_level2_ref']
+    ? ['name', 'url', 'description', 'detail_kind_hint', 'entity_type', 'identity_key', 'vendor_key', 'tool_key', 'modality', 'official_url', 'official_urls', 'new_group_title', 'existing_level1_ref', 'existing_level2_ref']
     : ['term', 'full_name', 'definition', 'category', 'source', 'related_terms', 'relevance'];
   const result = {};
   for (const field of fields) {
@@ -106,6 +126,9 @@ function revisionOfPending(cards) {
     business: card.business || card,
     review_status: card.review_status,
     reviewed_at: card.reviewed_at || null,
+    // 系统轴双字段显式参与 revision 语义（setIntakeOutcome 的 CAS 依据）
+    intake_outcome: card.intake_outcome || null,
+    intake_outcome_at: card.intake_outcome_at || null,
   })).sort((a, b) => String(a.candidate_key).localeCompare(String(b.candidate_key)));
   return hashValue(semantic);
 }
@@ -127,6 +150,8 @@ function normalizeCard(kind, input, old = null) {
   const sameBusiness = oldBusiness && hashValue(oldBusiness) === hashValue(nextBusiness);
   const oldStatus = old ? reviewPayload(old) : null;
   const status = oldStatus && sameBusiness ? oldStatus : (old ? { review_status: 'pending', reviewed_at: null } : reviewPayload(input));
+  // 双轴正交：intake_outcome/intake_outcome_at 只经 setIntakeOutcome 改变；
+  // merge 合并（含业务字段变化触发的 review_status 重置）永不重置这两字段。
   const normalized = {
     ...merged,
     candidate_key: candidateKey,
@@ -167,11 +192,14 @@ function projectionItem(kind, card) {
     candidate_key: card.candidate_key || candidateKeyOf(kind, card[field]),
     [field]: card[field],
     ...(kind === 'tools' && card.detail_kind_hint ? { detail_kind_hint: card.detail_kind_hint } : {}),
+    ...(card.entity_type ? { entity_type: card.entity_type } : {}),
     source_hotspot: Boolean(card.source_hotspot),
     mentioned_in_summaries: Number(card.mentioned_in_summaries || 0),
     generated_at: card.generated_at || null,
     review_status: REVIEW_STATUSES.has(card.review_status) ? card.review_status : 'pending',
     reviewed_at: card.reviewed_at || null,
+    intake_outcome: INTAKE_OUTCOMES.includes(card.intake_outcome) ? card.intake_outcome : 'pending',
+    intake_outcome_at: card.intake_outcome_at || null,
     workflow_state: card.workflow_state || 'pending_review',
     blocking_reasons: Array.isArray(card.blocking_reasons) ? [...card.blocking_reasons] : [],
   };
@@ -238,6 +266,50 @@ async function reviewPending(kind, candidateKey, decision, expectedRevision, opt
   });
 }
 
+/**
+ * 系统轴 intake_outcome 写入（仅系统管线调用；与人工轴 reviewPending 正交）。
+ * 复制 reviewPending 的锁 + revision CAS 模式；错误码：
+ *   INTAKE_OUTCOME_INVALID / INTAKE_OUTCOME_TRANSITION_INVALID /
+ *   REVISION_CONFLICT / PENDING_CANDIDATE_NOT_FOUND
+ * 同值写入原样返回 fresh-read；bundled_for_review -> pending 需要
+ * options.allowBundleDiscard 或 operation='catalog-bundle-discard' 显式授权。
+ */
+async function setIntakeOutcome(kind, candidateKey, outcome, expectedRevision, options = {}) {
+  if (!INTAKE_OUTCOMES.includes(outcome)) {
+    const error = new Error('INTAKE_OUTCOME_INVALID'); error.code = 'INTAKE_OUTCOME_INVALID'; throw error;
+  }
+  const file = fileFor(kind, options);
+  return withPendingLock(file, () => {
+    // 必须在锁内 fresh-read；expectedRevision 不能来自调用方之前缓存的 payload。
+    const current = readPending(kind, options);
+    if (expectedRevision !== current.revision) {
+      const error = new Error('REVISION_CONFLICT'); error.code = 'REVISION_CONFLICT'; throw error;
+    }
+    const index = current.cards.findIndex(card => card.candidate_key === candidateKey);
+    if (index < 0) { const error = new Error('PENDING_CANDIDATE_NOT_FOUND'); error.code = 'PENDING_CANDIDATE_NOT_FOUND'; throw error; }
+    const currentCard = current.cards[index];
+    const currentOutcome = INTAKE_OUTCOMES.includes(currentCard.intake_outcome)
+      ? currentCard.intake_outcome
+      : 'pending';
+    // 同值是严格幂等：不刷新 intake_outcome_at、generated_at 或 revision，也不落盘。
+    if (currentOutcome === outcome) return current;
+    const bundleDiscard = options.allowBundleDiscard === true || options.operation === 'catalog-bundle-discard';
+    const allowed = currentOutcome === 'bundled_for_review' && outcome === 'pending'
+      ? bundleDiscard
+      : INTAKE_OUTCOME_TRANSITIONS[currentOutcome]?.includes(outcome) === true;
+    if (!allowed) {
+      const error = new Error('INTAKE_OUTCOME_TRANSITION_INVALID');
+      error.code = 'INTAKE_OUTCOME_TRANSITION_INVALID';
+      error.from = currentOutcome;
+      error.to = outcome;
+      throw error;
+    }
+    const next = [...current.cards];
+    next[index] = { ...currentCard, intake_outcome: outcome, intake_outcome_at: new Date().toISOString() };
+    return writePending(kind, next, options);
+  });
+}
+
 function pendingByKey(kind, candidateKey, options = {}) {
   return readPending(kind, options).cards.find(card => card.candidate_key === candidateKey) || null;
 }
@@ -245,17 +317,16 @@ function pendingByKey(kind, candidateKey, options = {}) {
 module.exports = {
   SCHEMA_VERSION,
   KINDS,
+  INTAKE_OUTCOMES,
+  INTAKE_OUTCOME_TRANSITIONS,
   candidateKeyOf,
   revisionOfPending,
   readPending,
   writePending,
   mergePending,
   reviewPending,
+  setIntakeOutcome,
   pendingByKey,
   projectPending,
   fileFor,
-  // Explicit aliases make the ownership boundary discoverable to callers.
-  readPendingCandidates: readPending,
-  mergePendingCandidates: mergePending,
-  reviewPendingCandidate: reviewPending,
 };

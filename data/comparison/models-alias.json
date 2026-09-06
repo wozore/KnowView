@@ -3,7 +3,7 @@
   "vendor_aliases": {
     "qwen": ["qwen", "alibaba", "alibabacloud"],
     "mistral": ["mistral", "mistralai"],
-    "zai": ["zai", "z-ai", "zai-org", "zhipu", "zhipuai"],
+    "zhipu": ["zai", "z-ai", "zai-org", "zhipu", "zhipuai"],
     "moonshotai": ["moonshot", "moonshotai"],
     "kling": ["kling", "kuaishou"],
     "xunfei": ["xunfei", "iflytek"],
@@ -49,7 +49,7 @@
       }
     },
     {
-      "model_key": "zai--glm-5.3",
+      "model_key": "zhipu--glm-5.3",
       "display": "GLM-5.3",
       "catalog_aliases": ["glm-5-3", "GLM-5.3"],
       "aliases": {}

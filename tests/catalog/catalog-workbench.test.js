@@ -270,3 +270,188 @@ test('projection reclassifies stale manual_required schema failures as retryable
   assert.equal(projected.recovery_mode, 'synthesis_only');
   assert.equal(projected.error_code, 'DEEPSEEK_SCHEMA_INVALID');
 });
+
+
+test('Bundle 工作台隔离 v3 Draft、返回 snake_case review DTO 并收口 Apply 结果', async () => {
+  const calls = [];
+  const coordinator = createCatalogWorkbench({
+    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    listDrafts: () => [
+      { schema_version: 3, draft_kind: 'catalog', draft_id: 'draft-v3', state: 'preview_ready', readiness: { status: 'ready' } },
+      { schema_version: 4, draft_kind: 'series_bundle', draft_id: 'draft-v4', state: 'preview_ready', readiness: { status: 'ready' } },
+    ],
+    listCatalogBundles: () => ({ catalog_revision: 'catalog-r1', items: [{ draft_id: 'draft-v4', draft_kind: 'series_bundle' }], count: 1 }),
+    reviewCatalogBundle: () => ({ ok: true, currentRevision: 'catalog-r1', previewHash: 'ph', bundleToken: 'bt', draft: { draft_id: 'draft-v4', base_revision: 'catalog-r1', preview_hash: 'ph', bundle_token: 'bt', members: [] } }),
+    applyCatalogBundle: input => { calls.push(input); return Promise.resolve({ ok: true, status: 'committed', targetRevision: 'catalog-r2', outcome_pending: true, outcome_warning: { code: 'INTAKE_OUTCOME_WRITE_FAILED' } }); },
+  });
+  assert.deepEqual(coordinator.list().items.map(item => item.draft_id), ['draft-v3']);
+  const review = coordinator.bundleReview('draft-v4');
+  assert.equal(review.current_revision, 'catalog-r1');
+  assert.equal(review.preview_hash, 'ph');
+  assert.equal(review.bundle_token, 'bt');
+  assert.equal(review.confirmation, 'APPLY CATALOG BUNDLE bt');
+  assert.equal('currentRevision' in review, false);
+  await assert.rejects(coordinator.bundleApply({ draft_id: 'draft-v4', expected_revision: 'catalog-r1', bundle_token: 'bt', confirm: review.confirmation, api_key: 'secret' }), error => error.code === 'BUNDLE_REQUEST_INVALID');
+  const applied = await coordinator.bundleApply({ draft_id: 'draft-v4', expected_revision: 'catalog-r1', bundle_token: 'bt', confirm: review.confirmation });
+  assert.deepEqual(applied, { ok: true, status: 'committed', target_revision: 'catalog-r2', dist_built: true, cleanup_pending: false, cleanup_only: false, outcome_pending: true, outcome_warning: { code: 'INTAKE_OUTCOME_WRITE_FAILED' } });
+  assert.equal(calls[0].confirm, review.confirmation);
+});
+
+
+test('blocked Bundle 可独立丢弃并由 coordinator 内部注入 allowBundleDiscard 与 operation', async () => {
+  let discardInput;
+  const coordinator = createCatalogWorkbench({
+    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    planCatalogBundles: () => ({ ok: true, status: 'cost_confirmation_required', candidates: ['series-1'], pending_revision: 'pending-r1', catalog_revision: 'catalog-r1', plan_hash: 'bundle-plan', cost_plan: { verification_responses_upper_bound: 1 } }),
+    readCatalogBundle: () => ({ ok: true, draft_id: 'draft-v4', state: 'preview_blocked', bundle_token: 'bt-blocked', readiness: { status: 'blocked' } }),
+    discardCatalogBundle: async (id, input) => { discardInput = { id, input }; return { ok: true, outcome: 'pending' }; },
+  });
+  const plan = coordinator.bundlePlan();
+  assert.equal(plan.enrichment_cost_confirmation_required, true);
+  assert.equal(plan.enrichment_cost.status, 'member_dependent');
+  // 浏览器传入未授权字段时抛出 BUNDLE_REQUEST_INVALID
+  await assert.rejects(
+    coordinator.bundleDiscard('draft-v4', { expected_revision: 'catalog-r1', confirm: 'DISCARD CATALOG BUNDLE bt-blocked', allowBundleDiscard: true }),
+    error => error.code === 'BUNDLE_REQUEST_INVALID'
+  );
+  // 正常只传入公开 DTO 字段，内部注入 allowBundleDiscard 和 operation
+  const discarded = await coordinator.bundleDiscard('draft-v4', { expected_revision: 'catalog-r1', confirm: 'DISCARD CATALOG BUNDLE bt-blocked' });
+  assert.deepEqual(discarded, { ok: true, draft_id: 'draft-v4', status: 'discarded', outcome: 'pending' });
+  assert.deepEqual(discardInput, {
+    id: 'draft-v4',
+    input: { expected_revision: 'catalog-r1', allowBundleDiscard: true, operation: 'catalog-bundle-discard' },
+  });
+});
+
+test('普通 Catalog plan 和 prepare 排除 series candidate，series 只能由 Bundle 入口处理', async () => {
+  const normalCard = { name: 'Normal Tool', candidate_key: 'tools:normal-tool', review_status: 'approved', entity_type: 'tool' };
+  const seriesCard = { name: 'Series Model', candidate_key: 'tools:series-model', review_status: 'approved', entity_type: 'series' };
+  const plannedSeeds = [];
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [normalCard, seriesCard] }),
+    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    planCatalogDraft: seed => { plannedSeeds.push(seed); return { ok: true, cost_plan: { hard_limits: {} } }; },
+    planCatalogBundles: () => ({ ok: true, candidates: [seriesCard] }),
+  });
+  const plan = coordinator.plan();
+  assert.equal(plan.ok, true);
+  assert.deepEqual(plan.candidates, ['tools:normal-tool']);
+  assert.equal(plannedSeeds.length, 1);
+  assert.equal(plannedSeeds[0].name, 'Normal Tool');
+
+  // 若只有 series 候选，普通 plan 判定没有已批准工具待补卡
+  const seriesOnlyCoordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [seriesCard] }),
+    loadCatalog: () => ({ revision: 'catalog-r1' }),
+  });
+  const seriesOnlyPlan = seriesOnlyCoordinator.plan();
+  assert.equal(seriesOnlyPlan.ok, false);
+  assert.equal(seriesOnlyPlan.code, 'PENDING_CANDIDATE_NOT_APPROVED');
+
+  // Series 候选依然可以通过 bundlePlan 正常被获取
+  const bundlePlan = coordinator.bundlePlan();
+  assert.equal(bundlePlan.ok, true);
+});
+
+test('cleanup_pending 与 outcome_pending 在 coordinator 中支持 cleanup-only 且不进 review/discard', async () => {
+  let batchApplyCalls = [];
+  let deleteDraftCalls = [];
+  const cleanupDraft = {
+    draft_id: 'draft-v3-clean',
+    schema_version: 3,
+    draft_kind: 'catalog',
+    state: 'cleanup_pending',
+    apply_checkpoint: {
+      batch_token: 'btk-1',
+      draft_ids: ['draft-v3-clean'],
+      target_revision: 'catalog-r2',
+    },
+  };
+  const coordinator = createCatalogWorkbench({
+    loadCatalog: () => ({ revision: 'catalog-r2' }),
+    listDrafts: () => [cleanupDraft],
+    applyCatalogDrafts: (input, opts) => {
+      batchApplyCalls.push({ input, opts });
+      return { ok: true, status: 'cleanup_only', targetRevision: 'catalog-r2', appliedDraftIds: input.draftIds, cleanupPending: [] };
+    },
+  });
+
+  const list = coordinator.list();
+  assert.equal(list.items[0].cleanup_pending, true);
+  assert.equal(list.items[0].cleanup_only, true);
+  assert.deepEqual(list.items[0].cleanup_action, {
+    draft_ids: ['draft-v3-clean'],
+    expected_revision: 'catalog-r2',
+    batch_token: 'btk-1',
+    confirm: 'APPLY CATALOG DRAFTS btk-1',
+  });
+
+  const cleanupRes = coordinator.cleanup({
+    draft_ids: ['draft-v3-clean'],
+    expected_revision: 'catalog-r2',
+    batch_token: 'btk-1',
+    confirm: 'APPLY CATALOG DRAFTS btk-1',
+  });
+  assert.equal(cleanupRes.ok, true);
+  assert.equal(cleanupRes.cleanup_only, true);
+  assert.equal(batchApplyCalls.length, 1);
+
+  // SeriesBundle cleanup_pending 拒绝被送入 review 和 discard
+  const bundleCoordinator = createCatalogWorkbench({
+    loadCatalog: () => ({ revision: 'catalog-r2' }),
+    readDraft: () => ({
+      schema_version: 4,
+      draft_kind: 'series_bundle',
+      draft_id: 'draft-v4-clean',
+      state: 'cleanup_pending',
+      bundle_token: 'btoken-9',
+    }),
+    readCatalogBundle: () => ({
+      ok: true,
+      draft_id: 'draft-v4-clean',
+      state: 'cleanup_pending',
+      bundle_token: 'btoken-9',
+    }),
+  });
+  const reviewBlocked = bundleCoordinator.bundleReview('draft-v4-clean');
+  assert.equal(reviewBlocked.ok, false);
+  assert.equal(reviewBlocked.code, 'BUNDLE_REVIEW_FORBIDDEN');
+
+  const discardBlocked = await bundleCoordinator.bundleDiscard('draft-v4-clean', {
+    expected_revision: 'catalog-r2',
+    confirm: 'DISCARD CATALOG BUNDLE btoken-9',
+  });
+  assert.equal(discardBlocked.ok, false);
+  assert.equal(discardBlocked.code, 'BUNDLE_DISCARD_FORBIDDEN');
+
+  // SeriesBundle cleanup_pending 通过 bundleApply 进行 cleanup-only
+  const bundleCleanupRes = await bundleCoordinator.bundleApply({
+    draft_id: 'draft-v4-clean',
+    expected_revision: 'catalog-r2',
+    bundle_token: 'btoken-9',
+    confirm: 'APPLY CATALOG BUNDLE btoken-9',
+  });
+  assert.equal(bundleCleanupRes.ok, true);
+  assert.equal(bundleCleanupRes.cleanup_only, true);
+  assert.equal(bundleCleanupRes.cleanup_pending, false);
+});
+
+test('bundlePrepare 接受 enrichment_confirmation_token 二阶段确认且校验请求字段白名单', async () => {
+  let passedInput;
+  const coordinator = createCatalogWorkbench({
+    prepareCatalogBundles: async input => { passedInput = input; return { ok: true, drafts: [] }; },
+  });
+  await assert.rejects(
+    coordinator.bundlePrepare({ pending_revision: 'p1', catalog_revision: 'c1', plan_hash: 'ph', confirm_cost: true, forbidden_field: true }),
+    error => error.code === 'BUNDLE_REQUEST_INVALID'
+  );
+  const prepared = await coordinator.bundlePrepare({
+    pending_revision: 'p1',
+    catalog_revision: 'c1',
+    plan_hash: 'ph',
+    confirm_cost: true,
+    enrichment_confirmation_token: 'enrich-token-123',
+  });
+  assert.equal(prepared.ok, true);
+  assert.equal(passedInput.enrichment_confirmation_token, 'enrich-token-123');
+});

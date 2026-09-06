@@ -100,6 +100,13 @@ test('complete Kling video API dossier produces a ready five-layer replace previ
   assert.equal(detail.one_m_context.status, 'not_applicable');
   assert.equal(detail.plan.status, 'not_applicable');
   assert.equal(detail.api_pricing.status, 'available');
+  assert.equal(detail.model_key, 'kuaishou-kling-2.6-pro');
+  assert.equal('visibility' in detail, false);
+  const card = result.envelope.layer_patches.find(patch => patch.area === 'tool-card').record;
+  assert.equal(card.model_key, 'kuaishou-kling-2.6-pro');
+  const level2 = result.envelope.layer_patches.find(patch => patch.area === 'vendor-level2').record;
+  assert.equal(level2.series_kind, 'model_series');
+  assert.equal('generation_state' in level2, false);
 });
 
 test('Kling dossier without API pricing/access remains blocked and suggests product_variant', async () => {

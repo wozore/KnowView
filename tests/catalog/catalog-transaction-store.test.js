@@ -8,6 +8,7 @@ const path = require('path');
 const { emptySnapshot } = require('../../src/catalog/core/index');
 const { revisionOf } = require('../../src/catalog/core/index');
 const { FILE_BY_AREA, planRecordRemoval, commitSnapshotChange, commitCatalogChange, replaceToolLevel3 } = require('../../src/catalog/transaction');
+const { bridgeRevisionOf, readModelIdentityBridge, writeModelIdentityBridge } = require('../../src/shared/model-identity-bridge');
 
 function fixture() {
   const snapshot = emptySnapshot();
@@ -17,6 +18,38 @@ function fixture() {
   snapshot['tool-level3'].push({ id: 'tool-level3:spark', vendor_key: 'spark', detail_kind: 'tool', theme: 'general', title: 'Spark', vendor_label: 'Spark', icon: 'x', official_url: 'https://example.com', status: 'active', summary: 'Spark', one_m_context: { status: 'not_applicable', reason: 'tool' }, api_pricing: { status: 'not_applicable', reason: 'tool' }, plan: { status: 'not_applicable', reason: 'tool' }, applicable_scenarios: [{ title: 'Spark', description: 'Spark' }], inapplicable_scenarios: [{ title: 'Other', description: 'Other' }], sources: [{ title: 'Official', url: 'https://example.com' }] });
   snapshot['tool-card'].push({ id: 'tool-card:spark', tool_key: 'spark', vendor_key: 'spark', title: 'Spark', vendor_label: 'Spark', icon: 'x', summary: 'Spark', theme: 'general', scenes: ['Spark'], best_for_preview: 'Spark', not_for_preview: 'Other', price_badge: 'free', access_level: '开放', search_terms: ['Spark'], detail_ref: { kind: 'tool-level3', id: 'tool-level3:spark' }, detail_kind: 'tool' });
   return snapshot;
+}
+
+function bridgeEntry(overrides = {}) {
+  return {
+    model_key: 'kuaishou-kling-2.6-pro',
+    title: 'Kling 2.6 Pro',
+    vendor_key: 'kuaishou',
+    detail_id: 'tool-level3:kling-2-6-pro',
+    tool_card_id: 'tool-card:kling-2-6-pro',
+    series_id: 'vendor-level2:kuaishou:kling',
+    official_url: 'https://kling.ai',
+    content_hash: 'sha256:bridge-fixture',
+    verified_at: '2026-01-15T08:00:00.000Z',
+    catalog_revision: 'sha256:stale-base',
+    ...overrides,
+  };
+}
+
+function bridgeEntry(overrides = {}) {
+  return {
+    model_key: 'kuaishou-kling-2.6-pro',
+    title: 'Kling 2.6 Pro',
+    vendor_key: 'kuaishou',
+    detail_id: 'tool-level3:kling-2-6-pro',
+    tool_card_id: 'tool-card:kling-2-6-pro',
+    series_id: 'vendor-level2:kuaishou:kling',
+    official_url: 'https://kling.ai',
+    content_hash: 'sha256:bridge-fixture',
+    verified_at: '2026-01-15T08:00:00.000Z',
+    catalog_revision: 'sha256:stale-base',
+    ...overrides,
+  };
 }
 
 function makeTransactionFixture() {
@@ -29,6 +62,7 @@ function makeTransactionFixture() {
     fs.writeFileSync(path.join(catalogDir, path.basename(file)), `${JSON.stringify({ schema_version: 1, items: snapshot[area] }, null, 2)}\n`);
   }
   const dist = path.join(projectDir, 'dist');
+  const bridgeFile = path.join(root, 'data', 'shared', 'model-identity-bridge.json');
   fs.mkdirSync(dist, { recursive: true });
   fs.writeFileSync(path.join(dist, 'old.txt'), 'old-dist');
   const loadCatalogSnapshot = () => {
@@ -39,8 +73,8 @@ function makeTransactionFixture() {
     }
     return { snapshot: current, revision: revisionOf(current) };
   };
-  const options = { catalogDir, projectDir, loadCatalogSnapshot, publishCatalogReleaseDates: false };
-  return { root, catalogDir, projectDir, snapshot, options, loadCatalogSnapshot };
+  const options = { catalogDir, projectDir, bridgeFile, loadCatalogSnapshot, publishCatalogReleaseDates: false };
+  return { root, catalogDir, projectDir, bridgeFile, snapshot, options, loadCatalogSnapshot };
 }
 
 function clean(root) {
@@ -211,4 +245,142 @@ test('EPERM while moving dist falls back to delete-and-rebuild', () => {
   } finally {
     clean(context.root);
   }
+});
+
+
+test('bridge CAS 写入与 catalog target revision 对齐', () => {
+  const context = makeTransactionFixture();
+  try {
+    const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
+    assert.equal(initial.ok, true);
+    const target = JSON.parse(JSON.stringify(context.snapshot));
+    target['tool-card'][0].summary = 'Bridge updated';
+    const result = commitSnapshotChange(target, {
+      ...context.options,
+      expectedRevision: revisionOf(context.snapshot),
+      expectedBridgeRevision: initial.revision,
+      bridgeEntries: [bridgeEntry()],
+      runId: 'fixture-bridge-success',
+      buildStaticSite: builderFor('bridge-dist', []),
+    });
+    assert.equal(result.ok, true, JSON.stringify(result));
+    const bridge = readModelIdentityBridge(context.bridgeFile);
+    assert.equal(bridge.entries.length, 1);
+    assert.equal(bridge.entries[0].catalog_revision, result.targetRevision);
+    assert.equal(bridge.revision, bridgeRevisionOf(bridge.entries));
+  } finally {
+    clean(context.root);
+  }
+});
+
+test('bridge revision 漂移在锁内返回稳定冲突且不覆盖新状态', () => {
+  const context = makeTransactionFixture();
+  try {
+    const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
+    const newer = writeModelIdentityBridge([bridgeEntry({ title: 'Newer bridge state' })], context.bridgeFile);
+    assert.equal(initial.ok, true);
+    assert.equal(newer.ok, true);
+    const result = commitSnapshotChange(context.snapshot, {
+      ...context.options,
+      expectedRevision: revisionOf(context.snapshot),
+      expectedBridgeRevision: initial.revision,
+      bridgeEntries: [bridgeEntry({ title: 'Stale overwrite' })],
+      runId: 'fixture-bridge-conflict',
+      buildDist: false,
+    });
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'BRIDGE_REVISION_CONFLICT');
+    assert.equal(result.revision, newer.revision);
+    assert.equal(readModelIdentityBridge(context.bridgeFile).entries[0].title, 'Newer bridge state');
+  } finally {
+    clean(context.root);
+  }
+});
+
+
+test('损坏 bridge 不按空状态自动覆盖', () => {
+  const context = makeTransactionFixture();
+  try {
+    fs.mkdirSync(path.dirname(context.bridgeFile), { recursive: true });
+    fs.writeFileSync(context.bridgeFile, '{broken', 'utf8');
+    const result = commitSnapshotChange(context.snapshot, { ...context.options, expectedRevision: revisionOf(context.snapshot), expectedBridgeRevision: null, bridgeEntries: [bridgeEntry()], runId: 'fixture-bridge-corrupt', buildDist: false });
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'BRIDGE_REVISION_CONFLICT');
+    assert.ok(result.validation_errors.length > 0);
+    assert.equal(fs.readFileSync(context.bridgeFile, 'utf8'), '{broken');
+  } finally { clean(context.root); }
+});
+
+
+test('bridge staging failure leaves catalog, bridge and artifacts unchanged', () => {
+  const context = makeTransactionFixture();
+  try {
+    const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
+    const beforeCatalog = fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8');
+    const beforeBridge = fs.readFileSync(context.bridgeFile, 'utf8');
+    const io = Object.assign({}, fs, { writeFileSync(file, ...args) {
+      if (String(file).includes('model-identity-bridge.json') && String(file).endsWith('.tmp')) { const error = new Error('fixture bridge staging failed'); error.code = 'EIO'; throw error; }
+      return fs.writeFileSync(file, ...args);
+    } });
+    const result = commitSnapshotChange(context.snapshot, { ...context.options, expectedRevision: revisionOf(context.snapshot), expectedBridgeRevision: initial.revision, bridgeEntries: [bridgeEntry({ title: 'staged but rejected' })], runId: 'fixture-bridge-staging-failure', fsImpl: io, buildDist: false });
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'SHARED_MODEL_IDENTITY_BRIDGE_WRITE_FAILED');
+    assert.equal(fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8'), beforeCatalog);
+    assert.equal(fs.readFileSync(context.bridgeFile, 'utf8'), beforeBridge);
+    assert.equal(fs.existsSync(path.join(context.catalogDir, '.transactions', 'journal.json')), false);
+  } finally { clean(context.root); }
+});
+
+
+test('bridge replace failure rolls back catalog and preserves prior bridge', () => {
+  const context = makeTransactionFixture();
+  try {
+    const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
+    const beforeCatalog = fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8');
+    const beforeBridge = fs.readFileSync(context.bridgeFile, 'utf8');
+    let failed = false;
+    const io = Object.assign({}, fs, { renameSync(from, to) {
+      if (!failed && to === context.bridgeFile) { failed = true; const error = new Error('fixture bridge replace failed'); error.code = 'EPERM'; throw error; }
+      return fs.renameSync(from, to);
+    } });
+    const target = JSON.parse(JSON.stringify(context.snapshot));
+    target['tool-card'][0].summary = 'must roll back';
+    const result = commitSnapshotChange(target, { ...context.options, expectedRevision: revisionOf(context.snapshot), expectedBridgeRevision: initial.revision, bridgeEntries: [bridgeEntry({ title: 'must roll back' })], runId: 'fixture-bridge-replace-failure', fsImpl: io, buildDist: false });
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'EPERM');
+    assert.equal(failed, true);
+    assert.equal(fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8'), beforeCatalog);
+    assert.equal(fs.readFileSync(context.bridgeFile, 'utf8'), beforeBridge);
+  } finally { clean(context.root); }
+});
+
+
+test('dist replacement 后失败会恢复 catalog、bridge 与 dist', () => {
+  const context = makeTransactionFixture();
+  try {
+    const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
+    const beforeCatalog = fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8');
+    const beforeBridge = fs.readFileSync(context.bridgeFile, 'utf8');
+    const result = commitSnapshotChange(context.snapshot, { ...context.options, expectedRevision: revisionOf(context.snapshot), expectedBridgeRevision: initial.revision, bridgeEntries: [bridgeEntry({ title: 'dist rollback' })], runId: 'fixture-dist-rollback', buildStaticSite: builderFor('new-dist-before-publish-failure', []), publishCatalogReleaseDates: true, publishCatalogReleaseDatesAfterCommit() { throw new Error('fixture publish failed after dist replacement'); } });
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'BUILD_FAILED');
+    assert.equal(fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8'), beforeCatalog);
+    assert.equal(fs.readFileSync(context.bridgeFile, 'utf8'), beforeBridge);
+    assert.equal(fs.readFileSync(path.join(context.projectDir, 'dist', 'old.txt'), 'utf8'), 'old-dist');
+    assert.equal(fs.existsSync(path.join(context.projectDir, 'dist', 'built.txt')), false);
+    assert.equal(fs.existsSync(path.join(context.catalogDir, '.transactions', 'journal.json')), false);
+  } finally { clean(context.root); }
+});
+
+
+test('提交前不存在 dist 时失败会删除新建 dist', () => {
+  const context = makeTransactionFixture();
+  try {
+    fs.rmSync(path.join(context.projectDir, 'dist'), { recursive: true, force: true });
+    const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
+    const result = commitSnapshotChange(context.snapshot, { ...context.options, expectedRevision: revisionOf(context.snapshot), expectedBridgeRevision: initial.revision, bridgeEntries: [bridgeEntry({ title: 'no old dist' })], runId: 'fixture-no-old-dist-rollback', buildStaticSite: builderFor('new-dist', []), publishCatalogReleaseDates: true, publishCatalogReleaseDatesAfterCommit() { throw new Error('fixture publish failed'); } });
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'BUILD_FAILED');
+    assert.equal(fs.existsSync(path.join(context.projectDir, 'dist')), false);
+  } finally { clean(context.root); }
 });
