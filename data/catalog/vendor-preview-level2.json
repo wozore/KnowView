@@ -114,6 +114,26 @@
       ]
     },
     {
+      "id": "vendor-level2:zhipu:image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:zhipu"
+      },
+      "vendor_key": "zhipu",
+      "title": "图像生成",
+      "official_url": "https://docs.z.ai/guides/image/glm-image",
+      "summary": "智谱图像生成模型系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-image"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
       "id": "vendor-level2:baidu:ernie",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -1467,6 +1487,294 @@
         }
       ],
       "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:zhipu:video",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:zhipu"
+      },
+      "vendor_key": "zhipu",
+      "title": "视频生成",
+      "official_url": "https://docs.z.ai/guides/video/cogvideox-3",
+      "summary": "视频生成 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:cogvideox-3"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:zhipu:vision",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:zhipu"
+      },
+      "vendor_key": "zhipu",
+      "title": "视觉",
+      "official_url": "https://docs.z.ai/guides/overview/overview",
+      "summary": "视觉 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-5v-turbo"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-4-6v"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-ocr"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:zhipu:audio",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:zhipu"
+      },
+      "vendor_key": "zhipu",
+      "title": "音频",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/models/sound-and-video/glm-asr-2512",
+      "summary": "音频 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-asr-2512"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:zhipu:embedding-rerank",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:zhipu"
+      },
+      "vendor_key": "zhipu",
+      "title": "Embedding / Rerank",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price",
+      "summary": "Embedding / Rerank 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:embedding-2"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:embedding-3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-rerank"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:ernie-x",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:baidu"
+      },
+      "vendor_key": "baidu",
+      "title": "ERNIE X",
+      "official_url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
+      "summary": "ERNIE X 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:ernie-x1-1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:ernie-x1-1-preview"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:vision",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:baidu"
+      },
+      "vendor_key": "baidu",
+      "title": "视觉",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "summary": "视觉 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:ernie-4-5-turbo-vl"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:baidu"
+      },
+      "vendor_key": "baidu",
+      "title": "图像生成",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "summary": "图像生成 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:musesteamer-air-image"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:embedding-rerank",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:baidu"
+      },
+      "vendor_key": "baidu",
+      "title": "Embedding / Rerank",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "summary": "Embedding / Rerank 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:embedding-v1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:tao-8k"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bce-reranker-base"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:vision",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:mistral"
+      },
+      "vendor_key": "mistral",
+      "title": "视觉",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "视觉 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mistral-small-4"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:ocr",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:mistral"
+      },
+      "vendor_key": "mistral",
+      "title": "OCR",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "OCR 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mistral-ocr-4-1"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:audio",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:mistral"
+      },
+      "vendor_key": "mistral",
+      "title": "音频",
+      "official_url": "https://docs.mistral.ai/inference/pricing",
+      "summary": "音频 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:voxtral-mini-transcribe-2"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:code",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:mistral"
+      },
+      "vendor_key": "mistral",
+      "title": "代码",
+      "official_url": "https://docs.mistral.ai/inference/pricing",
+      "summary": "代码 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:codestral"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:safety",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:mistral"
+      },
+      "vendor_key": "mistral",
+      "title": "安全 / Moderation",
+      "official_url": "https://docs.mistral.ai/models/mistral-moderation-26-03",
+      "summary": "安全 / Moderation 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mistral-moderation-2"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     }
   ]
 }

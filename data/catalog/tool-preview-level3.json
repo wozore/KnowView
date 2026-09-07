@@ -7452,6 +7452,56 @@
       "id": "tool-level3:glm-4-7-flash"
     },
     {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "GLM-Image",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🖼️",
+      "official_url": "https://docs.z.ai/guides/image/glm-image",
+      "status": "active",
+      "summary": "智谱图像生成模型，官方按图像调用计费。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像模型不使用文本上下文字段。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方图像 API",
+            "currency": "USD",
+            "unit": "per_image",
+            "amount": 0.015,
+            "conditions": "以官方价格页为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "图像生成",
+          "description": "通过官方 API 生成图像。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "纯文本对话",
+          "description": "应使用文本模型。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM-Image",
+          "url": "https://docs.z.ai/guides/image/glm-image"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:glm-image"
+    },
+    {
       "vendor_key": "alibaba",
       "detail_kind": "api_model",
       "title": "Qwen3.8-Flash",
@@ -11162,6 +11212,1035 @@
       ],
       "theme": "dev",
       "id": "tool-level3:baidu-coding-plan"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "CogView-4",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.z.ai/guides/image/cogview-4",
+      "status": "active",
+      "summary": "CogView-4 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "CogView-4 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "CogView-4",
+          "url": "https://docs.z.ai/guides/image/cogview-4"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:cogview-4"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "CogVideoX-3",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.z.ai/guides/video/cogvideox-3",
+      "status": "active",
+      "summary": "CogVideoX-3 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "CogVideoX-3 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "CogVideoX-3",
+          "url": "https://docs.z.ai/guides/video/cogvideox-3"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:cogvideox-3"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "GLM-5V-Turbo",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.z.ai/guides/overview/pricing",
+      "status": "active",
+      "summary": "GLM-5V-Turbo 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "GLM-5V-Turbo 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM-5V-Turbo",
+          "url": "https://docs.z.ai/guides/overview/pricing"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:glm-5v-turbo"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "GLM-4.6V",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.z.ai/guides/overview/pricing",
+      "status": "active",
+      "summary": "GLM-4.6V 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "GLM-4.6V 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM-4.6V",
+          "url": "https://docs.z.ai/guides/overview/pricing"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:glm-4-6v"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "GLM-OCR",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.z.ai/guides/overview/pricing",
+      "status": "active",
+      "summary": "GLM-OCR 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "GLM-OCR 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM-OCR",
+          "url": "https://docs.z.ai/guides/overview/pricing"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:glm-ocr"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "GLM-ASR-2512",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/models/sound-and-video/glm-asr-2512",
+      "status": "active",
+      "summary": "GLM-ASR-2512 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "GLM-ASR-2512 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM-ASR-2512",
+          "url": "https://docs.bigmodel.cn/cn/guide/models/sound-and-video/glm-asr-2512"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:glm-asr-2512"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "Embedding-2",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price",
+      "status": "active",
+      "summary": "Embedding-2 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Embedding-2 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Embedding-2",
+          "url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:embedding-2"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "Embedding-3",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price",
+      "status": "active",
+      "summary": "Embedding-3 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Embedding-3 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Embedding-3",
+          "url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:embedding-3"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "GLM-rerank",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price",
+      "status": "active",
+      "summary": "GLM-rerank 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "GLM-rerank 任务",
+          "description": "适合官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用场景",
+          "description": "请遵循官方能力边界。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM-rerank",
+          "url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:glm-rerank"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "api_model",
+      "title": "ERNIE X1.1",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "official_url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
+      "status": "active",
+      "summary": "ERNIE X1.1 百度千帆官方模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型列表为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "千帆官方推理服务",
+            "currency": "CNY",
+            "unit": "official_pricing",
+            "conditions": "以官方价格页与控制台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "ERNIE X1.1 场景",
+          "description": "适合百度千帆官方 API 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方模型能力选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ERNIE X1.1",
+          "url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:ernie-x1-1"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "api_model",
+      "title": "ERNIE X1.1 Preview",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "official_url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
+      "status": "active",
+      "summary": "ERNIE X1.1 Preview 百度千帆官方模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型列表为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "千帆官方推理服务",
+            "currency": "CNY",
+            "unit": "official_pricing",
+            "conditions": "以官方价格页与控制台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "ERNIE X1.1 Preview 场景",
+          "description": "适合百度千帆官方 API 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方模型能力选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ERNIE X1.1 Preview",
+          "url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:ernie-x1-1-preview"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "api_model",
+      "title": "ERNIE 4.5 Turbo VL",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "status": "active",
+      "summary": "ERNIE 4.5 Turbo VL 百度千帆官方模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型列表为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "千帆官方推理服务",
+            "currency": "CNY",
+            "unit": "official_pricing",
+            "conditions": "以官方价格页与控制台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "ERNIE 4.5 Turbo VL 场景",
+          "description": "适合百度千帆官方 API 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方模型能力选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ERNIE 4.5 Turbo VL",
+          "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:ernie-4-5-turbo-vl"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "api_model",
+      "title": "MuseSteamer Air Image",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "status": "active",
+      "summary": "MuseSteamer Air Image 百度千帆官方模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型列表为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "千帆官方推理服务",
+            "currency": "CNY",
+            "unit": "official_pricing",
+            "conditions": "以官方价格页与控制台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "MuseSteamer Air Image 场景",
+          "description": "适合百度千帆官方 API 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方模型能力选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MuseSteamer Air Image",
+          "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:musesteamer-air-image"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "api_model",
+      "title": "Embedding-V1",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "status": "active",
+      "summary": "Embedding-V1 百度千帆官方模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型列表为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "千帆官方推理服务",
+            "currency": "CNY",
+            "unit": "official_pricing",
+            "conditions": "以官方价格页与控制台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Embedding-V1 场景",
+          "description": "适合百度千帆官方 API 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方模型能力选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Embedding-V1",
+          "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:embedding-v1"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "api_model",
+      "title": "tao-8k",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "status": "active",
+      "summary": "tao-8k 百度千帆官方模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型列表为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "千帆官方推理服务",
+            "currency": "CNY",
+            "unit": "official_pricing",
+            "conditions": "以官方价格页与控制台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "tao-8k 场景",
+          "description": "适合百度千帆官方 API 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方模型能力选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "tao-8k",
+          "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:tao-8k"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "api_model",
+      "title": "bce-reranker-base",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "status": "active",
+      "summary": "bce-reranker-base 百度千帆官方模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型列表为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "千帆官方推理服务",
+            "currency": "CNY",
+            "unit": "official_pricing",
+            "conditions": "以官方价格页与控制台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "bce-reranker-base 场景",
+          "description": "适合百度千帆官方 API 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方模型能力选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "bce-reranker-base",
+          "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:bce-reranker-base"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "api_model",
+      "title": "Mistral Small 4",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "official_url": "https://docs.mistral.ai/models",
+      "status": "active",
+      "summary": "Mistral Small 4 Mistral 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Mistral Small 4 任务",
+          "description": "适合 Mistral 官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方能力边界选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mistral Small 4",
+          "url": "https://docs.mistral.ai/models"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:mistral-small-4"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "api_model",
+      "title": "OCR 4.1",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "official_url": "https://docs.mistral.ai/models",
+      "status": "active",
+      "summary": "OCR 4.1 Mistral 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "OCR 4.1 任务",
+          "description": "适合 Mistral 官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方能力边界选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "OCR 4.1",
+          "url": "https://docs.mistral.ai/models"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:mistral-ocr-4-1"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "api_model",
+      "title": "Voxtral Mini Transcribe 2",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "official_url": "https://docs.mistral.ai/inference/pricing",
+      "status": "active",
+      "summary": "Voxtral Mini Transcribe 2 Mistral 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Voxtral Mini Transcribe 2 任务",
+          "description": "适合 Mistral 官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方能力边界选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Voxtral Mini Transcribe 2",
+          "url": "https://docs.mistral.ai/inference/pricing"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:voxtral-mini-transcribe-2"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "api_model",
+      "title": "Codestral",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "official_url": "https://docs.mistral.ai/inference/pricing",
+      "status": "active",
+      "summary": "Codestral Mistral 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Codestral 任务",
+          "description": "适合 Mistral 官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方能力边界选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Codestral",
+          "url": "https://docs.mistral.ai/inference/pricing"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:codestral"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "api_model",
+      "title": "Mistral Moderation 2",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "official_url": "https://docs.mistral.ai/models/mistral-moderation-26-03",
+      "status": "active",
+      "summary": "Mistral Moderation 2 Mistral 官方 API 模型。",
+      "one_m_context": {
+        "status": "unknown",
+        "conditions": "以官方模型页为准。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方 API",
+            "currency": "USD",
+            "unit": "official_pricing",
+            "conditions": "最新价格以官方页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Mistral Moderation 2 任务",
+          "description": "适合 Mistral 官方 API 能力场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不支持的模态",
+          "description": "请按官方能力边界选择。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mistral Moderation 2",
+          "url": "https://docs.mistral.ai/models/mistral-moderation-26-03"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:mistral-moderation-2"
     }
   ]
 }

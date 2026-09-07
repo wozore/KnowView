@@ -2799,6 +2799,34 @@
       "detail_kind": "api_model"
     },
     {
+      "id": "tool-card:glm-image",
+      "tool_key": "glm-image",
+      "vendor_key": "zhipu",
+      "title": "GLM-Image",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🖼️",
+      "summary": "智谱图像生成模型，官方按图像调用计费。",
+      "theme": "general",
+      "scenes": [
+        "图像生成",
+        "海报与视觉内容"
+      ],
+      "best_for_preview": "需要通过官方 API 生成图像的场景。",
+      "not_for_preview": "纯文本对话和代码任务。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "GLM-Image",
+        "图像生成",
+        "智谱 AI"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:glm-image"
+      },
+      "detail_kind": "api_model"
+    },
+    {
       "id": "tool-card:qwen3-8-flash",
       "tool_key": "qwen3-8-flash",
       "vendor_key": "alibaba",
@@ -4475,6 +4503,622 @@
         "id": "tool-level3:baidu-coding-plan"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:cogview-4",
+      "tool_key": "cogview-4",
+      "vendor_key": "zhipu",
+      "title": "CogView-4",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "CogView-4 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "CogView-4",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "CogView-4",
+        "智谱 AI",
+        "cogview-4"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:cogview-4"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:cogvideox-3",
+      "tool_key": "cogvideox-3",
+      "vendor_key": "zhipu",
+      "title": "CogVideoX-3",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "CogVideoX-3 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "CogVideoX-3",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "CogVideoX-3",
+        "智谱 AI",
+        "cogvideox-3"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:cogvideox-3"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:glm-5v-turbo",
+      "tool_key": "glm-5v-turbo",
+      "vendor_key": "zhipu",
+      "title": "GLM-5V-Turbo",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "GLM-5V-Turbo 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "GLM-5V-Turbo",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "GLM-5V-Turbo",
+        "智谱 AI",
+        "glm-5v-turbo"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:glm-5v-turbo"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:glm-4-6v",
+      "tool_key": "glm-4-6v",
+      "vendor_key": "zhipu",
+      "title": "GLM-4.6V",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "GLM-4.6V 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "GLM-4.6V",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "GLM-4.6V",
+        "智谱 AI",
+        "glm-4-6v"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:glm-4-6v"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:glm-ocr",
+      "tool_key": "glm-ocr",
+      "vendor_key": "zhipu",
+      "title": "GLM-OCR",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "GLM-OCR 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "GLM-OCR",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "GLM-OCR",
+        "智谱 AI",
+        "glm-ocr"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:glm-ocr"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:glm-asr-2512",
+      "tool_key": "glm-asr-2512",
+      "vendor_key": "zhipu",
+      "title": "GLM-ASR-2512",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "GLM-ASR-2512 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "GLM-ASR-2512",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "GLM-ASR-2512",
+        "智谱 AI",
+        "glm-asr-2512"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:glm-asr-2512"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:embedding-2",
+      "tool_key": "embedding-2",
+      "vendor_key": "zhipu",
+      "title": "Embedding-2",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "Embedding-2 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "Embedding-2",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Embedding-2",
+        "智谱 AI",
+        "embedding-2"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:embedding-2"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:embedding-3",
+      "tool_key": "embedding-3",
+      "vendor_key": "zhipu",
+      "title": "Embedding-3",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "Embedding-3 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "Embedding-3",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Embedding-3",
+        "智谱 AI",
+        "embedding-3"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:embedding-3"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:glm-rerank",
+      "tool_key": "glm-rerank",
+      "vendor_key": "zhipu",
+      "title": "GLM-rerank",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "GLM-rerank 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "GLM-rerank",
+        "API 调用",
+        "模型能力"
+      ],
+      "best_for_preview": "需要该模型能力的 API 场景。",
+      "not_for_preview": "不适合超出官方能力范围的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "GLM-rerank",
+        "智谱 AI",
+        "glm-rerank"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:glm-rerank"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:ernie-x1-1",
+      "tool_key": "ernie-x1-1",
+      "vendor_key": "baidu",
+      "title": "ERNIE X1.1",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "summary": "ERNIE X1.1 百度千帆官方模型。",
+      "theme": "general",
+      "scenes": [
+        "ERNIE X1.1",
+        "百度千帆 API",
+        "企业应用"
+      ],
+      "best_for_preview": "百度云生态内的 API 调用。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "ERNIE X1.1",
+        "百度",
+        "千帆",
+        "ernie-x1-1"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:ernie-x1-1"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:ernie-x1-1-preview",
+      "tool_key": "ernie-x1-1-preview",
+      "vendor_key": "baidu",
+      "title": "ERNIE X1.1 Preview",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "summary": "ERNIE X1.1 Preview 百度千帆官方模型。",
+      "theme": "general",
+      "scenes": [
+        "ERNIE X1.1 Preview",
+        "百度千帆 API",
+        "企业应用"
+      ],
+      "best_for_preview": "百度云生态内的 API 调用。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "ERNIE X1.1 Preview",
+        "百度",
+        "千帆",
+        "ernie-x1-1-preview"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:ernie-x1-1-preview"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:ernie-4-5-turbo-vl",
+      "tool_key": "ernie-4-5-turbo-vl",
+      "vendor_key": "baidu",
+      "title": "ERNIE 4.5 Turbo VL",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "summary": "ERNIE 4.5 Turbo VL 百度千帆官方模型。",
+      "theme": "general",
+      "scenes": [
+        "ERNIE 4.5 Turbo VL",
+        "百度千帆 API",
+        "企业应用"
+      ],
+      "best_for_preview": "百度云生态内的 API 调用。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "ERNIE 4.5 Turbo VL",
+        "百度",
+        "千帆",
+        "ernie-4-5-turbo-vl"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:ernie-4-5-turbo-vl"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:musesteamer-air-image",
+      "tool_key": "musesteamer-air-image",
+      "vendor_key": "baidu",
+      "title": "MuseSteamer Air Image",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "summary": "MuseSteamer Air Image 百度千帆官方模型。",
+      "theme": "general",
+      "scenes": [
+        "MuseSteamer Air Image",
+        "百度千帆 API",
+        "企业应用"
+      ],
+      "best_for_preview": "百度云生态内的 API 调用。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "MuseSteamer Air Image",
+        "百度",
+        "千帆",
+        "musesteamer-air-image"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:musesteamer-air-image"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:embedding-v1",
+      "tool_key": "embedding-v1",
+      "vendor_key": "baidu",
+      "title": "Embedding-V1",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "summary": "Embedding-V1 百度千帆官方模型。",
+      "theme": "general",
+      "scenes": [
+        "Embedding-V1",
+        "百度千帆 API",
+        "企业应用"
+      ],
+      "best_for_preview": "百度云生态内的 API 调用。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Embedding-V1",
+        "百度",
+        "千帆",
+        "embedding-v1"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:embedding-v1"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:tao-8k",
+      "tool_key": "tao-8k",
+      "vendor_key": "baidu",
+      "title": "tao-8k",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "summary": "tao-8k 百度千帆官方模型。",
+      "theme": "general",
+      "scenes": [
+        "tao-8k",
+        "百度千帆 API",
+        "企业应用"
+      ],
+      "best_for_preview": "百度云生态内的 API 调用。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "tao-8k",
+        "百度",
+        "千帆",
+        "tao-8k"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:tao-8k"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:bce-reranker-base",
+      "tool_key": "bce-reranker-base",
+      "vendor_key": "baidu",
+      "title": "bce-reranker-base",
+      "vendor_label": "百度",
+      "icon": "📘",
+      "summary": "bce-reranker-base 百度千帆官方模型。",
+      "theme": "general",
+      "scenes": [
+        "bce-reranker-base",
+        "百度千帆 API",
+        "企业应用"
+      ],
+      "best_for_preview": "百度云生态内的 API 调用。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "bce-reranker-base",
+        "百度",
+        "千帆",
+        "bce-reranker-base"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bce-reranker-base"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mistral-small-4",
+      "tool_key": "mistral-small-4",
+      "vendor_key": "mistral",
+      "title": "Mistral Small 4",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "summary": "Mistral Small 4 Mistral 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "Mistral Small 4",
+        "Mistral API",
+        "企业应用"
+      ],
+      "best_for_preview": "需要 Mistral 官方模型能力的 API 场景。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Mistral Small 4",
+        "Mistral AI",
+        "mistral-small-4"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mistral-small-4"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mistral-ocr-4-1",
+      "tool_key": "mistral-ocr-4-1",
+      "vendor_key": "mistral",
+      "title": "OCR 4.1",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "summary": "OCR 4.1 Mistral 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "OCR 4.1",
+        "Mistral API",
+        "企业应用"
+      ],
+      "best_for_preview": "需要 Mistral 官方模型能力的 API 场景。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "OCR 4.1",
+        "Mistral AI",
+        "mistral-ocr-4-1"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mistral-ocr-4-1"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:voxtral-mini-transcribe-2",
+      "tool_key": "voxtral-mini-transcribe-2",
+      "vendor_key": "mistral",
+      "title": "Voxtral Mini Transcribe 2",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "summary": "Voxtral Mini Transcribe 2 Mistral 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "Voxtral Mini Transcribe 2",
+        "Mistral API",
+        "企业应用"
+      ],
+      "best_for_preview": "需要 Mistral 官方模型能力的 API 场景。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Voxtral Mini Transcribe 2",
+        "Mistral AI",
+        "voxtral-mini-transcribe-2"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:voxtral-mini-transcribe-2"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:codestral",
+      "tool_key": "codestral",
+      "vendor_key": "mistral",
+      "title": "Codestral",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "summary": "Codestral Mistral 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "Codestral",
+        "Mistral API",
+        "企业应用"
+      ],
+      "best_for_preview": "需要 Mistral 官方模型能力的 API 场景。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Codestral",
+        "Mistral AI",
+        "codestral"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:codestral"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mistral-moderation-2",
+      "tool_key": "mistral-moderation-2",
+      "vendor_key": "mistral",
+      "title": "Mistral Moderation 2",
+      "vendor_label": "Mistral AI",
+      "icon": "🏔️",
+      "summary": "Mistral Moderation 2 Mistral 官方 API 模型。",
+      "theme": "general",
+      "scenes": [
+        "Mistral Moderation 2",
+        "Mistral API",
+        "企业应用"
+      ],
+      "best_for_preview": "需要 Mistral 官方模型能力的 API 场景。",
+      "not_for_preview": "超出官方能力边界的场景。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Mistral Moderation 2",
+        "Mistral AI",
+        "mistral-moderation-2"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mistral-moderation-2"
+      },
+      "detail_kind": "api_model"
     }
   ]
 }
