@@ -4324,6 +4324,157 @@
       },
       "detail_kind": "tool",
       "visibility": "visible"
+    },
+    {
+      "id": "tool-card:zcode",
+      "tool_key": "zcode",
+      "vendor_key": "zhipu",
+      "title": "ZCode Agent",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🧩",
+      "summary": "ZCode 官方编码 Agent，支持工作区理解、文件引用、执行模式、目标模式和长任务恢复。",
+      "theme": "dev",
+      "scenes": [
+        "AI Agent",
+        "编码与开发",
+        "工作流自动化"
+      ],
+      "best_for_preview": "ZCode 官方编码 Agent，支持工作区理解、文件引用、执行模式、目标模式和长任务恢复。",
+      "not_for_preview": "不适合需要直接比较模型 API 参数和 token 价格的场景。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "ZCode Agent",
+        "智谱 AI（Z.ai）",
+        "Agent",
+        "Coding Plan"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:zcode"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:baidu-appbuilder",
+      "tool_key": "baidu-appbuilder",
+      "vendor_key": "baidu",
+      "title": "千帆 AppBuilder Agent",
+      "vendor_label": "百度",
+      "icon": "🧩",
+      "summary": "百度千帆 Agent 开发平台，提供自主规划 Agent、工作流 Agent、RAG、组件、数据库、发布与 API/SDK 调用。",
+      "theme": "dev",
+      "scenes": [
+        "AI Agent",
+        "编码与开发",
+        "工作流自动化"
+      ],
+      "best_for_preview": "百度千帆 Agent 开发平台，提供自主规划 Agent、工作流 Agent、RAG、组件、数据库、发布与 API/SDK 调用。",
+      "not_for_preview": "不适合需要直接比较模型 API 参数和 token 价格的场景。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "千帆 AppBuilder Agent",
+        "百度",
+        "Agent",
+        "Coding Plan"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:baidu-appbuilder"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:mistral-vibe",
+      "tool_key": "mistral-vibe",
+      "vendor_key": "mistral",
+      "title": "Mistral Vibe",
+      "vendor_label": "Mistral AI",
+      "icon": "🧩",
+      "summary": "Mistral 统一 AI Agent，覆盖工作任务、研究、文档处理与编码工作流，支持 Web、CLI、IDE 和后台 Agent。",
+      "theme": "dev",
+      "scenes": [
+        "AI Agent",
+        "编码与开发",
+        "工作流自动化"
+      ],
+      "best_for_preview": "Mistral 统一 AI Agent，覆盖工作任务、研究、文档处理与编码工作流，支持 Web、CLI、IDE 和后台 Agent。",
+      "not_for_preview": "不适合需要直接比较模型 API 参数和 token 价格的场景。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "Mistral Vibe",
+        "Mistral AI",
+        "Agent",
+        "Coding Plan"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mistral-vibe"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:mistral-studio",
+      "tool_key": "mistral-studio",
+      "vendor_key": "mistral",
+      "title": "Mistral Studio",
+      "vendor_label": "Mistral AI",
+      "icon": "🧩",
+      "summary": "Mistral 的 Agent 与应用开发平台，用于构建、测试和运行 AI agents 与 apps。",
+      "theme": "dev",
+      "scenes": [
+        "AI Agent",
+        "编码与开发",
+        "工作流自动化"
+      ],
+      "best_for_preview": "Mistral 的 Agent 与应用开发平台，用于构建、测试和运行 AI agents 与 apps。",
+      "not_for_preview": "不适合需要直接比较模型 API 参数和 token 价格的场景。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "Mistral Studio",
+        "Mistral AI",
+        "Agent",
+        "Coding Plan"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mistral-studio"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:baidu-coding-plan",
+      "tool_key": "baidu-coding-plan",
+      "vendor_key": "baidu",
+      "title": "千帆 Coding Plan",
+      "vendor_label": "百度",
+      "icon": "🧩",
+      "summary": "百度千帆 Coding Plan 官方计划入口，按不同模型与工具的调用抵扣系数使用套餐额度。",
+      "theme": "dev",
+      "scenes": [
+        "AI 编程",
+        "Agent 工具调用",
+        "百度云生态"
+      ],
+      "best_for_preview": "适合百度千帆生态内的编码与 Agent 任务。",
+      "not_for_preview": "不适合把套餐额度当作通用 API 按量计费。",
+      "price_badge": "subscription",
+      "access_level": "开放",
+      "search_terms": [
+        "千帆 Coding Plan",
+        "百度",
+        "Coding Plan",
+        "Agent",
+        "AI 编程"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:baidu-coding-plan"
+      },
+      "detail_kind": "tool"
     }
   ]
 }

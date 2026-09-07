@@ -3973,12 +3973,12 @@
             "metrics": [
               {
                 "label": "输入",
-                "amount": 0.000001,
+                "amount": 1e-06,
                 "unit": "元/token"
               },
               {
                 "label": "输出",
-                "amount": 0.000002,
+                "amount": 2e-06,
                 "unit": "元/token"
               }
             ],
@@ -10855,6 +10855,313 @@
       "id": "tool-level3:grok-bot",
       "last_updated_date": "2026-08-11",
       "visibility": "visible"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "tool",
+      "title": "ZCode Agent",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🧩",
+      "official_url": "https://zcode.z.ai/en/docs/agents",
+      "status": "active",
+      "summary": "ZCode 官方编码 Agent，支持工作区理解、文件引用、执行模式、目标模式和长任务恢复。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "AI 工作流与开发协作",
+          "description": "ZCode 官方编码 Agent，支持工作区理解、文件引用、执行模式、目标模式和长任务恢复。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "直接模型 API 调用",
+          "description": "该条目是产品或工具入口，不替代模型 API 详情。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ZCode Agent",
+          "url": "https://zcode.z.ai/en/docs/agents"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:zcode"
+    },
+    {
+      "vendor_key": "zhipu",
+      "detail_kind": "subscription_plan",
+      "title": "GLM Coding Plan",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🧩",
+      "official_url": "https://docs.z.ai/devpack/overview",
+      "status": "active",
+      "summary": "GLM Coding Plan 为官方编码订阅，适用于受支持的 Coding Agent 工具；起价约 $18/月，具体档位以官方订阅页为准。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "amount": 18,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方文档标注起价 $18/月；订阅额度仅限官方支持的编码工具与产品，不是通用 API 配额。",
+        "included_models": [
+          "GLM-5.1",
+          "GLM-5-Turbo",
+          "GLM-4.7",
+          "GLM-4.5-Air"
+        ],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "AI 工作流与开发协作",
+          "description": "GLM Coding Plan 为官方编码订阅，适用于受支持的 Coding Agent 工具；起价约 $18/月，具体档位以官方订阅页为准。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "直接模型 API 调用",
+          "description": "该条目是产品或工具入口，不替代模型 API 详情。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM Coding Plan",
+          "url": "https://docs.z.ai/devpack/overview"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:glm-coding-plan"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "tool",
+      "title": "千帆 AppBuilder Agent",
+      "vendor_label": "百度",
+      "icon": "🧩",
+      "official_url": "https://cloud.baidu.com/doc/APPBUILDER/index.html",
+      "status": "active",
+      "summary": "百度千帆 Agent 开发平台，提供自主规划 Agent、工作流 Agent、RAG、组件、数据库、发布与 API/SDK 调用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "AI 工作流与开发协作",
+          "description": "百度千帆 Agent 开发平台，提供自主规划 Agent、工作流 Agent、RAG、组件、数据库、发布与 API/SDK 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "直接模型 API 调用",
+          "description": "该条目是产品或工具入口，不替代模型 API 详情。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "千帆 AppBuilder Agent",
+          "url": "https://cloud.baidu.com/doc/APPBUILDER/index.html"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:baidu-appbuilder"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "tool",
+      "title": "Mistral Vibe",
+      "vendor_label": "Mistral AI",
+      "icon": "🧩",
+      "official_url": "https://mistral.ai/products/vibe/",
+      "status": "active",
+      "summary": "Mistral 统一 AI Agent，覆盖工作任务、研究、文档处理与编码工作流，支持 Web、CLI、IDE 和后台 Agent。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "AI 工作流与开发协作",
+          "description": "Mistral 统一 AI Agent，覆盖工作任务、研究、文档处理与编码工作流，支持 Web、CLI、IDE 和后台 Agent。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "直接模型 API 调用",
+          "description": "该条目是产品或工具入口，不替代模型 API 详情。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mistral Vibe",
+          "url": "https://mistral.ai/products/vibe/"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:mistral-vibe"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "tool",
+      "title": "Mistral Studio",
+      "vendor_label": "Mistral AI",
+      "icon": "🧩",
+      "official_url": "https://mistral.ai/products/",
+      "status": "active",
+      "summary": "Mistral 的 Agent 与应用开发平台，用于构建、测试和运行 AI agents 与 apps。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "AI 工作流与开发协作",
+          "description": "Mistral 的 Agent 与应用开发平台，用于构建、测试和运行 AI agents 与 apps。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "直接模型 API 调用",
+          "description": "该条目是产品或工具入口，不替代模型 API 详情。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mistral Studio",
+          "url": "https://mistral.ai/products/"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:mistral-studio"
+    },
+    {
+      "vendor_key": "mistral",
+      "detail_kind": "subscription_plan",
+      "title": "Mistral Plans",
+      "vendor_label": "Mistral AI",
+      "icon": "🧩",
+      "official_url": "https://mistral.ai/pricing/",
+      "status": "active",
+      "summary": "Mistral Free、Pro、Team、Enterprise 计划覆盖 Vibe、Studio 与 API 使用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "amount": null,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "Free/Pro/Team/Enterprise 档位；付费价格和包含额度以官方计划页为准。",
+        "included_models": [],
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "AI 工作流与开发协作",
+          "description": "Mistral Free、Pro、Team、Enterprise 计划覆盖 Vibe、Studio 与 API 使用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "直接模型 API 调用",
+          "description": "该条目是产品或工具入口，不替代模型 API 详情。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Mistral Plans",
+          "url": "https://mistral.ai/pricing/"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:mistral-plans"
+    },
+    {
+      "vendor_key": "baidu",
+      "detail_kind": "tool",
+      "title": "千帆 Coding Plan",
+      "vendor_label": "百度",
+      "icon": "🧩",
+      "official_url": "https://cloud.baidu.com/doc/qianfan/s/imlg0beiu",
+      "status": "active",
+      "summary": "百度千帆 Coding Plan 官方计划入口，按不同模型与工具的调用抵扣系数使用套餐额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品计划入口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方公开页面未提供稳定统一月费，具体金额以控制台为准。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "计划价格与额度以千帆官方控制台及产品页为准。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "百度生态内 AI 编程",
+          "description": "适合在千帆 Coding Plan 支持的工具和模型环境中进行编码与 Agent 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "通用模型 API 调用",
+          "description": "计划额度和抵扣规则不等同于通用模型 API 按量计费。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "百度千帆 Coding Plan",
+          "url": "https://cloud.baidu.com/doc/qianfan/s/imlg0beiu"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:baidu-coding-plan"
     }
   ]
 }

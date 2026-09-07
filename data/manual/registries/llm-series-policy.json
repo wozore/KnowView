@@ -585,7 +585,7 @@
     {
       "vendor_key": "zhipu",
       "direction": "llm",
-      "description": "智谱：GLM 通用、GLM Flash、图像、视频、视觉、音频与 Embedding/Rerank 分系列维护。",
+      "description": "智谱：GLM 通用与 GLM Flash 分系列维护；GLM-4.7 Flash 纳入 GLM Flash。",
       "families": [
         {
           "family": "glm",
@@ -598,13 +598,20 @@
               "id": "vendor-level2:zhipu:glm",
               "title": "GLM 5",
               "generation_state": "newest",
-              "expected_members": ["glm-5.1", "glm-5.2", "glm-5-3"]
+              "expected_members": [
+                "glm-5.1",
+                "glm-5.2",
+                "glm-5-3"
+              ]
             }
           ],
           "evidence": {
             "url": "https://docs.z.ai/guides/llm/glm-5",
             "status": "verified",
-            "member_status": {"glm-5.1": "repository_only", "glm-5.2": "repository_only"}
+            "member_status": {
+              "glm-5.1": "repository_only",
+              "glm-5.2": "repository_only"
+            }
           }
         },
         {
@@ -618,62 +625,23 @@
               "id": "vendor-level2:zhipu:glm-5-3-flash",
               "title": "GLM Flash",
               "generation_state": "newest",
-              "expected_members": ["glm-5-3-flash", "glm-4-7-flash"]
+              "expected_members": [
+                "glm-5-3-flash",
+                "glm-4-7-flash"
+              ]
             }
           ],
-          "evidence": {"url": "https://docs.z.ai/guides/llm/glm-4.7", "status": "verified"}
-        },
-        {
-          "family": "zhipu_image",
-          "usage_kind": "image",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:zhipu:image", "title": "图像生成", "generation_state": "newest", "expected_members": ["glm-image", "cogview-4"]}],
-          "evidence": {"url": "https://docs.z.ai/guides/image/glm-image", "status": "verified"}
-        },
-        {
-          "family": "zhipu_video",
-          "usage_kind": "video",
-          "modality": "video",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:zhipu:video", "title": "视频生成", "generation_state": "newest", "expected_members": ["cogvideox-3"]}],
-          "evidence": {"url": "https://docs.z.ai/guides/video/cogvideox-3", "status": "verified"}
-        },
-        {
-          "family": "zhipu_vision",
-          "usage_kind": "general_llm",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:zhipu:vision", "title": "视觉", "generation_state": "newest", "expected_members": ["glm-5v-turbo", "glm-4.6v", "glm-ocr"]}],
-          "evidence": {"url": "https://docs.z.ai/guides/overview/overview", "status": "verified"}
-        },
-        {
-          "family": "zhipu_audio",
-          "usage_kind": "audio_realtime",
-          "modality": "audio",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:zhipu:audio", "title": "音频", "generation_state": "newest", "expected_members": ["glm-asr-2512"]}],
-          "evidence": {"url": "https://docs.bigmodel.cn/cn/guide/models/sound-and-video/glm-asr-2512", "status": "verified"}
-        },
-        {
-          "family": "zhipu_embedding_rerank",
-          "usage_kind": "unknown",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:zhipu:embedding-rerank", "title": "Embedding / Rerank", "generation_state": "newest", "expected_members": ["embedding-2", "embedding-3", "glm-rerank"]}],
-          "evidence": {"url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price", "status": "verified"}
+          "evidence": {
+            "url": "https://docs.z.ai/guides/llm/glm-4.7",
+            "status": "verified"
+          }
         }
       ]
     },
     {
       "vendor_key": "baidu",
       "direction": "llm",
-      "description": "百度：ERNIE、ERNIE X、视觉、图像、视频、OCR 与 Embedding/Rerank 分系列维护。",
+      "description": "百度：当前正式目录保留 ERNIE 通用系列；新增模态系列需先完成三级详情卡和计费核验。",
       "families": [
         {
           "family": "ernie",
@@ -681,62 +649,21 @@
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
-          "series": [{"id": "vendor-level2:baidu:ernie", "title": "ERNIE 模型", "generation_state": "newest", "expected_members": ["ernie-5.1", "ernie-5.0"]}],
-          "evidence": {"url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j", "status": "verified"}
-        },
-        {
-          "family": "ernie_x",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:baidu:ernie-x", "title": "ERNIE X", "generation_state": "newest", "expected_members": ["ernie-x1.1", "ernie-x1.1-preview"]}],
-          "evidence": {"url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j", "status": "verified"}
-        },
-        {
-          "family": "baidu_vision",
-          "usage_kind": "general_llm",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:baidu:vision", "title": "视觉", "generation_state": "newest", "expected_members": ["ernie-4.5-turbo-vl"]}],
-          "evidence": {"url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j", "status": "verified"}
-        },
-        {
-          "family": "baidu_image",
-          "usage_kind": "image",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:baidu:image", "title": "图像生成", "generation_state": "newest", "expected_members": ["musesteamer-air-image"]}],
-          "evidence": {"url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a", "status": "verified"}
-        },
-        {
-          "family": "baidu_video",
-          "usage_kind": "video",
-          "modality": "video",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:baidu:video", "title": "视频生成", "generation_state": "newest", "expected_members": []}],
-          "evidence": {"url": "https://cloud.baidu.com/qianfan/dev_center/home", "status": "verified"}
-        },
-        {
-          "family": "baidu_embedding_rerank",
-          "usage_kind": "unknown",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:baidu:embedding-rerank", "title": "Embedding / Rerank", "generation_state": "newest", "expected_members": ["embedding-v1", "tao-8k", "bce-reranker-base"]}],
-          "evidence": {"url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a", "status": "verified"}
-        },
-        {
-          "family": "baidu_ocr",
-          "usage_kind": "image",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:baidu:ocr", "title": "OCR", "generation_state": "newest", "expected_members": []}],
-          "evidence": {"url": "https://cloud.baidu.com/product-price/ocr.html", "status": "verified"}
+          "series": [
+            {
+              "id": "vendor-level2:baidu:ernie",
+              "title": "ERNIE 模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "ernie-5.1",
+                "ernie-5.0"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
+            "status": "verified"
+          }
         }
       ]
     },
@@ -986,7 +913,7 @@
     {
       "vendor_key": "mistral",
       "direction": "llm",
-      "description": "Mistral：通用/视觉、图像、视频、OCR、音频、代码、安全与 Embedding 分系列维护；无自有图像/视频模型时保持空系列。",
+      "description": "Mistral：当前正式目录保留通用模型系列；新增模态系列需先完成三级详情卡和计费核验。",
       "families": [
         {
           "family": "mistral",
@@ -994,80 +921,21 @@
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:mistral", "title": "Mistral 模型", "generation_state": "newest", "expected_members": ["mistral-medium-3.5", "mistral-large-3"]}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_vision",
-          "usage_kind": "general_llm",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:vision", "title": "视觉", "generation_state": "newest", "expected_members": []}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_image",
-          "usage_kind": "image",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:image", "title": "图像", "generation_state": "newest", "expected_members": []}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_video",
-          "usage_kind": "video",
-          "modality": "video",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:video", "title": "视频", "generation_state": "newest", "expected_members": []}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_ocr",
-          "usage_kind": "image",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:ocr", "title": "OCR", "generation_state": "newest", "expected_members": ["mistral-ocr-3", "mistral-ocr-4-0", "mistral-ocr-4-1"]}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_audio",
-          "usage_kind": "audio_realtime",
-          "modality": "audio",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:audio", "title": "音频", "generation_state": "newest", "expected_members": ["voxtral-small", "voxtral-mini-transcribe-2", "voxtral-mini-transcribe-realtime", "voxtral-tts"]}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_code",
-          "usage_kind": "coding",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:code", "title": "代码", "generation_state": "newest", "expected_members": ["codestral"]}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_safety",
-          "usage_kind": "unknown",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:safety", "title": "安全 / Moderation", "generation_state": "newest", "expected_members": ["mistral-moderation-2"]}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
-        },
-        {
-          "family": "mistral_embedding",
-          "usage_kind": "unknown",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [{"id": "vendor-level2:mistral:embedding", "title": "Embedding", "generation_state": "newest", "expected_members": []}],
-          "evidence": {"url": "https://docs.mistral.ai/models", "status": "verified"}
+          "series": [
+            {
+              "id": "vendor-level2:mistral:mistral",
+              "title": "Mistral 模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "mistral-medium-3.5",
+                "mistral-large-3"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.mistral.ai/models",
+            "status": "verified"
+          }
         }
       ]
     },
