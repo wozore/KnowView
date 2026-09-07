@@ -7468,11 +7468,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方图像 API",
+            "label": "官方价格",
             "currency": "USD",
             "unit": "per_image",
-            "amount": 0.015,
-            "conditions": "以官方价格页为准。"
+            "metrics": [
+              {
+                "label": "image",
+                "amount": 0.015,
+                "unit": "USD/image"
+              }
+            ],
+            "conditions": "官方价格页：$0.015/图。"
           }
         ]
       },
@@ -11230,10 +11236,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_image",
+            "metrics": [
+              {
+                "label": "image",
+                "amount": 0.01,
+                "unit": "USD/image"
+              }
+            ],
+            "conditions": "官方价格页：$0.01/图。"
           }
         ]
       },
@@ -11279,10 +11292,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_video",
+            "metrics": [
+              {
+                "label": "video",
+                "amount": 0.2,
+                "unit": "USD/video"
+              }
+            ],
+            "conditions": "官方价格页：$0.2/视频。"
           }
         ]
       },
@@ -11328,10 +11348,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 1.2,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "output",
+                "amount": 4,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "Z.AI 官方视觉模型价格。"
           }
         ]
       },
@@ -11377,10 +11409,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.3,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "output",
+                "amount": 0.9,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "Z.AI 官方视觉模型价格。"
           }
         ]
       },
@@ -11426,10 +11470,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.03,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "output",
+                "amount": 0.03,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "Z.AI 官方 OCR 价格。"
           }
         ]
       },
@@ -11475,10 +11531,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.03,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "约 $0.0024/分钟。"
           }
         ]
       },
@@ -11524,10 +11587,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
-            "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "label": "官方价格",
+            "currency": "CNY",
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.5,
+                "unit": "CNY/1M tokens"
+              }
+            ],
+            "conditions": "官方价格：0.5 元/百万 Tokens。"
           }
         ]
       },
@@ -11573,10 +11643,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
-            "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "label": "官方价格",
+            "currency": "CNY",
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.5,
+                "unit": "CNY/1M tokens"
+              }
+            ],
+            "conditions": "官方知识库计费：0.5 元/百万 Tokens。"
           }
         ]
       },
@@ -11622,10 +11699,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
-            "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "label": "官方价格",
+            "currency": "CNY",
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.8,
+                "unit": "CNY/1M tokens"
+              }
+            ],
+            "conditions": "官方知识库计费：0.8 元/百万 Tokens。"
           }
         ]
       },
@@ -11671,10 +11755,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "千帆官方推理服务",
+            "label": "官方价格",
             "currency": "CNY",
-            "unit": "official_pricing",
-            "conditions": "以官方价格页与控制台为准。"
+            "unit": "per_1k_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.001,
+                "unit": "CNY/千 tokens"
+              },
+              {
+                "label": "output",
+                "amount": 0.004,
+                "unit": "CNY/千 tokens"
+              }
+            ],
+            "conditions": "当前 API 模型列表提供 pricing 字段。"
           }
         ]
       },
@@ -11720,10 +11816,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "千帆官方推理服务",
+            "label": "官方价格",
             "currency": "CNY",
-            "unit": "official_pricing",
-            "conditions": "以官方价格页与控制台为准。"
+            "unit": "per_1k_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.001,
+                "unit": "CNY/千 tokens"
+              },
+              {
+                "label": "output",
+                "amount": 0.004,
+                "unit": "CNY/千 tokens"
+              }
+            ],
+            "conditions": "当前 API 模型列表提供 pricing 字段。"
           }
         ]
       },
@@ -11769,10 +11877,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "千帆官方推理服务",
+            "label": "官方价格",
             "currency": "CNY",
-            "unit": "official_pricing",
-            "conditions": "以官方价格页与控制台为准。"
+            "unit": "per_1k_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.003,
+                "unit": "CNY/千 tokens"
+              },
+              {
+                "label": "output",
+                "amount": 0.009,
+                "unit": "CNY/千 tokens"
+              }
+            ],
+            "conditions": "千帆官方价格页。"
           }
         ]
       },
@@ -11818,10 +11938,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "千帆官方推理服务",
+            "label": "官方价格",
             "currency": "CNY",
-            "unit": "official_pricing",
-            "conditions": "以官方价格页与控制台为准。"
+            "unit": "per_image",
+            "metrics": [
+              {
+                "label": "image",
+                "amount": 0.05,
+                "unit": "CNY/image"
+              }
+            ],
+            "conditions": "千帆官方价格页：0.05 元/张。"
           }
         ]
       },
@@ -11867,10 +11994,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "千帆官方推理服务",
+            "label": "官方价格",
             "currency": "CNY",
-            "unit": "official_pricing",
-            "conditions": "以官方价格页与控制台为准。"
+            "unit": "per_1k_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.0005,
+                "unit": "CNY/千 tokens"
+              }
+            ],
+            "conditions": "千帆官方价格页：0.0005 元/千 tokens。"
           }
         ]
       },
@@ -11916,10 +12050,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "千帆官方推理服务",
+            "label": "官方价格",
             "currency": "CNY",
-            "unit": "official_pricing",
-            "conditions": "以官方价格页与控制台为准。"
+            "unit": "per_1k_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.0005,
+                "unit": "CNY/千 tokens"
+              }
+            ],
+            "conditions": "千帆官方价格页：0.0005 元/千 tokens。"
           }
         ]
       },
@@ -11965,10 +12106,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "千帆官方推理服务",
+            "label": "官方价格",
             "currency": "CNY",
-            "unit": "official_pricing",
-            "conditions": "以官方价格页与控制台为准。"
+            "unit": "per_1k_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.0005,
+                "unit": "CNY/千 tokens"
+              }
+            ],
+            "conditions": "千帆官方价格页：0.0005 元/千 tokens。"
           }
         ]
       },
@@ -12014,10 +12162,27 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.15,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "cached_input",
+                "amount": 0.015,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "output",
+                "amount": 0.6,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "Mistral 官方价格页。"
           }
         ]
       },
@@ -12063,10 +12228,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_1000_pages",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 4,
+                "unit": "USD/1000 pages"
+              },
+              {
+                "label": "cached_input",
+                "amount": 0.4,
+                "unit": "USD/1000 pages"
+              }
+            ],
+            "conditions": "Mistral OCR 4.1 官方价格。"
           }
         ]
       },
@@ -12112,10 +12289,22 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_minute",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.003,
+                "unit": "USD/min"
+              },
+              {
+                "label": "cached_input",
+                "amount": 0.0003,
+                "unit": "USD/min"
+              }
+            ],
+            "conditions": "Mistral 官方价格页。"
           }
         ]
       },
@@ -12161,10 +12350,27 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "per_1m_tokens",
+            "metrics": [
+              {
+                "label": "input",
+                "amount": 0.3,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "cached_input",
+                "amount": 0.03,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "output",
+                "amount": 0.9,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "Mistral 官方价格页。"
           }
         ]
       },
@@ -12210,10 +12416,17 @@
         "status": "provided",
         "rate_cards": [
           {
-            "label": "官方 API",
+            "label": "官方价格",
             "currency": "USD",
-            "unit": "official_pricing",
-            "conditions": "最新价格以官方页面为准。"
+            "unit": "free",
+            "metrics": [
+              {
+                "label": "service",
+                "amount": 0,
+                "unit": "Free"
+              }
+            ],
+            "conditions": "Mistral 官方页面标记 Free。"
           }
         ]
       },
