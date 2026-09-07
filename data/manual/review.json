@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-06T15:43:02.547Z",
-  "date": "20260906",
+  "generated_at": "2026-09-07T03:49:36.161Z",
+  "date": "20260907",
   "total_pending": 1,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
-      "id": "x-f78a0fdeba20ee3f26ad",
-      "score": 44.5,
-      "summary": "As a test of our progress to advance the frontier of AI research, in June we ent",
+      "id": "x-mock-openai-launch",
+      "score": 48.8,
+      "summary": "摘要：OpenAI launches new GPT model for developers",
       "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
       "review_status": "pending"
     }
   ],
   "human_lines": [
-    "[44.5] As a test of our progress to advance the frontier of AI research, in June we ent\n    建议：AI 技术/研究，建议 approved（如无重大争议）"
+    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）"
   ]
 }
