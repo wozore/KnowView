@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-05T18:02:50.316Z",
+  "generated_at": "2026-09-07T05:08:00.663Z",
   "entries": [
     {
       "model_key": "amazon--nova-2-lite",
@@ -25,6 +25,11 @@
     {
       "model_key": "anthropic--claude-fable-5",
       "release_date": "2026-06-09",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "anthropic--claude-fable-5.1",
+      "release_date": "2026-09-01",
       "catalog_aliases": []
     },
     {
@@ -80,11 +85,6 @@
     {
       "model_key": "anthropic--claude-sonnet-5",
       "release_date": "2026-06-30",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "baidu--ernie-4.5",
-      "release_date": "2025-06-25",
       "catalog_aliases": []
     },
     {
@@ -188,21 +188,6 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemini-2.5-flash-lite",
-      "release_date": "2025-06-17",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "google--gemini-2.5-pro-preview",
-      "release_date": "2025-06-05",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "google--gemini-2.5-pro-preview@06-05",
-      "release_date": "2025-06-05",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "google--gemini-3-flash-preview",
       "release_date": "2025-12-17",
       "catalog_aliases": []
@@ -254,23 +239,13 @@
       ]
     },
     {
-      "model_key": "google--gemma-3n-e2b",
-      "release_date": "2025-06-26",
+      "model_key": "google--gemini-3.8-flash",
+      "release_date": "2026-09-02",
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemma-3n-e2b-it",
-      "release_date": "2025-06-26",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "google--gemma-3n-e4b",
-      "release_date": "2025-06-26",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "google--gemma-3n-e4b-it",
-      "release_date": "2025-06-26",
+      "model_key": "google--gemini-3.8-flash-cyber",
+      "release_date": "2026-09-02",
       "catalog_aliases": []
     },
     {
@@ -299,6 +274,21 @@
     {
       "model_key": "google--gemma-4-e4b-it",
       "release_date": "2026-04-02",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "ibm--granite-4.2-30b",
+      "release_date": "2026-08-25",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "ibm--granite-4.2-3b",
+      "release_date": "2026-08-25",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "ibm--granite-4.2-8b",
+      "release_date": "2026-08-25",
       "catalog_aliases": []
     },
     {
@@ -355,6 +345,11 @@
       ]
     },
     {
+      "model_key": "meta--muse-spark-1.3",
+      "release_date": "2026-09-02",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "microsoft--mai-code-1-flash",
       "release_date": "2026-06-02",
       "catalog_aliases": []
@@ -372,21 +367,6 @@
     {
       "model_key": "minimax--minimax-h3",
       "release_date": "2026-07-31",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "minimax--minimax-m1",
-      "release_date": "2025-06-17",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "minimax--minimax-m1-40k",
-      "release_date": "2025-06-16",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "minimax--minimax-m1-80k",
-      "release_date": "2025-06-16",
       "catalog_aliases": []
     },
     {
@@ -418,16 +398,6 @@
     {
       "model_key": "mistral--devstral-small@2025-07",
       "release_date": "2025-07-11",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--magistral-medium",
-      "release_date": "2025-06-10",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--magistral-small@2025-06",
-      "release_date": "2025-06-10",
       "catalog_aliases": []
     },
     {
@@ -518,16 +488,6 @@
     {
       "model_key": "mistral--mistral-medium-3.5",
       "release_date": "2026-04-29",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--mistral-small-3.2-24b-instruct",
-      "release_date": "2025-06-20",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--mistral-small-3.2-24b-instruct@2025-06",
-      "release_date": "2025-06-20",
       "catalog_aliases": []
     },
     {
@@ -960,6 +920,11 @@
     {
       "model_key": "qwen--qwen3.8-27b",
       "release_date": "2026-08-14",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "qwen--qwen3.8-flash",
+      "release_date": "2026-08-26",
       "catalog_aliases": []
     },
     {

@@ -64,11 +64,20 @@ function extractInitialData(chunks) {
   return null;
 }
 
+function normalizeRscValue(val) {
+  if (typeof val === 'string' && val.startsWith('$')) {
+    if (val === '$-0' || val === '$0') return 0;
+    if (val === '$NaN' || val === '$Infinity' || val === '$-Infinity') return null;
+  }
+  return val;
+}
+
 /** 投影到白名单（缺省 null）；值域校验（aime 等 0-1 benchmark ∈ [0,1]）。 */
 function mapLlmStatsModel(record) {
   const out = {};
   for (const field of Object.keys(LLM_STATS_FIELDS)) {
-    out[field] = record[field] == null ? null : record[field];
+    const rawVal = normalizeRscValue(record[field]);
+    out[field] = rawVal == null ? null : rawVal;
   }
   return out;
 }
@@ -116,4 +125,4 @@ async function fetchLlmStats(options = {}) {
   return { ok: true, count: projected.length, errors, file };
 }
 
-module.exports = { fetchLlmStats, extractFlightChunks, extractInitialData, PAGE_URL };
+module.exports = { fetchLlmStats, extractFlightChunks, extractInitialData, mapLlmStatsModel, normalizeRscValue, PAGE_URL };

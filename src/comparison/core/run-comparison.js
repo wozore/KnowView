@@ -18,7 +18,7 @@ const { fetchLmarena } = require('../fetch/fetch-lmarena');
 const { fetchLivebench } = require('../fetch/fetch-livebench');
 const { fetchLlmStats } = require('../fetch/fetch-llm-stats');
 const { rebuildIntegrated } = require('./rebuild-comparison');
-const { advanceRetentionToNow } = require('../../shared/retention');
+const { advanceRetentionToNow, currentCutoffYearMonth, cutoffDateOf } = require('../../shared/retention');
 
 const SOURCE_ORDER = ['openrouter', 'lmarena', 'livebench', 'llm_stats'];
 
@@ -75,10 +75,8 @@ async function runComparison(options = {}) {
   const config = readConfig();
   const summary = { fetched: [], failed: [], pending: [], rebuilt: false, errors: {} };
 
-  // 每月初幂等推进共享 retention（cutoff = 当前年月 − 14 个月），漏跑自愈 snap 到正确目标；
-  // 经 src/shared/retention.js 唯一写入口，写失败降级沿用旧 cutoff 不中断。
-  const retention = advanceRetentionToNow();
-  const cutoffDate = retention.cutoff_date;
+  const now = options.now || new Date();
+  const targetCutoff = cutoffDateOf(currentCutoffYearMonth(now));
 
   for (const source of SOURCE_ORDER) {
     const sourceConfig = config.sources[source];
@@ -107,9 +105,11 @@ async function runComparison(options = {}) {
   if (pending.length) {
     summary.pending = pending;
   } else if (!options.skipRebuild) {
-    const rebuild = rebuildIntegrated({ cutoffDate });
+    const rebuild = rebuildIntegrated({ cutoffDate: targetCutoff, now });
     if (rebuild.ok) {
       summary.rebuilt = true;
+      // 重建成功后才落盘推进 retention，确保与 integrated 数据状态严格自洽
+      advanceRetentionToNow(now);
     } else {
       summary.errors.rebuild = rebuild.errors;
     }

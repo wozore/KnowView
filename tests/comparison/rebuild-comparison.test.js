@@ -15,7 +15,7 @@ const path = require('path');
 
 const { rebuildIntegrated, buildAliasMap, lmarenaParse, livebenchParse, openrouterCanonical, llmStatsCanonical, cleanModelDisplay, themeOfDimensions } = require('../../src/comparison/core/rebuild-comparison');
 const { parseCsv, aggregateGroups } = require('../../src/comparison/fetch/fetch-livebench');
-const { extractFlightChunks, extractInitialData } = require('../../src/comparison/fetch/fetch-llm-stats');
+const { extractFlightChunks, extractInitialData, mapLlmStatsModel, normalizeRscValue } = require('../../src/comparison/fetch/fetch-llm-stats');
 const { validateLmarenaSnapshot, normalizeLmarena, normalizeIndex } = require('../../src/comparison/core/compare-schema');
 
 const FIXTURES = path.join(__dirname, 'fixtures', 'raw');
@@ -261,6 +261,26 @@ test('llm-stats RSC flight payload 提取 initialData', () => {
   assert.ok(initialData);
   assert.equal(initialData[0].model_id, 'claude-opus-5');
   assert.equal(initialData[0].index_general, 56.28);
+});
+
+test('llm-stats RSC 特殊数值兼容：$-0 规整为 0，$NaN/$Infinity 规整为 null', () => {
+  assert.equal(normalizeRscValue('$-0'), 0);
+  assert.equal(normalizeRscValue('$0'), 0);
+  assert.equal(normalizeRscValue('$NaN'), null);
+  assert.equal(normalizeRscValue('$Infinity'), null);
+  assert.equal(normalizeRscValue('$-Infinity'), null);
+  assert.equal(normalizeRscValue(42), 42);
+  assert.equal(normalizeRscValue(null), null);
+
+  const mapped = mapLlmStatsModel({
+    model_id: 'gpt-4o-mini-2024-07-18',
+    name: 'GPT-4o Mini',
+    organization: 'OpenAI',
+    index_vision: '$-0',
+    index_reasoning: '$NaN',
+  });
+  assert.equal(mapped.index_vision, 0);
+  assert.equal(mapped.index_reasoning, null);
 });
 
 test('LMArena snapshot 白名单校验 fail-closed（缺列拒绝）', () => {
