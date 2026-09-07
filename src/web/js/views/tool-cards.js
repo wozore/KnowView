@@ -1,5 +1,6 @@
-import { escapeHtml } from '../ui/ui-helpers.js';
+import { escapeHtml, formatPrice } from '../ui/ui-helpers.js';
 import { brandIconHtml } from '../ui/brand-icons.js';
+import { getToolLevel3Item } from '../data/data-catalog.js';
 
 function renderPriceTag(value) {
   const labels = {
@@ -22,6 +23,22 @@ function renderAccessTag(value) {
   return '<span class="tag ' + tone + '">' + label + '</span>';
 }
 
+function renderPriceSummary(card) {
+  const detail = card?.detail_ref?.id ? getToolLevel3Item(card.vendor_key, card.detail_ref.id) : null;
+  const rate = detail?.api_pricing?.rate_cards?.[0];
+  if (!rate) return '';
+  if (Array.isArray(rate.metrics) && rate.metrics.length) {
+    const metrics = rate.metrics.slice(0, 2).map(metric =>
+      escapeHtml(metric.label) + ' ' + formatPrice(metric.amount, rate.currency) + ' / ' + escapeHtml(metric.unit)
+    ).join(' · ');
+    return '<span class="tag price-detail">' + metrics + '</span>';
+  }
+  const parts = [];
+  if (Number.isFinite(Number(rate.input_uncached))) parts.push('输入 ' + formatPrice(rate.input_uncached, rate.currency));
+  if (Number.isFinite(Number(rate.output))) parts.push('输出 ' + formatPrice(rate.output, rate.currency));
+  return parts.length ? '<span class="tag price-detail">' + parts.join(' · ') + ' / 1M tokens</span>' : '';
+}
+
 function toolCards(request = {}) {
   if (request.operation === 'list') return request.items || [];
   const card = request.card;
@@ -40,6 +57,7 @@ function toolCards(request = {}) {
     : '';
   const tags = '<div class="tool-card-tags">' +
     renderPriceTag(card.price_badge) +
+    renderPriceSummary(card) +
     renderAccessTag(card.access_level) +
     '</div>';
   const openCard = 'openDetail(\'' + escapeHtml(card.detail_ref.id) + '\',null,this)';
@@ -60,5 +78,5 @@ function toolCards(request = {}) {
   </div>`;
 }
 
-export { renderPriceTag, renderAccessTag };
+export { renderPriceTag, renderAccessTag, renderPriceSummary };
 export default toolCards;
