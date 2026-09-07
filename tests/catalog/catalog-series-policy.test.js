@@ -203,9 +203,11 @@ test('allowedTargetSeries：OpenAI/Anthropic 使用真实系列 ID 与 generatio
   assert.deepEqual(gpt.series.map(s => s.generation_state), ['newest', 'previous']);
   assert.ok(gpt.series.every(s => !s.id.endsWith(':newest') && !s.id.endsWith(':previous')));
 
-  const claude = policyForVendor(p, 'anthropic').families.find(f => f.family === 'claude');
-  assert.ok(claude.series.some(s => s.generation_state === 'newest'));
-  assert.ok(claude.series.every(s => ['newest', 'previous'].includes(s.generation_state)));
+  for (const familyName of ['claude_fable', 'claude_opus', 'claude_sonnet', 'claude_haiku']) {
+    const family = policyForVendor(p, 'anthropic').families.find(f => f.family === familyName);
+    assert.ok(family, familyName);
+    assert.deepEqual(family.series.map(s => s.generation_state), ['newest', 'previous']);
+  }
 });
 
 // ── 第 6 组：人工 placement 引用校验 ───────────────────────────

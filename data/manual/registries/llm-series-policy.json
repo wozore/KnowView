@@ -308,37 +308,121 @@
     {
       "vendor_key": "anthropic",
       "direction": "llm",
-      "description": "Anthropic：Claude 按产品线滚动（Fable/Opus/Sonnet/Haiku），保留 newest 与 previous 双系列。",
+      "description": "Anthropic：Fable、Opus、Sonnet、Haiku 四个模型家族分别维护最新与上一世代；Claude Code 和订阅方案作为独立产品类型。",
       "families": [
         {
-          "family": "claude",
+          "family": "claude_fable",
           "usage_kind": "general_llm",
           "modality": "text",
           "series_kind": "model_series",
-          "version_axis": "none",
+          "version_axis": "dot",
           "series": [
             {
-              "id": "vendor-level2:anthropic:claude",
-              "title": "newest claude generation",
+              "id": "vendor-level2:anthropic:claude-fable",
+              "title": "Claude Fable",
               "generation_state": "newest",
               "expected_members": [
-                "claude-fable-5",
-                "claude-opus-5",
-                "claude-sonnet-5",
-                "claude-haiku-4.5"
+                "claude-fable-5-1"
               ]
             },
             {
-              "id": "vendor-level2:anthropic:claude-opus-4-8",
-              "title": "last claude generation",
+              "id": "vendor-level2:anthropic:claude-fable-5",
+              "title": "Claude Fable 5",
               "generation_state": "previous",
               "expected_members": [
-                "claude-opus-4.8"
+                "claude-fable-5"
               ]
             }
           ],
           "evidence": {
-            "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+            "url": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "claude_opus",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:anthropic:claude-opus",
+              "title": "Claude Opus",
+              "generation_state": "newest",
+              "expected_members": [
+                "claude-opus-5"
+              ]
+            },
+            {
+              "id": "vendor-level2:anthropic:claude-opus-4-8",
+              "title": "Claude Opus 4.8",
+              "generation_state": "previous",
+              "expected_members": [
+                "claude-opus-4-8"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.claude.com/docs/en/models/opus-5/whats-new-opus-5",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "claude_sonnet",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:anthropic:claude-sonnet",
+              "title": "Claude Sonnet",
+              "generation_state": "newest",
+              "expected_members": [
+                "claude-sonnet-5"
+              ]
+            },
+            {
+              "id": "vendor-level2:anthropic:claude-sonnet-4-6",
+              "title": "Claude Sonnet 4.6",
+              "generation_state": "previous",
+              "expected_members": [
+                "claude-sonnet-4-6"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "claude_haiku",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:anthropic:claude-haiku",
+              "title": "Claude Haiku",
+              "generation_state": "newest",
+              "expected_members": [
+                "claude-haiku-4.5"
+              ]
+            },
+            {
+              "id": "vendor-level2:anthropic:claude-haiku-3-5",
+              "title": "Claude Haiku 3.5",
+              "generation_state": "previous",
+              "expected_members": [
+                "claude-haiku-3-5"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
             "status": "verified"
           }
         },

@@ -57,7 +57,7 @@
       "features": [
         {
           "tone": "positive",
-          "text": "优点：模型层级、上下文和 API 计价可在具体叶节点中分别核对。"
+          "text": "厂商优势：Anthropic 专注安全、可靠和高质量的 Claude 模型与开发者平台。"
         },
         {
           "tone": "negative",
@@ -67,11 +67,23 @@
       "level2_refs": [
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:anthropic:claude"
+          "id": "vendor-level2:anthropic:claude-fable"
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:anthropic:claude-coding-plan"
+          "id": "vendor-level2:anthropic:claude-opus"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:anthropic:claude-sonnet"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:anthropic:claude-haiku"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:anthropic:claude-fable-5"
         },
         {
           "kind": "vendor-level2",
@@ -79,11 +91,15 @@
         },
         {
           "kind": "vendor-level2",
+          "id": "vendor-level2:anthropic:claude-sonnet-4-6"
+        },
+        {
+          "kind": "vendor-level2",
           "id": "vendor-level2:anthropic:claude-code"
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:anthropic:claude-opus-5"
+          "id": "vendor-level2:anthropic:claude-coding-plan"
         }
       ]
     },

@@ -76,8 +76,14 @@ function addVendor(snapshot, vendorKey, l2s) {
 function syntheticSnapshot() {
   const snap = emptySnapshot();
   addVendor(snap, 'anthropic', [
-    l2('vendor-level2:anthropic:claude', 'anthropic', 'Claude 模型', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-5', 'claude-haiku-4.5']),
-    l2('vendor-level2:anthropic:claude-opus-5', 'anthropic', 'Claude Opus 5', ['claude-opus-5']),
+    l2('vendor-level2:anthropic:claude-fable', 'anthropic', 'Claude Fable', ['claude-fable-5-1']),
+    l2('vendor-level2:anthropic:claude-fable-5', 'anthropic', 'Claude Fable 5', ['claude-fable-5']),
+    l2('vendor-level2:anthropic:claude-opus', 'anthropic', 'Claude Opus', ['claude-opus-5']),
+    l2('vendor-level2:anthropic:claude-opus-4-8', 'anthropic', 'Claude Opus 4.8', ['claude-opus-4.8']),
+    l2('vendor-level2:anthropic:claude-sonnet', 'anthropic', 'Claude Sonnet', ['claude-sonnet-5']),
+    l2('vendor-level2:anthropic:claude-sonnet-4-6', 'anthropic', 'Claude Sonnet 4.6', ['claude-sonnet-4.6']),
+    l2('vendor-level2:anthropic:claude-haiku', 'anthropic', 'Claude Haiku', ['claude-haiku-4.5']),
+    l2('vendor-level2:anthropic:claude-haiku-3-5', 'anthropic', 'Claude Haiku 3.5', ['claude-haiku-3.5']),
     l2('vendor-level2:anthropic:claude-coding-plan', 'anthropic', '套餐', ['claude-pro', 'claude-max-5x']),
   ]);
   addVendor(snap, 'openai', [
@@ -114,19 +120,19 @@ function syntheticSnapshot() {
 
 // ── 1. 同 id 就地改写 / 全新创建 / 专用改名 ─────────────────────
 
-test('迁移：anthropic newest 就地改写、last 全新创建、coding-plan 零漂移', () => {
+test('迁移：anthropic 四家族独立分组、coding-plan 零漂移', () => {
   const policy = loadSeriesPolicy();
   const plan = planSeriesMigration(policy, syntheticSnapshot());
   assert.equal(plan.validation.ok, true, JSON.stringify(plan.validation.errors));
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
-  assert.deepEqual(byId.get('vendor-level2:anthropic:claude').detail_refs.map(r => r.id),
-    ['tool-level3:claude-fable-5', 'tool-level3:claude-opus-5', 'tool-level3:claude-sonnet-5', 'tool-level3:claude-haiku-4.5']);
-  assert.equal(byId.get('vendor-level2:anthropic:claude').title, 'newest claude generation');
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-fable').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5-1']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-opus').detail_refs.map(r => r.id), ['tool-level3:claude-opus-5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-fable-5').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5']);
   assert.deepEqual(byId.get('vendor-level2:anthropic:claude-opus-4-8').detail_refs.map(r => r.id), ['tool-level3:claude-opus-4.8']);
-  assert.equal(byId.get('vendor-level2:anthropic:claude-opus-4-8').title, 'last claude generation');
-  // claude-opus-5 碎片被删除，成员迁入 newest
-  assert.equal(byId.has('vendor-level2:anthropic:claude-opus-5'), false);
-  // coding-plan 零漂移
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-sonnet-4-6').detail_refs.map(r => r.id), ['tool-level3:claude-sonnet-4.6']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-haiku-3-5').detail_refs.map(r => r.id), ['tool-level3:claude-haiku-3.5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-sonnet').detail_refs.map(r => r.id), ['tool-level3:claude-sonnet-5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-haiku').detail_refs.map(r => r.id), ['tool-level3:claude-haiku-4.5']);
   assert.deepEqual(byId.get('vendor-level2:anthropic:claude-coding-plan').detail_refs.map(r => r.id), ['tool-level3:claude-pro', 'tool-level3:claude-max-5x']);
 });
 
@@ -172,17 +178,15 @@ test('迁移：L1 level2_refs 重写，删除消失引用并追加新目标', ()
   assert.deepEqual(l1ById.get('vendor-level1:openai').level2_refs.map(r => r.id),
     ['vendor-level2:openai:openai-codex', 'vendor-level2:openai:gpt-realtime', 'vendor-level2:openai:gpt-image']);
   assert.deepEqual(l1ById.get('vendor-level1:anthropic').level2_refs.map(r => r.id),
-    ['vendor-level2:anthropic:claude', 'vendor-level2:anthropic:claude-coding-plan', 'vendor-level2:anthropic:claude-opus-4-8']);
+    ['vendor-level2:anthropic:claude-fable', 'vendor-level2:anthropic:claude-fable-5', 'vendor-level2:anthropic:claude-opus', 'vendor-level2:anthropic:claude-opus-4-8', 'vendor-level2:anthropic:claude-sonnet', 'vendor-level2:anthropic:claude-sonnet-4-6', 'vendor-level2:anthropic:claude-haiku', 'vendor-level2:anthropic:claude-haiku-3-5', 'vendor-level2:anthropic:claude-coding-plan']);
 });
 
 test('迁移：id_map 覆盖被删除碎片，orphaned 为空，非政策厂商零漂移', () => {
   const plan = planSeriesMigration(loadSeriesPolicy(), syntheticSnapshot());
   assert.deepEqual(plan.orphaned, []);
-  assert.equal(plan.removed_level2.length, 2);
-  assert.deepEqual(plan.removed_level2.map(r => r.id).sort(), [
-    'vendor-level2:anthropic:claude-opus-5', 'vendor-level2:cohere:command-a',
-  ]);
-  assert.deepEqual(plan.id_map['vendor-level2:anthropic:claude-opus-5'], ['vendor-level2:anthropic:claude']);
+  assert.equal(plan.removed_level2.length, 1);
+  assert.deepEqual(plan.removed_level2.map(r => r.id).sort(), ['vendor-level2:cohere:command-a']);
+  assert.equal(plan.id_map['vendor-level2:anthropic:claude-opus-5'], undefined);
   const kling = plan.snapshot['vendor-level2'].find(x => x.id === 'vendor-level2:kuaishou:kling');
   assert.ok(kling, '非政策厂商 kuaishou 系列应保留');
   assert.deepEqual(kling.detail_refs.map(r => r.id), ['tool-level3:kling-3-0']);
@@ -255,8 +259,13 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:openai:gpt-5-5', ['gpt-5-5', 'gpt-5-5-pro']);
   expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2', 'gpt-realtime-2-1', 'gpt-realtime-2-1-mini', 'gpt-realtime-translate', 'gpt-live-transcribe', 'gpt-realtime-whisper']);
   expect('vendor-level2:openai:gpt-image', ['gpt-image-2']);
-  expect('vendor-level2:anthropic:claude', ['claude-fable-5', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
+  expect('vendor-level2:anthropic:claude-fable', ['claude-fable-5-1']);
+  expect('vendor-level2:anthropic:claude-fable-5', ['claude-fable-5']);
+  expect('vendor-level2:anthropic:claude-opus', ['claude-opus-5']);
   expect('vendor-level2:anthropic:claude-opus-4-8', ['claude-opus-4.8']);
+  expect('vendor-level2:anthropic:claude-sonnet', ['claude-sonnet-5']);
+  expect('vendor-level2:anthropic:claude-sonnet-4-6', ['claude-sonnet-4-6']);
+  expect('vendor-level2:anthropic:claude-haiku', ['claude-haiku-4.5']);
   expect('vendor-level2:google:gemini', ['gemini-3-7-flash', 'gemini-3-6-flash']);
   expect('vendor-level2:google:gemini-last', ['gemini-3.5-flash', 'gemini-3-1-pro', 'gemini-2.5-pro']);
   expect('vendor-level2:zhipu:glm', ['glm-5.1', 'glm-5.2', 'glm-5-3']);
