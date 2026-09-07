@@ -251,8 +251,9 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   assert.deepEqual(plan.orphaned, []);
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
   const expect = (id, members) => assert.deepEqual(byId.get(id).detail_refs.map(r => r.id), members.map(m => `tool-level3:${m}`), id);
-  expect('vendor-level2:openai:gpt-5.6', ['gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna']);
-  expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2']);
+  expect('vendor-level2:openai:gpt-6', ['gpt-6', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna']);
+  expect('vendor-level2:openai:gpt-5-5', ['gpt-5-5', 'gpt-5-5-pro']);
+  expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2', 'gpt-realtime-2-1', 'gpt-realtime-2-1-mini', 'gpt-realtime-translate', 'gpt-live-transcribe', 'gpt-realtime-whisper']);
   expect('vendor-level2:openai:gpt-image', ['gpt-image-2']);
   expect('vendor-level2:anthropic:claude', ['claude-fable-5', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
   expect('vendor-level2:anthropic:claude-opus-4-8', ['claude-opus-4.8']);

@@ -494,7 +494,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gpt-5.6-sol"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-5.6-sol"
     },
     {
       "id": "tool-card:gpt-5.6-terra",
@@ -529,7 +530,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gpt-5.6-terra"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-5.6-terra"
     },
     {
       "id": "tool-card:gpt-5.6-luna",
@@ -564,7 +566,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gpt-5.6-luna"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-5.6-luna"
     },
     {
       "id": "tool-card:claude-fable-5",
@@ -1156,7 +1159,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gpt-5-5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-5.5"
     },
     {
       "id": "tool-card:claude-opus-5",
@@ -1369,7 +1373,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gpt-realtime-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-realtime-2"
     },
     {
       "id": "tool-card:gpt-image-2",
@@ -1405,7 +1410,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gpt-image-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-image-2"
     },
     {
       "id": "tool-card:kling-3-0",
@@ -3128,6 +3134,262 @@
         "id": "tool-level3:gemini-3-8-flash"
       },
       "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:gpt-6",
+      "tool_key": "gpt-6",
+      "vendor_key": "openai",
+      "title": "GPT-6 Astra",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "OpenAI 当前旗舰模型，面向复杂推理、编程、计算机使用、研究与文档工作。",
+      "theme": "general",
+      "scenes": [
+        "复杂推理、编程和多步骤智能体工作"
+      ],
+      "best_for_preview": "复杂推理、编程和多步骤智能体工作",
+      "not_for_preview": "低成本高频调用",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-6 Astra",
+        "OpenAI",
+        "gpt-6"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-6"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-6-astra"
+    },
+    {
+      "id": "tool-card:gpt-5-5-pro",
+      "tool_key": "gpt-5-5-pro",
+      "vendor_key": "openai",
+      "title": "GPT-5.5 Pro",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "GPT-5.5 的高计算量版本，面向需要更精确和更稳定推理结果的复杂任务。",
+      "theme": "general",
+      "scenes": [
+        "高难度推理、研究和专业工作"
+      ],
+      "best_for_preview": "高难度推理、研究和专业工作",
+      "not_for_preview": "成本敏感型高频调用",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-5.5 Pro",
+        "OpenAI",
+        "gpt-5-5-pro"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-5-5-pro"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-5.5-pro"
+    },
+    {
+      "id": "tool-card:gpt-realtime-2-1",
+      "tool_key": "gpt-realtime-2-1",
+      "vendor_key": "openai",
+      "title": "GPT-Realtime-2.1",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "支持语音与文本实时交互的推理模型，改进了字母数字识别、噪声处理和打断行为，并支持工具调用。",
+      "theme": "general",
+      "scenes": [
+        "实时语音代理和工具调用"
+      ],
+      "best_for_preview": "实时语音代理和工具调用",
+      "not_for_preview": "纯文本任务",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-Realtime-2.1",
+        "OpenAI",
+        "gpt-realtime-2-1"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-realtime-2-1"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-realtime-2.1"
+    },
+    {
+      "id": "tool-card:gpt-realtime-2-1-mini",
+      "tool_key": "gpt-realtime-2-1-mini",
+      "vendor_key": "openai",
+      "title": "GPT-Realtime-2.1 Mini",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "GPT-Realtime-2.1 的轻量版本，适合更快、更低成本的实时语音交互。",
+      "theme": "general",
+      "scenes": [
+        "低延迟实时语音交互"
+      ],
+      "best_for_preview": "低延迟实时语音交互",
+      "not_for_preview": "最高质量的复杂语音代理",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-Realtime-2.1 Mini",
+        "OpenAI",
+        "gpt-realtime-2-1-mini"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-realtime-2-1-mini"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-realtime-2.1-mini"
+    },
+    {
+      "id": "tool-card:gpt-realtime-translate",
+      "tool_key": "gpt-realtime-translate",
+      "vendor_key": "openai",
+      "title": "GPT-Realtime-Translate",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "面向实时多语言语音体验的流式语音翻译模型，按音频时长计费。",
+      "theme": "general",
+      "scenes": [
+        "实时语音翻译"
+      ],
+      "best_for_preview": "实时语音翻译",
+      "not_for_preview": "通用文本生成",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-Realtime-Translate",
+        "OpenAI",
+        "gpt-realtime-translate"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-realtime-translate"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-realtime-translate"
+    },
+    {
+      "id": "tool-card:gpt-live-transcribe",
+      "tool_key": "gpt-live-transcribe",
+      "vendor_key": "openai",
+      "title": "GPT-Live-Transcribe",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "面向实时转写的低延迟语音转文本模型，支持上下文、关键词和语言提示。",
+      "theme": "general",
+      "scenes": [
+        "实时字幕和低延迟转写"
+      ],
+      "best_for_preview": "实时字幕和低延迟转写",
+      "not_for_preview": "语音到语音对话",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-Live-Transcribe",
+        "OpenAI",
+        "gpt-live-transcribe"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-live-transcribe"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-live-transcribe"
+    },
+    {
+      "id": "tool-card:gpt-realtime-whisper",
+      "tool_key": "gpt-realtime-whisper",
+      "vendor_key": "openai",
+      "title": "GPT-Realtime-Whisper",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "面向实时转写的流式语音转文本模型，按音频时长计费。",
+      "theme": "general",
+      "scenes": [
+        "实时转写和流式字幕"
+      ],
+      "best_for_preview": "实时转写和流式字幕",
+      "not_for_preview": "语音生成",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-Realtime-Whisper",
+        "OpenAI",
+        "gpt-realtime-whisper"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-realtime-whisper"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-realtime-whisper"
+    },
+    {
+      "id": "tool-card:gpt-realtime-1-5",
+      "tool_key": "gpt-realtime-1-5",
+      "vendor_key": "openai",
+      "title": "GPT-Realtime-1.5",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "面向语音代理和客服的实时音频模型，支持文本、音频和图像输入。",
+      "theme": "general",
+      "scenes": [
+        "生产级实时语音代理"
+      ],
+      "best_for_preview": "生产级实时语音代理",
+      "not_for_preview": "长文本生成",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-Realtime-1.5",
+        "OpenAI",
+        "gpt-realtime-1-5"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-realtime-1-5"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-realtime-1.5",
+      "visibility": "hidden_history",
+      "historical_since": "2026-09-07"
+    },
+    {
+      "id": "tool-card:gpt-audio-1-5",
+      "tool_key": "gpt-audio-1-5",
+      "vendor_key": "openai",
+      "title": "GPT-Audio-1.5",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "通过 Chat Completions 提供文本与音频输入输出的通用音频模型。",
+      "theme": "general",
+      "scenes": [
+        "Chat Completions 音频输入输出"
+      ],
+      "best_for_preview": "Chat Completions 音频输入输出",
+      "not_for_preview": "需要实时推理工具调用的语音代理",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-Audio-1.5",
+        "OpenAI",
+        "gpt-audio-1-5"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-audio-1-5"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-audio-1.5",
+      "visibility": "hidden_history",
+      "historical_since": "2026-09-07"
     }
   ]
 }

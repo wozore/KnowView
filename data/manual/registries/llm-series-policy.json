@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "verified_at": "2026-09-05",
+  "verified_at": "2026-09-07",
   "purpose": "厂商系列政策（schema v2）。描述每厂商的主攻方向 direction、模型家族、用途、模态、系列种类、版本代际与允许的目标二级系列及证据状态。系列迁移、SeriesBundle 规划与 AI 分类均以本文件为唯一规则源；未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。可见容量 visible_members=6，第 7 个起按 release_date 最旧转 hidden_history（由 SeriesBundle planner 与迁移 CLI 执行，政策不再定义拆分规则）。",
   "capacity": {
     "visible_members": 6,
@@ -175,10 +175,11 @@
           "version_axis": "dot",
           "series": [
             {
-              "id": "vendor-level2:openai:gpt-5.6",
-              "title": "GPT-5.6",
+              "id": "vendor-level2:openai:gpt-6",
+              "title": "GPT-6",
               "generation_state": "newest",
               "expected_members": [
+                "gpt-6",
                 "gpt-5.6-sol",
                 "gpt-5.6-terra",
                 "gpt-5.6-luna"
@@ -189,7 +190,8 @@
               "title": "GPT-5.5",
               "generation_state": "previous",
               "expected_members": [
-                "gpt-5-5"
+                "gpt-5-5",
+                "gpt-5-5-pro"
               ]
             }
           ],
@@ -216,7 +218,14 @@
               "title": "GPT-Realtime",
               "generation_state": "newest",
               "expected_members": [
-                "gpt-realtime-2"
+                "gpt-realtime-2",
+                "gpt-realtime-2-1",
+                "gpt-realtime-2-1-mini",
+                "gpt-realtime-translate",
+                "gpt-live-transcribe",
+                "gpt-realtime-whisper",
+                "gpt-realtime-1-5",
+                "gpt-audio-1-5"
               ]
             }
           ],

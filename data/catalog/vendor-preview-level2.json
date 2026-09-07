@@ -2,32 +2,6 @@
   "schema_version": 1,
   "items": [
     {
-      "id": "vendor-level2:openai:gpt-5.6",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "GPT-5.6",
-      "official_url": "https://openai.com/index/gpt-5-6",
-      "summary": "GPT-5.6 模型家族；Sol、Terra 与 Luna 分别对应旗舰、平衡和高效率层级。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-5.6-sol"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-5.6-terra"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-5.6-luna"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:anthropic:claude",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -272,24 +246,6 @@
       ]
     },
     {
-      "id": "vendor-level2:openai:gpt-5-5",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "GPT-5.5",
-      "official_url": "https://developers.openai.com/api/docs/changelog",
-      "summary": "OpenAI 官方发布的模型 API 更新日志与产品发布信息，涵盖 GPT-5.5 系列及 API 功能更新。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-5-5"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:google:gemini-last",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -352,42 +308,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:minimax-h3"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:openai:gpt-realtime",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "GPT-Realtime",
-      "official_url": "https://developers.openai.com/api/docs/models/gpt-realtime-2",
-      "summary": "OpenAI Realtime API 的模型系列，包括 GPT-Realtime-2 和 GPT-Realtime-2.1 等实时语音模型，支持语音到语音交互。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-realtime-2"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:openai:gpt-image",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "GPT-Image",
-      "official_url": "https://developers.openai.com/api/docs/changelog",
-      "summary": "OpenAI 官方 API 的变更日志，记录了图像生成模型 gpt-image-2 等新功能的发布。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-image-2"
         }
       ]
     },
@@ -744,24 +664,6 @@
       ]
     },
     {
-      "id": "vendor-level2:openai:openai-codex",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "OpenAI Codex",
-      "official_url": "https://openai.com/products/release-notes",
-      "summary": "OpenAI 官方发布的 Codex 产品更新与发布说明，涵盖 ChatGPT 桌面应用、Codex 应用、API 及模型更新。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:openai-codex"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:google:gemini-cli",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -794,32 +696,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:vidu-s1"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:openai:openai-coding-plan",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "套餐（Coding Plan）",
-      "official_url": "",
-      "summary": "",
-      "status": "unknown",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-go"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-plus"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-pro"
         }
       ]
     },
@@ -910,42 +786,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:codebuddy"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:openai:gpt-realtime-2",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "GPT-Realtime-2",
-      "official_url": "https://developers.openai.com",
-      "summary": "OpenAI 官方开发者平台，提供模型文档、API 指南和实时更新。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-realtime-2"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:openai:gpt-image-2",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:openai"
-      },
-      "vendor_key": "openai",
-      "title": "gpt-image-2",
-      "official_url": "https://developers.openai.com/api/docs/models/gpt-image-2",
-      "summary": "GPT-Image-2 is OpenAI's state-of-the-art image generation model for fast, high-quality image generation and editing. It supports flexible image sizes and high-fidelity image inputs.",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gpt-image-2"
         }
       ]
     },
@@ -1200,6 +1040,168 @@
           "id": "tool-level3:gemini-3-8-flash"
         }
       ]
+    },
+    {
+      "id": "vendor-level2:openai:gpt-6",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:openai"
+      },
+      "vendor_key": "openai",
+      "title": "GPT-6",
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+      "summary": "GPT-6ge���\fS_\u0005+ GPT-6 Astran\u000e GPT-5.6 Sol\u0001Terra\u0001Luna O���~�\u0002",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-6"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-5.6-sol"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-5.6-terra"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-5.6-luna"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:openai:gpt-5-5",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:openai"
+      },
+      "vendor_key": "openai",
+      "title": "GPT-5.5",
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-5.5",
+      "summary": "GPT-5.5 系列，面向编码和专业工作；当前包含 GPT-5.5 与 GPT-5.5 Pro。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-5-5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-5-5-pro"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "previous"
+    },
+    {
+      "id": "vendor-level2:openai:gpt-realtime",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:openai"
+      },
+      "vendor_key": "openai",
+      "title": "GPT-Realtime",
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-realtime-2.1",
+      "summary": "OpenAI Realtime 与音频模型系列，覆盖实时语音、翻译、转写和 Chat Completions 音频工作流。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-realtime-2"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-realtime-2-1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-realtime-2-1-mini"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-realtime-translate"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-live-transcribe"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-realtime-whisper"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:openai:gpt-image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:openai"
+      },
+      "vendor_key": "openai",
+      "title": "GPT-Image",
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-image-2",
+      "summary": "OpenAI 图像生成与编辑模型系列，当前包含 gpt-image-2。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-image-2"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:openai:openai-codex",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:openai"
+      },
+      "vendor_key": "openai",
+      "title": "OpenAI Codex",
+      "official_url": "https://openai.com/products/release-notes",
+      "summary": "OpenAI 官方发布的 Codex 产品更新与发布说明，涵盖 ChatGPT 桌面应用、Codex 应用、API 及模型更新。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:openai-codex"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:openai:openai-coding-plan",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:openai"
+      },
+      "vendor_key": "openai",
+      "title": "套餐（Coding Plan）",
+      "official_url": "https://chatgpt.com/pricing/",
+      "summary": "ChatGPT Go、Plus 和 Pro 个人订阅方案；具体权益和地区价格以官方计划页为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-go"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-pro"
+        }
+      ],
+      "series_kind": "subscription_series"
     }
   ]
 }

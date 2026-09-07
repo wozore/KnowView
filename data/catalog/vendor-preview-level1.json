@@ -12,25 +12,21 @@
       "features": [
         {
           "tone": "positive",
-          "text": "优点：GPT-5.6 已在 ChatGPT、Codex 与 OpenAI API 中提供，并按能力、速度和成本分层。"
+          "text": "GPT-6 Astra}���^v�{e\u0011 OpenAI API\u0001ChatGPT \u000e Codex\u0000>\u0002"
         },
         {
           "tone": "negative",
-          "text": "限制：模型可用性会随产品、订阅等级、地区及逐步开放状态变化，需以叶节点条件为准。"
+          "text": "模型可用性会随产品、订阅等级、地区及逐步开放状态变化，需以叶节点条件为准。"
         }
       ],
       "level2_refs": [
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:openai:gpt-5.6"
+          "id": "vendor-level2:openai:gpt-6"
         },
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:openai:gpt-5-5"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:openai:openai-codex"
         },
         {
           "kind": "vendor-level2",
@@ -42,15 +38,11 @@
         },
         {
           "kind": "vendor-level2",
+          "id": "vendor-level2:openai:openai-codex"
+        },
+        {
+          "kind": "vendor-level2",
           "id": "vendor-level2:openai:openai-coding-plan"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:openai:gpt-realtime-2"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:openai:gpt-image-2"
         }
       ]
     },

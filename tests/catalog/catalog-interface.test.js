@@ -34,11 +34,11 @@ test('tool cards and level2 previews expose only owned fields', () => {
   const toolCardFields = new Set([
     'id', 'tool_key', 'vendor_key', 'title', 'vendor_label', 'icon', 'summary', 'theme',
     'scenes', 'best_for_preview', 'not_for_preview', 'price_badge',
-    'access_level', 'search_terms', 'detail_ref', 'detail_kind',
+    'access_level', 'search_terms', 'detail_ref', 'detail_kind', 'model_key', 'visibility', 'historical_since',
   ]);
   const level2Fields = new Set([
     'id', 'level1_ref', 'vendor_key', 'title', 'official_url', 'summary', 'status',
-    'detail_refs',
+    'detail_refs', 'series_kind', 'generation_state',
   ]);
   const cards = catalog({ area: 'tool-card', operation: 'list' }).data;
   const level2 = catalog({ area: 'vendor-level2', operation: 'list' }).data;
@@ -55,6 +55,7 @@ test('level1 and level3 records expose only owned fields', () => {
     'id', 'vendor_key', 'detail_kind', 'theme', 'title', 'vendor_label', 'icon', 'official_url',
     'status', 'summary', 'one_m_context', 'api_pricing', 'plan',
     'applicable_scenarios', 'inapplicable_scenarios', 'sources', 'release_date', 'last_updated_date',
+    'model_key', 'visibility', 'historical_since',
   ]);
   const level1 = catalog({ area: 'vendor-level1', operation: 'list' }).data;
   const level3 = catalog({ area: 'tool-level3', operation: 'list' }).data;
