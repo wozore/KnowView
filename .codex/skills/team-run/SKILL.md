@@ -5,7 +5,7 @@ description: 为复杂任务规划并执行 Research、Architecture、Implementa
 
 # 项目团队调度
 
-先阅读 `AGENTS.md`、`CODEBASE-MAP.md` 和 `.agents/roles/` 中相关契约，评估任务的范围、不确定性、耦合、验证难度和风险。低风险单文件任务直接执行；只有存在独立工作流、上下文隔离或独立验证价值时才委派子任务。
+先阅读 `.codex/AGENTS.md`、`CODEBASE-MAP.md` 和 `.codex/roles/` 中相关契约，评估任务的范围、不确定性、耦合、验证难度和风险。低风险单文件任务直接执行；只有存在独立工作流、上下文隔离或独立验证价值时才委派子任务。
 
 调度规则：
 

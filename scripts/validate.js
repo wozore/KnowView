@@ -7,6 +7,8 @@
 'use strict';
 
 const { main: checkStandards } = require('./check-standards');
+const { main: checkDocuments } = require('./check-document-policy');
+if (checkDocuments() !== 0) process.exit(1);
 if (!checkStandards()) process.exit(1);
 
 require('../src/maintenance/validate');

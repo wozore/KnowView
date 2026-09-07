@@ -69,7 +69,7 @@ data/catalog/.backup/
 !/docs/manual/**/*.md
 
 # ===== 第三方 Skills 插件缓存 =====
-# mattpocock-skills 等第三方 skill 含配置文件，不入库
+# Claude 第三方技能缓存不入库；各工具的项目配置在各自目录独立维护
 .claude/skills/
 
 # ===== Claude Code / AI 工具会话数据 =====

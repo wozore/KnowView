@@ -395,6 +395,7 @@
 - [local-model.test.js](tests/shared/local-model.test.js) — 本地 Bonsai 探测、自动启动、轮询超时、TTL 缓存与测试注入隔离回归。
 - [check-secrets.test.js](tests/maintenance/check-secrets.test.js) — 密钥/高熵扫描与敏感文件门禁回归。
 - [check-standards.test.js](tests/maintenance/check-standards.test.js) — 规范检查器 7 类检测正反例、白名单 count 豁免与 whitelist-growth、fail-closed 与浏览器→shared 盲区回归（临时目录 fixture 隔离，不依赖 src 现状）。
+- [document-policy.test.js](tests/maintenance/document-policy.test.js) — 文档路径、忽略与 Git 暂存状态、扩展名大小写和 Git 失败的离线回归。
 - [env.test.js](tests/maintenance/env.test.js) — `.env` 子集解析、覆盖规则与项目根目录回归。
 - [validate-comparison.test.js](tests/maintenance/validate-comparison.test.js) — integrated 对比数据、raw 快照与引用契约校验回归。
 - [fixtures/x.json](tests/fixtures/x.json) — 新闻管线 X 平台测试夹具。
@@ -412,6 +413,7 @@
 - [catalog-date-repair.js](scripts/catalog-date-repair.js) — 日期字段级修补 CLI；`plan` 只输出字段/来源/revision/preview hash，`apply` 需回传 revision/hash 并输入精确确认值。导出: `readRepair, publicPreview, main`
 - [catalog-date-audit.js](scripts/catalog-date-audit.js) — 纯本地日期语义审计 CLI；默认写入 `data/manual/tools/catalog-date-audit.json`，`--dry-run` 只输出统计，不写文件。导出: `parseArgs, main`
 - [validate.js](scripts/validate.js) — 校验聚合入口
+- [check-document-policy.js](scripts/check-document-policy.js) — 只读文档路径、忽略与 Git 跟踪状态检查，接入 validate。导出: `validateDocumentPaths, checkDocuments, main`
 - [check-standards.js](scripts/check-standards.js) — 零依赖规范静态检查器（validate.js 前置门禁，全部 CI 工作流生效）：依赖方向/垫片/旧契约叙事/体量导出/环/组装纪律/src 文件 CODEBASE-MAP 登记完整性 7 类检测；存量违规白名单 `scripts/check-standards.whitelist.json`（git 跟踪，条目带机器校验 count，白名单文件内违规增长报 whitelist-growth，铁律只减不增）。导出: `runChecks, main`
 - [build-dist.js](scripts/build-dist.js) — src/web + public + data → dist/（维护者入口：bat/build-dist.bat）
 - [browser-acceptance.js](scripts/browser-acceptance.js) — 依赖零安装的 Edge/CDP 真实页面验收：读取被忽略的 `config/browser.local.json`，启动 dist 静态站与临时 Edge profile，检查 18 张模型卡搜索/详情、三级模型对比选择器的厂商/系列展开与模型搜索、revision/degree 交互、旧 Spark/xunfei 隐藏和排除模型不可见。
@@ -466,5 +468,3 @@
 - [catalog-panel.js](src/maintainer-web/js/panels/catalog-panel.js) — 维护者平台目录草稿生成与应用面板。
 - [concept-panel.js](src/maintainer-web/js/panels/concept-panel.js) — 维护者平台概念合成与应用面板。
 - [tool-update-panel.js](src/maintainer-web/js/panels/tool-update-panel.js) — 维护者平台工具更新审核面板。
-
-

@@ -1,7 +1,7 @@
 # Project-scoped Codex settings. Credentials, MCP logins and personal permissions
 # stay in the user-level Codex configuration.
 project_doc_max_bytes = 65536
-project_doc_fallback_filenames = ["TEAM_GUIDE.md", ".agents.md"]
+developer_instructions = "Before doing project work, read .codex/AGENTS.md from the repository root in full, then follow its referenced project standards and workflow index. If a required read or check fails, do not perform dependent file operations; restore the missing checks first."
 
 # Lightweight, fail-open project hooks. They do not read credentials, edit files,
 # invoke MCP servers, or replace Codex approvals.
@@ -10,8 +10,8 @@ matcher = "startup|resume|clear|compact"
 
 [[hooks.SessionStart.hooks]]
 type = "command"
-command = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
-command_windows = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
+command = "node \"$(git rev-parse --show-toplevel)/.codex/scripts/hook.js\""
+command_windows = "node \"$(git rev-parse --show-toplevel)/.codex/scripts/hook.js\""
 timeout = 15
 statusMessage = "Checking project agent configuration"
 
@@ -19,7 +19,7 @@ statusMessage = "Checking project agent configuration"
 
 [[hooks.Stop.hooks]]
 type = "command"
-command = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
-command_windows = "node \"$(git rev-parse --show-toplevel)/scripts/codex-hook.js\""
+command = "node \"$(git rev-parse --show-toplevel)/.codex/scripts/hook.js\""
+command_windows = "node \"$(git rev-parse --show-toplevel)/.codex/scripts/hook.js\""
 timeout = 15
-statusMessage = "Checking patch formatting"
+statusMessage = "Checking document policy and patch formatting"
