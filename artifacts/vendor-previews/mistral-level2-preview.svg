@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1900" viewBox="0 0 1800 1900" role="img" aria-labelledby="title desc">
+  <title id="title">Mistral AI 二级结构预览（现有 / 候选 / 待确认）</title>
+  <desc id="desc">只读探测预览，不代表已批准的正式目录变更。调查日期 2026-09-07，计划 cutoff 2025-07-01。</desc>
+  <style>
+    .bg{fill:#f7f8fa}.title{font:700 34px sans-serif;fill:#172033}.subtitle{font:16px sans-serif;fill:#526070}.section{font:700 23px sans-serif;fill:#172033}.label{font:700 17px sans-serif;fill:#172033}.body{font:15px sans-serif;fill:#293548}.small{font:13px sans-serif;fill:#526070}.tiny{font:12px sans-serif;fill:#526070}.card{fill:#fff;stroke:#d5dbe5;stroke-width:2}.existing{fill:#ecfdf3;stroke:#36a269;stroke-width:2}.candidate{fill:#eff6ff;stroke:#4d86d9;stroke-width:2}.pending{fill:#fff8e6;stroke:#d99b21;stroke-width:2}.excluded{fill:#fff1f2;stroke:#d05b66;stroke-width:2}.product{fill:#f5f0ff;stroke:#8b6bcc;stroke-width:2}.line{stroke:#7b8797;stroke-width:2;fill:none}.dash{stroke:#d99b21;stroke-width:2;stroke-dasharray:8 7;fill:none}.pill-existing{fill:#36a269}.pill-candidate{fill:#4d86d9}.pill-pending{fill:#d99b21}.pill-excluded{fill:#d05b66}.pill-product{fill:#8b6bcc}.pilltext{font:700 12px sans-serif;fill:#fff}.url{font:12px monospace;fill:#315d9c}
+  </style>
+  <rect class="bg" width="1800" height="1900"/>
+  <text x="70" y="65" class="title">Mistral AI · 二级结构预览</text>
+  <text x="70" y="98" class="subtitle">只读探测产物 · 调查日期 2026-09-07 · cutoff 2025-07-01 · 不代表正式目录已批准</text>
+
+  <g transform="translate(70 135)">
+    <rect class="card" width="1660" height="112" rx="14"/>
+    <text x="24" y="34" class="section">图例</text>
+    <rect x="120" y="17" width="82" height="25" rx="12" class="pill-existing"/><text x="161" y="35" text-anchor="middle" class="pilltext">现有</text>
+    <rect x="225" y="17" width="82" height="25" rx="12" class="pill-candidate"/><text x="266" y="35" text-anchor="middle" class="pilltext">候选</text>
+    <rect x="330" y="17" width="82" height="25" rx="12" class="pill-pending"/><text x="371" y="35" text-anchor="middle" class="pilltext">待确认</text>
+    <rect x="435" y="17" width="82" height="25" rx="12" class="pill-excluded"/><text x="476" y="35" text-anchor="middle" class="pilltext">排除/下线</text>
+    <rect x="540" y="17" width="82" height="25" rx="12" class="pill-product"/><text x="581" y="35" text-anchor="middle" class="pilltext">产品/工具</text>
+    <text x="24" y="75" class="small">项目现状：vendor-level2:mistral:mistral 目前只引用 Mistral Medium 3.5 与 Mistral Large 3。</text>
+    <text x="24" y="96" class="small">本图把模型卡、产品/工具、生命周期冲突和 cutoff 排除项分开，未写入 catalog、policy、registry 或 shared projection。</text>
+  </g>
+
+  <text x="70" y="310" class="section">现有二级卡片（正式目录当前状态）</text>
+  <path d="M900 330 L900 390" class="line"/>
+  <g transform="translate(600 330)">
+    <rect class="existing" width="600" height="98" rx="14"/>
+    <rect x="20" y="16" width="82" height="25" rx="12" class="pill-existing"/><text x="61" y="34" text-anchor="middle" class="pilltext">现有</text>
+    <text x="122" y="36" class="label">Mistral 模型</text>
+    <text x="20" y="65" class="small">vendor-level2:mistral:mistral · active · detail_refs = 2</text>
+    <text x="20" y="84" class="url">https://mistral.ai/pricing/api/</text>
+  </g>
+  <path d="M900 428 L900 470" class="line"/>
+  <g transform="translate(100 470)">
+    <rect class="existing" width="700" height="110" rx="14"/>
+    <rect x="20" y="17" width="82" height="25" rx="12" class="pill-existing"/><text x="61" y="35" text-anchor="middle" class="pilltext">现有</text>
+    <text x="122" y="37" class="label">Mistral Medium 3.5</text>
+    <text x="20" y="66" class="body">api_model · tool-level3:mistral-medium-3.5 · tool card 已存在</text>
+    <text x="20" y="88" class="small">多模态 / agentic / coding · 官方页面 v26.04 · $1.5 / $7.5 每百万 tokens</text>
+    <text x="20" y="103" class="url">https://docs.mistral.ai/models/mistral-medium-3-5-26-04</text>
+  </g>
+  <g transform="translate(1000 470)">
+    <rect class="existing" width="700" height="110" rx="14"/>
+    <rect x="20" y="17" width="82" height="25" rx="12" class="pill-existing"/><text x="61" y="35" text-anchor="middle" class="pilltext">现有</text>
+    <text x="122" y="37" class="label">Mistral Large 3</text>
+    <text x="20" y="66" class="body">api_model · tool-level3:mistral-large-3 · tool card 已存在</text>
+    <text x="20" y="88" class="small">开放权重多模态 · 官方页面 v25.12 · $0.5 / $1.5 每百万 tokens</text>
+    <text x="20" y="103" class="url">https://docs.mistral.ai/models/mistral-large-3-25-12</text>
+  </g>
+
+  <text x="70" y="650" class="section">候选二级分组（待用户确认后才可落盘）</text>
+  <text x="70" y="680" class="subtitle">建议先按产品/能力面分组探讨；这不是对当前 llm-series-policy 的自动修改。</text>
+
+  <g transform="translate(70 710)">
+    <rect class="candidate" width="500" height="240" rx="14"/>
+    <rect x="20" y="18" width="82" height="25" rx="12" class="pill-candidate"/><text x="61" y="36" text-anchor="middle" class="pilltext">候选</text>
+    <text x="122" y="38" class="label">通用与图像理解</text>
+    <text x="20" y="72" class="body">建议二级：Mistral 通用/多模态</text>
+    <text x="20" y="100" class="body">• Mistral Small 4 · v26.03</text>
+    <text x="20" y="124" class="body">• Ministral 3 3B / 8B / 14B · v25.12</text>
+    <text x="20" y="148" class="body">• Medium 3.5、Large 3（现有成员）</text>
+    <text x="20" y="181" class="small">官方支持图像输入/视觉理解；没有独立“图像理解”工具卡。</text>
+    <text x="20" y="202" class="url">https://docs.mistral.ai/studio/conversations/vision</text>
+    <text x="20" y="220" class="url">https://docs.mistral.ai/models/mistral-small-4-0-26-03</text>
+  </g>
+  <g transform="translate(650 710)">
+    <rect class="candidate" width="500" height="240" rx="14"/>
+    <rect x="20" y="18" width="82" height="25" rx="12" class="pill-candidate"/><text x="61" y="36" text-anchor="middle" class="pilltext">候选</text>
+    <text x="122" y="38" class="label">音频与语音</text>
+    <text x="20" y="72" class="body">建议二级：Voxtral 音频</text>
+    <text x="20" y="100" class="body">• Voxtral Small · v25.07 · $0.004/min</text>
+    <text x="20" y="124" class="body">• Mini Transcribe 2 · v26.02 · $0.003/min</text>
+    <text x="20" y="148" class="body">• Mini Transcribe Realtime · v26.02 · $0.006/min</text>
+    <text x="20" y="172" class="body">• Voxtral TTS · v26.03 · $0.016/千字符</text>
+    <text x="20" y="205" class="url">https://docs.mistral.ai/studio/audio/overview</text>
+    <text x="20" y="223" class="url">https://docs.mistral.ai/models/voxtral-tts-26-03</text>
+  </g>
+  <g transform="translate(1230 710)">
+    <rect class="candidate" width="500" height="240" rx="14"/>
+    <rect x="20" y="18" width="82" height="25" rx="12" class="pill-candidate"/><text x="61" y="36" text-anchor="middle" class="pilltext">候选</text>
+    <text x="122" y="38" class="label">文档与 OCR</text>
+    <text x="20" y="72" class="body">建议二级：Mistral Document AI</text>
+    <text x="20" y="100" class="body">• OCR 4.1 · v4.1 · $4/1000 pages</text>
+    <text x="20" y="124" class="body">• OCR 4.0 · v4.0 · 兼容/历史候选</text>
+    <text x="20" y="148" class="body">• OCR 3 · v25.12 · 仍为既有集成可用</text>
+    <text x="20" y="181" class="small">OCR 4.1 于 2026-07-16 发布，2026-08-31 GA；latest 已指向 4.1。</text>
+    <text x="20" y="202" class="url">https://docs.mistral.ai/models/ocr-4-1</text>
+    <text x="20" y="220" class="url">https://docs.mistral.ai/studio/document-processing/annotations</text>
+  </g>
+
+  <g transform="translate(70 990)">
+    <rect class="candidate" width="500" height="220" rx="14"/>
+    <rect x="20" y="18" width="82" height="25" rx="12" class="pill-candidate"/><text x="61" y="36" text-anchor="middle" class="pilltext">候选</text>
+    <text x="122" y="38" class="label">代码与检索</text>
+    <text x="20" y="72" class="body">建议二级：Coding / Retrieval</text>
+    <text x="20" y="100" class="body">• Codestral · v25.08 · $0.3 / $0.9 每百万 tokens</text>
+    <text x="20" y="124" class="body">• Codestral Embed · v25.05 · $0.15/M</text>
+    <text x="20" y="148" class="body">• Mistral Embed · v23.12 · $0.1/M</text>
+    <text x="20" y="180" class="small">注意：两个 embedding 的 release_date 早于 cutoff，按计划不能进入本轮可见新增。</text>
+    <text x="20" y="201" class="url">https://docs.mistral.ai/models/codestral-25-08</text>
+  </g>
+  <g transform="translate(650 990)">
+    <rect class="candidate" width="500" height="220" rx="14"/>
+    <rect x="20" y="18" width="82" height="25" rx="12" class="pill-candidate"/><text x="61" y="36" text-anchor="middle" class="pilltext">候选</text>
+    <text x="122" y="38" class="label">安全与 Moderation</text>
+    <text x="20" y="72" class="body">建议二级：Safety / Moderation</text>
+    <text x="20" y="100" class="body">• Mistral Moderation 2 · v26.03 · 免费 API</text>
+    <text x="20" y="124" class="body">• Shieldstral 1.0 · v1.0 · 官方模型页</text>
+    <text x="20" y="156" class="small">Moderation 2 有 /v1/moderations API；Shieldstral 的商业/API可访问性仍需确认。</text>
+    <text x="20" y="178" class="url">https://docs.mistral.ai/models/mistral-moderation-26-03</text>
+    <text x="20" y="199" class="url">https://docs.mistral.ai/models/shieldstral-1-0</text>
+  </g>
+  <g transform="translate(1230 990)">
+    <rect class="pending" width="500" height="220" rx="14"/>
+    <rect x="20" y="18" width="82" height="25" rx="12" class="pill-pending"/><text x="61" y="36" text-anchor="middle" class="pilltext">待确认</text>
+    <text x="122" y="38" class="label">代码 Agent / Harness</text>
+    <text x="20" y="72" class="body">不建议直接生成模型卡或工具卡</text>
+    <text x="20" y="100" class="body">• Devstral 2：Vibe 文档称可用/收费</text>
+    <text x="20" y="124" class="body">• 模型总览同时列入 Deprecated &amp; retired</text>
+    <text x="20" y="148" class="body">• Mistral Vibe：正式产品/CLI/IDE/Web 工具</text>
+    <text x="20" y="180" class="small">需先登记 official-product-url-registry.json，并解决 Devstral 生命周期冲突。</text>
+    <text x="20" y="201" class="url">https://mistral.ai/products/vibe/code/</text>
+  </g>
+
+  <text x="70" y="1285" class="section">仅产品 / 工具（不是三级模型卡）</text>
+  <g transform="translate(70 1310)">
+    <rect class="product" width="1660" height="160" rx="14"/>
+    <rect x="20" y="18" width="102" height="25" rx="12" class="pill-product"/><text x="71" y="36" text-anchor="middle" class="pilltext">产品/工具</text>
+    <text x="145" y="38" class="label">Vibe（Work / Code / Chat）、Studio、Admin、Forge、Compute</text>
+    <text x="20" y="74" class="body">平台产品：Vibe 是统一生产力/代码 Agent；Studio 是开发者控制台与 API；Admin 是组织控制面；Forge 是企业模型定制；Compute 是训练/推理基础设施。</text>
+    <text x="20" y="101" class="body">Agents API 内置工具：image_generation、web_search、web_search_premium、code_interpreter、document_library、Libraries。</text>
+    <text x="20" y="128" class="small">图像生成可通过 Mistral Agent 调用，但官方文档说明 Vibe Work 使用 Black Forest Labs 模型；不应伪造为 Mistral 自有图像模型。</text>
+    <text x="20" y="148" class="url">https://docs.mistral.ai/getting-started/platform-overview · https://docs.mistral.ai/studio/agents/agent-tools/image_generation</text>
+  </g>
+
+  <text x="70" y="1540" class="section">排除、下线或超 cutoff 项</text>
+  <g transform="translate(70 1565)">
+    <rect class="excluded" width="1660" height="210" rx="14"/>
+    <rect x="20" y="18" width="102" height="25" rx="12" class="pill-excluded"/><text x="71" y="36" text-anchor="middle" class="pilltext">排除/下线</text>
+    <text x="145" y="38" class="label">本轮不生成可见三级卡</text>
+    <text x="20" y="75" class="body">• Codestral Embed（2025-05-28）与 Mistral Embed（2023-12）：官方存在且有定价，但 release_date 早于 2025-07-01 cutoff。</text>
+    <text x="20" y="101" class="body">• Mistral Medium 3.1、Mistral Small 3.2、Voxtral Mini Transcribe、Devstral 2 等：官方模型页列入 Deprecated &amp; retired；不自动新增。</text>
+    <text x="20" y="127" class="body">• 纯开源/本地优先项目：若无法确认统一官方 API/商业入口，不生成模型卡、工具卡或价格字段。</text>
+    <text x="20" y="153" class="body">• 视频生成/视频理解：本轮官方模型总览与 API 文档未发现独立 Mistral 视频模型或视频 API；不生成候选。</text>
+    <text x="20" y="183" class="url">https://docs.mistral.ai/models · https://docs.mistral.ai/resources/changelogs</text>
+  </g>
+
+  <text x="70" y="1840" class="tiny">证据类型：Mistral 官方模型页、官方文档、官方定价页、官方新闻/产品页。状态仅用于本次探测预览；最终归类、命名、生命周期与工具登记需用户确认。</text>
+</svg>

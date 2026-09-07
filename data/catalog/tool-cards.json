@@ -2767,6 +2767,38 @@
       "detail_kind": "api_model"
     },
     {
+      "id": "tool-card:glm-4-7-flash",
+      "tool_key": "glm-4-7-flash",
+      "vendor_key": "zhipu",
+      "title": "GLM-4.7 Flash",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "summary": "GLM Flash 系列轻量高吞吐模型，官方提供免费 API 入口。",
+      "theme": "general",
+      "scenes": [
+        "低成本编码与智能体调用",
+        "高吞吐文本生成",
+        "日常问答与自动化任务"
+      ],
+      "best_for_preview": "需要低成本、低延迟和高吞吐的编码与自动化任务。",
+      "not_for_preview": "需要旗舰模型深度推理或超长复杂任务的场景。",
+      "price_badge": "free",
+      "access_level": "开放",
+      "search_terms": [
+        "GLM-4.7 Flash",
+        "GLM Flash",
+        "智谱 AI",
+        "glm-4-7-flash",
+        "编码",
+        "智能体"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:glm-4-7-flash"
+      },
+      "detail_kind": "api_model"
+    },
+    {
       "id": "tool-card:qwen3-8-flash",
       "tool_key": "qwen3-8-flash",
       "vendor_key": "alibaba",

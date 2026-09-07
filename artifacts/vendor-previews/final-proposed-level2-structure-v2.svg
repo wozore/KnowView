@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="980" viewBox="0 0 1500 980">
+<rect width="1500" height="980" fill="#f7f8fa"/>
+<style>text{font-family:Arial,'Microsoft YaHei',sans-serif}.vendor{font-size:28px;font-weight:700}.group{font-size:20px;font-weight:700}.body{font-size:16px}.note{font-size:17px}</style>
+<text x="50" y="55" font-size="32" font-weight="700" fill="#172033">三厂商拟定二级结构（保留原有数据版）</text>
+<text x="50" y="88" class="note" fill="#5b6577">原有模型全部保留；14个月窗口与商业计费规则只筛选新增候选｜拟定稿，不写入正式目录</text>
+<text x="50" y="122" class="note" fill="#6b4d00">绿色=可选择添加　蓝色=原有/保留　橙色=需补证　灰色=产品工具　红色=排除</text>
+<g transform="translate(50,155)">
+<rect width="440" height="750" rx="16" fill="#eef5ff" stroke="#6b9ee8" stroke-width="2"/>
+<text x="22" y="42" class="vendor" fill="#1d4f91">智谱 AI</text>
+<rect x="18" y="65" width="404" height="185" rx="10" fill="#d9eaff"/>
+<text x="34" y="98" class="group" fill="#164b8f">GLM 系列（原有二级组）</text>
+<text x="34" y="130" class="body" fill="#164b8f">• GLM-5.3（现有，保留）</text>
+<text x="34" y="157" class="body" fill="#164b8f">• GLM-5.2（现有，保留）</text>
+<text x="34" y="184" class="body" fill="#164b8f">• GLM-5.3 Flash（现有，保留）</text>
+<text x="34" y="211" class="body" fill="#164b8f">• 原有工具卡、策略引用和键值保留</text>
+<rect x="18" y="268" width="404" height="185" rx="10" fill="#dff7e7"/>
+<text x="34" y="301" class="group" fill="#1d6b3f">新增候选（有商业计费）</text>
+<text x="34" y="333" class="body" fill="#1d6b3f">• GLM-Image · CogView-4</text>
+<text x="34" y="360" class="body" fill="#1d6b3f">• GLM-5V-Turbo · GLM-4.6V · GLM-OCR</text>
+<text x="34" y="387" class="body" fill="#1d6b3f">• CogVideoX-3 · GLM-ASR-2512</text>
+<text x="34" y="414" class="body" fill="#1d6b3f">• Embedding-2（¥0.5/M tokens）</text>
+<rect x="18" y="471" width="404" height="104" rx="10" fill="#fff0d0"/>
+<text x="34" y="504" class="group" fill="#a66100">需补证</text><text x="34" y="536" class="body" fill="#a66100">• GLM-TTS · TTS-Clone · Rerank</text>
+<rect x="18" y="593" width="404" height="130" rx="10" fill="#ffe2e0"/>
+<text x="34" y="626" class="group" fill="#a12b2b">排除新增</text><text x="34" y="658" class="body" fill="#a12b2b">• 弃用、超窗口、第三方 Vidu</text><text x="34" y="685" class="body" fill="#a12b2b">• 不删除原有合法数据</text>
+</g>
+<g transform="translate(530,155)">
+<rect width="440" height="750" rx="16" fill="#fff8ed" stroke="#e0a557" stroke-width="2"/>
+<text x="22" y="42" class="vendor" fill="#885011">文心 / 百度</text>
+<rect x="18" y="65" width="404" height="185" rx="10" fill="#ffe9c2"/>
+<text x="34" y="98" class="group" fill="#84520d">ERNIE（原有二级组）</text>
+<text x="34" y="130" class="body" fill="#84520d">• ERNIE 5.1（现有，保留）</text>
+<text x="34" y="157" class="body" fill="#84520d">• ERNIE 5.0（现有，保留）</text>
+<text x="34" y="184" class="body" fill="#a66100">• ERNIE 4.5 Turbo VL（待计费证据）</text>
+<text x="34" y="211" class="body" fill="#a66100">• Qianfan-VL / OCR（逐项补证）</text>
+<rect x="18" y="268" width="404" height="185" rx="10" fill="#dff7e7"/>
+<text x="34" y="301" class="group" fill="#1d6b3f">新增候选（有商业计费）</text>
+<text x="34" y="333" class="body" fill="#1d6b3f">• MuseSteamer Air Image</text>
+<text x="34" y="360" class="body" fill="#1d6b3f">• MuseSteamer 2.x I2V</text>
+<text x="34" y="387" class="body" fill="#1d6b3f">• Embedding-V1 · tao-8k</text>
+<text x="34" y="414" class="body" fill="#1d6b3f">• bce-reranker-base</text>
+<rect x="18" y="471" width="404" height="104" rx="10" fill="#e6e8ed"/>
+<text x="34" y="504" class="group" fill="#4f5968">产品 / 平台</text><text x="34" y="536" class="body" fill="#4f5968">• AppBuilder · Agent · Coding Plan · 语音服务</text>
+<rect x="18" y="593" width="404" height="130" rx="10" fill="#ffe2e0"/>
+<text x="34" y="626" class="group" fill="#a12b2b">排除新增</text><text x="34" y="658" class="body" fill="#a12b2b">• Qwen · DeepSeek · BGE 等第三方模型</text><text x="34" y="685" class="body" fill="#a12b2b">• 已下线旧模型；不删除原有合法数据</text>
+</g>
+<g transform="translate(1010,155)">
+<rect width="440" height="750" rx="16" fill="#f1edff" stroke="#9076d8" stroke-width="2"/>
+<text x="22" y="42" class="vendor" fill="#554197">Mistral AI</text>
+<rect x="18" y="65" width="404" height="185" rx="10" fill="#e1dcff"/>
+<text x="34" y="98" class="group" fill="#554197">现有模型二级组（全部保留）</text>
+<text x="34" y="130" class="body" fill="#554197">• Medium 3.5 · Large 3 · Small 4</text>
+<text x="34" y="157" class="body" fill="#554197">• Ministral 3 3B / 8B / 14B</text>
+<text x="34" y="184" class="body" fill="#554197">• 现有视觉能力与工具卡保留</text>
+<text x="34" y="211" class="body" fill="#554197">• 不因开源而删除有商业 API 的模型</text>
+<rect x="18" y="268" width="404" height="185" rx="10" fill="#dff7e7"/>
+<text x="34" y="301" class="group" fill="#1d6b3f">新增候选（有商业计费）</text>
+<text x="34" y="333" class="body" fill="#1d6b3f">• OCR 3 · OCR 4.0 · OCR 4.1</text>
+<text x="34" y="360" class="body" fill="#1d6b3f">• Voxtral Small / Transcribe / Realtime</text>
+<text x="34" y="387" class="body" fill="#1d6b3f">• Voxtral TTS · Moderation 2</text>
+<text x="34" y="414" class="body" fill="#1d6b3f">• Codestral</text>
+<rect x="18" y="471" width="404" height="104" rx="10" fill="#e6e8ed"/>
+<text x="34" y="504" class="group" fill="#4f5968">产品 / 平台</text><text x="34" y="536" class="body" fill="#4f5968">• Vibe · Studio · Agents · Forge · Compute</text>
+<rect x="18" y="593" width="404" height="130" rx="10" fill="#ffe2e0"/>
+<text x="34" y="626" class="group" fill="#a12b2b">排除新增</text><text x="34" y="658" class="body" fill="#a12b2b">• Shieldstral · Devstral 2 · Leanstral 1.5</text><text x="34" y="685" class="body" fill="#a12b2b">• 旧 Embedding；不删除原有合法数据</text>
+</g>
+</svg>

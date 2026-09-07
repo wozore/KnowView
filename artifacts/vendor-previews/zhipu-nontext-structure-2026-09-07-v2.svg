@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1260" viewBox="0 0 1600 1260" role="img" aria-labelledby="title desc">
+  <title id="title">智谱AI非文本模型与产品筛选预览 v2</title>
+  <desc id="desc">依据商业 API 或计价入口筛选规则，将智谱候选分为保留、补证、排除和产品工具。</desc>
+  <style>
+    .bg{fill:#f7f8fc}.title{font:700 34px "Microsoft YaHei",sans-serif;fill:#182033}.sub{font:18px "Microsoft YaHei",sans-serif;fill:#536078}.section{font:700 22px "Microsoft YaHei",sans-serif;fill:#182033}.text{font:16px "Microsoft YaHei",sans-serif;fill:#263248}.small{font:14px "Microsoft YaHei",sans-serif;fill:#536078}.tiny{font:12px "Segoe UI","Microsoft YaHei",sans-serif;fill:#536078}.box{stroke-width:2}.keep{fill:#e9f8ee;stroke:#2f9e5b}.proof{fill:#fff4dc;stroke:#c9821e}.drop{fill:#fdebec;stroke:#c94c56}.product{fill:#f1eaff;stroke:#7b4bb3}.existing{fill:#e8f1ff;stroke:#3973c6}.tag{font:700 15px "Microsoft YaHei",sans-serif}.rule{fill:#fff;stroke:#d6dbea;stroke-width:2}
+  </style>
+  <rect class="bg" width="1600" height="1260"/>
+  <text class="title" x="70" y="62">智谱AI：非文本模型与产品筛选预览 v2</text>
+  <text class="sub" x="70" y="96">调查日期：2026-09-07　cutoff：2025-07-01　正式目录：保持不变</text>
+
+  <rect class="rule" x="70" y="124" width="1460" height="88" rx="12"/>
+  <text class="tag" x="94" y="157" fill="#182033">最新筛选规则</text>
+  <text class="text" x="94" y="184">保留 = 可核验官方商业 API 或商业产品计价；开源但有官方商业 API 仍保留。</text>
+  <text class="text" x="94" y="207">补证 = 有官方 API 但缺明确价格；排除 = 仅本地/开源无商业入口或已弃用；产品/工具独立归类。</text>
+
+  <text class="section" x="70" y="258">一、现有正式目录（不变）</text>
+  <rect class="existing box" x="70" y="278" width="700" height="112" rx="14"/>
+  <text class="tag" x="95" y="312" fill="#3973c6">GLM 5 二级</text>
+  <text class="text" x="95" y="342">GLM-5.1、GLM-5.2、GLM-5.3</text>
+  <text class="small" x="95" y="370">仅作现状显示；本图不批准任何目录修改。</text>
+  <rect class="existing box" x="800" y="278" width="700" height="112" rx="14"/>
+  <text class="tag" x="825" y="312" fill="#3973c6">GLM 5.3 Flash 二级</text>
+  <text class="text" x="825" y="342">GLM-5.3-Flash</text>
+  <text class="small" x="825" y="370">仅作现状显示；发布日期差异仍待正式复核。</text>
+
+  <text class="section" x="70" y="440">二、模型候选筛选结果</text>
+  <rect class="keep box" x="70" y="460" width="475" height="310" rx="14"/>
+  <text class="tag" x="96" y="496" fill="#2f9e5b">保留：商业 API/计价已核验</text>
+  <text class="text" x="96" y="532">图像：GLM-Image、CogView-4</text>
+  <text class="text" x="96" y="562">视觉/OCR：GLM-5V-Turbo、GLM-4.6V、GLM-OCR</text>
+  <text class="text" x="96" y="592">视频：CogVideoX-3</text>
+  <text class="text" x="96" y="622">语音：GLM-ASR-2512、GLM-Realtime</text>
+  <text class="text" x="96" y="652">检索：Embedding-3</text>
+  <text class="small" x="96" y="690">例：GLM-Image/CogView-4 虽开放权重，</text>
+  <text class="small" x="96" y="714">但官方 API 与按图计价入口可核验，因此保留。</text>
+  <text class="tiny" x="96" y="748">官方：docs.z.ai/guides/overview/pricing</text>
+
+  <rect class="proof box" x="565" y="460" width="475" height="310" rx="14"/>
+  <text class="tag" x="591" y="496" fill="#c9821e">补证：缺明确价格或计费方式</text>
+  <text class="text" x="591" y="532">GLM-TTS、GLM-TTS-Clone</text>
+  <text class="text" x="591" y="562">Embedding-2、Rerank</text>
+  <text class="text" x="591" y="592">GLM-4-Voice</text>
+  <text class="small" x="591" y="634">已有官方功能/API文档，但当前证据包</text>
+  <text class="small" x="591" y="658">未核验到足够明确的商业计价入口。</text>
+  <text class="small" x="591" y="700">补证完成前不得生成三级模型卡。</text>
+  <text class="tiny" x="591" y="744">官方 API 文档仅证明可调用，不自动等于可计价。</text>
+
+  <rect class="drop box" x="1060" y="460" width="470" height="310" rx="14"/>
+  <text class="tag" x="1086" y="496" fill="#c94c56">排除：无商业入口或已弃用</text>
+  <text class="text" x="1086" y="532">本轮上一轮保留候选中：</text>
+  <text class="text" x="1086" y="562">没有确认属于“仅本地/开源”的项目，</text>
+  <text class="text" x="1086" y="592">因为 GLM-Image、CogView-4 均有官方 API。</text>
+  <text class="text" x="1086" y="636">已弃用：GLM-Z1 系列、GLM-4-0520</text>
+  <text class="text" x="1086" y="666">即将下线：GLM-4.5-Flash</text>
+  <text class="small" x="1086" y="710">旧版 GLM-ASR（2025-04-23）早于 cutoff，</text>
+  <text class="small" x="1086" y="734">不作为本轮新增候选。</text>
+
+  <text class="section" x="70" y="820">三、产品 / 工具单列</text>
+  <rect class="product box" x="70" y="840" width="700" height="226" rx="14"/>
+  <text class="tag" x="96" y="876" fill="#7b4bb3">产品 / Harness / Agent</text>
+  <text class="text" x="96" y="912">ZCode：官方 GLM-5.3 编程 Harness</text>
+  <text class="text" x="96" y="942">AutoClaw：官方 Agent 工作流产品</text>
+  <text class="text" x="96" y="972">GLM Coding Plan：订阅产品，不生成模型卡</text>
+  <text class="text" x="96" y="1002">Slide/Poster、Translation、Video Template Agent</text>
+  <text class="small" x="96" y="1038">ZCode 若纳入工具卡，先登记 official-product-url-registry。</text>
+
+  <rect class="product box" x="800" y="840" width="730" height="226" rx="14"/>
+  <text class="tag" x="826" y="876" fill="#7b4bb3">平台 API / 外部接入边界</text>
+  <text class="text" x="826" y="912">Moderation：商业内容安全 API，产品边界待确认</text>
+  <text class="text" x="826" y="942">Vidu Q1、Vidu 2：平台接入的外部视频产品</text>
+  <text class="text" x="826" y="972">不直接归入智谱自有模型卡</text>
+  <text class="small" x="826" y="1012">模型、产品、平台工具三类必须分别走对应登记契约。</text>
+
+  <text class="section" x="70" y="1120">四、官方来源与验收边界</text>
+  <text class="tiny" x="70" y="1150">模型总览：docs.bigmodel.cn/cn/guide/start/model-overview</text>
+  <text class="tiny" x="70" y="1172">发布记录：docs.bigmodel.cn/cn/update/new-releases</text>
+  <text class="tiny" x="70" y="1194">图像/视频/视觉：docs.z.ai/guides/image/ · docs.z.ai/guides/video/ · docs.z.ai/guides/vlm/</text>
+  <text class="tiny" x="70" y="1216">产品：zcode.z.ai/cn · autoclaw.z.ai/models/　　本图仅为预览，不构成用户确认。</text>
+</svg>

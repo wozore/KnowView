@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1380" viewBox="0 0 1800 1380" role="img" aria-labelledby="title desc">
+  <title id="title">文心（百度）二级结构与非文本产品探测预览</title>
+  <desc id="desc">只读探测预览：绿色为当前目录，蓝色为保留候选，紫色为补证候选，琥珀色为产品或工具，红色为排除或 cutoff。</desc>
+  <style>
+    text { font-family: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; fill: #172033; }
+    .title { font-size: 30px; font-weight: 700; }
+    .subtitle { font-size: 16px; fill: #536078; }
+    .section { font-size: 21px; font-weight: 700; }
+    .node-title { font-size: 18px; font-weight: 700; }
+    .node-text { font-size: 15px; }
+    .small { font-size: 13px; fill: #536078; }
+    .existing { fill: #e9f7ee; stroke: #2e8b57; }
+    .candidate { fill: #edf5ff; stroke: #3478c5; }
+    .product { fill: #fff6df; stroke: #bd7a00; }
+    .excluded { fill: #fff0f0; stroke: #c44949; }
+    .confirm { fill: #f3edff; stroke: #7957b7; }
+    .root { fill: #eef1f7; stroke: #3e4a61; }
+    .line { stroke: #8792a6; stroke-width: 2; fill: none; }
+    .source { font-size: 13px; fill: #315f9c; }
+  </style>
+  <rect width="1800" height="1380" fill="#ffffff"/>
+  <text x="60" y="55" class="title">文心（百度）二级结构与非文本产品探测预览</text>
+  <text x="60" y="84" class="subtitle">调查日期：2026-09-07 ｜ 计划 cutoff：2025-07-01 ｜ 只读草图，未修改正式目录数据</text>
+
+  <rect x="60" y="115" width="240" height="54" rx="10" class="root"/>
+  <text x="180" y="148" text-anchor="middle" class="node-title">vendor-level1:baidu</text>
+  <text x="180" y="165" text-anchor="middle" class="small">百度 / 文心</text>
+  <path d="M300 142 H370" class="line"/>
+  <rect x="370" y="105" width="350" height="74" rx="10" class="existing"/>
+  <text x="545" y="137" text-anchor="middle" class="node-title">现有二级：ERNIE 模型</text>
+  <text x="545" y="160" text-anchor="middle" class="small">vendor-level2:baidu:ernie</text>
+
+  <path d="M720 142 H790" class="line"/>
+  <rect x="790" y="105" width="300" height="74" rx="10" class="existing"/>
+  <text x="940" y="137" text-anchor="middle" class="node-title">现有三级模型卡</text>
+  <text x="940" y="160" text-anchor="middle" class="node-text">ERNIE 5.1 ｜ ERNIE 5.0</text>
+
+  <text x="60" y="240" class="section">建议候选：可表达为三级模型卡（均需后续确认与完整字段研究）</text>
+
+  <rect x="60" y="265" width="390" height="170" rx="12" class="candidate"/>
+  <text x="80" y="295" class="node-title">文本 / 推理 / Agent 模型</text>
+  <text x="80" y="325" class="node-text">ERNIE X1.1（64K，正式 API）</text>
+  <text x="80" y="351" class="node-text">ERNIE 4.5 Turbo 128K</text>
+  <text x="80" y="377" class="node-text">Qianfan-FuncCaller（工具调用）</text>
+  <text x="80" y="408" class="small">后续决定：并入 ERNIE 组或新增专用 L2</text>
+
+  <rect x="480" y="265" width="390" height="170" rx="12" class="candidate"/>
+  <text x="500" y="295" class="node-title">图像 / 视频理解模型</text>
+  <text x="500" y="325" class="node-text">ERNIE 4.5 Turbo VL</text>
+  <text x="500" y="351" class="node-text">Qianfan-VL-70B / Qianfan-VL-8B</text>
+  <text x="500" y="377" class="node-text">Qianfan-SinglePicOCR</text>
+  <text x="500" y="403" class="node-text">Qianfan-EngCard-VL / Qianfan-OCR-Fast</text>
+
+  <rect x="900" y="265" width="390" height="170" rx="12" class="candidate"/>
+  <text x="920" y="295" class="node-title">图像 / 视频生成模型</text>
+  <text x="920" y="325" class="node-text">ERNIE-iRAG-1.0</text>
+  <text x="920" y="351" class="node-text">MuseSteamer Air Image</text>
+  <text x="920" y="377" class="node-text">MuseSteamer 2.1 Turbo/Lite I2V</text>
+  <text x="920" y="403" class="node-text">MuseSteamer 2.0 Audio/Effect/Pro I2V</text>
+
+  <rect x="1320" y="265" width="390" height="170" rx="12" class="candidate"/>
+  <text x="1340" y="295" class="node-title">向量 / 重排序模型</text>
+  <text x="1340" y="325" class="node-text">Embedding-V1（384 维）</text>
+  <text x="1340" y="351" class="node-text">tao-8k（1024 维）</text>
+  <text x="1340" y="377" class="node-text">bce-reranker-base</text>
+  <text x="1340" y="408" class="small">官方 API 与价格页均有登记</text>
+
+  <text x="60" y="490" class="section">产品 / 工具形态：不直接作为模型卡</text>
+
+  <rect x="60" y="515" width="390" height="135" rx="12" class="product"/>
+  <text x="80" y="547" class="node-title">语音 / 音频开放能力</text>
+  <text x="80" y="578" class="node-text">短语音识别、音频文件转写</text>
+  <text x="80" y="604" class="node-text">短/长文本语音合成、音色库</text>
+  <text x="80" y="630" class="small">更适合 product_variant 或产品卡</text>
+
+  <rect x="480" y="515" width="390" height="135" rx="12" class="product"/>
+  <text x="500" y="547" class="node-title">千帆 AppBuilder / Agent 平台</text>
+  <text x="500" y="578" class="node-text">自主规划 Agent、工作流、组件、知识库</text>
+  <text x="500" y="604" class="node-text">官方预置代码编写 / 浏览器 / 报告 Agent</text>
+  <text x="500" y="630" class="small">需先登记 official-product-url-registry</text>
+
+  <rect x="900" y="515" width="390" height="135" rx="12" class="product"/>
+  <text x="920" y="547" class="node-title">千帆 Coding Plan / CodeX</text>
+  <text x="920" y="578" class="node-text">订阅套餐 + 专用 coding endpoint</text>
+  <text x="920" y="604" class="node-text">qianfan-code-latest / 可切换模型</text>
+  <text x="920" y="630" class="small">subscription_plan，不生成工具卡</text>
+
+  <rect x="1320" y="515" width="390" height="135" rx="12" class="product"/>
+  <text x="1340" y="547" class="node-title">内容安全 / Moderation</text>
+  <text x="1340" y="578" class="node-text">安全策略、文本/图像 I/O 安全等级</text>
+  <text x="1340" y="604" class="node-text">平台能力，不是独立模型详情</text>
+  <text x="1340" y="630" class="small">保留为产品能力候选</text>
+
+  <text x="60" y="705" class="section">排除 / 补证：保留证据，不直接进入正式目录</text>
+
+  <rect x="60" y="730" width="520" height="170" rx="12" class="excluded"/>
+  <text x="80" y="762" class="node-title">cutoff 前或已下线</text>
+  <text x="80" y="793" class="node-text">Qianfan-MultiPicOCR（2025-05-29，早于 cutoff）</text>
+  <text x="80" y="819" class="node-text">Qianfan-Composition / Qianfan-Check-VL</text>
+  <text x="80" y="845" class="node-text">Qianfan-Agent-Intent（2025-05-15，早于 cutoff）</text>
+  <text x="80" y="871" class="node-text">Qianfan-PublicOpinion-Classification（已退役）</text>
+
+  <rect x="620" y="730" width="520" height="170" rx="12" class="confirm"/>
+  <text x="640" y="762" class="node-title">补证候选 / 边界判断</text>
+  <text x="640" y="793" class="node-text">ERNIE 5.0 Thinking Preview/Latest：版本变体还是独立卡</text>
+  <text x="640" y="819" class="node-text">Qianfan-VL / 专项 OCR / FuncCaller：需补官方商业计价证据</text>
+  <text x="640" y="845" class="node-text">PaddleOCR-VL / PP-StructureV3：有商业 API 才保留，权重本身不够</text>
+  <text x="640" y="871" class="node-text">语音能力：产品形态保留，补齐官方计费入口</text>
+
+  <rect x="1180" y="730" width="530" height="170" rx="12" class="excluded"/>
+  <text x="1200" y="762" class="node-title">排除：无商业入口 / 百度厂商范围外</text>
+  <text x="1200" y="793" class="node-text">Qwen、DeepSeek、bge：即使千帆可调用，也不归百度自有厂商卡</text>
+  <text x="1200" y="819" class="node-text">Gemma / Qwen Image：第三方产品，不作为百度自有三级卡</text>
+  <text x="1200" y="845" class="node-text">只能下载权重/本地运行且无商业 API/计价入口：排除</text>
+  <text x="1200" y="871" class="small">开源本身不排除；商业 API/计价证据与厂商归属须同时成立</text>
+
+  <text x="60" y="955" class="section">官方来源（本图对应探测证据）</text>
+  <text x="80" y="987" class="source">[1] https://cloud.baidu.com/doc/qianfan-docs/s/7m95lyy43  模型列表（2026-07-13）</text>
+  <text x="80" y="1014" class="source">[2] https://cloud.baidu.com/doc/qianfan/s/Kmh4stnjp  模型更新记录（含 2025-2026 上新/退役）</text>
+  <text x="80" y="1041" class="source">[3] https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya  模型服务计费</text>
+  <text x="80" y="1068" class="source">[4] https://cloud.baidu.com/doc/qianfan-docs/s/rmejr4y27  MuseSteamer 视频生成</text>
+  <text x="80" y="1095" class="source">[5] https://cloud.baidu.com/doc/qianfan-docs/s/fm8r1ndsm  视觉理解 / 视频理解</text>
+  <text x="80" y="1122" class="source">[6] https://cloud.baidu.com/doc/qianfan-docs/s/Um8r1tpwy  向量模型（Embedding）</text>
+  <text x="80" y="1149" class="source">[7] https://cloud.baidu.com/doc/qianfan-docs/s/sm8pqtkt3  语音合成；https://cloud.baidu.com/doc/qianfan-docs/s/3m8pqgdbs  语音识别</text>
+  <text x="80" y="1176" class="source">[8] https://cloud.baidu.com/doc/qianfan-docs/s/Qmispikeo  Qianfan-OCR；https://cloud.baidu.com/doc/qianfan/s/Lmmxhsja  安全策略</text>
+  <text x="80" y="1203" class="source">[9] https://cloud.baidu.com/doc/qianfan/s/imlg0beiu  Coding Plan；https://cloud.baidu.com/doc/qianfan/s/pmh4straw  AppBuilder</text>
+  <text x="80" y="1255" class="small">图例：</text>
+  <rect x="135" y="1237" width="22" height="22" rx="4" class="existing"/><text x="166" y="1254" class="small">现有</text>
+  <rect x="230" y="1237" width="22" height="22" rx="4" class="candidate"/><text x="261" y="1254" class="small">保留候选</text>
+  <rect x="360" y="1237" width="22" height="22" rx="4" class="product"/><text x="391" y="1254" class="small">产品/工具</text>
+  <rect x="500" y="1237" width="22" height="22" rx="4" class="confirm"/><text x="531" y="1254" class="small">补证候选</text>
+  <rect x="620" y="1237" width="22" height="22" rx="4" class="excluded"/><text x="651" y="1254" class="small">排除/历史</text>
+</svg>

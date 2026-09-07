@@ -7397,6 +7397,61 @@
       "id": "tool-level3:glm-5-3-flash"
     },
     {
+      "vendor_key": "zhipu",
+      "detail_kind": "api_model",
+      "title": "GLM-4.7 Flash",
+      "vendor_label": "智谱 AI（Z.ai）",
+      "icon": "🤖",
+      "official_url": "https://docs.z.ai/guides/llm/glm-4.7",
+      "status": "active",
+      "summary": "GLM Flash 系列轻量高吞吐模型，官方提供免费 API 入口。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 200000,
+        "conditions": "官方模型页标注支持 200K 上下文。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方免费 API",
+            "currency": "USD",
+            "unit": "free",
+            "conditions": "官方价格页列为 Free；实际限额以 Z.AI 当前页面为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高吞吐文本生成与编码",
+          "description": "适合低成本、低延迟的日常编码和 Agent 调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "超长复杂推理",
+          "description": "需要旗舰模型能力时应选择 GLM 主系列。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GLM-4.7 - Z.AI Developer Documentation",
+          "url": "https://docs.z.ai/guides/llm/glm-4.7"
+        },
+        {
+          "title": "Z.AI Pricing",
+          "url": "https://docs.z.ai/guides/overview/pricing"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2025-12-22",
+      "id": "tool-level3:glm-4-7-flash"
+    },
+    {
       "vendor_key": "alibaba",
       "detail_kind": "api_model",
       "title": "Qwen3.8-Flash",

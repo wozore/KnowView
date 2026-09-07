@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1500" viewBox="0 0 2200 1500" role="img" aria-labelledby="title desc">
+  <title id="title">智谱 AI / 百度 / Mistral AI 最终拟定二级结构（预览）</title>
+  <desc id="desc">三家厂商并列结构预览。绿色为拟定可选择添加，紫色为待补证，琥珀色为商业产品卡，红色为排除项目。</desc>
+  <style>
+    text{font-family:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;fill:#172033}.title{font-size:30px;font-weight:700}.h2{font-size:22px;font-weight:700}.h3{font-size:18px;font-weight:700}.body{font-size:15px}.small{font-size:13px;fill:#536078}.tiny{font-size:12px;fill:#536078}
+    .panel{fill:#f5f7fb;stroke:#3e4a61;stroke-width:2}.keep{fill:#e9f7ee;stroke:#2e8b57}.proof{fill:#f3edff;stroke:#7957b7}.product{fill:#fff6df;stroke:#bd7a00}.exclude{fill:#fff0f0;stroke:#c44949}.line{stroke:#8792a6;stroke-width:2;fill:none}
+  </style>
+  <rect width="2200" height="1500" fill="#fff"/>
+  <text x="60" y="54" class="title">智谱 AI / 百度 / Mistral AI 最终拟定二级结构（预览）</text>
+  <text x="60" y="84" class="small">探测日：2026-09-07 ｜ 有效窗口：2025-07-07 至 2026-09-07 ｜ 仅纳入窗口内且有官方商业 API/计费依据的拟定项</text>
+  <text x="60" y="112" class="h3" fill="#a33">不代表已写入正式目录</text>
+
+  <rect x="60" y="140" width="660" height="1010" rx="14" class="panel"/>
+  <text x="90" y="182" class="h2">智谱 AI / Zhipu</text>
+  <text x="90" y="207" class="small">本地结构：GLM 5、GLM 5.3 Flash</text>
+  <text x="90" y="250" class="h3">拟定可选择添加</text>
+  <rect x="90" y="270" width="285" height="105" rx="10" class="keep"/>
+  <text x="110" y="300" class="h3">GLM 5</text><text x="110" y="327" class="body">GLM-5.3</text><text x="110" y="351" class="small">2026-08-14 ｜ 商业 API/计费</text>
+  <rect x="90" y="393" width="285" height="105" rx="10" class="keep"/>
+  <text x="110" y="423" class="h3">GLM 5.3 Flash</text><text x="110" y="450" class="body">GLM 5.3 Flash</text><text x="110" y="474" class="small">2026-08-26 ｜ 商业 API/计费</text>
+  <text x="90" y="545" class="h3">待补证</text>
+  <rect x="90" y="565" width="565" height="70" rx="10" class="proof"/>
+  <text x="110" y="596" class="body">暂无新增非文本候选；后续新模型需补齐官方商业 API/价格证据。</text>
+  <text x="90" y="684" class="h3">排除</text>
+  <rect x="90" y="704" width="565" height="110" rx="10" class="exclude"/>
+  <text x="110" y="735" class="body">GLM-5.1、GLM-5.2：本地政策标记 repository_only。</text>
+  <text x="110" y="762" class="body">无官方商业 API/计费证据，不纳入拟定结构。</text>
+  <text x="110" y="789" class="small">仅本地开源/仓库项目不因名称或权重被自动纳入。</text>
+  <text x="90" y="875" class="h3">本地二级键</text><text x="90" y="902" class="tiny">vendor-level2:zhipu:glm</text><text x="90" y="925" class="tiny">vendor-level2:zhipu:glm-5-3-flash</text>
+  <text x="90" y="982" class="tiny">官方证据入口：docs.z.ai/guides/llm/glm-5</text>
+
+  <rect x="770" y="140" width="660" height="1010" rx="14" class="panel"/>
+  <text x="800" y="182" class="h2">文心（百度） / Baidu</text>
+  <text x="800" y="207" class="small">本地现有：ERNIE 5.1、ERNIE 5.0；新增项仍需用户确认</text>
+  <text x="800" y="250" class="h3">拟定可选择添加</text>
+  <rect x="800" y="270" width="285" height="85" rx="10" class="keep"/>
+  <text x="820" y="300" class="h3">ERNIE 模型</text><text x="820" y="327" class="body">ERNIE 5.1 / ERNIE 5.0</text><text x="820" y="347" class="small">窗口内 ｜ 官方 API/价格</text>
+  <rect x="800" y="373" width="285" height="105" rx="10" class="keep"/>
+  <text x="820" y="403" class="h3">图像生成</text><text x="820" y="430" class="body">MuseSteamer Air Image</text><text x="820" y="454" class="small">官方 API ｜ ¥0.05/张</text>
+  <rect x="800" y="496" width="285" height="125" rx="10" class="keep"/>
+  <text x="820" y="526" class="h3">视频生成</text><text x="820" y="553" class="body">MuseSteamer 2.1/2.0 I2V</text><text x="820" y="577" class="body">Audio / Effect / Pro</text><text x="820" y="600" class="small">官方 API ｜ 积分计费</text>
+  <rect x="800" y="639" width="285" height="105" rx="10" class="keep"/>
+  <text x="820" y="669" class="h3">向量 / 重排序</text><text x="820" y="696" class="body">Embedding-V1 / tao-8k</text><text x="820" y="720" class="body">bce-reranker-base</text>
+  <text x="800" y="790" class="h3">待补证</text>
+  <rect x="800" y="810" width="565" height="100" rx="10" class="proof"/>
+  <text x="820" y="841" class="body">ERNIE 4.5 Turbo VL、Qianfan-VL 系列</text><text x="820" y="866" class="body">Qianfan OCR、ERNIE-iRAG-1.0、Qianfan-FuncCaller</text><text x="820" y="890" class="small">需补完整官方商业 API/价格证据</text>
+  <text x="800" y="955" class="h3">排除 / 不纳入</text>
+  <text x="800" y="981" class="body">cutoff 前/退役模型、仅本地开源模型、Qwen/DeepSeek/BGE 等第三方模型</text><text x="800" y="1005" class="body">以及纯平台工具、无独立模型身份的安全策略。</text>
+  <text x="800" y="1060" class="tiny">官方证据入口：cloud.baidu.com/doc/qianfan-docs/s/7m95lyy43</text><text x="800" y="1082" class="tiny">cloud.baidu.com/doc/qianfan/s/wmh4sv6ya ｜ cloud.baidu.com/doc/qianfan-docs/s/rmejr4y27</text>
+
+  <rect x="1480" y="140" width="660" height="1010" rx="14" class="panel"/>
+  <text x="1510" y="182" class="h2">Mistral AI</text>
+  <text x="1510" y="207" class="small">本地结构：Mistral 模型</text>
+  <text x="1510" y="250" class="h3">拟定可选择添加</text>
+  <rect x="1510" y="270" width="285" height="105" rx="10" class="keep"/>
+  <text x="1530" y="300" class="h3">Mistral 模型</text><text x="1530" y="327" class="body">Mistral Medium 3.5</text><text x="1530" y="351" class="small">2026-04-29 ｜ 商业 API/计费</text>
+  <rect x="1510" y="393" width="285" height="105" rx="10" class="keep"/>
+  <text x="1530" y="423" class="h3">Mistral 模型</text><text x="1530" y="450" class="body">Mistral Large 3</text><text x="1530" y="474" class="small">2025-12-02 ｜ 商业 API/计费</text>
+  <text x="1510" y="545" class="h3">待补证</text>
+  <rect x="1510" y="565" width="565" height="70" rx="10" class="proof"/>
+  <text x="1530" y="596" class="body">暂无新增非文本候选；新候选需补商业 API/价格证据。</text>
+  <text x="1510" y="684" class="h3">排除</text>
+  <rect x="1510" y="704" width="565" height="110" rx="10" class="exclude"/>
+  <text x="1530" y="735" class="body">仅下载权重/本地运行且无官方商业 API/计费入口的模型。</text>
+  <text x="1530" y="762" class="body">超出窗口、已弃用或第三方模型不进入拟定结构。</text>
+  <text x="1530" y="789" class="small">开放权重不自动排除；商业 API/计费证据成立即可保留。</text>
+  <text x="1510" y="875" class="h3">本地二级键</text><text x="1510" y="902" class="tiny">vendor-level2:mistral:mistral</text><text x="1510" y="982" class="tiny">官方证据入口：docs.mistral.ai/models</text>
+
+  <rect x="60" y="1190" width="2080" height="220" rx="14" class="panel"/>
+  <text x="90" y="1230" class="h2">统一筛选口径</text>
+  <text x="90" y="1262" class="body">拟定可选择添加：2025-07-07 至 2026-09-07 内，且有官方商业 API/价格/计费规则。待补证：生命周期或商业入口证据不完整，不进入拟定结构。</text>
+  <text x="90" y="1292" class="body">排除：过期、弃用、退役、仅本地开源无商业计费、第三方厂商归属或纯平台工具。开放权重但同时有官方商业 API 的模型可保留。</text>
+  <text x="90" y="1340" class="small">图例：</text><rect x="150" y="1323" width="20" height="20" rx="4" class="keep"/><text x="180" y="1340" class="small">拟定可选择添加</text><rect x="330" y="1323" width="20" height="20" rx="4" class="proof"/><text x="360" y="1340" class="small">待补证</text><rect x="450" y="1323" width="20" height="20" rx="4" class="product"/><text x="480" y="1340" class="small">产品卡</text><rect x="570" y="1323" width="20" height="20" rx="4" class="exclude"/><text x="600" y="1340" class="small">排除</text>
+</svg>

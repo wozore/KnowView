@@ -742,7 +742,7 @@
         "id": "vendor-level1:zhipu"
       },
       "vendor_key": "zhipu",
-      "title": "GLM 5.3 Flash",
+      "title": "GLM Flash",
       "official_url": "https://docs.z.ai/guides/llm/glm-5.3",
       "summary": "GLM-5.3 是 Z.AI 最新旗舰文本模型，在复杂软件工程、Agent 任务与网络安全能力上较 GLM-5.2 显著提升，GLM Coding Plan 用户可完整使用。",
       "status": "active",
@@ -750,6 +750,10 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:glm-5-3-flash"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-4-7-flash"
         }
       ]
     },
@@ -905,6 +909,66 @@
         }
       ],
       "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:zhipu:image",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:zhipu"},
+      "vendor_key": "zhipu",
+      "title": "图像生成",
+      "official_url": "https://docs.z.ai/guides/image/glm-image",
+      "summary": "智谱图像生成模型系列；新增模型按官方图像 API 计费核验后加入。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:zhipu:video",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:zhipu"},
+      "vendor_key": "zhipu",
+      "title": "视频生成",
+      "official_url": "https://docs.z.ai/guides/video/cogvideox-3",
+      "summary": "智谱视频生成模型系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:zhipu:vision",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:zhipu"},
+      "vendor_key": "zhipu",
+      "title": "视觉",
+      "official_url": "https://docs.z.ai/guides/overview/overview",
+      "summary": "智谱视觉理解与 OCR 模型系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:zhipu:audio",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:zhipu"},
+      "vendor_key": "zhipu",
+      "title": "音频",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/models/sound-and-video/glm-asr-2512",
+      "summary": "智谱音频识别与实时音频模型系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:zhipu:embedding-rerank",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:zhipu"},
+      "vendor_key": "zhipu",
+      "title": "Embedding / Rerank",
+      "official_url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price",
+      "summary": "智谱向量与重排服务系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:openai:openai-coding-plan",
@@ -1330,6 +1394,174 @@
         }
       ],
       "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:baidu:ernie-x",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:baidu"},
+      "vendor_key": "baidu",
+      "title": "ERNIE X",
+      "official_url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
+      "summary": "百度 ERNIE X 推理系列，正式版与当前可调用 Preview 分开保留。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:vision",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:baidu"},
+      "vendor_key": "baidu",
+      "title": "视觉",
+      "official_url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
+      "summary": "百度视觉理解模型系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:image",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:baidu"},
+      "vendor_key": "baidu",
+      "title": "图像生成",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "summary": "百度图像生成模型与产品能力系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:video",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:baidu"},
+      "vendor_key": "baidu",
+      "title": "视频生成",
+      "official_url": "https://cloud.baidu.com/qianfan/dev_center/home",
+      "summary": "百度视频生成模型系列；仅在官方推理计费明确后加入具体模型。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:embedding-rerank",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:baidu"},
+      "vendor_key": "baidu",
+      "title": "Embedding / Rerank",
+      "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+      "summary": "百度向量与重排模型系列，第三方托管模型单独标注。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:baidu:ocr",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:baidu"},
+      "vendor_key": "baidu",
+      "title": "OCR",
+      "official_url": "https://cloud.baidu.com/product-price/ocr.html",
+      "summary": "百度 OCR 能力系列；过期或只有训练计费的模型不进入 active。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:vision",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "视觉",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "Mistral 视觉理解能力由通用多模态模型承担。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:image",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "图像",
+      "official_url": "https://docs.mistral.ai/studio/agents/agent-tools/image_generation",
+      "summary": "当前没有核实的 Mistral 自有图像生成模型；外部图像工具不归 Mistral 模型卡。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:video",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "视频",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "当前没有核实的 Mistral 自有视频模型或视频 API。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:ocr",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "OCR",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "Mistral OCR 3/4.0/4.1 文档理解系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:audio",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "音频",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "Mistral Voxtral 音频与语音系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:code",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "代码",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "Mistral Codestral 代码模型系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:safety",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "安全 / Moderation",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "Mistral Moderation 安全分类系列。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:mistral:embedding",
+      "level1_ref": {"kind": "vendor-level1", "id": "vendor-level1:mistral"},
+      "vendor_key": "mistral",
+      "title": "Embedding",
+      "official_url": "https://docs.mistral.ai/models",
+      "summary": "Mistral Embedding 系列；超出 14 个月窗口的版本不进入 active。",
+      "status": "partial",
+      "detail_refs": [],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     }
   ]
 }

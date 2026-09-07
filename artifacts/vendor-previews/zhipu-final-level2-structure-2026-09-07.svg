@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1500" viewBox="0 0 1800 1500">
+<rect width="1800" height="1500" fill="#f7f8fa"/>
+<style>text{font-family:Arial,'Microsoft YaHei',sans-serif}.title{font-size:32px;font-weight:700}.vendor{font-size:27px;font-weight:700}.head{font-size:20px;font-weight:700}.body{font-size:16px}.small{font-size:14px}</style>
+<text x="50" y="52" class="title" fill="#172033">智谱 AI｜最终拟定二级结构（以原有 SVG 为基线）</text>
+<text x="50" y="84" class="small" fill="#5b6577">截止窗口：2025-07-07 至 2026-09-07；原有条目不因本轮筛选删除；新增候选须有官方商业 API/计费。</text>
+<text x="50" y="112" class="small" fill="#6b4d00">蓝：原有保留　绿：窗口内且有计费、可选择添加　橙：计费/生命周期需补证　红：过期、弃用、第三方或仅本地</text>
+<g transform="translate(50,145)">
+<rect width="540" height="1280" rx="16" fill="#eef5ff" stroke="#6b9ee8" stroke-width="2"/>
+<text x="25" y="42" class="vendor" fill="#1d4f91">二级：GLM 5（原有基线）</text>
+<rect x="20" y="62" width="500" height="230" rx="10" fill="#d9eaff"/>
+<text x="38" y="94" class="head" fill="#164b8f">原有数据：全部保留</text>
+<text x="38" y="126" class="body" fill="#164b8f">• GLM-5.3　• GLM-5.2　• GLM-5</text>
+<text x="38" y="153" class="body" fill="#164b8f">• GLM-5.1　• GLM-5-Turbo</text>
+<text x="38" y="180" class="body" fill="#164b8f">• 原有三级卡、工具卡、策略引用和规范键</text>
+<text x="38" y="207" class="body" fill="#164b8f">• 不以“开源/本地”规则回删已有合法记录</text>
+<text x="38" y="246" class="small" fill="#49627f">计费状态：以现有卡片记录为基线，新增模型另行核验</text>
+<rect x="20" y="310" width="500" height="290" rx="10" fill="#dff7e7"/>
+<text x="38" y="342" class="head" fill="#1d6b3f">同厂新增候选：商业 API/计费已见</text>
+<text x="38" y="374" class="body" fill="#1d6b3f">• GLM-4.7　• GLM-4.6　• GLM-4.5</text>
+<text x="38" y="401" class="body" fill="#1d6b3f">• GLM-4.5-X　• GLM-4.5-Air　• GLM-4.5-AirX</text>
+<text x="38" y="428" class="body" fill="#1d6b3f">• GLM-4-32B-0414-128K</text>
+<text x="38" y="455" class="body" fill="#1d6b3f">• GLM-Image（$0.015/图）</text>
+<text x="38" y="482" class="body" fill="#1d6b3f">• CogView-4（$0.01/图）</text>
+<text x="38" y="509" class="body" fill="#1d6b3f">• CogVideoX-3（$0.2/视频）</text>
+<text x="38" y="536" class="body" fill="#1d6b3f">• GLM-ASR-2512（$0.03/M tokens）</text>
+<rect x="20" y="618" width="500" height="300" rx="10" fill="#dff7e7"/>
+<text x="38" y="650" class="head" fill="#1d6b3f">二级：多模态 / 视觉 / 音频</text>
+<text x="38" y="682" class="body" fill="#1d6b3f">• GLM-5V-Turbo　• GLM-4.6V　• GLM-4.6V-FlashX</text>
+<text x="38" y="709" class="body" fill="#1d6b3f">• GLM-4.5V　• GLM-OCR　• GLM-Realtime</text>
+<text x="38" y="736" class="body" fill="#1d6b3f">• GLM-4.6V-Flash（免费 API，但仍有官方入口）</text>
+<text x="38" y="763" class="body" fill="#a66100">• GLM-TTS　• GLM-TTS-Clone（未核到明确金额）</text>
+<text x="38" y="790" class="body" fill="#a66100">• Rerank　• Moderation（按 API/产品边界复核）</text>
+<text x="38" y="817" class="body" fill="#1d6b3f">• Embedding-2（¥0.5/M tokens）</text>
+<text x="38" y="844" class="body" fill="#a66100">• Embedding-3（需确认目录计费字段）</text>
+<rect x="20" y="936" width="500" height="210" rx="10" fill="#e6e8ed"/>
+<text x="38" y="968" class="head" fill="#4f5968">产品 / 工具（不作为模型卡）</text>
+<text x="38" y="1000" class="body" fill="#4f5968">• ZCode　• AutoClaw　• GLM Coding Plan</text>
+<text x="38" y="1027" class="body" fill="#4f5968">• Slide/Poster Agent　• Translation Agent</text>
+<text x="38" y="1054" class="body" fill="#4f5968">• Popular Special Effects Video Templates</text>
+<text x="38" y="1081" class="small" fill="#4f5968">即使有套餐计费，也保持产品/工具边界</text>
+<rect x="20" y="1164" width="500" height="92" rx="10" fill="#ffe2e0"/>
+<text x="38" y="1196" class="head" fill="#a12b2b">历史排除（不删除原记录，只不进入新增）</text>
+<text x="38" y="1228" class="body" fill="#a12b2b">• GLM-Z1　• GLM-4-0520　• GLM-4.5-Flash（生命周期/窗口不符）</text>
+</g>
+<g transform="translate(650,145)">
+<rect width="540" height="1280" rx="16" fill="#fff8ed" stroke="#e0a557" stroke-width="2"/>
+<text x="25" y="42" class="vendor" fill="#885011">二级：GLM 5.3 Flash（原有基线）</text>
+<rect x="20" y="62" width="500" height="250" rx="10" fill="#ffe9c2"/>
+<text x="38" y="94" class="head" fill="#84520d">原有分组与卡片：保留</text>
+<text x="38" y="126" class="body" fill="#84520d">• GLM-5.3 Flash　• 原有 GLM 5.3/5.2 关联数据</text>
+<text x="38" y="153" class="body" fill="#84520d">• 现有工具卡、日期、共享投影和策略关系</text>
+<text x="38" y="180" class="body" fill="#84520d">• 只修复键不一致，不做删除式替换</text>
+<text x="38" y="220" class="small" fill="#806c56">原有记录与新增候选分开显示，避免误删</text>
+<rect x="20" y="330" width="500" height="340" rx="10" fill="#dff7e7"/>
+<text x="38" y="362" class="head" fill="#1d6b3f">可选择添加：官方模型矩阵中有 API/计费</text>
+<text x="38" y="394" class="body" fill="#1d6b3f">• GLM-5V-Turbo　• GLM-4.6V　• GLM-4.5V</text>
+<text x="38" y="421" class="body" fill="#1d6b3f">• GLM-4.6V-FlashX　• GLM-4.6V-Flash</text>
+<text x="38" y="448" class="body" fill="#1d6b3f">• GLM-OCR　• GLM-Image　• CogView-4</text>
+<text x="38" y="475" class="body" fill="#1d6b3f">• CogVideoX-3　• GLM-ASR-2512</text>
+<text x="38" y="502" class="body" fill="#1d6b3f">• Embedding-2　• Embedding-3（字段复核）</text>
+<text x="38" y="529" class="body" fill="#a66100">• GLM-Realtime（计费已见，发布日期 provenance warning）</text>
+<text x="38" y="556" class="body" fill="#a66100">• GLM-TTS / Clone / Rerank（价格证据不足）</text>
+<rect x="20" y="688" width="500" height="270" rx="10" fill="#e6e8ed"/>
+<text x="38" y="720" class="head" fill="#4f5968">外部/工具边界</text>
+<text x="38" y="752" class="body" fill="#4f5968">• Vidu Q1 / Vidu 2：平台可调用，但不归智谱自有模型</text>
+<text x="38" y="779" class="body" fill="#4f5968">• ZCode、AutoClaw、Coding Plan、各类 Agent：产品/工具</text>
+<text x="38" y="806" class="body" fill="#4f5968">• 不能把产品套餐直接转换为模型卡</text>
+<text x="38" y="846" class="small" fill="#4f5968">官方模型/价格参考：docs.z.ai/guides/overview/overview</text>
+<text x="38" y="871" class="small" fill="#4f5968">官方价格参考：docs.z.ai/guides/overview/pricing</text>
+<rect x="20" y="976" width="500" height="220" rx="10" fill="#ffe2e0"/>
+<text x="38" y="1008" class="head" fill="#a12b2b">明确排除新增</text>
+<text x="38" y="1040" class="body" fill="#a12b2b">• GLM-Z1 / GLM-4-0520：官方弃用</text>
+<text x="38" y="1067" class="body" fill="#a12b2b">• GLM-4.5-Flash：官方矩阵虽有免费入口，但生命周期需按弃用/窗口复核</text>
+<text x="38" y="1094" class="body" fill="#a12b2b">• 旧版 GLM-ASR：早于窗口</text>
+<text x="38" y="1121" class="body" fill="#a12b2b">• 仅本地权重且无商业计费证据的模型</text>
+</g>
+<g transform="translate(1250,145)">
+<rect width="500" height="1280" rx="16" fill="#f1edff" stroke="#9076d8" stroke-width="2"/>
+<text x="25" y="42" class="vendor" fill="#554197">归类规则与参考</text>
+<text x="25" y="90" class="head" fill="#554197">1. 现有数据优先</text>
+<text x="25" y="122" class="body" fill="#4d4670">原有 SVG 中的模型、工具卡、日期和策略引用</text>
+<text x="25" y="149" class="body" fill="#4d4670">先全部保留，不能用候选清单覆盖。</text>
+<text x="25" y="205" class="head" fill="#554197">2. 新增准入</text>
+<text x="25" y="237" class="body" fill="#4d4670">官方 API 或商业产品有可核验计费规则；</text>
+<text x="25" y="264" class="body" fill="#4d4670">且发布时间/生命周期在 14 个月窗口内。</text>
+<text x="25" y="320" class="head" fill="#554197">3. 开源边界</text>
+<text x="25" y="352" class="body" fill="#4d4670">开放权重本身不构成排除；只有“仅本地</text>
+<text x="25" y="379" class="body" fill="#4d4670">部署且无官方商业 API/计费”的才排除。</text>
+<text x="25" y="435" class="head" fill="#554197">4. 生命周期</text>
+<text x="25" y="467" class="body" fill="#4d4670">过期、deprecated、retired 或被替代的</text>
+<text x="25" y="494" class="body" fill="#4d4670">模型只进入历史排除，不删除原有记录。</text>
+<text x="25" y="550" class="head" fill="#554197">5. 来源</text>
+<text x="25" y="582" class="small" fill="#4d4670">Z.AI 模型矩阵与价格页</text>
+<text x="25" y="609" class="small" fill="#4d4670">https://docs.z.ai/guides/overview/overview</text>
+<text x="25" y="636" class="small" fill="#4d4670">https://docs.z.ai/guides/overview/pricing</text>
+<text x="25" y="690" class="head" fill="#554197">本图状态</text>
+<text x="25" y="722" class="body" fill="#4d4670">拟定结构，不直接写入正式目录；</text>
+<text x="25" y="749" class="body" fill="#4d4670">需逐项确认后再实施新增或键修复。</text>
+</g>
+</svg>

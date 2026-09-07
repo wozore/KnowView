@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+  <rect width="1600" height="1100" fill="#f7f8fa"/>
+  <text x="60" y="70" font-family="Arial, Microsoft YaHei, sans-serif" font-size="34" font-weight="700" fill="#172033">三厂商拟定二级结构（14个月有效窗口 + 商业计费规则）</text>
+  <text x="60" y="108" font-family="Arial, Microsoft YaHei, sans-serif" font-size="18" fill="#5b6577">拟定稿｜探测窗口：2025-07-07 至 2026-09-07｜仅纳入存在官方商业 API/产品计费证据且未过期的候选</text>
+  <rect x="60" y="135" width="1480" height="54" rx="12" fill="#fff4d6" stroke="#e3b341"/>
+  <text x="85" y="169" font-family="Arial, Microsoft YaHei, sans-serif" font-size="18" fill="#6b4d00">状态说明：绿色=可选择添加｜蓝色=现有/保留｜橙色=需补证｜灰色=产品工具｜红色=排除（过期、弃用、无商业计费或第三方）</text>
+  <g transform="translate(60,225)">
+    <rect width="470" height="800" rx="18" fill="#eef5ff" stroke="#6b9ee8" stroke-width="2"/>
+    <text x="24" y="45" font-family="Arial, Microsoft YaHei, sans-serif" font-size="28" font-weight="700" fill="#1d4f91">智谱 AI</text>
+    <text x="24" y="78" font-family="Arial, Microsoft YaHei, sans-serif" font-size="17" fill="#49627f">厂商 → 二级分组 → 三级候选</text>
+    <rect x="22" y="100" width="426" height="170" rx="12" fill="#d9eaff"/>
+    <text x="40" y="132" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#164b8f">GLM 5 / GLM 5.3 Flash</text>
+    <text x="40" y="164" font-family="Arial, Microsoft YaHei, sans-serif" font-size="17" fill="#16314f">现有模型与视觉能力</text>
+    <text x="40" y="197" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#164b8f">• GLM-5.3 Flash（现有）</text>
+    <text x="40" y="224" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#164b8f">• GLM-5V-Turbo · GLM-4.6V</text>
+    <text x="40" y="251" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#164b8f">• GLM-OCR · GLM-Realtime</text>
+    <rect x="22" y="288" width="426" height="210" rx="12" fill="#dff7e7"/>
+    <text x="40" y="320" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#1d6b3f">图像 / 视频 / 语音</text>
+    <text x="40" y="352" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• GLM-Image · CogView-4</text>
+    <text x="40" y="379" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• CogVideoX-3（商业视频 API）</text>
+    <text x="40" y="406" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• GLM-ASR-2512 · GLM-Realtime</text>
+    <text x="40" y="433" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a66100">• GLM-TTS / Clone（需补金额）</text>
+    <text x="40" y="460" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• Embedding-2（¥0.5/M tokens）</text>
+    <rect x="22" y="516" width="426" height="112" rx="12" fill="#e6e8ed"/>
+    <text x="40" y="548" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#4f5968">产品 / 工具</text>
+    <text x="40" y="580" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#4f5968">ZCode · AutoClaw · Coding Plan · Agents</text>
+    <text x="40" y="607" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#4f5968">不作为模型卡</text>
+    <rect x="22" y="646" width="426" height="126" rx="12" fill="#ffe2e0"/>
+    <text x="40" y="678" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#a12b2b">排除</text>
+    <text x="40" y="710" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a12b2b">GLM-Z1 · GLM-4-0520 · GLM-4.5-Flash</text>
+    <text x="40" y="737" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a12b2b">GLM-4-Voice · 旧版 GLM-ASR · Vidu</text>
+  </g>
+  <g transform="translate(565,225)">
+    <rect width="470" height="800" rx="18" fill="#fff8ed" stroke="#e0a557" stroke-width="2"/>
+    <text x="24" y="45" font-family="Arial, Microsoft YaHei, sans-serif" font-size="28" font-weight="700" fill="#885011">文心 / 百度</text>
+    <text x="24" y="78" font-family="Arial, Microsoft YaHei, sans-serif" font-size="17" fill="#806c56">厂商 → 二级分组 → 三级候选</text>
+    <rect x="22" y="100" width="426" height="170" rx="12" fill="#ffe9c2"/>
+    <text x="40" y="132" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#84520d">ERNIE</text>
+    <text x="40" y="164" font-family="Arial, Microsoft YaHei, sans-serif" font-size="17" fill="#65471b">现有模型与待确认版本</text>
+    <text x="40" y="197" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#84520d">• ERNIE 5.1 · ERNIE 5.0（现有）</text>
+    <text x="40" y="224" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a66100">• ERNIE 4.5 Turbo VL（需计费证据）</text>
+    <text x="40" y="251" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a66100">• Qianfan-VL / OCR（需逐项补证）</text>
+    <rect x="22" y="288" width="426" height="210" rx="12" fill="#dff7e7"/>
+    <text x="40" y="320" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#1d6b3f">图像 / 视频 / 向量</text>
+    <text x="40" y="352" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• MuseSteamer Air Image</text>
+    <text x="40" y="379" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• MuseSteamer 2.x I2V 系列</text>
+    <text x="40" y="406" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• Embedding-V1 · tao-8k</text>
+    <text x="40" y="433" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• bce-reranker-base</text>
+    <text x="40" y="460" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a66100">• ERNIE-iRAG / FuncCaller（需补证）</text>
+    <rect x="22" y="516" width="426" height="112" rx="12" fill="#e6e8ed"/>
+    <text x="40" y="548" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#4f5968">产品 / 平台</text>
+    <text x="40" y="580" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#4f5968">语音服务 · AppBuilder · Agent · Coding Plan</text>
+    <text x="40" y="607" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#4f5968">内容安全按平台能力处理</text>
+    <rect x="22" y="646" width="426" height="126" rx="12" fill="#ffe2e0"/>
+    <text x="40" y="678" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#a12b2b">排除</text>
+    <text x="40" y="710" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a12b2b">Qwen · DeepSeek · BGE 等第三方模型</text>
+    <text x="40" y="737" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a12b2b">已下线的 Qianfan 旧模型</text>
+  </g>
+  <g transform="translate(1070,225)">
+    <rect width="470" height="800" rx="18" fill="#f1edff" stroke="#9076d8" stroke-width="2"/>
+    <text x="24" y="45" font-family="Arial, Microsoft YaHei, sans-serif" font-size="28" font-weight="700" fill="#554197">Mistral AI</text>
+    <text x="24" y="78" font-family="Arial, Microsoft YaHei, sans-serif" font-size="17" fill="#665f7b">厂商 → 二级分组 → 三级候选</text>
+    <rect x="22" y="100" width="426" height="170" rx="12" fill="#e1dcff"/>
+    <text x="40" y="132" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#554197">Medium / Large / Small</text>
+    <text x="40" y="164" font-family="Arial, Microsoft YaHei, sans-serif" font-size="17" fill="#4d4670">现有文本与视觉模型</text>
+    <text x="40" y="197" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#554197">• Medium 3.5 · Large 3 · Small 4</text>
+    <text x="40" y="224" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#554197">• Ministral 3 3B / 8B / 14B</text>
+    <text x="40" y="251" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#554197">• 图像理解由上述模型承担</text>
+    <rect x="22" y="288" width="426" height="210" rx="12" fill="#dff7e7"/>
+    <text x="40" y="320" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#1d6b3f">音频 / OCR / 安全</text>
+    <text x="40" y="352" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• OCR 3 · OCR 4.0 · OCR 4.1</text>
+    <text x="40" y="379" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• Voxtral Small / Transcribe / Realtime</text>
+    <text x="40" y="406" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• Voxtral TTS</text>
+    <text x="40" y="433" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• Moderation 2（Free 商业 API）</text>
+    <text x="40" y="460" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#1d6b3f">• Codestral</text>
+    <rect x="22" y="516" width="426" height="112" rx="12" fill="#e6e8ed"/>
+    <text x="40" y="548" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#4f5968">产品 / 平台</text>
+    <text x="40" y="580" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#4f5968">Vibe · Studio · Agents · Forge · Compute</text>
+    <text x="40" y="607" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#4f5968">图像生成工具使用外部模型</text>
+    <rect x="22" y="646" width="426" height="126" rx="12" fill="#ffe2e0"/>
+    <text x="40" y="678" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" fill="#a12b2b">排除</text>
+    <text x="40" y="710" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a12b2b">Shieldstral（无商业计费证据）</text>
+    <text x="40" y="737" font-family="Arial, Microsoft YaHei, sans-serif" font-size="16" fill="#a12b2b">Devstral 2 · Leanstral 1.5 · 旧 Embedding</text>
+  </g>
+</svg>
