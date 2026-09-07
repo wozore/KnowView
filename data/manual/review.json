@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-07T03:49:36.161Z",
-  "date": "20260907",
-  "total_pending": 1,
+  "generated_at": "2026-09-07T18:31:03.251Z",
+  "date": "20260908",
+  "total_pending": 2,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -12,9 +12,17 @@
       "summary": "摘要：OpenAI launches new GPT model for developers",
       "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
       "review_status": "pending"
+    },
+    {
+      "id": "x-00bdc53b86758ced5898",
+      "score": 47.7,
+      "summary": "Amazing food. A quick flight to NYC, Germany, and London. Geoffrey Hinton. With ",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
-    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）"
+    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[47.7] Amazing food. A quick flight to NYC, Germany, and London. Geoffrey Hinton. With \n    建议：人工判断：是否值得收录"
   ]
 }
