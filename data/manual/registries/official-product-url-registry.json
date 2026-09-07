@@ -715,6 +715,63 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-07",
       "last_official_update_at": "2026-09-07"
+    },
+    "grok-build": {
+      "name": "Grok Build",
+      "vendor_key": "xai",
+      "official_urls": [
+        "https://docs.x.ai/build/overview",
+        "https://x.ai/news/grok-build-0-1"
+      ],
+      "aliases": [
+        "Grok Build",
+        "xAI Grok Build"
+      ],
+      "product_prefixes": [
+        "grok build",
+        "grok-build"
+      ],
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://docs.x.ai/developers/release-notes",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-07",
+      "last_official_update_at": "2026-08-12"
+    },
+    "grok-bot": {
+      "name": "Grok Bot",
+      "vendor_key": "xai",
+      "official_urls": [
+        "https://docs.x.ai/developers/release-notes"
+      ],
+      "aliases": [
+        "Grok Bot",
+        "xAI Grok Bot"
+      ],
+      "product_prefixes": [
+        "grok bot",
+        "grok-bot"
+      ],
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://docs.x.ai/developers/release-notes",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-07",
+      "last_official_update_at": "2026-08-11"
     }
   }
 }

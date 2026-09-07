@@ -174,24 +174,31 @@
       "id": "vendor-card:minimax",
       "vendor_key": "minimax",
       "title": "MiniMax",
-      "icon": "🐚",
-      "summary": "MiniMax 推出的多模态 AI 平台，以海螺AI 视频生成和超低 API 文本价格著称。",
+      "icon": "",
+      "summary": "MiniMax 提供文本、视频、语音和音乐等多模态商业 API 与订阅产品。",
       "feature_preview": [
         {
           "tone": "positive",
-          "text": "Hailuo 02 视频生成支持 1080p 10 秒，质量对齐国内第一梯队"
+          "text": "覆盖文本、视频、语音和音乐等多种 API 模态"
+        },
+        {
+          "tone": "positive",
+          "text": "同时提供按量 API 与 Token Plan 订阅"
         },
         {
           "tone": "negative",
-          "text": "国际市场品牌知名度较低，社区和第三方工具生态有限"
+          "text": "不同模态的模型与价格档位差异较大"
         }
       ],
       "access_level": "开放",
-      "price_badge": "free",
+      "price_badge": "paid",
       "search_terms": [
         "MiniMax",
-        "hailuo",
-        "海螺AI"
+        "Hailuo",
+        "海螺AI",
+        "M3",
+        "Speech",
+        "Music"
       ],
       "level1_ref": {
         "kind": "vendor-level1",
@@ -202,24 +209,30 @@
       "id": "vendor-card:xai",
       "vendor_key": "xai",
       "title": "xAI",
-      "icon": "🚀",
-      "summary": "Elon Musk 创办的 xAI 公司推出的 AI 模型，以实时 X 平台数据接入和推理能力见长，API 定价极具竞争力。",
+      "icon": "",
+      "summary": "xAI 提供 Grok 通用模型、Imagine 媒体生成、Voice API 和智能体产品。",
       "feature_preview": [
         {
           "tone": "positive",
-          "text": "2M 上下文窗口（4.1 Fast），支持长文档和深度分析"
+          "text": "Grok API 覆盖通用推理、编程和智能体任务"
+        },
+        {
+          "tone": "positive",
+          "text": "同时提供图像、视频和语音 API"
         },
         {
           "tone": "negative",
-          "text": "中国市场网络访问受限"
+          "text": "部分产品和模型存在区域、版本或退役限制"
         }
       ],
-      "access_level": "受限",
-      "price_badge": "free",
+      "access_level": "开放",
+      "price_badge": "paid",
       "search_terms": [
         "xAI",
-        "grok",
-        "Grok"
+        "Grok",
+        "Imagine",
+        "Voice",
+        "Grok Build"
       ],
       "level1_ref": {
         "kind": "vendor-level1",

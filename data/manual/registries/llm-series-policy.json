@@ -648,7 +648,7 @@
     {
       "vendor_key": "minimax",
       "direction": "llm",
-      "description": "MiniMax：主攻通用 LLM（M 系列）；海螺为独立视频生成家族。",
+      "description": "MiniMax：M 系列为通用文本模型，Hailuo、Speech 和 Music 分别按模态维护。",
       "families": [
         {
           "family": "minimax_m",
@@ -664,47 +664,101 @@
           "series": [
             {
               "id": "vendor-level2:minimax:m",
-              "title": "MiniMax M 模型",
+              "title": "MiniMax M 系列",
               "generation_state": "newest",
               "expected_members": [
                 "minimax-m3",
-                "minimax-m2-7"
+                "minimax-m2.7",
+                "minimax-m2.5",
+                "minimax-m2.1",
+                "minimax-m2"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.minimax.io/docs/guides/models-intro",
-            "status": "verified",
-            "member_status": {
-              "minimax-m3": "verified",
-              "minimax-m2-7": "verified"
-            }
+            "status": "verified"
           }
         },
         {
-          "family": "hailuo",
+          "family": "hailuo_video",
           "usage_kind": "video",
           "modality": "video",
           "series_kind": "model_series",
-          "version_axis": "none",
+          "version_axis": "dot",
           "name_patterns": [
             "hailuo",
-            "海螺",
             "minimax-h",
             "h3"
           ],
           "series": [
             {
-              "id": "vendor-level2:minimax:minimax-h3",
-              "title": "MiniMax H3",
+              "id": "vendor-level2:minimax:hailuo-video",
+              "title": "Hailuo 视频系列",
               "generation_state": "newest",
               "expected_members": [
-                "minimax-h3"
+                "minimax-h3",
+                "minimax-hailuo-2.3",
+                "minimax-hailuo-2.3-fast"
               ]
             }
           ],
           "evidence": {
-            "url": "https://www.minimax.io/news/minimax-h3-open-source",
+            "url": "https://platform.minimax.io/docs/api-reference/video-generation",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "speech",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "name_patterns": [
+            "speech-2"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:minimax:speech",
+              "title": "Speech 语音系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "minimax-speech-2.8",
+                "minimax-speech-2.6",
+                "minimax-speech-2.5"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.minimax.io/docs/api-reference/api-overview",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "music",
+          "usage_kind": "media",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "name_patterns": [
+            "music-"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:minimax:music",
+              "title": "Music 音乐系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "minimax-music-2.6",
+                "minimax-music-2.5-plus",
+                "minimax-music-2.5",
+                "minimax-music-2.0",
+                "minimax-music-1.5"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.minimax.io/docs/api-reference/api-overview",
             "status": "verified"
           }
         }
@@ -713,7 +767,7 @@
     {
       "vendor_key": "xai",
       "direction": "llm",
-      "description": "xAI：Grok 4 主版本（4.5/4.6），Imagine 为媒体家族。",
+      "description": "xAI：Grok 4 系列为通用模型，Imagine、Voice、Build 和 Bot 为独立商业产品族。",
       "families": [
         {
           "family": "grok",
@@ -724,16 +778,20 @@
           "series": [
             {
               "id": "vendor-level2:xai:grok",
-              "title": "Grok 模型",
+              "title": "Grok 4 系列",
               "generation_state": "newest",
               "expected_members": [
-                "grok-4-6",
-                "grok-4-5"
+                "grok-4.6",
+                "grok-4.5",
+                "grok-4.3",
+                "grok-4.20-0309-reasoning",
+                "grok-4.20-0309-non-reasoning",
+                "grok-4.20-multi-agent-0309"
               ]
             }
           ],
           "evidence": {
-            "url": "https://docs.x.ai/developers/models/grok-4.6",
+            "url": "https://docs.x.ai/developers/models",
             "status": "verified"
           }
         },
@@ -742,23 +800,89 @@
           "usage_kind": "media",
           "modality": "omni",
           "series_kind": "model_series",
-          "version_axis": "none",
+          "version_axis": "dot",
           "name_patterns": [
             "imagine"
           ],
           "series": [
             {
               "id": "vendor-level2:xai:grok-imagine",
-              "title": "Grok Imagine",
+              "title": "Grok Imagine 系列",
               "generation_state": "newest",
               "expected_members": [
-                "grok-imagine-image-2-0",
-                "grok-imagine-video-1-5"
+                "grok-imagine-image-2.0",
+                "grok-imagine-image",
+                "grok-imagine-image-quality",
+                "grok-imagine-video-1.5",
+                "grok-imagine-video"
               ]
             }
           ],
           "evidence": {
-            "url": "https://docs.x.ai/developers/models/grok-4.6",
+            "url": "https://docs.x.ai/developers/pricing",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "build",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "series": [
+            {
+              "id": "vendor-level2:xai:grok-build",
+              "title": "Grok Build",
+              "generation_state": "newest",
+              "expected_members": [
+                "grok-build-0.1",
+                "grok-build"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.x.ai/build/overview",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "voice",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
+          "series_kind": "tool_series",
+          "series": [
+            {
+              "id": "vendor-level2:xai:grok-voice",
+              "title": "Grok Voice",
+              "generation_state": "newest",
+              "expected_members": [
+                "grok-voice-think-fast-2.0",
+                "xai-speech-to-text",
+                "xai-text-to-speech"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.x.ai/developers/model-capabilities/audio/voice",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "bot",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "series": [
+            {
+              "id": "vendor-level2:xai:grok-bot",
+              "title": "Grok Bot",
+              "generation_state": "newest",
+              "expected_members": [
+                "grok-bot"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.x.ai/developers/release-notes",
             "status": "verified"
           }
         }

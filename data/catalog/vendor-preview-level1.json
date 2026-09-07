@@ -239,36 +239,40 @@
       "id": "vendor-level1:minimax",
       "vendor_key": "minimax",
       "title": "MiniMax",
-      "icon": "🐚",
-      "official_url": "https://hailuoai.com",
-      "description": "MiniMax 推出的多模态 AI 平台，以海螺AI 视频生成和超低 API 文本价格著称。",
-      "status": "partial",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs",
+      "description": "MiniMax 是覆盖文本、视频、语音和音乐生成的多模态 AI 平台，提供商业 API 与订阅访问。",
+      "status": "active",
       "features": [
         {
           "tone": "positive",
-          "text": "MiniMax-Text-01 在 $0.30/MTok 价位极具性价比"
+          "text": "多模态 API 覆盖文本、视频、语音和音乐"
         },
         {
           "tone": "positive",
-          "text": "Hailuo 02 视频生成支持 1080p 10 秒，质量对齐国内第一梯队"
+          "text": "提供按量计费和订阅计划"
         },
         {
           "tone": "negative",
-          "text": "国际市场品牌知名度较低，社区和第三方工具生态有限"
-        },
-        {
-          "tone": "negative",
-          "text": "上下文窗口规格未在定价页公开，需查阅模型文档"
+          "text": "国际化文档与产品入口仍分散在多个站点"
         }
       ],
       "level2_refs": [
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:minimax:minimax-h3"
+          "id": "vendor-level2:minimax:m"
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:minimax:m"
+          "id": "vendor-level2:minimax:hailuo-video"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:minimax:speech"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:minimax:music"
         }
       ]
     },
@@ -276,40 +280,44 @@
       "id": "vendor-level1:xai",
       "vendor_key": "xai",
       "title": "xAI",
-      "icon": "🚀",
-      "official_url": "https://grok.com",
-      "description": "Elon Musk 创办的 xAI 公司推出的 AI 模型，以实时 X 平台数据接入和推理能力见长，API 定价极具竞争力。",
-      "status": "partial",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/models",
+      "description": "xAI 以 Grok 通用模型为核心，并提供 Imagine、Voice、Grok Build 和 Grok Bot 等商业产品。",
+      "status": "active",
       "features": [
         {
           "tone": "positive",
-          "text": "Grok 4.1 Fast 在 $0.20/$0.50 价位具备推理能力，同价位性价比领先"
+          "text": "Grok 系列覆盖编程、推理和智能体工作流"
         },
         {
           "tone": "positive",
-          "text": "2M 上下文窗口（4.1 Fast），支持长文档和深度分析"
+          "text": "提供图像、视频和语音 API"
         },
         {
           "tone": "negative",
-          "text": "中国市场网络访问受限"
-        },
-        {
-          "tone": "negative",
-          "text": "模型淘汰速度较快（2026-05 退役 8 个旧模型），需关注迁移通知"
+          "text": "模型版本迭代和退役节奏较快"
         }
       ],
       "level2_refs": [
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:xai:grok-imagine"
-        },
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:xai:grok"
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:xai:grok-4-6"
+          "id": "vendor-level2:xai:grok-imagine"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:xai:grok-build"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:xai:grok-voice"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:xai:grok-bot"
         }
       ]
     },

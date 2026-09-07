@@ -226,46 +226,6 @@
       "generation_state": "newest"
     },
     {
-      "id": "vendor-level2:xai:grok",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:xai"
-      },
-      "vendor_key": "xai",
-      "title": "Grok 模型",
-      "official_url": "https://docs.x.ai/",
-      "summary": "xAI 官方文档中心，涵盖 Grok 系列模型、API 工具与开发者资源。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:grok-4-6"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:grok-4-5"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:minimax:minimax-h3",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:minimax"
-      },
-      "vendor_key": "minimax",
-      "title": "MiniMax H3",
-      "official_url": "https://platform.minimax.io/docs/guides/models-intro",
-      "summary": "MiniMax官方文档提供了多种AI模型，涵盖语言、视频、音频、图像和音乐等模态。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:minimax-h3"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:google:gemini-image",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -284,28 +244,6 @@
       ],
       "series_kind": "model_series",
       "generation_state": "newest"
-    },
-    {
-      "id": "vendor-level2:minimax:m",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:minimax"
-      },
-      "vendor_key": "minimax",
-      "title": "MiniMax M 模型",
-      "official_url": "https://platform.minimax.io/docs/token-plan/intro",
-      "summary": "MiniMax API 提供的订阅计划，涵盖 M3 等模型。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:minimax-m3"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:minimax-m2-7"
-        }
-      ]
     },
     {
       "id": "vendor-level2:moonshot:kimi",
@@ -544,28 +482,6 @@
       ]
     },
     {
-      "id": "vendor-level2:xai:grok-imagine",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:xai"
-      },
-      "vendor_key": "xai",
-      "title": "Grok Imagine",
-      "official_url": "https://docs.x.ai/developers/model-capabilities/imagine",
-      "summary": "Grok Imagine 是 xAI 提供的图像生成与编辑 API 系列，涵盖文本转图像、图像编辑及视频生成能力。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:grok-imagine-image-2-0"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:grok-imagine-video-1-5"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:vidu:viduq3",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -728,24 +644,6 @@
         }
       ],
       "series_kind": "tool_series"
-    },
-    {
-      "id": "vendor-level2:xai:grok-4-6",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:xai"
-      },
-      "vendor_key": "xai",
-      "title": "Grok 4.6",
-      "official_url": "https://docs.x.ai/developers/release-notes",
-      "summary": "SpaceXAI 的 Grok API 是面向开发者的模型接口，提供 Grok 系列基础模型的程序化访问，支持文本和图像输入及文本输出，具有 500k 上下文窗口，并提供多种定价选项。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:grok-4-6"
-        }
-      ]
     },
     {
       "id": "vendor-level2:cohere:command-a",
@@ -1156,6 +1054,279 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:deepseek-harness"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:minimax:m",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:minimax"
+      },
+      "vendor_key": "minimax",
+      "title": "MiniMax M 系列",
+      "official_url": "https://platform.minimax.io/docs/guides/models-intro",
+      "summary": "MiniMax 的通用文本模型系列，覆盖编码、推理、工具调用和智能体工作流。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-m3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-m2.7"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-m2.5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-m2.1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-m2"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:minimax:hailuo-video",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:minimax"
+      },
+      "vendor_key": "minimax",
+      "title": "Hailuo 视频系列",
+      "official_url": "https://platform.minimax.io/docs/api-reference/video-generation",
+      "summary": "MiniMax 的商业视频生成 API，覆盖文本生视频和图像生视频。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-h3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-hailuo-2.3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-hailuo-2.3-fast"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:minimax:speech",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:minimax"
+      },
+      "vendor_key": "minimax",
+      "title": "Speech 语音系列",
+      "official_url": "https://platform.minimax.io/docs/api-reference/api-overview",
+      "summary": "MiniMax 的语音合成与声音工作流模型系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-speech-2.8"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-speech-2.6"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-speech-2.5"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:minimax:music",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:minimax"
+      },
+      "vendor_key": "minimax",
+      "title": "Music 音乐系列",
+      "official_url": "https://platform.minimax.io/docs/api-reference/api-overview",
+      "summary": "MiniMax 的商业音乐生成模型系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-music-2.6"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-music-2.5-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-music-2.5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-music-2.0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-music-1.5"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:xai:grok",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xai"
+      },
+      "vendor_key": "xai",
+      "title": "Grok 4 系列",
+      "official_url": "https://docs.x.ai/developers/models",
+      "summary": "xAI 的通用 Grok API 模型系列，覆盖编程、推理、工具调用和多智能体任务。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-4.6"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-4.5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-4.3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-4.20-0309-reasoning"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-4.20-0309-non-reasoning"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-4.20-multi-agent-0309"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:xai:grok-imagine",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xai"
+      },
+      "vendor_key": "xai",
+      "title": "Grok Imagine 系列",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "summary": "xAI 的商业图像与视频生成 API 系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-imagine-image-2.0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-imagine-image"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-imagine-image-quality"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-imagine-video-1.5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-imagine-video"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:xai:grok-build",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xai"
+      },
+      "vendor_key": "xai",
+      "title": "Grok Build",
+      "official_url": "https://docs.x.ai/build/overview",
+      "summary": "xAI 面向智能体编码和办公工作流的正式产品与 API 模型。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-build-0.1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-build"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:xai:grok-voice",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xai"
+      },
+      "vendor_key": "xai",
+      "title": "Grok Voice",
+      "official_url": "https://docs.x.ai/developers/model-capabilities/audio/voice",
+      "summary": "xAI 的实时语音、语音转文字和文字转语音 API 产品族。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-voice-think-fast-2.0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:xai-speech-to-text"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:xai-text-to-speech"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:xai:grok-bot",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xai"
+      },
+      "vendor_key": "xai",
+      "title": "Grok Bot",
+      "official_url": "https://docs.x.ai/developers/release-notes",
+      "summary": "xAI 的持久化云端 AI 队友产品。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-bot"
         }
       ],
       "series_kind": "tool_series"

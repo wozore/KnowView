@@ -2619,195 +2619,6 @@
       "model_key": "google-gemini-3.1-pro"
     },
     {
-      "vendor_key": "xai",
-      "detail_kind": "api_model",
-      "title": "Grok 4.6",
-      "vendor_label": "xAI",
-      "icon": "🤖",
-      "official_url": "https://docs.x.ai/developers/grok-4-6",
-      "status": "active",
-      "summary": "Grok 4.6 是 xAI 的前沿模型，支持文本和图像输入、文本输出，具备 500k 上下文窗口，用于编程、智能体任务和知识工作。",
-      "one_m_context": "500k tokens",
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "标准定价",
-            "pricing_basis": "每百万 tokens",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "输入（低于 200k prompt tokens）",
-                "amount": "$2.00",
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "缓存输入（低于 200k prompt tokens）",
-                "amount": "$0.50",
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "输出（低于 200k prompt tokens）",
-                "amount": "$6.00",
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "输入（高于 200k prompt tokens）",
-                "amount": "$4.00",
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "缓存输入（高于 200k prompt tokens）",
-                "amount": "$1.00",
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "输出（高于 200k prompt tokens）",
-                "amount": "$12.00",
-                "unit": "per 1M tokens"
-              }
-            ],
-            "conditions": "按 prompt tokens 数量分档"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "编程辅助",
-          "description": "定位并修复代码 Bug，解释代码逻辑"
-        },
-        {
-          "title": "智能体任务",
-          "description": "执行多步骤自动化流程与任务编排"
-        },
-        {
-          "title": "知识工作",
-          "description": "处理长文档、研究资料与复杂知识推理"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "图像生成",
-          "description": "模型仅支持文本输出，无法生成图像"
-        },
-        {
-          "title": "语音合成",
-          "description": "模型仅处理文本和图像输入，不支持语音输出"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Release Notes - xAI Docs - SpaceXAI",
-          "url": "https://docs.x.ai/developers/release-notes"
-        },
-        {
-          "title": "Grok 4.6 - xAI Docs - SpaceXAI",
-          "url": "https://docs.x.ai/developers/grok-4-6"
-        },
-        {
-          "title": "Grok Build - xAI Docs - SpaceXAI",
-          "url": "https://docs.x.ai/build/overview"
-        },
-        {
-          "title": "Quickstart - xAI Docs - SpaceXAI",
-          "url": "https://docs.x.ai/developers/quickstart"
-        },
-        {
-          "title": "Overview | SpaceXAI Docs",
-          "url": "https://docs.x.ai/overview"
-        }
-      ],
-      "release_date": "2026-08-12",
-      "theme": "general",
-      "id": "tool-level3:grok-4-6"
-    },
-    {
-      "vendor_key": "minimax",
-      "detail_kind": "api_model",
-      "title": "MiniMax H3",
-      "vendor_label": "MiniMax",
-      "icon": "🤖",
-      "official_url": "https://platform.minimax.io/docs/guides/video-generation",
-      "status": "active",
-      "summary": "MiniMax H3是新一代开源通用多模态视频生成模型，支持文本、图像、视频和音频输入，可生成4-15秒的768P或2K视频。",
-      "one_m_context": "支持多模态输入，包括文本、图像、视频和音频，可生成最长15秒的视频。",
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "按量计费",
-            "pricing_basis": "按视频生成时长计费",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "视频生成",
-                "amount": "0.5",
-                "unit": "每秒"
-              }
-            ],
-            "conditions": "仅按量计费API支持"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "创意视频制作",
-          "description": "从文本或图片生成高质量视频内容"
-        },
-        {
-          "title": "多模态参考生成",
-          "description": "利用参考图像、视频或音频生成个性化视频"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "实时视频流处理",
-          "description": "模型生成需要较长时间，不适合实时交互"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Models - MiniMax API Docs - MiniMax",
-          "url": "https://platform.minimax.io/docs/release-notes/models"
-        },
-        {
-          "title": "Video Generation - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/guides/video-generation"
-        },
-        {
-          "title": "Sept. 23, 2025 - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/release-notes/apis"
-        },
-        {
-          "title": "Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/guides/models-intro"
-        },
-        {
-          "title": "API Overview - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/api-reference/api-overview"
-        },
-        {
-          "title": "Prerequisites - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/guides/quickstart-preparation"
-        },
-        {
-          "title": "About APIs - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/faq/about-apis"
-        }
-      ],
-      "release_date": "2026-07-31",
-      "theme": "general",
-      "id": "tool-level3:minimax-h3"
-    },
-    {
       "vendor_key": "cohere",
       "detail_kind": "api_model",
       "title": "Command A+",
@@ -3600,328 +3411,6 @@
       "theme": "general",
       "id": "tool-level3:gemini-3-6-flash",
       "model_key": "google-gemini-3.6-flash"
-    },
-    {
-      "vendor_key": "minimax",
-      "detail_kind": "api_model",
-      "title": "MiniMax M3",
-      "vendor_label": "MiniMax",
-      "icon": "🤖",
-      "official_url": "https://platform.minimax.io/docs/token-plan/intro",
-      "status": "active",
-      "summary": "MiniMax M3 文本模型，支持 1M 上下文窗口，提供订阅和按量付费两种计费方式。",
-      "one_m_context": {
-        "status": "native",
-        "tokens": 1000000,
-        "conditions": "所有订阅计划均包含 1M 上下文窗口。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "Pay-as-you-go Standard",
-            "pricing_basis": "per_token",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "输入 ≤512k tokens",
-                "amount": 0.3,
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "输出 ≤512k tokens",
-                "amount": 1.2,
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "输入 >512k tokens",
-                "amount": 0.6,
-                "unit": "per 1M tokens"
-              },
-              {
-                "label": "输出 >512k tokens",
-                "amount": 2.4,
-                "unit": "per 1M tokens"
-              }
-            ],
-            "conditions": "标准服务层，输入超过 512k tokens 时单价更高。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "个人项目与原型开发",
-          "description": "适合使用 Plus 计划进行轻量级开发调试。"
-        },
-        {
-          "title": "日常专业编码",
-          "description": "Max 计划提供大额 token 配额，满足高频调用。"
-        },
-        {
-          "title": "高频团队工作流",
-          "description": "Ultra 计划支持多 agent 并发，适合重度使用。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "小规模低频使用",
-          "description": "订阅费用可能高于实际成本，按需付费更优。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Token Plan Overview - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/token-plan/intro"
-        },
-        {
-          "title": "Token Plan - MiniMax API Platform",
-          "url": "https://platform.minimax.io/subscribe/token-plan"
-        },
-        {
-          "title": "Pay as You Go - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/guides/pricing-paygo"
-        },
-        {
-          "title": "Token Plan - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/guides/pricing-token-plan"
-        },
-        {
-          "title": "Token Plan Migration Guide - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/token-plan/migration"
-        },
-        {
-          "title": "API Overview - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/api-reference/api-overview"
-        }
-      ],
-      "theme": "general",
-      "id": "tool-level3:minimax-m3"
-    },
-    {
-      "vendor_key": "minimax",
-      "detail_kind": "api_model",
-      "title": "MiniMax M2.7",
-      "vendor_label": "MiniMax",
-      "icon": "🤖",
-      "official_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
-      "status": "active",
-      "summary": "MiniMax M2.7 是新一代多模态语言模型，支持 1M 上下文窗口，提供标准和高高速版本，适用于智能体、编码和多模态工作流。",
-      "one_m_context": {
-        "status": "native",
-        "tokens": 1000000,
-        "conditions": "适用于 Token Plan 订阅和 Pay as You Go 模式，支持长文档与大型代码库处理。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "Pay as You Go 标准版",
-            "pricing_basis": "token",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "输入",
-                "amount": 0.3,
-                "unit": "per million tokens"
-              },
-              {
-                "label": "输出",
-                "amount": 1.2,
-                "unit": "per million tokens"
-              }
-            ],
-            "conditions": "标准服务层级，按实际用量计费，支持提示缓存。"
-          },
-          {
-            "label": "Pay as You Go 优先版",
-            "pricing_basis": "token",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "输入",
-                "amount": 0.6,
-                "unit": "per million tokens"
-              },
-              {
-                "label": "输出",
-                "amount": 2.4,
-                "unit": "per million tokens"
-              }
-            ],
-            "conditions": "优先服务层级（service_tier=priority），价格为标准的1.5倍，提供更快响应。"
-          },
-          {
-            "label": "Token Plan 订阅",
-            "pricing_basis": "monthly",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "Plus",
-                "amount": 20,
-                "unit": "per month"
-              },
-              {
-                "label": "Max",
-                "amount": 50,
-                "unit": "per month"
-              },
-              {
-                "label": "Ultra",
-                "amount": 120,
-                "unit": "per month"
-              }
-            ],
-            "conditions": "订阅计划提供月度配额，包含多模态资源，按固定月费计费。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "智能体开发",
-          "description": "支持长上下文和并发智能体的复杂工作流"
-        },
-        {
-          "title": "编码辅助",
-          "description": "集成主流编码工具，辅助代码生成与理解"
-        },
-        {
-          "title": "多模态处理",
-          "description": "同时处理文本、图像、语音和视频等多模态输入"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "低延迟实时交互",
-          "description": "标准版不适合需要极低延迟的场景，但高速版可缓解"
-        },
-        {
-          "title": "预算受限项目",
-          "description": "按量付费模式下高用量可能成本较高，订阅模式更适合长期稳定使用"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Pay as You Go - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/guides/pricing-paygo"
-        },
-        {
-          "title": "Token Plan Migration Guide - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/token-plan/migration"
-        },
-        {
-          "title": "Token Plan Overview - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/token-plan/intro"
-        },
-        {
-          "title": "Token Plan - Models - MiniMax API Docs",
-          "url": "https://platform.minimax.io/docs/guides/pricing-token-plan"
-        },
-        {
-          "title": "Token Plan - MiniMax API Platform",
-          "url": "https://platform.minimax.io/subscribe/token-plan"
-        }
-      ],
-      "theme": "general",
-      "id": "tool-level3:minimax-m2-7"
-    },
-    {
-      "vendor_key": "xai",
-      "detail_kind": "api_model",
-      "title": "Grok 4.5",
-      "vendor_label": "xAI",
-      "icon": "🤖",
-      "official_url": "https://docs.x.ai/developers/models/grok-4.5",
-      "status": "active",
-      "summary": "Grok 4.5 是 SpaceXAI 面向编码、智能体任务和知识工作的模型，支持函数调用、结构化输出和推理，上下文窗口为 50 万 tokens。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "上下文窗口原生为 500,000 tokens，不支持 1M 上下文。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "输入",
-            "pricing_basis": "按 tokens 计费",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "每 1M 输入 tokens",
-                "amount": 2,
-                "unit": "USD"
-              }
-            ],
-            "conditions": "标准输入费率，适用于所有请求。"
-          },
-          {
-            "label": "缓存输入",
-            "pricing_basis": "按 tokens 计费",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "每 1M 缓存 tokens",
-                "amount": 0.3,
-                "unit": "USD"
-              }
-            ],
-            "conditions": "仅当使用缓存输入 tokens 时适用。"
-          },
-          {
-            "label": "输出",
-            "pricing_basis": "按 tokens 计费",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "每 1M 输出 tokens",
-                "amount": 6,
-                "unit": "USD"
-              }
-            ],
-            "conditions": "标准输出费率，适用于所有请求。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "智能体软件开发",
-          "description": "支持 agentic software 任务，如自动编码和工具调用。"
-        },
-        {
-          "title": "推理任务",
-          "description": "支持 Reasoning 能力，可进行多步骤推理。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "1M 超长上下文任务",
-          "description": "上下文窗口为 500,000 tokens，不支持 1M 上下文。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Release Notes | SpaceXAI Docs - Grok API Documentation",
-          "url": "https://docs.x.ai/developers/release-notes"
-        },
-        {
-          "title": "Grok 4.5 | SpaceXAI Docs",
-          "url": "https://docs.x.ai/developers/models/grok-4.5"
-        }
-      ],
-      "release_date": "2025-07-08",
-      "theme": "general",
-      "id": "tool-level3:grok-4-5"
     },
     {
       "vendor_key": "moonshot",
@@ -5984,169 +5473,6 @@
       ],
       "theme": "vision",
       "id": "tool-level3:qwen-image-2-0-pro"
-    },
-    {
-      "vendor_key": "xai",
-      "detail_kind": "api_model",
-      "title": "Grok Imagine Image 2.0",
-      "vendor_label": "xAI",
-      "icon": "🖼️",
-      "official_url": "https://docs.x.ai/developers/models/grok-imagine-image",
-      "status": "active",
-      "summary": "grok-imagine-image 是 xAI 的图像生成模型，支持文本和图像输入，生成 1K 或 2K 分辨率的图像。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "grok-imagine-image 按输出图像计费",
-            "pricing_basis": "per_image",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "1K 分辨率输出",
-                "amount": 0.02,
-                "unit": "image"
-              },
-              {
-                "label": "2K 分辨率输出",
-                "amount": 0.02,
-                "unit": "image"
-              }
-            ],
-            "conditions": "输入和输出均为按图像计费；输出价格不随分辨率变化。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "广告创意生成",
-          "description": "根据文案生成配图或海报视觉。"
-        },
-        {
-          "title": "艺术风格转换",
-          "description": "将照片转换为素描或插画风格。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "实时视频生成",
-          "description": "该模型仅支持图像，不支持视频输出。"
-        },
-        {
-          "title": "超高清打印",
-          "description": "最大输出分辨率为 2K，不适合大型印刷。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Imagine Overview | SpaceXAI Docs - Grok API Documentation",
-          "url": "https://docs.x.ai/developers/model-capabilities/imagine"
-        },
-        {
-          "title": "API Pricing | SpaceXAI Docs",
-          "url": "https://docs.x.ai/developers/pricing"
-        },
-        {
-          "title": "Grok Imagine Image | SpaceXAI Docs",
-          "url": "https://docs.x.ai/developers/models/grok-imagine-image"
-        }
-      ],
-      "theme": "vision",
-      "id": "tool-level3:grok-imagine-image-2-0"
-    },
-    {
-      "vendor_key": "xai",
-      "detail_kind": "api_model",
-      "title": "Grok Imagine Video 1.5",
-      "vendor_label": "xAI",
-      "icon": "🎬",
-      "official_url": "https://docs.x.ai/developers/models/grok-imagine-video-1.5-preview",
-      "status": "active",
-      "summary": "Grok Imagine Video 1.5 Preview 是 xAI 推出的视频生成模型，支持文本、图像、音频输入，根据分辨率按秒计费。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "输出视频",
-            "pricing_basis": "per_second",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "480p",
-                "amount": 0.08,
-                "unit": "per_second"
-              },
-              {
-                "label": "720p",
-                "amount": 0.14,
-                "unit": "per_second"
-              }
-            ],
-            "conditions": "按视频生成时长计费，分辨率不同单价不同，仅支持 us-east-1 和 us-west-2 区域。"
-          },
-          {
-            "label": "输入图像",
-            "pricing_basis": "per_image",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "图像",
-                "amount": 0.01,
-                "unit": "per_image"
-              }
-            ],
-            "conditions": "使用图像作为输入时产生费用，音频输入免费。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "视频内容创作",
-          "description": "利用模型生成视频片段，支持文本、图像、音频输入。"
-        },
-        {
-          "title": "多媒体应用开发",
-          "description": "在应用中集成视频生成功能，基于 API 调用。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "低成本批量生成",
-          "description": "按秒计费，成本较高，不适合低成本批量生成。"
-        },
-        {
-          "title": "非视频类任务",
-          "description": "模型仅支持视频生成，不适用于文本或图像生成。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Grok Imagine Video 1.5 Preview | SpaceXAI Docs",
-          "url": "https://docs.x.ai/developers/models/grok-imagine-video-1.5-preview"
-        },
-        {
-          "title": "Grok Imagine Video | SpaceXAI Docs",
-          "url": "https://docs.x.ai/developers/models/grok-imagine-video"
-        }
-      ],
-      "theme": "media",
-      "id": "tool-level3:grok-imagine-video-1-5"
     },
     {
       "vendor_key": "vidu",
@@ -9314,6 +8640,2166 @@
         }
       ],
       "last_updated_date": "2026-09-07"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax M3",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/subscribe/token-plan",
+      "status": "active",
+      "summary": "MiniMax M3 通用文本模型，提供 1M 上下文和按量 API 访问。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "官方 Token Plan 页面列出 1M 上下文能力。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.6,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 2.4,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax M3 官方文档",
+          "url": "https://platform.minimax.io/subscribe/token-plan"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-m3",
+      "model_key": "minimax-minimax-m3",
+      "visibility": "visible",
+      "release_date": "2026-06-01"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax M2.7",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+      "status": "active",
+      "summary": "MiniMax M2.7 通用文本模型，面向编码、工具调用和智能体工作流。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "官方模型文档列出 M2.7 的长上下文能力。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.3,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 1.2,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax M2.7 官方文档",
+          "url": "https://platform.minimax.io/docs/guides/pricing-paygo"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-m2.7",
+      "model_key": "minimax-minimax-m2.7",
+      "visibility": "visible",
+      "release_date": "2026-03-18"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax M2.5",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/models-intro",
+      "status": "active",
+      "summary": "MiniMax M2.5 通用文本模型，面向代码生成、重构和复杂工作流。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 200000,
+        "conditions": "官方模型文档列出 M2 系列上下文能力。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.3,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 1.2,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax M2.5 官方文档",
+          "url": "https://platform.minimax.io/docs/guides/models-intro"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-m2.5",
+      "model_key": "minimax-minimax-m2.5",
+      "visibility": "visible",
+      "release_date": "2026-02-01"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax M2.1",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/release-notes/models",
+      "status": "active",
+      "summary": "MiniMax M2.1 通用文本模型，强调多语言编程和代码重构。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 200000,
+        "conditions": "官方模型文档列出 M2 系列上下文能力。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.3,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 1.2,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax M2.1 官方文档",
+          "url": "https://platform.minimax.io/docs/release-notes/models"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-m2.1",
+      "model_key": "minimax-minimax-m2.1",
+      "visibility": "visible",
+      "release_date": "2025-12-22"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax M2",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+      "status": "active",
+      "summary": "MiniMax M2 通用文本模型，支持推理、函数调用和智能体任务。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 200000,
+        "conditions": "官方模型文档列出 200k 上下文能力。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.3,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 1.2,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax M2 官方文档",
+          "url": "https://platform.minimax.io/docs/guides/pricing-paygo"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-m2",
+      "model_key": "minimax-minimax-m2",
+      "visibility": "visible",
+      "release_date": "2025-10-27"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax H3",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/subscribe/token-plan",
+      "status": "active",
+      "summary": "MiniMax H3 视频生成模型，官方 API 按视频秒数计费。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "768P 视频",
+                "amount": 0.08,
+                "unit": "per second"
+              },
+              {
+                "label": "2K 视频",
+                "amount": 0.13,
+                "unit": "per second"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax H3 官方文档",
+          "url": "https://platform.minimax.io/subscribe/token-plan"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-h3",
+      "model_key": "minimax-minimax-h3",
+      "visibility": "visible",
+      "release_date": "2026-07-31"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Hailuo 2.3",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/api-reference/video-generation",
+      "status": "active",
+      "summary": "MiniMax Hailuo 2.3 视频模型，支持文本生视频和图像生视频。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "768P 6秒视频",
+                "amount": 0.28,
+                "unit": "per video"
+              },
+              {
+                "label": "1080P 6秒视频",
+                "amount": 0.49,
+                "unit": "per video"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Hailuo 2.3 官方文档",
+          "url": "https://platform.minimax.io/docs/api-reference/video-generation"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-hailuo-2.3",
+      "model_key": "minimax-minimax-hailuo-2.3",
+      "visibility": "visible",
+      "release_date": "2025-10-28"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Hailuo 2.3 Fast",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/api-reference/video-generation",
+      "status": "active",
+      "summary": "MiniMax Hailuo 2.3 Fast 图像生视频模型，面向低延迟和成本效率。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "768P 6秒视频",
+                "amount": 0.19,
+                "unit": "per video"
+              },
+              {
+                "label": "1080P 6秒视频",
+                "amount": 0.33,
+                "unit": "per video"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Hailuo 2.3 Fast 官方文档",
+          "url": "https://platform.minimax.io/docs/api-reference/video-generation"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-hailuo-2.3-fast",
+      "model_key": "minimax-minimax-hailuo-2.3-fast",
+      "visibility": "visible",
+      "release_date": "2025-10-28"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Speech 2.8",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/api-reference/api-overview",
+      "status": "active",
+      "summary": "MiniMax Speech 2.8 语音合成系列，提供 HD 与 Turbo 服务档位。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Turbo",
+                "amount": 60,
+                "unit": "per 1M characters"
+              },
+              {
+                "label": "HD",
+                "amount": 100,
+                "unit": "per 1M characters"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Speech 2.8 官方文档",
+          "url": "https://platform.minimax.io/docs/api-reference/api-overview"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-speech-2.8",
+      "model_key": "minimax-minimax-speech-2.8",
+      "visibility": "visible",
+      "release_date": "2026-01-23"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Speech 2.6",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/api-reference/api-overview",
+      "status": "active",
+      "summary": "MiniMax Speech 2.6 语音合成系列，支持多语言和声音克隆工作流。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Turbo",
+                "amount": 60,
+                "unit": "per 1M characters"
+              },
+              {
+                "label": "HD",
+                "amount": 100,
+                "unit": "per 1M characters"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Speech 2.6 官方文档",
+          "url": "https://platform.minimax.io/docs/api-reference/api-overview"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-speech-2.6",
+      "model_key": "minimax-minimax-speech-2.6",
+      "visibility": "visible",
+      "release_date": "2025-10-29"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Speech 2.5",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/release-notes/models",
+      "status": "active",
+      "summary": "MiniMax Speech 2.5 语音合成模型，面向高相似度和多语言语音生成。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "语音合成",
+                "amount": 60,
+                "unit": "per 1M characters"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Speech 2.5 官方文档",
+          "url": "https://platform.minimax.io/docs/release-notes/models"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:minimax-speech-2.5",
+      "model_key": "minimax-minimax-speech-2.5",
+      "visibility": "visible",
+      "release_date": "2025-08-06"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Music 2.6",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/api-reference/api-overview",
+      "status": "active",
+      "summary": "MiniMax Music 2.6 音乐生成模型，支持歌词和音乐灵感输入。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "最长5分钟音乐",
+                "amount": 0.15,
+                "unit": "per song"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Music 2.6 官方文档",
+          "url": "https://platform.minimax.io/docs/api-reference/api-overview"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-music-2.6",
+      "model_key": "minimax-minimax-music-2.6",
+      "visibility": "visible",
+      "release_date": "2026-04-01"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Music 2.5+",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+      "status": "active",
+      "summary": "MiniMax Music 2.5+ 音乐生成模型，提供增强的音乐表现和风格控制。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "最长5分钟音乐",
+                "amount": 0.15,
+                "unit": "per song"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Music 2.5+ 官方文档",
+          "url": "https://platform.minimax.io/docs/guides/pricing-paygo"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-music-2.5-plus",
+      "model_key": "minimax-minimax-music-2.5-plus",
+      "visibility": "visible",
+      "release_date": "2026-03-01"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Music 2.5",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+      "status": "active",
+      "summary": "MiniMax Music 2.5 音乐生成模型，支持歌词和音乐描述生成歌曲。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "最长5分钟音乐",
+                "amount": 0.15,
+                "unit": "per song"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Music 2.5 官方文档",
+          "url": "https://platform.minimax.io/docs/guides/pricing-paygo"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-music-2.5",
+      "model_key": "minimax-minimax-music-2.5",
+      "visibility": "visible",
+      "release_date": "2026-01-16"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Music 2.0",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-paygo",
+      "status": "active",
+      "summary": "MiniMax Music 2.0 音乐生成模型，强化人声表现和情绪表达。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "最长5分钟音乐",
+                "amount": 0.03,
+                "unit": "per song"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Music 2.0 官方文档",
+          "url": "https://platform.minimax.io/docs/guides/pricing-paygo"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-music-2.0",
+      "model_key": "minimax-minimax-music-2.0",
+      "visibility": "visible",
+      "release_date": "2025-10-29"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "api_model",
+      "title": "MiniMax Music 1.5",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/release-notes/models",
+      "status": "active",
+      "summary": "MiniMax Music 1.5 音乐生成模型，支持最长约4分钟歌曲生成。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "音乐生成",
+                "amount": 0.15,
+                "unit": "per song"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Music 1.5 官方文档",
+          "url": "https://platform.minimax.io/docs/release-notes/models"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:minimax-music-1.5",
+      "model_key": "minimax-minimax-music-1.5",
+      "visibility": "visible",
+      "release_date": "2025-09-11"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok 4.6",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/models/grok-4.6",
+      "status": "active",
+      "summary": "Grok 4.6 是 xAI 面向编程、智能体任务和知识工作的旗舰 API 模型。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 500000,
+        "conditions": "官方模型页列出 500k 上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 2,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "缓存输入",
+                "amount": 0.5,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 6,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok 4.6 官方文档",
+          "url": "https://docs.x.ai/developers/models/grok-4.6"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:grok-4.6",
+      "model_key": "xai-grok-4.6",
+      "visibility": "visible",
+      "release_date": "2026-08-12"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok 4.5",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/models/grok-4.5",
+      "status": "active",
+      "summary": "Grok 4.5 是 xAI 面向编码、智能体任务和知识工作的 API 模型。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 500000,
+        "conditions": "官方模型页列出 500k 上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 2,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "缓存输入",
+                "amount": 0.3,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 6,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok 4.5 官方文档",
+          "url": "https://docs.x.ai/developers/models/grok-4.5"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:grok-4.5",
+      "model_key": "xai-grok-4.5",
+      "visibility": "visible",
+      "release_date": "2026-07-08"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok 4.3",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/models/grok-4.3",
+      "status": "active",
+      "summary": "Grok 4.3 是 xAI 的 1M 上下文通用 API 模型，支持工具调用和结构化输出。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "官方模型页列出 1M 上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 1.25,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 2.5,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok 4.3 官方文档",
+          "url": "https://docs.x.ai/developers/models/grok-4.3"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:grok-4.3",
+      "model_key": "xai-grok-4.3",
+      "visibility": "visible",
+      "release_date": "2026-03-01"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok 4.20 Reasoning",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/models/grok-4.20-reasoning",
+      "status": "active",
+      "summary": "Grok 4.20 Reasoning 支持推理、工具调用和 1M 上下文 API 任务。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "官方模型页列出 1M 上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 1.25,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 2.5,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok 4.20 Reasoning 官方文档",
+          "url": "https://docs.x.ai/developers/models/grok-4.20-reasoning"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:grok-4.20-0309-reasoning",
+      "model_key": "xai-grok-4.20-0309-reasoning",
+      "visibility": "visible",
+      "release_date": "2026-03-10"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok 4.20 Non-Reasoning",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/models/grok-4.20-0309-non-reasoning",
+      "status": "active",
+      "summary": "Grok 4.20 Non-Reasoning 面向快速通用推理和工具调用任务。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "官方模型页列出 1M 上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 1.25,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 2.5,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok 4.20 Non-Reasoning 官方文档",
+          "url": "https://docs.x.ai/developers/models/grok-4.20-0309-non-reasoning"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:grok-4.20-0309-non-reasoning",
+      "model_key": "xai-grok-4.20-0309-non-reasoning",
+      "visibility": "visible",
+      "release_date": "2026-03-10"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok 4.20 Multi-Agent",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/models/grok-4.20-multi-agent-0309",
+      "status": "active",
+      "summary": "Grok 4.20 Multi-Agent 支持多个智能体并行协作完成研究和工具任务。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "官方模型页列出 1M 上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 1.25,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 2.5,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "智能体编码",
+          "description": "用于代码生成、重构和工具调用"
+        },
+        {
+          "title": "工程自动化",
+          "description": "支持多步骤开发工作流"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok 4.20 Multi-Agent 官方文档",
+          "url": "https://docs.x.ai/developers/models/grok-4.20-multi-agent-0309"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:grok-4.20-multi-agent-0309",
+      "model_key": "xai-grok-4.20-multi-agent-0309",
+      "visibility": "visible",
+      "release_date": "2026-03-10"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Imagine Image 2.0",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "status": "active",
+      "summary": "Grok Imagine Image 2.0 支持文本生图和图像编辑，提供 1K 与 2K 输出。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "低质量输出",
+                "amount": 0.04,
+                "unit": "per image"
+              },
+              {
+                "label": "中质量输出",
+                "amount": 0.06,
+                "unit": "per image"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "图像生成与编辑",
+          "description": "根据文本或参考图生成视觉内容"
+        },
+        {
+          "title": "视觉创意",
+          "description": "用于设计、广告和概念探索"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Imagine Image 2.0 官方文档",
+          "url": "https://docs.x.ai/developers/pricing"
+        }
+      ],
+      "theme": "vision",
+      "id": "tool-level3:grok-imagine-image-2.0",
+      "model_key": "xai-grok-imagine-image-2.0",
+      "visibility": "visible",
+      "release_date": "2026-03-02"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Imagine Image",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "status": "active",
+      "summary": "Grok Imagine Image 支持图像生成和编辑 API。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输出图像",
+                "amount": 0.02,
+                "unit": "per image"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "图像生成与编辑",
+          "description": "根据文本或参考图生成视觉内容"
+        },
+        {
+          "title": "视觉创意",
+          "description": "用于设计、广告和概念探索"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Imagine Image 官方文档",
+          "url": "https://docs.x.ai/developers/pricing"
+        }
+      ],
+      "theme": "vision",
+      "id": "tool-level3:grok-imagine-image",
+      "model_key": "xai-grok-imagine-image",
+      "visibility": "visible",
+      "release_date": "2026-03-02"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Imagine Image Quality",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "status": "active",
+      "summary": "Grok Imagine Image Quality 提供高质量图像生成 API，计划迁移到 Image 2.0。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "1K 输出",
+                "amount": 0.05,
+                "unit": "per image"
+              },
+              {
+                "label": "2K 输出",
+                "amount": 0.07,
+                "unit": "per image"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "图像生成与编辑",
+          "description": "根据文本或参考图生成视觉内容"
+        },
+        {
+          "title": "视觉创意",
+          "description": "用于设计、广告和概念探索"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Imagine Image Quality 官方文档",
+          "url": "https://docs.x.ai/developers/pricing"
+        }
+      ],
+      "theme": "vision",
+      "id": "tool-level3:grok-imagine-image-quality",
+      "model_key": "xai-grok-imagine-image-quality",
+      "visibility": "visible",
+      "release_date": "2026-03-02"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Imagine Video 1.5",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "status": "active",
+      "summary": "Grok Imagine Video 1.5 支持文本、图像和音频输入的视频生成 API。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "480p",
+                "amount": 0.08,
+                "unit": "per second"
+              },
+              {
+                "label": "720p",
+                "amount": 0.14,
+                "unit": "per second"
+              },
+              {
+                "label": "1080p",
+                "amount": 0.25,
+                "unit": "per second"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Imagine Video 1.5 官方文档",
+          "url": "https://docs.x.ai/developers/pricing"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:grok-imagine-video-1.5",
+      "model_key": "xai-grok-imagine-video-1.5",
+      "visibility": "visible",
+      "release_date": "2026-03-02"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Imagine Video",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "status": "active",
+      "summary": "Grok Imagine Video 支持文本、图像和视频输入的视频生成与编辑。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "480p",
+                "amount": 0.05,
+                "unit": "per second"
+              },
+              {
+                "label": "720p",
+                "amount": 0.07,
+                "unit": "per second"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视频生成",
+          "description": "根据文本或图像生成视频内容"
+        },
+        {
+          "title": "多媒体创作",
+          "description": "用于短视频和视觉内容制作"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Imagine Video 官方文档",
+          "url": "https://docs.x.ai/developers/pricing"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:grok-imagine-video",
+      "model_key": "xai-grok-imagine-video",
+      "visibility": "visible",
+      "release_date": "2026-03-02"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Build 0.1",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "status": "active",
+      "summary": "Grok Build 0.1 是面向智能体编码工作流的商业 API 模型。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 256000,
+        "conditions": "官方定价页列出 256k 上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 1,
+                "unit": "per 1M tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 2,
+                "unit": "per 1M tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "智能体编码",
+          "description": "用于代码生成、重构和工具调用"
+        },
+        {
+          "title": "工程自动化",
+          "description": "支持多步骤开发工作流"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Build 0.1 官方文档",
+          "url": "https://docs.x.ai/developers/pricing"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:grok-build-0.1",
+      "model_key": "xai-grok-build-0.1",
+      "visibility": "visible",
+      "release_date": "2026-08-12"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Voice Think Fast 2.0",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/pricing",
+      "status": "active",
+      "summary": "Grok Voice Think Fast 2.0 为 xAI Speech-to-Speech API 的实时语音模型。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "官方 API 价格",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "音频",
+                "amount": 0.08,
+                "unit": "per minute"
+              },
+              {
+                "label": "文本输入",
+                "amount": 0.004,
+                "unit": "per 1K tokens"
+              }
+            ],
+            "conditions": "以官方 API 价格页的当前费率为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "不适用的非目标任务",
+          "description": "不属于该模型的主要模态或官方定位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Voice Think Fast 2.0 官方文档",
+          "url": "https://docs.x.ai/developers/pricing"
+        },
+        {
+          "title": "Introducing Grok Voice Think Fast 2.0",
+          "url": "https://x.ai/news/grok-voice-think-fast-2"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:grok-voice-think-fast-2.0",
+      "model_key": "xai-grok-voice-think-fast-2.0",
+      "visibility": "visible",
+      "release_date": "2026-07-29"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "product_variant",
+      "title": "xAI Speech-to-Text",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-text",
+      "status": "active",
+      "summary": "xAI Speech-to-Text 提供批量和流式语音转文字 API。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前产品项不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品页面提供访问与计费信息。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "非目标模态任务",
+          "description": "该产品项不承担通用模型推理职责。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "xAI Speech-to-Text 官方页面",
+          "url": "https://docs.x.ai/developers/model-capabilities/audio/speech-to-text"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:xai-speech-to-text",
+      "release_date": "2026-04-15",
+      "visibility": "visible"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "product_variant",
+      "title": "xAI Text-to-Speech",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/model-capabilities/audio/text-to-speech",
+      "status": "active",
+      "summary": "xAI Text-to-Speech 提供面向应用的文本转语音 API。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前产品项不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品页面提供访问与计费信息。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "非目标模态任务",
+          "description": "该产品项不承担通用模型推理职责。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "xAI Text-to-Speech 官方页面",
+          "url": "https://docs.x.ai/developers/model-capabilities/audio/text-to-speech"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:xai-text-to-speech",
+      "release_date": "2026-03-16",
+      "visibility": "visible"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "tool",
+      "title": "Grok Build",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/build/overview",
+      "status": "active",
+      "summary": "Grok Build 是 xAI 面向智能体编码和办公工作流的正式产品。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前产品项不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品页面提供访问与计费信息。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "智能体编码",
+          "description": "用于代码生成、重构和工具调用"
+        },
+        {
+          "title": "工程自动化",
+          "description": "支持多步骤开发工作流"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "非目标模态任务",
+          "description": "该产品项不承担通用模型推理职责。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Build 官方页面",
+          "url": "https://docs.x.ai/build/overview"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:grok-build",
+      "last_updated_date": "2026-08-11",
+      "visibility": "visible"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "tool",
+      "title": "Grok Bot",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://docs.x.ai/developers/release-notes",
+      "status": "active",
+      "summary": "Grok Bot 提供持久化云端 AI 队友、连接器、审批和例行任务。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前产品项不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品页面提供访问与计费信息。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "编码与知识工作",
+          "description": "处理开发、研究和日常专业任务"
+        },
+        {
+          "title": "智能体工作流",
+          "description": "调用工具完成多步骤任务"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "非目标模态任务",
+          "description": "该产品项不承担通用模型推理职责。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Grok Bot 官方页面",
+          "url": "https://docs.x.ai/developers/release-notes"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:grok-bot",
+      "last_updated_date": "2026-08-11",
+      "visibility": "visible"
     }
   ]
 }

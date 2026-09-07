@@ -69,7 +69,7 @@ test('level1 and level3 records expose only owned fields', () => {
     assert.equal('rating_ease' in item, false);
     assert.equal('rating_price' in item, false);
   }
-  assert.deepEqual(new Set(level3.map(item => item.detail_kind)), new Set(['tool', 'api_model', 'subscription_plan']));
+  assert.deepEqual(new Set(level3.map(item => item.detail_kind)), new Set(['tool', 'api_model', 'product_variant', 'subscription_plan']));
   assert.equal(level1.every(item => !('display_title' in item) && !('entry_label' in item) && !('citations' in item)), true);
   assert.equal(vendors.every(item => !('scenes' in item) && !('categories' in item)), true);
   const cardsByDetail = new Map(cards.map(card => [card.detail_ref.id, card]));
