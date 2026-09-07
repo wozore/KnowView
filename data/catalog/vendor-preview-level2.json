@@ -1094,77 +1094,29 @@
       "series_kind": "subscription_series"
     },
     {
-      "id": "vendor-level2:anthropic:claude-fable",
+      "id": "vendor-level2:anthropic:claude",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:anthropic"
       },
       "vendor_key": "anthropic",
-      "title": "Claude Fable",
-      "official_url": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
-      "summary": "Claude Fable 最新系列，当前成员为 Claude Fable 5.1。",
+      "title": "Claude 最新系列",
+      "official_url": "https://platform.claude.com/docs/en/models/overview",
+      "summary": "Claude 当前最新模型系列，包含 Fable、Opus、Sonnet 和 Haiku 四个产品层级。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:claude-fable-5-1"
-        }
-      ],
-      "series_kind": "model_series",
-      "generation_state": "newest"
-    },
-    {
-      "id": "vendor-level2:anthropic:claude-opus",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:anthropic"
-      },
-      "vendor_key": "anthropic",
-      "title": "Claude Opus",
-      "official_url": "https://platform.claude.com/docs/en/models/opus-5/whats-new-opus-5",
-      "summary": "Claude Opus 最新系列，当前成员为 Claude Opus 5。",
-      "status": "active",
-      "detail_refs": [
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:claude-opus-5"
-        }
-      ],
-      "series_kind": "model_series",
-      "generation_state": "newest"
-    },
-    {
-      "id": "vendor-level2:anthropic:claude-sonnet",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:anthropic"
-      },
-      "vendor_key": "anthropic",
-      "title": "Claude Sonnet",
-      "official_url": "https://platform.claude.com/docs/en/models/sonnet-5/overview",
-      "summary": "Claude Sonnet 最新系列，当前成员为 Claude Sonnet 5。",
-      "status": "active",
-      "detail_refs": [
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:claude-sonnet-5"
-        }
-      ],
-      "series_kind": "model_series",
-      "generation_state": "newest"
-    },
-    {
-      "id": "vendor-level2:anthropic:claude-haiku",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:anthropic"
-      },
-      "vendor_key": "anthropic",
-      "title": "Claude Haiku",
-      "official_url": "https://platform.claude.com/docs/en/models/overview",
-      "summary": "Claude Haiku 最新系列，当前成员为 Claude Haiku 4.5。",
-      "status": "active",
-      "detail_refs": [
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:claude-haiku-4.5"
@@ -1174,57 +1126,25 @@
       "generation_state": "newest"
     },
     {
-      "id": "vendor-level2:anthropic:claude-fable-5",
+      "id": "vendor-level2:anthropic:claude-previous",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:anthropic"
       },
       "vendor_key": "anthropic",
-      "title": "Claude Fable 5",
-      "official_url": "https://platform.claude.com/docs/en/models/fable-5/introducing-claude-fable-5-and-claude-mythos-5",
-      "summary": "Claude Fable 5 上一世代模型，保留其官方 API 与长周期智能体能力说明。",
+      "title": "Claude 上一世代",
+      "official_url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
+      "summary": "Claude 各产品线上一世代模型；已退役成员仅保留为历史记录，不进入当前可见列表。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:claude-fable-5"
-        }
-      ],
-      "series_kind": "model_series",
-      "generation_state": "previous"
-    },
-    {
-      "id": "vendor-level2:anthropic:claude-opus-4-8",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:anthropic"
-      },
-      "vendor_key": "anthropic",
-      "title": "Claude Opus 4.8",
-      "official_url": "https://platform.claude.com/docs/en/models/opus-4-8/overview",
-      "summary": "Claude Opus 上一世代系列，当前保留 Claude Opus 4.8。",
-      "status": "active",
-      "detail_refs": [
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:claude-opus-4.8"
-        }
-      ],
-      "series_kind": "model_series",
-      "generation_state": "previous"
-    },
-    {
-      "id": "vendor-level2:anthropic:claude-sonnet-4-6",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:anthropic"
-      },
-      "vendor_key": "anthropic",
-      "title": "Claude Sonnet 4.6",
-      "official_url": "https://platform.claude.com/docs/en/models/sonnet-4-6/overview",
-      "summary": "Claude Sonnet 上一世代系列，Claude Sonnet 4.6 已标记为 legacy。",
-      "status": "active",
-      "detail_refs": [
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:claude-sonnet-4-6"
