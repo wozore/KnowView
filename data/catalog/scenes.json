@@ -109,12 +109,12 @@
                         {
                               "task": "数据报告与结论提炼",
                               "tools": [
-                                    "gemini-2.5-pro"
+                                    "gemini-3-1-pro"
                               ],
                               "recommendations": [
                                     {
-                                          "tool_id": "gemini-2.5-pro",
-                                          "detail_ref": "tool-level3:gemini-2.5-pro",
+                                          "tool_id": "gemini-3-1-pro",
+                                          "detail_ref": "tool-level3:gemini-3-1-pro",
                                           "reason": "复杂推理与数据任务优先展示 Gemini 2.5 Pro。"
                                     }
                               ]
@@ -285,7 +285,7 @@
                               "task": "数据分析与图表解读",
                               "tools": [
                                     "gpt-5.6-sol",
-                                    "gemini-2.5-pro"
+                                    "gemini-3-1-pro"
                               ],
                               "recommendations": [
                                     {
@@ -294,8 +294,8 @@
                                           "reason": "复杂专业任务优先展示旗舰变体 GPT-5.6 Sol。"
                                     },
                                     {
-                                          "tool_id": "gemini-2.5-pro",
-                                          "detail_ref": "tool-level3:gemini-2.5-pro",
+                                          "tool_id": "gemini-3-1-pro",
+                                          "detail_ref": "tool-level3:gemini-3-1-pro",
                                           "reason": "复杂推理与数据任务优先展示 Gemini 2.5 Pro。"
                                     }
                               ]
@@ -538,7 +538,7 @@
                               "task": "数学与逻辑解题",
                               "tools": [
                                     "deepseek-v4-pro",
-                                    "gemini-2.5-pro",
+                                    "gemini-3-1-pro",
                                     "gpt-5.6-terra"
                               ],
                               "recommendations": [
@@ -548,8 +548,8 @@
                                           "reason": "编码、数学和逻辑任务优先展示 V4 Pro。"
                                     },
                                     {
-                                          "tool_id": "gemini-2.5-pro",
-                                          "detail_ref": "tool-level3:gemini-2.5-pro",
+                                          "tool_id": "gemini-3-1-pro",
+                                          "detail_ref": "tool-level3:gemini-3-1-pro",
                                           "reason": "复杂推理与数据任务优先展示 Gemini 2.5 Pro。"
                                     },
                                     {

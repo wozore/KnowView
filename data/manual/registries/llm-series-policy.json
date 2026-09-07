@@ -373,32 +373,28 @@
     {
       "vendor_key": "google",
       "direction": "llm",
-      "description": "Google：Gemini 与 Gemma 为平行家族；Gemini 保留 newest/previous 双系列。",
+      "description": "Google：Gemini 按 Flash/Flash-Lite 与 Pro 产品线分类；Nano Banana 图像产品、Coding Plan、Gemini CLI 与 Antigravity 独立维护；Gemma 等纯开源本地模型排除。",
       "families": [
         {
-          "family": "gemini",
+          "family": "gemini_flash",
           "usage_kind": "general_llm",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
+          "name_patterns": [
+            "flash",
+            "flash-lite"
+          ],
           "series": [
             {
-              "id": "vendor-level2:google:gemini",
-              "title": "Gemini 模型",
+              "id": "vendor-level2:google:gemini-flash",
+              "title": "Gemini Flash/Flash-Lite",
               "generation_state": "newest",
               "expected_members": [
+                "gemini-3-8-flash",
                 "gemini-3-7-flash",
-                "gemini-3-6-flash"
-              ]
-            },
-            {
-              "id": "vendor-level2:google:gemini-last",
-              "title": "Gemini 上一代",
-              "generation_state": "previous",
-              "expected_members": [
-                "gemini-3.5-flash",
-                "gemini-3-1-pro",
-                "gemini-2.5-pro"
+                "gemini-3-6-flash",
+                "gemini-3.5-flash"
               ]
             }
           ],
@@ -408,23 +404,52 @@
           }
         },
         {
-          "family": "gemma",
+          "family": "gemini_pro",
           "usage_kind": "general_llm",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
+          "name_patterns": [
+            "pro"
+          ],
           "series": [
             {
-              "id": "vendor-level2:google:gemma-4",
-              "title": "Gemma 4",
+              "id": "vendor-level2:google:gemini-pro",
+              "title": "Gemini Pro",
               "generation_state": "newest",
               "expected_members": [
-                "gemma-4"
+                "gemini-3-1-pro",
+                "gemini-3-5-pro"
               ]
             }
           ],
           "evidence": {
-            "url": "https://ai.google.dev/gemma/docs/releases",
+            "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-pro-preview",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "gemini_image",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "nano banana",
+            "image"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:google:gemini-image",
+              "title": "Nano Banana 图像产品",
+              "generation_state": "newest",
+              "expected_members": [
+                "nano-banana"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
             "status": "verified"
           }
         },
@@ -447,7 +472,7 @@
             }
           ],
           "evidence": {
-            "url": "https://ai.google.dev/gemini-api/docs/models",
+            "url": "https://gemini.google/about",
             "status": "verified"
           }
         },
@@ -468,8 +493,36 @@
             }
           ],
           "evidence": {
-            "url": "https://ai.google.dev/gemini-api/docs/models",
-            "status": "inferred"
+            "url": "https://github.com/google-gemini/gemini-cli",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "gemini cli"
+          ]
+        },
+        {
+          "family": "antigravity",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "antigravity",
+            "agy"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:google:antigravity",
+              "title": "Antigravity CLI",
+              "generation_state": "newest",
+              "expected_members": [
+                "antigravity-cli"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://antigravity.google/docs/cli/gcli-migration/",
+            "status": "verified"
           }
         }
       ]
@@ -477,7 +530,7 @@
     {
       "vendor_key": "deepseek",
       "direction": "llm",
-      "description": "DeepSeek：V4 为单一主版本，Flash/Pro 是同代档位。",
+      "description": "DeepSeek：V4 API 模型统一归入单一系列；DeepSeek Harness 作为独立官方工具维护，纯开源本地模型排除。",
       "families": [
         {
           "family": "deepseek",
@@ -499,6 +552,31 @@
           ],
           "evidence": {
             "url": "https://api-docs.deepseek.com/api/list-models",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "deepseek_harness",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "deepseek harness",
+            "dsh"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:deepseek:deepseek-harness",
+              "title": "DeepSeek Harness",
+              "generation_state": "newest",
+              "expected_members": [
+                "deepseek-harness"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.deepseek.com/harness/en/",
             "status": "verified"
           }
         }

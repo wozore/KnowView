@@ -86,9 +86,9 @@ function syntheticSnapshot() {
     l2('vendor-level2:openai:openai-codex', 'openai', 'OpenAI Codex', ['openai-codex']),
   ]);
   addVendor(snap, 'google', [
-    l2('vendor-level2:google:gemini', 'google', 'Gemini 模型', ['gemini-3.5-flash', 'gemini-2.5-pro', 'gemini-3-7-flash', 'gemini-3-6-flash']),
-    l2('vendor-level2:google:gemini-3-1-pro', 'google', 'Gemini 3.1 Pro', ['gemini-3-1-pro']),
-    l2('vendor-level2:google:gemma-4', 'google', 'Gemma 4', ['gemma-4']),
+    l2('vendor-level2:google:gemini-flash', 'google', 'Gemini Flash/Flash-Lite', ['gemini-3.5-flash', 'gemini-3-7-flash', 'gemini-3-6-flash']),
+    l2('vendor-level2:google:gemini-pro', 'google', 'Gemini Pro', ['gemini-3-1-pro', 'gemini-3-5-pro']),
+
     l2('vendor-level2:google:gemini-cli', 'google', 'Gemini CLI', ['gemini-cli']),
   ]);
   addVendor(snap, 'xai', [
@@ -137,16 +137,14 @@ test('迁移：openai realtime/image 专用改名、codex 不变', () => {
 
 // ── 2. 合并与多余成员搬家 ──────────────────────────────────────
 
-test('迁移：google gemini 拆 newest/last，多余成员搬家，gemma/cli 零漂移', () => {
+test('迁移：google Gemini 按 Flash/Pro 产品线归类，开源 Gemma 排除，CLI 保留', () => {
   const plan = planSeriesMigration(loadSeriesPolicy(), syntheticSnapshot());
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
-  assert.deepEqual(byId.get('vendor-level2:google:gemini').detail_refs.map(r => r.id), ['tool-level3:gemini-3-7-flash', 'tool-level3:gemini-3-6-flash']);
-  assert.deepEqual(byId.get('vendor-level2:google:gemini-last').detail_refs.map(r => r.id),
-    ['tool-level3:gemini-3.5-flash', 'tool-level3:gemini-3-1-pro', 'tool-level3:gemini-2.5-pro']);
-  assert.equal(byId.has('vendor-level2:google:gemini-3-1-pro'), false);
-  assert.equal(byId.get('vendor-level2:google:gemma-4').title, 'Gemma 4');
+  assert.deepEqual(byId.get('vendor-level2:google:gemini-flash').detail_refs.map(r => r.id), ['tool-level3:gemini-3-7-flash', 'tool-level3:gemini-3-6-flash', 'tool-level3:gemini-3.5-flash']);
+  assert.deepEqual(byId.get('vendor-level2:google:gemini-pro').detail_refs.map(r => r.id), ['tool-level3:gemini-3-1-pro', 'tool-level3:gemini-3-5-pro']);
+  assert.equal(byId.has('vendor-level2:google:gemini'), false);
+  assert.equal(byId.has('vendor-level2:google:gemma-4'), false);
   assert.equal(byId.get('vendor-level2:google:gemini-cli').title, 'Gemini CLI');
-  assert.ok(plan.members_moved.some(m => m.detail === 'tool-level3:gemini-2.5-pro' && m.from === 'vendor-level2:google:gemini' && m.to === 'vendor-level2:google:gemini-last'));
 });
 
 test('迁移：nvidia nemotron-3 合并，nemotron-3-5 独立', () => {
@@ -249,8 +247,8 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:openai:gpt-image', ['gpt-image-2']);
   expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
   expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6']);
-  expect('vendor-level2:google:gemini', ['gemini-3-7-flash', 'gemini-3-6-flash']);
-  expect('vendor-level2:google:gemini-last', ['gemini-3.5-flash', 'gemini-3-1-pro', 'gemini-2.5-pro']);
+  expect('vendor-level2:google:gemini-flash', ['gemini-3-8-flash', 'gemini-3-7-flash', 'gemini-3-6-flash', 'gemini-3.5-flash']);
+  expect('vendor-level2:google:gemini-pro', ['gemini-3-1-pro', 'gemini-3-5-pro']);
   expect('vendor-level2:zhipu:glm', ['glm-5.1', 'glm-5.2', 'glm-5-3']);
   expect('vendor-level2:cohere:command', ['command-a', 'command-a-plus']);
   expect('vendor-level2:xai:grok', ['grok-4-6', 'grok-4-5']);

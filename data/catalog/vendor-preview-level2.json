@@ -2,17 +2,21 @@
   "schema_version": 1,
   "items": [
     {
-      "id": "vendor-level2:google:gemini",
+      "id": "vendor-level2:google:gemini-flash",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:google"
       },
       "vendor_key": "google",
-      "title": "Gemini 模型",
-      "official_url": "https://ai.google.dev/gemini-api/docs/pricing",
-      "summary": "当前已核实的 Gemini API 模型。",
+      "title": "Gemini Flash/Flash-Lite",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models",
+      "summary": "Gemini Flash 与 Flash-Lite API 模型，覆盖高吞吐、多模态理解、代理和日常任务。",
       "status": "active",
       "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gemini-3-8-flash"
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:gemini-3-7-flash"
@@ -20,8 +24,14 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:gemini-3-6-flash"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gemini-3.5-flash"
         }
-      ]
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:google:gemini-coding-plan",
@@ -32,7 +42,7 @@
       "vendor_key": "google",
       "title": "套餐（Coding Plan）",
       "official_url": "https://gemini.google/about",
-      "summary": "Google AI 订阅套餐的统一导航分组；官方页面未稳定完整列出所有模型包含关系。",
+      "summary": "Google AI 订阅套餐入口，展示官方列出的模型权益、使用上限和地区条件。",
       "status": "partial",
       "detail_refs": [
         {
@@ -47,7 +57,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:google-ai-ultra-20x"
         }
-      ]
+      ],
+      "series_kind": "subscription_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:deepseek:deepseek",
@@ -190,30 +202,28 @@
       ]
     },
     {
-      "id": "vendor-level2:google:gemini-last",
+      "id": "vendor-level2:google:gemini-pro",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:google"
       },
       "vendor_key": "google",
-      "title": "Gemini 上一代",
-      "official_url": "https://ai.google.dev/gemini-api/docs",
-      "summary": "Gemini API 是 Google AI 提供的开发者接口，提供 Gemini 系列模型的访问，涵盖文本、图像、音频、视频等多种模态能力。",
+      "title": "Gemini Pro",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-pro-preview",
+      "summary": "Gemini Pro API 模型，面向复杂推理、软件工程和多步骤智能体工作流。",
       "status": "active",
       "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gemini-3.5-flash"
-        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:gemini-3-1-pro"
         },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:gemini-2.5-pro"
+          "id": "tool-level3:gemini-3-5-pro"
         }
-      ]
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:xai:grok",
@@ -256,22 +266,24 @@
       ]
     },
     {
-      "id": "vendor-level2:google:gemma-4",
+      "id": "vendor-level2:google:gemini-image",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:google"
       },
       "vendor_key": "google",
-      "title": "Gemma 4",
-      "official_url": "https://ai.google.dev/gemma",
-      "summary": "Gemma 4 是 Google DeepMind 推出的开放模型系列，支持文本和图像输入及文本输出，上下文窗口最高 256K，支持超过 140 种语言，提供从 2B 到 31B 的多种尺寸。",
+      "title": "Nano Banana 图像产品",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
+      "summary": "Google 的 Nano Banana 图像生成与编辑产品入口；新的 API 图像模型暂缓。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
-          "id": "tool-level3:gemma-4"
+          "id": "tool-level3:nano-banana"
         }
-      ]
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:minimax:m",
@@ -616,14 +628,15 @@
       "vendor_key": "google",
       "title": "Gemini CLI",
       "official_url": "https://github.com/google-gemini/gemini-cli",
-      "summary": "Gemini CLI 是 Google 推出的开源 AI 代理，将 Gemini 模型直接引入终端，支持代码理解、自动化任务和工作流构建。",
-      "status": "active",
+      "summary": "Google 开源终端 AI 工具；个人账户已迁移到 Antigravity，企业许可和 API key 访问仍保留。",
+      "status": "partial",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:gemini-cli"
         }
-      ]
+      ],
+      "series_kind": "tool_series"
     },
     {
       "id": "vendor-level2:vidu:vidu-s1",
@@ -698,22 +711,23 @@
       ]
     },
     {
-      "id": "vendor-level2:google:gemini-3-1-pro",
+      "id": "vendor-level2:google:antigravity",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:google"
       },
       "vendor_key": "google",
-      "title": "Gemini 3.1 Pro",
-      "official_url": "https://ai.google.dev/gemini-api/docs/gemini-3",
-      "summary": "Gemini 3 系列是 Google 的最新一代多模态 AI 模型家族，包括 Pro、Flash、Flash-Lite 以及图像生成模型，支持 1M 上下文窗口，提供先进的推理、编码和智能体能力。",
+      "title": "Antigravity CLI",
+      "official_url": "https://antigravity.google/docs/cli/getting-started",
+      "summary": "Google 的 agent-first 终端工具，提供 Gemini CLI 配置迁移、插件、技能、MCP 与代理工作流。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
-          "id": "tool-level3:gemini-3-1-pro"
+          "id": "tool-level3:antigravity-cli"
         }
-      ]
+      ],
+      "series_kind": "tool_series"
     },
     {
       "id": "vendor-level2:xai:grok-4-6",
@@ -788,24 +802,6 @@
       ]
     },
     {
-      "id": "vendor-level2:google:gemini-3-5-pro",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:google"
-      },
-      "vendor_key": "google",
-      "title": "Gemini 3.5 Pro",
-      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini",
-      "summary": "Gemini API 提供多种文本与多模态模型，适用于智能体、代码生成、图像编辑等场景。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gemini-3-5-pro"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:alibaba:qwen3-8-max",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -820,42 +816,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-8-max"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:deepseek:deepseek-v4-flash",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:deepseek"
-      },
-      "vendor_key": "deepseek",
-      "title": "DeepSeek V4-Flash",
-      "official_url": "https://api-docs.deepseek.com/",
-      "summary": "DeepSeek API 提供多个文本生成模型，包括 V4 系列（V4-Pro, V4-Flash, V4-Flash-Vision-Exp）及旧版 V3 系列，支持思考与非思考模式。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:deepseek-v4-flash"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:deepseek:deepseek-v4-pro",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:deepseek"
-      },
-      "vendor_key": "deepseek",
-      "title": "DeepSeek V4 Pro",
-      "official_url": "https://api-docs.deepseek.com/",
-      "summary": "DeepSeek API 提供最新的 V4 系列模型，包括 V4-Pro 和 V4-Flash，支持 1M 上下文，并持续更新模型与功能。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:deepseek-v4-pro"
         }
       ]
     },
@@ -910,24 +870,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-8-flash"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:google:gemini-3-8-flash",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:google"
-      },
-      "vendor_key": "google",
-      "title": "Gemini 3.8 Flash",
-      "official_url": "https://ai.google.dev/gemini-api/docs/models",
-      "summary": "Gemini API 提供 Gemini 系列文本模型，包括稳定、预览、最新与实验性版本命名模式，供开发者通过 API 调用多模态理解与推理能力。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:gemini-3-8-flash"
         }
       ]
     },
@@ -1198,6 +1140,25 @@
         }
       ],
       "series_kind": "subscription_series"
+    },
+    {
+      "id": "vendor-level2:deepseek:deepseek-harness",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:deepseek"
+      },
+      "vendor_key": "deepseek",
+      "title": "DeepSeek Harness",
+      "official_url": "https://www.deepseek.com/harness/en/",
+      "summary": "DeepSeek 官方开源 Agent Harness，提供可组合的模型、工具、技能、会话、沙箱和工作流能力。",
+      "status": "partial",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:deepseek-harness"
+        }
+      ],
+      "series_kind": "tool_series"
     }
   ]
 }

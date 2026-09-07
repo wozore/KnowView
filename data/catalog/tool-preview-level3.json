@@ -310,15 +310,15 @@
     },
     {
       "id": "tool-level3:nano-banana",
-      "vendor_key": "nano-banana",
+      "vendor_key": "google",
       "detail_kind": "tool",
       "theme": "vision",
       "title": "Nano Banana",
       "vendor_label": "Google",
       "icon": "🍌",
-      "official_url": "https://aistudio.google.com",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
       "status": "active",
-      "summary": "提示词理解最佳、角色一致性极好、多模态联动(Gemini)、免费可用",
+      "summary": "Nano Banana 是 Google 的图像生成与编辑产品入口，本轮作为商业工具卡保留。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -357,12 +357,12 @@
       ],
       "sources": [
         {
-          "title": "https://blog.google/technology/ai/nano-banana-2/",
-          "url": "https://aistudio.google.com"
+          "title": "Nano Banana 2",
+          "url": "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/"
         },
         {
-          "title": "gemini omni flash nano banana 2 lite",
-          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/"
+          "title": "Gemini 3.1 Flash image",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image"
         }
       ],
       "last_updated_date": "2026-06-30"
@@ -1527,82 +1527,8 @@
           "url": "https://ai.google.dev/gemini-api/docs/changelog"
         }
       ],
-      "release_date": "2026-05-19"
-    },
-    {
-      "id": "tool-level3:gemini-2.5-pro",
-      "vendor_key": "google",
-      "detail_kind": "api_model",
-      "theme": "general",
-      "title": "Gemini 2.5 Pro",
-      "vendor_label": "Google",
-      "icon": "🌐",
-      "official_url": "https://ai.google.dev/gemini-api/docs/pricing",
-      "status": "active",
-      "summary": "擅长编程和复杂推理的稳定多用途模型。",
-      "one_m_context": {
-        "status": "native",
-        "tokens": 1000000,
-        "conditions": "官方模型文档列为 1M 上下文；价格按 200k prompt 阈值分层。"
-      },
-      "api_pricing": {
-        "status": "provided",
-        "rate_cards": [
-          {
-            "label": "Standard · prompts ≤ 200k",
-            "currency": "USD",
-            "unit": "per_1m_tokens",
-            "input_cached": 0.125,
-            "input_uncached": 1.25,
-            "output": 10,
-            "conditions": "prompt 不超过 200k tokens；缓存另有存储费。"
-          },
-          {
-            "label": "Standard · prompts > 200k",
-            "currency": "USD",
-            "unit": "per_1m_tokens",
-            "input_cached": 0.25,
-            "input_uncached": 2.5,
-            "output": 15,
-            "conditions": "prompt 超过 200k tokens；缓存另有存储费。"
-          }
-        ],
-        "additional_charges": [
-          {
-            "label": "缓存存储（每小时）",
-            "value": 4.5,
-            "currency": "USD",
-            "unit": "per_1m_tokens_per_hour"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "编程与复杂推理",
-          "description": "官方定价页将其描述为擅长编程和复杂推理的多用途模型。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "极低成本简单调用",
-          "description": "可比较 Flash 或 Flash-Lite 系列。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Gemini Developer API pricing",
-          "url": "https://ai.google.dev/gemini-api/docs/pricing"
-        },
-        {
-          "title": "Release notes | Gemini API",
-          "url": "https://ai.google.dev/gemini-api/docs/changelog"
-        }
-      ],
-      "release_date": "2025-06-17"
+      "release_date": "2026-05-19",
+      "model_key": "google-gemini-3.5-flash"
     },
     {
       "id": "tool-level3:google-ai-pro",
@@ -2689,7 +2615,8 @@
       ],
       "release_date": "2026-02-19",
       "theme": "general",
-      "id": "tool-level3:gemini-3-1-pro"
+      "id": "tool-level3:gemini-3-1-pro",
+      "model_key": "google-gemini-3.1-pro"
     },
     {
       "vendor_key": "xai",
@@ -3575,7 +3502,8 @@
       ],
       "release_date": "2026-08-13",
       "theme": "general",
-      "id": "tool-level3:gemini-3-7-flash"
+      "id": "tool-level3:gemini-3-7-flash",
+      "model_key": "google-gemini-3.7-flash"
     },
     {
       "vendor_key": "google",
@@ -3670,97 +3598,8 @@
       ],
       "release_date": "2026-07-21",
       "theme": "general",
-      "id": "tool-level3:gemini-3-6-flash"
-    },
-    {
-      "vendor_key": "google",
-      "detail_kind": "api_model",
-      "title": "Gemma 4",
-      "vendor_label": "Google",
-      "icon": "🤖",
-      "official_url": "https://ai.google.dev/gemma/docs/core/model_card_4",
-      "status": "active",
-      "summary": "Gemma 4 模型系列是 Google DeepMind 开发的开放权重模型，支持多模态输入和文本输出，具备推理能力、可配置思考模式，适用于文本生成、编码和推理等任务。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "Gemma 4 最大上下文窗口为 256K tokens，未达到 1M 上下文长度要求。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "标准付费档",
-            "pricing_basis": "每百万Tokens",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "输入价格",
-                "amount": 0.05,
-                "unit": "USD/1M tokens"
-              },
-              {
-                "label": "输出价格",
-                "amount": 0.2,
-                "unit": "USD/1M tokens"
-              }
-            ],
-            "conditions": "付费档适用于文本、图像、视频输入，音频输入价格为每百万Tokens 0.35美元。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "多模态内容理解",
-          "description": "处理文本和图像输入，支持视觉问答与图像描述"
-        },
-        {
-          "title": "代码生成与辅助",
-          "description": "支持代码补全、代码解释和编程相关问题解答"
-        },
-        {
-          "title": "教育科研场景",
-          "description": "用于学术研究、教学演示和实验性项目开发"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "音频生成任务",
-          "description": "模型不支持音频输出，仅特定版本支持音频输入"
-        },
-        {
-          "title": "大规模实时推理",
-          "description": "本地部署时对硬件要求较高，不适用于低资源环境"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Release notes | Gemini API - Google AI for Developers",
-          "url": "https://ai.google.dev/gemini-api/docs/changelog"
-        },
-        {
-          "title": "Gemma 4 model card  |  Google AI for Developers",
-          "url": "https://ai.google.dev/gemma/docs/core/model_card_4"
-        },
-        {
-          "title": "Gemini Developer API pricing",
-          "url": "https://ai.google.dev/gemini-api/docs/pricing"
-        },
-        {
-          "title": "404  |  找不到网页  |  Google AI for Developers",
-          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-image-preview?hl=zh-cn"
-        },
-        {
-          "title": "Run Gemma with the Gemini API | Google AI for Developers",
-          "url": "https://ai.google.dev/gemma/docs/core/gemma_on_gemini_api"
-        }
-      ],
-      "release_date": "2026-04-02",
-      "theme": "general",
-      "id": "tool-level3:gemma-4"
+      "id": "tool-level3:gemini-3-6-flash",
+      "model_key": "google-gemini-3.6-flash"
     },
     {
       "vendor_key": "minimax",
@@ -6710,8 +6549,8 @@
       "vendor_label": "Google",
       "icon": "🧩",
       "official_url": "https://github.com/google-gemini/gemini-cli",
-      "status": "active",
-      "summary": "Gemini CLI 是 Google 推出的开源 AI 代理，将 Gemini 模型直接带入终端，支持代码理解、文件操作、命令执行和动态排错，并可扩展 MCP 服务器和自定义扩展。",
+      "status": "partial",
+      "summary": "Google 开源终端 AI 工具；个人账户已迁移到 Antigravity，企业许可和 API key 访问仍保留。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -6750,37 +6589,21 @@
       ],
       "sources": [
         {
-          "title": "GitHub - google-gemini/gemini-cli: An open-source AI agent that ...",
+          "title": "Gemini CLI",
           "url": "https://github.com/google-gemini/gemini-cli"
         },
         {
-          "title": "https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/",
-          "url": "https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/"
+          "title": "Gemini CLI individual account transition",
+          "url": "https://github.com/google-gemini/gemini-cli/discussions/28017"
         },
         {
-          "title": "https://github.com/google-gemini/gemini-cli/releases",
-          "url": "https://github.com/google-gemini/gemini-cli/releases"
-        },
-        {
-          "title": "Gemini CLI: your open-source AI agent",
-          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-cli-open-source-ai-agent"
-        },
-        {
-          "title": "gemini-cli/docs/changelogs/index.md at main",
-          "url": "https://github.com/google-gemini/gemini-cli/blob/main/docs/changelogs/index.md"
-        },
-        {
-          "title": "Gemini CLI latest stable release v0.55.1",
-          "url": "https://github.com/google-gemini/gemini-cli/blob/main/docs/changelogs/latest.md"
-        },
-        {
-          "title": "Release v0.56.0",
-          "url": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.56.0"
+          "title": "Antigravity CLI migration",
+          "url": "https://antigravity.google/docs/cli/gcli-migration/"
         }
       ],
       "theme": "dev",
       "id": "tool-level3:gemini-cli",
-      "last_updated_date": "2026-08-19"
+      "last_updated_date": "2026-06-18"
     },
     {
       "vendor_key": "replit",
@@ -8128,7 +7951,8 @@
       ],
       "theme": "general",
       "release_date": "2025-11-18",
-      "id": "tool-level3:gemini-3-5-pro"
+      "id": "tool-level3:gemini-3-5-pro",
+      "model_key": "google-gemini-3.5-pro"
     },
     {
       "vendor_key": "zhipu",
@@ -8355,8 +8179,8 @@
       "title": "Gemini 3.8 Flash",
       "vendor_label": "Google",
       "icon": "🤖",
-      "official_url": "https://ai.google.dev/gemini-api/docs/gemini-3",
-      "status": "preview",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+      "status": "active",
       "summary": "gemini-3-flash-preview 是 Gemini 3 系列的预览模型，提供 Pro 级智能与 Flash 速度和价格，支持 1M 上下文窗口、64k 输出，定价为每百万 token 输入 $0.50、输出 $3。",
       "one_m_context": {
         "status": "native",
@@ -8446,7 +8270,8 @@
       ],
       "theme": "general",
       "release_date": "2025-12-17",
-      "id": "tool-level3:gemini-3-8-flash"
+      "id": "tool-level3:gemini-3-8-flash",
+      "model_key": "google-gemini-3.8-flash"
     },
     {
       "id": "tool-level3:gpt-6",
@@ -9363,6 +9188,132 @@
       "release_date": "2024-10-22",
       "visibility": "hidden_history",
       "historical_since": "2026-09-07"
+    },
+    {
+      "id": "tool-level3:antigravity-cli",
+      "vendor_key": "google",
+      "detail_kind": "tool",
+      "theme": "dev",
+      "title": "Antigravity CLI",
+      "vendor_label": "Google",
+      "icon": "🛰️",
+      "official_url": "https://www.antigravity.google/docs/cli/overview/",
+      "status": "active",
+      "summary": "Google 的 agent-first 终端工具，支持代理协作、技能、插件、MCP 与本地工作区自动化。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录是终端工具，不使用 API 模型计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "终端代理开发",
+          "description": "在本地工作区中协调代理执行代码和文件任务。"
+        },
+        {
+          "title": "Gemini CLI 迁移",
+          "description": "导入 Gemini CLI 的配置、技能、插件和 MCP 设置。"
+        },
+        {
+          "title": "多代理工作流",
+          "description": "面向需要后台任务、插件和代理协作的开发流程。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "仅需 Gemini API 调用",
+          "description": "直接调用模型 API 时应查看 Gemini API 模型卡。"
+        },
+        {
+          "title": "要求与 Gemini CLI 完全等价",
+          "description": "官方迁移文档明确存在部分功能兼容差异。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Antigravity CLI overview",
+          "url": "https://www.antigravity.google/docs/cli/overview/"
+        },
+        {
+          "title": "Antigravity CLI migration",
+          "url": "https://www.antigravity.google/docs/cli/install/"
+        },
+        {
+          "title": "Gemini CLI individual account transition",
+          "url": "https://github.com/google-gemini/gemini-cli/discussions/28017"
+        }
+      ],
+      "last_updated_date": "2026-06-18"
+    },
+    {
+      "id": "tool-level3:deepseek-harness",
+      "vendor_key": "deepseek",
+      "detail_kind": "tool",
+      "theme": "dev",
+      "title": "DeepSeek Harness",
+      "vendor_label": "深度求索",
+      "icon": "🧰",
+      "official_url": "https://www.deepseek.com/harness/en/",
+      "status": "partial",
+      "summary": "DeepSeek 官方开源 Agent Harness，以插件化方式组合模型、工具、技能、会话、沙箱、存储、循环和界面。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Coding Agent 工作流",
+          "description": "适合在本地工作区中运行文件编辑、Shell、搜索、技能和子代理工作流。"
+        },
+        {
+          "title": "Harness 开发",
+          "description": "开发者可以通过 Cordis 插件机制组合模型、工具、会话和沙箱。"
+        },
+        {
+          "title": "可追踪 Agent 运行",
+          "description": "会话日志记录模型请求、工具调用、子代理调度和上下文注入，支持恢复与回放。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "未经隔离的生产环境",
+          "description": "当前为 developer preview，兼容性可能变化，运行前应使用隔离工作区并审查插件权限。"
+        },
+        {
+          "title": "只需要单次 API 调用",
+          "description": "只做简单模型请求时，直接使用 DeepSeek API 更合适。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "DeepSeek Harness",
+          "url": "https://www.deepseek.com/harness/en/"
+        },
+        {
+          "title": "DeepSeek Harness repository",
+          "url": "https://github.com/deepseek-ai/deepseek-harness"
+        },
+        {
+          "title": "DeepSeek Harness architecture",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md"
+        }
+      ],
+      "last_updated_date": "2026-09-07"
     }
   ]
 }

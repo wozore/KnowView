@@ -89,22 +89,30 @@
       "title": "Google",
       "icon": "🌐",
       "official_url": "https://gemini.google.com",
-      "description": "Google 的 Gemini 产品入口覆盖 API 模型与 Google AI 订阅；具体资料在下方按已核实范围展示。",
+      "description": "Google 的 Gemini API、图像产品与开发者工具入口，覆盖订阅、Gemini CLI 和 Antigravity。",
       "status": "partial",
       "features": [
         {
           "tone": "positive",
-          "text": "优点：已核实模型支持多档 API 价格与上下文条件的独立查看。"
+          "text": "优点：Gemini API 按 Flash/Pro 模型线与官方工具入口独立查看。"
         },
         {
           "tone": "negative",
-          "text": "限制：官方套餐页面未稳定完整列出全部模型包含关系，相关项目明确标为部分核实。"
+          "text": "限制：套餐权益和部分预览产品的地区、配额与可用性以官方页面为准。"
         }
       ],
       "level2_refs": [
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:google:gemini"
+          "id": "vendor-level2:google:gemini-flash"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:google:gemini-pro"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:google:gemini-image"
         },
         {
           "kind": "vendor-level2",
@@ -112,27 +120,11 @@
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:google:gemma-4"
-        },
-        {
-          "kind": "vendor-level2",
           "id": "vendor-level2:google:gemini-cli"
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:google:gemini-last"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:google:gemini-3-1-pro"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:google:gemini-3-5-pro"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:google:gemini-3-8-flash"
+          "id": "vendor-level2:google:antigravity"
         }
       ]
     },
@@ -169,11 +161,7 @@
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:deepseek:deepseek-v4-flash"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:deepseek:deepseek-v4-pro"
+          "id": "vendor-level2:deepseek:deepseek-harness"
         }
       ]
     },

@@ -213,11 +213,11 @@
     {
       "id": "tool-card:nano-banana",
       "tool_key": "nano-banana",
-      "vendor_key": "nano-banana",
+      "vendor_key": "google",
       "title": "Nano Banana",
       "vendor_label": "Google",
       "icon": "🍌",
-      "summary": "提示词理解最佳、角色一致性极好、多模态联动(Gemini)、免费可用",
+      "summary": "Nano Banana 是 Google 的图像生成与编辑产品入口，本轮作为商业工具卡保留。",
       "theme": "vision",
       "scenes": [
         "设计配图",
@@ -243,7 +243,9 @@
         "海报设计",
         "营销素材",
         "角色设计",
-        "提示词理解最佳、角色一致性极好、多模态联动(Gemini)、免费可用"
+        "提示词理解最佳、角色一致性极好、多模态联动(Gemini)、免费可用",
+        "Nano Banana 2",
+        "gemini-3.1-flash-image"
       ],
       "detail_ref": {
         "kind": "tool-level3",
@@ -742,43 +744,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gemini-3.5-flash"
       },
-      "detail_kind": "api_model"
-    },
-    {
-      "id": "tool-card:gemini-2.5-pro",
-      "tool_key": "gemini-2.5-pro",
-      "vendor_key": "google",
-      "title": "Gemini 2.5 Pro",
-      "vendor_label": "Google",
-      "icon": "🌐",
-      "summary": "擅长编程和复杂推理的稳定多用途模型。",
-      "theme": "general",
-      "scenes": [
-        "编程与复杂推理：官方定价页将其描述为擅长编程和复杂推理的多用途模型。",
-        "极低成本简单调用：可比较 Flash 或 Flash-Lite 系列。"
-      ],
-      "best_for_preview": "编程与复杂推理：官方定价页将其描述为擅长编程和复杂推理的多用途模型。",
-      "not_for_preview": "极低成本简单调用：可比较 Flash 或 Flash-Lite 系列。",
-      "price_badge": "paid",
-      "access_level": "受限",
-      "search_terms": [
-        "Gemini 2.5 Pro",
-        "Google",
-        "对话",
-        "写作",
-        "翻译",
-        "搜索",
-        "多模态",
-        "编程与复杂推理：官方定价页将其描述为擅长编程和复杂推理的多用途模型。",
-        "极低成本简单调用：可比较 Flash 或 Flash-Lite 系列。",
-        "擅长编程和复杂推理的稳定多用途模型。",
-        "写论文"
-      ],
-      "detail_ref": {
-        "kind": "tool-level3",
-        "id": "tool-level3:gemini-2.5-pro"
-      },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.5-flash"
     },
     {
       "id": "tool-card:deepseek-v4-flash",
@@ -1242,7 +1209,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gemini-3-1-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.1-pro"
     },
     {
       "id": "tool-card:grok-4-6",
@@ -1511,7 +1479,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gemini-3-7-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.7-flash"
     },
     {
       "id": "tool-card:gemini-3-6-flash",
@@ -1543,50 +1512,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gemini-3-6-flash"
       },
-      "detail_kind": "api_model"
-    },
-    {
-      "id": "tool-card:gemma-4",
-      "tool_key": "gemma-4",
-      "vendor_key": "google",
-      "title": "Gemma 4",
-      "vendor_label": "Google",
-      "icon": "🤖",
-      "summary": "Gemma 4 模型系列是 Google DeepMind 开发的开放权重模型，支持多模态输入和文本输出，具备推理能力、可配置思考模式，适用于文本生成、编码和推理等任务。",
-      "theme": "general",
-      "scenes": [
-        "文本生成",
-        "编码",
-        "推理",
-        "视觉理解",
-        "音频处理"
-      ],
-      "best_for_preview": [
-        "开发者构建多模态应用",
-        "研究人员进行AI实验",
-        "需要本地部署的场景"
-      ],
-      "not_for_preview": [
-        "生产环境关键业务",
-        "需要严格数据隐私的场景"
-      ],
-      "price_badge": "free",
-      "access_level": "开放",
-      "search_terms": [
-        "Gemma 4",
-        "Google",
-        "gemma-4",
-        "文本生成",
-        "编码",
-        "推理",
-        "视觉理解",
-        "音频处理"
-      ],
-      "detail_ref": {
-        "kind": "tool-level3",
-        "id": "tool-level3:gemma-4"
-      },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.6-flash"
     },
     {
       "id": "tool-card:minimax-m3",
@@ -2534,7 +2461,7 @@
       "title": "Gemini CLI",
       "vendor_label": "Google",
       "icon": "🧩",
-      "summary": "Gemini CLI 是开源 AI 代理，提供终端内的 Gemini 模型访问，支持代码生成、文件管理、仓库解释等任务。",
+      "summary": "Google 开源终端 AI 工具；个人账户迁移到 Antigravity，企业许可和 API key 访问仍保留。",
       "theme": "dev",
       "scenes": [
         "代码理解与生成",
@@ -2542,10 +2469,10 @@
         "仓库代码分析",
         "终端自动化任务"
       ],
-      "best_for_preview": "开发者、技术爱好者、需要终端 AI 辅助的编程用户",
-      "not_for_preview": "非技术用户或不需要终端操作的用户",
+      "best_for_preview": "企业许可、Google Cloud 或 API key 用户的终端开发",
+      "not_for_preview": "依赖个人 Google AI Pro/Ultra 或免费账户的 Gemini CLI 用户",
       "price_badge": "free",
-      "access_level": "开放",
+      "access_level": "受限",
       "search_terms": [
         "Gemini CLI",
         "Google",
@@ -3035,7 +2962,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gemini-3-5-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.5-pro"
     },
     {
       "id": "tool-card:glm-5-3-flash",
@@ -3133,7 +3061,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gemini-3-8-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.8-flash"
     },
     {
       "id": "tool-card:gpt-6",
@@ -3479,6 +3408,71 @@
       "model_key": "anthropic-claude-haiku-3.5",
       "visibility": "hidden_history",
       "historical_since": "2026-09-07"
+    },
+    {
+      "id": "tool-card:antigravity-cli",
+      "tool_key": "antigravity-cli",
+      "vendor_key": "google",
+      "title": "Antigravity CLI",
+      "vendor_label": "Google",
+      "icon": "🛰️",
+      "summary": "Google 的 agent-first 终端工具，支持代理协作、技能、插件、MCP 与本地工作区自动化。",
+      "theme": "dev",
+      "scenes": [
+        "终端代理开发",
+        "Gemini CLI 迁移",
+        "多代理工作流"
+      ],
+      "best_for_preview": "需要终端代理协作和 Gemini CLI 配置迁移的开发者",
+      "not_for_preview": "仅需 Gemini API 调用或要求与 Gemini CLI 完全等价的用户",
+      "price_badge": "free",
+      "access_level": "受限",
+      "search_terms": [
+        "Antigravity CLI",
+        "Google",
+        "agy",
+        "Gemini CLI 迁移",
+        "代理协作",
+        "MCP"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:antigravity-cli"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:deepseek-harness",
+      "tool_key": "deepseek-harness",
+      "vendor_key": "deepseek",
+      "title": "DeepSeek Harness",
+      "vendor_label": "深度求索",
+      "icon": "🧰",
+      "summary": "DeepSeek 官方开源 Agent Harness，提供插件化的模型、工具、技能、会话、沙箱和工作流运行环境。",
+      "theme": "dev",
+      "scenes": [
+        "Coding Agent 工作流",
+        "Harness 开发",
+        "插件化 Agent 运行",
+        "可追踪会话"
+      ],
+      "best_for_preview": "需要本地 Agent 编排、工具调用和可组合插件运行时的开发者",
+      "not_for_preview": "只需要一次 API 请求或要求生产稳定性的场景",
+      "price_badge": "free",
+      "access_level": "受限",
+      "search_terms": [
+        "DeepSeek Harness",
+        "DSH",
+        "dsh",
+        "Agent Harness",
+        "Cordis",
+        "插件化 Agent"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:deepseek-harness"
+      },
+      "detail_kind": "tool"
     }
   ]
 }

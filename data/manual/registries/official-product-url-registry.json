@@ -651,6 +651,70 @@
       "lifecycle": "active",
       "last_verified_at": "2026-08-25",
       "last_official_update_at": "2026-07-22"
+    },
+    "antigravity-cli": {
+      "name": "Antigravity CLI",
+      "vendor_key": "google",
+      "official_urls": [
+        "https://www.antigravity.google/docs/cli/overview/",
+        "https://www.antigravity.google/docs/cli/install/",
+        "https://www.antigravity.google/blog/introducing-google-antigravity-cli"
+      ],
+      "aliases": [
+        "Antigravity CLI",
+        "Google Antigravity CLI",
+        "agy"
+      ],
+      "product_prefixes": [
+        "antigravity cli",
+        "google antigravity",
+        "agy"
+      ],
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://www.antigravity.google/docs/cli/changelog/",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-07",
+      "last_official_update_at": "2026-06-18"
+    },
+    "deepseek-harness": {
+      "name": "DeepSeek Harness",
+      "vendor_key": "deepseek",
+      "official_urls": [
+        "https://www.deepseek.com/harness/en/",
+        "https://github.com/deepseek-ai/deepseek-harness",
+        "https://deepseek-harness.github.io/deepseek-harness/"
+      ],
+      "aliases": [
+        "DeepSeek Harness",
+        "DSH",
+        "dsh"
+      ],
+      "product_prefixes": [
+        "deepseek harness",
+        "dsh"
+      ],
+      "update_sources": [
+        {
+          "kind": "github_releases",
+          "review_mode": "deterministic",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/releases",
+          "collector": "github_web_release",
+          "product_surface": "cli",
+          "repository": "deepseek-ai/deepseek-harness",
+          "include_prerelease": false
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-07",
+      "last_official_update_at": "2026-09-07"
     }
   }
 }
