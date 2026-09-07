@@ -76,8 +76,8 @@ function addVendor(snapshot, vendorKey, l2s) {
 function syntheticSnapshot() {
   const snap = emptySnapshot();
   addVendor(snap, 'anthropic', [
-    l2('vendor-level2:anthropic:claude', 'anthropic', 'Claude 最新系列', ['claude-fable-5-1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']),
-    l2('vendor-level2:anthropic:claude-previous', 'anthropic', 'Claude 上一世代', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4-6', 'claude-haiku-3-5']),
+    l2('vendor-level2:anthropic:claude', 'anthropic', 'Claude 最新系列', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']),
+    l2('vendor-level2:anthropic:claude-previous', 'anthropic', 'Claude 上一世代', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6', 'claude-haiku-3.5']),
     l2('vendor-level2:anthropic:claude-coding-plan', 'anthropic', '套餐', ['claude-pro', 'claude-max-5x']),
   ]);
   addVendor(snap, 'openai', [
@@ -119,8 +119,8 @@ test('迁移：anthropic 单一最新/上一世代结构、coding-plan 零漂移
   const plan = planSeriesMigration(policy, syntheticSnapshot());
   assert.equal(plan.validation.ok, true, JSON.stringify(plan.validation.errors));
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
-  assert.deepEqual(byId.get('vendor-level2:anthropic:claude').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5-1', 'tool-level3:claude-opus-5', 'tool-level3:claude-sonnet-5', 'tool-level3:claude-haiku-4.5']);
-  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-previous').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5', 'tool-level3:claude-opus-4.8', 'tool-level3:claude-sonnet-4-6', 'tool-level3:claude-haiku-3-5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5.1', 'tool-level3:claude-opus-5', 'tool-level3:claude-sonnet-5', 'tool-level3:claude-haiku-4.5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-previous').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5', 'tool-level3:claude-opus-4.8', 'tool-level3:claude-sonnet-4.6', 'tool-level3:claude-haiku-3.5']);
   assert.deepEqual(byId.get('vendor-level2:anthropic:claude-coding-plan').detail_refs.map(r => r.id), ['tool-level3:claude-pro', 'tool-level3:claude-max-5x']);
 });
 
@@ -247,8 +247,8 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:openai:gpt-5-5', ['gpt-5-5', 'gpt-5-5-pro']);
   expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2', 'gpt-realtime-2-1', 'gpt-realtime-2-1-mini', 'gpt-realtime-translate', 'gpt-live-transcribe', 'gpt-realtime-whisper']);
   expect('vendor-level2:openai:gpt-image', ['gpt-image-2']);
-  expect('vendor-level2:anthropic:claude', ['claude-fable-5-1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
-  expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4-6']);
+  expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
+  expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6']);
   expect('vendor-level2:google:gemini', ['gemini-3-7-flash', 'gemini-3-6-flash']);
   expect('vendor-level2:google:gemini-last', ['gemini-3.5-flash', 'gemini-3-1-pro', 'gemini-2.5-pro']);
   expect('vendor-level2:zhipu:glm', ['glm-5.1', 'glm-5.2', 'glm-5-3']);

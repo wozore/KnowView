@@ -1,7 +1,7 @@
 'use strict';
 
 const { TOOL_CARD_KINDS, THEMES, SERIES_KINDS, GENERATION_STATES, VISIBILITIES } = require('./catalog-contract');
-const { isModelKey } = require('../../shared/model-key-contract');
+const { isModelKey, normalizeModelIdentity } = require('../../shared/model-key-contract');
 
 function slugify(value, label) {
   const slug = String(value || '')
@@ -140,11 +140,17 @@ function buildToolCard({ toolKey, vendorKey, title, vendorLabel, icon, summary, 
   return card;
 }
 
+function identityKey(value, label) {
+  const text = String(value || '').trim().normalize('NFKC').replace(/[^A-Za-z0-9.\s_-]+/g, '-');
+  try { return normalizeModelIdentity(text); } catch { throw new Error('KEY_REQUIRED:' + label); }
+}
+
 function deriveKeys(seed) {
   const vendorKey = slugify(seed.vendor_key || seed.vendor_name, 'vendor_key');
-  const toolKey = seed.tool_key ? slugify(seed.tool_key, 'tool_key') : slugify(seed.name, 'tool_key');
+  // 模型/产品身份键保留数字版本点号（如 5.1），但仍将其它分隔符规范为短横线。
+  const toolKey = seed.tool_key ? identityKey(seed.tool_key, 'tool_key') : identityKey(seed.name, 'tool_key');
   const groupKey = slugify(seed.group_key || seed.placement?.new_group_title || seed.name, 'group_key').replace(/-models$/, '');
-  const detailKey = seed.detail_key ? slugify(seed.detail_key, 'detail_key') : toolKey;
+  const detailKey = seed.detail_key ? identityKey(seed.detail_key, 'detail_key') : toolKey;
   return { vendorKey, toolKey, groupKey, detailKey };
 }
 

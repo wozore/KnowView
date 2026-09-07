@@ -3,6 +3,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { buildOfficialDiscoveryQuery } = require('../../src/catalog/intake/index');
+const { deriveKeys } = require('../../src/catalog/core/catalog-record-builders');
 const {
   synthesizeLayerFields,
   revisionOf,
@@ -14,6 +15,12 @@ const {
   validatePlannedRecords,
   validateCatalogSnapshot,
 } = require('../../src/catalog/core/index');
+
+test('deriveKeys 保留数字版本点号', () => {
+  const keys = deriveKeys({ vendor_name: 'Anthropic', name: 'Claude Fable 5.1', group_key: 'Claude 最新系列', detail_key: 'claude-fable-5.1' });
+  assert.equal(keys.toolKey, 'claude-fable-5.1');
+  assert.equal(keys.detailKey, 'claude-fable-5.1');
+});
 
 function fakeResponse(data, ok = true, status = 200) {
   return { ok, status, json: async () => data, text: async () => JSON.stringify(data) };
