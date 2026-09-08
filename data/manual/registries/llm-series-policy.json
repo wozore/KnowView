@@ -2222,8 +2222,115 @@
     {
       "vendor_key": "antgroup",
       "direction": "llm",
-      "description": "蚂蚁集团：政策已登记厂商方向，尚无核实的系列结构（不编造家族）。",
-      "families": []
+      "description": "蚂蚁集团：百灵思考与通用大模型、全模态模型、灵光 Coding Agent 应用与开发者服务。",
+      "families": [
+        {
+          "family": "bailing",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:antgroup:bailing",
+              "title": "百灵思考与通用大模型系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "bailing-ring-2-5-1t",
+                "bailing-ling-2-5-1t",
+                "bailing-ring-1t",
+                "bailing-ling-1t"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.lingguang.com",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "bailing",
+            "ling",
+            "ring",
+            "百灵"
+          ]
+        },
+        {
+          "family": "bailing-omni",
+          "usage_kind": "omni",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:antgroup:bailing-omni",
+              "title": "百灵全模态模型系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "bailing-ming-omni"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.lingguang.com",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "ming",
+            "ming-omni"
+          ]
+        },
+        {
+          "family": "antgroup-tools",
+          "usage_kind": "tool",
+          "modality": "omni",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:antgroup:tools",
+              "title": "灵光应用与开发者工作区",
+              "generation_state": "newest",
+              "expected_members": [
+                "lingguang-app",
+                "ling-studio"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.lingguang.com",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "lingguang-app",
+            "ling-studio",
+            "灵光"
+          ]
+        },
+        {
+          "family": "antgroup-subscription",
+          "usage_kind": "subscription",
+          "modality": "omni",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:antgroup:subscription",
+              "title": "百灵 API 开发者服务",
+              "generation_state": "newest",
+              "expected_members": [
+                "bailing-api-plan"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.lingguang.com",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "bailing-api-plan"
+          ]
+        }
+      ]
     },
     {
       "vendor_key": "kuaishou",
@@ -2346,44 +2453,199 @@
     {
       "vendor_key": "luma",
       "direction": "video",
-      "description": "Luma AI：政策已登记厂商方向，尚无核实的系列结构（不编造家族）。",
-      "families": []
-    },
-    {
-      "vendor_key": "vidu",
-      "direction": "video",
-      "description": "生数科技：Vidu 视频生成，目录现登记 ViduQ3 与 Vidu S1 两条。",
+      "description": "Luma AI：Ray 视频生成系列、Uni 视觉生成系列、Luma 创意工作区与会员订阅。",
       "families": [
         {
-          "family": "vidu",
+          "family": "luma-ray",
           "usage_kind": "video",
           "modality": "video",
           "series_kind": "model_series",
           "version_axis": "dot",
           "series": [
             {
-              "id": "vendor-level2:vidu:viduq3",
-              "title": "ViduQ3",
+              "id": "vendor-level2:luma:ray",
+              "title": "Luma Ray 视频生成系列",
               "generation_state": "newest",
               "expected_members": [
-                "viduq3-pro"
-              ]
-            },
-            {
-              "id": "vendor-level2:vidu:vidu-s1",
-              "title": "Vidu S1",
-              "generation_state": "previous",
-              "expected_members": [
-                "vidu-s1"
+                "luma-ray-3-2",
+                "luma-ray-3-2-edit",
+                "luma-ray-3-14"
               ]
             }
           ],
           "evidence": {
-            "url": "https://www.vidu.cn/",
-            "status": "inferred"
+            "url": "https://lumalabs.ai/news",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "ray",
+            "luma-ray"
+          ]
+        },
+        {
+          "family": "luma-uni",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:luma:uni",
+              "title": "Luma Uni 视觉生成系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "luma-uni-1-1",
+                "luma-uni-1-1-max"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://lumalabs.ai/news",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "uni",
+            "luma-uni"
+          ]
+        },
+        {
+          "family": "luma-tools",
+          "usage_kind": "tool",
+          "modality": "omni",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:luma:tools",
+              "title": "Luma 创作工作区与开发工具",
+              "generation_state": "newest",
+              "expected_members": [
+                "luma-app",
+                "luma-api"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://lumalabs.ai",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "luma-app",
+            "luma-api"
+          ]
+        },
+        {
+          "family": "luma-subscription",
+          "usage_kind": "subscription",
+          "modality": "omni",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:luma:subscription",
+              "title": "Luma 会员订阅",
+              "generation_state": "newest",
+              "expected_members": [
+                "luma-plus",
+                "luma-pro",
+                "luma-ultra"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://lumalabs.ai/dream-machine/pricing",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "luma-plus",
+            "luma-pro",
+            "luma-ultra"
+          ]
+        }
+      ]
+    },
+    {
+      "vendor_key": "vidu",
+      "direction": "video",
+      "description": "生数科技：Vidu 视频与交互模型、创作与开放平台及会员订阅套餐。",
+      "families": [
+        {
+          "family": "vidu-video",
+          "usage_kind": "video",
+          "modality": "video",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:vidu:video",
+              "title": "Vidu 视频与交互模型系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "vidu-s1",
+                "viduq3-pro",
+                "viduq3-turbo",
+                "vidu-2-0"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.vidu.cn/docs/pricing",
+            "status": "verified"
           },
           "name_patterns": [
             "vidu"
+          ]
+        },
+        {
+          "family": "vidu-tools",
+          "usage_kind": "tool",
+          "modality": "omni",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:vidu:tools",
+              "title": "Vidu 创作与开放平台",
+              "generation_state": "newest",
+              "expected_members": [
+                "vidu-studio",
+                "vidu-platform"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.vidu.cn",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "vidu-studio",
+            "vidu-platform"
+          ]
+        },
+        {
+          "family": "vidu-subscription",
+          "usage_kind": "subscription",
+          "modality": "omni",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:vidu:subscription",
+              "title": "Vidu 会员订阅套餐",
+              "generation_state": "newest",
+              "expected_members": [
+                "vidu-basic",
+                "vidu-pro"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.vidu.cn/pricing",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "vidu-basic",
+            "vidu-pro"
           ]
         }
       ]
@@ -2391,8 +2653,111 @@
     {
       "vendor_key": "black-forest-labs",
       "direction": "image",
-      "description": "Black Forest Labs：政策已登记厂商方向，尚无核实的系列结构（不编造家族）。",
-      "families": []
+      "description": "Black Forest Labs：FLUX.2 图像生成系列、FLUX 3 多模态音视频系列、BFL 开发工具与算力套餐。",
+      "families": [
+        {
+          "family": "flux-2",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:black-forest-labs:flux-2",
+              "title": "FLUX.2 图像生成系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "flux-2-max",
+                "flux-2-pro",
+                "flux-2-flex",
+                "flux-2-klein"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.bfl.ai/release-notes",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "flux-2",
+            "flux"
+          ]
+        },
+        {
+          "family": "flux-3",
+          "usage_kind": "video",
+          "modality": "video",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:black-forest-labs:flux-3",
+              "title": "FLUX 3 多模态音视频系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "flux-3"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://bfl.ai/blog/flux-3",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "flux-3"
+          ]
+        },
+        {
+          "family": "bfl-tools",
+          "usage_kind": "tool",
+          "modality": "omni",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:black-forest-labs:tools",
+              "title": "BFL 平台与开发工具",
+              "generation_state": "newest",
+              "expected_members": [
+                "bfl-playground",
+                "bfl-api"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.bfl.ai",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "bfl-playground",
+            "bfl-api"
+          ]
+        },
+        {
+          "family": "bfl-subscription",
+          "usage_kind": "subscription",
+          "modality": "omni",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:black-forest-labs:subscription",
+              "title": "BFL 算力套餐",
+              "generation_state": "newest",
+              "expected_members": [
+                "bfl-credits-plan"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.bfl.ai/quick_start/pricing",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "bfl-credits-plan"
+          ]
+        }
+      ]
     },
     {
       "vendor_key": "reve",

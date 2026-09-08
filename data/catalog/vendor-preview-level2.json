@@ -559,20 +559,34 @@
       ]
     },
     {
-      "id": "vendor-level2:vidu:viduq3",
+      "id": "vendor-level2:vidu:video",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:vidu"
       },
       "vendor_key": "vidu",
-      "title": "ViduQ3",
+      "title": "Vidu 视频与交互模型系列",
       "official_url": "https://platform.vidu.cn/docs/pricing",
-      "summary": "Vidu 开放平台提供视频生成 API，采用积分计价。",
+      "summary": "生数科技 Vidu 视频与实时交互大模型家族，包含 Vidu S1 实时流式数字人、高画质音视频模型 ViduQ3 系列与极速视频模型 Vidu 2.0。",
       "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
       "detail_refs": [
         {
           "kind": "tool-level3",
+          "id": "tool-level3:vidu-s1"
+        },
+        {
+          "kind": "tool-level3",
           "id": "tool-level3:viduq3-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:viduq3-turbo"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-2-0"
         }
       ]
     },
@@ -594,24 +608,6 @@
         }
       ],
       "series_kind": "tool_series"
-    },
-    {
-      "id": "vendor-level2:vidu:vidu-s1",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:vidu"
-      },
-      "vendor_key": "vidu",
-      "title": "Vidu S1",
-      "official_url": "https://platform.vidu.com/",
-      "summary": "Vidu API 提供视频生成、图像生成、音频生成及实时交互数字人等模型，覆盖 Vidu S1、ViduQ3、ViduQ2、ViduQ1、Vidu2.0 等系列。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:vidu-s1"
-        }
-      ]
     },
     {
       "id": "vendor-level2:bytedance:trae",
@@ -2998,6 +2994,342 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:reve-teams"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:vidu:tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:vidu"
+      },
+      "vendor_key": "vidu",
+      "title": "Vidu 创作与开放平台",
+      "official_url": "https://www.vidu.cn",
+      "summary": "生数科技 Vidu 在线视频制作与 API 开放服务体系，涵盖多主体一致性参考创作台与数字人流式 API 接入。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-studio"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-platform"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:vidu:subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:vidu"
+      },
+      "vendor_key": "vidu",
+      "title": "Vidu 会员订阅套餐",
+      "official_url": "https://www.vidu.cn/pricing",
+      "summary": "Vidu 官方个人与创作者连续包月会员方案，包含基础版（800积分/月）与专业版（4000积分/月），享极低单分成本与专属高速通道。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-basic"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-pro"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:luma:ray",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:luma"
+      },
+      "vendor_key": "luma",
+      "title": "Luma Ray 视频生成系列",
+      "official_url": "https://lumalabs.ai/news",
+      "summary": "Luma AI 旗舰视频生成与局部重塑模型家族，涵盖电影级逐帧控制的 Ray 3.2、定向局部微调 Ray 3.2 Edit 与高画质商用基座 Ray 3.14。",
+      "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-ray-3-2"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-ray-3-2-edit"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-ray-3-14"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:luma:uni",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:luma"
+      },
+      "vendor_key": "luma",
+      "title": "Luma Uni 视觉生成系列",
+      "official_url": "https://lumalabs.ai/news/uni-1-1-api",
+      "summary": "Luma AI 统一视觉智能图像生成与自然语言编辑模型家族，支持品牌参考强约束、超低时延生成与高端商业插画渲染。",
+      "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-uni-1-1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-uni-1-1-max"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:luma:tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:luma"
+      },
+      "vendor_key": "luma",
+      "title": "Luma 创作工作区与开发工具",
+      "official_url": "https://lumalabs.ai",
+      "summary": "Luma AI 官方应用工作区与工业管线开发接口，支持视频 Agent 协同编排与 RESTful 自动化调度。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-app"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-api"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:luma:subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:luma"
+      },
+      "vendor_key": "luma",
+      "title": "Luma 会员订阅",
+      "official_url": "https://lumalabs.ai/dream-machine/pricing",
+      "summary": "Luma 官方多档位创作者订阅方案，涵盖 Plus（$30/月）、Pro（$90/月）与 Ultra（$300/月），提供无水印商用授权与极速并发队列。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:luma-ultra"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:black-forest-labs:flux-2",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:black-forest-labs"
+      },
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 图像生成系列",
+      "official_url": "https://docs.bfl.ai/release-notes",
+      "summary": "Black Forest Labs 新一代图像生成模型家族，涵盖联网事实检索生图 FLUX.2 [max]、企业生产级 FLUX.2 [pro]、精准排版 FLUX.2 [flex] 与亚秒级推理 FLUX.2 [klein]。",
+      "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:flux-2-max"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:flux-2-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:flux-2-flex"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:flux-2-klein"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:black-forest-labs:flux-3",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:black-forest-labs"
+      },
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX 3 多模态音视频系列",
+      "official_url": "https://bfl.ai/blog/flux-3",
+      "summary": "Black Forest Labs 首款多模态世界基座模型，原生同步联合生成长达 20 秒影视级视频与高保真音频，支持物理世界实体动作预测。",
+      "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:flux-3"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:black-forest-labs:tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:black-forest-labs"
+      },
+      "vendor_key": "black-forest-labs",
+      "title": "BFL 平台与开发工具",
+      "official_url": "https://docs.bfl.ai",
+      "summary": "Black Forest Labs 官方在线交互试验场 BFL Playground 与面向智能体全自动化集成的 BFL API 及 FLUX MCP Server。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bfl-playground"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bfl-api"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:black-forest-labs:subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:black-forest-labs"
+      },
+      "vendor_key": "black-forest-labs",
+      "title": "BFL 算力套餐",
+      "official_url": "https://docs.bfl.ai/quick_start/pricing",
+      "summary": "BFL 统一点数包方案，1 Credit = $0.01 USD，在 Playground 与全系 API 通用，支持团队组织级点数划转与多档充值优惠。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bfl-credits-plan"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:antgroup:bailing",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:antgroup"
+      },
+      "vendor_key": "antgroup",
+      "title": "百灵思考与通用大模型系列",
+      "official_url": "https://www.lingguang.com",
+      "summary": "蚂蚁集团自主研发的百灵万亿大模型家族，涵盖奥数竞赛金牌级深度思考模型 Ring-2.5-1T、高吞吐通用基座 Ling-2.5-1T 以及首代万亿开源模型 Ring-1T 与 Ling-1T。",
+      "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bailing-ring-2-5-1t"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bailing-ling-2-5-1t"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bailing-ring-1t"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bailing-ling-1t"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:antgroup:bailing-omni",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:antgroup"
+      },
+      "vendor_key": "antgroup",
+      "title": "百灵全模态模型系列",
+      "official_url": "https://www.lingguang.com",
+      "summary": "蚂蚁集团统一全模态多模态大模型 Ming-omni，原生打通视觉理解、多模态推理与端到端自然对话。",
+      "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bailing-ming-omni"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:antgroup:tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:antgroup"
+      },
+      "vendor_key": "antgroup",
+      "title": "灵光应用与开发者工作区",
+      "official_url": "https://www.lingguang.com",
+      "summary": "蚂蚁集团推出的消费级 Coding Agent「灵光 App」（一句话生成交互小程序与开眼多模态）及开发者模型调试平台 Ling Studio。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:lingguang-app"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:ling-studio"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:antgroup:subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:antgroup"
+      },
+      "vendor_key": "antgroup",
+      "title": "百灵 API 开发者服务",
+      "official_url": "https://www.lingguang.com",
+      "summary": "蚂蚁百灵大模型开发者算力支持计划，每日赠送 50 万免费计算单元，支持弹性商业按量接入。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:bailing-api-plan"
         }
       ]
     }

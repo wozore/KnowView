@@ -1124,7 +1124,7 @@
       "icon": "🤖",
       "official_url": "https://docs.lumalabs.ai",
       "description": "Luma AI 提供面向图像、视频和创意生成工作流的模型与开发者 API 入口。",
-      "status": "partial",
+      "status": "active",
       "features": [
         {
           "tone": "positive",
@@ -1135,7 +1135,24 @@
           "text": "限制：模型能力、生成额度与价格需以官方页面为准。"
         }
       ],
-      "level2_refs": []
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:luma:ray"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:luma:uni"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:luma:tools"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:luma:subscription"
+        }
+      ]
     },
     {
       "id": "vendor-level1:black-forest-labs",
@@ -1144,7 +1161,7 @@
       "icon": "🤖",
       "official_url": "https://docs.bfl.ai",
       "description": "Black Forest Labs 提供 FLUX 系列图像生成模型、开发者 API 与授权信息。",
-      "status": "partial",
+      "status": "active",
       "features": [
         {
           "tone": "positive",
@@ -1155,7 +1172,24 @@
           "text": "限制：不同模型的授权、部署方式与价格需分别核对官方条件。"
         }
       ],
-      "level2_refs": []
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:black-forest-labs:flux-2"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:black-forest-labs:flux-3"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:black-forest-labs:tools"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:black-forest-labs:subscription"
+        }
+      ]
     },
     {
       "id": "vendor-level1:antgroup",
@@ -1164,7 +1198,7 @@
       "icon": "🤖",
       "official_url": "https://www.lingguang.com",
       "description": "蚂蚁集团灵光产品入口，提供面向中文用户的 AI 应用与生成式能力。",
-      "status": "partial",
+      "status": "active",
       "features": [
         {
           "tone": "positive",
@@ -1175,7 +1209,24 @@
           "text": "限制：具体功能、开放范围与使用条件需以官方页面为准。"
         }
       ],
-      "level2_refs": []
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:antgroup:bailing"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:antgroup:bailing-omni"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:antgroup:tools"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:antgroup:subscription"
+        }
+      ]
     },
     {
       "id": "vendor-level1:vidu",
@@ -1184,7 +1235,7 @@
       "icon": "🤖",
       "official_url": "https://platform.vidu.cn",
       "description": "生数科技 Vidu 提供视频生成模型与平台入口，覆盖视频创作相关 API 和模型能力。",
-      "status": "partial",
+      "status": "active",
       "features": [
         {
           "tone": "positive",
@@ -1198,11 +1249,15 @@
       "level2_refs": [
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:vidu:viduq3"
+          "id": "vendor-level2:vidu:video"
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:vidu:vidu-s1"
+          "id": "vendor-level2:vidu:tools"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:vidu:subscription"
         }
       ]
     }

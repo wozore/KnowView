@@ -7472,6 +7472,719 @@
         "id": "tool-level3:reve-app"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:luma-ray-3-2",
+      "tool_key": "luma-ray-3-2",
+      "vendor_key": "luma",
+      "title": "Ray 3.2",
+      "vendor_label": "Luma AI",
+      "icon": "🎬",
+      "summary": "Ray 3.2 是 Luma AI 旗舰视频生成模型，为影视、广告和游戏创作者提供逐帧精确导演控制、1080p HDR 视频生成与 16-bit EXR 专业导出能力。",
+      "theme": "media",
+      "scenes": [
+        "导演级视频制作"
+      ],
+      "best_for_preview": "电影广告制作、逐帧动作轨迹定向控制与 HDR 专业调色导出。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ray 3.2",
+        "Luma AI",
+        "luma-ray-3-2",
+        "luma",
+        "Ray"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:luma-ray-3-2"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:luma-ray-3-2-edit",
+      "tool_key": "luma-ray-3-2-edit",
+      "vendor_key": "luma",
+      "title": "Ray 3.2 Edit",
+      "vendor_label": "Luma AI",
+      "icon": "✂️",
+      "summary": "Ray 3.2 Edit 是基于 Ray 3.2 的局部精细编辑与 V2V 视频重塑模型，无需从头重绘即可对现有镜头进行手术级定向调整。",
+      "theme": "media",
+      "scenes": [
+        "已有镜头局部微调"
+      ],
+      "best_for_preview": "更换主体服装道具、微调摄像机运镜轨迹与分层重塑。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ray 3.2 Edit",
+        "Luma AI",
+        "luma-ray-3-2-edit",
+        "luma"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:luma-ray-3-2-edit"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:luma-ray-3-14",
+      "tool_key": "luma-ray-3-14",
+      "vendor_key": "luma",
+      "title": "Ray 3.14",
+      "vendor_label": "Luma AI",
+      "icon": "🎞️",
+      "summary": "Ray 3.14 是 Luma 影视级高性价比视频基座，原生支持 1080p 视频生成，生成速度提升 4 倍且成本降低 3 倍。",
+      "theme": "media",
+      "scenes": [
+        "商业视频快速原型"
+      ],
+      "best_for_preview": "故事板视觉概念演示、电商短视频与社交媒体创意生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ray 3.14",
+        "Luma AI",
+        "luma-ray-3-14",
+        "luma"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:luma-ray-3-14"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:luma-uni-1-1",
+      "tool_key": "luma-uni-1-1",
+      "vendor_key": "luma",
+      "title": "Uni-1.1",
+      "vendor_label": "Luma AI",
+      "icon": "🎨",
+      "summary": "Uni-1.1 是 Luma 统一视觉智能图像生成与自然语言编辑模型，支持原生品牌参考约束与半价超低时延生成。",
+      "theme": "vision",
+      "scenes": [
+        "品牌物料多渠道生成"
+      ],
+      "best_for_preview": "品牌参考图约束、复杂提示词一次成图与多语言海报生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Uni-1.1",
+        "Luma AI",
+        "luma-uni-1-1",
+        "luma",
+        "Uni"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:luma-uni-1-1"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:luma-uni-1-1-max",
+      "tool_key": "luma-uni-1-1-max",
+      "vendor_key": "luma",
+      "title": "Uni-1.1 Max",
+      "vendor_label": "Luma AI",
+      "icon": "🖼️",
+      "summary": "Uni-1.1 Max 提供最高规格的美学渲染与复杂画面生成，面向高要求广告与平面设计生产流程。",
+      "theme": "vision",
+      "scenes": [
+        "广告级高端视觉生产"
+      ],
+      "best_for_preview": "复杂光影构图、超高分辨率细节与严谨排版插画。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Uni-1.1 Max",
+        "Luma AI",
+        "luma-uni-1-1-max",
+        "luma"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:luma-uni-1-1-max"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:luma-app",
+      "tool_key": "luma-app",
+      "vendor_key": "luma",
+      "title": "Luma App",
+      "vendor_label": "Luma AI",
+      "icon": "🌐",
+      "summary": "Luma App 是面向创作者的一站式视觉与视频 Agent 创作工作区，支持 Ray 3 与 Uni 统一工作流协同。",
+      "theme": "dev",
+      "scenes": [
+        "在线多模态生成协同"
+      ],
+      "best_for_preview": "视频故事板组织、多参考图定向控制与 Agent 工作流编排。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Luma App",
+        "Dream Machine",
+        "Luma AI",
+        "luma-app"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:luma-app"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:luma-api",
+      "tool_key": "luma-api",
+      "vendor_key": "luma",
+      "title": "Luma API",
+      "vendor_label": "Luma AI",
+      "icon": "🔌",
+      "summary": "Luma API 提供面向图像和视频生成全生命周期的 RESTful 开发者接口，覆盖从快速打样到工业管线集成。",
+      "theme": "dev",
+      "scenes": [
+        "自动化视频管线集成"
+      ],
+      "best_for_preview": "将 Ray 3.2 与 Uni-1.1 接入专业剪辑与后期合成管线。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Luma API",
+        "Luma AI",
+        "luma-api"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:luma-api"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:flux-2-max",
+      "tool_key": "flux-2-max",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [max]",
+      "vendor_label": "Black Forest Labs",
+      "icon": "💎",
+      "summary": "FLUX.2 [max] 是 BFL 旗舰画质图像生成大模型，支持 Grounding Search 实时联网检索生成真实世界事实图像，具备极致解剖学细节与真实质感。",
+      "theme": "vision",
+      "scenes": [
+        "实时新闻事实图生成与最高画质创作"
+      ],
+      "best_for_preview": "依托 Grounding Search 绘制天气、球赛或历史事实画面，展现高精度人手质感。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "FLUX.2 [max]",
+        "Black Forest Labs",
+        "flux-2-max",
+        "FLUX",
+        "flux"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:flux-2-max"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:flux-2-pro",
+      "tool_key": "flux-2-pro",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [pro]",
+      "vendor_label": "Black Forest Labs",
+      "icon": "🖼️",
+      "summary": "FLUX.2 [pro] 是企业生产级标杆图像生成模型，相比前代推理速度提升约 2 倍，支持最多 10 张多图参考混合编辑与精准品牌色把控。",
+      "theme": "vision",
+      "scenes": [
+        "大规模商业视觉生产"
+      ],
+      "best_for_preview": "快速出图、多参考图风格一致性维持与品牌 Hex 色值精准遵从。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "FLUX.2 [pro]",
+        "Black Forest Labs",
+        "flux-2-pro",
+        "FLUX",
+        "flux"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:flux-2-pro"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:flux-2-flex",
+      "tool_key": "flux-2-flex",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [flex]",
+      "vendor_label": "Black Forest Labs",
+      "icon": "🎛️",
+      "summary": "FLUX.2 [flex] 支持开发者全面掌控步数与引导尺度（guidance scale），专精于复杂文字排版（Typography）与超清晰信息图表渲染。",
+      "theme": "vision",
+      "scenes": [
+        "高保真文字排版与参数探索"
+      ],
+      "best_for_preview": "海报字型排版、UI 界面原型图与开发调试阶段自定义步数渲染。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "FLUX.2 [flex]",
+        "Black Forest Labs",
+        "flux-2-flex",
+        "FLUX",
+        "flux"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:flux-2-flex"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:flux-2-klein",
+      "tool_key": "flux-2-klein",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [klein]",
+      "vendor_label": "Black Forest Labs",
+      "icon": "⚡",
+      "summary": "FLUX.2 [klein] 是亚秒级极速图像模型家族，提供 4B（Apache 2.0 开源）与 9B 版本，仅需 13GB 显存即可在消费级硬件流畅运行。",
+      "theme": "vision",
+      "scenes": [
+        "交互式实时画图与消费级硬件部署"
+      ],
+      "best_for_preview": "实时交互画板、端侧实时滤镜与极低成本海量素材生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "FLUX.2 [klein]",
+        "Black Forest Labs",
+        "flux-2-klein",
+        "FLUX",
+        "klein"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:flux-2-klein"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:flux-3",
+      "tool_key": "flux-3",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX 3",
+      "vendor_label": "Black Forest Labs",
+      "icon": "🎬",
+      "summary": "FLUX 3 是 BFL 统一多模态世界模型，原生同步联合生成视频与音频，支持最长 20 秒影视级画面、自然语言对白与实体动作预测。",
+      "theme": "media",
+      "scenes": [
+        "音画同步电影级视频创作"
+      ],
+      "best_for_preview": "包含原生环境音/台词的文生视频、图生视频与长镜头连续演进。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "FLUX 3",
+        "Black Forest Labs",
+        "flux-3",
+        "FLUX",
+        "flux"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:flux-3"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:bfl-playground",
+      "tool_key": "bfl-playground",
+      "vendor_key": "black-forest-labs",
+      "title": "BFL Playground",
+      "vendor_label": "Black Forest Labs",
+      "icon": "🕹️",
+      "summary": "BFL Playground 是官方在线体验与交互式生成试验场，支持 FLUX 全系列模型的提示词微调、多图参考混合与即时效果预览。",
+      "theme": "dev",
+      "scenes": [
+        "在线提示词测试与多模态效果验证"
+      ],
+      "best_for_preview": "免搭建环境直接对比测试 FLUX.2 与 FLUX 3 各版本生成表现。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "BFL Playground",
+        "FLUX Playground",
+        "Black Forest Labs",
+        "bfl-playground"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bfl-playground"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:bfl-api",
+      "tool_key": "bfl-api",
+      "vendor_key": "black-forest-labs",
+      "title": "BFL API & MCP",
+      "vendor_label": "Black Forest Labs",
+      "icon": "🔌",
+      "summary": "BFL API 为开发者提供高并发 REST 接口与官方 FLUX MCP Server，支持异步视频生成、微调部署与 Agentic 生图链路。",
+      "theme": "dev",
+      "scenes": [
+        "Agent 工具调用与批量生产"
+      ],
+      "best_for_preview": "通过 MCP 协议直接接入 Claude Code 等智能体工具，实现全自动视觉内容生产。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "BFL API",
+        "FLUX API",
+        "FLUX MCP",
+        "Black Forest Labs",
+        "bfl-api"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bfl-api"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:bailing-ring-2-5-1t",
+      "tool_key": "bailing-ring-2-5-1t",
+      "vendor_key": "antgroup",
+      "title": "Ring-2.5-1T",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "🧠",
+      "summary": "Ring-2.5-1T 是蚂蚁集团百灵大模型 2.5 阶段万亿参数深度思考模型，采用混合线性注意力架构与密集奖励强化学习，数学推理达到国际奥赛金牌水准，具备长程 Agent 自主执行能力。",
+      "theme": "general",
+      "scenes": [
+        "长程 Agent 编程与复杂数学推导"
+      ],
+      "best_for_preview": "复杂微型操作系统设计、金融财报深度信息抽取与自动化软件工程构建。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ring-2.5-1T",
+        "灵光（蚂蚁集团）",
+        "bailing-ring-2-5-1t",
+        "百灵",
+        "Ring"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bailing-ring-2-5-1t"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:bailing-ling-2-5-1t",
+      "tool_key": "bailing-ling-2-5-1t",
+      "vendor_key": "antgroup",
+      "title": "Ling-2.5-1T",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "🤖",
+      "summary": "Ling-2.5-1T 是百灵万亿参数通用语言大模型，突破思考大模型不可能三角，生成吞吐提升 3 倍以上，访存规模降低 10 倍。",
+      "theme": "general",
+      "scenes": [
+        "高吞吐通用语言处理与知识工作"
+      ],
+      "best_for_preview": "大规模语料分析、多语言翻译与专业领域问答。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ling-2.5-1T",
+        "灵光（蚂蚁集团）",
+        "bailing-ling-2-5-1t",
+        "百灵",
+        "Ling"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bailing-ling-2-5-1t"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:bailing-ring-1t",
+      "tool_key": "bailing-ring-1t",
+      "vendor_key": "antgroup",
+      "title": "Ring-1T",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "🧠",
+      "summary": "Ring-1T 是蚂蚁首代开源万亿参数思考大模型，在复杂推理与人类偏好对齐测试中取得领先成绩。",
+      "theme": "general",
+      "scenes": [
+        "数学与逻辑推演"
+      ],
+      "best_for_preview": "复杂逻辑证明、竞赛题解与思维链显式推理。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ring-1T",
+        "灵光（蚂蚁集团）",
+        "bailing-ring-1t",
+        "百灵"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bailing-ring-1t"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:bailing-ling-1t",
+      "tool_key": "bailing-ling-1t",
+      "vendor_key": "antgroup",
+      "title": "Ling-1T",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "🤖",
+      "summary": "Ling-1T 是蚂蚁集团首款全模态开源万亿参数基座模型，覆盖代码生成、软件开发等全面能力。",
+      "theme": "general",
+      "scenes": [
+        "软件工程与智能体开发"
+      ],
+      "best_for_preview": "通用编程代码辅助、文档归纳与生活金融场景应用。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ling-1T",
+        "灵光（蚂蚁集团）",
+        "bailing-ling-1t",
+        "百灵"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bailing-ling-1t"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:bailing-ming-omni",
+      "tool_key": "bailing-ming-omni",
+      "vendor_key": "antgroup",
+      "title": "Ming-omni",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "👁️",
+      "summary": "Ming-omni 是百灵全模态统一多模态大模型，支持视觉、语音与文本端到端对齐理解与生成。",
+      "theme": "vision",
+      "scenes": [
+        "视觉理解与语音全双工交互"
+      ],
+      "best_for_preview": "动态摄像头实时视频场景理解、图文交错问答与自然语音对齐对话。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ming-omni",
+        "灵光（蚂蚁集团）",
+        "bailing-ming-omni",
+        "Ming",
+        "百灵多模态"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:bailing-ming-omni"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:lingguang-app",
+      "tool_key": "lingguang-app",
+      "vendor_key": "antgroup",
+      "title": "灵光 App",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "✨",
+      "summary": "灵光 App 是蚂蚁集团推出的消费级 Coding Agent，具备「灵光闪应用」（一句话手搓可交互小程序）、「灵光开眼」实时视频理解与全模态对话能力。",
+      "theme": "dev",
+      "scenes": [
+        "零代码快速生成个人小程序与动态百科"
+      ],
+      "best_for_preview": "30秒生成个人记账规划、健康打卡与沉浸式 3D/图表可视化知识卡片。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "灵光 App",
+        "灵光",
+        "LingGuang",
+        "灵光（蚂蚁集团）",
+        "lingguang-app"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:lingguang-app"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:ling-studio",
+      "tool_key": "ling-studio",
+      "vendor_key": "antgroup",
+      "title": "Ling Studio",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "🛠️",
+      "summary": "Ling Studio 是蚂蚁百灵大模型官方开发者接入与调试平台，提供模型微调、工作流配置与 Agent 技能编排服务。",
+      "theme": "dev",
+      "scenes": [
+        "百灵大模型开发者应用接入"
+      ],
+      "best_for_preview": "在线 Prompt 调试、Agent 协同配置与生产环境 API Key 管理。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Ling Studio",
+        "灵光（蚂蚁集团）",
+        "ling-studio",
+        "百灵平台"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:ling-studio"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:viduq3-turbo",
+      "tool_key": "viduq3-turbo",
+      "vendor_key": "vidu",
+      "title": "ViduQ3 Turbo",
+      "vendor_label": "vidu",
+      "icon": "⚡",
+      "summary": "ViduQ3 Turbo 是生数科技推出的极速视频生成大模型，生成速度显著优于 Pro 版本，具备出色的动作流畅度与低成本优势。",
+      "theme": "media",
+      "scenes": [
+        "高频批量视频生产"
+      ],
+      "best_for_preview": "自媒体批量创作、短视频广告镜头速成与错峰低成本批量出片。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "ViduQ3 Turbo",
+        "vidu",
+        "viduq3-turbo",
+        "生数科技",
+        "视频生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:viduq3-turbo"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:vidu-2-0",
+      "tool_key": "vidu-2-0",
+      "vendor_key": "vidu",
+      "title": "Vidu 2.0",
+      "vendor_label": "vidu",
+      "icon": "🎬",
+      "summary": "Vidu 2.0 实现速度质的飞跃，最快 10 秒即可生成 4 秒高动态视频，全面支持多主体一致性控制与 512p/720p/1080p 渲染。",
+      "theme": "media",
+      "scenes": [
+        "极速视频渲染与多主体控制"
+      ],
+      "best_for_preview": "影视角色多主体互动、动画风格生成与社交媒体趣味视频创作。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Vidu 2.0",
+        "vidu",
+        "vidu-2-0",
+        "生数科技",
+        "视频生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:vidu-2-0"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:vidu-studio",
+      "tool_key": "vidu-studio",
+      "vendor_key": "vidu",
+      "title": "Vidu 创作平台",
+      "vendor_label": "vidu",
+      "icon": "🖥️",
+      "summary": "Vidu 创作平台是生数科技面向个人和创作者打造的 Web 创作工作台，支持参考生视频、主体库管理与智能 1080p 24帧超清补帧。",
+      "theme": "dev",
+      "scenes": [
+        "个人创作者 Web 视频制作"
+      ],
+      "best_for_preview": "上传 1-3 张参考图实现高精确单主体/多主体融合控制与错峰视频批量生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Vidu 创作平台",
+        "Vidu Studio",
+        "vidu",
+        "vidu-studio"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:vidu-studio"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:vidu-platform",
+      "tool_key": "vidu-platform",
+      "vendor_key": "vidu",
+      "title": "Vidu 开放平台",
+      "vendor_label": "vidu",
+      "icon": "🔌",
+      "summary": "Vidu 开放平台提供面向企业级开发者的 API 体系，覆盖文生视频、图生视频、实时交互数字人 Live WebSocket 接口与分镜合成能力。",
+      "theme": "dev",
+      "scenes": [
+        "企业级视频与数字人服务集成"
+      ],
+      "best_for_preview": "电商直播智能角色、游戏影游互动与企业营销短片自动生成集成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Vidu 开放平台",
+        "Vidu API",
+        "vidu",
+        "vidu-platform"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:vidu-platform"
+      },
+      "detail_kind": "tool"
     }
   ]
 }

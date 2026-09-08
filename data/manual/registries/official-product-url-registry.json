@@ -1439,6 +1439,237 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-08",
       "last_official_update_at": "2026-08-20"
+    },
+    "luma-app": {
+      "name": "Luma App",
+      "vendor_key": "luma",
+      "official_urls": [
+        "https://app.lumalabs.ai",
+        "https://lumalabs.ai"
+      ],
+      "aliases": [
+        "Luma App",
+        "Dream Machine"
+      ],
+      "product_prefixes": [
+        "luma app",
+        "dream machine"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://lumalabs.ai/news",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-06-09"
+    },
+    "luma-api": {
+      "name": "Luma API",
+      "vendor_key": "luma",
+      "official_urls": [
+        "https://lumalabs.ai/api",
+        "https://docs.lumalabs.ai"
+      ],
+      "aliases": [
+        "Luma API"
+      ],
+      "product_prefixes": [
+        "luma api"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://docs.lumalabs.ai",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-06-09"
+    },
+    "bfl-playground": {
+      "name": "BFL Playground",
+      "vendor_key": "black-forest-labs",
+      "official_urls": [
+        "https://bfl.ai/play",
+        "https://bfl.ai"
+      ],
+      "aliases": [
+        "BFL Playground",
+        "FLUX Playground"
+      ],
+      "product_prefixes": [
+        "bfl playground",
+        "flux playground"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://docs.bfl.ai/release-notes",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-07-23"
+    },
+    "bfl-api": {
+      "name": "BFL API",
+      "vendor_key": "black-forest-labs",
+      "official_urls": [
+        "https://docs.bfl.ai",
+        "https://api.bfl.ml"
+      ],
+      "aliases": [
+        "BFL API",
+        "FLUX API",
+        "FLUX MCP"
+      ],
+      "product_prefixes": [
+        "bfl api",
+        "flux api"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://docs.bfl.ai/release-notes",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-07-23"
+    },
+    "lingguang-app": {
+      "name": "灵光 App",
+      "vendor_key": "antgroup",
+      "official_urls": [
+        "https://www.lingguang.com",
+        "https://www.antgroup.com"
+      ],
+      "aliases": [
+        "灵光 App",
+        "灵光",
+        "LingGuang"
+      ],
+      "product_prefixes": [
+        "灵光",
+        "lingguang"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://www.lingguang.com",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-03-11"
+    },
+    "ling-studio": {
+      "name": "Ling Studio",
+      "vendor_key": "antgroup",
+      "official_urls": [
+        "https://www.lingguang.com",
+        "https://www.antgroup.com"
+      ],
+      "aliases": [
+        "Ling Studio",
+        "百灵大模型平台"
+      ],
+      "product_prefixes": [
+        "ling studio"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://www.lingguang.com",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-02-18"
+    },
+    "vidu-studio": {
+      "name": "Vidu 创作平台",
+      "vendor_key": "vidu",
+      "official_urls": [
+        "https://www.vidu.cn",
+        "https://www.vidu.com"
+      ],
+      "aliases": [
+        "Vidu 创作平台",
+        "Vidu Studio"
+      ],
+      "product_prefixes": [
+        "vidu studio",
+        "vidu"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://www.vidu.cn",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-07-06"
+    },
+    "vidu-platform": {
+      "name": "Vidu 开放平台",
+      "vendor_key": "vidu",
+      "official_urls": [
+        "https://platform.vidu.cn",
+        "https://platform.vidu.com"
+      ],
+      "aliases": [
+        "Vidu 开放平台",
+        "Vidu API"
+      ],
+      "product_prefixes": [
+        "vidu api",
+        "platform.vidu"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://platform.vidu.cn/docs/update",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-07-06"
     }
   }
 }
