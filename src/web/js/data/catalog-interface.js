@@ -6,6 +6,11 @@ const DATA_FILES = {
   'tool-level3': 'data/catalog/tool-preview-level3.json',
 };
 
+// Static JSON is served by GitHub Pages/CDN with a short positive cache lifetime.
+// Bump this value when catalog data changes so an already-open site cannot keep
+// rendering an older catalog snapshot.
+const CATALOG_DATA_VERSION = '2026-09-08-2';
+
 const state = {
   loaded: false,
   loading: null,
@@ -29,7 +34,7 @@ async function loadCatalog() {
   if (state.loaded) return success(true);
   if (state.loading) return state.loading;
   state.loading = Promise.all(Object.entries(DATA_FILES).map(async ([area, file]) => {
-    const response = await fetch(file);
+    const response = await fetch(`${file}?v=${CATALOG_DATA_VERSION}`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
     const payload = await response.json();
     const items = Array.isArray(payload) ? payload : payload.items;
