@@ -772,6 +772,117 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-07",
       "last_official_update_at": "2026-08-11"
+    },
+    "zcode": {
+      "name": "ZCode",
+      "vendor_key": "zhipu",
+      "official_urls": [
+        "https://zcode.z.ai/en/docs/agents",
+        "https://zcode.z.ai/cn"
+      ],
+      "aliases": [
+        "ZCode",
+        "ZCode Agent"
+      ],
+      "product_prefixes": [
+        "zcode"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://zcode.z.ai/en/docs/agents",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ]
+    },
+    "qianfan-appbuilder": {
+      "name": "千帆 AppBuilder",
+      "vendor_key": "baidu",
+      "official_urls": [
+        "https://cloud.baidu.com/doc/APPBUILDER/index.html",
+        "https://qianfan.cloud.baidu.com/appbuilder/"
+      ],
+      "aliases": [
+        "千帆 AppBuilder",
+        "AppBuilder"
+      ],
+      "product_prefixes": [
+        "千帆 appbuilder",
+        "appbuilder"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://cloud.baidu.com/doc/APPBUILDER/index.html",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ]
+    },
+    "mistral-vibe": {
+      "name": "Mistral Vibe",
+      "vendor_key": "mistral",
+      "official_urls": [
+        "https://mistral.ai/products/vibe/",
+        "https://mistral.ai/news/vibe-agent/"
+      ],
+      "aliases": [
+        "Mistral Vibe",
+        "Vibe"
+      ],
+      "product_prefixes": [
+        "mistral vibe",
+        "vibe"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://mistral.ai/products/vibe/",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ]
+    },
+    "mistral-studio": {
+      "name": "Mistral Studio",
+      "vendor_key": "mistral",
+      "official_urls": [
+        "https://mistral.ai/products/",
+        "https://docs.mistral.ai/"
+      ],
+      "aliases": [
+        "Mistral Studio",
+        "Studio"
+      ],
+      "product_prefixes": [
+        "mistral studio",
+        "studio"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://mistral.ai/products/",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ]
     }
   }
 }

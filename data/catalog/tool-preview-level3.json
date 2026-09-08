@@ -10915,7 +10915,7 @@
     {
       "vendor_key": "zhipu",
       "detail_kind": "tool",
-      "title": "ZCode Agent",
+      "title": "ZCode",
       "vendor_label": "智谱 AI（Z.ai）",
       "icon": "🧩",
       "official_url": "https://zcode.z.ai/en/docs/agents",
@@ -10957,12 +10957,12 @@
     {
       "vendor_key": "zhipu",
       "detail_kind": "subscription_plan",
-      "title": "GLM Coding Plan",
+      "title": "套餐（Coding Plan）",
       "vendor_label": "智谱 AI（Z.ai）",
       "icon": "🧩",
       "official_url": "https://docs.z.ai/devpack/overview",
       "status": "active",
-      "summary": "GLM Coding Plan 为官方编码订阅，适用于受支持的 Coding Agent 工具；起价约 $18/月，具体档位以官方订阅页为准。",
+      "summary": "智谱 GLM Coding Plan 官方编码订阅，Lite/Pro/Max 按月提供额度，支持官方 Coding Agent 工具。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
@@ -10975,7 +10975,7 @@
         "amount": 18,
         "currency": "USD",
         "billing_period": "month",
-        "conditions": "官方文档标注起价 $18/月；订阅额度仅限官方支持的编码工具与产品，不是通用 API 配额。",
+        "conditions": "官方文档标注起价 $18/月；Lite/Pro/Max 额度按 5 小时与每周周期刷新，支持 Vision/Web Search/Web Reader/Zread MCP；仅限官方支持的 Coding Agent 工具，不是通用 API 配额。",
         "included_models": [
           "GLM-5.1",
           "GLM-5-Turbo",
@@ -11008,7 +11008,7 @@
     {
       "vendor_key": "baidu",
       "detail_kind": "tool",
-      "title": "千帆 AppBuilder Agent",
+      "title": "千帆 AppBuilder",
       "vendor_label": "百度",
       "icon": "🧩",
       "official_url": "https://cloud.baidu.com/doc/APPBUILDER/index.html",
@@ -11134,12 +11134,12 @@
     {
       "vendor_key": "mistral",
       "detail_kind": "subscription_plan",
-      "title": "Mistral Plans",
+      "title": "套餐（Coding Plan）",
       "vendor_label": "Mistral AI",
       "icon": "🧩",
       "official_url": "https://mistral.ai/pricing/",
       "status": "active",
-      "summary": "Mistral Free、Pro、Team、Enterprise 计划覆盖 Vibe、Studio 与 API 使用。",
+      "summary": "Mistral Free/Pro/Team/Enterprise 计划覆盖 Vibe、Studio 与 API；Pro $14.99/月、Team $24.99/用户/月，Enterprise 定制。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前记录是产品/工具，不使用文本模型上下文窗口。"
@@ -11149,10 +11149,10 @@
         "reason": "当前记录不是按模型 API 计价。"
       },
       "plan": {
-        "amount": null,
+        "amount": 14.99,
         "currency": "USD",
         "billing_period": "month",
-        "conditions": "Free/Pro/Team/Enterprise 档位；付费价格和包含额度以官方计划页为准。",
+        "conditions": "Free 免费；Pro $14.99/月；Team $24.99/用户/月；Enterprise 定制。计划额度共享 Vibe、Studio 与 API，超出额度可按 API 价格 PAYG。",
         "included_models": [],
         "included_models_status": "not_listed"
       },
@@ -11179,13 +11179,13 @@
     },
     {
       "vendor_key": "baidu",
-      "detail_kind": "tool",
-      "title": "千帆 Coding Plan",
+      "detail_kind": "subscription_plan",
+      "title": "套餐（Token Plan）",
       "vendor_label": "百度",
       "icon": "🧩",
       "official_url": "https://cloud.baidu.com/doc/qianfan/s/imlg0beiu",
-      "status": "active",
-      "summary": "百度千帆 Coding Plan 官方计划入口，按不同模型与工具的调用抵扣系数使用套餐额度。",
+      "status": "partial",
+      "summary": "百度千帆 Token Plan 官方套餐；承接原 Coding Plan 的额度权益与模型选择。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前记录是产品计划入口。"
@@ -11195,13 +11195,25 @@
         "reason": "官方公开页面未提供稳定统一月费，具体金额以控制台为准。"
       },
       "plan": {
-        "status": "not_applicable",
-        "reason": "计划价格与额度以千帆官方控制台及产品页为准。"
+        "amount": 40,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "Lite ¥40/月：每5小时约1200次、每周约9000次、每订阅月约18000次；Pro ¥200/月：每5小时约6000次、每周约45000次、每订阅月约90000次。官方公告称现有 Coding Plan 自 2026-06-25 起停止续费，后续转 Token Plan；本条保留为历史/迁移参考。",
+        "included_models": [
+          "kimi-k2.5",
+          "deepseek-v3.2",
+          "glm-5",
+          "minimax-m2.5",
+          "ernie-4.5-turbo-20260402",
+          "deepseek-v4-flash",
+          "glm-5.1"
+        ],
+        "included_models_status": "partial"
       },
       "applicable_scenarios": [
         {
           "title": "百度生态内 AI 编程",
-          "description": "适合在千帆 Coding Plan 支持的工具和模型环境中进行编码与 Agent 调用。"
+          "description": "适合在百度千帆 Token Plan 支持的模型和工具环境中使用。"
         }
       ],
       "inapplicable_scenarios": [
@@ -11212,7 +11224,7 @@
       ],
       "sources": [
         {
-          "title": "百度千帆 Coding Plan",
+          "title": "百度千帆 Token Plan",
           "url": "https://cloud.baidu.com/doc/qianfan/s/imlg0beiu"
         }
       ],
