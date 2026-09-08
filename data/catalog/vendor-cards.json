@@ -175,15 +175,15 @@
       "vendor_key": "minimax",
       "title": "MiniMax",
       "icon": "",
-      "summary": "MiniMax 提供文本、视频、语音和音乐等多模态商业 API 与订阅产品。",
+      "summary": "MiniMax 提供文本、视频、语音和音乐等多模态 API、Token Plan 订阅与 MiniMax Code 官方 Coding Agent。",
       "feature_preview": [
         {
           "tone": "positive",
-          "text": "覆盖文本、视频、语音和音乐等多种 API 模态"
+        "text": "覆盖文本、视频、语音和音乐等多种 API 模态"
         },
         {
           "tone": "positive",
-          "text": "同时提供按量 API 与 Token Plan 订阅"
+        "text": "同时提供按量 API、地区化 Token Plan 订阅与 MiniMax Code"
         },
         {
           "tone": "negative",
@@ -210,15 +210,15 @@
       "vendor_key": "xai",
       "title": "xAI",
       "icon": "",
-      "summary": "xAI 提供 Grok 通用模型、Imagine 媒体生成、Voice API 和智能体产品。",
+      "summary": "xAI 提供 Grok 通用模型、SuperGrok 订阅、Grok Build 编程 Agent、Imagine 媒体生成、Voice API 和 Grok Bot 智能体产品。",
       "feature_preview": [
         {
           "tone": "positive",
-          "text": "Grok API 覆盖通用推理、编程和智能体任务"
+          "text": "SuperGrok 订阅覆盖 Grok 4.6、Grok Build 与 Grok Bot 等产品能力"
         },
         {
           "tone": "positive",
-          "text": "同时提供图像、视频和语音 API"
+          "text": "Grok API 同时覆盖通用推理、编程、图像、视频和语音"
         },
         {
           "tone": "negative",
@@ -232,7 +232,10 @@
         "Grok",
         "Imagine",
         "Voice",
-        "Grok Build"
+        "Grok Build",
+        "SuperGrok",
+        "SuperGrok Plus",
+        "SuperGrok Heavy"
       ],
       "level1_ref": {
         "kind": "vendor-level1",
@@ -300,11 +303,11 @@
       "vendor_key": "kuaishou",
       "title": "可灵(快手)",
       "icon": "🎬",
-      "summary": "Kling AI 官方提供视频生成模型，支持文本和图像输入生成视频。",
+    "summary": "Kling AI 是快手旗下的多模态创作平台，提供视频、图像与音频生成能力，并支持官方 API。",
       "feature_preview": [
         {
           "tone": "positive",
-          "text": "支持文本和图像输入生成视频"
+        "text": "视频、图像与原生音频生成能力持续迭代"
         }
       ],
       "access_level": "开放",

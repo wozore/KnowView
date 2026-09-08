@@ -1025,11 +1025,11 @@
       "title": "Command A",
       "vendor_label": "Cohere",
       "icon": "🔗",
-      "summary": "Cohere 最大最强模型，$2.50/$10.00 每百万 token，128K 上下文。",
+      "summary": "Command A（官方模型 ID：command-a-03-2025）支持 256K 上下文；输入 $2.50、输出 $10.00/每百万 token。",
       "theme": "general",
       "scenes": [
         "企业级复杂推理与 RAG：最大最强大的 Command 模型，适合高要求企业级应用。",
-        "成本敏感型简单任务：可选择 Command R 或 Command R7B。"
+        "成本敏感型简单任务：应按 Cohere 当前可用模型与价格页重新核对。"
       ],
       "best_for_preview": "企业级复杂推理与 RAG：最大最强大的 Command 模型，适合高要求企业级应用。",
       "not_for_preview": "成本敏感型简单任务：可选择 Command R 或 Command R7B。",
@@ -1044,7 +1044,8 @@
         "企业应用",
         "企业级复杂推理与 RAG：最大最强大的 Command 模型，适合高要求企业级应用。",
         "成本敏感型简单任务：可选择 Command R 或 Command R7B。",
-        "Cohere 最大最强模型，$2.50/$10.00 每百万 token，128K 上下文。",
+        "Command A（官方模型 ID：command-a-03-2025）支持 256K 上下文；输入 $2.50、输出 $10.00/每百万 token。",
+        "command-a-03-2025",
         "写论文",
         "深度研究"
       ],
@@ -1219,7 +1220,7 @@
       "title": "Command A+",
       "vendor_label": "Cohere",
       "icon": "🤖",
-      "summary": "Command A+ 是 Cohere 的首款混合专家模型，支持文本和图像输入，具备推理、翻译和多语言处理能力，支持 48 种语言，适用于复杂智能体任务。",
+      "summary": "Command A+（官方模型 ID：command-a-plus-05-2026）支持文本和图像输入、推理、翻译和 48 种语言的复杂智能体任务。",
       "theme": "general",
       "scenes": [
         "复杂多模态智能体任务",
@@ -1234,6 +1235,7 @@
         "Command A+",
         "Cohere",
         "command-a-plus",
+        "command-a-plus-05-2026",
         "复杂多模态智能体任务",
         "多语言翻译与处理",
         "企业级高效部署"
@@ -1322,8 +1324,8 @@
       "vendor_key": "kuaishou",
       "title": "Kling 3.0",
       "vendor_label": "可灵",
-      "icon": "🤖",
-      "summary": "Kling VIDEO 3.0 是统一多模态视频生成模型，支持原生4K、15秒视频、多镜头叙事、原生音频、多语言及口音，并通过API提供文本生视频、图像生视频等多种功能。",
+      "icon": "🎬",
+      "summary": "Kling VIDEO 3.0 是统一多模态视频生成模型，支持文本生视频、图像生视频、多镜头叙事、原生音频、多语言及口音，并通过官方 API 提供视频生成能力。",
       "theme": "general",
       "scenes": [
         "视频创作",
@@ -1334,7 +1336,7 @@
       ],
       "best_for_preview": "最适合影视级视频创作、广告制作、社交媒体内容生产等专业场景。",
       "not_for_preview": "不适合实时视频渲染或需要精细控制每一帧的传统动画制作场景。",
-      "price_badge": "paid",
+      "price_badge": "usage_based",
       "access_level": "开放",
       "search_terms": [
         "Kling 3.0",
@@ -1490,7 +1492,48 @@
         "kind": "tool-level3",
         "id": "tool-level3:kimi-k3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "moonshot-kimi-k3"
+    },
+    {
+      "id": "tool-card:kimi-k2.6",
+      "tool_key": "kimi-k2.6",
+      "vendor_key": "moonshot",
+      "title": "Kimi K2.6",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "summary": "Kimi K2.6 是通用多模态模型，支持视觉理解、思考模式、工具调用和 256K 上下文。",
+      "theme": "general",
+      "scenes": [
+        "通用对话与 Agent",
+        "视觉理解",
+        "代码与长程任务"
+      ],
+      "best_for_preview": [
+        "多模态问答",
+        "工具调用与 Agent 任务",
+        "代码生成与复杂分析"
+      ],
+      "not_for_preview": [
+        "需要百万上下文的任务",
+        "只追求最低单价的简单任务"
+      ],
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kimi K2.6",
+        "月之暗面（Kimi）",
+        "kimi-k2.6",
+        "视觉理解",
+        "Agent",
+        "256K"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kimi-k2.6"
+      },
+      "detail_kind": "api_model",
+      "model_key": "moonshot-kimi-k2.6"
     },
     {
       "id": "tool-card:qwen3-8-max",
@@ -1895,8 +1938,8 @@
       "detail_kind": "api_model"
     },
     {
-      "id": "tool-card:kimi-k2-7-code",
-      "tool_key": "kimi-k2-7-code",
+      "id": "tool-card:kimi-k2.7-code",
+      "tool_key": "kimi-k2.7-code",
       "vendor_key": "moonshot",
       "title": "Kimi K2.7 Code",
       "vendor_label": "月之暗面（Kimi）",
@@ -1915,16 +1958,56 @@
       "search_terms": [
         "Kimi K2.7 Code",
         "月之暗面（Kimi）",
-        "kimi-k2-7-code",
+        "kimi-k2.7-code",
         "编程任务",
         "长上下文代码生成",
         "Agent 任务"
       ],
       "detail_ref": {
         "kind": "tool-level3",
-        "id": "tool-level3:kimi-k2-7-code"
+        "id": "tool-level3:kimi-k2.7-code"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "model_key": "moonshot-kimi-k2.7-code"
+    },
+    {
+      "id": "tool-card:kimi-k2.7-code-highspeed",
+      "tool_key": "kimi-k2.7-code-highspeed",
+      "vendor_key": "moonshot",
+      "title": "Kimi K2.7 Code HighSpeed",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "summary": "Kimi K2.7 Code 的高速 API 版本，保持相同编程能力和 256K 上下文，输出速度约为普通版的 5–6 倍。",
+      "theme": "general",
+      "scenes": [
+        "低延迟代码生成",
+        "高速 Agent 编程",
+        "多步工具调用"
+      ],
+      "best_for_preview": [
+        "需要快速反馈的交互式编程",
+        "连续代码修改和审查",
+        "高速 Agent 工作流"
+      ],
+      "not_for_preview": [
+        "成本敏感场景",
+        "需要百万上下文的任务"
+      ],
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "Kimi K2.7 Code HighSpeed",
+        "Kimi K2.7 Code 高速版",
+        "月之暗面（Kimi）",
+        "kimi-k2.7-code-highspeed",
+        "低延迟代码生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kimi-k2.7-code-highspeed"
+      },
+      "detail_kind": "api_model",
+      "model_key": "moonshot-kimi-k2.7-code-highspeed"
     },
     {
       "id": "tool-card:qwen3-7-max",
@@ -3300,6 +3383,39 @@
         "id": "tool-level3:deepseek-harness"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:minimax-code",
+      "tool_key": "minimax-code",
+      "vendor_key": "minimax",
+      "title": "MiniMax Code",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "summary": "MiniMax 官方 Coding Agent，基于 OpenCode 与 Pi 的 Harness，提供 Agent Team、持续纠错和 Computer Use。",
+      "theme": "dev",
+      "scenes": [
+        "智能体编码",
+        "长程工程任务",
+        "多模态电脑操作"
+      ],
+      "best_for_preview": "需要长时间运行、可拆分协作并能持续验证的复杂开发任务。",
+      "not_for_preview": "只需要单次模型 API 调用或简单文本生成的场景。",
+      "price_badge": "paid",
+      "access_level": "受限",
+      "search_terms": [
+        "MiniMax Code",
+        "MiniMax",
+        "Coding Agent",
+        "Agent Team",
+        "OpenCode",
+        "Pi"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:minimax-code"
+      },
+      "detail_kind": "tool",
+      "visibility": "visible"
     },
     {
       "id": "tool-card:minimax-m3",

@@ -1,6 +1,33 @@
 {
   "schema_version": 1,
   "items": [
+  {
+    "id": "vendor-level2:xai:supergrok",
+    "level1_ref": {
+      "kind": "vendor-level1",
+      "id": "vendor-level1:xai"
+    },
+    "vendor_key": "xai",
+    "title": "套餐（SuperGrok）",
+    "official_url": "https://x.ai/pricing",
+    "summary": "xAI 面向个人用户的 SuperGrok 订阅系列，覆盖 Grok 4.6、Grok Build、Grok Bot、图像与视频生成，并通过共享周额度提供不同等级的使用上限。",
+    "status": "active",
+    "detail_refs": [
+      {
+        "kind": "tool-level3",
+        "id": "tool-level3:xai-supergrok"
+      },
+      {
+        "kind": "tool-level3",
+        "id": "tool-level3:xai-supergrok-plus"
+      },
+      {
+        "kind": "tool-level3",
+        "id": "tool-level3:xai-supergrok-heavy"
+      }
+    ],
+    "series_kind": "subscription_series"
+  },
     {
       "id": "vendor-level2:google:gemini-flash",
       "level1_ref": {
@@ -206,18 +233,14 @@
         "id": "vendor-level1:kuaishou"
       },
       "vendor_key": "kuaishou",
-      "title": "Kling",
+      "title": "Kling 2.6",
       "official_url": "https://kling.ai",
-      "summary": "Kling AI 是快手科技推出的 AI 创作平台，提供视频、图像和音频生成工具。",
+      "summary": "Kling VIDEO 2.6 是可灵的上一代原生音频视频模型，支持文本或图像生成带语音、音效和环境音的视频。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:kling-2-6-pro"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:kling-3-0"
         }
       ]
     },
@@ -274,12 +297,16 @@
       "vendor_key": "moonshot",
       "title": "Kimi 模型",
       "official_url": "https://platform.kimi.com/docs/models",
-      "summary": "Kimi 旗舰模型系列，包括 K3、K2.7、K2.6 等，适用于多模态、编程及通用智能场景",
+      "summary": "Kimi 通用与多模态模型系列，包括 K3 与 K2.6，覆盖百万/256K 上下文、视觉理解、编程和 Agent 场景。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:kimi-k3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-k2.6"
         }
       ]
     },
@@ -429,13 +456,17 @@
       },
       "vendor_key": "moonshot",
       "title": "Kimi Code",
-      "official_url": "https://platform.kimi.com/",
-      "summary": "Kimi API 开放平台提供模型即服务，集成多种工具和垂直场景能力。",
+      "official_url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart",
+      "summary": "Kimi 编程模型系列，包括 K2.7 Code 标准版与 HighSpeed 版，支持多模态输入、思考模式和 256K 上下文。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
-          "id": "tool-level3:kimi-k2-7-code"
+          "id": "tool-level3:kimi-k2.7-code"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-k2.7-code-highspeed"
         }
       ]
     },
@@ -666,24 +697,6 @@
       "series_kind": "tool_series"
     },
     {
-      "id": "vendor-level2:cohere:command-a",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:cohere"
-      },
-      "vendor_key": "cohere",
-      "title": "Command A+",
-      "official_url": "https://docs.cohere.com/changelog/command-a-plus-05-2026",
-      "summary": "Command A+ 是 Cohere 发布的 Command A 系列旗舰模型，支持视觉输入、推理、翻译和代理任务，采用混合专家架构，支持48种语言，上下文长度128K输入和64K输出。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:command-a-plus"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:kuaishou:kling-3-0",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -691,8 +704,8 @@
       },
       "vendor_key": "kuaishou",
       "title": "Kling 3.0",
-      "official_url": "https://klingai.com",
-      "summary": "可灵AI是快手推出的人工智能视频与图像生成平台，提供多种视频与图像模型及API服务。",
+      "official_url": "https://kling.ai",
+      "summary": "Kling VIDEO 3.0 是可灵当前代统一多模态视频模型，支持文本/图像生视频、多镜头叙事、原生音频及官方 API。",
       "status": "active",
       "detail_refs": [
         {
@@ -1083,7 +1096,34 @@
       "series_kind": "tool_series"
     },
     {
-      "id": "vendor-level2:minimax:m",
+    "id": "vendor-level2:minimax:token-plan",
+    "level1_ref": {
+      "kind": "vendor-level1",
+      "id": "vendor-level1:minimax"
+    },
+    "vendor_key": "minimax",
+    "title": "套餐（Token Plan）",
+    "official_url": "https://platform.minimax.io/docs/guides/pricing-token-plan",
+    "summary": "MiniMax Token Plan 是原 Coding Plan 的延续，按地区提供 Plus、Max、Ultra 三档订阅，覆盖 M3、M2.7、图像和语音等资源，并面向 Agent 与编程工作流。",
+    "status": "active",
+    "detail_refs": [
+      {
+        "kind": "tool-level3",
+        "id": "tool-level3:minimax-token-plan-plus"
+      },
+      {
+        "kind": "tool-level3",
+        "id": "tool-level3:minimax-token-plan-max"
+      },
+      {
+        "kind": "tool-level3",
+        "id": "tool-level3:minimax-token-plan-ultra"
+      }
+    ],
+    "series_kind": "subscription_series"
+  },
+  {
+    "id": "vendor-level2:minimax:m",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:minimax"
@@ -1211,6 +1251,25 @@
       "generation_state": "newest"
     },
     {
+      "id": "vendor-level2:minimax:minimax-code",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:minimax"
+      },
+      "vendor_key": "minimax",
+      "title": "MiniMax Code",
+      "official_url": "https://www.minimax.io/blog/minimax-m3",
+      "summary": "MiniMax 官方 Coding Agent，基于 OpenCode 与 Pi 的 Harness，提供 Agent Team、Producer/Verifier 循环和 Computer Use。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-code"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
       "id": "vendor-level2:xai:grok",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -1295,7 +1354,7 @@
       "vendor_key": "xai",
       "title": "Grok Build",
       "official_url": "https://docs.x.ai/build/overview",
-      "summary": "xAI 面向智能体编码和办公工作流的正式产品与 API 模型。",
+      "summary": "xAI 面向软件工程的终端 Coding Agent，支持 TUI、headless、ACP、Plan、Subagents、MCP 与插件扩展。",
       "status": "active",
       "detail_refs": [
         {
@@ -1344,8 +1403,8 @@
       },
       "vendor_key": "xai",
       "title": "Grok Bot",
-      "official_url": "https://docs.x.ai/developers/release-notes",
-      "summary": "xAI 的持久化云端 AI 队友产品。",
+      "official_url": "https://x.ai/bot",
+      "summary": "xAI 的持久化云端 AI 队友，可使用浏览器、文件系统、终端和连接器完成多步骤工作。",
       "status": "active",
       "detail_refs": [
         {

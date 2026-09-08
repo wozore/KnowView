@@ -971,7 +971,7 @@
     {
       "vendor_key": "moonshot",
       "direction": "llm",
-      "description": "月之暗面：Kimi K3 为通用旗舰（Kimi 系列），K2.7 Code 为编程家族（Kimi Code 系列），不为凑数合并。",
+      "description": "月之暗面：K3 与 K2.6 归入通用 Kimi 系列；K2.7 Code 标准版与 HighSpeed 版归入 Kimi Code 系列，不为凑数合并。",
       "families": [
         {
           "family": "kimi",
@@ -985,7 +985,8 @@
               "title": "Kimi 模型",
               "generation_state": "newest",
               "expected_members": [
-                "kimi-k3"
+                "kimi-k3",
+                "kimi-k2.6"
               ]
             }
           ],
@@ -1009,16 +1010,14 @@
               "title": "Kimi Code",
               "generation_state": "newest",
               "expected_members": [
-                "kimi-k2-7-code"
+                "kimi-k2.7-code",
+                "kimi-k2.7-code-highspeed"
               ]
             }
           ],
           "evidence": {
-            "url": "https://forum.moonshot.ai/c/announcement/5",
-            "status": "verified",
-            "member_status": {
-              "kimi-k2-7-code": "repository_only"
-            }
+            "url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart",
+            "status": "verified"
           }
         }
       ]

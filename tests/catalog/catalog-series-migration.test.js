@@ -253,8 +253,8 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:cohere:command', ['command-a', 'command-a-plus']);
   expect('vendor-level2:xai:grok', ['grok-4.6', 'grok-4.5', 'grok-4.3', 'grok-4.20-0309-reasoning', 'grok-4.20-0309-non-reasoning', 'grok-4.20-multi-agent-0309']);
   expect('vendor-level2:minimax:m', ['minimax-m3', 'minimax-m2.7', 'minimax-m2.5', 'minimax-m2.1', 'minimax-m2']);
-  expect('vendor-level2:moonshot:kimi', ['kimi-k3']);
-  expect('vendor-level2:moonshot:kimi-code', ['kimi-k2-7-code']);
+  expect('vendor-level2:moonshot:kimi', ['kimi-k3', 'kimi-k2.6']);
+  expect('vendor-level2:moonshot:kimi-code', ['kimi-k2.7-code', 'kimi-k2.7-code-highspeed']);
   expect('vendor-level2:alibaba:qwen', ['qwen3-8-max', 'qwen3-7-max', 'qwen3-7-plus']);
   expect('vendor-level2:stepfun:step', ['step-3-7-flash', 'step-3-5-flash']);
   expect('vendor-level2:xiaomi:mimo', ['mimo-v2-5', 'mimo-v2-5-pro']);

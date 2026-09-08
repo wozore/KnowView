@@ -2160,13 +2160,13 @@
       "title": "Command A",
       "vendor_label": "Cohere",
       "icon": "🔗",
-      "official_url": "https://cohere.com/pricing",
+      "official_url": "https://docs.cohere.com/docs/command-a",
       "status": "active",
-      "summary": "Cohere 最大最强模型，$2.50/$10.00 每百万 token，128K 上下文。",
+      "summary": "Command A（官方模型 ID：command-a-03-2025）是 Cohere 面向企业智能体、工具调用和 RAG 的模型，支持 256K 上下文；输入 $2.50、输出 $10.00/每百万 token。",
       "one_m_context": {
         "status": "not_supported",
-        "tokens": 128000,
-        "conditions": "128K 上下文"
+        "tokens": 256000,
+        "conditions": "256K 上下文；最大输出 8K tokens。"
       },
       "api_pricing": {
         "status": "provided",
@@ -2177,7 +2177,7 @@
             "unit": "per_1m_tokens",
             "input_uncached": 2.5,
             "output": 10,
-            "conditions": "以 Cohere Dashboard 实际费率为准。",
+        "conditions": "Cohere 官方 API 价格：输入 $2.50/1M tokens，输出 $10.00/1M tokens。",
             "input_cached": 0
           }
         ]
@@ -2195,15 +2195,24 @@
       "inapplicable_scenarios": [
         {
           "title": "成本敏感型简单任务",
-          "description": "可选择 Command R 或 Command R7B。"
+          "description": "应按 Cohere 当前可用模型与价格页重新核对，不直接依赖已弃用的旧 Command 别名。"
         }
       ],
       "sources": [
         {
-          "title": "Cohere Pricing",
-          "url": "https://cohere.com/pricing"
+          "title": "Command A Model Details",
+          "url": "https://docs.cohere.com/docs/command-a"
+        },
+        {
+          "title": "Announcing Command A",
+          "url": "https://docs.cohere.com/changelog/command-a"
+        },
+        {
+          "title": "Introducing Command A: Max performance, minimal compute",
+          "url": "https://cohere.com/blog/command-a"
         }
-      ]
+      ],
+      "release_date": "2025-03-13"
     },
     {
       "vendor_key": "kuaishou",
@@ -2213,7 +2222,7 @@
       "icon": "🎬",
       "official_url": "https://kling.ai/quickstart/klingai-video-26-audio-user-guide",
       "status": "active",
-      "summary": "Kling Video 2.6 模型支持文本和图像输入，同时生成视觉、语音、音效和环境音，实现音画同步，支持中英文。",
+      "summary": "Kling VIDEO 2.6 支持文本或图像生成视频，并在单次生成中同步输出视觉、语音、音效和环境音；官方指南说明当前语音输出支持中文和英文。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -2222,22 +2231,25 @@
         "status": "available",
         "rate_cards": [
           {
-            "label": "V2.6 模型计费",
-            "pricing_basis": "按视频时长计费",
-            "currency": "单位",
-            "metrics": [
-              {
-                "label": "5秒视频",
-                "amount": 6,
-                "unit": "单位"
-              },
-              {
-                "label": "10秒视频",
-                "amount": 12,
-                "unit": "单位"
-              }
-            ],
-            "conditions": "通过API使用V2.6模型生成视频时，5秒扣6单位，10秒扣12单位。"
+            "label": "Native Audio",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 10, "unit": "credit/second" }],
+            "conditions": "官方 VIDEO 2.6 指南：开启 Native Audio 按 10 Credits/s 计费；Voice Control 另加 2 Credits/s。"
+          },
+          {
+            "label": "No Native Audio Professional",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 5, "unit": "credit/second" }],
+            "conditions": "官方 VIDEO 2.6 指南：关闭 Native Audio 的 Professional Mode 按 5 Credits/s 计费。"
+          },
+          {
+            "label": "No Native Audio Standard",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 3, "unit": "credit/second" }],
+            "conditions": "官方 VIDEO 2.6 指南：关闭 Native Audio 的 Standard Mode 按 3 Credits/s 计费。"
           }
         ]
       },
@@ -2626,7 +2638,7 @@
       "icon": "🤖",
       "official_url": "https://docs.cohere.com/docs/command-a-plus",
       "status": "active",
-      "summary": "Command A+ 是 Cohere 的首款混合专家模型，支持文本和图像输入，具备推理、翻译和多语言处理能力，支持 48 种语言，适用于复杂智能体任务。",
+      "summary": "Command A+（官方模型 ID：command-a-plus-05-2026）是 Cohere 的首款混合专家模型，支持文本和图像输入、推理、翻译和多语言智能体任务，支持 48 种语言。",
       "one_m_context": "128K tokens 输入，64K tokens 输出",
       "api_pricing": {
         "status": "available",
@@ -2982,10 +2994,10 @@
       "detail_kind": "api_model",
       "title": "Kling 3.0",
       "vendor_label": "可灵",
-      "icon": "🤖",
+      "icon": "🎬",
       "official_url": "https://kling.ai/quickstart/klingai-video-3-model-user-guide",
       "status": "active",
-      "summary": "Kling VIDEO 3.0 是统一多模态视频生成模型，支持原生4K、15秒视频、多镜头叙事、原生音频、多语言及口音，并通过API提供文本生视频、图像生视频等多种功能。",
+      "summary": "Kling VIDEO 3.0 是统一多模态视频生成模型，支持文本生视频、图像生视频、多镜头叙事、原生音频、多语言及口音，并通过官方 API 提供视频生成能力。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "文本描述视频生成技术中未提供原生 1M 上下文窗口支持的相关信息。"
@@ -2994,43 +3006,39 @@
         "status": "available",
         "rate_cards": [
           {
-            "label": "Kling 3.0 Turbo 720P",
+            "label": "Native Audio 1080p",
             "pricing_basis": "per second",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "credits",
-                "amount": 0.8,
-                "unit": "per second"
-              }
-            ],
-            "conditions": "按生成视频时长计费，720P 分辨率每生成一秒扣除 0.8 个积分，需为 Kling 3.0 Turbo 模型。"
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 12, "unit": "credit/second" }],
+            "conditions": "官方 VIDEO 3.0 指南：Native Audio 1080p 按 12 Credits/s 计费；Voice Control 另加 2 Credits/s。"
           },
           {
-            "label": "Kling 3.0 Turbo 1080P",
+            "label": "Native Audio 720p",
             "pricing_basis": "per second",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "credits",
-                "amount": 1,
-                "unit": "per second"
-              }
-            ],
-            "conditions": "按生成视频时长计费，1080P 分辨率每生成一秒扣除 1.0 个积分，需为 Kling 3.0 Turbo 模型。"
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 9, "unit": "credit/second" }],
+            "conditions": "官方 VIDEO 3.0 指南：Native Audio 720p 按 9 Credits/s 计费；Voice Control 另加 2 Credits/s。"
           },
           {
-            "label": "Kling 3.0 系列 4K",
+            "label": "No Native Audio 1080p",
             "pricing_basis": "per second",
-            "currency": "USD",
-            "metrics": [
-              {
-                "label": "credits",
-                "amount": 30,
-                "unit": "per second"
-              }
-            ],
-            "conditions": "按生成视频时长计费，4K 分辨率每生成一秒扣除 30 个积分，适用于 Kling VIDEO 3.0 系列模型，实际费用以生成面板为准。"
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 8, "unit": "credit/second" }],
+            "conditions": "官方 VIDEO 3.0 指南：关闭 Native Audio 的 1080p 模式按 8 Credits/s 计费。"
+          },
+          {
+            "label": "No Native Audio 720p",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 6, "unit": "credit/second" }],
+            "conditions": "官方 VIDEO 3.0 指南：关闭 Native Audio 的 720p 模式按 6 Credits/s 计费。"
+          },
+          {
+            "label": "Native 4K",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [{ "label": "生成时长", "amount": 30, "unit": "credit/second" }],
+            "conditions": "官方 Kling 3.0 Credit Cost 指南：Native 4K 为 30 credits/second 的规划参考，实际费用以生成面板为准。"
           }
         ]
       },
@@ -3436,21 +3444,21 @@
             "metrics": [
               {
                 "label": "输入（缓存未命中）",
-                "amount": "未明确",
-                "unit": "元/百万 tokens"
+                "amount": 20,
+                "unit": "per_1M_tokens"
               },
               {
                 "label": "输入（缓存命中）",
-                "amount": "未明确",
-                "unit": "元/百万 tokens"
+                "amount": 2,
+                "unit": "per_1M_tokens"
               },
               {
                 "label": "输出",
-                "amount": "未明确",
-                "unit": "元/百万 tokens"
+                "amount": 100,
+                "unit": "per_1M_tokens"
               }
             ],
-            "conditions": "所有用量均按量付费，输入区分缓存命中与未命中，与输出分别按统一单价计费，不按上下文长度分段"
+            "conditions": "所有用量均按量付费；缓存命中输入、未命中输入和输出分别按每百万 tokens 计费，不按上下文长度分段。"
           }
         ]
       },
@@ -3510,10 +3518,104 @@
         {
           "title": "模型推理价格说明 - Kimi API 开放平台",
           "url": "https://platform.kimi.com/docs/pricing/chat"
+        },
+        {
+          "title": "Kimi K3：智能的新前沿",
+          "url": "https://www.kimi.com/news/kimi-k3"
         }
       ],
       "theme": "general",
-      "id": "tool-level3:kimi-k3"
+      "id": "tool-level3:kimi-k3",
+      "release_date": "2026-07-16",
+      "model_key": "moonshot-kimi-k3"
+    },
+    {
+      "vendor_key": "moonshot",
+      "detail_kind": "api_model",
+      "title": "Kimi K2.6",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "official_url": "https://platform.kimi.com/docs/guide/kimi-k2-6-quickstart",
+      "status": "active",
+      "summary": "Kimi K2.6 是通用模型，支持文本、图片与视频输入、思考与非思考模式、对话与 Agent 任务，具备 256K 上下文窗口。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "上下文窗口为256K，不支持1M上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Kimi K2.6 统一单价",
+            "pricing_basis": "per_token",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入（缓存命中）",
+                "amount": 1.1,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输入（缓存未命中）",
+                "amount": 6.5,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 27,
+                "unit": "per_1M_tokens"
+              }
+            ],
+            "conditions": "按每1M tokens计费，区分缓存命中与未命中价格；实际以官方平台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "通用对话与 Agent",
+          "description": "支持多轮对话、工具调用和 Agent 任务。"
+        },
+        {
+          "title": "视觉理解",
+          "description": "支持图片与视频输入，适合多模态理解任务。"
+        },
+        {
+          "title": "代码与长程任务",
+          "description": "支持思考模式和 256K 上下文，适合复杂代码与长程任务。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要百万上下文",
+          "description": "上下文窗口为256K，超过范围的任务应选择支持1M上下文的模型。"
+        },
+        {
+          "title": "仅需极低成本的简单任务",
+          "description": "应结合实际输入输出量和其他可用模型的价格比较。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi K2.6 - Kimi API 开放平台",
+          "url": "https://platform.kimi.com/docs/guide/kimi-k2-6-quickstart"
+        },
+        {
+          "title": "模型列表",
+          "url": "https://platform.kimi.com/docs/models"
+        },
+        {
+          "title": "模型推理价格说明",
+          "url": "https://platform.kimi.com/docs/pricing/chat-k26"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:kimi-k2.6",
+      "release_date": "2026-04-20",
+      "model_key": "moonshot-kimi-k2.6"
     },
     {
       "vendor_key": "alibaba",
@@ -4738,7 +4840,7 @@
       "icon": "🤖",
       "official_url": "https://platform.kimi.com/docs/pricing/chat-k27-code",
       "status": "active",
-      "summary": "Kimi K2.7 Code 是面向代码场景的编程模型，支持文本、图片与视频输入，具备 256K 上下文窗口和高速版本。",
+      "summary": "Kimi K2.7 Code 是面向代码场景的编程模型，支持文本、图片与视频输入、思考模式和 256K 上下文窗口。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "上下文窗口为256K，不支持1M上下文。"
@@ -4768,29 +4870,6 @@
               }
             ],
             "conditions": "按每1M tokens计费，区分缓存命中与未命中价格。"
-          },
-          {
-            "label": "kimi-k2.7-code-highspeed",
-            "pricing_basis": "per_token",
-            "currency": "CNY",
-            "metrics": [
-              {
-                "label": "输入（缓存命中）",
-                "amount": 2.6,
-                "unit": "per_1M_tokens"
-              },
-              {
-                "label": "输入（缓存未命中）",
-                "amount": 13,
-                "unit": "per_1M_tokens"
-              },
-              {
-                "label": "输出",
-                "amount": 54,
-                "unit": "per_1M_tokens"
-              }
-            ],
-            "conditions": "高速版价格，按每1M tokens计费，区分缓存命中与未命中。"
           }
         ]
       },
@@ -4829,7 +4908,93 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:kimi-k2-7-code"
+      "id": "tool-level3:kimi-k2.7-code",
+      "release_date": "2026-06-12",
+      "model_key": "moonshot-kimi-k2.7-code"
+    },
+    {
+      "vendor_key": "moonshot",
+      "detail_kind": "api_model",
+      "title": "Kimi K2.7 Code HighSpeed",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "official_url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart",
+      "status": "active",
+      "summary": "Kimi K2.7 Code HighSpeed 是 K2.7 Code 的高速 API 版本，保持相同编程能力与 256K 上下文，输出速度约为普通版的 5–6 倍。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "上下文窗口为256K，不支持1M上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "kimi-k2.7-code-highspeed",
+            "pricing_basis": "per_token",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入（缓存命中）",
+                "amount": 2.6,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输入（缓存未命中）",
+                "amount": 13,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 54,
+                "unit": "per_1M_tokens"
+              }
+            ],
+            "conditions": "按每1M tokens计费，区分缓存命中与未命中价格；高速版资源逐步增量开放，实际可用性以官方平台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "低延迟代码生成",
+          "description": "适合需要更快输出反馈的交互式编程任务。"
+        },
+        {
+          "title": "高速 Agent 编程",
+          "description": "适合多步工具调用和连续代码修改工作流。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "成本敏感场景",
+          "description": "缓存命中、未命中和输出单价均高于普通版，应先评估吞吐收益。"
+        },
+        {
+          "title": "需要百万上下文",
+          "description": "上下文窗口为256K，超过范围的任务不适用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi K2.7 Code - Kimi API 开放平台",
+          "url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart"
+        },
+        {
+          "title": "模型列表",
+          "url": "https://platform.kimi.com/docs/models"
+        },
+        {
+          "title": "编程模型 Kimi K2.7 Code 定价",
+          "url": "https://platform.kimi.com/docs/pricing/chat-k27-code"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:kimi-k2.7-code-highspeed",
+      "release_date": "2026-07-09",
+      "model_key": "moonshot-kimi-k2.7-code-highspeed"
     },
     {
       "vendor_key": "alibaba",
@@ -8754,6 +8919,203 @@
     },
     {
       "vendor_key": "minimax",
+      "detail_kind": "subscription_plan",
+      "title": "Token Plan Plus",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-token-plan",
+      "status": "active",
+      "summary": "MiniMax Token Plan Plus，面向个人开发、轻量 Agent 与多模态试用。海外价格为 $22/月，中国大陆价格为 ¥49/月。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "amount": 22,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "地区价格：海外平台 $22/月；中国大陆平台 ¥49/月。两地均为 5 小时窗口与周窗口，约支持 3–4 个 Agent。可用资源以对应地区平台和账户页面为准。",
+        "included_models": ["MiniMax M3", "MiniMax M2.7"],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "个人开发与轻量 Agent",
+          "description": "适合个人项目、原型开发和低并发多模态调用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "重度并发工作流",
+          "description": "需要更多并发 Agent 或更长连续会话时，应考虑 Max 或 Ultra。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Token Plan 海外价格",
+          "url": "https://platform.minimax.io/docs/guides/pricing-token-plan"
+        },
+        {
+          "title": "MiniMax Token Plan 中国大陆价格",
+          "url": "https://platform.minimax.cn/docs/guides/pricing-token-plan"
+        }
+      ],
+      "id": "tool-level3:minimax-token-plan-plus"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "subscription_plan",
+      "title": "Token Plan Max",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-token-plan",
+      "status": "active",
+      "summary": "MiniMax Token Plan Max，面向高频编程 Agent 与多模态调用。海外价格为 $55/月，中国大陆价格为 ¥119/月。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "amount": 55,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "地区价格：海外平台 $55/月；中国大陆平台 ¥119/月。两地均为 5 小时窗口与周窗口，约支持 4–5 个 Agent。可用资源以对应地区平台和账户页面为准。",
+        "included_models": ["MiniMax M3", "MiniMax M2.7"],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高频编程 Agent",
+          "description": "适合日常代码生成、重构、工具调用和多模态开发工作流。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "极低频使用",
+          "description": "若仅偶尔调用模型，Plus 或按量 API 可能更合适。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Token Plan 海外价格",
+          "url": "https://platform.minimax.io/docs/guides/pricing-token-plan"
+        },
+        {
+          "title": "MiniMax Token Plan 中国大陆价格",
+          "url": "https://platform.minimax.cn/docs/guides/pricing-token-plan"
+        }
+      ],
+      "id": "tool-level3:minimax-token-plan-max"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "subscription_plan",
+      "title": "Token Plan Ultra",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-token-plan",
+      "status": "active",
+      "summary": "MiniMax Token Plan Ultra，面向重度 Agent 工作流和长时间连续使用。海外价格为 $132/月，中国大陆价格为 ¥469/月。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "amount": 132,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "地区价格：海外平台 $132/月；中国大陆平台 ¥469/月。两地均为 5 小时窗口与周窗口，约支持 6–7 个 Agent。可用资源以对应地区平台和账户页面为准。",
+        "included_models": ["MiniMax M3", "MiniMax M2.7"],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "重度 Agent 工作流",
+          "description": "适合长时间连续编辑、多 Agent 协作和大型多模态项目。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "预算敏感用户",
+          "description": "固定月费较高，应结合实际并发需求与按量 API 成本比较。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax Token Plan 海外价格",
+          "url": "https://platform.minimax.io/docs/guides/pricing-token-plan"
+        },
+        {
+          "title": "MiniMax Token Plan 中国大陆价格",
+          "url": "https://platform.minimax.cn/docs/guides/pricing-token-plan"
+        }
+      ],
+      "id": "tool-level3:minimax-token-plan-ultra"
+    },
+    {
+      "vendor_key": "minimax",
+      "detail_kind": "tool",
+      "title": "MiniMax Code",
+      "vendor_label": "MiniMax",
+      "icon": "",
+      "official_url": "https://www.minimax.io/blog/minimax-m3",
+      "status": "active",
+      "summary": "MiniMax 官方 Coding Agent，基于 OpenCode 与 Pi 的 Harness，支持 Agent Team、Producer/Verifier 循环、长时间任务和 Computer Use。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前产品项不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品通过 Token Plan 或对应账户权益访问。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录是产品工具，不单独代表订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "长程编码任务",
+          "description": "支持多阶段任务拆分、Agent Team 协作和持续纠错。"
+        },
+        {
+          "title": "电脑操作与多模态 Agent",
+          "description": "利用 M3 的原生多模态能力执行跨应用、文件和桌面操作。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "只需一次模型 API 调用",
+          "description": "简单文本生成应直接使用 MiniMax API 或 CLI，而不是完整 Coding Agent。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MiniMax M3 与 MiniMax Code",
+          "url": "https://www.minimax.io/blog/minimax-m3"
+        },
+        {
+          "title": "MiniMax Code 官方入口",
+          "url": "https://agent.minimaxi.com/download"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:minimax-code"
+    },
+    {
+      "vendor_key": "minimax",
       "detail_kind": "api_model",
       "title": "MiniMax M3",
       "vendor_label": "MiniMax",
@@ -9817,6 +10179,141 @@
     },
     {
       "vendor_key": "xai",
+      "detail_kind": "subscription_plan",
+      "title": "SuperGrok",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://x.ai/pricing",
+      "status": "active",
+      "summary": "xAI 面向个人用户的基础 SuperGrok 订阅，提供 Grok 4.6、Grok Bot 和更高的全产品使用上限。",
+      "one_m_context": { "status": "not_applicable", "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。" },
+      "api_pricing": { "status": "not_applicable", "reason": "当前记录不是按模型 API 计价。" },
+      "plan": {
+        "amount": 30,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方价格页公开月付 $30；付费产品共享 weekly usage pool，Build、Chat、Imagine、Voice 等消耗同一周额度；API 账单另按 API 规则处理。",
+        "included_models": ["Grok 4.6"],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        { "title": "日常高级 Grok 使用", "description": "适合需要 Grok 4.6、实时搜索、图像/视频生成和更高使用上限的个人用户。" },
+        { "title": "轻度编程与 Agent 工作流", "description": "可使用 Grok Build 与 Grok Bot，适合一般代码和多步骤工作任务。" }
+      ],
+      "inapplicable_scenarios": [
+        { "title": "高强度长任务", "description": "长时间编码和复杂 Agent 任务会较快消耗共享周额度，应考虑更高档位或额外用量。" }
+      ],
+      "sources": [
+        { "title": "xAI Pricing", "url": "https://x.ai/pricing" },
+        { "title": "Grok Bot", "url": "https://x.ai/bot" }
+      ],
+      "id": "tool-level3:xai-supergrok"
+    },    {
+      "vendor_key": "xai",
+      "detail_kind": "subscription_plan",
+      "title": "SuperGrok Plus",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://x.ai/pricing",
+      "status": "active",
+      "summary": "SuperGrok Plus 提供更高的共享用量、1080p 视频和更快响应，适合高频 Grok 与编程工作流。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "amount": 100,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方价格页公开月付 100 USD；相较 SuperGrok 提供显著更高的 Chat、Imagine、Voice、Build 用量、1080p 视频、优先访问和更快响应。",
+        "included_models": ["Grok 4.6"],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高频编程与 Build 使用",
+          "description": "适合频繁使用 Grok Build、代码生成、重构和多步骤工程任务。"
+        },
+        {
+          "title": "多模态生产力",
+          "description": "适合需要更高 Chat、Imagine、Voice 与视频生成额度的个人用户。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "轻量日常使用",
+          "description": "若主要使用基础问答，SuperGrok 已覆盖核心能力，Plus 的额外额度可能不划算。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "xAI Pricing",
+          "url": "https://x.ai/pricing"
+        }
+      ],
+      "id": "tool-level3:xai-supergrok-plus"
+    },    {
+      "vendor_key": "xai",
+      "detail_kind": "subscription_plan",
+      "title": "SuperGrok Heavy",
+      "vendor_label": "xAI",
+      "icon": "",
+      "official_url": "https://x.ai/pricing",
+      "status": "active",
+      "summary": "SuperGrok Heavy 是 xAI 个人订阅的最高档位，面向最复杂的推理、编程、研究和高强度 Agent 任务。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
+      "plan": {
+        "amount": 300,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "按当前 SuperGrok Heavy 套餐价格记录为 300 USD/月；官方将其定位为最高用量、最快速度和最强智能，具体额度、地区和促销以账户订阅页为准。",
+        "included_models": ["Grok 4.6", "Grok 4 Heavy"],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂编程与研究",
+          "description": "适合高难度代码、复杂推理、研究和长时间 Agent 任务。"
+        },
+        {
+          "title": "最高用量工作流",
+          "description": "适合需要最高 Grok、Build、Bot 和多模态使用上限的个人用户。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "轻量个人使用",
+          "description": "月费较高，若不需要最高用量或复杂推理能力，低档 SuperGrok 可能更合适。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "xAI Pricing",
+          "url": "https://x.ai/pricing"
+        },
+        {
+          "title": "Grok",
+          "url": "https://x.ai/grok?q=heavy"
+        },
+        {
+          "title": "Grok Bot",
+          "url": "https://x.ai/bot"
+        }
+      ],
+      "id": "tool-level3:xai-supergrok-heavy"
+    },    {
+      "vendor_key": "xai",
       "detail_kind": "api_model",
       "title": "Grok 4.6",
       "vendor_label": "xAI",
@@ -10870,7 +11367,7 @@
       "title": "Grok Bot",
       "vendor_label": "xAI",
       "icon": "",
-      "official_url": "https://docs.x.ai/developers/release-notes",
+      "official_url": "https://x.ai/bot",
       "status": "active",
       "summary": "Grok Bot 提供持久化云端 AI 队友、连接器、审批和例行任务。",
       "one_m_context": {
@@ -10904,7 +11401,7 @@
       "sources": [
         {
           "title": "Grok Bot 官方页面",
-          "url": "https://docs.x.ai/developers/release-notes"
+          "url": "https://x.ai/bot"
         }
       ],
       "theme": "general",
