@@ -1388,7 +1388,15 @@
       "detail_refs": [
         {
           "kind": "tool-level3",
-          "id": "tool-level3:glm-coding-plan"
+          "id": "tool-level3:glm-coding-plan-lite"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-coding-plan-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:glm-coding-plan-max"
         }
       ],
       "series_kind": "subscription_series"
@@ -1464,7 +1472,19 @@
       "detail_refs": [
         {
           "kind": "tool-level3",
-          "id": "tool-level3:mistral-plans"
+          "id": "tool-level3:mistral-plan-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mistral-plan-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mistral-plan-team"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mistral-plan-enterprise"
         }
       ],
       "series_kind": "subscription_series"
@@ -1483,7 +1503,11 @@
       "detail_refs": [
         {
           "kind": "tool-level3",
-          "id": "tool-level3:baidu-coding-plan"
+          "id": "tool-level3:qianfan-token-plan-lite"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qianfan-token-plan-pro"
         }
       ],
       "series_kind": "tool_series"
