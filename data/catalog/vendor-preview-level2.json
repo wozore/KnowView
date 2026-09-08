@@ -421,10 +421,6 @@
         },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:hunyuan-turbos"
-        },
-        {
-          "kind": "tool-level3",
           "id": "tool-level3:hy2-think"
         }
       ]
@@ -581,10 +577,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-8-flash"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen-long"
         }
       ]
     },
@@ -621,29 +613,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:reve-2-1"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:tencent:hy-mt2",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:tencent"
-      },
-      "vendor_key": "tencent",
-      "title": "混元多语言翻译",
-      "official_url": "https://hunyuan.tencent.com/research/100041?langVersion=zh",
-      "summary": "腾讯混元多语言翻译模型系列，覆盖高性能开源 MoE 翻译模型 Hy-MT2 与腾讯云商业翻译 API。",
-      "status": "active",
-      "series_kind": "model_series",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:hy-mt2-30b-a3b"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:hunyuan-translation"
         }
       ]
     },
@@ -2148,29 +2117,6 @@
       "series_kind": "tool_series"
     },
     {
-      "id": "vendor-level2:alibaba:qwen-vl",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen 视觉理解与视觉推理",
-      "official_url": "https://help.aliyun.com/zh/model-studio/model-pricing",
-      "summary": "阿里云百炼 QVQ 视觉思维链推理模型系列，结合视觉感知与多步逻辑推导，擅长数理图表题与设计稿分析。",
-      "status": "active",
-      "series_kind": "model_series",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qvq-max"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qvq-plus"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:alibaba:qwen-image",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -2194,29 +2140,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:wan2.7-t2v"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:alibaba:qwen-translate",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen 多语言翻译",
-      "official_url": "https://help.aliyun.com/zh/model-studio/qwen-mt-plus",
-      "summary": "通义千问官方专业机器翻译模型系列，提供旗舰级与高吞吐多语言互译能力。",
-      "status": "active",
-      "series_kind": "model_series",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen-mt-plus"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen-mt-flash"
         }
       ]
     },
@@ -2290,25 +2213,6 @@
       ]
     },
     {
-      "id": "vendor-level2:tencent:hunyuan-vision",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:tencent"
-      },
-      "vendor_key": "tencent",
-      "title": "混元视觉多模态理解",
-      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
-      "summary": "腾讯混元视觉理解模型系列，支持高精度图文解析、票据文档识别与多模态复杂问答。",
-      "status": "active",
-      "series_kind": "model_series",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:tencent-hy-vision-1.5-instruct"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:tencent:hunyuan-image-video",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -2328,25 +2232,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:hunyuan-video"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:tencent:hunyuan-embedding",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:tencent"
-      },
-      "vendor_key": "tencent",
-      "title": "混元文本向量",
-      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
-      "summary": "腾讯混元官方文本向量化大模型，用于提升 RAG 向量检索与企业知识库语义匹配精度。",
-      "status": "active",
-      "series_kind": "model_series",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:hunyuan-embedding"
         }
       ]
     },
