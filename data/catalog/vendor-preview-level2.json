@@ -839,11 +839,16 @@
         "id": "vendor-level1:perplexity"
       },
       "vendor_key": "perplexity",
-      "title": "Perplexity",
-      "official_url": "https://www.perplexity.ai/",
-      "summary": "Perplexity 提供 AI 搜索与问答服务，拥有 API 平台、企业解决方案及多种产品。",
+      "title": "Perplexity 搜索与工作区平台",
+      "official_url": "https://www.perplexity.ai",
+      "summary": "Perplexity 官方在线 AI 实时搜索平台与多模型统一工作空间 Perplexity Computer。",
       "status": "active",
+      "series_kind": "tool_series",
       "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:perplexity-computer"
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:perplexity"
@@ -2521,7 +2526,7 @@
         },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:doubao-seed-character-260628"
+          "id": "tool-level3:doubao-seed-character"
         }
       ]
     },
@@ -2540,7 +2545,7 @@
       "detail_refs": [
         {
           "kind": "tool-level3",
-          "id": "tool-level3:doubao-seedance-2.0-mini"
+          "id": "tool-level3:doubao-seedance-2.5"
         },
         {
           "kind": "tool-level3",
@@ -2598,6 +2603,10 @@
       "detail_refs": [
         {
           "kind": "tool-level3",
+          "id": "tool-level3:seedance-2-5-creation-package"
+        },
+        {
+          "kind": "tool-level3",
           "id": "tool-level3:doubao-resource-package-10m"
         },
         {
@@ -2645,6 +2654,194 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:tinker"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:upstage:solar",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:upstage"
+      },
+      "vendor_key": "upstage",
+      "title": "Solar 通用与推理模型",
+      "official_url": "https://console.upstage.ai/docs",
+      "summary": "Upstage 专为终端任务、长文档推理与智能体工作流研发的 Solar 大语言模型系列，包含 Solar Pro 4 旗舰、Solar Pro 3 与轻量级 Solar Mini。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:solar-pro-4"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:solar-pro-3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:solar-mini"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:upstage:document-ai",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:upstage"
+      },
+      "vendor_key": "upstage",
+      "title": "Upstage Document AI 文档智能",
+      "official_url": "https://console.upstage.ai/docs/capabilities/digitize/document-parsing",
+      "summary": "Upstage 核心专有文档智能大模型家族，涵盖复杂版式解析 Document Parse、高精度 Document OCR 与结构化字段提取 Information Extract。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:upstage-document-parse"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:upstage-document-ocr"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:upstage-information-extract"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:upstage:embedding",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:upstage"
+      },
+      "vendor_key": "upstage",
+      "title": "Upstage 语义向量模型",
+      "official_url": "https://console.upstage.ai/docs/capabilities/embed",
+      "summary": "Upstage 全新一代高维语义向量嵌入大模型，专为大规模精准文本检索、跨语言匹配与企业 RAG 知识库打造。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:upstage-embed-2"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:upstage:studio",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:upstage"
+      },
+      "vendor_key": "upstage",
+      "title": "Upstage Studio 工作区",
+      "official_url": "https://studio.upstage.ai",
+      "summary": "Upstage 官方无代码智能体搭建平台，可视化编排文档解析与自定义提示词步骤，支持一键发布生成 API。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:upstage-studio"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:upstage:commitment-plan",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:upstage"
+      },
+      "vendor_key": "upstage",
+      "title": "套餐（Upstage 承诺套餐）",
+      "official_url": "https://www.upstage.ai/pricing/api",
+      "summary": "Upstage 官方预付费承诺套餐，按月或按年预付享受最高 40% 奖励积分、更高并发速率与专属技术响应。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:upstage-explore-tier"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:upstage-build-tier"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:perplexity:sonar",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:perplexity"
+      },
+      "vendor_key": "perplexity",
+      "title": "Sonar 联网推理大模型",
+      "official_url": "https://docs.perplexity.ai",
+      "summary": "Perplexity 专为实时网络检索与事实引文生成打造的 Sonar 系列模型，涵盖旗舰 Sonar Pro、思维链推理 Sonar Reasoning Pro 与全自动长篇调研 Sonar Deep Research。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:sonar-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:sonar-reasoning-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:sonar-deep-research"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:sonar"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:perplexity:pplx-embed",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:perplexity"
+      },
+      "vendor_key": "perplexity",
+      "title": "Perplexity 网页检索向量",
+      "official_url": "https://docs.perplexity.ai",
+      "summary": "Perplexity 官方超大规模网页级向量嵌入模型家族，包含密集检索 pplx-embed 与文档感知 pplx-embed-context。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:pplx-embed"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:perplexity:pro-subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:perplexity"
+      },
+      "vendor_key": "perplexity",
+      "title": "套餐（Perplexity 会员）",
+      "official_url": "https://www.perplexity.ai/pro",
+      "summary": "Perplexity 官方会员订阅计划，提供个人 Pro 版与企业 Enterprise Pro 版，享受无限深度搜索、模型自由切换与 Spaces 协作。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:perplexity-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:perplexity-enterprise-pro"
         }
       ]
     }

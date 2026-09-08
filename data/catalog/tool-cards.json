@@ -2011,10 +2011,10 @@
       "detail_kind": "api_model"
     },
     {
-      "id": "tool-card:doubao-seed-character-260628",
-      "tool_key": "doubao-seed-character-260628",
+      "id": "tool-card:doubao-seed-character",
+      "tool_key": "doubao-seed-character",
       "vendor_key": "bytedance",
-      "title": "Doubao Seed Character 260628",
+      "title": "Doubao Seed Character",
       "vendor_label": "字节跳动（豆包）",
       "icon": "🤖",
       "summary": "文本生成服务是火山方舟提供的API，支持多种模型调用。",
@@ -2027,14 +2027,13 @@
       "price_badge": "paid",
       "access_level": "开放",
       "search_terms": [
-        "Doubao Seed Character 260628",
+        "Doubao Seed Character",
         "字节跳动（豆包）",
-        "doubao-seed-character-260628",
-        "文本生成"
+        "doubao-seed-character"
       ],
       "detail_ref": {
         "kind": "tool-level3",
-        "id": "tool-level3:doubao-seed-character-260628"
+        "id": "tool-level3:doubao-seed-character"
       },
       "detail_kind": "api_model"
     },
@@ -6662,33 +6661,6 @@
       "detail_kind": "api_model"
     },
     {
-      "id": "tool-card:doubao-seedance-2.0-mini",
-      "tool_key": "doubao-seedance-2.0-mini",
-      "vendor_key": "bytedance",
-      "title": "Doubao-Seedance-2.0-Mini",
-      "vendor_label": "字节跳动（豆包）",
-      "icon": "🎬",
-      "summary": "Doubao-Seedance-2.0-Mini 是火山引擎自研视频生成大模型，支持音视频图文多模态参考，提供高性价比的 480P 与 720P 动态视频生成。",
-      "theme": "media",
-      "scenes": [
-        "多模态创意视频创作"
-      ],
-      "best_for_preview": "电商广告分镜动态化、社交短视频生成与图文素材动态延展。",
-      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
-      "price_badge": "paid",
-      "access_level": "公开可用",
-      "search_terms": [
-        "Doubao-Seedance-2.0-Mini",
-        "字节跳动（豆包）",
-        "doubao-seedance-2.0-mini"
-      ],
-      "detail_ref": {
-        "kind": "tool-level3",
-        "id": "tool-level3:doubao-seedance-2.0-mini"
-      },
-      "detail_kind": "api_model"
-    },
-    {
       "id": "tool-card:doubao-seedream-5.0-pro",
       "tool_key": "doubao-seedream-5.0-pro",
       "vendor_key": "bytedance",
@@ -6820,6 +6792,414 @@
       "detail_ref": {
         "kind": "tool-level3",
         "id": "tool-level3:tinker"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:doubao-seedance-2.5",
+      "tool_key": "doubao-seedance-2.5",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seedance-2.5",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🎬",
+      "summary": "Doubao-Seedance-2.5 是字节跳动新一代音视频联合生成视频大模型，支持单镜头30秒长叙事与多轮接续，可输入30张图片、10段视频与10段音频进行多模态精准参考生成。",
+      "theme": "media",
+      "scenes": [
+        "单镜头长剧情故事",
+        "多参考素材精细控制"
+      ],
+      "best_for_preview": "30秒连续无切镜运镜叙事、影视级多主体一致性与多轮接续成片。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Doubao-Seedance-2.5",
+        "字节跳动（豆包）",
+        "doubao-seedance-2.5",
+        "seedance 2.5",
+        "视频生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:doubao-seedance-2.5"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:solar-pro-4",
+      "tool_key": "solar-pro-4",
+      "vendor_key": "upstage",
+      "title": "Solar Pro 4",
+      "vendor_label": "Upstage",
+      "icon": "☀️",
+      "summary": "Solar Pro 4 是 Upstage 专为长程智能体与复杂交付任务打造的前沿旗舰大模型，在终端任务执行（Terminal-Bench 2.1）、长文档推理与多轮工具调用上表现卓越，支持 512K 上下文。",
+      "theme": "general",
+      "scenes": [
+        "终端与自动化工作流"
+      ],
+      "best_for_preview": "长任务自主拆解执行、多文档交叉验证与真实办公交付物自动化生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Solar Pro 4",
+        "Upstage",
+        "solar-pro-4"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:solar-pro-4"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:solar-pro-3",
+      "tool_key": "solar-pro-3",
+      "vendor_key": "upstage",
+      "title": "Solar Pro 3",
+      "vendor_label": "Upstage",
+      "icon": "☀️",
+      "summary": "Solar Pro 3 是 Upstage 高性价比生产级语言大模型，具备更强的逻辑推理与精准的指令遵循能力。",
+      "theme": "general",
+      "scenes": [
+        "高性价比通用推理"
+      ],
+      "best_for_preview": "日常文本生成、多轮问答对话与结构化数据处理。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Solar Pro 3",
+        "Upstage",
+        "solar-pro-3"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:solar-pro-3"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:solar-mini",
+      "tool_key": "solar-mini",
+      "vendor_key": "upstage",
+      "title": "Solar Mini",
+      "vendor_label": "Upstage",
+      "icon": "⚡",
+      "summary": "Solar Mini 是 Upstage 推出的轻量高吞吐语言模型，适合对延迟和成本敏感的日常轻度推理任务。",
+      "theme": "general",
+      "scenes": [
+        "低时延轻度会话"
+      ],
+      "best_for_preview": "海量并发摘要、关键词提取与快速文本过滤。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Solar Mini",
+        "Upstage",
+        "solar-mini"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:solar-mini"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:upstage-document-parse",
+      "tool_key": "upstage-document-parse",
+      "vendor_key": "upstage",
+      "title": "Document Parse",
+      "vendor_label": "Upstage",
+      "icon": "📄",
+      "summary": "Upstage Document Parse 是业界标杆的文档数字化解析模型，将复杂版式 PDF、合同、研报转换为结构化且便于 LLM 理解的 HTML/Markdown。",
+      "theme": "vision",
+      "scenes": [
+        "复杂多列版面解析"
+      ],
+      "best_for_preview": "财务报表表格还原、双栏学术论文抽取与图文交错 PDF 解析。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Document Parse",
+        "Upstage",
+        "upstage-document-parse"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:upstage-document-parse"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:upstage-document-ocr",
+      "tool_key": "upstage-document-ocr",
+      "vendor_key": "upstage",
+      "title": "Document OCR",
+      "vendor_label": "Upstage",
+      "icon": "🔍",
+      "summary": "Upstage Document OCR 提供超过 95% 准确率的多语言文本精准抽取能力，专为扫描件、手写体与低清图片设计。",
+      "theme": "vision",
+      "scenes": [
+        "通用扫描件识别"
+      ],
+      "best_for_preview": "海量票据文档数字化、低清图片文字抽取与多语言档案入库。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Document OCR",
+        "Upstage",
+        "upstage-document-ocr"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:upstage-document-ocr"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:upstage-information-extract",
+      "tool_key": "upstage-information-extract",
+      "vendor_key": "upstage",
+      "title": "Information Extract",
+      "vendor_label": "Upstage",
+      "icon": "📋",
+      "summary": "Upstage Information Extract 可从发票、索赔单、合同与身份证件中精准提取键值对（Key-Value）结构化信息。",
+      "theme": "vision",
+      "scenes": [
+        "自动表单审核"
+      ],
+      "best_for_preview": "企业发票报销核验、保险核保单据字段自动填充与商务合同关键条款比对。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Information Extract",
+        "Upstage",
+        "upstage-information-extract"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:upstage-information-extract"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:upstage-embed-2",
+      "tool_key": "upstage-embed-2",
+      "vendor_key": "upstage",
+      "title": "Embed 2",
+      "vendor_label": "Upstage",
+      "icon": "📐",
+      "summary": "Upstage Embed 2 是全新一代高维文本嵌入大模型，检索速度更快，语义表征更准确，专为企业级大库 RAG 打造。",
+      "theme": "general",
+      "scenes": [
+        "高精度语义检索"
+      ],
+      "best_for_preview": "多语言知识库搜索、RAG 向量召回与企业内部文档智能问答检索。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Embed 2",
+        "Upstage",
+        "upstage-embed-2"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:upstage-embed-2"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:upstage-studio",
+      "tool_key": "upstage-studio",
+      "vendor_key": "upstage",
+      "title": "Upstage Studio",
+      "vendor_label": "Upstage",
+      "icon": "🛠️",
+      "summary": "Upstage Studio 是官方提供的无代码 Document Agent 搭建与自动化工作区平台，支持可视化组合 Parse、Extract 与 LLM 步骤并一键部署 API。",
+      "theme": "dev",
+      "scenes": [
+        "无代码构建文档智能体"
+      ],
+      "best_for_preview": "设计企业专属票据流转 Agent、在线实时预览文档处理效果与生成一键可调用 API 端点。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Upstage Studio",
+        "Upstage",
+        "upstage-studio"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:upstage-studio"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:sonar-pro",
+      "tool_key": "sonar-pro",
+      "vendor_key": "perplexity",
+      "title": "Sonar Pro",
+      "vendor_label": "Perplexity",
+      "icon": "🔮",
+      "summary": "Sonar Pro 是 Perplexity 旗舰级搜索推理大模型，专为复杂查询设计，带来更深度的网页内容理解与 2 倍的丰富搜索结果引用。",
+      "theme": "general",
+      "scenes": [
+        "复杂深度问答"
+      ],
+      "best_for_preview": "高时效性新闻综合分析、多网页交叉比对与学术事实核查。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Sonar Pro",
+        "Perplexity",
+        "sonar-pro"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:sonar-pro"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:sonar-reasoning-pro",
+      "tool_key": "sonar-reasoning-pro",
+      "vendor_key": "perplexity",
+      "title": "Sonar Reasoning Pro",
+      "vendor_label": "Perplexity",
+      "icon": "🧠",
+      "summary": "Sonar Reasoning Pro 将显式思维链（CoT）逻辑推导与实时网络检索相结合，在解答前深入思考推演，兼具高逻辑性与事实可靠性。",
+      "theme": "general",
+      "scenes": [
+        "多步逻辑推理与事实论证"
+      ],
+      "best_for_preview": "数理逻辑证明、跨事件因果链条梳理与复杂决策研报输出。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Sonar Reasoning Pro",
+        "Perplexity",
+        "sonar-reasoning-pro"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:sonar-reasoning-pro"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:sonar-deep-research",
+      "tool_key": "sonar-deep-research",
+      "vendor_key": "perplexity",
+      "title": "Sonar Deep Research",
+      "vendor_label": "Perplexity",
+      "icon": "🔬",
+      "summary": "Sonar Deep Research 是 Perplexity 面向深度行研打造的自主研究模型，能自主执行数十次跨域搜索迭代、文献追溯并汇总生成万字深度调研长文。",
+      "theme": "general",
+      "scenes": [
+        "全自动深度行业研究"
+      ],
+      "best_for_preview": "商业尽职调查、竞品深度全景剖析与跨学术领域综述长文生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Sonar Deep Research",
+        "Perplexity",
+        "sonar-deep-research"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:sonar-deep-research"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:sonar",
+      "tool_key": "sonar",
+      "vendor_key": "perplexity",
+      "title": "Sonar",
+      "vendor_label": "Perplexity",
+      "icon": "📡",
+      "summary": "Sonar 是 Perplexity 基础联网生成大模型，以极具竞争力的价格提供极速的在线问答与事实引文生成。",
+      "theme": "general",
+      "scenes": [
+        "高性价比实时搜索"
+      ],
+      "best_for_preview": "日常事实查询、高并发新闻查询接口与轻量应用联网知识检索。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Sonar",
+        "Perplexity",
+        "sonar"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:sonar"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:pplx-embed",
+      "tool_key": "pplx-embed",
+      "vendor_key": "perplexity",
+      "title": "Pplx Embed",
+      "vendor_label": "Perplexity",
+      "icon": "🌐",
+      "summary": "Pplx Embed 是 Perplexity 官方推出的超大规模网页级向量嵌入模型家族（包含 pplx-embed 与上下文感知的 pplx-embed-context），在真实网页检索基准上超越业内同类产品。",
+      "theme": "general",
+      "scenes": [
+        "大规模网页级密集检索"
+      ],
+      "best_for_preview": "海量互联网文档索引构建、上下文感知二次召回与高精度企业级 RAG 检索。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Pplx Embed",
+        "Perplexity",
+        "pplx-embed"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:pplx-embed"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:perplexity-computer",
+      "tool_key": "perplexity-computer",
+      "vendor_key": "perplexity",
+      "title": "Perplexity Computer",
+      "vendor_label": "Perplexity",
+      "icon": "💻",
+      "summary": "Perplexity Computer 是官方推出的统一 AI 协同工作空间，可协调 19 款顶级前沿大模型进行项目全链路调研、代码开发、设计与部署交付。",
+      "theme": "dev",
+      "scenes": [
+        "多智能体协同项目研发"
+      ],
+      "best_for_preview": "从单一会话跨模型编排任务、端到端自动化调研与全栈工程落地管理。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Perplexity Computer",
+        "Perplexity",
+        "perplexity-computer"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:perplexity-computer"
       },
       "detail_kind": "tool"
     }

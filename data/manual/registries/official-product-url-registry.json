@@ -1297,6 +1297,90 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-08",
       "last_official_update_at": "2026-05-10"
+    },
+    "upstage-studio": {
+      "name": "Upstage Studio",
+      "vendor_key": "upstage",
+      "official_urls": [
+        "https://studio.upstage.ai",
+        "https://console.upstage.ai/docs"
+      ],
+      "aliases": [
+        "Upstage Studio",
+        "Studio"
+      ],
+      "product_prefixes": [
+        "upstage studio",
+        "studio.upstage"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://console.upstage.ai/docs",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-07-20"
+    },
+    "perplexity": {
+      "name": "Perplexity",
+      "vendor_key": "perplexity",
+      "official_urls": [
+        "https://www.perplexity.ai",
+        "https://docs.perplexity.ai"
+      ],
+      "aliases": [
+        "Perplexity",
+        "Perplexity AI"
+      ],
+      "product_prefixes": [
+        "perplexity"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://docs.perplexity.ai/docs/resources/changelog",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-08-20"
+    },
+    "perplexity-computer": {
+      "name": "Perplexity Computer",
+      "vendor_key": "perplexity",
+      "official_urls": [
+        "https://www.perplexity.ai/computer",
+        "https://docs.perplexity.ai"
+      ],
+      "aliases": [
+        "Perplexity Computer"
+      ],
+      "product_prefixes": [
+        "perplexity computer"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://docs.perplexity.ai/docs/resources/changelog",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-06-25"
     }
   }
 }

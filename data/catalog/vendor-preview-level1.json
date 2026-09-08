@@ -983,7 +983,28 @@
           "text": "限制：具体模型能力、价格与地区可用性需以官方页面为准。"
         }
       ],
-      "level2_refs": []
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:upstage:solar"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:upstage:document-ai"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:upstage:embedding"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:upstage:studio"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:upstage:commitment-plan"
+        }
+      ]
     },
     {
       "id": "vendor-level1:perplexity",
@@ -1006,7 +1027,19 @@
       "level2_refs": [
         {
           "kind": "vendor-level2",
+          "id": "vendor-level2:perplexity:sonar"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:perplexity:pplx-embed"
+        },
+        {
+          "kind": "vendor-level2",
           "id": "vendor-level2:perplexity:perplexity"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:perplexity:pro-subscription"
         }
       ]
     },

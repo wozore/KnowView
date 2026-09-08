@@ -1853,7 +1853,7 @@
                 "doubao-1.5-pro",
                 "doubao-1.5-lite",
                 "doubao-seed-2.0-mini",
-                "doubao-seed-character-260628"
+                "doubao-seed-character"
               ]
             }
           ],
@@ -1878,7 +1878,7 @@
               "title": "豆包图像与视频生成",
               "generation_state": "newest",
               "expected_members": [
-                "doubao-seedance-2.0-mini",
+                "doubao-seedance-2.5",
                 "doubao-seedream-5.0-pro",
                 "doubao-seedream-5.0-lite"
               ]
@@ -1957,6 +1957,7 @@
               "title": "套餐（豆包大模型资源包）",
               "generation_state": "newest",
               "expected_members": [
+                "seedance-2-5-creation-package",
                 "doubao-resource-package-10m",
                 "doubao-resource-package-100m"
               ]
@@ -1972,8 +1973,138 @@
     {
       "vendor_key": "upstage",
       "direction": "llm",
-      "description": "Upstage：政策已登记厂商方向，尚无核实的系列结构（不编造家族）。",
-      "families": []
+      "description": "Upstage：Solar 通用与推理模型、Document AI、语义向量、Studio 工具与承诺套餐。",
+      "families": [
+        {
+          "family": "solar",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "solar"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:upstage:solar",
+              "title": "Solar 通用与推理模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "solar-pro-4",
+                "solar-pro-3",
+                "solar-mini"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://console.upstage.ai/docs",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "document_ai",
+          "usage_kind": "unknown",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "document",
+            "parse",
+            "ocr",
+            "extract"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:upstage:document-ai",
+              "title": "Upstage Document AI 文档智能",
+              "generation_state": "newest",
+              "expected_members": [
+                "upstage-document-parse",
+                "upstage-document-ocr",
+                "upstage-information-extract"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://console.upstage.ai/docs",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "upstage_embed",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "embed"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:upstage:embedding",
+              "title": "Upstage 语义向量模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "upstage-embed-2"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://console.upstage.ai/docs",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "upstage_tools",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "upstage-studio"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:upstage:studio",
+              "title": "Upstage Studio 工作区",
+              "generation_state": "newest",
+              "expected_members": [
+                "upstage-studio"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://studio.upstage.ai",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "upstage_commitment",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "upstage-explore-tier",
+            "upstage-build-tier"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:upstage:commitment-plan",
+              "title": "套餐（Upstage 承诺套餐）",
+              "generation_state": "newest",
+              "expected_members": [
+                "upstage-explore-tier",
+                "upstage-build-tier"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.upstage.ai/pricing/api",
+            "status": "verified"
+          }
+        }
+      ]
     },
     {
       "vendor_key": "microsoft",
@@ -2216,31 +2347,110 @@
     {
       "vendor_key": "perplexity",
       "direction": "search_platform",
-      "description": "Perplexity：AI 搜索平台，目录现登记 Perplexity 工具一条。",
+      "description": "Perplexity：Sonar 联网推理大模型、Pplx Embed 网页向量、搜索与工作区平台、会员套餐。",
       "families": [
         {
-          "family": "perplexity",
+          "family": "sonar",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "sonar"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:perplexity:sonar",
+              "title": "Sonar 联网推理大模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "sonar-pro",
+                "sonar-reasoning-pro",
+                "sonar-deep-research",
+                "sonar"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.perplexity.ai",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "pplx_embed",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "pplx-embed"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:perplexity:pplx-embed",
+              "title": "Perplexity 网页检索向量",
+              "generation_state": "newest",
+              "expected_members": [
+                "pplx-embed"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.perplexity.ai",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "perplexity_platform",
           "usage_kind": "tool",
           "modality": "text",
           "series_kind": "tool_series",
           "version_axis": "none",
+          "name_patterns": [
+            "perplexity",
+            "perplexity-computer"
+          ],
           "series": [
             {
               "id": "vendor-level2:perplexity:perplexity",
-              "title": "Perplexity",
+              "title": "Perplexity 搜索与工作区平台",
               "generation_state": "newest",
               "expected_members": [
+                "perplexity-computer",
                 "perplexity"
               ]
             }
           ],
           "evidence": {
-            "url": "https://www.perplexity.ai/",
+            "url": "https://www.perplexity.ai",
             "status": "verified"
-          },
+          }
+        },
+        {
+          "family": "perplexity_subscription",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
           "name_patterns": [
-            "perplexity"
-          ]
+            "perplexity-pro",
+            "perplexity-enterprise-pro"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:perplexity:pro-subscription",
+              "title": "套餐（Perplexity 会员）",
+              "generation_state": "newest",
+              "expected_members": [
+                "perplexity-pro",
+                "perplexity-enterprise-pro"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.perplexity.ai/pro",
+            "status": "verified"
+          }
         }
       ]
     },

@@ -5242,7 +5242,7 @@
     {
       "vendor_key": "bytedance",
       "detail_kind": "api_model",
-      "title": "Doubao Seed Character 260628",
+      "title": "Doubao Seed Character",
       "vendor_label": "字节跳动（豆包）",
       "icon": "🤖",
       "official_url": "https://docs.volcengine.com/docs/82379/1399009",
@@ -5310,7 +5310,7 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:doubao-seed-character-260628",
+      "id": "tool-level3:doubao-seed-character",
       "release_date": "2026-06-28"
     },
     {
@@ -7655,7 +7655,7 @@
         }
       ],
       "theme": "general",
-      "last_updated_date": "2025-04-18",
+      "last_updated_date": "2026-08-20",
       "id": "tool-level3:perplexity"
     },
     {
@@ -17116,61 +17116,6 @@
       "theme": "general"
     },
     {
-      "id": "tool-level3:doubao-seedance-2.0-mini",
-      "vendor_key": "bytedance",
-      "detail_kind": "api_model",
-      "title": "Doubao-Seedance-2.0-Mini",
-      "vendor_label": "字节跳动（豆包）",
-      "icon": "🎬",
-      "official_url": "https://ai.volcengine.com/model",
-      "status": "active",
-      "summary": "Doubao-Seedance-2.0-Mini 是火山引擎自研视频生成大模型，支持音视频图文多模态参考，提供高性价比的 480P 与 720P 动态视频生成。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "视频生成模型不适用1M文本生成。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "按量计费",
-            "pricing_basis": "按Token用量计费",
-            "currency": "CNY",
-            "metrics": [
-              {
-                "label": "输入单价",
-                "amount": 22,
-                "unit": "每百万tokens"
-              },
-              {
-                "label": "输出单价",
-                "amount": 37,
-                "unit": "每百万tokens"
-              }
-            ]
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "多模态创意视频创作",
-          "description": "电商广告分镜动态化、社交短视频生成与图文素材动态延展。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "AI Hub-豆包大模型API服务平台 - 火山引擎",
-          "url": "https://ai.volcengine.com/model"
-        }
-      ],
-      "release_date": "2026-06-15",
-      "theme": "media"
-    },
-    {
       "id": "tool-level3:doubao-seedream-5.0-pro",
       "vendor_key": "bytedance",
       "detail_kind": "api_model",
@@ -17751,6 +17696,1035 @@
       ],
       "last_updated_date": "2026-05-10",
       "theme": "dev"
+    },
+    {
+      "id": "tool-level3:doubao-seedance-2.5",
+      "vendor_key": "bytedance",
+      "detail_kind": "api_model",
+      "title": "Doubao-Seedance-2.5",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🎬",
+      "official_url": "https://seed.bytedance.com/seedance2_5",
+      "status": "active",
+      "summary": "Doubao-Seedance-2.5 是字节跳动新一代音视频联合生成视频大模型，支持单镜头30秒长叙事与多轮接续，可输入30张图片、10段视频与10段音频进行多模态精准参考生成。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "视频生成模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费-1080P限时优惠",
+            "pricing_basis": "按输出视频时长计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "1080P视频生成",
+                "amount": 2.7,
+                "unit": "元/秒"
+              },
+              {
+                "label": "720P视频生成",
+                "amount": 1.48,
+                "unit": "元/秒"
+              }
+            ],
+            "conditions": "按生成视频秒数计费，限时折扣出账自动生效；支持多模态参考生视频。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "单镜头长剧情故事",
+          "description": "30秒连续无切镜运镜叙事、影视级多主体一致性与多轮接续成片。"
+        },
+        {
+          "title": "多参考素材精细控制",
+          "description": "输入角色立绘、动作视频与环境配音进行高可控商业化广告制作。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "One-take Creation, Flexible Referencing: Introducing Seedance 2.5 - ByteDance Seed",
+          "url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5"
+        },
+        {
+          "title": "Seedance2.5升级上线 - 火山引擎",
+          "url": "https://www.volcengine.com/activity/seedance25"
+        }
+      ],
+      "release_date": "2026-08-14",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:seedance-2-5-creation-package",
+      "vendor_key": "bytedance",
+      "detail_kind": "subscription_plan",
+      "title": "Seedance 2.5 创作资源包",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "💳",
+      "official_url": "https://www.volcengine.com/activity/seedance25",
+      "status": "active",
+      "summary": "火山引擎针对 Seedance 2.5 视频大模型推出的官方创作资源包，专用于抵扣 1080P 视频生成与火山方舟模型用量账单。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 200,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "售价 ¥200.00；有效期 1 个月；个人与企业同享；不限 Seedance 2.5，可直接抵扣火山方舟模型后付费账单。",
+        "included_models": [
+          "Doubao-Seedance-2.5",
+          "Doubao-Seedance-2.0"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高频 AI 视频创作",
+          "description": "面向短视频机构与独立创作者，大幅降低 1080P 高清视频制作成本。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Seedance2.5升级上线 - 火山引擎",
+          "url": "https://www.volcengine.com/activity/seedance25"
+        }
+      ],
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:solar-pro-4",
+      "vendor_key": "upstage",
+      "detail_kind": "api_model",
+      "title": "Solar Pro 4",
+      "vendor_label": "Upstage",
+      "icon": "☀️",
+      "official_url": "https://console.upstage.ai/docs/models/solar-pro-4",
+      "status": "active",
+      "summary": "Solar Pro 4 是 Upstage 专为长程智能体与复杂交付任务打造的前沿旗舰大模型，在终端任务执行（Terminal-Bench 2.1）、长文档推理与多轮工具调用上表现卓越，支持 512K 上下文。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持 512K 上下文与 128K 输出窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "标准商业定价",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入单价",
+                "amount": 0.3,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "缓存输入",
+                "amount": 0.06,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出单价",
+                "amount": 1.2,
+                "unit": "每百万tokens"
+              }
+            ],
+            "conditions": "Upstage Console 与 OpenRouter 支持标准接入；支持推理强度动态调节。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "终端与自动化工作流",
+          "description": "长任务自主拆解执行、多文档交叉验证与真实办公交付物自动化生成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Solar Pro 4: The Agentic Model That Finishes the Job - Upstage Blog",
+          "url": "https://www.upstage.ai/blog/en/solar-pro-4"
+        },
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "release_date": "2026-08-11",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:solar-pro-3",
+      "vendor_key": "upstage",
+      "detail_kind": "api_model",
+      "title": "Solar Pro 3",
+      "vendor_label": "Upstage",
+      "icon": "☀️",
+      "official_url": "https://console.upstage.ai/docs/models/solar-pro-3",
+      "status": "active",
+      "summary": "Solar Pro 3 是 Upstage 高性价比生产级语言大模型，具备更强的逻辑推理与精准的指令遵循能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持标准长上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入单价",
+                "amount": 0.15,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "缓存输入",
+                "amount": 0.015,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出单价",
+                "amount": 0.6,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高性价比通用推理",
+          "description": "日常文本生成、多轮问答对话与结构化数据处理。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "release_date": "2026-05-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:solar-mini",
+      "vendor_key": "upstage",
+      "detail_kind": "api_model",
+      "title": "Solar Mini",
+      "vendor_label": "Upstage",
+      "icon": "⚡",
+      "official_url": "https://console.upstage.ai/docs/capabilities/generate/chat",
+      "status": "active",
+      "summary": "Solar Mini 是 Upstage 推出的轻量高吞吐语言模型，适合对延迟和成本敏感的日常轻度推理任务。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "轻量快速模型。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入单价",
+                "amount": 0.15,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出单价",
+                "amount": 0.15,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "低时延轻度会话",
+          "description": "海量并发摘要、关键词提取与快速文本过滤。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "release_date": "2025-07-20",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:upstage-document-parse",
+      "vendor_key": "upstage",
+      "detail_kind": "api_model",
+      "title": "Document Parse",
+      "vendor_label": "Upstage",
+      "icon": "📄",
+      "official_url": "https://console.upstage.ai/docs/capabilities/digitize/document-parsing",
+      "status": "active",
+      "summary": "Upstage Document Parse 是业界标杆的文档数字化解析模型，将复杂版式 PDF、合同、研报转换为结构化且便于 LLM 理解的 HTML/Markdown。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按文档页数计费。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按页计费",
+            "pricing_basis": "按处理文档页数计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "标准模式 (Standard)",
+                "amount": 0.01,
+                "unit": "页"
+              },
+              {
+                "label": "增强模式 (Enhanced)",
+                "amount": 0.03,
+                "unit": "页"
+              }
+            ],
+            "conditions": "提供 Auto 模式自动根据页面复杂度切换 Standard 或 Enhanced 以平衡成本与精度。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂多列版面解析",
+          "description": "财务报表表格还原、双栏学术论文抽取与图文交错 PDF 解析。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "release_date": "2025-08-01",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:upstage-document-ocr",
+      "vendor_key": "upstage",
+      "detail_kind": "api_model",
+      "title": "Document OCR",
+      "vendor_label": "Upstage",
+      "icon": "🔍",
+      "official_url": "https://console.upstage.ai/docs/capabilities/digitize/document-ocr",
+      "status": "active",
+      "summary": "Upstage Document OCR 提供超过 95% 准确率的多语言文本精准抽取能力，专为扫描件、手写体与低清图片设计。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按文档页数计费。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按页计费",
+            "pricing_basis": "按处理文档页数计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "OCR 识别",
+                "amount": 0.0015,
+                "unit": "页"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "通用扫描件识别",
+          "description": "海量票据文档数字化、低清图片文字抽取与多语言档案入库。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "release_date": "2025-08-01",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:upstage-information-extract",
+      "vendor_key": "upstage",
+      "detail_kind": "api_model",
+      "title": "Information Extract",
+      "vendor_label": "Upstage",
+      "icon": "📋",
+      "official_url": "https://console.upstage.ai/docs/capabilities/extract/universal-extraction",
+      "status": "active",
+      "summary": "Upstage Information Extract 可从发票、索赔单、合同与身份证件中精准提取键值对（Key-Value）结构化信息。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按文档页数计费。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按页计费",
+            "pricing_basis": "按处理文档页数计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "标准提取",
+                "amount": 0.04,
+                "unit": "页"
+              },
+              {
+                "label": "增强提取",
+                "amount": 0.06,
+                "unit": "页"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "自动表单审核",
+          "description": "企业发票报销核验、保险核保单据字段自动填充与商务合同关键条款比对。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "release_date": "2025-09-10",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:upstage-embed-2",
+      "vendor_key": "upstage",
+      "detail_kind": "api_model",
+      "title": "Embed 2",
+      "vendor_label": "Upstage",
+      "icon": "📐",
+      "official_url": "https://console.upstage.ai/docs/capabilities/embed",
+      "status": "active",
+      "summary": "Upstage Embed 2 是全新一代高维文本嵌入大模型，检索速度更快，语义表征更准确，专为企业级大库 RAG 打造。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "向量模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "向量化输入",
+                "amount": 0.02,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高精度语义检索",
+          "description": "多语言知识库搜索、RAG 向量召回与企业内部文档智能问答检索。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "release_date": "2026-06-18",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:upstage-studio",
+      "vendor_key": "upstage",
+      "detail_kind": "tool",
+      "title": "Upstage Studio",
+      "vendor_label": "Upstage",
+      "icon": "🛠️",
+      "official_url": "https://studio.upstage.ai",
+      "status": "active",
+      "summary": "Upstage Studio 是官方提供的无代码 Document Agent 搭建与自动化工作区平台，支持可视化组合 Parse、Extract 与 LLM 步骤并一键部署 API。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "无代码构建文档智能体",
+          "description": "设计企业专属票据流转 Agent、在线实时预览文档处理效果与生成一键可调用 API 端点。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Upstage Studio - Build and deploy your agent",
+          "url": "https://www.upstage.ai/products/studio"
+        }
+      ],
+      "last_updated_date": "2026-07-20",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:upstage-explore-tier",
+      "vendor_key": "upstage",
+      "detail_kind": "subscription_plan",
+      "title": "Upstage Explore Tier",
+      "vendor_label": "Upstage",
+      "icon": "💳",
+      "official_url": "https://www.upstage.ai/pricing/api",
+      "status": "active",
+      "summary": "Upstage 官方 Explore 级承诺套餐，预付 $100/月（年付 $1,200/年，送 30% 积分奖励），享 Tier 1 速率（30 req/s）。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 100,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月预付 $100（年预付 $1,200 获 30% 奖励积分达 $360）；跨 Console 与 Studio 共享；Tier 1 速率限制（Solar Pro 30 req/s）。",
+        "included_models": [
+          "Solar Pro 4",
+          "Solar Pro 3",
+          "Document Parse",
+          "Information Extract",
+          "Embed 2"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "团队初期上线与开发",
+          "description": "满足中小业务平稳并发、全系列接口共享抵扣与预算可控。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:upstage-build-tier",
+      "vendor_key": "upstage",
+      "detail_kind": "subscription_plan",
+      "title": "Upstage Build Tier",
+      "vendor_label": "Upstage",
+      "icon": "💳",
+      "official_url": "https://www.upstage.ai/pricing/api",
+      "status": "active",
+      "summary": "Upstage 官方 Build 级承诺套餐，预付 $500/月（年付 $6,000/年，送 35% 积分奖励），享 Tier 2 速率（50 req/s）与邮件官方技术支持。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 500,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月预付 $500（年预付 $6,000 获 35% 奖励积分达 $2,100）；Tier 2 速率限制（Solar Pro 50 req/s，Extract 20 req/s）；3 工作日响应官方支持。",
+        "included_models": [
+          "Solar Pro 4",
+          "Solar Pro 3",
+          "Document Parse",
+          "Information Extract",
+          "Embed 2"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "生产级业务稳定交付",
+          "description": "面向企业生产环境核心业务流，高并发解析与技术保障。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Upstage AI",
+          "url": "https://www.upstage.ai/pricing/api"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:sonar-pro",
+      "vendor_key": "perplexity",
+      "detail_kind": "api_model",
+      "title": "Sonar Pro",
+      "vendor_label": "Perplexity",
+      "icon": "🔮",
+      "official_url": "https://docs.perplexity.ai/docs/sonar/models/sonar-pro",
+      "status": "active",
+      "summary": "Sonar Pro 是 Perplexity 旗舰级搜索推理大模型，专为复杂查询设计，带来更深度的网页内容理解与 2 倍的丰富搜索结果引用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持200k上下文与实时网页检索引证。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 3,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 15,
+                "unit": "每百万tokens"
+              }
+            ],
+            "conditions": "包含实时网页搜索与引文生成；按搜索上下文深度收取基础请求服务费。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂深度问答",
+          "description": "高时效性新闻综合分析、多网页交叉比对与学术事实核查。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Sonar Pro - Perplexity API",
+          "url": "https://docs.perplexity.ai/docs/sonar/models/sonar-pro"
+        }
+      ],
+      "release_date": "2025-11-20",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:sonar-reasoning-pro",
+      "vendor_key": "perplexity",
+      "detail_kind": "api_model",
+      "title": "Sonar Reasoning Pro",
+      "vendor_label": "Perplexity",
+      "icon": "🧠",
+      "official_url": "https://docs.perplexity.ai",
+      "status": "active",
+      "summary": "Sonar Reasoning Pro 将显式思维链（CoT）逻辑推导与实时网络检索相结合，在解答前深入思考推演，兼具高逻辑性与事实可靠性。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持思维链深度推演与实时检索。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 2,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 8,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "多步逻辑推理与事实论证",
+          "description": "数理逻辑证明、跨事件因果链条梳理与复杂决策研报输出。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Perplexity API Pricing In 2026 - CloudZero",
+          "url": "https://www.cloudzero.com/blog/perplexity-api-pricing"
+        }
+      ],
+      "release_date": "2026-02-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:sonar-deep-research",
+      "vendor_key": "perplexity",
+      "detail_kind": "api_model",
+      "title": "Sonar Deep Research",
+      "vendor_label": "Perplexity",
+      "icon": "🔬",
+      "official_url": "https://docs.perplexity.ai",
+      "status": "active",
+      "summary": "Sonar Deep Research 是 Perplexity 面向深度行研打造的自主研究模型，能自主执行数十次跨域搜索迭代、文献追溯并汇总生成万字深度调研长文。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "自主多步搜索长文输出。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 2,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 8,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "全自动深度行业研究",
+          "description": "商业尽职调查、竞品深度全景剖析与跨学术领域综述长文生成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Perplexity Pricing 2026 - Suprmind",
+          "url": "https://suprmind.ai/hub/perplexity/pricing"
+        }
+      ],
+      "release_date": "2026-04-18",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:sonar",
+      "vendor_key": "perplexity",
+      "detail_kind": "api_model",
+      "title": "Sonar",
+      "vendor_label": "Perplexity",
+      "icon": "📡",
+      "official_url": "https://docs.perplexity.ai",
+      "status": "active",
+      "summary": "Sonar 是 Perplexity 基础联网生成大模型，以极具竞争力的价格提供极速的在线问答与事实引文生成。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "标准轻量搜索模型。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 1,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 1,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高性价比实时搜索",
+          "description": "日常事实查询、高并发新闻查询接口与轻量应用联网知识检索。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Perplexity API Pricing (May 2026) - AIPricing",
+          "url": "https://www.aipricing.guru/perplexity-pricing"
+        }
+      ],
+      "release_date": "2025-08-10",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:pplx-embed",
+      "vendor_key": "perplexity",
+      "detail_kind": "api_model",
+      "title": "Pplx Embed",
+      "vendor_label": "Perplexity",
+      "icon": "🌐",
+      "official_url": "https://docs.perplexity.ai",
+      "status": "active",
+      "summary": "Pplx Embed 是 Perplexity 官方推出的超大规模网页级向量嵌入模型家族（包含 pplx-embed 与上下文感知的 pplx-embed-context），在真实网页检索基准上超越业内同类产品。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "向量模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "向量化输入",
+                "amount": 0.1,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "大规模网页级密集检索",
+          "description": "海量互联网文档索引构建、上下文感知二次召回与高精度企业级 RAG 检索。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Perplexity Releases New SOTA Embedding Model Families - Create With",
+          "url": "https://www.createwith.com/tool/perplexity/updates/perplexity-releases-new-sota-embedding-model-families-for-web-scale-retrieval"
+        },
+        {
+          "title": "What We Shipped - Perplexity Changelog",
+          "url": "https://www.perplexity.ai/changelog/what-we-shipped---february-27-2026"
+        }
+      ],
+      "release_date": "2026-08-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:perplexity-computer",
+      "vendor_key": "perplexity",
+      "detail_kind": "tool",
+      "title": "Perplexity Computer",
+      "vendor_label": "Perplexity",
+      "icon": "💻",
+      "official_url": "https://www.perplexity.ai/computer",
+      "status": "active",
+      "summary": "Perplexity Computer 是官方推出的统一 AI 协同工作空间，可协调 19 款顶级前沿大模型进行项目全链路调研、代码开发、设计与部署交付。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "工作区平台工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "工作区平台工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "多智能体协同项目研发",
+          "description": "从单一会话跨模型编排任务、端到端自动化调研与全栈工程落地管理。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Perplexity Computer, Perplexity on Samsung Galaxy S26 - Perplexity Changelog",
+          "url": "https://www.perplexity.ai/changelog/what-we-shipped---february-27-2026"
+        }
+      ],
+      "last_updated_date": "2026-06-25",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:perplexity-pro",
+      "vendor_key": "perplexity",
+      "detail_kind": "subscription_plan",
+      "title": "Perplexity Pro",
+      "vendor_label": "Perplexity",
+      "icon": "💳",
+      "official_url": "https://www.perplexity.ai/pro",
+      "status": "active",
+      "summary": "Perplexity 官方个人专业会员，每月提供 300+ 次 Pro 深度搜索、无限制模型切换（包含 Sonar Pro、Claude 3.7、GPT-4o）、多文件 Spaces 及每月 $5 API Credits。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 20,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月付 $20.00（年付 $200.00 折合 $16.67/月）；每天 300+ 次 Pro 深度检索；自由切换顶级模型；每月赠送 $5 API 额度。",
+        "included_models": [
+          "Sonar Pro",
+          "Sonar Reasoning Pro",
+          "Sonar Deep Research",
+          "Claude 3.7 Sonnet",
+          "GPT-4o"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业研究者与极客",
+          "description": "高频学术研究、实时深度事实查证、多格式文件上传分析与自由模型对比。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Perplexity Pricing 2026 - Suprmind",
+          "url": "https://suprmind.ai/hub/perplexity/pricing"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:perplexity-enterprise-pro",
+      "vendor_key": "perplexity",
+      "detail_kind": "subscription_plan",
+      "title": "Perplexity Enterprise Pro",
+      "vendor_label": "Perplexity",
+      "icon": "💳",
+      "official_url": "https://www.perplexity.ai/enterprise",
+      "status": "active",
+      "summary": "Perplexity 官方企业专业版订阅，提供企业级 SOC2 认证安全保障、严格数据隔离隐私保护、统一团队单点登录（SSO）与无限共享知识库 Spaces。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 40,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "单席位月付 $40.00；严格保证企业搜索与上传数据绝不用于模型训练；包含 SOC2 认证、用户目录与集中控制台。",
+        "included_models": [
+          "All Pro Models",
+          "Enterprise Search",
+          "Internal Knowledge Spaces"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业级合规与知识共享",
+          "description": "跨部门知识协同、严格数据合规隔离与组织统一权限管理。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Perplexity Enterprise",
+          "url": "https://www.perplexity.ai/enterprise"
+        }
+      ],
+      "theme": "general"
     }
   ]
 }
