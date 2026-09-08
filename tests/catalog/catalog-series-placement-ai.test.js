@@ -167,7 +167,7 @@ test('resolve：政策覆盖的通用 LLM 确定性判定（零 AI）→ decisio
   assert.equal(result.target_mode, 'existing');
   assert.equal(result.target_level2_id, 'vendor-level2:cohere:command');
   assert.equal(result.source, 'policy');
-  assert.equal(result.target_level2_title, 'Command 模型');
+  assert.equal(result.target_level2_title, 'Command 文本与推理模型');
 });
 
 test('resolve：目标系列未建 → decision create（组 key 取政策稳定段）', async () => {

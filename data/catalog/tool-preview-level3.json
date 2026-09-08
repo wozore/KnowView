@@ -2177,7 +2177,7 @@
             "unit": "per_1m_tokens",
             "input_uncached": 2.5,
             "output": 10,
-        "conditions": "Cohere 官方 API 价格：输入 $2.50/1M tokens，输出 $10.00/1M tokens。",
+            "conditions": "Cohere 官方 API 价格：输入 $2.50/1M tokens，输出 $10.00/1M tokens。",
             "input_cached": 0
           }
         ]
@@ -2234,21 +2234,39 @@
             "label": "Native Audio",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 10, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 10,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 VIDEO 2.6 指南：开启 Native Audio 按 10 Credits/s 计费；Voice Control 另加 2 Credits/s。"
           },
           {
             "label": "No Native Audio Professional",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 5, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 5,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 VIDEO 2.6 指南：关闭 Native Audio 的 Professional Mode 按 5 Credits/s 计费。"
           },
           {
             "label": "No Native Audio Standard",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 3, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 3,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 VIDEO 2.6 指南：关闭 Native Audio 的 Standard Mode 按 3 Credits/s 计费。"
           }
         ]
@@ -3009,35 +3027,65 @@
             "label": "Native Audio 1080p",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 12, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 12,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 VIDEO 3.0 指南：Native Audio 1080p 按 12 Credits/s 计费；Voice Control 另加 2 Credits/s。"
           },
           {
             "label": "Native Audio 720p",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 9, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 9,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 VIDEO 3.0 指南：Native Audio 720p 按 9 Credits/s 计费；Voice Control 另加 2 Credits/s。"
           },
           {
             "label": "No Native Audio 1080p",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 8, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 8,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 VIDEO 3.0 指南：关闭 Native Audio 的 1080p 模式按 8 Credits/s 计费。"
           },
           {
             "label": "No Native Audio 720p",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 6, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 6,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 VIDEO 3.0 指南：关闭 Native Audio 的 720p 模式按 6 Credits/s 计费。"
           },
           {
             "label": "Native 4K",
             "pricing_basis": "per second",
             "currency": "CREDIT",
-            "metrics": [{ "label": "生成时长", "amount": 30, "unit": "credit/second" }],
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 30,
+                "unit": "credit/second"
+              }
+            ],
             "conditions": "官方 Kling 3.0 Credit Cost 指南：Native 4K 为 30 credits/second 的规划参考，实际费用以生成面板为准。"
           }
         ]
@@ -3618,6 +3666,532 @@
       "model_key": "moonshot-kimi-k2.6"
     },
     {
+      "vendor_key": "moonshot",
+      "detail_kind": "api_model",
+      "title": "Kimi K2.7 Code",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "official_url": "https://platform.kimi.com/",
+      "status": "active",
+      "summary": "Kimi K2.7 Code 是面向代码场景的编程模型，支持文本、图片与视频输入、思考模式和 256K 上下文窗口。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "上下文窗口为256K，不支持1M上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "kimi-k2.7-code",
+            "pricing_basis": "per_token",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入（缓存命中）",
+                "amount": 1.3,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输入（缓存未命中）",
+                "amount": 6.5,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 27,
+                "unit": "per_1M_tokens"
+              }
+            ],
+            "conditions": "按每1M tokens计费，区分缓存命中与未命中价格。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂代码生成",
+          "description": "适合生成多文件项目代码，利用长上下文保持一致性。"
+        },
+        {
+          "title": "代码审查与修复",
+          "description": "处理大段代码，结合思考模式提供深度修复建议。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "实时交互场景",
+          "description": "默认版速度可能不够快，不适合实时聊天或低延迟应用。"
+        },
+        {
+          "title": "超长文档处理",
+          "description": "上下文仅256K，不适合超过此长度的内容。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi K2.7 Code - Kimi API 开放平台",
+          "url": "https://platform.kimi.com/"
+        },
+        {
+          "title": "编程模型Kimi K2.7 Code 定价",
+          "url": "https://platform.kimi.com/docs/pricing/chat-k27-code"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:kimi-k2.7-code",
+      "release_date": "2026-06-12",
+      "model_key": "moonshot-kimi-k2.7-code"
+    },
+    {
+      "vendor_key": "moonshot",
+      "detail_kind": "api_model",
+      "title": "Kimi K2.7 Code HighSpeed",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "official_url": "https://platform.kimi.com/",
+      "status": "active",
+      "summary": "Kimi K2.7 Code HighSpeed 是 K2.7 Code 的高速 API 版本，保持相同编程能力与 256K 上下文，输出速度约为普通版的 5–6 倍。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "上下文窗口为256K，不支持1M上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "kimi-k2.7-code-highspeed",
+            "pricing_basis": "per_token",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入（缓存命中）",
+                "amount": 2.6,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输入（缓存未命中）",
+                "amount": 13,
+                "unit": "per_1M_tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 54,
+                "unit": "per_1M_tokens"
+              }
+            ],
+            "conditions": "按每1M tokens计费，区分缓存命中与未命中价格；高速版资源逐步增量开放，实际可用性以官方平台为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "低延迟代码生成",
+          "description": "适合需要更快输出反馈的交互式编程任务。"
+        },
+        {
+          "title": "高速 Agent 编程",
+          "description": "适合多步工具调用和连续代码修改工作流。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "成本敏感场景",
+          "description": "缓存命中、未命中和输出单价均高于普通版，应先评估吞吐收益。"
+        },
+        {
+          "title": "需要百万上下文",
+          "description": "上下文窗口为256K，超过范围的任务不适用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi K2.7 Code - Kimi API 开放平台",
+          "url": "https://platform.kimi.com/"
+        },
+        {
+          "title": "模型列表",
+          "url": "https://platform.kimi.com/docs/models"
+        },
+        {
+          "title": "编程模型 Kimi K2.7 Code 定价",
+          "url": "https://platform.kimi.com/docs/pricing/chat-k27-code"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:kimi-k2.7-code-highspeed",
+      "release_date": "2026-07-09",
+      "model_key": "moonshot-kimi-k2.7-code-highspeed"
+    },
+    {
+      "vendor_key": "moonshot",
+      "detail_kind": "tool",
+      "title": "Kimi Code",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🧑‍💻",
+      "official_url": "https://www.kimi.com/code/en",
+      "status": "active",
+      "summary": "Kimi 官方 CLI 编程 Agent，支持代码阅读、文件编辑、命令执行和多步骤开发任务，并可接入 VS Code 与第三方开发工具。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "终端 Agent 编程",
+          "description": "通过 Kimi Code CLI 读取代码、编辑文件、执行命令并推进开发任务。"
+        },
+        {
+          "title": "VS Code 协作开发",
+          "description": "在 VS Code 入口中使用同一 Kimi Code 工具完成代码补全、编辑和自动化任务。"
+        },
+        {
+          "title": "第三方开发工具接入",
+          "description": "可通过官方 Kimi Code API Key 接入兼容的开发工具和平台。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "非编程主任务",
+          "description": "该工具定位为开发者编程服务，不作为通用聊天或独立图像/视频生成工具。"
+        },
+        {
+          "title": "无会员额度的使用",
+          "description": "Kimi Code 会员额度、限流和 Extra Usage 规则以官方账户页面为准。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi Code",
+          "url": "https://www.kimi.com/code/en"
+        },
+        {
+          "title": "Kimi Code 官方文档",
+          "url": "https://www.kimi.com/code/docs/en/"
+        },
+        {
+          "title": "Kimi Code 会员权益",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:kimi-code",
+      "last_updated_date": "2026-09-08"
+    },
+    {
+      "vendor_key": "moonshot",
+      "detail_kind": "tool",
+      "title": "Kimi Work",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🗂️",
+      "official_url": "https://www.kimi.com/en/help/kimi-work/overview",
+      "status": "active",
+      "summary": "Kimi 面向知识工作者的官方 Agent 工具，在 Mac/Windows 桌面端处理本地文件、浏览器操作、数据分析和长任务交付。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "本地文件处理",
+          "description": "在桌面端读取和整理本地文件，生成文档、表格和演示文稿。"
+        },
+        {
+          "title": "知识工作自动化",
+          "description": "通过 Work 模式拆解任务、调用工具并交付长流程工作结果。"
+        },
+        {
+          "title": "浏览器与桌面协作",
+          "description": "使用内置浏览器和本地工作区完成多步骤资料整理。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "纯模型 API 集成",
+          "description": "Kimi Work 是桌面 Agent 工具，需要模型 API 的开发者应使用 Kimi Open Platform。"
+        },
+        {
+          "title": "电脑长期关闭",
+          "description": "本地定时任务依赖客户端运行，休眠或关闭期间不会追赶执行。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi Work 官方说明",
+          "url": "https://www.kimi.com/en/help/kimi-work/overview"
+        },
+        {
+          "title": "Kimi Work 常见问题",
+          "url": "https://www.kimi.com/en/help/kimi-work/kimi-work-faq"
+        }
+      ],
+      "theme": "dev",
+      "id": "tool-level3:kimi-work",
+      "last_updated_date": "2026-09-08"
+    },
+    {
+      "id": "tool-level3:kimi-membership-andante",
+      "vendor_key": "moonshot",
+      "detail_kind": "subscription_plan",
+      "title": "Kimi 会员 Andante",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "💳",
+      "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
+      "status": "active",
+      "summary": "Kimi 会员 Andante 计划，定位为日常使用，Kimi Work 可作为会员产品权益使用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 49,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "included_models": [
+          "Kimi Work"
+        ],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "日常使用",
+          "description": "适合日常使用及其对应的 Kimi 会员功能使用。"
+        },
+        {
+          "title": "Kimi Work",
+          "description": "可使用 Kimi Work 官方 Agent 工具，具体额度和限流按会员规则执行。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 计费需求",
+          "description": "Open Platform API 采用独立按量计费，不由本套餐金额替代。"
+        },
+        {
+          "title": "未确认的年付金额",
+          "description": "年付金额以官方账户页面当前展示为准。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi 会员套餐价格与权益",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi 会员权益说明",
+          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:kimi-membership-moderato",
+      "vendor_key": "moonshot",
+      "detail_kind": "subscription_plan",
+      "title": "Kimi 会员 Moderato",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "💳",
+      "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
+      "status": "active",
+      "summary": "Kimi 会员 Moderato 计划，定位为效率升级，Kimi Work 可作为会员产品权益使用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 99,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "included_models": [
+          "Kimi Work"
+        ],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "效率升级",
+          "description": "适合效率升级及其对应的 Kimi 会员功能使用。"
+        },
+        {
+          "title": "Kimi Work",
+          "description": "可使用 Kimi Work 官方 Agent 工具，具体额度和限流按会员规则执行。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 计费需求",
+          "description": "Open Platform API 采用独立按量计费，不由本套餐金额替代。"
+        },
+        {
+          "title": "未确认的年付金额",
+          "description": "年付金额以官方账户页面当前展示为准。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi 会员套餐价格与权益",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi 会员权益说明",
+          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:kimi-membership-allegretto",
+      "vendor_key": "moonshot",
+      "detail_kind": "subscription_plan",
+      "title": "Kimi 会员 Allegretto",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "💳",
+      "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
+      "status": "active",
+      "summary": "Kimi 会员 Allegretto 计划，定位为专业优选，Kimi Work 可作为会员产品权益使用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 199,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "included_models": [
+          "Kimi Work"
+        ],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业优选",
+          "description": "适合专业优选及其对应的 Kimi 会员功能使用。"
+        },
+        {
+          "title": "Kimi Work",
+          "description": "可使用 Kimi Work 官方 Agent 工具，具体额度和限流按会员规则执行。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 计费需求",
+          "description": "Open Platform API 采用独立按量计费，不由本套餐金额替代。"
+        },
+        {
+          "title": "未确认的年付金额",
+          "description": "年付金额以官方账户页面当前展示为准。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi 会员套餐价格与权益",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi 会员权益说明",
+          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:kimi-membership-allegro",
+      "vendor_key": "moonshot",
+      "detail_kind": "subscription_plan",
+      "title": "Kimi 会员 Allegro",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "💳",
+      "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
+      "status": "active",
+      "summary": "Kimi 会员 Allegro 计划，定位为全能尊享，Kimi Work 可作为会员产品权益使用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 699,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "included_models": [
+          "Kimi Work"
+        ],
+        "included_models_status": "partial"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "全能尊享",
+          "description": "适合全能尊享及其对应的 Kimi 会员功能使用。"
+        },
+        {
+          "title": "Kimi Work",
+          "description": "可使用 Kimi Work 官方 Agent 工具，具体额度和限流按会员规则执行。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 计费需求",
+          "description": "Open Platform API 采用独立按量计费，不由本套餐金额替代。"
+        },
+        {
+          "title": "未确认的年付金额",
+          "description": "年付金额以官方账户页面当前展示为准。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kimi 会员套餐价格与权益",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi 会员权益说明",
+          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
       "vendor_key": "alibaba",
       "detail_kind": "api_model",
       "title": "Qwen3.8 Max",
@@ -4075,12 +4649,12 @@
             "metrics": [
               {
                 "label": "输入",
-                "amount": 1e-06,
+                "amount": 0.000001,
                 "unit": "元/token"
               },
               {
                 "label": "输出",
-                "amount": 2e-06,
+                "amount": 0.000002,
                 "unit": "元/token"
               }
             ],
@@ -4831,170 +5405,6 @@
       ],
       "theme": "general",
       "id": "tool-level3:deepseek-v4-flash-vision-exp"
-    },
-    {
-      "vendor_key": "moonshot",
-      "detail_kind": "api_model",
-      "title": "Kimi K2.7 Code",
-      "vendor_label": "月之暗面（Kimi）",
-      "icon": "🤖",
-      "official_url": "https://platform.kimi.com/docs/pricing/chat-k27-code",
-      "status": "active",
-      "summary": "Kimi K2.7 Code 是面向代码场景的编程模型，支持文本、图片与视频输入、思考模式和 256K 上下文窗口。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "上下文窗口为256K，不支持1M上下文。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "kimi-k2.7-code",
-            "pricing_basis": "per_token",
-            "currency": "CNY",
-            "metrics": [
-              {
-                "label": "输入（缓存命中）",
-                "amount": 1.3,
-                "unit": "per_1M_tokens"
-              },
-              {
-                "label": "输入（缓存未命中）",
-                "amount": 6.5,
-                "unit": "per_1M_tokens"
-              },
-              {
-                "label": "输出",
-                "amount": 27,
-                "unit": "per_1M_tokens"
-              }
-            ],
-            "conditions": "按每1M tokens计费，区分缓存命中与未命中价格。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "复杂代码生成",
-          "description": "适合生成多文件项目代码，利用长上下文保持一致性。"
-        },
-        {
-          "title": "代码审查与修复",
-          "description": "处理大段代码，结合思考模式提供深度修复建议。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "实时交互场景",
-          "description": "默认版速度可能不够快，不适合实时聊天或低延迟应用。"
-        },
-        {
-          "title": "超长文档处理",
-          "description": "上下文仅256K，不适合超过此长度的内容。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Kimi K2.7 Code - Kimi API 开放平台",
-          "url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart"
-        },
-        {
-          "title": "编程模型Kimi K2.7 Code 定价",
-          "url": "https://platform.kimi.com/docs/pricing/chat-k27-code"
-        }
-      ],
-      "theme": "general",
-      "id": "tool-level3:kimi-k2.7-code",
-      "release_date": "2026-06-12",
-      "model_key": "moonshot-kimi-k2.7-code"
-    },
-    {
-      "vendor_key": "moonshot",
-      "detail_kind": "api_model",
-      "title": "Kimi K2.7 Code HighSpeed",
-      "vendor_label": "月之暗面（Kimi）",
-      "icon": "🤖",
-      "official_url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart",
-      "status": "active",
-      "summary": "Kimi K2.7 Code HighSpeed 是 K2.7 Code 的高速 API 版本，保持相同编程能力与 256K 上下文，输出速度约为普通版的 5–6 倍。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "上下文窗口为256K，不支持1M上下文。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "kimi-k2.7-code-highspeed",
-            "pricing_basis": "per_token",
-            "currency": "CNY",
-            "metrics": [
-              {
-                "label": "输入（缓存命中）",
-                "amount": 2.6,
-                "unit": "per_1M_tokens"
-              },
-              {
-                "label": "输入（缓存未命中）",
-                "amount": 13,
-                "unit": "per_1M_tokens"
-              },
-              {
-                "label": "输出",
-                "amount": 54,
-                "unit": "per_1M_tokens"
-              }
-            ],
-            "conditions": "按每1M tokens计费，区分缓存命中与未命中价格；高速版资源逐步增量开放，实际可用性以官方平台为准。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "低延迟代码生成",
-          "description": "适合需要更快输出反馈的交互式编程任务。"
-        },
-        {
-          "title": "高速 Agent 编程",
-          "description": "适合多步工具调用和连续代码修改工作流。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "成本敏感场景",
-          "description": "缓存命中、未命中和输出单价均高于普通版，应先评估吞吐收益。"
-        },
-        {
-          "title": "需要百万上下文",
-          "description": "上下文窗口为256K，超过范围的任务不适用。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "Kimi K2.7 Code - Kimi API 开放平台",
-          "url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart"
-        },
-        {
-          "title": "模型列表",
-          "url": "https://platform.kimi.com/docs/models"
-        },
-        {
-          "title": "编程模型 Kimi K2.7 Code 定价",
-          "url": "https://platform.kimi.com/docs/pricing/chat-k27-code"
-        }
-      ],
-      "theme": "general",
-      "id": "tool-level3:kimi-k2.7-code-highspeed",
-      "release_date": "2026-07-09",
-      "model_key": "moonshot-kimi-k2.7-code-highspeed"
     },
     {
       "vendor_key": "alibaba",
@@ -8939,11 +9349,22 @@
         "currency": "USD",
         "billing_period": "month",
         "regional_prices": [
-          { "region": "海外平台", "amount": 22, "currency": "USD" },
-          { "region": "中国大陆平台", "amount": 49, "currency": "CNY" }
+          {
+            "region": "海外平台",
+            "amount": 22,
+            "currency": "USD"
+          },
+          {
+            "region": "中国大陆平台",
+            "amount": 49,
+            "currency": "CNY"
+          }
         ],
         "conditions": "地区价格：海外平台 $22/月；中国大陆平台 ¥49/月。两地均为 5 小时窗口与周窗口，约支持 3–4 个 Agent。可用资源以对应地区平台和账户页面为准。",
-        "included_models": ["MiniMax M3", "MiniMax M2.7"],
+        "included_models": [
+          "MiniMax M3",
+          "MiniMax M2.7"
+        ],
         "included_models_status": "partial"
       },
       "applicable_scenarios": [
@@ -8992,11 +9413,22 @@
         "currency": "USD",
         "billing_period": "month",
         "regional_prices": [
-          { "region": "海外平台", "amount": 55, "currency": "USD" },
-          { "region": "中国大陆平台", "amount": 119, "currency": "CNY" }
+          {
+            "region": "海外平台",
+            "amount": 55,
+            "currency": "USD"
+          },
+          {
+            "region": "中国大陆平台",
+            "amount": 119,
+            "currency": "CNY"
+          }
         ],
         "conditions": "地区价格：海外平台 $55/月；中国大陆平台 ¥119/月。两地均为 5 小时窗口与周窗口，约支持 4–5 个 Agent。可用资源以对应地区平台和账户页面为准。",
-        "included_models": ["MiniMax M3", "MiniMax M2.7"],
+        "included_models": [
+          "MiniMax M3",
+          "MiniMax M2.7"
+        ],
         "included_models_status": "partial"
       },
       "applicable_scenarios": [
@@ -9045,11 +9477,22 @@
         "currency": "USD",
         "billing_period": "month",
         "regional_prices": [
-          { "region": "海外平台", "amount": 132, "currency": "USD" },
-          { "region": "中国大陆平台", "amount": 469, "currency": "CNY" }
+          {
+            "region": "海外平台",
+            "amount": 132,
+            "currency": "USD"
+          },
+          {
+            "region": "中国大陆平台",
+            "amount": 469,
+            "currency": "CNY"
+          }
         ],
         "conditions": "地区价格：海外平台 $132/月；中国大陆平台 ¥469/月。两地均为 5 小时窗口与周窗口，约支持 6–7 个 Agent。可用资源以对应地区平台和账户页面为准。",
-        "included_models": ["MiniMax M3", "MiniMax M2.7"],
+        "included_models": [
+          "MiniMax M3",
+          "MiniMax M2.7"
+        ],
         "included_models_status": "partial"
       },
       "applicable_scenarios": [
@@ -10198,29 +10641,53 @@
       "official_url": "https://x.ai/pricing",
       "status": "active",
       "summary": "xAI 面向个人用户的基础 SuperGrok 订阅，提供 Grok 4.6、Grok Bot 和更高的全产品使用上限。",
-      "one_m_context": { "status": "not_applicable", "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。" },
-      "api_pricing": { "status": "not_applicable", "reason": "当前记录不是按模型 API 计价。" },
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录是订阅套餐，不使用文本模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录不是按模型 API 计价。"
+      },
       "plan": {
         "amount": 30,
         "currency": "USD",
         "billing_period": "month",
         "conditions": "官方价格页公开月付 $30；付费产品共享 weekly usage pool，Build、Chat、Imagine、Voice 等消耗同一周额度；API 账单另按 API 规则处理。",
-        "included_models": ["Grok 4.6"],
+        "included_models": [
+          "Grok 4.6"
+        ],
         "included_models_status": "partial"
       },
       "applicable_scenarios": [
-        { "title": "日常高级 Grok 使用", "description": "适合需要 Grok 4.6、实时搜索、图像/视频生成和更高使用上限的个人用户。" },
-        { "title": "轻度编程与 Agent 工作流", "description": "可使用 Grok Build 与 Grok Bot，适合一般代码和多步骤工作任务。" }
+        {
+          "title": "日常高级 Grok 使用",
+          "description": "适合需要 Grok 4.6、实时搜索、图像/视频生成和更高使用上限的个人用户。"
+        },
+        {
+          "title": "轻度编程与 Agent 工作流",
+          "description": "可使用 Grok Build 与 Grok Bot，适合一般代码和多步骤工作任务。"
+        }
       ],
       "inapplicable_scenarios": [
-        { "title": "高强度长任务", "description": "长时间编码和复杂 Agent 任务会较快消耗共享周额度，应考虑更高档位或额外用量。" }
+        {
+          "title": "高强度长任务",
+          "description": "长时间编码和复杂 Agent 任务会较快消耗共享周额度，应考虑更高档位或额外用量。"
+        }
       ],
       "sources": [
-        { "title": "xAI Pricing", "url": "https://x.ai/pricing" },
-        { "title": "Grok Bot", "url": "https://x.ai/bot" }
+        {
+          "title": "xAI Pricing",
+          "url": "https://x.ai/pricing"
+        },
+        {
+          "title": "Grok Bot",
+          "url": "https://x.ai/bot"
+        }
       ],
       "id": "tool-level3:xai-supergrok"
-    },    {
+    },
+    {
       "vendor_key": "xai",
       "detail_kind": "subscription_plan",
       "title": "SuperGrok Plus",
@@ -10242,7 +10709,9 @@
         "currency": "USD",
         "billing_period": "month",
         "conditions": "官方价格页公开月付 100 USD；相较 SuperGrok 提供显著更高的 Chat、Imagine、Voice、Build 用量、1080p 视频、优先访问和更快响应。",
-        "included_models": ["Grok 4.6"],
+        "included_models": [
+          "Grok 4.6"
+        ],
         "included_models_status": "partial"
       },
       "applicable_scenarios": [
@@ -10268,7 +10737,8 @@
         }
       ],
       "id": "tool-level3:xai-supergrok-plus"
-    },    {
+    },
+    {
       "vendor_key": "xai",
       "detail_kind": "subscription_plan",
       "title": "SuperGrok Heavy",
@@ -10290,7 +10760,10 @@
         "currency": "USD",
         "billing_period": "month",
         "conditions": "按当前 SuperGrok Heavy 套餐价格记录为 300 USD/月；官方将其定位为最高用量、最快速度和最强智能，具体额度、地区和促销以账户订阅页为准。",
-        "included_models": ["Grok 4.6", "Grok 4 Heavy"],
+        "included_models": [
+          "Grok 4.6",
+          "Grok 4 Heavy"
+        ],
         "included_models_status": "partial"
       },
       "applicable_scenarios": [
@@ -10324,7 +10797,8 @@
         }
       ],
       "id": "tool-level3:xai-supergrok-heavy"
-    },    {
+    },
+    {
       "vendor_key": "xai",
       "detail_kind": "api_model",
       "title": "Grok 4.6",
@@ -13261,6 +13735,1375 @@
       ],
       "theme": "dev",
       "id": "tool-level3:mistral-plan-enterprise"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "api_model",
+      "title": "Kling VIDEO 3.0 Omni",
+      "vendor_label": "可灵",
+      "icon": "🎬",
+      "official_url": "https://kling.ai/quickstart/klingai-video-3-omni-model-user-guide",
+      "status": "active",
+      "summary": "Kling VIDEO 3.0 Omni 是面向参考驱动创作的统一多模态视频模型，支持视频元素、角色声音、多镜头叙事和原生音频。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "视频模型不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Native Audio 1080p（无视频输入）",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 12,
+                "unit": "credit/second"
+              }
+            ],
+            "conditions": "官方 VIDEO 3.0 Omni 指南：无视频输入、开启 Native Audio 为 12 Credits/s。"
+          },
+          {
+            "label": "Native Audio 720p（无视频输入）",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 9,
+                "unit": "credit/second"
+              }
+            ],
+            "conditions": "官方 VIDEO 3.0 Omni 指南：无视频输入、开启 Native Audio 为 9 Credits/s。"
+          },
+          {
+            "label": "No Native Audio 1080p（无视频输入）",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 8,
+                "unit": "credit/second"
+              }
+            ],
+            "conditions": "官方 VIDEO 3.0 Omni 指南：无视频输入、关闭 Native Audio 为 8 Credits/s。"
+          },
+          {
+            "label": "No Native Audio 720p（无视频输入）",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 6,
+                "unit": "credit/second"
+              }
+            ],
+            "conditions": "官方 VIDEO 3.0 Omni 指南：无视频输入、关闭 Native Audio 为 6 Credits/s。"
+          },
+          {
+            "label": "No Native Audio 1080p（有视频输入）",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 16,
+                "unit": "credit/second"
+              }
+            ],
+            "conditions": "官方 VIDEO 3.0 Omni 指南：有视频输入、关闭 Native Audio 为 16 Credits/s；有视频输入时原生音频暂不支持。"
+          },
+          {
+            "label": "No Native Audio 720p（有视频输入）",
+            "pricing_basis": "per second",
+            "currency": "CREDIT",
+            "metrics": [
+              {
+                "label": "生成时长",
+                "amount": 12,
+                "unit": "credit/second"
+              }
+            ],
+            "conditions": "官方 VIDEO 3.0 Omni 指南：有视频输入、关闭 Native Audio 为 12 Credits/s；有视频输入时原生音频暂不支持。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "参考驱动视频创作",
+          "description": "使用图片、视频、元素和声音参考生成多镜头叙事视频。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "有视频输入且必须原生音频",
+          "description": "官方指南当前不支持有视频输入时开启原生音频。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling VIDEO 3.0 Omni Model User Guide",
+          "url": "https://kling.ai/quickstart/klingai-video-3-omni-model-user-guide"
+        },
+        {
+          "title": "Kling VIDEO 3.0 Omni API",
+          "url": "https://kling.ai/document-api/api/video/3-0-omni/video-omni"
+        },
+        {
+          "title": "Kuaishou Kling 3.0 launch",
+          "url": "https://ir.kuaishou.com/news-releases/news-release-details/kling-ai-launches-30-model-ushering-era-where-everyone-can-be"
+        }
+      ],
+      "release_date": "2026-02-05",
+      "theme": "media",
+      "model_key": "kuaishou-kling-3.0-omni",
+      "id": "tool-level3:kling-3-0-omni"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "product_variant",
+      "title": "Kling IMAGE 3.0",
+      "vendor_label": "可灵",
+      "icon": "🖼️",
+      "official_url": "https://kling.ai/quickstart/klingai-image-3-model-user-guide",
+      "status": "active",
+      "summary": "Kling IMAGE 3.0 是图像生成与编辑模型，支持最多 10 张参考图、对象修改、风格迁移和一致性创作。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像产品不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品以当前 Kling 生成面板和 Credits 规则计费，尚未登记独立 API 费率。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "图像生成与编辑",
+          "description": "从文本或参考图生成、修改和重绘图像。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要独立 API 价格核算",
+          "description": "当前官方资料未提供独立于产品 Credits 的明确 API 费率。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling IMAGE 3.0 Model User Guide",
+          "url": "https://kling.ai/quickstart/klingai-image-3-model-user-guide"
+        },
+        {
+          "title": "Kling IMAGE 3.0 product page",
+          "url": "https://kling.ai/app/image/"
+        }
+      ],
+      "release_date": "2026-02-04",
+      "theme": "vision",
+      "id": "tool-level3:kling-image-3-0"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "product_variant",
+      "title": "Kling IMAGE 3.0 Omni",
+      "vendor_label": "可灵",
+      "icon": "🖼️",
+      "official_url": "https://kling.ai/quickstart/klingai-image-3-omni-user-guide",
+      "status": "active",
+      "summary": "Kling IMAGE 3.0 Omni 支持图像系列、图像编辑、多参考图和原生 2K/4K 输出，面向电影分镜、产品视觉与角色设计。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像产品不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品以当前 Kling 生成面板和 Credits 规则计费，尚未登记独立 API 费率。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "连续图像与 4K 分镜",
+          "description": "生成保持角色、产品和风格一致的图像系列及高分辨率视觉素材。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要独立 API 价格核算",
+          "description": "当前官方资料未提供独立于产品 Credits 的明确 API 费率。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling IMAGE 3.0 Omni User Guide",
+          "url": "https://kling.ai/quickstart/klingai-image-3-omni-user-guide"
+        },
+        {
+          "title": "Kling IMAGE 3.0 Omni API",
+          "url": "https://kling.ai/document-api/api/image/3-0-omni/image-generation"
+        },
+        {
+          "title": "Kling IMAGE 3.0 Omni product page",
+          "url": "https://kling.ai/app/omni/new?ac=2&klingVersion=3.0-omni&model=image"
+        }
+      ],
+      "release_date": "2026-02-06",
+      "theme": "vision",
+      "id": "tool-level3:kling-image-3-0-omni"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "tool",
+      "theme": "media",
+      "title": "Kling Motion Control",
+      "vendor_label": "可灵",
+      "icon": "🎥",
+      "official_url": "https://kling.ai/quickstart/motion-control-user-guide",
+      "status": "active",
+      "summary": "Kling Motion Control 使用动作参考视频驱动角色图像，支持角色动作、表情和镜头方向控制。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前工具不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方工具按模型与模式消耗 Credits，不登记独立 API 费率。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "角色动作迁移",
+          "description": "用动作参考视频驱动角色图片，制作表演、舞蹈和短视频素材。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "逐帧动画制作",
+          "description": "工具由模型生成连续结果，不替代逐帧动画编辑器。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling Motion Control User Guide",
+          "url": "https://kling.ai/quickstart/motion-control-user-guide"
+        }
+      ],
+      "last_updated_date": "2026-03-05",
+      "id": "tool-level3:kling-motion-control"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "tool",
+      "theme": "media",
+      "title": "Kling Avatar 2.0",
+      "vendor_label": "可灵",
+      "icon": "🧑‍🎤",
+      "official_url": "https://kling.ai/quickstart/kling-ai-avatar-2-user-guide",
+      "status": "active",
+      "summary": "Kling Avatar 2.0 以头像图像、语音和提示词生成口播数字人视频，支持标准与专业模式。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前工具不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方工具按视频时长和模式消耗 Credits，不登记独立 API 费率。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "数字人口播",
+          "description": "使用头像、语音和表演提示生成讲解、营销和教育视频。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "纯音频生成",
+          "description": "Avatar 2.0 的核心输出是带头像表演的视频。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling AI Avatar 2.0 User Guide",
+          "url": "https://kling.ai/quickstart/kling-ai-avatar-2-user-guide"
+        }
+      ],
+      "last_updated_date": "2025-12-05",
+      "id": "tool-level3:kling-avatar-2"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "tool",
+      "theme": "media",
+      "title": "Kling Element Library 3.0",
+      "vendor_label": "可灵",
+      "icon": "🧩",
+      "official_url": "https://kling.ai/quickstart/klingai-element-library-3-user-guide",
+      "status": "active",
+      "summary": "Kling Element Library 3.0 管理角色、物品、场景和声音元素，支持多参考图、视频角色和跨图像/视频复用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前工具不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "元素创建基础功能免费；AI 多视角补全按官方 Credits 规则计费。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "角色与产品一致性",
+          "description": "创建一次元素，在图像、视频和多镜头创作中反复复用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要通用素材管理平台",
+          "description": "该工具服务于 Kling 创作流程，不替代通用 DAM。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling Element Library User Guide",
+          "url": "https://kling.ai/quickstart/klingai-element-library-3-user-guide"
+        }
+      ],
+      "last_updated_date": "2026-02-05",
+      "id": "tool-level3:kling-element-library-3"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "tool",
+      "theme": "media",
+      "title": "Kling Sound Generation",
+      "vendor_label": "可灵",
+      "icon": "🔊",
+      "official_url": "https://kling.ai/",
+      "status": "active",
+      "summary": "Kling Sound Generation 提供文本生成音效和视频生成音效入口，支持音效、环境声及音画创作工作流。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前工具不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "官方产品以当前生成面板 Credits 规则计费，未登记独立 API 费率。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "短视频音效",
+          "description": "为视频生成环境声、动作音效和独立音效素材。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "完整音乐制作",
+          "description": "该入口面向音效和音画创作，不替代完整音乐 DAW。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling AI Platform Sound Generation",
+          "url": "https://kling.ai/"
+        },
+        {
+          "title": "Kling VIDEO 2.6 User Guide",
+          "url": "https://kling.ai/quickstart/klingai-video-26-audio-user-guide"
+        }
+      ],
+      "last_updated_date": "2025-12-16",
+      "id": "tool-level3:kling-sound-generation"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "tool",
+      "theme": "media",
+      "title": "Kling Image-to-Video",
+      "vendor_label": "可灵",
+      "icon": "🖼️",
+      "official_url": "https://kling.ai/quickstart/image-to-video-guide",
+      "status": "active",
+      "summary": "Kling Image-to-Video 将静态图片与运动提示转为视频，支持标准和专业模式以及多种画幅。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前工具不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "图生视频费用随模型、模式、分辨率和时长变化，以官方生成面板为准。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "静态图像动画化",
+          "description": "用主体与运动提示让产品图、角色图和照片产生自然动作。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要完整视频剪辑",
+          "description": "该入口负责图像到视频生成，不替代多轨视频编辑器。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling Image-to-Video Guide",
+          "url": "https://kling.ai/quickstart/image-to-video-guide"
+        },
+        {
+          "title": "Kling Image-to-Video API",
+          "url": "https://kling.ai/document-api/api/video/2-1/image-to-video"
+        }
+      ],
+      "last_updated_date": "2025-11-24",
+      "id": "tool-level3:kling-image-to-video"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "subscription_plan",
+      "title": "Kling 会员 Basic",
+      "vendor_label": "可灵",
+      "icon": "🎫",
+      "official_url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide",
+      "status": "active",
+      "summary": "Kling 基础免费会员，提供有限元素创建能力；生成内容不用于商业用途。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "套餐不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "套餐按会员权益和 Credits 计费。"
+      },
+      "plan": {
+        "amount": 0,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方页面显示免费 Basic；无月度 Credits，元素创建数量 30，生成内容不用于商业用途；权益可能变化。",
+        "included_models": [],
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "体验 Kling 创作",
+          "description": "适合低频体验图像、视频和元素工具。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "商业生产",
+          "description": "官方页面注明免费档生成内容不用于商业用途。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling 3.0 Credit Cost Guide",
+          "url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:kling-membership-basic"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "subscription_plan",
+      "title": "Kling 会员 Standard",
+      "vendor_label": "可灵",
+      "icon": "🎫",
+      "official_url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide",
+      "status": "active",
+      "summary": "Kling Standard 会员，提供月度 Credits、1080p 视频、图像放大和商业使用权益。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "套餐不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "套餐按会员权益和 Credits 计费。"
+      },
+      "plan": {
+        "amount": 6.99,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方页面显示首月/可见优惠 $6.99（页面显示 $10，续费示例 $8.8）；660 Credits/月；价格和权益动态，以官方套餐页为准。",
+        "included_models": [],
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "常规内容生产",
+          "description": "适合需要 1080p、图像放大和商业使用的个人创作者。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "高量团队生产",
+          "description": "月度 Credits 和并发权益有限，团队应核对更高档位。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling 3.0 Credit Cost Guide",
+          "url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:kling-membership-standard"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "subscription_plan",
+      "title": "Kling 会员 Pro",
+      "vendor_label": "可灵",
+      "icon": "🎫",
+      "official_url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide",
+      "status": "active",
+      "summary": "Kling Pro 会员，提供更大的月度 Credits、1080p 视频、商业使用和新功能优先访问。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "套餐不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "套餐按会员权益和 Credits 计费。"
+      },
+      "plan": {
+        "amount": 25.99,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方页面显示首月/可见优惠 $25.99（页面显示 $37，续费示例 $32.56）；3000 Credits/月；价格和权益动态，以官方套餐页为准。",
+        "included_models": [],
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业创作者",
+          "description": "适合高频视频、图像和元素创作，并需要商业使用权益的用户。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "低频体验",
+          "description": "低频使用可先选择免费或 Standard 档。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling 3.0 Credit Cost Guide",
+          "url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:kling-membership-pro"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "subscription_plan",
+      "title": "Kling 会员 Premier",
+      "vendor_label": "可灵",
+      "icon": "🎫",
+      "official_url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide",
+      "status": "active",
+      "summary": "Kling Premier 会员，提供 8000 Credits/月和更高创作额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "套餐不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "套餐按会员权益和 Credits 计费。"
+      },
+      "plan": {
+        "amount": 64.99,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方页面显示首月/可见优惠 $64.99（页面显示 $92，续费示例 $80.96）；8000 Credits/月；价格和权益动态，以官方套餐页为准。",
+        "included_models": [],
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高量个人创作",
+          "description": "适合需要大量视频、图像和元素生成的个人或小型创作团队。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "低量使用",
+          "description": "低量使用时月度 Credits 可能无法充分利用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling 3.0 Credit Cost Guide",
+          "url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:kling-membership-premier"
+    },
+    {
+      "vendor_key": "kuaishou",
+      "detail_kind": "subscription_plan",
+      "title": "Kling 会员 Ultra",
+      "vendor_label": "可灵",
+      "icon": "🎫",
+      "official_url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide",
+      "status": "active",
+      "summary": "Kling Ultra 会员，提供 26000 Credits/月、最高元素额度和新功能优先权益。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "套餐不使用文本上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "套餐按会员权益和 Credits 计费。"
+      },
+      "plan": {
+        "amount": 127.99,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "官方页面显示首月/可见优惠 $127.99（页面显示 $180，续费示例 $159.99）；26000 Credits/月；价格和权益动态，以官方套餐页为准。",
+        "included_models": [],
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高强度创作",
+          "description": "适合持续生成大量专业视频、图像、元素和 4K 素材的创作团队。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "偶发使用",
+          "description": "偶发使用不适合选择高额月度套餐。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Kling 3.0 Credit Cost Guide",
+          "url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide"
+        }
+      ],
+      "theme": "media",
+      "id": "tool-level3:kling-membership-ultra"
+    },
+    {
+      "id": "tool-level3:command-a-reasoning",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Command A Reasoning",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "status": "partial",
+      "summary": "Command A Reasoning 是 Cohere 的推理模型，面向复杂问题求解和 Agent 任务。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Command A Reasoning 是 Cohere 的推理模型，面向复杂问题求解和 Agent 任务。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-command-a-reasoning"
+    },
+    {
+      "id": "tool-level3:command-a-translate",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Command A Translate",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "status": "partial",
+      "summary": "Command A Translate 是面向 23 种语言翻译任务的 Command 模型。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Command A Translate 是面向 23 种语言翻译任务的 Command 模型。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-command-a-translate"
+    },
+    {
+      "id": "tool-level3:command-a-vision",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Command A Vision",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/v1/docs/command-a-vision",
+      "status": "partial",
+      "summary": "Command A Vision 支持图像输入、图表理解、OCR、文档问答和目标检测，不负责图像生成。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Command A Vision 支持图像输入、图表理解、OCR、文档问答和目标检测，不负责图像生成。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-command-a-vision"
+    },
+    {
+      "id": "tool-level3:north-mini-code-1-0",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "North Mini Code",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/north-mini-code-1.0",
+      "status": "partial",
+      "summary": "North Mini Code 是 Cohere 面向 Agent 编程和终端任务的模型；作为模型记录，不单独创建官方 Agent 工具。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "North Mini Code 是 Cohere 面向 Agent 编程和终端任务的模型；作为模型记录，不单独创建官方 Agent 工具。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-north-mini-code-1-0"
+    },
+    {
+      "id": "tool-level3:embed-v4.0",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Embed 4",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "status": "partial",
+      "summary": "Embed 4 支持文本、图像和混合文本/图像输入，用于 Embedding、分类和检索。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Embed 4 支持文本、图像和混合文本/图像输入，用于 Embedding、分类和检索。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-embed-v4.0"
+    },
+    {
+      "id": "tool-level3:embed-multilingual-v3.0",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Embed Multilingual 3",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "status": "partial",
+      "summary": "多语言文本和图像 Embedding 模型，服务于搜索、分类和 RAG。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "多语言文本和图像 Embedding 模型，服务于搜索、分类和 RAG。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-embed-multilingual-v3.0"
+    },
+    {
+      "id": "tool-level3:rerank-v4.0-pro",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Rerank 4 Pro",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/v2/docs/rerank",
+      "status": "partial",
+      "summary": "高质量多语言 Rerank 模型，支持文本和半结构化 JSON。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "高质量多语言 Rerank 模型，支持文本和半结构化 JSON。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-rerank-v4.0-pro"
+    },
+    {
+      "id": "tool-level3:rerank-v4.0-fast",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Rerank 4 Fast",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/v2/docs/rerank",
+      "status": "partial",
+      "summary": "低延迟、高吞吐的多语言 Rerank 模型。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "低延迟、高吞吐的多语言 Rerank 模型。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-rerank-v4.0-fast"
+    },
+    {
+      "id": "tool-level3:parse-v5.0",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Parse 5",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/v2/docs/parse",
+      "status": "partial",
+      "summary": "视觉文档解析模型，可从 PDF、PPT 和图片中提取文本、表格、表单与版面结构。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "视觉文档解析模型，可从 PDF、PPT 和图片中提取文本、表格、表单与版面结构。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-parse-v5.0"
+    },
+    {
+      "id": "tool-level3:cohere-transcribe-03-2026",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Cohere Transcribe",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "status": "partial",
+      "summary": "Cohere 的多语言语音转写模型，输入音频、输出文本。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Cohere 的多语言语音转写模型，输入音频、输出文本。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-transcribe-03-2026"
+    },
+    {
+      "id": "tool-level3:cohere-transcribe-arabic-07-2026",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Cohere Transcribe Arabic",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "status": "partial",
+      "summary": "面向阿拉伯语音频优化的语音识别模型。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "面向阿拉伯语音频优化的语音识别模型。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-transcribe-arabic-07-2026"
+    },
+    {
+      "id": "tool-level3:tiny-aya-global",
+      "vendor_key": "cohere",
+      "detail_kind": "api_model",
+      "title": "Tiny Aya Global",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "status": "partial",
+      "summary": "支持 70 种语言的轻量多语言生成模型。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "官方平台计费",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "官方模型页确认端点与能力；具体 API/Model Vault 价格以官方价格页和部署区域为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "支持 70 种语言的轻量多语言生成模型。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general",
+      "model_key": "cohere-tiny-aya-global"
+    },
+    {
+      "id": "tool-level3:cohere-north",
+      "vendor_key": "cohere",
+      "detail_kind": "product_variant",
+      "title": "North",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://cohere.com/north",
+      "status": "partial",
+      "summary": "Cohere 的企业级 Agent 工作空间，连接企业数据、文档和工作流。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "企业/实例定价",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "企业产品或 Model Vault 价格按官方报价、实例层级和合同条件为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Cohere 的企业级 Agent 工作空间，连接企业数据、文档和工作流。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:cohere-compass",
+      "vendor_key": "cohere",
+      "detail_kind": "product_variant",
+      "title": "Compass",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://cohere.com/products",
+      "status": "partial",
+      "summary": "Cohere 的企业搜索与发现产品，组合 Embed、Rerank 和 Parse。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "企业/实例定价",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "企业产品或 Model Vault 价格按官方报价、实例层级和合同条件为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Cohere 的企业搜索与发现产品，组合 Embed、Rerank 和 Parse。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:cohere-model-vault",
+      "vendor_key": "cohere",
+      "detail_kind": "product_variant",
+      "title": "Model Vault",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "official_url": "https://docs.cohere.com/docs/model-vault/standard/pricing",
+      "status": "partial",
+      "summary": "Cohere 的独立、托管模型部署平台，按实例和性能层计费。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "按官方模型页与对应端点说明展示。"
+      },
+      "api_pricing": {
+        "status": "provided",
+        "rate_cards": [
+          {
+            "label": "企业/实例定价",
+            "pricing_basis": "dynamic",
+            "currency": "USD",
+            "metrics": [],
+            "conditions": "企业产品或 Model Vault 价格按官方报价、实例层级和合同条件为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "官方产品能力",
+          "description": "Cohere 的独立、托管模型部署平台，按实例和性能层计费。"
+        }
+      ],
+      "inapplicable_scenarios": [],
+      "sources": [
+        {
+          "title": "Cohere Models",
+          "url": "https://docs.cohere.com/docs/models"
+        }
+      ],
+      "theme": "general"
     }
   ]
 }

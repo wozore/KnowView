@@ -138,18 +138,20 @@
     "cohere": {
       "vendor_name": "Cohere",
       "official_urls": [
-        "https://docs.cohere.com",
         "https://docs.cohere.com/docs/models",
-        "https://docs.cohere.com/v2/changelog",
-        "https://cohere.com/pricing"
+        "https://cohere.com/pricing",
+        "https://cohere.com/products",
+        "https://docs.cohere.com/docs/model-vault/standard/pricing"
       ],
       "model_prefixes": [
         "command",
         "embed-",
         "rerank-",
-        "cohere",
+        "parse-",
+        "cohere-",
         "tiny-aya",
-        "c4ai-aya"
+        "c4ai-aya",
+        "north-"
       ]
     },
     "tencent": {
@@ -186,7 +188,11 @@
       "official_urls": [
         "https://platform.kimi.com/docs",
         "https://platform.kimi.com/docs/models",
-        "https://platform.kimi.com/docs/pricing"
+        "https://platform.kimi.com/docs/pricing",
+        "https://www.kimi.com/code/en",
+        "https://www.kimi.com/code/docs/en/",
+        "https://www.kimi.com/en/help/kimi-work/overview",
+        "https://www.kimi.com/en/help/membership/membership-pricing"
       ],
       "model_prefixes": [
         "kimi",

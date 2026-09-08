@@ -287,13 +287,13 @@
         }
       ]
     },
-  {
-    "id": "vendor-level1:minimax",
+    {
+      "id": "vendor-level1:minimax",
       "vendor_key": "minimax",
       "title": "MiniMax",
       "icon": "",
       "official_url": "https://platform.minimax.io/docs",
-  "description": "MiniMax 是覆盖文本、视频、语音和音乐生成的多模态 AI 平台，提供商业 API、地区化 Token Plan 订阅与 MiniMax Code 官方 Coding Agent。",
+      "description": "MiniMax 是覆盖文本、视频、语音和音乐生成的多模态 AI 平台，提供商业 API、地区化 Token Plan 订阅与 MiniMax Code 官方 Coding Agent。",
       "status": "active",
       "features": [
         {
@@ -302,21 +302,21 @@
         },
         {
           "tone": "positive",
-      "text": "提供按量计费、地区化 Token Plan 订阅和官方 Coding Agent"
+          "text": "提供按量计费、地区化 Token Plan 订阅和官方 Coding Agent"
         },
         {
           "tone": "negative",
-      "text": "中国大陆与海外平台的套餐价格、Key 和文档入口不同"
+          "text": "中国大陆与海外平台的套餐价格、Key 和文档入口不同"
         }
       ],
-    "level2_refs": [
-      {
-        "kind": "vendor-level2",
-        "id": "vendor-level2:minimax:token-plan"
-      },
-      {
-        "kind": "vendor-level2",
-        "id": "vendor-level2:minimax:m"
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:minimax:token-plan"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:minimax:m"
         },
         {
           "kind": "vendor-level2",
@@ -326,14 +326,14 @@
           "kind": "vendor-level2",
           "id": "vendor-level2:minimax:speech"
         },
-      {
-        "kind": "vendor-level2",
-        "id": "vendor-level2:minimax:music"
-      },
-      {
-        "kind": "vendor-level2",
-        "id": "vendor-level2:minimax:minimax-code"
-      }
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:minimax:music"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:minimax:minimax-code"
+        }
       ]
     },
     {
@@ -359,10 +359,10 @@
         }
       ],
       "level2_refs": [
-    {
-      "kind": "vendor-level2",
-      "id": "vendor-level2:xai:supergrok"
-    },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:xai:supergrok"
+        },
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:xai:grok"
@@ -456,7 +456,7 @@
       "title": "Cohere",
       "icon": "🔗",
       "official_url": "https://cohere.com",
-      "description": "加拿大 AI 公司，以企业级检索增强生成（RAG）、文本嵌入和重排序模型见长，Command 系列覆盖通用对话和编码。",
+      "description": "加拿大 AI 公司，提供 Command、视觉、多语言、Embedding、Rerank、Parse、Transcribe、North 和 Model Vault 等企业 AI 模型与产品。",
       "status": "partial",
       "features": [
         {
@@ -480,6 +480,38 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:cohere:command"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:vision"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:coding"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:embedding"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:rerank"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:document"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:speech"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:multilingual"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:cohere:enterprise-products"
         }
       ]
     },
@@ -489,16 +521,16 @@
       "title": "可灵",
       "icon": "🎬",
       "official_url": "https://kling.ai",
-    "description": "Kling AI 是快手科技旗下的多模态创作平台，提供文本/图像生成视频、原生音频、图像生成及官方 API 能力。Kling 3.0 系列进一步支持多镜头叙事、元素一致性和更长时长的视频生成。",
+      "description": "Kling AI 是快手科技旗下的多模态创作平台，提供视频与图像生成模型、音视频创作工具、会员套餐及官方 API。Kling 3.0 系列支持多镜头叙事、元素一致性和更长时长的视频生成。",
       "status": "verified",
       "features": [
         {
           "tone": "positive",
-        "text": "视频模型支持原生音频与音画同步。"
+          "text": "视频模型支持原生音频与音画同步。"
         },
         {
           "tone": "positive",
-        "text": "Kling 3.0 系列支持多镜头叙事和最长 15 秒生成。"
+          "text": "Kling 3.0 系列支持多镜头叙事和最长 15 秒生成。"
         },
         {
           "tone": "positive",
@@ -510,7 +542,11 @@
         },
         {
           "tone": "positive",
-          "text": "提供多种视频特效。"
+          "text": "提供 Element Library、Avatar 2.0、Sound Generation 等创作工具。"
+        },
+        {
+          "tone": "positive",
+          "text": "提供 Basic、Standard、Pro、Premier、Ultra 会员套餐。"
         }
       ],
       "level2_refs": [
@@ -520,7 +556,15 @@
         },
         {
           "kind": "vendor-level2",
-          "id": "vendor-level2:kuaishou:kling-3-0"
+          "id": "vendor-level2:kuaishou:kling-image"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:kuaishou:kling-tools"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:kuaishou:kling-membership"
         }
       ]
     },
@@ -565,7 +609,19 @@
         },
         {
           "kind": "vendor-level2",
+          "id": "vendor-level2:moonshot:kimi-coding-models"
+        },
+        {
+          "kind": "vendor-level2",
           "id": "vendor-level2:moonshot:kimi-code"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:moonshot:kimi-work"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:moonshot:kimi-membership"
         }
       ]
     },

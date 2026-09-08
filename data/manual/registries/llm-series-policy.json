@@ -173,6 +173,10 @@
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
+          "name_patterns": [
+            "kling",
+            "可灵"
+          ],
           "series": [
             {
               "id": "vendor-level2:openai:gpt-6",
@@ -942,7 +946,7 @@
     {
       "vendor_key": "cohere",
       "direction": "llm",
-      "description": "Cohere：Command A 产品线（A/A+）。",
+      "description": "Cohere：按模型能力与企业产品类型拆分 Command、Vision、Coding、Embedding、Rerank、Document、Speech、Multilingual 和 Enterprise Products。",
       "families": [
         {
           "family": "command",
@@ -953,16 +957,191 @@
           "series": [
             {
               "id": "vendor-level2:cohere:command",
-              "title": "Command 模型",
+              "title": "Command 文本与推理模型",
               "generation_state": "newest",
               "expected_members": [
                 "command-a",
-                "command-a-plus"
+                "command-a-plus",
+                "command-a-reasoning",
+                "command-a-translate"
               ]
             }
           ],
           "evidence": {
-            "url": "https://docs.cohere.com/v1/docs/models",
+            "url": "https://docs.cohere.com/docs/models",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "vision",
+          "usage_kind": "omni",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:vision",
+              "title": "Cohere 视觉与多模态模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "command-a-vision"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/docs/models",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "coding",
+          "usage_kind": "coding",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:coding",
+              "title": "Cohere 编程模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "north-mini-code-1-0"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/docs/north-mini-code-1.0",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "embedding",
+          "usage_kind": "unknown",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:embedding",
+              "title": "Cohere Embedding 模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "embed-v4.0",
+                "embed-multilingual-v3.0"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/docs/models",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "rerank",
+          "usage_kind": "unknown",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:rerank",
+              "title": "Cohere Rerank 模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "rerank-v4.0-pro",
+                "rerank-v4.0-fast"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/v2/docs/rerank",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "document",
+          "usage_kind": "unknown",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:document",
+              "title": "Cohere 文档解析模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "parse-v5.0"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/v2/docs/parse",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "speech",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:speech",
+              "title": "Cohere 语音模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "cohere-transcribe-03-2026",
+                "cohere-transcribe-arabic-07-2026"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/docs/models",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "multilingual",
+          "usage_kind": "unknown",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:multilingual",
+              "title": "Cohere 多语言模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "tiny-aya-global"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/docs/models",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "enterprise-products",
+          "usage_kind": "tool",
+          "modality": "omni",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:enterprise-products",
+              "title": "Cohere 企业产品",
+              "generation_state": "newest",
+              "expected_members": [
+                "cohere-north",
+                "cohere-compass",
+                "cohere-model-vault"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://cohere.com/products",
             "status": "verified"
           }
         }
@@ -971,18 +1150,18 @@
     {
       "vendor_key": "moonshot",
       "direction": "llm",
-      "description": "月之暗面：K3 与 K2.6 归入通用 Kimi 系列；K2.7 Code 标准版与 HighSpeed 版归入 Kimi Code 系列，不为凑数合并。",
+      "description": "月之暗面：Kimi 通用/多模态模型、Kimi 编程模型、Kimi Code 与 Kimi Work 官方 Agent 工具、Kimi 会员套餐分别维护，不创建官方产品聚合系列。",
       "families": [
         {
           "family": "kimi",
           "usage_kind": "general_llm",
-          "modality": "text",
+          "modality": "omni",
           "series_kind": "model_series",
           "version_axis": "k",
           "series": [
             {
               "id": "vendor-level2:moonshot:kimi",
-              "title": "Kimi 模型",
+              "title": "Kimi 通用/多模态模型",
               "generation_state": "newest",
               "expected_members": [
                 "kimi-k3",
@@ -991,12 +1170,12 @@
             }
           ],
           "evidence": {
-            "url": "https://forum.moonshot.ai/t/kimi-k3-is-here-our-most-capable-model/480",
+            "url": "https://platform.kimi.com/docs/models",
             "status": "verified"
           }
         },
         {
-          "family": "kimi_code",
+          "family": "kimi_coding_models",
           "usage_kind": "coding",
           "modality": "text",
           "series_kind": "model_series",
@@ -1006,8 +1185,8 @@
           ],
           "series": [
             {
-              "id": "vendor-level2:moonshot:kimi-code",
-              "title": "Kimi Code",
+              "id": "vendor-level2:moonshot:kimi-coding-models",
+              "title": "Kimi 编程模型",
               "generation_state": "newest",
               "expected_members": [
                 "kimi-k2.7-code",
@@ -1016,7 +1195,85 @@
             }
           ],
           "evidence": {
-            "url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart",
+            "url": "https://platform.kimi.com/",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "kimi_code_tool",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "kimi code",
+            "kimi-code"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:moonshot:kimi-code",
+              "title": "Kimi Code",
+              "generation_state": "newest",
+              "expected_members": [
+                "kimi-code"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.kimi.com/code/docs/en/",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "kimi_work",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "kimi work",
+            "kimi-work"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:moonshot:kimi-work",
+              "title": "Kimi Work",
+              "generation_state": "newest",
+              "expected_members": [
+                "kimi-work"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.kimi.com/en/help/kimi-work/overview",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "kimi_membership",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "kimi membership",
+            "kimi 会员"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:moonshot:kimi-membership",
+              "title": "套餐（Kimi 会员）",
+              "generation_state": "newest",
+              "expected_members": [
+                "kimi-membership-andante",
+                "kimi-membership-moderato",
+                "kimi-membership-allegretto",
+                "kimi-membership-allegro"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.kimi.com/en/help/membership/membership-pricing",
             "status": "verified"
           }
         }
@@ -1351,40 +1608,118 @@
     {
       "vendor_key": "kuaishou",
       "direction": "video",
-      "description": "快手：可灵视频生成双系列（Kling 3.0 为当前代，Kling 2.6 为上一代）。",
+      "description": "快手：可灵视频、图像、音视频创作工具和会员套餐。",
       "families": [
         {
-          "family": "kling",
+          "family": "kling-video",
           "usage_kind": "video",
           "modality": "video",
           "series_kind": "model_series",
           "version_axis": "dot",
           "series": [
             {
-              "id": "vendor-level2:kuaishou:kling-3-0",
-              "title": "Kling 3.0",
+              "id": "vendor-level2:kuaishou:kling",
+              "title": "Kling 视频生成模型",
               "generation_state": "newest",
               "expected_members": [
-                "kling-3-0"
-              ]
-            },
-            {
-              "id": "vendor-level2:kuaishou:kling",
-              "title": "Kling 2.6",
-              "generation_state": "previous",
-              "expected_members": [
-                "kling-2-6-pro"
+                "kling-2-6-pro",
+                "kling-3-0",
+                "kling-3-0-omni"
               ]
             }
           ],
           "evidence": {
-            "url": "https://klingai.com/",
+            "url": "https://kling.ai/quickstart/klingai-video-3-model-user-guide",
             "status": "verified"
           },
           "name_patterns": [
             "kling",
             "可灵"
           ]
+        },
+        {
+          "family": "kling-image",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:kuaishou:kling-image",
+              "title": "Kling 图像生成模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "kling-image-3-0",
+                "kling-image-3-0-omni"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://ir.kuaishou.com/zh-hans/node/11216/pdf",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "kling",
+            "可灵",
+            "image"
+          ]
+        },
+        {
+          "family": "kling-tools",
+          "usage_kind": "tool",
+          "modality": "omni",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:kuaishou:kling-tools",
+              "title": "Kling 音视频与创作工具",
+              "generation_state": "newest",
+              "expected_members": [
+                "kling-motion-control",
+                "kling-avatar-2",
+                "kling-element-library-3",
+                "kling-sound-generation",
+                "kling-image-to-video"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://kling.ai/quickstart",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "motion",
+            "avatar",
+            "element",
+            "sound",
+            "image-to-video"
+          ]
+        },
+        {
+          "family": "kling-membership",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:kuaishou:kling-membership",
+              "title": "Kling 会员套餐",
+              "generation_state": "newest",
+              "expected_members": [
+                "kling-membership-basic",
+                "kling-membership-standard",
+                "kling-membership-pro",
+                "kling-membership-premier",
+                "kling-membership-ultra"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide",
+            "status": "verified"
+          }
         }
       ]
     },

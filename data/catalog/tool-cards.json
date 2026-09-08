@@ -1536,6 +1536,139 @@
       "model_key": "moonshot-kimi-k2.6"
     },
     {
+      "id": "tool-card:kimi-k2.7-code",
+      "tool_key": "kimi-k2.7-code",
+      "vendor_key": "moonshot",
+      "title": "Kimi K2.7 Code",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "summary": "Kimi K2.7 Code 是面向代码场景的编程模型，支持文本、图片与视频输入，具备 256K 上下文窗口和高速版本。",
+      "theme": "general",
+      "scenes": [
+        "编程任务",
+        "长上下文代码生成",
+        "Agent 任务"
+      ],
+      "best_for_preview": "需要高效解决复杂编程问题，并希望利用长上下文理解多文件代码库的开发者。",
+      "not_for_preview": "不适合对输出速度要求不高的场景，或对成本敏感且需控制 token 消耗的简单任务。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kimi K2.7 Code",
+        "月之暗面（Kimi）",
+        "kimi-k2.7-code",
+        "编程任务",
+        "长上下文代码生成",
+        "Agent 任务"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kimi-k2.7-code"
+      },
+      "detail_kind": "api_model",
+      "model_key": "moonshot-kimi-k2.7-code"
+    },
+    {
+      "id": "tool-card:kimi-k2.7-code-highspeed",
+      "tool_key": "kimi-k2.7-code-highspeed",
+      "vendor_key": "moonshot",
+      "title": "Kimi K2.7 Code HighSpeed",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🤖",
+      "summary": "Kimi K2.7 Code 的高速 API 版本，保持相同编程能力和 256K 上下文，输出速度约为普通版的 5–6 倍。",
+      "theme": "general",
+      "scenes": [
+        "低延迟代码生成",
+        "高速 Agent 编程",
+        "多步工具调用"
+      ],
+      "best_for_preview": [
+        "需要快速反馈的交互式编程",
+        "连续代码修改和审查",
+        "高速 Agent 工作流"
+      ],
+      "not_for_preview": [
+        "成本敏感场景",
+        "需要百万上下文的任务"
+      ],
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "Kimi K2.7 Code HighSpeed",
+        "Kimi K2.7 Code 高速版",
+        "月之暗面（Kimi）",
+        "kimi-k2.7-code-highspeed",
+        "低延迟代码生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kimi-k2.7-code-highspeed"
+      },
+      "detail_kind": "api_model",
+      "model_key": "moonshot-kimi-k2.7-code-highspeed"
+    },
+    {
+      "id": "tool-card:kimi-code",
+      "tool_key": "kimi-code",
+      "vendor_key": "moonshot",
+      "title": "Kimi Code",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🧑‍💻",
+      "summary": "Kimi 官方 CLI 编程 Agent，支持代码阅读、文件编辑、命令执行和多步骤开发任务，并可从 VS Code 入口使用。",
+      "theme": "dev",
+      "scenes": [
+        "终端 Agent 编程",
+        "VS Code 协作开发",
+        "代码审查与重构"
+      ],
+      "best_for_preview": "适合希望在终端或 VS Code 中使用官方 Kimi Agent 完成多步骤开发任务的开发者。",
+      "not_for_preview": "不适合纯模型 API 集成或非编程为主的工作流。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "Kimi Code",
+        "Kimi Code CLI",
+        "Kimi Code for VS Code",
+        "kimi-code",
+        "Agent 编程"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kimi-code"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:kimi-work",
+      "tool_key": "kimi-work",
+      "vendor_key": "moonshot",
+      "title": "Kimi Work",
+      "vendor_label": "月之暗面（Kimi）",
+      "icon": "🗂️",
+      "summary": "Kimi 面向知识工作者的官方 Agent 工具，支持本地文件、浏览器和长任务工作流。",
+      "theme": "dev",
+      "scenes": [
+        "本地文件处理",
+        "知识工作自动化",
+        "报告与表格交付"
+      ],
+      "best_for_preview": "适合需要在 Mac/Windows 上处理本地资料并交付工作成果的知识工作者。",
+      "not_for_preview": "不适合只需要独立模型 API 的开发者。",
+      "price_badge": "paid",
+      "access_level": "受限",
+      "search_terms": [
+        "Kimi Work",
+        "Kimi 桌面 Agent",
+        "kimi-work",
+        "本地文件处理"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kimi-work"
+      },
+      "detail_kind": "tool"
+    },
+    {
       "id": "tool-card:qwen3-8-max",
       "tool_key": "qwen3-8-max",
       "vendor_key": "alibaba",
@@ -1936,78 +2069,6 @@
         "id": "tool-level3:deepseek-v4-flash-vision-exp"
       },
       "detail_kind": "api_model"
-    },
-    {
-      "id": "tool-card:kimi-k2.7-code",
-      "tool_key": "kimi-k2.7-code",
-      "vendor_key": "moonshot",
-      "title": "Kimi K2.7 Code",
-      "vendor_label": "月之暗面（Kimi）",
-      "icon": "🤖",
-      "summary": "Kimi K2.7 Code 是面向代码场景的编程模型，支持文本、图片与视频输入，具备 256K 上下文窗口和高速版本。",
-      "theme": "general",
-      "scenes": [
-        "编程任务",
-        "长上下文代码生成",
-        "Agent 任务"
-      ],
-      "best_for_preview": "需要高效解决复杂编程问题，并希望利用长上下文理解多文件代码库的开发者。",
-      "not_for_preview": "不适合对输出速度要求不高的场景，或对成本敏感且需控制 token 消耗的简单任务。",
-      "price_badge": "usage_based",
-      "access_level": "开放",
-      "search_terms": [
-        "Kimi K2.7 Code",
-        "月之暗面（Kimi）",
-        "kimi-k2.7-code",
-        "编程任务",
-        "长上下文代码生成",
-        "Agent 任务"
-      ],
-      "detail_ref": {
-        "kind": "tool-level3",
-        "id": "tool-level3:kimi-k2.7-code"
-      },
-      "detail_kind": "api_model",
-      "model_key": "moonshot-kimi-k2.7-code"
-    },
-    {
-      "id": "tool-card:kimi-k2.7-code-highspeed",
-      "tool_key": "kimi-k2.7-code-highspeed",
-      "vendor_key": "moonshot",
-      "title": "Kimi K2.7 Code HighSpeed",
-      "vendor_label": "月之暗面（Kimi）",
-      "icon": "🤖",
-      "summary": "Kimi K2.7 Code 的高速 API 版本，保持相同编程能力和 256K 上下文，输出速度约为普通版的 5–6 倍。",
-      "theme": "general",
-      "scenes": [
-        "低延迟代码生成",
-        "高速 Agent 编程",
-        "多步工具调用"
-      ],
-      "best_for_preview": [
-        "需要快速反馈的交互式编程",
-        "连续代码修改和审查",
-        "高速 Agent 工作流"
-      ],
-      "not_for_preview": [
-        "成本敏感场景",
-        "需要百万上下文的任务"
-      ],
-      "price_badge": "usage_based",
-      "access_level": "受限",
-      "search_terms": [
-        "Kimi K2.7 Code HighSpeed",
-        "Kimi K2.7 Code 高速版",
-        "月之暗面（Kimi）",
-        "kimi-k2.7-code-highspeed",
-        "低延迟代码生成"
-      ],
-      "detail_ref": {
-        "kind": "tool-level3",
-        "id": "tool-level3:kimi-k2.7-code-highspeed"
-      },
-      "detail_kind": "api_model",
-      "model_key": "moonshot-kimi-k2.7-code-highspeed"
     },
     {
       "id": "tool-card:qwen3-7-max",
@@ -5204,6 +5265,650 @@
         "id": "tool-level3:mistral-moderation-2"
       },
       "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:kling-3-0-omni",
+      "tool_key": "kling-3-0-omni",
+      "vendor_key": "kuaishou",
+      "title": "Kling VIDEO 3.0 Omni",
+      "vendor_label": "可灵",
+      "icon": "🎬",
+      "summary": "参考驱动的统一多模态视频模型，支持视频元素、角色声音、多镜头叙事和原生音频。",
+      "theme": "media",
+      "scenes": [
+        "多镜头视频",
+        "角色一致性",
+        "音画同步",
+        "影视创作"
+      ],
+      "best_for_preview": "适合需要多参考素材、角色/声音一致性和多镜头叙事的视频创作。",
+      "not_for_preview": "有视频输入且必须同时生成原生音频的场景暂不适用。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling VIDEO 3.0 Omni",
+        "kling-v3-omni",
+        "可灵 Omni",
+        "多镜头",
+        "元素一致性"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-3-0-omni"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:kling-image-3-0",
+      "tool_key": "kling-image-3-0",
+      "vendor_key": "kuaishou",
+      "title": "Kling IMAGE 3.0",
+      "vendor_label": "可灵",
+      "icon": "🖼️",
+      "summary": "支持多参考图、对象修改、风格迁移和一致性创作的图像生成与编辑模型。",
+      "theme": "vision",
+      "scenes": [
+        "图像生成",
+        "图像编辑",
+        "风格迁移",
+        "角色设计"
+      ],
+      "best_for_preview": "适合需要参考图一致性、对象修改和视觉风格控制的图像创作。",
+      "not_for_preview": "需要独立 API 费率核算的自动化调用暂以官方平台规则为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling IMAGE 3.0",
+        "kling image 3.0",
+        "可灵图像",
+        "图像编辑"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-image-3-0"
+      },
+      "detail_kind": "product_variant"
+    },
+    {
+      "id": "tool-card:kling-image-3-0-omni",
+      "tool_key": "kling-image-3-0-omni",
+      "vendor_key": "kuaishou",
+      "title": "Kling IMAGE 3.0 Omni",
+      "vendor_label": "可灵",
+      "icon": "🖼️",
+      "summary": "支持图像系列、多参考图编辑和原生 2K/4K 输出的图像创作产品。",
+      "theme": "vision",
+      "scenes": [
+        "图像系列",
+        "4K 分镜",
+        "产品视觉",
+        "角色设计"
+      ],
+      "best_for_preview": "适合电影分镜、产品系列图和需要跨图像保持一致性的视觉创作。",
+      "not_for_preview": "需要独立 API 费率核算的自动化调用暂以官方平台规则为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling IMAGE 3.0 Omni",
+        "IMAGE 3.0 Omni",
+        "图像系列",
+        "4K 图像"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-image-3-0-omni"
+      },
+      "detail_kind": "product_variant"
+    },
+    {
+      "id": "tool-card:kling-motion-control",
+      "tool_key": "kling-motion-control",
+      "vendor_key": "kuaishou",
+      "title": "Kling Motion Control",
+      "vendor_label": "可灵",
+      "icon": "🎥",
+      "summary": "使用动作参考视频驱动角色图像，控制角色动作、表情与镜头方向。",
+      "theme": "media",
+      "scenes": [
+        "动作迁移",
+        "角色表演",
+        "短视频"
+      ],
+      "best_for_preview": "适合把真人动作参考转化为角色动画和短视频表演。",
+      "not_for_preview": "不替代逐帧动画或专业视频编辑器。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling Motion Control",
+        "运动控制",
+        "动作迁移"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-motion-control"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:kling-avatar-2",
+      "tool_key": "kling-avatar-2",
+      "vendor_key": "kuaishou",
+      "title": "Kling Avatar 2.0",
+      "vendor_label": "可灵",
+      "icon": "🧑‍🎤",
+      "summary": "使用头像、语音和提示词生成口播数字人视频。",
+      "theme": "media",
+      "scenes": [
+        "数字人",
+        "口播视频",
+        "教育内容"
+      ],
+      "best_for_preview": "适合讲解、营销、课程和角色口播视频。",
+      "not_for_preview": "不适合作为纯音频生成工具。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling Avatar 2.0",
+        "数字人",
+        "avatar"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-avatar-2"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:kling-element-library-3",
+      "tool_key": "kling-element-library-3",
+      "vendor_key": "kuaishou",
+      "title": "Kling Element Library 3.0",
+      "vendor_label": "可灵",
+      "icon": "🧩",
+      "summary": "管理角色、物品、场景和声音元素，支持跨图像与视频复用。",
+      "theme": "media",
+      "scenes": [
+        "角色一致性",
+        "产品视觉",
+        "多镜头创作"
+      ],
+      "best_for_preview": "适合需要稳定角色、产品和场景特征的连续创作。",
+      "not_for_preview": "不替代通用数字资产管理系统。",
+      "price_badge": "free",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling Element Library",
+        "元素库",
+        "角色一致性"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-element-library-3"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:kling-sound-generation",
+      "tool_key": "kling-sound-generation",
+      "vendor_key": "kuaishou",
+      "title": "Kling Sound Generation",
+      "vendor_label": "可灵",
+      "icon": "🔊",
+      "summary": "提供文本生成音效和视频生成音效入口，服务于音画创作。",
+      "theme": "media",
+      "scenes": [
+        "音效生成",
+        "环境声",
+        "音画创作"
+      ],
+      "best_for_preview": "适合短视频音效、环境声和动作音效素材。",
+      "not_for_preview": "不替代完整音乐制作工作站。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling Sound Generation",
+        "音效生成",
+        "声音生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-sound-generation"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:kling-image-to-video",
+      "tool_key": "kling-image-to-video",
+      "vendor_key": "kuaishou",
+      "title": "Kling Image-to-Video",
+      "vendor_label": "可灵",
+      "icon": "🖼️",
+      "summary": "将静态图片与运动提示转为视频，支持标准和专业模式。",
+      "theme": "media",
+      "scenes": [
+        "图生视频",
+        "产品动画",
+        "照片动起来"
+      ],
+      "best_for_preview": "适合把产品图、角色图和照片快速转成短视频。",
+      "not_for_preview": "不替代完整视频剪辑工作流。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Kling Image-to-Video",
+        "图生视频",
+        "image to video"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:kling-image-to-video"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:command-a-reasoning",
+      "tool_key": "command-a-reasoning",
+      "vendor_key": "cohere",
+      "title": "Command A Reasoning",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Command A Reasoning 是 Cohere 的推理模型，面向复杂问题求解和 Agent 任务。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Command A Reasoning 是 Cohere 的推理模型，面向复杂问题求解和 Agent 任务。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Command A Reasoning",
+        "Cohere",
+        "command-a-reasoning"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:command-a-reasoning"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:command-a-translate",
+      "tool_key": "command-a-translate",
+      "vendor_key": "cohere",
+      "title": "Command A Translate",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Command A Translate 是面向 23 种语言翻译任务的 Command 模型。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Command A Translate 是面向 23 种语言翻译任务的 Command 模型。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Command A Translate",
+        "Cohere",
+        "command-a-translate"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:command-a-translate"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:command-a-vision",
+      "tool_key": "command-a-vision",
+      "vendor_key": "cohere",
+      "title": "Command A Vision",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Command A Vision 支持图像输入、图表理解、OCR、文档问答和目标检测，不负责图像生成。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Command A Vision 支持图像输入、图表理解、OCR、文档问答和目标检测，不负责图像生成。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Command A Vision",
+        "Cohere",
+        "command-a-vision"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:command-a-vision"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:north-mini-code-1-0",
+      "tool_key": "north-mini-code-1-0",
+      "vendor_key": "cohere",
+      "title": "North Mini Code",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "North Mini Code 是 Cohere 面向 Agent 编程和终端任务的模型；作为模型记录，不单独创建官方 Agent 工具。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "North Mini Code 是 Cohere 面向 Agent 编程和终端任务的模型；作为模型记录，不单独创建官方 Agent 工具。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "North Mini Code",
+        "Cohere",
+        "north-mini-code-1-0"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:north-mini-code-1-0"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:embed-v4.0",
+      "tool_key": "embed-v4.0",
+      "vendor_key": "cohere",
+      "title": "Embed 4",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Embed 4 支持文本、图像和混合文本/图像输入，用于 Embedding、分类和检索。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Embed 4 支持文本、图像和混合文本/图像输入，用于 Embedding、分类和检索。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Embed 4",
+        "Cohere",
+        "embed-v4.0"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:embed-v4.0"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:embed-multilingual-v3.0",
+      "tool_key": "embed-multilingual-v3.0",
+      "vendor_key": "cohere",
+      "title": "Embed Multilingual 3",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "多语言文本和图像 Embedding 模型，服务于搜索、分类和 RAG。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "多语言文本和图像 Embedding 模型，服务于搜索、分类和 RAG。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Embed Multilingual 3",
+        "Cohere",
+        "embed-multilingual-v3.0"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:embed-multilingual-v3.0"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:rerank-v4.0-pro",
+      "tool_key": "rerank-v4.0-pro",
+      "vendor_key": "cohere",
+      "title": "Rerank 4 Pro",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "高质量多语言 Rerank 模型，支持文本和半结构化 JSON。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "高质量多语言 Rerank 模型，支持文本和半结构化 JSON。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Rerank 4 Pro",
+        "Cohere",
+        "rerank-v4.0-pro"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:rerank-v4.0-pro"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:rerank-v4.0-fast",
+      "tool_key": "rerank-v4.0-fast",
+      "vendor_key": "cohere",
+      "title": "Rerank 4 Fast",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "低延迟、高吞吐的多语言 Rerank 模型。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "低延迟、高吞吐的多语言 Rerank 模型。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Rerank 4 Fast",
+        "Cohere",
+        "rerank-v4.0-fast"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:rerank-v4.0-fast"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:parse-v5.0",
+      "tool_key": "parse-v5.0",
+      "vendor_key": "cohere",
+      "title": "Parse 5",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "视觉文档解析模型，可从 PDF、PPT 和图片中提取文本、表格、表单与版面结构。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "视觉文档解析模型，可从 PDF、PPT 和图片中提取文本、表格、表单与版面结构。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Parse 5",
+        "Cohere",
+        "parse-v5.0"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:parse-v5.0"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:cohere-transcribe-03-2026",
+      "tool_key": "cohere-transcribe-03-2026",
+      "vendor_key": "cohere",
+      "title": "Cohere Transcribe",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Cohere 的多语言语音转写模型，输入音频、输出文本。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Cohere 的多语言语音转写模型，输入音频、输出文本。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Cohere Transcribe",
+        "Cohere",
+        "cohere-transcribe-03-2026"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:cohere-transcribe-03-2026"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:cohere-transcribe-arabic-07-2026",
+      "tool_key": "cohere-transcribe-arabic-07-2026",
+      "vendor_key": "cohere",
+      "title": "Cohere Transcribe Arabic",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "面向阿拉伯语音频优化的语音识别模型。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "面向阿拉伯语音频优化的语音识别模型。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Cohere Transcribe Arabic",
+        "Cohere",
+        "cohere-transcribe-arabic-07-2026"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:cohere-transcribe-arabic-07-2026"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:tiny-aya-global",
+      "tool_key": "tiny-aya-global",
+      "vendor_key": "cohere",
+      "title": "Tiny Aya Global",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "支持 70 种语言的轻量多语言生成模型。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "支持 70 种语言的轻量多语言生成模型。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Tiny Aya Global",
+        "Cohere",
+        "tiny-aya-global"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:tiny-aya-global"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:cohere-north",
+      "tool_key": "cohere-north",
+      "vendor_key": "cohere",
+      "title": "North",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Cohere 的企业级 Agent 工作空间，连接企业数据、文档和工作流。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Cohere 的企业级 Agent 工作空间，连接企业数据、文档和工作流。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "custom",
+      "access_level": "企业",
+      "search_terms": [
+        "North",
+        "Cohere",
+        "cohere-north"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:cohere-north"
+      },
+      "detail_kind": "product_variant"
+    },
+    {
+      "id": "tool-card:cohere-compass",
+      "tool_key": "cohere-compass",
+      "vendor_key": "cohere",
+      "title": "Compass",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Cohere 的企业搜索与发现产品，组合 Embed、Rerank 和 Parse。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Cohere 的企业搜索与发现产品，组合 Embed、Rerank 和 Parse。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "custom",
+      "access_level": "企业",
+      "search_terms": [
+        "Compass",
+        "Cohere",
+        "cohere-compass"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:cohere-compass"
+      },
+      "detail_kind": "product_variant"
+    },
+    {
+      "id": "tool-card:cohere-model-vault",
+      "tool_key": "cohere-model-vault",
+      "vendor_key": "cohere",
+      "title": "Model Vault",
+      "vendor_label": "Cohere",
+      "icon": "🔗",
+      "summary": "Cohere 的独立、托管模型部署平台，按实例和性能层计费。",
+      "theme": "general",
+      "scenes": [
+        "Cohere 官方能力"
+      ],
+      "best_for_preview": "Cohere 的独立、托管模型部署平台，按实例和性能层计费。",
+      "not_for_preview": "具体价格、部署区域与可用端点以官方页面为准。",
+      "price_badge": "custom",
+      "access_level": "企业",
+      "search_terms": [
+        "Model Vault",
+        "Cohere",
+        "cohere-model-vault"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:cohere-model-vault"
+      },
+      "detail_kind": "product_variant"
     }
   ]
 }

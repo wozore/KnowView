@@ -882,6 +882,191 @@
           "date_mode": "latest"
         }
       ]
+    },
+    "kimi-work": {
+      "name": "Kimi Work",
+      "vendor_key": "moonshot",
+      "official_urls": [
+        "https://www.kimi.com/en/help/kimi-work/overview",
+        "https://www.kimi.com/products/kimi-work"
+      ],
+      "aliases": [
+        "Kimi Work"
+      ],
+      "product_prefixes": [
+        "kimi work"
+      ],
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://www.kimi.com/en/help/kimi-work/release-notes",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08"
+    },
+    "kimi-code": {
+      "name": "Kimi Code",
+      "vendor_key": "moonshot",
+      "official_urls": [
+        "https://www.kimi.com/code/en",
+        "https://www.kimi.com/code/docs/en/"
+      ],
+      "aliases": [
+        "Kimi Code",
+        "Kimi Code CLI",
+        "Kimi Code for VS Code"
+      ],
+      "product_prefixes": [
+        "kimi code"
+      ],
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://www.kimi.com/code/docs/en/",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08"
+    },
+    "cohere-north": {
+      "name": "North",
+      "vendor_key": "cohere",
+      "official_urls": [
+        "https://cohere.com/north",
+        "https://docs.cohere.com/docs/welcome"
+      ],
+      "aliases": [
+        "North"
+      ],
+      "product_prefixes": [
+        "north"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
+    },
+    "cohere-compass": {
+      "name": "Compass",
+      "vendor_key": "cohere",
+      "official_urls": [
+        "https://cohere.com/products",
+        "https://docs.cohere.com/docs/model-vault/standard/supported-models"
+      ],
+      "aliases": [
+        "Compass"
+      ],
+      "product_prefixes": [
+        "compass"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
+    },
+    "cohere-model-vault": {
+      "name": "Model Vault",
+      "vendor_key": "cohere",
+      "official_urls": [
+        "https://docs.cohere.com/docs/model-vault/standard/pricing",
+        "https://docs.cohere.com/docs/model-vault/standard/supported-models"
+      ],
+      "aliases": [
+        "Model Vault"
+      ],
+      "product_prefixes": [
+        "model vault"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
+    },
+    "kling-kling-motion-control": {
+      "name": "Kling Motion Control",
+      "vendor_key": "kuaishou",
+      "official_urls": [
+        "https://kling.ai/quickstart/motion-control-user-guide"
+      ],
+      "aliases": [
+        "Kling Motion Control"
+      ],
+      "product_prefixes": [
+        "kling-motion-control"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
+    },
+    "kling-kling-avatar-2": {
+      "name": "Kling Avatar 2.0",
+      "vendor_key": "kuaishou",
+      "official_urls": [
+        "https://kling.ai/quickstart/kling-ai-avatar-2-user-guide"
+      ],
+      "aliases": [
+        "Kling Avatar 2.0"
+      ],
+      "product_prefixes": [
+        "kling-avatar-2"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
+    },
+    "kling-kling-element-library-3": {
+      "name": "Kling Element Library 3.0",
+      "vendor_key": "kuaishou",
+      "official_urls": [
+        "https://kling.ai/quickstart"
+      ],
+      "aliases": [
+        "Kling Element Library 3.0"
+      ],
+      "product_prefixes": [
+        "kling-element-library-3"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
+    },
+    "kling-kling-sound-generation": {
+      "name": "Kling Sound Generation",
+      "vendor_key": "kuaishou",
+      "official_urls": [
+        "https://kling.ai/feature/text-to-speech"
+      ],
+      "aliases": [
+        "Kling Sound Generation"
+      ],
+      "product_prefixes": [
+        "kling-sound-generation"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
+    },
+    "kling-kling-image-to-video": {
+      "name": "Kling Image-to-Video",
+      "vendor_key": "kuaishou",
+      "official_urls": [
+        "https://kling.ai/quickstart"
+      ],
+      "aliases": [
+        "Kling Image-to-Video"
+      ],
+      "product_prefixes": [
+        "kling-image-to-video"
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-08"
     }
   }
 }

@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
   "items": [
-  {
-    "id": "vendor-level2:xai:supergrok",
-    "level1_ref": {
-      "kind": "vendor-level1",
-      "id": "vendor-level1:xai"
+    {
+      "id": "vendor-level2:xai:supergrok",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xai"
+      },
+      "vendor_key": "xai",
+      "title": "套餐（SuperGrok）",
+      "official_url": "https://x.ai/pricing",
+      "summary": "xAI 面向个人用户的 SuperGrok 订阅系列，覆盖 Grok 4.6、Grok Build、Grok Bot、图像与视频生成，并通过共享周额度提供不同等级的使用上限。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:xai-supergrok"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:xai-supergrok-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:xai-supergrok-heavy"
+        }
+      ],
+      "series_kind": "subscription_series"
     },
-    "vendor_key": "xai",
-    "title": "套餐（SuperGrok）",
-    "official_url": "https://x.ai/pricing",
-    "summary": "xAI 面向个人用户的 SuperGrok 订阅系列，覆盖 Grok 4.6、Grok Build、Grok Bot、图像与视频生成，并通过共享周额度提供不同等级的使用上限。",
-    "status": "active",
-    "detail_refs": [
-      {
-        "kind": "tool-level3",
-        "id": "tool-level3:xai-supergrok"
-      },
-      {
-        "kind": "tool-level3",
-        "id": "tool-level3:xai-supergrok-plus"
-      },
-      {
-        "kind": "tool-level3",
-        "id": "tool-level3:xai-supergrok-heavy"
-      }
-    ],
-    "series_kind": "subscription_series"
-  },
     {
       "id": "vendor-level2:google:gemini-flash",
       "level1_ref": {
@@ -211,9 +211,9 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Command 模型",
-      "official_url": "https://cohere.com/pricing",
-      "summary": "当前已核实的 Cohere Command API 模型。",
+      "title": "Command 文本与推理模型",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "summary": "Cohere Command 文本与推理模型，以官方模型与产品页面为准。",
       "status": "active",
       "detail_refs": [
         {
@@ -223,26 +223,17 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:command-a-plus"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:kuaishou:kling",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:kuaishou"
-      },
-      "vendor_key": "kuaishou",
-      "title": "Kling 2.6",
-      "official_url": "https://kling.ai",
-      "summary": "Kling VIDEO 2.6 是可灵的上一代原生音频视频模型，支持文本或图像生成带语音、音效和环境音的视频。",
-      "status": "active",
-      "detail_refs": [
+        },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:kling-2-6-pro"
+          "id": "tool-level3:command-a-reasoning"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:command-a-translate"
         }
-      ]
+      ],
+      "series_kind": "model_series"
     },
     {
       "id": "vendor-level2:google:gemini-pro",
@@ -295,9 +286,9 @@
         "id": "vendor-level1:moonshot"
       },
       "vendor_key": "moonshot",
-      "title": "Kimi 模型",
+      "title": "Kimi 通用/多模态模型",
       "official_url": "https://platform.kimi.com/docs/models",
-      "summary": "Kimi 通用与多模态模型系列，包括 K3 与 K2.6，覆盖百万/256K 上下文、视觉理解、编程和 Agent 场景。",
+      "summary": "Kimi 通用与多模态模型系列，覆盖 K3 与 K2.6 的视觉理解、长上下文和 Agent 能力。",
       "status": "active",
       "detail_refs": [
         {
@@ -308,7 +299,100 @@
           "kind": "tool-level3",
           "id": "tool-level3:kimi-k2.6"
         }
-      ]
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:moonshot:kimi-coding-models",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:moonshot"
+      },
+      "vendor_key": "moonshot",
+      "title": "Kimi 编程模型",
+      "official_url": "https://platform.kimi.com/",
+      "summary": "Kimi Open Platform 的编程模型系列，包含 K2.7 Code 标准版与 HighSpeed API 变体。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-k2.7-code"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-k2.7-code-highspeed"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:moonshot:kimi-code",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:moonshot"
+      },
+      "vendor_key": "moonshot",
+      "title": "Kimi Code",
+      "official_url": "https://www.kimi.com/code/en",
+      "summary": "Kimi 官方 CLI 编程 Agent 工具系列；VS Code 是同一工具的编辑器入口。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-code"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:moonshot:kimi-work",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:moonshot"
+      },
+      "vendor_key": "moonshot",
+      "title": "Kimi Work",
+      "official_url": "https://www.kimi.com/en/help/kimi-work/overview",
+      "summary": "Kimi 面向知识工作者的官方 Agent 工具系列。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-work"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:moonshot:kimi-membership",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:moonshot"
+      },
+      "vendor_key": "moonshot",
+      "title": "套餐（Kimi 会员）",
+      "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
+      "summary": "Kimi 四档会员订阅计划，Kimi Work 作为官方 Agent 工具权益提供。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-andante"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-moderato"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegretto"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegro"
+        }
+      ],
+      "series_kind": "subscription_series"
     },
     {
       "id": "vendor-level2:tencent:hy3",
@@ -445,28 +529,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:doubao-seed-character-260628"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:moonshot:kimi-code",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:moonshot"
-      },
-      "vendor_key": "moonshot",
-      "title": "Kimi Code",
-      "official_url": "https://platform.kimi.com/docs/guide/kimi-k2-7-code-quickstart",
-      "summary": "Kimi 编程模型系列，包括 K2.7 Code 标准版与 HighSpeed 版，支持多模态输入、思考模式和 256K 上下文。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:kimi-k2.7-code"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:kimi-k2.7-code-highspeed"
         }
       ]
     },
@@ -697,22 +759,126 @@
       "series_kind": "tool_series"
     },
     {
-      "id": "vendor-level2:kuaishou:kling-3-0",
+      "id": "vendor-level2:kuaishou:kling",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:kuaishou"
       },
       "vendor_key": "kuaishou",
-      "title": "Kling 3.0",
-      "official_url": "https://kling.ai",
-      "summary": "Kling VIDEO 3.0 是可灵当前代统一多模态视频模型，支持文本/图像生视频、多镜头叙事、原生音频及官方 API。",
+      "title": "Kling 视频生成模型",
+      "official_url": "https://kling.ai/quickstart",
+      "summary": "Kling 视频生成模型系列，覆盖 VIDEO 2.6、VIDEO 3.0 和 VIDEO 3.0 Omni，支持原生音频、多镜头和元素一致性。",
       "status": "active",
       "detail_refs": [
         {
           "kind": "tool-level3",
+          "id": "tool-level3:kling-2-6-pro"
+        },
+        {
+          "kind": "tool-level3",
           "id": "tool-level3:kling-3-0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-3-0-omni"
         }
-      ]
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:kuaishou:kling-image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:kuaishou"
+      },
+      "vendor_key": "kuaishou",
+      "title": "Kling 图像生成模型",
+      "official_url": "https://kling.ai/quickstart",
+      "summary": "Kling 图像生成模型系列，覆盖 IMAGE 3.0 与 IMAGE 3.0 Omni，支持多参考图、图像编辑、图像系列和 2K/4K 输出。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-image-3-0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-image-3-0-omni"
+        }
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:kuaishou:kling-tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:kuaishou"
+      },
+      "vendor_key": "kuaishou",
+      "title": "Kling 音视频与创作工具",
+      "official_url": "https://kling.ai/quickstart",
+      "summary": "Kling 官方音视频与创作工具系列，覆盖运动控制、数字人、元素库、音效生成和图生视频入口。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-motion-control"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-avatar-2"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-element-library-3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-sound-generation"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-image-to-video"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:kuaishou:kling-membership",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:kuaishou"
+      },
+      "vendor_key": "kuaishou",
+      "title": "Kling 会员套餐",
+      "official_url": "https://kling.ai/blog/kling-video-3-0-credit-cost-guide",
+      "summary": "Kling 面向个人创作者的会员套餐系列；Credits、价格、权益和商业使用条件以官方当前套餐页为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-membership-basic"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-membership-standard"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-membership-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-membership-premier"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kling-membership-ultra"
+        }
+      ],
+      "series_kind": "subscription_series"
     },
     {
       "id": "vendor-level2:perplexity:perplexity",
@@ -1096,34 +1262,34 @@
       "series_kind": "tool_series"
     },
     {
-    "id": "vendor-level2:minimax:token-plan",
-    "level1_ref": {
-      "kind": "vendor-level1",
-      "id": "vendor-level1:minimax"
+      "id": "vendor-level2:minimax:token-plan",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:minimax"
+      },
+      "vendor_key": "minimax",
+      "title": "套餐（Token Plan）",
+      "official_url": "https://platform.minimax.io/docs/guides/pricing-token-plan",
+      "summary": "MiniMax Token Plan 是原 Coding Plan 的延续，按地区提供 Plus、Max、Ultra 三档订阅，覆盖 M3、M2.7、图像和语音等资源，并面向 Agent 与编程工作流。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-token-plan-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-token-plan-max"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:minimax-token-plan-ultra"
+        }
+      ],
+      "series_kind": "subscription_series"
     },
-    "vendor_key": "minimax",
-    "title": "套餐（Token Plan）",
-    "official_url": "https://platform.minimax.io/docs/guides/pricing-token-plan",
-    "summary": "MiniMax Token Plan 是原 Coding Plan 的延续，按地区提供 Plus、Max、Ultra 三档订阅，覆盖 M3、M2.7、图像和语音等资源，并面向 Agent 与编程工作流。",
-    "status": "active",
-    "detail_refs": [
-      {
-        "kind": "tool-level3",
-        "id": "tool-level3:minimax-token-plan-plus"
-      },
-      {
-        "kind": "tool-level3",
-        "id": "tool-level3:minimax-token-plan-max"
-      },
-      {
-        "kind": "tool-level3",
-        "id": "tool-level3:minimax-token-plan-ultra"
-      }
-    ],
-    "series_kind": "subscription_series"
-  },
-  {
-    "id": "vendor-level2:minimax:m",
+    {
+      "id": "vendor-level2:minimax:m",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:minimax"
@@ -1858,6 +2024,178 @@
       ],
       "series_kind": "model_series",
       "generation_state": "newest"
+    },
+    {
+      "id": "vendor-level2:cohere:vision",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere 视觉与多模态模型",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "summary": "Cohere Cohere 视觉与多模态模型，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:command-a-vision"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:cohere:coding",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere 编程模型",
+      "official_url": "https://docs.cohere.com/docs/north-mini-code-1.0",
+      "summary": "Cohere Cohere 编程模型，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:north-mini-code-1-0"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:cohere:embedding",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere Embedding 模型",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "summary": "Cohere Cohere Embedding 模型，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:embed-v4.0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:embed-multilingual-v3.0"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:cohere:rerank",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere Rerank 模型",
+      "official_url": "https://docs.cohere.com/v2/docs/rerank",
+      "summary": "Cohere Cohere Rerank 模型，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:rerank-v4.0-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:rerank-v4.0-fast"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:cohere:document",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere 文档解析模型",
+      "official_url": "https://docs.cohere.com/v2/docs/parse",
+      "summary": "Cohere Cohere 文档解析模型，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:parse-v5.0"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:cohere:speech",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere 语音模型",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "summary": "Cohere Cohere 语音模型，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:cohere-transcribe-03-2026"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:cohere-transcribe-arabic-07-2026"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:cohere:multilingual",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere 多语言模型",
+      "official_url": "https://docs.cohere.com/docs/models",
+      "summary": "Cohere Cohere 多语言模型，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:tiny-aya-global"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:cohere:enterprise-products",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:cohere"
+      },
+      "vendor_key": "cohere",
+      "title": "Cohere 企业产品",
+      "official_url": "https://cohere.com/products",
+      "summary": "Cohere Cohere 企业产品，以官方模型与产品页面为准。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:cohere-north"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:cohere-compass"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:cohere-model-vault"
+        }
+      ],
+      "series_kind": "tool_series"
     }
   ]
 }
