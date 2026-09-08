@@ -4624,7 +4624,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:muse-spark-1-2"
+      "id": "tool-level3:muse-spark-1-2",
+      "release_date": "2026-08-05"
     },
     {
       "vendor_key": "stepfun",
@@ -4718,7 +4719,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:step-3-5-flash"
+      "id": "tool-level3:step-3-5-flash",
+      "release_date": "2026-02-02"
     },
     {
       "vendor_key": "stepfun",
@@ -4799,7 +4801,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:step-3-7-flash"
+      "id": "tool-level3:step-3-7-flash",
+      "release_date": "2026-05-29"
     },
     {
       "vendor_key": "xiaomi",
@@ -15783,6 +15786,646 @@
         }
       ],
       "theme": "dev"
+    },
+    {
+      "id": "tool-level3:muse-spark-1.3",
+      "vendor_key": "meta",
+      "detail_kind": "api_model",
+      "title": "Muse Spark 1.3",
+      "vendor_label": "Meta（Llama）",
+      "icon": "🤖",
+      "official_url": "https://developer.meta.com/ai/models/muse-spark",
+      "status": "active",
+      "summary": "Muse Spark 1.3 是 Meta 官方推出的最新前沿智能体与编码大模型，原生支持 1M 上下文，较 1.2 版本减少 20% 工具调用与 25% Token 消耗。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1048576,
+        "conditions": "原生支持 100 万 tokens 上下文窗口，显著增强长程自主规划与自动化代码交付能力。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "标准商业版",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 1.25,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 4.25,
+                "unit": "每百万tokens"
+              }
+            ],
+            "conditions": "标准商业 API 接入，企业数据隔离不用于训练。"
+          },
+          {
+            "label": "贡献者优惠版",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.1,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 0.2,
+                "unit": "每百万tokens"
+              }
+            ],
+            "conditions": "社区贡献者折扣模式，数据用于产品改进。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "自主编码智能体",
+          "description": "长周期工程级重构、高准确率工具调用与自动化缺陷修复。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Products & Solutions for AI Developers | Meta",
+          "url": "https://developer.meta.com/ai"
+        }
+      ],
+      "release_date": "2026-09-02",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:muse-glimmer",
+      "vendor_key": "meta",
+      "detail_kind": "api_model",
+      "title": "Muse Glimmer",
+      "vendor_label": "Meta（Llama）",
+      "icon": "⚡",
+      "official_url": "https://developer.meta.com/ai",
+      "status": "active",
+      "summary": "Muse Glimmer 是 Meta 推出的轻量高吞吐推理大模型，具备低延迟响应与高效工具调用特性，支持 131k 上下文。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "轻量模型支持131k上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.3,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 1.1,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "轻量代码补全与查询",
+          "description": "高并发实时代码预测、代码解释与快速问答。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Products & Solutions for AI Developers | Meta",
+          "url": "https://developer.meta.com/ai"
+        }
+      ],
+      "release_date": "2026-08-10",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:muse-code",
+      "vendor_key": "meta",
+      "detail_kind": "tool",
+      "title": "Muse Code",
+      "vendor_label": "Meta（Llama）",
+      "icon": "💻",
+      "official_url": "https://developer.meta.com/ai",
+      "status": "active",
+      "summary": "Muse Code 是 Meta 推出的终端原生 AI 编程智能体，专为工程级代码分析、自动化测试执行与多文件重构设计。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前记录为开发者工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前记录为开发者工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "终端交互式开发",
+          "description": "命令行环境下长任务执行、跨模块代码审查与工程构建调试。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Products & Solutions for AI Developers | Meta",
+          "url": "https://developer.meta.com/ai"
+        }
+      ],
+      "last_updated_date": "2026-08-05",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:step-3",
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "Step 3",
+      "vendor_label": "阶跃星辰",
+      "icon": "🤖",
+      "official_url": "https://platform.stepfun.com",
+      "status": "active",
+      "summary": "Step 3 是阶跃星辰新一代基础大模型，采用 321B MoE 架构（激活 38B），具备轻量视觉路径与 AFD 解耦系统，兼顾强大视觉感知与数理推理。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "来源未提供1M上下文信息。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 1.5,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 4,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "图文多模态推理",
+          "description": "跨领域知识理解、数学图表交叉分析与通用视觉任务解答。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "阶跃星辰新一代基础大模型 Step 3 正式开源 - IT之家",
+          "url": "https://www.ithome.com/0/872/197.htm"
+        }
+      ],
+      "release_date": "2025-07-31",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:step-image-edit-2",
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "Step Image Edit 2",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎨",
+      "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+      "status": "active",
+      "summary": "Step Image Edit 2 是阶跃星辰推出的 3.5B 轻量架构图像编辑与通用生图大模型，具备高智能密度与秒级响应能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "生图模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "编辑生图单价",
+                "amount": 0.02,
+                "unit": "元/张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "极速图片编辑",
+          "description": "局部指令涂抹编辑、多图风格迁移与秒级快速生成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "定价与限速 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details"
+        }
+      ],
+      "release_date": "2026-04-10",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:step-2x-large",
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "Step 2X Large",
+      "vendor_label": "阶跃星辰",
+      "icon": "🖼️",
+      "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+      "status": "active",
+      "summary": "Step-2X-Large 是阶跃星辰商业文生图大模型，具备细腻画质与出色的中文语义遵循能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "生图模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "生成单价",
+                "amount": 0.1,
+                "unit": "元/张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "商业创意设计",
+          "description": "广告插图、高质量文生图创作与社交媒体素材生成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "定价与限速 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details"
+        }
+      ],
+      "release_date": "2026-06-12",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:stepaudio-2.5-tts",
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "StepAudio 2.5 TTS",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎙️",
+      "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+      "status": "active",
+      "summary": "StepAudio-2.5-TTS 是阶跃星辰基于语境理解的新一代语音合成大模型，具备双档语境风格控制与高表现力真人感。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "语音模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按字符用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "合成价格",
+                "amount": 5.8,
+                "unit": "元/万字符"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "拟真语音播报",
+          "description": "有声书情感朗读、智能助手拟人对话与游戏角色配音。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "定价与限速 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details"
+        }
+      ],
+      "release_date": "2026-03-25",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:stepaudio-2.5-asr",
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "StepAudio 2.5 ASR",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎧",
+      "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+      "status": "active",
+      "summary": "StepAudio-2.5-ASR 是阶跃星辰高精度大模型语音识别服务，面向复杂口音与多语种提供稳健识别。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "语音识别模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按时长计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "离线识别",
+                "amount": 0.15,
+                "unit": "元/小时"
+              },
+              {
+                "label": "流式识别",
+                "amount": 1.2,
+                "unit": "元/小时"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "会议纪要与实时字幕",
+          "description": "音视频转文字、实时字幕投屏与客服通话质检。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "定价与限速 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details"
+        }
+      ],
+      "release_date": "2026-03-25",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:stepfun-studio",
+      "vendor_key": "stepfun",
+      "detail_kind": "tool",
+      "title": "StepFun Studio",
+      "vendor_label": "阶跃星辰",
+      "icon": "🛠️",
+      "official_url": "https://studio.stepfun.com",
+      "status": "active",
+      "summary": "StepFun Studio 是阶跃星辰官方提供的大模型在线调试、Prompt 优化与智能体创作工作区。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "应用搭建与评估",
+          "description": "可视化学评测、模型链路调试与智能体多轮协作测试。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "阶跃星辰开放平台",
+          "url": "https://platform.stepfun.com"
+        }
+      ],
+      "last_updated_date": "2026-07-15",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:step-plan-flash-mini",
+      "vendor_key": "stepfun",
+      "detail_kind": "subscription_plan",
+      "title": "Step Plan Flash Mini",
+      "vendor_label": "阶跃星辰",
+      "icon": "💳",
+      "official_url": "https://platform.stepfun.com/docs/zh/step-plan/overview",
+      "status": "active",
+      "summary": "阶跃星辰入门体验 AI 订阅套餐，每月提供 400M Credits，支持全部旗舰模型与智能路由，覆盖多款 MCP 工具。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 49,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥49（季付 ¥129，年付 ¥456）；每月 400M Credits；Studio 赠 40% 专属创作额度。",
+        "included_models": [
+          "Step-3.7-Flash",
+          "Step-3.5-Flash",
+          "step-router-v1"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "入门探索与代码调试",
+          "description": "面向个人学习、轻量级日常代码辅写与基础 Agent 测试。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Step Plan 概述 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/step-plan/overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:step-plan-flash-plus",
+      "vendor_key": "stepfun",
+      "detail_kind": "subscription_plan",
+      "title": "Step Plan Flash Plus",
+      "vendor_label": "阶跃星辰",
+      "icon": "💳",
+      "official_url": "https://platform.stepfun.com/docs/zh/step-plan/overview",
+      "status": "active",
+      "summary": "阶跃星辰主力日用开发订阅套餐，每月提供 1,600M Credits，具备优先 API 速率与技术支持。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 99,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥99（季付 ¥269，年付 ¥936）；每月 1,600M Credits；优先 API 速率。",
+        "included_models": [
+          "Step-3.7-Flash",
+          "Step-3.5-Flash",
+          "step-router-v1"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "日常全栈开发",
+          "description": "日常前端/后端开发、自动化脚本编写与常规业务工作流编排。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Step Plan 概述 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/step-plan/overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:step-plan-flash-pro",
+      "vendor_key": "stepfun",
+      "detail_kind": "subscription_plan",
+      "title": "Step Plan Flash Pro",
+      "vendor_label": "阶跃星辰",
+      "icon": "💳",
+      "official_url": "https://platform.stepfun.com/docs/zh/step-plan/overview",
+      "status": "active",
+      "summary": "阶跃星辰专业优选订阅套餐，每月提供 8,000M Credits，适合重度 Agent 运行与长文档处理开发者。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 199,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥199（季付 ¥539，年付 ¥1860）；每月 8,000M Credits；优先 API 速率与技术支持。",
+        "included_models": [
+          "Step-3.7-Flash",
+          "Step-3.5-Flash",
+          "step-router-v1"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业级生产交付",
+          "description": "大型代码库重构、高频复杂智能体调用与长文档信息抽取。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Step Plan 概述 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/step-plan/overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:step-plan-flash-max",
+      "vendor_key": "stepfun",
+      "detail_kind": "subscription_plan",
+      "title": "Step Plan Flash Max",
+      "vendor_label": "阶跃星辰",
+      "icon": "💳",
+      "official_url": "https://platform.stepfun.com/docs/zh/step-plan/overview",
+      "status": "active",
+      "summary": "阶跃星辰全能尊享订阅套餐，每月提供 40,000M Credits，满足团队批量自动化与生产级集群调用需求。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 699,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥699（季付 ¥1889，年付 ¥6666）；每月 40,000M Credits；顶格 API 吞吐保证。",
+        "included_models": [
+          "Step-3.7-Flash",
+          "Step-3.5-Flash",
+          "step-router-v1"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "团队批量生产与高并发",
+          "description": "企业团队级自动化流程、批量多任务并发与系统级集成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Step Plan 概述 - StepFun 开放平台文档中心",
+          "url": "https://platform.stepfun.com/docs/zh/step-plan/overview"
+        }
+      ],
+      "theme": "general"
     }
   ]
 }

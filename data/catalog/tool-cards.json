@@ -6174,6 +6174,249 @@
         "id": "tool-level3:workbuddy"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:muse-spark-1.3",
+      "tool_key": "muse-spark-1.3",
+      "vendor_key": "meta",
+      "title": "Muse Spark 1.3",
+      "vendor_label": "Meta（Llama）",
+      "icon": "🤖",
+      "summary": "Muse Spark 1.3 是 Meta 官方推出的最新前沿智能体与编码大模型，原生支持 1M 上下文，较 1.2 版本减少 20% 工具调用与 25% Token 消耗。",
+      "theme": "general",
+      "scenes": [
+        "自主编码智能体"
+      ],
+      "best_for_preview": "长周期工程级重构、高准确率工具调用与自动化缺陷修复。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Muse Spark 1.3",
+        "Meta（Llama）",
+        "muse-spark-1.3"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:muse-spark-1.3"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:muse-glimmer",
+      "tool_key": "muse-glimmer",
+      "vendor_key": "meta",
+      "title": "Muse Glimmer",
+      "vendor_label": "Meta（Llama）",
+      "icon": "⚡",
+      "summary": "Muse Glimmer 是 Meta 推出的轻量高吞吐推理大模型，具备低延迟响应与高效工具调用特性，支持 131k 上下文。",
+      "theme": "general",
+      "scenes": [
+        "轻量代码补全与查询"
+      ],
+      "best_for_preview": "高并发实时代码预测、代码解释与快速问答。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Muse Glimmer",
+        "Meta（Llama）",
+        "muse-glimmer"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:muse-glimmer"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:muse-code",
+      "tool_key": "muse-code",
+      "vendor_key": "meta",
+      "title": "Muse Code",
+      "vendor_label": "Meta（Llama）",
+      "icon": "💻",
+      "summary": "Muse Code 是 Meta 推出的终端原生 AI 编程智能体，专为工程级代码分析、自动化测试执行与多文件重构设计。",
+      "theme": "dev",
+      "scenes": [
+        "终端交互式开发"
+      ],
+      "best_for_preview": "命令行环境下长任务执行、跨模块代码审查与工程构建调试。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Muse Code",
+        "Meta（Llama）",
+        "muse-code"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:muse-code"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:step-3",
+      "tool_key": "step-3",
+      "vendor_key": "stepfun",
+      "title": "Step 3",
+      "vendor_label": "阶跃星辰",
+      "icon": "🤖",
+      "summary": "Step 3 是阶跃星辰新一代基础大模型，采用 321B MoE 架构（激活 38B），具备轻量视觉路径与 AFD 解耦系统，兼顾强大视觉感知与数理推理。",
+      "theme": "general",
+      "scenes": [
+        "图文多模态推理"
+      ],
+      "best_for_preview": "跨领域知识理解、数学图表交叉分析与通用视觉任务解答。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Step 3",
+        "阶跃星辰",
+        "step-3"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:step-3"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:step-image-edit-2",
+      "tool_key": "step-image-edit-2",
+      "vendor_key": "stepfun",
+      "title": "Step Image Edit 2",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎨",
+      "summary": "Step Image Edit 2 是阶跃星辰推出的 3.5B 轻量架构图像编辑与通用生图大模型，具备高智能密度与秒级响应能力。",
+      "theme": "vision",
+      "scenes": [
+        "极速图片编辑"
+      ],
+      "best_for_preview": "局部指令涂抹编辑、多图风格迁移与秒级快速生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Step Image Edit 2",
+        "阶跃星辰",
+        "step-image-edit-2"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:step-image-edit-2"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:step-2x-large",
+      "tool_key": "step-2x-large",
+      "vendor_key": "stepfun",
+      "title": "Step 2X Large",
+      "vendor_label": "阶跃星辰",
+      "icon": "🖼️",
+      "summary": "Step-2X-Large 是阶跃星辰商业文生图大模型，具备细腻画质与出色的中文语义遵循能力。",
+      "theme": "vision",
+      "scenes": [
+        "商业创意设计"
+      ],
+      "best_for_preview": "广告插图、高质量文生图创作与社交媒体素材生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Step 2X Large",
+        "阶跃星辰",
+        "step-2x-large"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:step-2x-large"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:stepaudio-2.5-tts",
+      "tool_key": "stepaudio-2.5-tts",
+      "vendor_key": "stepfun",
+      "title": "StepAudio 2.5 TTS",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎙️",
+      "summary": "StepAudio-2.5-TTS 是阶跃星辰基于语境理解的新一代语音合成大模型，具备双档语境风格控制与高表现力真人感。",
+      "theme": "media",
+      "scenes": [
+        "拟真语音播报"
+      ],
+      "best_for_preview": "有声书情感朗读、智能助手拟人对话与游戏角色配音。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "StepAudio 2.5 TTS",
+        "阶跃星辰",
+        "stepaudio-2.5-tts"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:stepaudio-2.5-tts"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:stepaudio-2.5-asr",
+      "tool_key": "stepaudio-2.5-asr",
+      "vendor_key": "stepfun",
+      "title": "StepAudio 2.5 ASR",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎧",
+      "summary": "StepAudio-2.5-ASR 是阶跃星辰高精度大模型语音识别服务，面向复杂口音与多语种提供稳健识别。",
+      "theme": "media",
+      "scenes": [
+        "会议纪要与实时字幕"
+      ],
+      "best_for_preview": "音视频转文字、实时字幕投屏与客服通话质检。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "StepAudio 2.5 ASR",
+        "阶跃星辰",
+        "stepaudio-2.5-asr"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:stepaudio-2.5-asr"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:stepfun-studio",
+      "tool_key": "stepfun-studio",
+      "vendor_key": "stepfun",
+      "title": "StepFun Studio",
+      "vendor_label": "阶跃星辰",
+      "icon": "🛠️",
+      "summary": "StepFun Studio 是阶跃星辰官方提供的大模型在线调试、Prompt 优化与智能体创作工作区。",
+      "theme": "dev",
+      "scenes": [
+        "应用搭建与评估"
+      ],
+      "best_for_preview": "可视化学评测、模型链路调试与智能体多轮协作测试。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "StepFun Studio",
+        "阶跃星辰",
+        "stepfun-studio"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:stepfun-studio"
+      },
+      "detail_kind": "tool"
     }
   ]
 }

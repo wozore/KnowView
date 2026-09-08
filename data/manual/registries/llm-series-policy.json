@@ -1527,7 +1527,7 @@
     {
       "vendor_key": "meta",
       "direction": "llm",
-      "description": "Meta：目录现登记 Muse Spark 1.2 一条 api_model，官方系列结构尚未核实（inferred）。",
+      "description": "Meta：Muse 编程与推理大模型（含 Spark 1.3 旗舰及 Spark 1.2、Glimmer），Muse Code 开发者工具。",
       "families": [
         {
           "family": "muse",
@@ -1535,31 +1535,58 @@
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
+          "name_patterns": [
+            "muse",
+            "spark",
+            "glimmer"
+          ],
           "series": [
             {
-              "id": "vendor-level2:meta:muse-spark-1-2",
-              "title": "Muse Spark 1.2",
+              "id": "vendor-level2:meta:muse",
+              "title": "Muse 编程与推理大模型",
               "generation_state": "newest",
               "expected_members": [
-                "muse-spark-1-2"
+                "muse-spark-1.3",
+                "muse-spark-1-2",
+                "muse-glimmer"
               ]
             }
           ],
           "evidence": {
-            "url": "https://ai.meta.com/",
-            "status": "inferred"
-          },
+            "url": "https://developer.meta.com/ai/models/muse-spark",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "meta_tools",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
           "name_patterns": [
-            "muse",
-            "spark"
-          ]
+            "muse-code"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:meta:muse-code",
+              "title": "Meta 开发者与 Agent 工具",
+              "generation_state": "newest",
+              "expected_members": [
+                "muse-code"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://developer.meta.com/ai",
+            "status": "verified"
+          }
         }
       ]
     },
     {
       "vendor_key": "stepfun",
       "direction": "llm",
-      "description": "阶跃星辰：Step 3 主版本（3.7 Flash / 3.5 Flash）。",
+      "description": "阶跃星辰：Step 通用与推理模型、Step 图像、StepAudio 语音大模型、Studio 工具及 Step Plan 套餐。",
       "families": [
         {
           "family": "step",
@@ -1567,19 +1594,127 @@
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
+          "name_patterns": [
+            "step-3"
+          ],
           "series": [
             {
               "id": "vendor-level2:stepfun:step",
-              "title": "Step 模型",
+              "title": "Step 通用与推理模型",
               "generation_state": "newest",
               "expected_members": [
                 "step-3-7-flash",
-                "step-3-5-flash"
+                "step-3-5-flash",
+                "step-3"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.stepfun.com/docs/zh/guides/models/overview",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "step_image",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "step-image",
+            "step-2x"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:stepfun:step-image",
+              "title": "Step 图像生成与编辑",
+              "generation_state": "newest",
+              "expected_members": [
+                "step-image-edit-2",
+                "step-2x-large"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "step_audio",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "stepaudio",
+            "tts",
+            "asr"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:stepfun:step-audio",
+              "title": "StepAudio 语音大模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "stepaudio-2.5-tts",
+                "stepaudio-2.5-asr"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "step_tools",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "stepfun-studio"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:stepfun:step-developer-tools",
+              "title": "阶跃星辰开发者工具",
+              "generation_state": "newest",
+              "expected_members": [
+                "stepfun-studio"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://studio.stepfun.com",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "step_plan",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "step-plan"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:stepfun:step-plan",
+              "title": "套餐（Step Plan）",
+              "generation_state": "newest",
+              "expected_members": [
+                "step-plan-flash-mini",
+                "step-plan-flash-plus",
+                "step-plan-flash-pro",
+                "step-plan-flash-max"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.stepfun.com/docs/zh/step-plan/overview",
             "status": "verified"
           }
         }

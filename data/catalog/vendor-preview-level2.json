@@ -426,34 +426,17 @@
       ]
     },
     {
-      "id": "vendor-level2:meta:muse-spark-1-2",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:meta"
-      },
-      "vendor_key": "meta",
-      "title": "Muse Spark 1.2",
-      "official_url": "https://developer.meta.com/ai/models/muse-spark",
-      "summary": "Meta 提供 Muse 系列模型，包含 Muse Spark 1.2、Muse Spark 1.1 和 Muse Glimmer，以及 Llama 系列模型。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:muse-spark-1-2"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:stepfun:step",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:stepfun"
       },
       "vendor_key": "stepfun",
-      "title": "Step 模型",
-      "official_url": "https://platform.stepfun.com/",
-      "summary": "StepFun 开放平台提供一系列大模型 API，包括对话、推理等接口。",
+      "title": "Step 通用与推理模型",
+      "official_url": "https://platform.stepfun.com",
+      "summary": "阶跃星辰新一代基础大模型与高效率 Agent 推理模型系列，包含 Step 3.7 Flash、Step 3.5 Flash 与 Step 3 基础基座。",
       "status": "active",
+      "series_kind": "model_series",
       "detail_refs": [
         {
           "kind": "tool-level3",
@@ -462,6 +445,10 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:step-3-5-flash"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:step-3"
         }
       ]
     },
@@ -2255,6 +2242,148 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:codebuddy-team"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:meta:muse",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:meta"
+      },
+      "vendor_key": "meta",
+      "title": "Muse 编程与推理大模型",
+      "official_url": "https://developer.meta.com/ai/models/muse-spark",
+      "summary": "Meta 专为长周期智能体与真实代码工作流打造的原生多模态模型家族，包含 Muse Spark 1.3、Muse Spark 1.2 及轻量级 Muse Glimmer。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:muse-spark-1.3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:muse-spark-1-2"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:muse-glimmer"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:meta:muse-code",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:meta"
+      },
+      "vendor_key": "meta",
+      "title": "Meta 开发者与 Agent 工具",
+      "official_url": "https://developer.meta.com/ai",
+      "summary": "Meta 官方终端原生 AI 编程智能体工具，覆盖代码重构、工具调用与多步自动化任务执行。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:muse-code"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:stepfun:step-image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:stepfun"
+      },
+      "vendor_key": "stepfun",
+      "title": "Step 图像生成与编辑",
+      "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+      "summary": "阶跃星辰商业生图与图像编辑大模型家族，涵盖轻量秒级 Step Image Edit 2 与高画质 Step-2X-Large。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:step-image-edit-2"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:step-2x-large"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:stepfun:step-audio",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:stepfun"
+      },
+      "vendor_key": "stepfun",
+      "title": "StepAudio 语音大模型",
+      "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+      "summary": "阶跃星辰具备语境感知力的高拟真语音合成（StepAudio-2.5-TTS）与大模型语音识别（StepAudio-2.5-ASR）。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:stepaudio-2.5-tts"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:stepaudio-2.5-asr"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:stepfun:step-developer-tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:stepfun"
+      },
+      "vendor_key": "stepfun",
+      "title": "阶跃星辰开发者工具",
+      "official_url": "https://studio.stepfun.com",
+      "summary": "阶跃星辰官方开发者工作区平台 StepFun Studio，提供在线模型调试、Prompt 优化与智能体协同开发。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:stepfun-studio"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:stepfun:step-plan",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:stepfun"
+      },
+      "vendor_key": "stepfun",
+      "title": "套餐（Step Plan）",
+      "official_url": "https://platform.stepfun.com/docs/zh/step-plan/overview",
+      "summary": "阶跃星辰官方 AI 编程与 Agent 开发专属订阅套餐，以统一 Credit 月池计费，覆盖 Mini、Plus、Pro 与 Max 档位。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:step-plan-flash-mini"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:step-plan-flash-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:step-plan-flash-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:step-plan-flash-max"
         }
       ]
     }

@@ -1125,6 +1125,63 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-08",
       "last_official_update_at": "2026-09-07"
+    },
+    "muse-code": {
+      "name": "Muse Code",
+      "vendor_key": "meta",
+      "official_urls": [
+        "https://developer.meta.com/ai",
+        "https://developer.meta.com/ai/resources/blog/build-with-muse-code"
+      ],
+      "aliases": [
+        "Muse Code"
+      ],
+      "product_prefixes": [
+        "muse code",
+        "muse-code"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://developer.meta.com/ai",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-08-05"
+    },
+    "stepfun-studio": {
+      "name": "StepFun Studio",
+      "vendor_key": "stepfun",
+      "official_urls": [
+        "https://studio.stepfun.com",
+        "https://platform.stepfun.com"
+      ],
+      "aliases": [
+        "StepFun Studio",
+        "Studio"
+      ],
+      "product_prefixes": [
+        "stepfun studio",
+        "studio.stepfun"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://platform.stepfun.com/docs",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-07-15"
     }
   }
 }
