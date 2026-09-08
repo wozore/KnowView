@@ -6579,6 +6579,249 @@
         "id": "tool-level3:nvidia-nim"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:doubao-1.5-pro",
+      "tool_key": "doubao-1.5-pro",
+      "vendor_key": "bytedance",
+      "title": "Doubao-1.5-Pro",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🥟",
+      "summary": "Doubao-1.5-Pro 是字节跳动火山引擎旗舰大语言模型，采用 Prefill 与 Decode 分离架构，兼具卓越推理性能与行业领先的高并发吞吐能力。",
+      "theme": "general",
+      "scenes": [
+        "企业级生产应用"
+      ],
+      "best_for_preview": "面向智能体、复杂逻辑分析、知识库问答与高频业务系统集成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Doubao-1.5-Pro",
+        "字节跳动（豆包）",
+        "doubao-1.5-pro"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:doubao-1.5-pro"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:doubao-1.5-lite",
+      "tool_key": "doubao-1.5-lite",
+      "vendor_key": "bytedance",
+      "title": "Doubao-1.5-Lite",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "⚡",
+      "summary": "Doubao-1.5-Lite 是字节跳动推出的高响应轻量级大模型，超低调用成本，适合海量轻度会话与高并发交互场景。",
+      "theme": "general",
+      "scenes": [
+        "海量轻量交互"
+      ],
+      "best_for_preview": "智能客服初筛、内容总结与轻量自动化工作流。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Doubao-1.5-Lite",
+        "字节跳动（豆包）",
+        "doubao-1.5-lite"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:doubao-1.5-lite"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:doubao-seed-2.0-mini",
+      "tool_key": "doubao-seed-2.0-mini",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seed-2.0-Mini",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🌱",
+      "summary": "Doubao-Seed-2.0-Mini 是字节跳动新一代多模态推理模型，具备低延迟、低成本、四档位可调思考与多模态感知能力，支持 256k 上下文。",
+      "theme": "general",
+      "scenes": [
+        "灵活思考推理"
+      ],
+      "best_for_preview": "根据任务难度自适应多档位思维链深度，适配日常轻度至中度复杂 Agent 任务。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Doubao-Seed-2.0-Mini",
+        "字节跳动（豆包）",
+        "doubao-seed-2.0-mini"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:doubao-seed-2.0-mini"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:doubao-seedance-2.0-mini",
+      "tool_key": "doubao-seedance-2.0-mini",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seedance-2.0-Mini",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🎬",
+      "summary": "Doubao-Seedance-2.0-Mini 是火山引擎自研视频生成大模型，支持音视频图文多模态参考，提供高性价比的 480P 与 720P 动态视频生成。",
+      "theme": "media",
+      "scenes": [
+        "多模态创意视频创作"
+      ],
+      "best_for_preview": "电商广告分镜动态化、社交短视频生成与图文素材动态延展。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Doubao-Seedance-2.0-Mini",
+        "字节跳动（豆包）",
+        "doubao-seedance-2.0-mini"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:doubao-seedance-2.0-mini"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:doubao-seedream-5.0-pro",
+      "tool_key": "doubao-seedream-5.0-pro",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seedream-5.0-Pro",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🎨",
+      "summary": "Doubao-Seedream-5.0-Pro 是字节跳动自研旗舰生图与图像编辑大模型，支持分层图层精准编辑与复杂中文场景艺术渲染。",
+      "theme": "vision",
+      "scenes": [
+        "商业精细排版设计"
+      ],
+      "best_for_preview": "营销视觉海报、电商主体生成与高精细度分层图画局部重绘。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Doubao-Seedream-5.0-Pro",
+        "字节跳动（豆包）",
+        "doubao-seedream-5.0-pro"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:doubao-seedream-5.0-pro"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:doubao-seedream-5.0-lite",
+      "tool_key": "doubao-seedream-5.0-lite",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seedream-5.0-Lite",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🖼️",
+      "summary": "Doubao-Seedream-5.0-Lite 具备高可控创作、实时检索与主体一致性保持能力，支持秒级文生图与图生图。",
+      "theme": "vision",
+      "scenes": [
+        "快速文图创意"
+      ],
+      "best_for_preview": "社媒配图生成、批量概念图初筛与图生图风格迁移。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Doubao-Seedream-5.0-Lite",
+        "字节跳动（豆包）",
+        "doubao-seedream-5.0-lite"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:doubao-seedream-5.0-lite"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:inkling",
+      "tool_key": "inkling",
+      "vendor_key": "thinking-machines",
+      "title": "Inkling",
+      "vendor_label": "Thinking Machines Lab",
+      "icon": "🧠",
+      "summary": "Inkling 是 Thinking Machines Lab 自研的前沿混合架构 MoE 旗舰全模态大模型，总参数 975B（激活 41B），原生支持文本、图像与音频跨模态推理，支持 1M 上下文。",
+      "theme": "general",
+      "scenes": [
+        "全模态深度推理与代码"
+      ],
+      "best_for_preview": "文本、图像与音频联合理解、数理科学推理、复杂代码编写与智能体工具调用。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Inkling",
+        "Thinking Machines Lab",
+        "inkling"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:inkling"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:inkling-small",
+      "tool_key": "inkling-small",
+      "vendor_key": "thinking-machines",
+      "title": "Inkling-Small",
+      "vendor_label": "Thinking Machines Lab",
+      "icon": "💡",
+      "summary": "Inkling-Small 是 Thinking Machines Lab 推出的 276B MoE 轻量全模态大模型（激活 12B），在低延迟与超低成本下保留绝大部分旗舰全模态能力。",
+      "theme": "general",
+      "scenes": [
+        "高性价比全模态调用"
+      ],
+      "best_for_preview": "低时延图文对话、音频理解与高吞吐量轻度推理场景。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Inkling-Small",
+        "Thinking Machines Lab",
+        "inkling-small"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:inkling-small"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:tinker",
+      "tool_key": "tinker",
+      "vendor_key": "thinking-machines",
+      "title": "Tinker",
+      "vendor_label": "Thinking Machines Lab",
+      "icon": "⚙️",
+      "summary": "Tinker 是 Thinking Machines Lab 官方打造的大模型微调训练、低延迟推理与采样平台，通过极简代码即可完成跨模型微调与高效推理分发。",
+      "theme": "dev",
+      "scenes": [
+        "模型微调与高效采样"
+      ],
+      "best_for_preview": "MoE 模型下游领域适配微调、批量蒸馏与生产级高吞吐采样服务。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Tinker",
+        "Thinking Machines Lab",
+        "tinker"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:tinker"
+      },
+      "detail_kind": "tool"
     }
   ]
 }

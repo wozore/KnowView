@@ -5310,7 +5310,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:doubao-seed-character-260628"
+      "id": "tool-level3:doubao-seed-character-260628",
+      "release_date": "2026-06-28"
     },
     {
       "vendor_key": "deepseek",
@@ -16931,6 +16932,825 @@
         }
       ],
       "theme": "general"
+    },
+    {
+      "id": "tool-level3:doubao-1.5-pro",
+      "vendor_key": "bytedance",
+      "detail_kind": "api_model",
+      "title": "Doubao-1.5-Pro",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🥟",
+      "official_url": "https://www.volcengine.com/product/doubao",
+      "status": "active",
+      "summary": "Doubao-1.5-Pro 是字节跳动火山引擎旗舰大语言模型，采用 Prefill 与 Decode 分离架构，兼具卓越推理性能与行业领先的高并发吞吐能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持32K与256K长上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费-32k",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.8,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 2,
+                "unit": "每百万tokens"
+              }
+            ]
+          },
+          {
+            "label": "按量计费-256k",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 5,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 9,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业级生产应用",
+          "description": "面向智能体、复杂逻辑分析、知识库问答与高频业务系统集成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "百万tokens仅需8毛，豆包全新1.5Pro不走捷径 - 澎湃新闻",
+          "url": "https://www.thepaper.cn/newsDetail_forward_30006530"
+        }
+      ],
+      "release_date": "2025-07-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:doubao-1.5-lite",
+      "vendor_key": "bytedance",
+      "detail_kind": "api_model",
+      "title": "Doubao-1.5-Lite",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "⚡",
+      "official_url": "https://www.volcengine.com/product/doubao",
+      "status": "active",
+      "summary": "Doubao-1.5-Lite 是字节跳动推出的高响应轻量级大模型，超低调用成本，适合海量轻度会话与高并发交互场景。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持32K上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费-32k",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.3,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 0.6,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "海量轻量交互",
+          "description": "智能客服初筛、内容总结与轻量自动化工作流。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "百万tokens仅需8毛，豆包全新1.5Pro不走捷径 - 澎湃新闻",
+          "url": "https://www.thepaper.cn/newsDetail_forward_30006530"
+        }
+      ],
+      "release_date": "2025-07-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:doubao-seed-2.0-mini",
+      "vendor_key": "bytedance",
+      "detail_kind": "api_model",
+      "title": "Doubao-Seed-2.0-Mini",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🌱",
+      "official_url": "https://ai.volcengine.com/model",
+      "status": "active",
+      "summary": "Doubao-Seed-2.0-Mini 是字节跳动新一代多模态推理模型，具备低延迟、低成本、四档位可调思考与多模态感知能力，支持 256k 上下文。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持256K上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "推理输入",
+                "amount": 0.8,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "推理输出",
+                "amount": 8,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "灵活思考推理",
+          "description": "根据任务难度自适应多档位思维链深度，适配日常轻度至中度复杂 Agent 任务。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "AI Hub-豆包大模型API服务平台 - 火山引擎",
+          "url": "https://ai.volcengine.com/model"
+        }
+      ],
+      "release_date": "2026-04-28",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:doubao-seedance-2.0-mini",
+      "vendor_key": "bytedance",
+      "detail_kind": "api_model",
+      "title": "Doubao-Seedance-2.0-Mini",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🎬",
+      "official_url": "https://ai.volcengine.com/model",
+      "status": "active",
+      "summary": "Doubao-Seedance-2.0-Mini 是火山引擎自研视频生成大模型，支持音视频图文多模态参考，提供高性价比的 480P 与 720P 动态视频生成。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "视频生成模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入单价",
+                "amount": 22,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出单价",
+                "amount": 37,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "多模态创意视频创作",
+          "description": "电商广告分镜动态化、社交短视频生成与图文素材动态延展。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "AI Hub-豆包大模型API服务平台 - 火山引擎",
+          "url": "https://ai.volcengine.com/model"
+        }
+      ],
+      "release_date": "2026-06-15",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:doubao-seedream-5.0-pro",
+      "vendor_key": "bytedance",
+      "detail_kind": "api_model",
+      "title": "Doubao-Seedream-5.0-Pro",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🎨",
+      "official_url": "https://ai.volcengine.com/model",
+      "status": "active",
+      "summary": "Doubao-Seedream-5.0-Pro 是字节跳动自研旗舰生图与图像编辑大模型，支持分层图层精准编辑与复杂中文场景艺术渲染。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入底图",
+                "amount": 0.02,
+                "unit": "元/张"
+              },
+              {
+                "label": "生成单价",
+                "amount": 0.3,
+                "unit": "元/张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "商业精细排版设计",
+          "description": "营销视觉海报、电商主体生成与高精细度分层图画局部重绘。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "AI Hub-豆包大模型API服务平台 - 火山引擎",
+          "url": "https://ai.volcengine.com/model"
+        }
+      ],
+      "release_date": "2026-06-28",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:doubao-seedream-5.0-lite",
+      "vendor_key": "bytedance",
+      "detail_kind": "api_model",
+      "title": "Doubao-Seedream-5.0-Lite",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "🖼️",
+      "official_url": "https://ai.volcengine.com/model",
+      "status": "active",
+      "summary": "Doubao-Seedream-5.0-Lite 具备高可控创作、实时检索与主体一致性保持能力，支持秒级文生图与图生图。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "生成单价",
+                "amount": 0.22,
+                "unit": "元/张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "快速文图创意",
+          "description": "社媒配图生成、批量概念图初筛与图生图风格迁移。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "AI Hub-豆包大模型API服务平台 - 火山引擎",
+          "url": "https://ai.volcengine.com/model"
+        }
+      ],
+      "release_date": "2026-01-28",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:trae-lite",
+      "vendor_key": "bytedance",
+      "detail_kind": "subscription_plan",
+      "title": "Trae Lite",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "💳",
+      "official_url": "https://docs.trae.ai/ide/new-plans-and-billing",
+      "status": "active",
+      "summary": "Trae 入门级会员订阅套餐，包含每月 $5 基础算力额度，适合轻度开发与个人代码辅助。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 3,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "自动续费月付 $3.00（单月付 $4.50，年付 $27.00 折合 $2.25/月）；每月包含 $5.00 Basic Usage 额度。",
+        "included_models": [
+          "Claude 3.7 Sonnet",
+          "GPT-4o",
+          "Doubao-1.5-Pro"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "个人轻量代码编写",
+          "description": "学生与个人开发者日常代码补全、小型脚本编写与轻度调试。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Plans & billing - Trae Docs",
+          "url": "https://docs.trae.ai/ide/new-plans-and-billing"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:trae-pro",
+      "vendor_key": "bytedance",
+      "detail_kind": "subscription_plan",
+      "title": "Trae Pro",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "💳",
+      "official_url": "https://docs.trae.ai/ide/new-plans-and-billing",
+      "status": "active",
+      "summary": "Trae 主力专业版会员订阅，每月包含 $20 基础算力额度与无限 SOLO 智能体模式，全面解锁顶级代码模型。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 10,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "自动续费月付 $10.00（单月付 $15.00，年付 $90.00 折合 $7.50/月）；新用户支持 14 天 Pro 免费试用；每月包含 $20.00 Basic Usage 额度。",
+        "included_models": [
+          "Claude 3.7 Sonnet",
+          "Claude 3.5 Sonnet",
+          "GPT-4o",
+          "DeepSeek-V3",
+          "Doubao-1.5-Pro"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "全栈开发者首选",
+          "description": "全模型自由调用、SOLO 自主智能体开发与大型代码工程多文件重构。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Plans & billing - Trae Docs",
+          "url": "https://docs.trae.ai/ide/new-plans-and-billing"
+        },
+        {
+          "title": "Upgrading TRAE Membership Benefits | TRAE",
+          "url": "https://www.trae.ai/blog/trae_membership_0213"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:trae-pro-plus",
+      "vendor_key": "bytedance",
+      "detail_kind": "subscription_plan",
+      "title": "Trae Pro+",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "💳",
+      "official_url": "https://docs.trae.ai/ide/new-plans-and-billing",
+      "status": "active",
+      "summary": "Trae 高阶会员订阅套餐，提供 Pro 版 3.5 倍算力额度（每月 $90 Basic Usage）并支持多达 15 个并发云端任务。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 30,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "自动续费月付 $30.00（单月付 $45.00，年付 $270.00 折合 $22.50/月）；每月包含 $90.00 Basic Usage 额度；支持 15 个并发云端任务。",
+        "included_models": [
+          "All models available",
+          "SOLO Agent"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高频重度 Agent 研发",
+          "description": "持续多任务并发运行、长周期智能体规划与大型系统自动化交付。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Plans & billing - Trae Docs",
+          "url": "https://docs.trae.ai/ide/new-plans-and-billing"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:trae-ultra",
+      "vendor_key": "bytedance",
+      "detail_kind": "subscription_plan",
+      "title": "Trae Ultra",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "💳",
+      "official_url": "https://docs.trae.ai/ide/new-plans-and-billing",
+      "status": "active",
+      "summary": "Trae 顶配旗舰会员套餐，每月提供 $400 顶格基础算力额度，适合极客与高强度专业团队自动化。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 100,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "自动续费月付 $100.00（单月付 $150.00，年付 $900.00 折合 $75.00/月）；每月包含 $400.00 Basic Usage 额度。",
+        "included_models": [
+          "All models available"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业级高并发自动化",
+          "description": "全天候无间断 Agent 自动化生成、批量重构与超长上下文任务交付。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Plans & billing - Trae Docs",
+          "url": "https://docs.trae.ai/ide/new-plans-and-billing"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:doubao-resource-package-10m",
+      "vendor_key": "bytedance",
+      "detail_kind": "subscription_plan",
+      "title": "豆包 1000万 Token 资源包",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "💳",
+      "official_url": "https://www.volcengine.com/docs/84458/1585067",
+      "status": "active",
+      "summary": "火山引擎官方大模型调用资源包，9000 积分规格，12 个月有效期，可抵扣约 1000 万 tokens。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 9,
+        "currency": "CNY",
+        "billing_period": "year",
+        "conditions": "售价 ¥9.00；有效期 12 个月；包含 9,000 积分，支持 Doubao-1.5-Pro、Lite、Seedream 等全系抵扣。",
+        "included_models": [
+          "Doubao-1.5-pro",
+          "Doubao-1.5-lite",
+          "Doubao-pro-32k"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "中小应用调用抵扣",
+          "description": "扣子智能体、火山方舟模型接口调用成本优化与定额控制。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "豆包大模型资源包 - 火山引擎",
+          "url": "https://www.volcengine.com/docs/84458/1585067"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:doubao-resource-package-100m",
+      "vendor_key": "bytedance",
+      "detail_kind": "subscription_plan",
+      "title": "豆包 1.1亿 Token 资源包",
+      "vendor_label": "字节跳动（豆包）",
+      "icon": "💳",
+      "official_url": "https://www.volcengine.com/docs/84458/1585067",
+      "status": "active",
+      "summary": "火山引擎官方大模型调用资源包，100,000 积分规格，12 个月有效期，可抵扣约 1.1 亿 tokens。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 100,
+        "currency": "CNY",
+        "billing_period": "year",
+        "conditions": "售价 ¥100.00；有效期 12 个月；包含 100,000 积分，可抵扣约 1.1 亿 tokens。",
+        "included_models": [
+          "Doubao-1.5-pro",
+          "Doubao-1.5-lite",
+          "Doubao-pro-32k"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "生产级批量调用抵扣",
+          "description": "面向企业应用、智能问答业务与自动化流水线高频调用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "豆包大模型资源包 - 火山引擎",
+          "url": "https://www.volcengine.com/docs/84458/1585067"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:inkling",
+      "vendor_key": "thinking-machines",
+      "detail_kind": "api_model",
+      "title": "Inkling",
+      "vendor_label": "Thinking Machines Lab",
+      "icon": "🧠",
+      "official_url": "https://thinkingmachines.ai/inkling",
+      "status": "active",
+      "summary": "Inkling 是 Thinking Machines Lab 自研的前沿混合架构 MoE 旗舰全模态大模型，总参数 975B（激活 41B），原生支持文本、图像与音频跨模态推理，支持 1M 上下文。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1048576,
+        "conditions": "原生支持 100 万 tokens 上下文窗口（Tinker 平台开放 64k 与 256k 快速接入）。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Tinker API 64k (限时5折优惠)",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格 (Prefill)",
+                "amount": 1.87,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格 (Sample)",
+                "amount": 4.68,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "缓存输入 (Cached)",
+                "amount": 0.374,
+                "unit": "每百万tokens"
+              }
+            ]
+          },
+          {
+            "label": "Tinker API 256k (限时5折优惠)",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格 (Prefill)",
+                "amount": 3.74,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格 (Sample)",
+                "amount": 9.36,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "缓存输入 (Cached)",
+                "amount": 0.748,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "全模态深度推理与代码",
+          "description": "文本、图像与音频联合理解、数理科学推理、复杂代码编写与智能体工具调用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Inkling Model Card - Thinking Machines Lab",
+          "url": "https://thinkingmachines.ai/model-card/inkling"
+        },
+        {
+          "title": "Models & Pricing - Tinker Documentation",
+          "url": "https://tinker-docs.thinkingmachines.ai/tinker/models"
+        }
+      ],
+      "release_date": "2026-04-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:inkling-small",
+      "vendor_key": "thinking-machines",
+      "detail_kind": "api_model",
+      "title": "Inkling-Small",
+      "vendor_label": "Thinking Machines Lab",
+      "icon": "💡",
+      "official_url": "https://thinkingmachines.ai/inkling",
+      "status": "active",
+      "summary": "Inkling-Small 是 Thinking Machines Lab 推出的 276B MoE 轻量全模态大模型（激活 12B），在低延迟与超低成本下保留绝大部分旗舰全模态能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持64K与256K上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Tinker API 64k (限时5折优惠)",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格 (Prefill)",
+                "amount": 0.58,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格 (Sample)",
+                "amount": 1.44,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "缓存输入 (Cached)",
+                "amount": 0.116,
+                "unit": "每百万tokens"
+              }
+            ]
+          },
+          {
+            "label": "Tinker API 256k (限时5折优惠)",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格 (Prefill)",
+                "amount": 1.16,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格 (Sample)",
+                "amount": 2.89,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "缓存输入 (Cached)",
+                "amount": 0.232,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高性价比全模态调用",
+          "description": "低时延图文对话、音频理解与高吞吐量轻度推理场景。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Models & Pricing - Tinker Documentation",
+          "url": "https://tinker-docs.thinkingmachines.ai/tinker/models"
+        }
+      ],
+      "release_date": "2026-08-12",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:tinker",
+      "vendor_key": "thinking-machines",
+      "detail_kind": "tool",
+      "title": "Tinker",
+      "vendor_label": "Thinking Machines Lab",
+      "icon": "⚙️",
+      "official_url": "https://thinkingmachines.ai/tinker",
+      "status": "active",
+      "summary": "Tinker 是 Thinking Machines Lab 官方打造的大模型微调训练、低延迟推理与采样平台，通过极简代码即可完成跨模型微调与高效推理分发。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "微服务基础设施工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "微服务基础设施工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "模型微调与高效采样",
+          "description": "MoE 模型下游领域适配微调、批量蒸馏与生产级高吞吐采样服务。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Tinker - Thinking Machines Lab",
+          "url": "https://thinkingmachines.ai/tinker"
+        },
+        {
+          "title": "Tinker Documentation",
+          "url": "https://tinker-docs.thinkingmachines.ai"
+        }
+      ],
+      "last_updated_date": "2026-05-10",
+      "theme": "dev"
     }
   ]
 }

@@ -1269,6 +1269,34 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-08",
       "last_official_update_at": "2025-08-15"
+    },
+    "tinker": {
+      "name": "Tinker",
+      "vendor_key": "thinking-machines",
+      "official_urls": [
+        "https://thinkingmachines.ai/tinker",
+        "https://tinker-docs.thinkingmachines.ai"
+      ],
+      "aliases": [
+        "Tinker",
+        "Tinker Platform"
+      ],
+      "product_prefixes": [
+        "tinker"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://thinkingmachines.ai/tinker",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-05-10"
     }
   }
 }

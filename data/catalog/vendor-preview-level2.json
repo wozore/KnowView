@@ -524,24 +524,6 @@
       ]
     },
     {
-      "id": "vendor-level2:bytedance:seed-character",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:bytedance"
-      },
-      "vendor_key": "bytedance",
-      "title": "Seed Character",
-      "official_url": "https://docs.volcengine.com/docs/82379/1399009",
-      "summary": "火山方舟是火山引擎提供的大模型服务平台，支持文本生成、视频生成等多种模型。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:doubao-seed-character-260628"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:alibaba:qwen",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -674,10 +656,11 @@
         "id": "vendor-level1:bytedance"
       },
       "vendor_key": "bytedance",
-      "title": "TRAE",
+      "title": "TRAE AI IDE",
       "official_url": "https://www.trae.ai/",
-      "summary": "字节跳动旗下 AI 编程工具，提供智能代码编辑、开发协作与智能体工作流。",
+      "summary": "字节跳动自研 AI 原生集成开发环境，具备 SOLO 自主智能体工作区、多文件重构与全链路工程构建能力。",
       "status": "active",
+      "series_kind": "tool_series",
       "detail_refs": [
         {
           "kind": "tool-level3",
@@ -2508,6 +2491,160 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:nvidia-ai-enterprise-subscription"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:bytedance:doubao",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:bytedance"
+      },
+      "vendor_key": "bytedance",
+      "title": "豆包通用与推理模型",
+      "official_url": "https://www.volcengine.com/product/doubao",
+      "summary": "字节跳动火山引擎旗舰语言大模型与推理模型家族，包含 Doubao-1.5-Pro、极速版 1.5-Lite、四档思考的 Seed-2.0-Mini 与 Seed Character 角色扮演模型。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-1.5-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-1.5-lite"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-seed-2.0-mini"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-seed-character-260628"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:bytedance:doubao-vision-video",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:bytedance"
+      },
+      "vendor_key": "bytedance",
+      "title": "豆包图像与视频生成",
+      "official_url": "https://ai.volcengine.com/model",
+      "summary": "字节跳动多模态视觉生成模型家族，涵盖音视频参考视频生成的 Seedance-2.0-Mini，以及精准分层生图编辑的 Seedream-5.0 系列。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-seedance-2.0-mini"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-seedream-5.0-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-seedream-5.0-lite"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:bytedance:trae-subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:bytedance"
+      },
+      "vendor_key": "bytedance",
+      "title": "套餐（TRAE 会员）",
+      "official_url": "https://docs.trae.ai/ide/new-plans-and-billing",
+      "summary": "Trae 官方基于 Token 算力额度的会员订阅方案，支持 Free、Lite、Pro、Pro+ 与 Ultra 多档位，提供 14 天 Pro 免费试用。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:trae-lite"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:trae-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:trae-pro-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:trae-ultra"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:bytedance:doubao-token-packages",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:bytedance"
+      },
+      "vendor_key": "bytedance",
+      "title": "套餐（豆包大模型资源包）",
+      "official_url": "https://www.volcengine.com/docs/84458/1585067",
+      "summary": "火山引擎官方大模型调用积分资源包，包含 1000 万与 1.1 亿 tokens 等不同抵扣规格，12 个月内有效。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-resource-package-10m"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:doubao-resource-package-100m"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:thinking-machines:inkling",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:thinking-machines"
+      },
+      "vendor_key": "thinking-machines",
+      "title": "Inkling 全模态推理模型",
+      "official_url": "https://thinkingmachines.ai/inkling",
+      "summary": "Thinking Machines Lab 研发的原生全模态大模型家族，包含 975B 旗舰 MoE 的 Inkling 与 276B 轻量 MoE 的 Inkling-Small，支持文本、图像与音频跨模态推理。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:inkling"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:inkling-small"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:thinking-machines:tinker",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:thinking-machines"
+      },
+      "vendor_key": "thinking-machines",
+      "title": "Tinker 开发与推理平台",
+      "official_url": "https://thinkingmachines.ai/tinker",
+      "summary": "Thinking Machines Lab 官方微服务基础设施，支持前沿开源大模型的快速微调、采样服务与统一 API 分发。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:tinker"
         }
       ]
     }
