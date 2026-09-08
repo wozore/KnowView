@@ -1067,6 +1067,64 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-08",
       "last_official_update_at": "2026-09-08"
+    },
+    "qwen-code": {
+      "name": "Qwen Code",
+      "vendor_key": "alibaba",
+      "official_urls": [
+        "https://github.com/QwenLM/qwen-code"
+      ],
+      "aliases": [
+        "Qwen Code",
+        "qwen-code"
+      ],
+      "product_prefixes": [
+        "qwen-code",
+        "qwen code"
+      ],
+      "update_sources": [
+        {
+          "kind": "github_releases",
+          "review_mode": "deterministic",
+          "url": "https://github.com/QwenLM/qwen-code/releases",
+          "collector": "github_web_release",
+          "product_surface": "cli",
+          "date_mode": "latest",
+          "repository": "QwenLM/qwen-code",
+          "include_prerelease": false
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-08-25"
+    },
+    "workbuddy": {
+      "name": "WorkBuddy",
+      "vendor_key": "codebuddy-vendor",
+      "official_urls": [
+        "https://www.codebuddy.ai",
+        "https://cloud.tencent.com/product/codebuddy"
+      ],
+      "aliases": [
+        "WorkBuddy",
+        "Tencent WorkBuddy"
+      ],
+      "product_prefixes": [
+        "workbuddy"
+      ],
+      "update_sources": [
+        {
+          "kind": "release_notes",
+          "review_mode": "deterministic",
+          "url": "https://www.codebuddy.ai/docs/ide/release-notes/release-notes",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-09-07"
     }
   }
 }

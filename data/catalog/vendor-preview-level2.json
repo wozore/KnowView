@@ -401,14 +401,31 @@
         "id": "vendor-level1:tencent"
       },
       "vendor_key": "tencent",
-      "title": "混元 Hy3",
+      "title": "混元通用/推理大模型",
       "official_url": "https://cloud.tencent.com.cn/product/tclm",
-      "summary": "腾讯混元大模型是由腾讯公司全链路自研的通用与多模态大模型家族，覆盖文本、图像、视频、语音、3D等模态，面向内容生产、知识问答、业务自动化等场景提供企业级服务。",
+      "summary": "腾讯混元通用与深度思考大模型系列，涵盖 2026 最新旗舰 Hy4 preview、混元 3.0 基座、Hunyuan-T1 深度思考推理模型与高并发生文模型。",
       "status": "active",
+      "series_kind": "model_series",
       "detail_refs": [
         {
           "kind": "tool-level3",
+          "id": "tool-level3:hy4-preview"
+        },
+        {
+          "kind": "tool-level3",
           "id": "tool-level3:hy3"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:hunyuan-t1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:hunyuan-turbos"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:hy2-think"
         }
       ]
     },
@@ -539,14 +556,19 @@
         "id": "vendor-level1:alibaba"
       },
       "vendor_key": "alibaba",
-      "title": "Qwen 模型",
-      "official_url": "https://help.aliyun.com/zh/model-studio/qwen3-7-max",
-      "summary": "Qwen3.7系列中规模最大、综合能力最强的Max模型，面向智能体时代设计，在编程、办公与生产力、长周期自主执行等智能体能力方面表现出色。",
+      "title": "Qwen 通用/全模态/推理模型",
+      "official_url": "https://help.aliyun.com/zh/model-studio/qwen3-8-max",
+      "summary": "通义千问通用语言与原生全模态大模型系列，覆盖旗舰推理、全模态音视频同传、高性价比生产力与超长文档理解。",
       "status": "active",
+      "series_kind": "model_series",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-8-max"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen3-5-omni"
         },
         {
           "kind": "tool-level3",
@@ -555,42 +577,14 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-7-plus"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:alibaba:qwen3-5-omni",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen3.5 Omni",
-      "official_url": "https://help.aliyun.com/zh/model-studio/qwen-omni",
-      "summary": "阿里云百炼平台提供的通义千问 Omni 系列全模态大模型，支持文本、图像、音频和视频的联合理解与生成，覆盖多种应用场景。",
-      "status": "active",
-      "detail_refs": [
+        },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:qwen3-5-omni"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:alibaba:qwen-image-2",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen Image 2",
-      "official_url": "https://help.aliyun.com/en/model-studio/qwen-image-2-0-pro",
-      "summary": "阿里云百炼平台提供的千问图像生成与编辑模型，整合图像生成与编辑能力，具备专业文字渲染、真实质感与更强语义遵循能力。",
-      "status": "active",
-      "detail_refs": [
+          "id": "tool-level3:qwen3-8-flash"
+        },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:qwen-image-2-0-pro"
+          "id": "tool-level3:qwen-long"
         }
       ]
     },
@@ -637,14 +631,19 @@
         "id": "vendor-level1:tencent"
       },
       "vendor_key": "tencent",
-      "title": "Hy-MT2",
+      "title": "混元多语言翻译",
       "official_url": "https://hunyuan.tencent.com/research/100041?langVersion=zh",
-      "summary": "Hy-MT2 是腾讯混元推出的高性能多语言翻译模型，支持 33 种语言互译，7B 和 30B-A3B 模型在翻译任务上达到开源模型最佳效果。",
+      "summary": "腾讯混元多语言翻译模型系列，覆盖高性能开源 MoE 翻译模型 Hy-MT2 与腾讯云商业翻译 API。",
       "status": "active",
+      "series_kind": "model_series",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:hy-mt2-30b-a3b"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:hunyuan-translation"
         }
       ]
     },
@@ -728,14 +727,19 @@
         "id": "vendor-level1:tencent"
       },
       "vendor_key": "tencent",
-      "title": "CodeBuddy",
+      "title": "腾讯云 AI 编程与 Agent 工具",
       "official_url": "https://intl.cloud.tencent.com/document/product/1256/77266?lang=en",
-      "summary": "腾讯云 AI 编程工具，覆盖 IDE、插件与 CLI 等开发形态。",
+      "summary": "腾讯云 AI 开发者工具与全能 Agent 工作生态，涵盖 CodeBuddy AI 代码助手与 WorkBuddy 全场景 Agent 平台。",
       "status": "active",
+      "series_kind": "tool_series",
       "detail_refs": [
         {
           "kind": "tool-level3",
           "id": "tool-level3:codebuddy"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy"
         }
       ]
     },
@@ -899,42 +903,6 @@
       ]
     },
     {
-      "id": "vendor-level2:alibaba:qwen3-8-max",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen3.8-Max",
-      "official_url": "https://help.aliyun.com/zh/model-studio/qwen3-8-max",
-      "summary": "qwen3.8-max是阿里云百炼平台提供的Qwen3.8原生视觉语言系列旗舰模型，拥有2.4万亿参数，采用MoE架构，支持文本、图像和视频输入，文本输出，具备原生视觉理解能力，支持超长上下文和长程任务规划，适用于编程、办公、法律、金融、设计等专业场景。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen3-8-max"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:alibaba:qwen3-7-max",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen3.7-Max",
-      "official_url": "https://help.aliyun.com/en/model-studio/qwen3-7-max",
-      "summary": "Qwen3.7系列中的Max模型，是千问3.7系列中规模最大、能力最强的旗舰模型，专为智能体时代设计，在编程、办公和长期自主执行等智能体级能力方面表现突出。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen3-7-max"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:zhipu:glm-5-3-flash",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -953,24 +921,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:glm-4-7-flash"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:alibaba:qwen3-8-flash",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen3.8-Flash",
-      "official_url": "https://help.aliyun.com/zh/model-studio",
-      "summary": "阿里云大模型服务平台百炼是面向企业客户及合作伙伴的一站式大模型商业化平台，基于通义大模型、行业大模型及三方大模型，提供模型训练、微调、评估等全链路工具，并通过 API 提供 Qwen、DeepSeek、GLM、Kimi 等多种模态的模型服务。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen3-8-flash"
         }
       ]
     },
@@ -2196,6 +2146,232 @@
         }
       ],
       "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:alibaba:qwen-vl",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "Qwen 视觉理解与视觉推理",
+      "official_url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "summary": "阿里云百炼 QVQ 视觉思维链推理模型系列，结合视觉感知与多步逻辑推导，擅长数理图表题与设计稿分析。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qvq-max"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qvq-plus"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:alibaba:qwen-image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "Qwen 图像与视频生成",
+      "official_url": "https://www.aliyun.com/product/tongyi",
+      "summary": "通义千问图像与万相视频生成模型系列，支持超长提示词输入、复杂版面中英文字渲染与高画质视频生成。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen-image-3.0-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen-image-2-0-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:wan2.7-t2v"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:alibaba:qwen-translate",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "Qwen 多语言翻译",
+      "official_url": "https://help.aliyun.com/zh/model-studio/qwen-mt-plus",
+      "summary": "通义千问官方专业机器翻译模型系列，提供旗舰级与高吞吐多语言互译能力。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen-mt-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen-mt-flash"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:alibaba:qwen-embedding-rerank",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "Qwen 向量与重排序",
+      "official_url": "https://help.aliyun.com/zh/model-studio/text-embedding-v4",
+      "summary": "基于 Qwen3 训练的多语言文本统一向量模型与高精度重排序模型，赋能企业 RAG 与精准搜索。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:text-embedding-v4"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen3-rerank"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:alibaba:qwen-developer-tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "通义与 Qwen 开发者工具",
+      "official_url": "https://help.aliyun.com/zh/lingma",
+      "summary": "阿里巴巴官方研发的 AI 编程智能体与终端自动化工具家族，包含 Qoder AI IDE 与 Qwen Code 终端智能体。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qoder"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen-code"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:alibaba:bailian-coding-plan",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "套餐（Coding Plan）",
+      "official_url": "https://help.aliyun.com/zh/model-studio/coding-plan",
+      "summary": "阿里云百炼面向开发者推出的 AI 编码专属多模型订阅套餐，固定月费模式有效防范欠费风险。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:coding-plan-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:coding-plan-lite"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:tencent:hunyuan-vision",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:tencent"
+      },
+      "vendor_key": "tencent",
+      "title": "混元视觉多模态理解",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "summary": "腾讯混元视觉理解模型系列，支持高精度图文解析、票据文档识别与多模态复杂问答。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:tencent-hy-vision-1.5-instruct"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:tencent:hunyuan-image-video",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:tencent"
+      },
+      "vendor_key": "tencent",
+      "title": "混元图像与视频生成",
+      "official_url": "https://cloud.tencent.com/document/product/1729/105925",
+      "summary": "腾讯混元原生多模态视觉生成家族，涵盖 80B MoE 混元图像 3.0 与腾讯云混元生视频服务。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:hunyuan-image-3.0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:hunyuan-video"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:tencent:hunyuan-embedding",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:tencent"
+      },
+      "vendor_key": "tencent",
+      "title": "混元文本向量",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "summary": "腾讯混元官方文本向量化大模型，用于提升 RAG 向量检索与企业知识库语义匹配精度。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:hunyuan-embedding"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:tencent:codebuddy-subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:tencent"
+      },
+      "vendor_key": "tencent",
+      "title": "套餐（CodeBuddy 会员）",
+      "official_url": "https://www.codebuddy.ai/docs/ide/Account/pricing",
+      "summary": "CodeBuddy 官方订阅计划，提供个人专业版与团队企业版，支持全模型自由切换与多端共享额度池。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:codebuddy-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:codebuddy-team"
+        }
+      ]
     }
   ]
 }

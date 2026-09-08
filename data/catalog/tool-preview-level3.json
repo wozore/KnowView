@@ -7455,10 +7455,10 @@
       "last_updated_date": "2026-06-19"
     },
     {
-      "vendor_key": "qoder-vendor",
+      "vendor_key": "alibaba",
       "detail_kind": "tool",
       "title": "Qoder",
-      "vendor_label": "Qoder",
+      "vendor_label": "阿里巴巴（通义千问）",
       "icon": "🧩",
       "official_url": "https://qoder.com/",
       "status": "active",
@@ -15104,6 +15104,1250 @@
         }
       ],
       "theme": "general"
+    },
+    {
+      "id": "tool-level3:qwen-long",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Qwen Long",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🤖",
+      "official_url": "https://help.aliyun.com/zh/model-studio/qwen-long",
+      "status": "active",
+      "summary": "Qwen-Long 是专为处理超长上下文设计的文本大语言模型，支持高达百万 tokens 的输入，具备极高性价比的文档理解与分析能力。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "原生支持百万 token 输入，擅长长文档抽取、多篇对比与超长对话问答。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量付费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.5,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 2,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "长文档分析",
+          "description": "处理几十万字长篇研报、图书、代码库与多篇文献。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Qwen-Long 模型信息 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/qwen-long"
+        }
+      ],
+      "release_date": "2025-07-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:qvq-max",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "QVQ Max",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🤖",
+      "official_url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "status": "active",
+      "summary": "QVQ-Max 是阿里云百炼推出的视觉推理旗舰模型，结合原生视觉感知与思维链（CoT）推理能力，擅长复杂图表计算与视觉多步逻辑分析。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "来源未提供上下文窗口长度信息"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量付费-北京",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 8,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 32,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视觉思维链推理",
+          "description": "擅长高等数理图表题解答、几何推理、复杂流程图分析与设计稿逻辑校验。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "模型调用价格 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/model-pricing"
+        }
+      ],
+      "release_date": "2025-12-25",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:qvq-plus",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "QVQ Plus",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🤖",
+      "official_url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "status": "active",
+      "summary": "QVQ-Plus 是高性价比的视觉推理模型，兼具视觉理解与轻量级逻辑推理能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "来源未提供上下文窗口长度信息"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量付费-北京",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 2,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 5,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高性价比视觉分析",
+          "description": "日常图片问答、表格结构解析与图文常识推理。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "模型调用价格 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/model-pricing"
+        }
+      ],
+      "release_date": "2026-02-15",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:qwen-image-3.0-pro",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Qwen Image 3.0 Pro",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🎨",
+      "official_url": "https://www.aliyun.com/product/tongyi",
+      "status": "active",
+      "summary": "Qwen-Image-3.0-Pro 是千问图像生成与编辑旗舰模型，支持超长提示词输入，具备高精度的复杂版面文字渲染与真实质感生成能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像生成模型不适用1M文本上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "生成单价",
+                "amount": 0.25,
+                "unit": "元/张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "商业海报与插画",
+          "description": "电商主图、图文海报排版、高保真概念图与人物设计。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "千问大模型 - 阿里云官网",
+          "url": "https://www.aliyun.com/product/tongyi"
+        }
+      ],
+      "release_date": "2026-04-18",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:wan2.7-t2v",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Wan2.7 T2V",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🎬",
+      "official_url": "https://www.aliyun.com/product/tongyi",
+      "status": "active",
+      "summary": "Wan2.7-T2V 是通义万相 2.7 视频生成模型，支持文本与参考图生成高质量连续动态视频，物理规律逼真，画质精细。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "视频生成模型不适用1M文本上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成秒数计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "视频生成",
+                "amount": 0.5,
+                "unit": "元/秒"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "动态视频创作",
+          "description": "广告分镜、创意动画与社交短视频自动生成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "千问大模型 - 阿里云官网",
+          "url": "https://www.aliyun.com/product/tongyi"
+        }
+      ],
+      "release_date": "2026-05-10",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:qwen-mt-plus",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Qwen MT Plus",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🌐",
+      "official_url": "https://help.aliyun.com/zh/model-studio/qwen-mt-plus",
+      "status": "active",
+      "summary": "Qwen-MT-Plus 是千问旗舰专业翻译大模型，支持数十种主流语言互译，在领域术语与文学意境翻译上具备卓越效果。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "翻译专用模型最大上下文16k。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量付费-北京",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 1.8,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 5.4,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业跨境翻译",
+          "description": "技术文档出海、商务合同翻译与多语言文献对照。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "qwen-mt-plus 模型信息 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/qwen-mt-plus"
+        }
+      ],
+      "release_date": "2025-08-10",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:qwen-mt-flash",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Qwen MT Flash",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🌐",
+      "official_url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "status": "active",
+      "summary": "Qwen-MT-Flash 是高吞吐、低延迟的多语言翻译模型，适用于实时沟通与海量文档翻译。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "翻译专用模型。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量付费-北京",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.7,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 1.95,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "海量快速翻译",
+          "description": "电商商品批量翻译、客户工单实时翻译与国际化信息同步。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "模型调用价格 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/model-pricing"
+        }
+      ],
+      "release_date": "2025-09-01",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:text-embedding-v4",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Text Embedding V4",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "📐",
+      "official_url": "https://help.aliyun.com/zh/model-studio/text-embedding-v4",
+      "status": "active",
+      "summary": "通用文本向量 V4 是通义实验室基于 Qwen3 训练的多语言文本统一向量模型，在文本检索与多语言评测中表现优异，支持自定义维度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "向量模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量付费-北京",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "文本输入",
+                "amount": 0.5,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "Batch File 输入",
+                "amount": 0.25,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业知识库 RAG",
+          "description": "私有知识库索引构建、语义搜索与文档分类聚类。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "text-embedding-v4 模型信息 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/text-embedding-v4"
+        }
+      ],
+      "release_date": "2026-03-12",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:qwen3-rerank",
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Qwen3 Rerank",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "📊",
+      "official_url": "https://help.aliyun.com/zh/model-studio/billing-for-knowledge-base",
+      "status": "active",
+      "summary": "基于 Qwen3 的高精度重排序模型，配合向量模型显著提升检索增强生成（RAG）精度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "重排序模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量付费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "重排输入",
+                "amount": 0.5,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "精细化重排",
+          "description": "在初筛文档中进行语义二次深度比对排序，压降无关噪点。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "知识库计费说明 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/billing-for-knowledge-base"
+        }
+      ],
+      "release_date": "2026-03-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:qwen-code",
+      "vendor_key": "alibaba",
+      "detail_kind": "tool",
+      "title": "Qwen Code",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "⌨️",
+      "official_url": "https://github.com/QwenLM/qwen-code",
+      "status": "active",
+      "summary": "Qwen Code 是通义千问官方开源的终端 AI 编程智能体，专为终端自动化、跨代码库理解与复杂重构设计，支持 ACP 智能体委托协议。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "终端智能体编程",
+          "description": "终端交互式命令行开发、CI/CD 自动化脚本与子智能体协作。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Qwen Code - GitHub 官方仓库",
+          "url": "https://github.com/QwenLM/qwen-code"
+        }
+      ],
+      "last_updated_date": "2026-08-25",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:coding-plan-pro",
+      "vendor_key": "alibaba",
+      "detail_kind": "subscription_plan",
+      "title": "Coding Plan Pro",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "💳",
+      "official_url": "https://help.aliyun.com/zh/model-studio/coding-plan",
+      "status": "active",
+      "summary": "阿里云百炼 AI 编码高级订阅套餐，固定月费模式防欠费，每月包含 90,000 次请求额度，多模型合一。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 200,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "固定月费套餐；新客首月特惠 ¥39.90；每月 90,000 次请求（每 5 小时 6,000 次滚动恢复）。",
+        "included_models": [
+          "Qwen3.8-Max",
+          "Qwen3.7-Plus",
+          "Qwen3-Coder",
+          "GLM-5",
+          "Kimi-K2.5",
+          "MiniMax-M2.5"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高频 AI 编码开发",
+          "description": "在 Qoder、Claude Code、Cursor、Cline 等 AI 编码工具中高频调用各家顶级模型。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Coding Plan 概述 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/coding-plan"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:coding-plan-lite",
+      "vendor_key": "alibaba",
+      "detail_kind": "subscription_plan",
+      "title": "Coding Plan Lite",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "💳",
+      "official_url": "https://help.aliyun.com/zh/model-studio/coding-plan",
+      "status": "active",
+      "summary": "阿里云百炼历史基础订阅套餐（已停止新购，存量保留），每月包含 18,000 次请求额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 40,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "存量历史套餐维护；每月 18,000 次请求额度。",
+        "included_models": [
+          "Qwen3.5-Plus",
+          "Qwen3-Coder",
+          "GLM-4.7",
+          "Kimi-K2.5"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "轻量学习与调试",
+          "description": "面向个人轻量开发和日常代码辅助编写。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Coding Plan 概述 - 阿里云百炼",
+          "url": "https://help.aliyun.com/zh/model-studio/coding-plan"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:hy4-preview",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Hy4 Preview",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🤖",
+      "official_url": "https://cloud.tencent.com/product/tclm",
+      "status": "active",
+      "summary": "腾讯混元最新旗舰模型，总参数 770B，激活 49B，支持 1M 上下文，经专项优化显著降低长任务轮次与 Token 消耗，性能稳居开源与商用第一梯队。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "原生支持 100 万 tokens 上下文窗口，长程指令遵循与任务规划能力大幅提升。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 2.5,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 10,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂 Agent 与超长长程规划",
+          "description": "面向代码生成、跨领域多步推理、大规模工程重构与长文本综合分析。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元：Hy4 preview 模型升级 - IT之家",
+          "url": "https://www.ithome.com/0/999/369.htm"
+        },
+        {
+          "title": "腾讯混元大模型 - 腾讯云",
+          "url": "https://cloud.tencent.com/product/tclm"
+        }
+      ],
+      "release_date": "2026-08-28",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:hunyuan-t1",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Hunyuan T1",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🧠",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "status": "active",
+      "summary": "Hunyuan-T1 是腾讯混元推出的深度思考/推理大模型，采用思维链显式推理机制，擅长数理逻辑、算法设计与深层推导。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "来源未提供上下文窗口长度信息"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 1,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 4,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "深度数理与逻辑推演",
+          "description": "奥数竞赛题解、复杂算法逻辑推导与多分支任务规划。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元大模型 混元生文计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1729/97731"
+        }
+      ],
+      "release_date": "2025-08-15",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:hunyuan-turbos",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Hunyuan TurboS",
+      "vendor_label": "腾讯（混元）",
+      "icon": "⚡",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "status": "active",
+      "summary": "Hunyuan-TurboS 是腾讯混元主力高性价比通用语言模型，兼具高吞吐与强响应能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "来源未提供上下文窗口长度信息"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.8,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 2,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高并发业务场景",
+          "description": "智能客服、日常文案创作、信息检索摘要与内容结构化。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元大模型 混元生文计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1729/97731"
+        }
+      ],
+      "release_date": "2025-07-20",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:hy2-think",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Tencent HY 2.0 Think",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🤔",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "status": "active",
+      "summary": "Tencent HY 2.0 Think 是腾讯商用长思考模型，支持不同输入长度的阶梯计费。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持128k上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "短文本阶梯(<=32k)",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 3.975,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 15.9,
+                "unit": "每百万tokens"
+              }
+            ]
+          },
+          {
+            "label": "长文本阶梯(32k-128k)",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 5.3,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 21.2,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "长链条推理",
+          "description": "面向复杂业务分析与多步条件判断决策。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元大模型 混元生文计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1729/97731"
+        }
+      ],
+      "release_date": "2025-11-10",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:hunyuan-translation",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Hunyuan Translation",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🌐",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "status": "active",
+      "summary": "腾讯混元通用商用翻译模型 API，面向多语言互译提供企业级高吞吐翻译服务。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "翻译模型不适用1M生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 1.2,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 3.6,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "多语言内容出海",
+          "description": "企业出海翻译、多语言网页本地化与跨境邮件翻译。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元大模型 混元生文计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1729/97731"
+        }
+      ],
+      "release_date": "2025-08-01",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:tencent-hy-vision-1.5-instruct",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "HY Vision 1.5 Instruct",
+      "vendor_label": "腾讯（混元）",
+      "icon": "👁️",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "status": "active",
+      "summary": "腾讯混元视觉多模态指令大模型，支持高精度的图像内容问答、文字识别与细粒度场景解析。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "视觉模型不适用1M文本上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 3,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 9,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "视觉分析问答",
+          "description": "图表解读、票据文档识别、场景图像描述与视觉内容审核。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元大模型 混元生文计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1729/97731"
+        }
+      ],
+      "release_date": "2025-09-18",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:hunyuan-image-3.0",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "混元图像 3.0",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🎨",
+      "official_url": "https://cloud.tencent.com/document/product/1729/105925",
+      "status": "active",
+      "summary": "混元图像 3.0 是腾讯混元开源与商业部署的 80B MoE 原生多模态生图与图生图模型，支持思维链推理修图、多图融合与精美排版。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "生图模型不适用1M文本上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量后付费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "标准生图",
+                "amount": 0.5,
+                "unit": "元/张"
+              },
+              {
+                "label": "轻量生图",
+                "amount": 0.099,
+                "unit": "元/张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高质量创意设计",
+          "description": "社交媒体配图、电商营销海报、多图合成与高精度图片编辑。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元大模型 混元生图计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1729/105925"
+        },
+        {
+          "title": "腾讯混元图像 3.0 图生图模型发布 - IT之家",
+          "url": "https://www.ithome.com/0/916/409.htm"
+        }
+      ],
+      "release_date": "2026-01-26",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:hunyuan-video",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "混元生视频",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🎬",
+      "official_url": "https://cloud.tencent.com/product/vclm",
+      "status": "active",
+      "summary": "腾讯混元生视频（Tencent HY Video）提供高质量图生视频与文生视频 API，生成画面流畅自然，时序一致性强。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "视频生成模型不适用1M文本上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量后付费",
+            "pricing_basis": "按积分计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "积分单价",
+                "amount": 1.2,
+                "unit": "元/积分"
+              }
+            ],
+            "conditions": "图生视频 720p 每次消耗 5 积分，1080p 每次消耗 5 积分，日结扣费。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "短视频与动效制作",
+          "description": "影视特效制作、广告动态展示与静态照片动效转化。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元生视频 计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1616/118994"
+        }
+      ],
+      "release_date": "2025-12-10",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:hunyuan-embedding",
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Hunyuan Embedding",
+      "vendor_label": "腾讯（混元）",
+      "icon": "📐",
+      "official_url": "https://cloud.tencent.com/document/product/1729/97731",
+      "status": "active",
+      "summary": "腾讯混元文本向量化大模型，用于将文本转换为高维稠密向量，提升检索匹配精度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "向量模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.7,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业搜索与知识匹配",
+          "description": "用于腾讯云知识引擎、RAG 向量检索与智能客服知识库匹配。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯混元大模型 混元生文计费概述 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1729/97731"
+        }
+      ],
+      "release_date": "2025-07-10",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:workbuddy",
+      "vendor_key": "tencent",
+      "detail_kind": "tool",
+      "title": "WorkBuddy",
+      "vendor_label": "腾讯（混元）",
+      "icon": "💼",
+      "official_url": "https://www.codebuddy.ai",
+      "status": "active",
+      "summary": "WorkBuddy 是腾讯与 CodeBuddy 团队推出的全能 AI Agent 桌面工作平台，面向全场景办公与智能体协同，支持 Windows、macOS、鸿蒙、银河麒麟与统信系统。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "桌面 Agent 智能协作",
+          "description": "日常办公自动化、多格式文档深度解析与智能体基座开放生态。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "腾讯 WorkBuddy 开放平台上线 - IT之家",
+          "url": "https://www.ithome.com/0/999/369.htm"
+        }
+      ],
+      "last_updated_date": "2026-09-07",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:codebuddy-pro",
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "CodeBuddy Pro",
+      "vendor_label": "腾讯（混元）",
+      "icon": "💳",
+      "official_url": "https://www.codebuddy.ai/docs/ide/Account/pricing",
+      "status": "active",
+      "summary": "CodeBuddy 个人专业版订阅，每月提供 2,000 Credits，代码补全无限制，支持所有可用模型。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 10,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月费 $10.00；年付 $96.00（折合 $8.00/月）；每月 2,000 Credits（1,000 基础 + 1,000 赠送）。",
+        "included_models": [
+          "All models available",
+          "Auto routing"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业开发者",
+          "description": "全模型自由切换、无限次实时代码自动补全与工程级跨文件解析。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Tencent Cloud Code Assistant CodeBuddy",
+          "url": "https://www.codebuddy.ai/docs/ide/Account/pricing"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:codebuddy-team",
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "CodeBuddy Team",
+      "vendor_label": "腾讯（混元）",
+      "icon": "💳",
+      "official_url": "https://www.codebuddy.ai/docs/ide/Account/pricing",
+      "status": "active",
+      "summary": "CodeBuddy 团队版订阅，面向企业与研发团队提供团队额度池共享与统一账单管理。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 40,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月费 $40.00/席位；年付 $480.00/席位/年；每席位每月 1,000 Credits 团队共享池；统一管理员控制台。",
+        "included_models": [
+          "All models available"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "团队与企业协作",
+          "description": "统一配额管理、团队代码资产协同与多 IDE/CLI 跨端统一支持。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing | Tencent Cloud Code Assistant CodeBuddy",
+          "url": "https://www.codebuddy.ai/docs/ide/Account/pricing"
+        }
+      ],
+      "theme": "dev"
     }
   ]
 }
