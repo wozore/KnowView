@@ -1707,6 +1707,8 @@ main:has(#view-compare.active.cmp-wide-active) { max-width: none; }
 .rate-grid strong { color: var(--text); font-size: 14px; }
 .rate-card small { color: var(--text-hint); }
 .plan-card { border-left: 3px solid var(--primary); background: var(--surface); padding: 9px 12px; }
+.plan-price-lines { display: grid; gap: 2px; }
+.plan-price-line { margin: 0; }
 .intelligence-scenarios > div { margin: 4px 0; }
 .intelligence-sources { padding-top: 8px; border-top: 1px dashed var(--border); }
 .intelligence-sources a { color: var(--primary); margin-right: 5px; }

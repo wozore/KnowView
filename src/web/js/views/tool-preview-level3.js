@@ -28,6 +28,16 @@ function renderRateCard(rate) {
   return '<div class="rate-card"><b>' + escapeHtml(rate.label) + '</b><div class="rate-grid"><span>输入（缓存命中）<strong>' + formatPrice(rate.input_cached, rate.currency) + '</strong></span><span>输入（缓存未命中）<strong>' + formatPrice(rate.input_uncached, rate.currency) + '</strong></span><span>输出<strong>' + formatPrice(rate.output, rate.currency) + '</strong></span></div><small>单位：每百万 tokens · ' + escapeHtml(rate.conditions || '') + '</small></div>';
 }
 
+function renderPlanPrices(plan) {
+  const period = escapeHtml({ month: '月', year: '年', usage: '按量', custom: '定制', unknown: '周期待核验' }[plan.billing_period] || plan.billing_period);
+  if (Array.isArray(plan.regional_prices) && plan.regional_prices.length) {
+    return '<div class="plan-price-lines">' + plan.regional_prices.map(price =>
+      '<p class="plan-price-line"><b>' + escapeHtml(price.region || '地区') + '：</b>' + formatPrice(price.amount, price.currency) + ' / ' + period + '</p>'
+    ).join('') + '</div>';
+  }
+  return '<p class="plan-price-line"><b>' + formatPrice(plan.amount, plan.currency) + ' / ' + period + '</b></p>';
+}
+
 function renderToolLevel3(request = {}) {
   const { detail, toolKey = null, showCompare = false, compareSelected = false, backRef = null } = request;
   if (!detail) return '<div class="intelligence-unavailable">工具详情暂不可用。</div>';
@@ -56,7 +66,7 @@ function renderToolLevel3(request = {}) {
   const planHtml = plan?.status === 'not_applicable'
     ? notApplicableHtml('套餐信息', plan)
     : plan
-      ? '<div class="plan-card"><h5>套餐信息</h5><p><b>' + formatPrice(plan.amount, plan.currency) + ' / ' + escapeHtml({ month: '月', year: '年', usage: '按量', custom: '定制', unknown: '周期待核验' }[plan.billing_period] || plan.billing_period) + '</b></p><p>' + escapeHtml(plan.conditions || '') + '</p><p><b>主要模型：</b>' + (plan.included_models_status === 'not_listed' ? '官方未列出' : plan.included_models?.length ? plan.included_models.map(escapeHtml).join('、') : '官方资料待核验') + '</p></div>'
+      ? '<div class="plan-card"><h5>套餐信息</h5>' + renderPlanPrices(plan) + '<p>' + escapeHtml(plan.conditions || '') + '</p><p><b>主要模型：</b>' + (plan.included_models_status === 'not_listed' ? '官方未列出' : plan.included_models?.length ? plan.included_models.map(escapeHtml).join('、') : '官方资料待核验') + '</p></div>'
       : '';
   const compareHtml = showCompareAction
     ? '<div class="leaf-actions"><button class="compare-toggle ' + (compareSelected ? 'selected' : '') + '" onclick="toggleCompareRef(\'' + escapeHtml(detail.id) + '\',\'' + escapeHtml(detail.id) + '\',this)">' + (compareSelected ? '已选' : '+对比') + '</button></div>'

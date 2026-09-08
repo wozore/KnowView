@@ -8938,6 +8938,10 @@
         "amount": 22,
         "currency": "USD",
         "billing_period": "month",
+        "regional_prices": [
+          { "region": "海外平台", "amount": 22, "currency": "USD" },
+          { "region": "中国大陆平台", "amount": 49, "currency": "CNY" }
+        ],
         "conditions": "地区价格：海外平台 $22/月；中国大陆平台 ¥49/月。两地均为 5 小时窗口与周窗口，约支持 3–4 个 Agent。可用资源以对应地区平台和账户页面为准。",
         "included_models": ["MiniMax M3", "MiniMax M2.7"],
         "included_models_status": "partial"
@@ -8987,6 +8991,10 @@
         "amount": 55,
         "currency": "USD",
         "billing_period": "month",
+        "regional_prices": [
+          { "region": "海外平台", "amount": 55, "currency": "USD" },
+          { "region": "中国大陆平台", "amount": 119, "currency": "CNY" }
+        ],
         "conditions": "地区价格：海外平台 $55/月；中国大陆平台 ¥119/月。两地均为 5 小时窗口与周窗口，约支持 4–5 个 Agent。可用资源以对应地区平台和账户页面为准。",
         "included_models": ["MiniMax M3", "MiniMax M2.7"],
         "included_models_status": "partial"
@@ -9036,6 +9044,10 @@
         "amount": 132,
         "currency": "USD",
         "billing_period": "month",
+        "regional_prices": [
+          { "region": "海外平台", "amount": 132, "currency": "USD" },
+          { "region": "中国大陆平台", "amount": 469, "currency": "CNY" }
+        ],
         "conditions": "地区价格：海外平台 $132/月；中国大陆平台 ¥469/月。两地均为 5 小时窗口与周窗口，约支持 6–7 个 Agent。可用资源以对应地区平台和账户页面为准。",
         "included_models": ["MiniMax M3", "MiniMax M2.7"],
         "included_models_status": "partial"
