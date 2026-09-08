@@ -1182,6 +1182,93 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-08",
       "last_official_update_at": "2026-07-15"
+    },
+    "mimo-code": {
+      "name": "MiMo Code",
+      "vendor_key": "xiaomi",
+      "official_urls": [
+        "https://mimo.mi.com",
+        "https://github.com/Xiaomi/mimo-code"
+      ],
+      "aliases": [
+        "MiMo Code",
+        "mimo-code"
+      ],
+      "product_prefixes": [
+        "mimo-code",
+        "mimo code"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://mimo.mi.com",
+          "collector": "tavily_extract",
+          "product_surface": "cli",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-06-15"
+    },
+    "xiaomi-mimo-studio": {
+      "name": "Xiaomi MiMO Studio",
+      "vendor_key": "xiaomi",
+      "official_urls": [
+        "https://aistudio.xiaomimimo.com",
+        "https://mimo.mi.com"
+      ],
+      "aliases": [
+        "Xiaomi MiMO Studio",
+        "MiMO Studio"
+      ],
+      "product_prefixes": [
+        "mimo studio",
+        "aistudio.xiaomimimo"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://aistudio.xiaomimimo.com",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2025-12-16"
+    },
+    "nvidia-nim": {
+      "name": "NVIDIA NIM",
+      "vendor_key": "nvidia",
+      "official_urls": [
+        "https://build.nvidia.com",
+        "https://docs.api.nvidia.com/nim/"
+      ],
+      "aliases": [
+        "NVIDIA NIM",
+        "NIM"
+      ],
+      "product_prefixes": [
+        "nvidia nim",
+        "nim"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://docs.api.nvidia.com/nim/docs/product",
+          "collector": "tavily_extract",
+          "product_surface": "product",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2025-08-15"
     }
   }
 }

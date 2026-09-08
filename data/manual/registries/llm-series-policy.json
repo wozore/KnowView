@@ -1723,7 +1723,7 @@
     {
       "vendor_key": "xiaomi",
       "direction": "llm",
-      "description": "小米：MiMo V2.5 家族（标准 / Pro 档位）。",
+      "description": "小米：MiMo 通用与推理模型、全模态与多媒体、开发者工具及 Token Plan 套餐。",
       "families": [
         {
           "family": "mimo",
@@ -1734,16 +1734,96 @@
           "series": [
             {
               "id": "vendor-level2:xiaomi:mimo",
-              "title": "MiMo 模型",
+              "title": "MiMo 通用与推理模型",
               "generation_state": "newest",
               "expected_members": [
+                "mimo-v2-5-pro",
                 "mimo-v2-5",
-                "mimo-v2-5-pro"
+                "mimo-v2-flash"
               ]
             }
           ],
           "evidence": {
             "url": "https://aistudio.xiaomimimo.com/",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "mimo_omni_media",
+          "usage_kind": "omni",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "omni",
+            "tts"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:xiaomi:mimo-omni-media",
+              "title": "MiMo 全模态与多媒体",
+              "generation_state": "newest",
+              "expected_members": [
+                "mimo-v2-5-omni",
+                "mimo-v2-5-tts"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://mimo.mi.com",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "mimo_tools",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mimo-code",
+            "xiaomi-mimo-studio"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:xiaomi:mimo-developer-tools",
+              "title": "小米开发者与智能体工具",
+              "generation_state": "newest",
+              "expected_members": [
+                "mimo-code",
+                "xiaomi-mimo-studio"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://mimo.mi.com",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "mimo_plan",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mimo-token-plan"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:xiaomi:mimo-token-plan",
+              "title": "套餐（MiMo Token Plan）",
+              "generation_state": "newest",
+              "expected_members": [
+                "mimo-token-plan-lite",
+                "mimo-token-plan-standard",
+                "mimo-token-plan-pro",
+                "mimo-token-plan-max"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://mimo.mi.com/docs/en-US/price/token-plan",
             "status": "verified"
           }
         }
@@ -2083,7 +2163,7 @@
     {
       "vendor_key": "nvidia",
       "direction": "infrastructure",
-      "description": "NVIDIA：基础设施方向；Nemotron 3.5 为当前代开源模型，Nemotron 3 为上一代（两代不混编）。",
+      "description": "NVIDIA：基础设施方向；Nemotron 3.5 为当前代，Nemotron 3 为上一代，NIM 微服务与企业许可。",
       "families": [
         {
           "family": "nemotron",
@@ -2112,10 +2192,55 @@
           ],
           "evidence": {
             "url": "https://developer.nvidia.com/topics/ai/nemotron",
-            "status": "verified",
-            "member_status": {
-              "nemotron-3-5": "repository_only"
+            "status": "verified"
+          }
+        },
+        {
+          "family": "nim_tools",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "nvidia-nim"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:nvidia:nim-tools",
+              "title": "NVIDIA NIM 开发者微服务工具",
+              "generation_state": "newest",
+              "expected_members": [
+                "nvidia-nim"
+              ]
             }
+          ],
+          "evidence": {
+            "url": "https://build.nvidia.com",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "ai_enterprise",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "nvidia-ai-enterprise"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:nvidia:ai-enterprise",
+              "title": "套餐（NVIDIA AI Enterprise）",
+              "generation_state": "newest",
+              "expected_members": [
+                "nvidia-ai-enterprise-subscription"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.nvidia.com/ai-enterprise",
+            "status": "verified"
           }
         }
       ]

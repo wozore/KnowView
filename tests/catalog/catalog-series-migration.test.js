@@ -259,7 +259,7 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:moonshot:kimi-membership', ['kimi-membership-andante', 'kimi-membership-moderato', 'kimi-membership-allegretto', 'kimi-membership-allegro']);
   expect('vendor-level2:alibaba:qwen', ['qwen3-8-max', 'qwen3-5-omni', 'qwen3-7-max', 'qwen3-7-plus', 'qwen3-8-flash']);
   expect('vendor-level2:stepfun:step', ['step-3-7-flash', 'step-3-5-flash', 'step-3']);
-  expect('vendor-level2:xiaomi:mimo', ['mimo-v2-5', 'mimo-v2-5-pro']);
+  expect('vendor-level2:xiaomi:mimo', ['mimo-v2-5-pro', 'mimo-v2-5', 'mimo-v2-flash']);
   expect('vendor-level2:nvidia:nemotron-3', ['nemotron-3-ultra', 'nemotron-3-super']);
   expect('vendor-level2:nvidia:nemotron-3-5', ['nemotron-3-5']);
 });

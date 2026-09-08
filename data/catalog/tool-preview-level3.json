@@ -4879,7 +4879,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:mimo-v2-5"
+      "id": "tool-level3:mimo-v2-5",
+      "release_date": "2026-03-19"
     },
     {
       "vendor_key": "nvidia",
@@ -4963,7 +4964,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:nemotron-3-ultra"
+      "id": "tool-level3:nemotron-3-ultra",
+      "release_date": "2026-06-04"
     },
     {
       "vendor_key": "nvidia",
@@ -5055,7 +5057,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:nemotron-3-super"
+      "id": "tool-level3:nemotron-3-super",
+      "release_date": "2026-03-11"
     },
     {
       "vendor_key": "nvidia",
@@ -5139,7 +5142,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:nemotron-3-5"
+      "id": "tool-level3:nemotron-3-5",
+      "release_date": "2026-07-28"
     },
     {
       "vendor_key": "xiaomi",
@@ -5232,7 +5236,8 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:mimo-v2-5-pro"
+      "id": "tool-level3:mimo-v2-5-pro",
+      "release_date": "2026-04-22"
     },
     {
       "vendor_key": "bytedance",
@@ -16423,6 +16428,506 @@
         {
           "title": "Step Plan 概述 - StepFun 开放平台文档中心",
           "url": "https://platform.stepfun.com/docs/zh/step-plan/overview"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:mimo-v2-flash",
+      "vendor_key": "xiaomi",
+      "detail_kind": "api_model",
+      "title": "MiMo-V2-Flash",
+      "vendor_label": "小米（MiMo）",
+      "icon": "⚡",
+      "official_url": "https://aistudio.xiaomimimo.com",
+      "status": "active",
+      "summary": "MiMo-V2-Flash 是小米自研的 309B 稀疏 MoE 大模型（激活 15B），专为极致响应速度与智能体代码任务打造，比肩同级闭源标杆。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "原生支持256K上下文训练。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.09,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 0.29,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "极致低延迟任务",
+          "description": "高并发智能客服、快速代码生成补全与实时多轮对话。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "小米网页 AI 聊天服务惊喜亮相，MiMo-V2-Flash 模型发布 - IT之家",
+          "url": "https://www.ithome.com/0/905/520.htm"
+        }
+      ],
+      "release_date": "2025-12-16",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:mimo-v2-5-omni",
+      "vendor_key": "xiaomi",
+      "detail_kind": "api_model",
+      "title": "MiMo-V2.5 Omni",
+      "vendor_label": "小米（MiMo）",
+      "icon": "👁️",
+      "official_url": "https://mimo.mi.com",
+      "status": "active",
+      "summary": "MiMo-V2.5-Omni 是小米自研全模态基座大模型，实现文本、视觉与音频的原生对齐，打通从物理世界感知到任务执行的完整链路。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持256K全模态上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.4,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 2,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "全模态环境交互",
+          "description": "面向手机、车机与人车家物理场景的原生多模态理解、图文问答与音视频实时交互。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "小米推出三款自研大模型，雷军称今年在AI领域将投入超160亿 - 证券时报",
+          "url": "https://stcn.com/article/detail/3685009.html"
+        }
+      ],
+      "release_date": "2026-03-19",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:mimo-v2-5-tts",
+      "vendor_key": "xiaomi",
+      "detail_kind": "api_model",
+      "title": "MiMo-V2.5 TTS",
+      "vendor_label": "小米（MiMo）",
+      "icon": "🎙️",
+      "official_url": "https://mimo.mi.com",
+      "status": "active",
+      "summary": "MiMo-V2.5-TTS 是小米自研语音合成大模型，具备细粒度情感控制表达引擎，让智能体具备有温度、高拟真的声音表达能力。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "语音模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按字符用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "合成价格",
+                "amount": 0.8,
+                "unit": "每万字符"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高情感表达语音",
+          "description": "智能助理拟人发声、多角色风格化演绎与有声内容朗读。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "关于小米最新发布的三款MiMo大模型 - 知乎",
+          "url": "https://zhuanlan.zhihu.com/p/2017754314609829697"
+        }
+      ],
+      "release_date": "2026-03-19",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:mimo-code",
+      "vendor_key": "xiaomi",
+      "detail_kind": "tool",
+      "title": "MiMo Code",
+      "vendor_label": "小米（MiMo）",
+      "icon": "⌨️",
+      "official_url": "https://mimo.mi.com",
+      "status": "active",
+      "summary": "MiMo Code 是小米开源的终端原生 AI 编程智能体，具备持久跨会话记忆、多 Agent 协同（ask/architect/edit/debug）与多编辑器集成。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "终端全自动化编程",
+          "description": "跨大型代码库理解、自动缺陷诊断与命令行持续重构交付。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "FAQ — Xiaomi MiMo Models",
+          "url": "https://www.xiaomi-mimo-ai.com/faq.html"
+        }
+      ],
+      "last_updated_date": "2026-06-15",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:xiaomi-mimo-studio",
+      "vendor_key": "xiaomi",
+      "detail_kind": "tool",
+      "title": "Xiaomi MiMO Studio",
+      "vendor_label": "小米（MiMo）",
+      "icon": "🖥️",
+      "official_url": "https://aistudio.xiaomimimo.com",
+      "status": "active",
+      "summary": "Xiaomi MiMO Studio 是小米官方提供的大模型在线对话与智能体开发工作区，支持深度思考模式与实时联网搜索。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "在线原型调试",
+          "description": "模型能力体验、Prompt 调试与智能体多轮协同测试。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "小米网页 AI 聊天服务惊喜亮相 - IT之家",
+          "url": "https://www.ithome.com/0/905/520.htm"
+        }
+      ],
+      "last_updated_date": "2025-12-16",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:mimo-token-plan-lite",
+      "vendor_key": "xiaomi",
+      "detail_kind": "subscription_plan",
+      "title": "MiMo Token Plan Lite",
+      "vendor_label": "小米（MiMo）",
+      "icon": "💳",
+      "official_url": "https://mimo.mi.com/docs/en-US/price/token-plan",
+      "status": "active",
+      "summary": "小米 MiMo 官方入门版订阅套餐，固定月费 ¥39/月，每月包含 4.1B 固定 Credits 额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 39,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥39（$6/月）；每月固定 4,100,000,000 Credits；支持 MiMo 全系列模型抵扣调用。",
+        "included_models": [
+          "MiMo-V2.5-Pro",
+          "MiMo-V2.5",
+          "MiMo-V2-Flash"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "个人轻量调用",
+          "description": "日常学习、轻度代码辅助与基础 Agent 测试。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Token Plan - MiMo - Xiaomi",
+          "url": "https://mimo.mi.com/docs/en-US/price/token-plan"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:mimo-token-plan-standard",
+      "vendor_key": "xiaomi",
+      "detail_kind": "subscription_plan",
+      "title": "MiMo Token Plan Standard",
+      "vendor_label": "小米（MiMo）",
+      "icon": "💳",
+      "official_url": "https://mimo.mi.com/docs/en-US/price/token-plan",
+      "status": "active",
+      "summary": "小米 MiMo 官方标准版订阅套餐，固定月费 ¥99/月，每月包含 11B 固定 Credits 额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 99,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥99（$16/月）；每月固定 11,000,000,000 Credits；支持 MiMo 全系旗舰模型抵扣调用。",
+        "included_models": [
+          "MiMo-V2.5-Pro",
+          "MiMo-V2.5",
+          "MiMo-V2-Flash"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "日常全栈开发",
+          "description": "全栈开发调试、日常自动化工作流与中等并发需求。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Token Plan - MiMo - Xiaomi",
+          "url": "https://mimo.mi.com/docs/en-US/price/token-plan"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:mimo-token-plan-pro",
+      "vendor_key": "xiaomi",
+      "detail_kind": "subscription_plan",
+      "title": "MiMo Token Plan Pro",
+      "vendor_label": "小米（MiMo）",
+      "icon": "💳",
+      "official_url": "https://mimo.mi.com/docs/en-US/price/token-plan",
+      "status": "active",
+      "summary": "小米 MiMo 官方专业版订阅套餐，固定月费 ¥329/月，每月包含 38B 固定 Credits 额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 329,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥329（$50/月）；每月固定 38,000,000,000 Credits；高频百万上下文任务专属优先通道。",
+        "included_models": [
+          "MiMo-V2.5-Pro",
+          "MiMo-V2.5",
+          "MiMo-V2-Flash"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "重度 Agent 与长程规划",
+          "description": "长周期工程重构、多步自主 Agent 运行与大规模文献分析。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Token Plan - MiMo - Xiaomi",
+          "url": "https://mimo.mi.com/docs/en-US/price/token-plan"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:mimo-token-plan-max",
+      "vendor_key": "xiaomi",
+      "detail_kind": "subscription_plan",
+      "title": "MiMo Token Plan Max",
+      "vendor_label": "小米（MiMo）",
+      "icon": "💳",
+      "official_url": "https://mimo.mi.com/docs/en-US/price/token-plan",
+      "status": "active",
+      "summary": "小米 MiMo 官方旗舰版订阅套餐，固定月费 ¥659/月，每月包含 82B 固定 Credits 额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 659,
+        "currency": "CNY",
+        "billing_period": "month",
+        "conditions": "月付 ¥659（$100/月）；每月固定 82,000,000,000 Credits；顶格 API 速率与生产级吞吐保障。",
+        "included_models": [
+          "MiMo-V2.5-Pro",
+          "MiMo-V2.5",
+          "MiMo-V2-Flash"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业级生产流程",
+          "description": "团队级批量自动化、多系统高并发集成与生产级稳定业务调用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Token Plan - MiMo - Xiaomi",
+          "url": "https://mimo.mi.com/docs/en-US/price/token-plan"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:nvidia-nim",
+      "vendor_key": "nvidia",
+      "detail_kind": "tool",
+      "title": "NVIDIA NIM",
+      "vendor_label": "Nvidia（NIM）",
+      "icon": "🟩",
+      "official_url": "https://build.nvidia.com",
+      "status": "active",
+      "summary": "NVIDIA NIM（NVIDIA Inference Microservices）是一套优化的标准化推理微服务体系，支持数十款前沿开源与商业模型的高吞吐、低延迟容器化部署与统一 API 接入。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "微服务基础设施工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "微服务基础设施工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业级高效推理部署",
+          "description": "一键拉取高性能容器镜像、多 GPU 扩展与符合行业安全标准的生产级微服务。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "build.nvidia.com",
+          "url": "https://build.nvidia.com"
+        },
+        {
+          "title": "General FAQ | NVIDIA NIM",
+          "url": "https://docs.api.nvidia.com/nim/docs/product"
+        }
+      ],
+      "last_updated_date": "2025-08-15",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:nvidia-ai-enterprise-subscription",
+      "vendor_key": "nvidia",
+      "detail_kind": "subscription_plan",
+      "title": "NVIDIA AI Enterprise",
+      "vendor_label": "Nvidia（NIM）",
+      "icon": "💳",
+      "official_url": "https://docs.nvidia.com/ai-enterprise",
+      "status": "active",
+      "summary": "NVIDIA AI Enterprise 是企业在生产环境中部署 NIM 微服务的官方商业软件许可与技术支持订阅，按 GPU 节点或云端时长计费。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 4500,
+        "currency": "USD",
+        "billing_period": "year",
+        "conditions": "单 GPU 每年 $4,500；公有云按量市场价约 $1.00/GPU-hour；包含全套生产级 NIM 容器部署授权、企业级 SLA 与全天候专属技术支持。",
+        "included_models": [
+          "Nemotron 3 Ultra",
+          "Nemotron 3 Super",
+          "Nemotron 3.5",
+          "All NIM microservices"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业生产集群部署",
+          "description": "高可靠 GPU 基础设施集群管理、企业合规生产运行与专属技术支持。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Pricing — NVIDIA Enterprise Licensing Guide",
+          "url": "https://docs.nvidia.com/ai-enterprise/planning-resource/licensing-guide/latest/pricing.html"
+        },
+        {
+          "title": "General FAQ | NVIDIA NIM",
+          "url": "https://docs.api.nvidia.com/nim/docs/product"
         }
       ],
       "theme": "general"

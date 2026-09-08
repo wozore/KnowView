@@ -6417,6 +6417,168 @@
         "id": "tool-level3:stepfun-studio"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:mimo-v2-flash",
+      "tool_key": "mimo-v2-flash",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2-Flash",
+      "vendor_label": "小米（MiMo）",
+      "icon": "⚡",
+      "summary": "MiMo-V2-Flash 是小米自研的 309B 稀疏 MoE 大模型（激活 15B），专为极致响应速度与智能体代码任务打造，比肩同级闭源标杆。",
+      "theme": "general",
+      "scenes": [
+        "极致低延迟任务"
+      ],
+      "best_for_preview": "高并发智能客服、快速代码生成补全与实时多轮对话。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "MiMo-V2-Flash",
+        "小米（MiMo）",
+        "mimo-v2-flash"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mimo-v2-flash"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mimo-v2-5-omni",
+      "tool_key": "mimo-v2-5-omni",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.5 Omni",
+      "vendor_label": "小米（MiMo）",
+      "icon": "👁️",
+      "summary": "MiMo-V2.5-Omni 是小米自研全模态基座大模型，实现文本、视觉与音频的原生对齐，打通从物理世界感知到任务执行的完整链路。",
+      "theme": "vision",
+      "scenes": [
+        "全模态环境交互"
+      ],
+      "best_for_preview": "面向手机、车机与人车家物理场景的原生多模态理解、图文问答与音视频实时交互。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "MiMo-V2.5 Omni",
+        "小米（MiMo）",
+        "mimo-v2-5-omni"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mimo-v2-5-omni"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mimo-v2-5-tts",
+      "tool_key": "mimo-v2-5-tts",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.5 TTS",
+      "vendor_label": "小米（MiMo）",
+      "icon": "🎙️",
+      "summary": "MiMo-V2.5-TTS 是小米自研语音合成大模型，具备细粒度情感控制表达引擎，让智能体具备有温度、高拟真的声音表达能力。",
+      "theme": "media",
+      "scenes": [
+        "高情感表达语音"
+      ],
+      "best_for_preview": "智能助理拟人发声、多角色风格化演绎与有声内容朗读。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "MiMo-V2.5 TTS",
+        "小米（MiMo）",
+        "mimo-v2-5-tts"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mimo-v2-5-tts"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mimo-code",
+      "tool_key": "mimo-code",
+      "vendor_key": "xiaomi",
+      "title": "MiMo Code",
+      "vendor_label": "小米（MiMo）",
+      "icon": "⌨️",
+      "summary": "MiMo Code 是小米开源的终端原生 AI 编程智能体，具备持久跨会话记忆、多 Agent 协同（ask/architect/edit/debug）与多编辑器集成。",
+      "theme": "dev",
+      "scenes": [
+        "终端全自动化编程"
+      ],
+      "best_for_preview": "跨大型代码库理解、自动缺陷诊断与命令行持续重构交付。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "MiMo Code",
+        "小米（MiMo）",
+        "mimo-code"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mimo-code"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:xiaomi-mimo-studio",
+      "tool_key": "xiaomi-mimo-studio",
+      "vendor_key": "xiaomi",
+      "title": "Xiaomi MiMO Studio",
+      "vendor_label": "小米（MiMo）",
+      "icon": "🖥️",
+      "summary": "Xiaomi MiMO Studio 是小米官方提供的大模型在线对话与智能体开发工作区，支持深度思考模式与实时联网搜索。",
+      "theme": "dev",
+      "scenes": [
+        "在线原型调试"
+      ],
+      "best_for_preview": "模型能力体验、Prompt 调试与智能体多轮协同测试。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Xiaomi MiMO Studio",
+        "小米（MiMo）",
+        "xiaomi-mimo-studio"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:xiaomi-mimo-studio"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:nvidia-nim",
+      "tool_key": "nvidia-nim",
+      "vendor_key": "nvidia",
+      "title": "NVIDIA NIM",
+      "vendor_label": "Nvidia（NIM）",
+      "icon": "🟩",
+      "summary": "NVIDIA NIM（NVIDIA Inference Microservices）是一套优化的标准化推理微服务体系，支持数十款前沿开源与商业模型的高吞吐、低延迟容器化部署与统一 API 接入。",
+      "theme": "dev",
+      "scenes": [
+        "企业级高效推理部署"
+      ],
+      "best_for_preview": "一键拉取高性能容器镜像、多 GPU 扩展与符合行业安全标准的生产级微服务。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "NVIDIA NIM",
+        "Nvidia（NIM）",
+        "nvidia-nim"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:nvidia-nim"
+      },
+      "detail_kind": "tool"
     }
   ]
 }

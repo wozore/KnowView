@@ -459,18 +459,23 @@
         "id": "vendor-level1:xiaomi"
       },
       "vendor_key": "xiaomi",
-      "title": "MiMo 模型",
-      "official_url": "https://mimo.mi.com",
-      "summary": "小米 MiMo 模型系列，包含 MiMo-V2.5 等多种模型。",
+      "title": "MiMo 通用与推理模型",
+      "official_url": "https://aistudio.xiaomimimo.com/",
+      "summary": "小米大模型 Core 团队自研的推理优先大型语言模型系列，包含 1T 参数 MoE 旗舰 MiMo-V2.5-Pro、标准推理基座 MiMo-V2.5 与极速代码模型 MiMo-V2-Flash。",
       "status": "active",
+      "series_kind": "model_series",
       "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-v2-5-pro"
+        },
         {
           "kind": "tool-level3",
           "id": "tool-level3:mimo-v2-5"
         },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:mimo-v2-5-pro"
+          "id": "tool-level3:mimo-v2-flash"
         }
       ]
     },
@@ -482,9 +487,11 @@
       },
       "vendor_key": "nvidia",
       "title": "Nemotron 3",
-      "official_url": "https://docs.api.nvidia.com/nim/reference/llm-apis",
-      "summary": "NVIDIA NIM API 提供统一接口访问多种生成式 AI 模型。",
+      "official_url": "https://developer.nvidia.com/topics/ai/nemotron",
+      "summary": "NVIDIA Mamba2-Transformer 混合架构推理旗舰系列，包含 550B MoE 的 Nemotron 3 Ultra 与 120B FP8 的 Nemotron 3 Super。",
       "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "previous",
       "detail_refs": [
         {
           "kind": "tool-level3",
@@ -504,9 +511,11 @@
       },
       "vendor_key": "nvidia",
       "title": "Nemotron 3.5",
-      "official_url": "https://docs.api.nvidia.com/nim/",
-      "summary": "NVIDIA NIM 提供用于生成式 AI 的 API 端点，包括 LLM、检索、视觉和多模态模型。",
+      "official_url": "https://developer.nvidia.com/topics/ai/nemotron",
+      "summary": "NVIDIA 当前活跃的最新一代开源语言大模型，面向高效推理与长文本复杂任务优化。",
       "status": "active",
+      "series_kind": "model_series",
+      "generation_state": "newest",
       "detail_refs": [
         {
           "kind": "tool-level3",
@@ -2384,6 +2393,121 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:step-plan-flash-max"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:xiaomi:mimo-omni-media",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xiaomi"
+      },
+      "vendor_key": "xiaomi",
+      "title": "MiMo 全模态与多媒体",
+      "official_url": "https://mimo.mi.com",
+      "summary": "小米自研全模态大模型与语音合成系列，涵盖音视频图文原生对齐的 MiMo-V2.5-Omni 与情感表达引擎 MiMo-V2.5-TTS。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-v2-5-omni"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-v2-5-tts"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:xiaomi:mimo-developer-tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xiaomi"
+      },
+      "vendor_key": "xiaomi",
+      "title": "小米开发者与智能体工具",
+      "official_url": "https://mimo.mi.com",
+      "summary": "小米官方面向开发者的 AI 编程与工作区工具，包含开源终端智能体 MiMo Code 与网页工作区 Xiaomi MiMO Studio。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-code"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:xiaomi-mimo-studio"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:xiaomi:mimo-token-plan",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xiaomi"
+      },
+      "vendor_key": "xiaomi",
+      "title": "套餐（MiMo Token Plan）",
+      "official_url": "https://mimo.mi.com/docs/en-US/price/token-plan",
+      "summary": "小米官方大模型固定月费订阅套餐，以 Credit 月池计费，覆盖 Lite、Standard、Pro 与 Max 四档额度。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-token-plan-lite"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-token-plan-standard"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-token-plan-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mimo-token-plan-max"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:nvidia:nim-tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:nvidia"
+      },
+      "vendor_key": "nvidia",
+      "title": "NVIDIA NIM 开发者微服务工具",
+      "official_url": "https://build.nvidia.com",
+      "summary": "NVIDIA 官方推理微服务平台与标准化容器体系，提供一键部署加速与统一 API 调用支持。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:nvidia-nim"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:nvidia:ai-enterprise",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:nvidia"
+      },
+      "vendor_key": "nvidia",
+      "title": "套餐（NVIDIA AI Enterprise）",
+      "official_url": "https://docs.nvidia.com/ai-enterprise",
+      "summary": "NVIDIA 官方企业生产级商业许可订阅，提供生产环境 NIM 部署授权、企业级安全保障与专属全球 SLA 支持。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:nvidia-ai-enterprise-subscription"
         }
       ]
     }
