@@ -2109,32 +2109,113 @@
     {
       "vendor_key": "microsoft",
       "direction": "llm",
-      "description": "微软：目录现登记 GitHub Copilot 编程工具一条。",
+      "description": "微软：Phi 系列推理与多模态大模型、MAI 商业模型、GitHub Copilot 与 Azure AI Foundry 平台及套餐。",
       "families": [
         {
-          "family": "github_copilot",
+          "family": "phi",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "name_patterns": [
+            "phi"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:microsoft:phi",
+              "title": "Phi 推理与多模态大模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "phi-4-reasoning-vision",
+                "phi-4-mini",
+                "phi-4-multimodal"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "mai",
+          "usage_kind": "media",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mai"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:microsoft:mai",
+              "title": "MAI 视觉、语音与推理大模型",
+              "generation_state": "newest",
+              "expected_members": [
+                "mai-thinking-1",
+                "mai-image-2-5",
+                "mai-voice-2"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://azure.microsoft.com/en-us/products/ai-foundry",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "developer_tools",
           "usage_kind": "tool",
           "modality": "text",
           "series_kind": "tool_series",
           "version_axis": "none",
+          "name_patterns": [
+            "copilot",
+            "azure-ai-foundry"
+          ],
           "series": [
             {
-              "id": "vendor-level2:microsoft:github-copilot",
-              "title": "GitHub Copilot",
+              "id": "vendor-level2:microsoft:developer-tools",
+              "title": "微软 AI 开发者工具与平台",
               "generation_state": "newest",
               "expected_members": [
-                "copilot"
+                "copilot",
+                "azure-ai-foundry"
               ]
             }
           ],
           "evidence": {
             "url": "https://github.com/features/copilot",
             "status": "verified"
-          },
+          }
+        },
+        {
+          "family": "copilot_subscription",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
           "name_patterns": [
-            "copilot",
-            "github copilot"
-          ]
+            "copilot-individual",
+            "copilot-business",
+            "copilot-enterprise"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:microsoft:copilot-subscription",
+              "title": "套餐（GitHub Copilot 订阅）",
+              "generation_state": "newest",
+              "expected_members": [
+                "copilot-individual",
+                "copilot-business",
+                "copilot-enterprise"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://github.com/features/copilot/plans",
+            "status": "verified"
+          }
         }
       ]
     },
@@ -2316,31 +2397,108 @@
     {
       "vendor_key": "reve",
       "direction": "image",
-      "description": "Reve：目录现登记 Reve 2.1 一条图像模型（inferred）。",
+      "description": "Reve：Reve 4K 图像生成与编辑、Reve 视频生成、创意设计平台与会员套餐。",
       "families": [
         {
-          "family": "reve",
+          "family": "reve_image",
           "usage_kind": "image",
           "modality": "image",
           "series_kind": "model_series",
           "version_axis": "dot",
+          "name_patterns": [
+            "reve-2"
+          ],
           "series": [
             {
-              "id": "vendor-level2:reve:reve-2-1",
-              "title": "Reve 2.1",
+              "id": "vendor-level2:reve:image",
+              "title": "Reve 图像生成与编辑",
               "generation_state": "newest",
               "expected_members": [
-                "reve-2-1"
+                "reve-2-1",
+                "reve-2-0"
               ]
             }
           ],
           "evidence": {
-            "url": "https://reve.ai/",
-            "status": "inferred"
-          },
+            "url": "https://blog.reve.com/posts/launching-reve-2.1",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "reve_video",
+          "usage_kind": "video",
+          "modality": "video",
+          "series_kind": "model_series",
+          "version_axis": "none",
           "name_patterns": [
-            "reve"
-          ]
+            "reve-video"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:reve:video",
+              "title": "Reve 视频生成",
+              "generation_state": "newest",
+              "expected_members": [
+                "reve-video"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://blog.reve.com",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "reve_platform",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "reve-app"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:reve:platform",
+              "title": "Reve 创意设计平台",
+              "generation_state": "newest",
+              "expected_members": [
+                "reve-app"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://app.reve.com",
+            "status": "verified"
+          }
+        },
+        {
+          "family": "reve_subscription",
+          "usage_kind": "subscription",
+          "modality": "text",
+          "series_kind": "subscription_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "reve-lite",
+            "reve-pro",
+            "reve-teams"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:reve:subscription",
+              "title": "套餐（Reve 会员）",
+              "generation_state": "newest",
+              "expected_members": [
+                "reve-lite",
+                "reve-pro",
+                "reve-teams"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://app.reve.com/pricing",
+            "status": "verified"
+          }
         }
       ]
     },

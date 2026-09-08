@@ -7202,6 +7202,276 @@
         "id": "tool-level3:perplexity-computer"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:phi-4-reasoning-vision",
+      "tool_key": "phi-4-reasoning-vision",
+      "vendor_key": "microsoft",
+      "title": "Phi-4 Reasoning Vision",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "👁️",
+      "summary": "Phi-4 Reasoning Vision 是微软研发的 15B 多模态思维链推理模型，将视觉感知与 CoT 深度推理结合，擅长架构图表、复杂排版文档与多步数理视觉问答。",
+      "theme": "vision",
+      "scenes": [
+        "多模态图表思维链推理"
+      ],
+      "best_for_preview": "复杂技术流程图解析、财务对比图表推导与高密度信息文档视觉问答。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Phi-4 Reasoning Vision",
+        "Microsoft/Azure",
+        "phi-4-reasoning-vision"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:phi-4-reasoning-vision"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:phi-4-mini",
+      "tool_key": "phi-4-mini",
+      "vendor_key": "microsoft",
+      "title": "Phi-4-Mini",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "⚡",
+      "summary": "Phi-4-Mini 是微软推出的 3.8B 参数超高性价比小语言模型，在极低推理成本下展现出同规模最顶尖的推理、数学与代码能力，支持 128K 上下文。",
+      "theme": "general",
+      "scenes": [
+        "高并发低成本路由"
+      ],
+      "best_for_preview": "高吞吐量文本分类、信息抽取、快速代码语法检测与边缘设备运行。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Phi-4-Mini",
+        "Microsoft/Azure",
+        "phi-4-mini"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:phi-4-mini"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:phi-4-multimodal",
+      "tool_key": "phi-4-multimodal",
+      "vendor_key": "microsoft",
+      "title": "Phi-4-Multimodal",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🌐",
+      "summary": "Phi-4-Multimodal 原生融合语音、视觉与文本模态，支持 128K 长上下文跨模态交互与实时语音问答。",
+      "theme": "vision",
+      "scenes": [
+        "跨模态联合理解"
+      ],
+      "best_for_preview": "端到端语音转录提问、图像内容实时问答与跨模态多任务执行。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Phi-4-Multimodal",
+        "Microsoft/Azure",
+        "phi-4-multimodal"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:phi-4-multimodal"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mai-thinking-1",
+      "tool_key": "mai-thinking-1",
+      "vendor_key": "microsoft",
+      "title": "MAI-Thinking 1",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🧠",
+      "summary": "MAI-Thinking 1 是微软自研的 35B 激活参数 MoE 强推理基座大模型，专为长链条思维链推理、复杂软件工程任务与跨系统决策规划设计。",
+      "theme": "general",
+      "scenes": [
+        "复杂工程与数理推理"
+      ],
+      "best_for_preview": "长程智能体规划、代码自动化重构与复杂企业业务逻辑验证。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "MAI-Thinking 1",
+        "Microsoft/Azure",
+        "mai-thinking-1"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mai-thinking-1"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mai-image-2-5",
+      "tool_key": "mai-image-2-5",
+      "vendor_key": "microsoft",
+      "title": "MAI-Image 2.5",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🎨",
+      "summary": "MAI-Image 2.5 是微软自研前沿商业图像生成大模型，在复杂构图遵循、写实光影质感与高密度排版文字渲染上实现跨越式升级。",
+      "theme": "vision",
+      "scenes": [
+        "商业设计与营销创意"
+      ],
+      "best_for_preview": "高清概念艺术设计、营销海报智能排版与专业级视觉素材生成。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "MAI-Image 2.5",
+        "Microsoft/Azure",
+        "mai-image-2-5"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mai-image-2-5"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:mai-voice-2",
+      "tool_key": "mai-voice-2",
+      "vendor_key": "microsoft",
+      "title": "MAI-Voice 2",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🎙️",
+      "summary": "MAI-Voice 2 是微软新一代高拟真语音生成与合成大模型，支持 15+ 语言自然发音、优美韵律与细粒度多情感表达控制。",
+      "theme": "media",
+      "scenes": [
+        "多情感语音交互"
+      ],
+      "best_for_preview": "企业级语音数字人、自然流畅智能客服与高拟真音频剧本演绎。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "MAI-Voice 2",
+        "Microsoft/Azure",
+        "mai-voice-2"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mai-voice-2"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:azure-ai-foundry",
+      "tool_key": "azure-ai-foundry",
+      "vendor_key": "microsoft",
+      "title": "Azure AI Foundry",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "☁️",
+      "summary": "Azure AI Foundry 是微软统一的企业级 AI 平台与工具门户，提供大模型统一编排、评估、微调、安全防护与 Agent 服务生命周期管理。",
+      "theme": "dev",
+      "scenes": [
+        "企业级 AI 统一资产管理"
+      ],
+      "best_for_preview": "多模型横向基准评测、企业级 RAG 检索知识库构建与智能体安全合规上线。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Azure AI Foundry",
+        "Microsoft/Azure",
+        "azure-ai-foundry"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:azure-ai-foundry"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:reve-2-0",
+      "tool_key": "reve-2-0",
+      "vendor_key": "reve",
+      "title": "Reve 2.0",
+      "vendor_label": "Reve",
+      "icon": "🖼️",
+      "summary": "Reve 2.0 是 Reve 开创性的原生排版图像生成大模型，在盲测竞技场名列前茅，支持知识驱动生成与出色的主体一致性。",
+      "theme": "vision",
+      "scenes": [
+        "高质量插画设计"
+      ],
+      "best_for_preview": "复杂构图创意图、角色多角度一致性渲染与商业宣传图绘制。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Reve 2.0",
+        "Reve",
+        "reve-2-0"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:reve-2-0"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:reve-video",
+      "tool_key": "reve-video",
+      "vendor_key": "reve",
+      "title": "Reve Video",
+      "vendor_label": "Reve",
+      "icon": "🎬",
+      "summary": "Reve Video 支持将静态 4K 创意图像转化为具有电影级流畅运镜和自然动作动态的短视频，保留高保真细节。",
+      "theme": "media",
+      "scenes": [
+        "创意图像动态化"
+      ],
+      "best_for_preview": "将静态摄影、海报与角色立绘转化为动态分镜短视频。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "paid",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Reve Video",
+        "Reve",
+        "reve-video"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:reve-video"
+      },
+      "detail_kind": "api_model"
+    },
+    {
+      "id": "tool-card:reve-app",
+      "tool_key": "reve-app",
+      "vendor_key": "reve",
+      "title": "Reve App",
+      "vendor_label": "Reve",
+      "icon": "🎨",
+      "summary": "Reve App 是官方在线 4K 画布创意工作区，集成了 Live Layers 图层管理、Reframe 重新构图与多图风格混溶工具。",
+      "theme": "vision",
+      "scenes": [
+        "在线视觉创作与设计"
+      ],
+      "best_for_preview": "网页画布交互、图层分层微调与即时效果预览。",
+      "not_for_preview": "超出品类适用范围的任务建议选用专项模型",
+      "price_badge": "free",
+      "access_level": "公开可用",
+      "search_terms": [
+        "Reve App",
+        "Reve",
+        "reve-app"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:reve-app"
+      },
+      "detail_kind": "tool"
     }
   ]
 }

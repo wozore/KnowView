@@ -1381,6 +1381,64 @@
       "lifecycle": "active",
       "last_verified_at": "2026-09-08",
       "last_official_update_at": "2026-06-25"
+    },
+    "azure-ai-foundry": {
+      "name": "Azure AI Foundry",
+      "vendor_key": "microsoft",
+      "official_urls": [
+        "https://ai.azure.com",
+        "https://learn.microsoft.com/en-us/azure/ai-foundry/"
+      ],
+      "aliases": [
+        "Azure AI Foundry",
+        "AI Foundry"
+      ],
+      "product_prefixes": [
+        "azure ai foundry",
+        "ai foundry"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-07-15"
+    },
+    "reve-app": {
+      "name": "Reve App",
+      "vendor_key": "reve",
+      "official_urls": [
+        "https://app.reve.com",
+        "https://reve.ai"
+      ],
+      "aliases": [
+        "Reve App",
+        "Reve Studio"
+      ],
+      "product_prefixes": [
+        "reve app",
+        "reve"
+      ],
+      "update_sources": [
+        {
+          "kind": "changelog",
+          "review_mode": "deterministic",
+          "url": "https://blog.reve.com",
+          "collector": "tavily_extract",
+          "product_surface": "desktop",
+          "date_mode": "latest"
+        }
+      ],
+      "lifecycle": "active",
+      "last_verified_at": "2026-09-08",
+      "last_official_update_at": "2026-08-20"
     }
   }
 }

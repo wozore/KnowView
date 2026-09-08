@@ -6223,17 +6223,22 @@
         "status": "available",
         "rate_cards": [
           {
-            "label": "API 标准",
-            "pricing_basis": "按量计费",
+            "label": "API 按量付费",
+            "pricing_basis": "按次/按张计费",
             "currency": "USD",
             "metrics": [
               {
-                "label": "每张图像",
-                "amount": "未明确",
+                "label": "原生4K图像生成",
+                "amount": 0.2,
                 "unit": "张"
+              },
+              {
+                "label": "局部精细编辑 (Edit Fast)",
+                "amount": 0.01,
+                "unit": "次"
               }
             ],
-            "conditions": "官方未公布具体价格，需通过 API 控制台申请或查看定价。"
+            "conditions": "基于充值积分扣除，最低充值门槛 $10（7,500 credits）。"
           }
         ]
       },
@@ -18722,6 +18727,774 @@
         {
           "title": "Perplexity Enterprise",
           "url": "https://www.perplexity.ai/enterprise"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:phi-4-reasoning-vision",
+      "vendor_key": "microsoft",
+      "detail_kind": "api_model",
+      "title": "Phi-4 Reasoning Vision",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "👁️",
+      "official_url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft",
+      "status": "active",
+      "summary": "Phi-4 Reasoning Vision 是微软研发的 15B 多模态思维链推理模型，将视觉感知与 CoT 深度推理结合，擅长架构图表、复杂排版文档与多步数理视觉问答。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持128K上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Serverless API",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.35,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 1.4,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "多模态图表思维链推理",
+          "description": "复杂技术流程图解析、财务对比图表推导与高密度信息文档视觉问答。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "What's new in Microsoft Foundry - Microsoft Foundry Blog",
+          "url": "https://devblogs.microsoft.com/foundry/whats-new-in-microsoft-foundry-mar-2026"
+        },
+        {
+          "title": "Foundry Models Pricing | Microsoft Azure",
+          "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft"
+        }
+      ],
+      "release_date": "2026-03-18",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:phi-4-mini",
+      "vendor_key": "microsoft",
+      "detail_kind": "api_model",
+      "title": "Phi-4-Mini",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "⚡",
+      "official_url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft",
+      "status": "active",
+      "summary": "Phi-4-Mini 是微软推出的 3.8B 参数超高性价比小语言模型，在极低推理成本下展现出同规模最顶尖的推理、数学与代码能力，支持 128K 上下文。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持128K上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Serverless API",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 0.07,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 0.23,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高并发低成本路由",
+          "description": "高吞吐量文本分类、信息抽取、快速代码语法检测与边缘设备运行。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Azure AI Foundry Pricing 2026",
+          "url": "https://www.wrvishnu.com/azure-ai-foundry-pricing-2026"
+        },
+        {
+          "title": "Foundry Models Pricing | Microsoft Azure",
+          "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft"
+        }
+      ],
+      "release_date": "2025-08-10",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:phi-4-multimodal",
+      "vendor_key": "microsoft",
+      "detail_kind": "api_model",
+      "title": "Phi-4-Multimodal",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🌐",
+      "official_url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft",
+      "status": "active",
+      "summary": "Phi-4-Multimodal 原生融合语音、视觉与文本模态，支持 128K 长上下文跨模态交互与实时语音问答。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持128K上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Serverless API",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "文本与图像输入",
+                "amount": 0.3,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "音频输入",
+                "amount": 0.5,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "生成输出",
+                "amount": 1.2,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "跨模态联合理解",
+          "description": "端到端语音转录提问、图像内容实时问答与跨模态多任务执行。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Foundry Models Pricing | Microsoft Azure",
+          "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft"
+        }
+      ],
+      "release_date": "2025-07-25",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:mai-thinking-1",
+      "vendor_key": "microsoft",
+      "detail_kind": "api_model",
+      "title": "MAI-Thinking 1",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🧠",
+      "official_url": "https://azure.microsoft.com/en-us/products/ai-foundry",
+      "status": "active",
+      "summary": "MAI-Thinking 1 是微软自研的 35B 激活参数 MoE 强推理基座大模型，专为长链条思维链推理、复杂软件工程任务与跨系统决策规划设计。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "支持长上下文思维链推理。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Foundry API",
+            "pricing_basis": "按Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 1.5,
+                "unit": "每百万tokens"
+              },
+              {
+                "label": "输出价格",
+                "amount": 6,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂工程与数理推理",
+          "description": "长程智能体规划、代码自动化重构与复杂企业业务逻辑验证。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Microsoft Build 2026 Opening Keynote",
+          "url": "https://www.youtube.com/watch?v=FFMm454fxNA"
+        }
+      ],
+      "release_date": "2026-05-20",
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:mai-image-2-5",
+      "vendor_key": "microsoft",
+      "detail_kind": "api_model",
+      "title": "MAI-Image 2.5",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🎨",
+      "official_url": "https://azure.microsoft.com/en-us/products/ai-foundry",
+      "status": "active",
+      "summary": "MAI-Image 2.5 是微软自研前沿商业图像生成大模型，在复杂构图遵循、写实光影质感与高密度排版文字渲染上实现跨越式升级。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像生成模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "高清图像生成",
+                "amount": 0.04,
+                "unit": "张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "商业设计与营销创意",
+          "description": "高清概念艺术设计、营销海报智能排版与专业级视觉素材生成。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Microsoft Build 2026 Opening Keynote",
+          "url": "https://www.youtube.com/watch?v=FFMm454fxNA"
+        }
+      ],
+      "release_date": "2026-05-20",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:mai-voice-2",
+      "vendor_key": "microsoft",
+      "detail_kind": "api_model",
+      "title": "MAI-Voice 2",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "🎙️",
+      "official_url": "https://azure.microsoft.com/en-us/products/ai-foundry",
+      "status": "active",
+      "summary": "MAI-Voice 2 是微软新一代高拟真语音生成与合成大模型，支持 15+ 语言自然发音、优美韵律与细粒度多情感表达控制。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "语音模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按字符/Token用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "语音合成",
+                "amount": 10,
+                "unit": "每百万tokens"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "多情感语音交互",
+          "description": "企业级语音数字人、自然流畅智能客服与高拟真音频剧本演绎。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Microsoft Build 2026 Opening Keynote",
+          "url": "https://www.youtube.com/watch?v=FFMm454fxNA"
+        }
+      ],
+      "release_date": "2026-05-20",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:azure-ai-foundry",
+      "vendor_key": "microsoft",
+      "detail_kind": "tool",
+      "title": "Azure AI Foundry",
+      "vendor_label": "Microsoft/Azure",
+      "icon": "☁️",
+      "official_url": "https://ai.azure.com",
+      "status": "active",
+      "summary": "Azure AI Foundry 是微软统一的企业级 AI 平台与工具门户，提供大模型统一编排、评估、微调、安全防护与 Agent 服务生命周期管理。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "开发者工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "企业级 AI 统一资产管理",
+          "description": "多模型横向基准评测、企业级 RAG 检索知识库构建与智能体安全合规上线。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Azure AI Foundry Overview",
+          "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/"
+        }
+      ],
+      "last_updated_date": "2026-07-15",
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:copilot-individual",
+      "vendor_key": "microsoft",
+      "detail_kind": "subscription_plan",
+      "title": "Copilot Individual",
+      "vendor_label": "Microsoft/GitHub",
+      "icon": "💳",
+      "official_url": "https://github.com/features/copilot/plans",
+      "status": "active",
+      "summary": "GitHub Copilot 个人开发者订阅套餐，提供无限制代码补全、聊天对话与终端命令行辅助。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 10,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月付 $10.00（年付 $100.00 折合 $8.33/月）；个人主力 AI 编程助手。",
+        "included_models": [
+          "GitHub Copilot",
+          "GPT-4o",
+          "Claude 3.5 Sonnet"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "个人开发者日常编码",
+          "description": "VS Code / Visual Studio / JetBrains 环境下的代码自动生成、行间问答与单元测试编写。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub Copilot Pricing & Plans",
+          "url": "https://github.com/features/copilot/plans"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:copilot-business",
+      "vendor_key": "microsoft",
+      "detail_kind": "subscription_plan",
+      "title": "Copilot Business",
+      "vendor_label": "Microsoft/GitHub",
+      "icon": "💳",
+      "official_url": "https://github.com/features/copilot/plans",
+      "status": "active",
+      "summary": "GitHub Copilot 企业商业版订阅，提供组织级策略控制、代码隐私保护与企业集中计费。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 19,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "每席位月付 $19.00；代码不用于模型训练；企业集中席位分配与策略管理。",
+        "included_models": [
+          "GitHub Copilot Enterprise models"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "团队协作研发",
+          "description": "组织级安全合规代码编写、团队权限受控管理与代码片段自动补全。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub Copilot Pricing & Plans",
+          "url": "https://github.com/features/copilot/plans"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:copilot-enterprise",
+      "vendor_key": "microsoft",
+      "detail_kind": "subscription_plan",
+      "title": "Copilot Enterprise",
+      "vendor_label": "Microsoft/GitHub",
+      "icon": "💳",
+      "official_url": "https://github.com/features/copilot/plans",
+      "status": "active",
+      "summary": "GitHub Copilot 旗舰企业版订阅，深度索引组织内部代码库，支持私有知识库精准问答与拉取请求（PR）自动化审查。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 39,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "每席位月付 $39.00；深度索引组织私有代码库；支持自定义知识库问答与专属安全审计。",
+        "included_models": [
+          "Custom Enterprise Indexed Models",
+          "Frontier models"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "大型企业专属代码智脑",
+          "description": "大型组织历史代码资产检索、自动化 PR 描述生成与跨仓库架构设计评估。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub Copilot Pricing & Plans",
+          "url": "https://github.com/features/copilot/plans"
+        }
+      ],
+      "theme": "dev"
+    },
+    {
+      "id": "tool-level3:reve-2-0",
+      "vendor_key": "reve",
+      "detail_kind": "api_model",
+      "title": "Reve 2.0",
+      "vendor_label": "Reve",
+      "icon": "🖼️",
+      "official_url": "https://blog.reve.com/posts/announcing-reve-2.0",
+      "status": "active",
+      "summary": "Reve 2.0 是 Reve 开创性的原生排版图像生成大模型，在盲测竞技场名列前茅，支持知识驱动生成与出色的主体一致性。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "图像生成模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按生成张数计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "图像生成",
+                "amount": 0.15,
+                "unit": "张"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高质量插画设计",
+          "description": "复杂构图创意图、角色多角度一致性渲染与商业宣传图绘制。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing Reve 2.0 - Reve Blog",
+          "url": "https://blog.reve.com/posts/announcing-reve-2.0"
+        }
+      ],
+      "release_date": "2026-06-03",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:reve-video",
+      "vendor_key": "reve",
+      "detail_kind": "api_model",
+      "title": "Reve Video",
+      "vendor_label": "Reve",
+      "icon": "🎬",
+      "official_url": "https://blog.reve.com",
+      "status": "active",
+      "summary": "Reve Video 支持将静态 4K 创意图像转化为具有电影级流畅运镜和自然动作动态的短视频，保留高保真细节。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "视频生成模型不适用1M文本生成。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按量计费",
+            "pricing_basis": "按次/按秒计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "视频动态生成",
+                "amount": 0.2,
+                "unit": "次"
+              }
+            ]
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "创意图像动态化",
+          "description": "将静态摄影、海报与角色立绘转化为动态分镜短视频。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Bring Images to Life with Video - Reve Blog",
+          "url": "https://blog.reve.com"
+        }
+      ],
+      "release_date": "2025-11-18",
+      "theme": "media"
+    },
+    {
+      "id": "tool-level3:reve-app",
+      "vendor_key": "reve",
+      "detail_kind": "tool",
+      "title": "Reve App",
+      "vendor_label": "Reve",
+      "icon": "🎨",
+      "official_url": "https://app.reve.com",
+      "status": "active",
+      "summary": "Reve App 是官方在线 4K 画布创意工作区，集成了 Live Layers 图层管理、Reframe 重新构图与多图风格混溶工具。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "创作者应用工具。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "创作者应用工具。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "在线视觉创作与设计",
+          "description": "网页画布交互、图层分层微调与即时效果预览。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Reve Official Web App",
+          "url": "https://app.reve.com"
+        }
+      ],
+      "last_updated_date": "2026-08-20",
+      "theme": "vision"
+    },
+    {
+      "id": "tool-level3:reve-lite",
+      "vendor_key": "reve",
+      "detail_kind": "subscription_plan",
+      "title": "Reve Lite",
+      "vendor_label": "Reve",
+      "icon": "💳",
+      "official_url": "https://app.reve.com/pricing",
+      "status": "active",
+      "summary": "Reve 官方入门版会员订阅，每月提供 5 倍于免费版的基础能量与云端存储空间。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 7.99,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月付 $7.99；5x 日常生成能量与存储空间；快速生成队列。",
+        "included_models": [
+          "Reve 2.1",
+          "Reve 2.0"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "日常创作者轻量设计",
+          "description": "高频个人创作、插画初筛与社交媒体素材产出。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Reve Pricing & Subscription Plans",
+          "url": "https://app.reve.com/pricing"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:reve-pro",
+      "vendor_key": "reve",
+      "detail_kind": "subscription_plan",
+      "title": "Reve Pro",
+      "vendor_label": "Reve",
+      "icon": "💳",
+      "official_url": "https://app.reve.com/pricing",
+      "status": "active",
+      "summary": "Reve 官方专业版会员订阅，提供 100 倍能量额度，全面解锁 Reve Video 视频生成能力与顶格优先级队列。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 19.99,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "月付 $19.99；100x 极速能量；每月包含 250 video energy 视频生成额度。",
+        "included_models": [
+          "Reve 2.1",
+          "Reve 2.0",
+          "Reve Video"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业设计师与高强度生产",
+          "description": "商业级 4K 原生海报批量设计、图生视频连续创作与无限制图层导出。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Reve Pricing & Subscription Plans",
+          "url": "https://app.reve.com/pricing"
+        }
+      ],
+      "theme": "general"
+    },
+    {
+      "id": "tool-level3:reve-teams",
+      "vendor_key": "reve",
+      "detail_kind": "subscription_plan",
+      "title": "Reve for Teams",
+      "vendor_label": "Reve",
+      "icon": "💳",
+      "official_url": "https://app.reve.com/teams",
+      "status": "active",
+      "summary": "Reve 官方团队版订阅，面向创意工作室与设计团队提供共享能量池、集中权限管理与团队专属模板共享。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不适用模型上下文窗口字段。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "订阅套餐不是独立 API 计价项。"
+      },
+      "plan": {
+        "amount": 30,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "每席位月付 $30.00；多人共享企业级算力能量池；专属商业授权与统一团队结算。",
+        "included_models": [
+          "Reve 2.1",
+          "Reve 2.0",
+          "Reve Video",
+          "Team Canvas"
+        ],
+        "included_models_status": "verified"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "创意工作室与团队协同",
+          "description": "多人协同画布创作、跨项目资产沉淀与团队商业设计流程统一。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Reve for Teams - Reve Blog",
+          "url": "https://blog.reve.com/posts/reve-for-teams"
         }
       ],
       "theme": "general"

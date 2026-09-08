@@ -577,24 +577,6 @@
       ]
     },
     {
-      "id": "vendor-level2:reve:reve-2-1",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:reve"
-      },
-      "vendor_key": "reve",
-      "title": "Reve 2.1",
-      "official_url": "https://app.reve.com/",
-      "summary": "Reve 是一个独立的 AI 图像模型实验室，专注于可控的 4K 图像生成与编辑。Reve 2.1 是其最新模型，在视觉智能、布局规划和原生 4K 输出方面表现出色，同时提供 API 和企业级团队解决方案。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:reve-2-1"
-        }
-      ]
-    },
-    {
       "id": "vendor-level2:google:gemini-cli",
       "level1_ref": {
         "kind": "vendor-level1",
@@ -628,24 +610,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:vidu-s1"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:microsoft:github-copilot",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:microsoft"
-      },
-      "vendor_key": "microsoft",
-      "title": "GitHub Copilot",
-      "official_url": "https://github.com/features/copilot",
-      "summary": "GitHub 的 AI 编程助手，提供编辑器、GitHub、CLI 与智能体等开发能力。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:copilot"
         }
       ]
     },
@@ -2842,6 +2806,198 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:perplexity-enterprise-pro"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:microsoft:phi",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:microsoft"
+      },
+      "vendor_key": "microsoft",
+      "title": "Phi 推理与多模态大模型",
+      "official_url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft",
+      "summary": "微软专为极致推理效率与多模态图表理解打造的 Phi 系列模型，包含 15B 思维链推理模型 Phi-4 Reasoning Vision、高性价比 Phi-4-Mini 与全模态基座。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:phi-4-reasoning-vision"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:phi-4-mini"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:phi-4-multimodal"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:microsoft:mai",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:microsoft"
+      },
+      "vendor_key": "microsoft",
+      "title": "MAI 视觉、语音与推理大模型",
+      "official_url": "https://azure.microsoft.com/en-us/products/ai-foundry",
+      "summary": "微软自研全新商业多模态模型家族 MAI，涵盖 35B 强推理模型 MAI-Thinking 1、写实生图模型 MAI-Image 2.5 与高拟真语音生成 MAI-Voice 2。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-thinking-1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-image-2-5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-voice-2"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:microsoft:developer-tools",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:microsoft"
+      },
+      "vendor_key": "microsoft",
+      "title": "微软 AI 开发者工具与平台",
+      "official_url": "https://github.com/features/copilot",
+      "summary": "微软官方 AI 开发者工具生态，包含 GitHub Copilot 智能结对编程助手与企业级统一开发平台 Azure AI Foundry。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:copilot"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:azure-ai-foundry"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:microsoft:copilot-subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:microsoft"
+      },
+      "vendor_key": "microsoft",
+      "title": "套餐（GitHub Copilot 订阅）",
+      "official_url": "https://github.com/features/copilot/plans",
+      "summary": "GitHub Copilot 官方订阅计划，覆盖个人 Individual、商业 Business 与企业 Enterprise 档位。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:copilot-individual"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:copilot-business"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:copilot-enterprise"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:reve:image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:reve"
+      },
+      "vendor_key": "reve",
+      "title": "Reve 图像生成与编辑",
+      "official_url": "https://blog.reve.com/posts/launching-reve-2.1",
+      "summary": "Reve 官方排版优先架构的原生 4K 图像生成大模型系列，包含全球竞技场位列第二的 Reve 2.1 与前代主力 Reve 2.0，支持低成本局部重绘编辑。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:reve-2-1"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:reve-2-0"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:reve:video",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:reve"
+      },
+      "vendor_key": "reve",
+      "title": "Reve 视频生成",
+      "official_url": "https://blog.reve.com",
+      "summary": "Reve 官方高质量图像转视频大模型，支持将静态 4K 创意图像转化为具有电影级流畅运镜和自然动态的短视频。",
+      "status": "active",
+      "series_kind": "model_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:reve-video"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:reve:platform",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:reve"
+      },
+      "vendor_key": "reve",
+      "title": "Reve 创意设计平台",
+      "official_url": "https://app.reve.com",
+      "summary": "Reve 官方在线 4K 创意画布工作区应用，内置 Live Layers 图层管理与 Reframe 智能构图工具。",
+      "status": "active",
+      "series_kind": "tool_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:reve-app"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level2:reve:subscription",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:reve"
+      },
+      "vendor_key": "reve",
+      "title": "套餐（Reve 会员）",
+      "official_url": "https://app.reve.com/pricing",
+      "summary": "Reve 官方创作者能量订阅套餐，包含 Lite、Pro 与面向设计团队的 Reve for Teams。",
+      "status": "active",
+      "series_kind": "subscription_series",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:reve-lite"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:reve-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:reve-teams"
         }
       ]
     }
