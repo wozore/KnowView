@@ -1,5 +1,197 @@
 {
   "schema_version": 1,
-  "updated_at": null,
-  "candidates": []
+  "updated_at": "2026-09-09T17:27:40.388Z",
+  "candidates": [
+    {
+      "id": "x-7f8526fb7c6e008d174a",
+      "platform": "x",
+      "native_id": "2097730978718355554",
+      "source_type": "x_post",
+      "url": "https://x.com/cohere/status/2097730978718355554",
+      "title": "RT @aidangomez: As agents begin to do work, we want them to empower you to do more of what you love and less of what you don’t.\n\nReally enj…",
+      "description": "RT @aidangomez: As agents begin to do work, we want them to empower you to do more of what you love and less of what you don’t.\n\nReally enj…",
+      "published_at": "2026-09-09T16:56:53.000Z",
+      "fetched_at": "2026-09-09T17:27:20.168Z",
+      "author_id": "x-72e8088a05b38ae3cffb",
+      "author_name": "Cohere",
+      "source_id": "x-72e8088a05b38ae3cffb",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 2137,
+        "likes": 34,
+        "comments": null,
+        "reposts": 6,
+        "replies": 3
+      },
+      "explicit_links": [],
+      "content_type": "ai_concept",
+      "comments": [],
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 59.3,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 99.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 22.4,
+        "type_preference": 70,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地模型启动脚本不存在"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 280,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 280,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 280,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-dd3ba687e11196e792e6",
+      "platform": "x",
+      "native_id": "2097738640726114406",
+      "source_type": "x_post",
+      "url": "https://x.com/huggingface/status/2097738640726114406",
+      "title": "RT @ClementDelangue: Let's go local AI!\n\nAt a time when everyone is complaining about shortages of energy and compute for AI &amp; costs of tok…",
+      "description": "RT @ClementDelangue: Let's go local AI!\n\nAt a time when everyone is complaining about shortages of energy and compute for AI &amp; costs of tok…",
+      "published_at": "2026-09-09T17:27:20.000Z",
+      "fetched_at": "2026-09-09T17:27:20.168Z",
+      "author_id": "x-d203a277f19a8f7d78fe",
+      "author_name": "Hugging Face",
+      "source_id": "x-d203a277f19a8f7d78fe",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 85849,
+        "likes": 897,
+        "comments": null,
+        "reposts": 52,
+        "replies": 38
+      },
+      "explicit_links": [],
+      "content_type": "other",
+      "comments": [],
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 40.4,
+      "score_breakdown": {
+        "long_term_quality": 18.2,
+        "recent_timeliness": 100,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 18.5,
+        "type_preference": 30,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 288,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 288,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 288,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-80a0e2c6793280c6fe76",
+      "platform": "x",
+      "native_id": "2097722520984031652",
+      "source_type": "x_post",
+      "url": "https://x.com/cohere/status/2097722520984031652",
+      "title": "RT @nickfrosst: Technology is only good if it empowers you. \n\nIf it locks you down, saps your attention, or steals your ideas, then it shou…",
+      "description": "RT @nickfrosst: Technology is only good if it empowers you. \n\nIf it locks you down, saps your attention, or steals your ideas, then it shou…",
+      "published_at": "2026-09-09T16:23:17.000Z",
+      "fetched_at": "2026-09-09T17:27:20.168Z",
+      "author_id": "x-72e8088a05b38ae3cffb",
+      "author_name": "Cohere",
+      "source_id": "x-72e8088a05b38ae3cffb",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 2163,
+        "likes": 48,
+        "comments": null,
+        "reposts": 3,
+        "replies": 3
+      },
+      "explicit_links": [],
+      "content_type": null,
+      "comments": [],
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    }
+  ]
 }
