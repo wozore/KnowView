@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-07T03:49:36.161Z",
-  "date": "20260907",
-  "total_pending": 1,
+  "generated_at": "2026-09-09T09:23:50.234Z",
+  "date": "20260909",
+  "total_pending": 17,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -12,9 +12,137 @@
       "summary": "摘要：OpenAI launches new GPT model for developers",
       "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
       "review_status": "pending"
+    },
+    {
+      "id": "x-0b800a4b6eb34c3a6f10",
+      "score": 57.5,
+      "summary": "Today we launched https://t.co/KLJSHpx0pZ, a personal AI agent, and published a ",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-417afac78d1835d5fcbf",
+      "score": 57,
+      "summary": "Introducing Muse, a personal agent that gets things done for you, powered by Mus",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e5ee2896efe603d23de1",
+      "score": 52.4,
+      "summary": "Introducing the next evolution in LLM text generation: the first fully-fledged s",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cd6ee35ca72acdd8aeba",
+      "score": 51.8,
+      "summary": "RT @signulll: muse has been a genuinely impressive product to play with. it has ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-04139de6ef516cce63bb",
+      "score": 51.1,
+      "summary": "RT @EmmaScharfmann: Can you predict next week's weather yourself? We just wrote ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0a2b5f701e47f9e6d257",
+      "score": 50.9,
+      "summary": "RT @ivanhzhao: I've been testing Muse lately. A very capable, utility-minded per",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-3a8b9408d3fe6a4d0050",
+      "score": 50.8,
+      "summary": "RT @finkd: Introducing Muse, the personal agent that understands your goals and ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-17d844382f4c7303cf02",
+      "score": 50.7,
+      "summary": "Ask the Experts: How NVIDIA OpenShell Secures Autonomous Agents | Nemotron Labs ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-058ee3dcba69e898f028",
+      "score": 45.1,
+      "summary": "RT @adaption_ai: Bringing AutoScientist to 15+ million @huggingface researchers ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c1dac788fb4c88071531",
+      "score": 44.3,
+      "summary": "We congratulate Levent Alpöge and Tristan Buckmaster on their remarkable mathema",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a15a80efd8a28edcc1ff",
+      "score": 44.2,
+      "summary": "We’re sharing a solution to the Navier-Stokes Millennium Prize Problem, one of t",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1287adb40796ab05a7bd",
+      "score": 39.6,
+      "summary": "Visual AI needs to recognize a scene, understand what happened and predict what ",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-95efef6cff290a8dd1f0",
+      "score": 39.2,
+      "summary": "Astra is fully rolled out to Plus, Pro, Business, and Enterprise users in Codex ",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a187aef78a9589fbc5c7",
+      "score": 38.9,
+      "summary": "RT @matthuang: I've really been enjoying Muse and I think they have really naile",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5c712d5746ad4c87a02d",
+      "score": 38.5,
+      "summary": "ChatGPT Images 2.5—faster, sharper, smarter, with better tools for creating what",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f3a4bdfe2f5da54af888",
+      "score": 38.5,
+      "summary": "RT @alexandr_wang: 1/ today we're rolling out Muse, our new personal ai assistan",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
-    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）"
+    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[57.5] Today we launched https://t.co/KLJSHpx0pZ, a personal AI agent, and published a \n    建议：AI 产品/工具，建议 approved",
+    "[57] Introducing Muse, a personal agent that gets things done for you, powered by Mus\n    建议：AI 产品/工具，建议 approved",
+    "[52.4] Introducing the next evolution in LLM text generation: the first fully-fledged s\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.8] RT @signulll: muse has been a genuinely impressive product to play with. it has \n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[51.1] RT @EmmaScharfmann: Can you predict next week's weather yourself? We just wrote \n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[50.9] RT @ivanhzhao: I've been testing Muse lately. A very capable, utility-minded per\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[50.8] RT @finkd: Introducing Muse, the personal agent that understands your goals and \n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[50.7] Ask the Experts: How NVIDIA OpenShell Secures Autonomous Agents | Nemotron Labs \n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[45.1] RT @adaption_ai: Bringing AutoScientist to 15+ million @huggingface researchers \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.3] We congratulate Levent Alpöge and Tristan Buckmaster on their remarkable mathema\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.2] We’re sharing a solution to the Navier-Stokes Millennium Prize Problem, one of t\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[39.6] Visual AI needs to recognize a scene, understand what happened and predict what \n    建议：人工判断：是否值得收录",
+    "[39.2] Astra is fully rolled out to Plus, Pro, Business, and Enterprise users in Codex \n    建议：人工判断：是否值得收录",
+    "[38.9] RT @matthuang: I've really been enjoying Muse and I think they have really naile\n    建议：人工判断：是否值得收录",
+    "[38.5] ChatGPT Images 2.5—faster, sharper, smarter, with better tools for creating what\n    建议：人工判断：是否值得收录",
+    "[38.5] RT @alexandr_wang: 1/ today we're rolling out Muse, our new personal ai assistan\n    建议：人工判断：是否值得收录"
   ]
 }
