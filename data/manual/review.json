@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-07T03:49:36.161Z",
-  "date": "20260907",
-  "total_pending": 1,
+  "generated_at": "2026-09-10T09:23:19.304Z",
+  "date": "20260910",
+  "total_pending": 10,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -12,9 +12,81 @@
       "summary": "摘要：OpenAI launches new GPT model for developers",
       "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
       "review_status": "pending"
+    },
+    {
+      "id": "x-7441aab2d6693e1faad8",
+      "score": 54.3,
+      "summary": "We’re sharing our alignment assessment of incidents in which Claude models gaine",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7f8526fb7c6e008d174a",
+      "score": 54.3,
+      "summary": "RT @aidangomez: As agents begin to do work, we want them to empower you to do mo",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-976eca913b6b7ddd92ea",
+      "score": 52.9,
+      "summary": "🚀 Introducing DeepSeek-V4.1-Flash: smarter, faster, more efficient. 🔹 Introduc",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f998fcee0b541dc91d52",
+      "score": 48.4,
+      "summary": "RT @NVIDIAAIInfra: AI companies like @cohere build on both sides of the token ec",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-acd3408a50fe82e759f6",
+      "score": 47.1,
+      "summary": "We mobilized 250+ people to strengthen our defenses across hundreds of systems. ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5bb3e18cac89c4fc91b2",
+      "score": 46.9,
+      "summary": "Paul Christiano, founder of the Alignment Research Center, is joining the OpenAI",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-24eea5acad6610c11bae",
+      "score": 46.8,
+      "summary": "From tracking hurricanes to optimizing renewable energy grids, @PeterWBattaglia ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1fb73e3213bc282c56c6",
+      "score": 39.8,
+      "summary": "RT @googlegemma: You don't need to be a command-line expert to run local AI. htt",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-dd3ba687e11196e792e6",
+      "score": 39.4,
+      "summary": "RT @ClementDelangue: Let's go local AI! At a time when everyone is complaining a",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
-    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）"
+    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[54.3] We’re sharing our alignment assessment of incidents in which Claude models gaine\n    建议：AI 行业事件，建议 approved",
+    "[54.3] RT @aidangomez: As agents begin to do work, we want them to empower you to do mo\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[52.9] 🚀 Introducing DeepSeek-V4.1-Flash: smarter, faster, more efficient. 🔹 Introduc\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[48.4] RT @NVIDIAAIInfra: AI companies like @cohere build on both sides of the token ec\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[47.1] We mobilized 250+ people to strengthen our defenses across hundreds of systems. \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.9] Paul Christiano, founder of the Alignment Research Center, is joining the OpenAI\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.8] From tracking hurricanes to optimizing renewable energy grids, @PeterWBattaglia \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[39.8] RT @googlegemma: You don't need to be a command-line expert to run local AI. htt\n    建议：人工判断：是否值得收录",
+    "[39.4] RT @ClementDelangue: Let's go local AI! At a time when everyone is complaining a\n    建议：人工判断：是否值得收录"
   ]
 }
