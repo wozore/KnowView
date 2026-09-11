@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-07T03:49:36.161Z",
-  "date": "20260907",
-  "total_pending": 1,
+  "generated_at": "2026-09-11T09:21:33.091Z",
+  "date": "20260911",
+  "total_pending": 13,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -12,9 +12,105 @@
       "summary": "摘要：OpenAI launches new GPT model for developers",
       "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
       "review_status": "pending"
+    },
+    {
+      "id": "x-ba289b73b5cdf1df4828",
+      "score": 58.4,
+      "summary": "RT @OpenAIDevs: GPT-Live-1 is now available in the API. Bring ChatGPT’s natural ",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-abfb9b3ee3bda97fb79a",
+      "score": 52.8,
+      "summary": "RT @ChatGPT: Now everyone can put data to work. We’re introducing a new Data age",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-53c9cd65e3912eb0d902",
+      "score": 51.7,
+      "summary": "RT @SakanaAILabs: Introducing Fugu Max and Fugu Ultra v2: the next evolution of ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7016bb75da6daa804504",
+      "score": 47.9,
+      "summary": "Originally, the Transformer paper was proposed to improve Google Translate. 9 ye",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ec60bfcb9b9895dddd8a",
+      "score": 46.5,
+      "summary": "Now available: ChatGPT for Financial Services. This is a tailored ChatGPT Work e",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f1c86527218577c76d70",
+      "score": 46.3,
+      "summary": "RT @cohere: Originally, the Transformer paper was proposed to improve Google Tra",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-acd69315c81d55a3c629",
+      "score": 45.5,
+      "summary": "Multimodal models put different demands on vision encoding, prefill and decoding",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-d3b930ab64ed4595ceee",
+      "score": 45.4,
+      "summary": "Most diffusion-based video models are trained on short clips. When they’re used ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5b31d69f05a245305ae8",
+      "score": 45.4,
+      "summary": "RT @AnthropicAI: We're publishing our most detailed threat intelligence report t",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c487f0e2c0daa1e863dd",
+      "score": 45.1,
+      "summary": "We're publishing our most detailed threat intelligence report to date. It covers",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cd5c50bbd1713a2b4fe1",
+      "score": 44.9,
+      "summary": "Another leaderboard win for Nemotron 🏆 Nemotron 3 Embed 8B ranks #1 for combine",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-41f0723381b0fa60ceda",
+      "score": 41.4,
+      "summary": "Reclaim your time for what truly moves you. Your freedom, your focus. We're here",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
-    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）"
+    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[58.4] RT @OpenAIDevs: GPT-Live-1 is now available in the API. Bring ChatGPT’s natural \n    建议：AI 产品/工具，建议 approved",
+    "[52.8] RT @ChatGPT: Now everyone can put data to work. We’re introducing a new Data age\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[51.7] RT @SakanaAILabs: Introducing Fugu Max and Fugu Ultra v2: the next evolution of \n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[47.9] Originally, the Transformer paper was proposed to improve Google Translate. 9 ye\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.5] Now available: ChatGPT for Financial Services. This is a tailored ChatGPT Work e\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.3] RT @cohere: Originally, the Transformer paper was proposed to improve Google Tra\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.5] Multimodal models put different demands on vision encoding, prefill and decoding\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.4] Most diffusion-based video models are trained on short clips. When they’re used \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.4] RT @AnthropicAI: We're publishing our most detailed threat intelligence report t\n    建议：人工判断：是否值得收录",
+    "[45.1] We're publishing our most detailed threat intelligence report to date. It covers\n    建议：人工判断：是否值得收录",
+    "[44.9] Another leaderboard win for Nemotron 🏆 Nemotron 3 Embed 8B ranks #1 for combine\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[41.4] Reclaim your time for what truly moves you. Your freedom, your focus. We're here\n    建议：人工判断：是否值得收录"
   ]
 }
