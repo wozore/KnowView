@@ -73,6 +73,7 @@ function parseSlot() {
   return raw === 'hot' || raw === 'cold' ? raw : undefined;
 }
 
+/**
  * 缺省返回 undefined（runMin 按双平台缺省处理）。
  * @returns {string[]|undefined}
  */
