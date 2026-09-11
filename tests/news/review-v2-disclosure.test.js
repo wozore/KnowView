@@ -8,7 +8,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { l0HardFilter } = require('../../src/news/min/review-v2');
 
-const config = { keywords: { ai_keywords: ['ai', 'gemini', '模型'] } };
+const config = { keywords: { content_keywords: ['ai', 'gemini', '模型'] } };
 const base = {
   platform: 'youtube',
   title: 'AI 视频标题',

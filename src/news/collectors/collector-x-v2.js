@@ -1,309 +1,384 @@
 /**
- * collector-x-v2.js — 热点管线 v2 的 X（TwitterAPI.io）采集器
+ * collector-x-v2.js —— X(TwitterAPI.io) Advanced Search 统一采集门面（Facade）
  *
- * 在热点管线 v2 中的位置：v2 管线（热点发现层）的 X 采集入口，
- * 按「博主时间窗 + 关键词搜索」两条路径采集，并对长文（Twitter Article）
- * 补读正文，统一输出为 v1 管线相同的内容模型。
- *
- * 采集模型：博主名单直接来自 config.x_accounts，关键词来自 config.keywords.ai_keywords，
- * 使用独立 credits 计数（TwitterAPI.io 计费模型：推文 15 credits/条、长文 100 credits/篇），
- * 超 config.collection.x_credits_per_run（3750）即停止；不依赖 quota ledger / registry / scheduler。
- *
- * 配额模型（成本要点）：
- *   - last_tweets 与 advanced_search 每次请求先按最大返回条数预占
- *     x_tweets_per_request_max × x_credits_per_tweet（默认 20×15=300）；
- *     成功响应按实际返回条数结算，窗外/重复/无效项仍计费；失败重试的预占不退款；
- *   - 长文读取每次尝试预占 x_credits_per_article（默认 100），空正文/失败/重试不退款；
- *   - used 为保守预占后的累计值，任何操作前先查预算，避免本地账本低估平台费用；
- *   - 关键词与博主结果按 native_id 去重（重复推文只输出一次，但 credits 按响应返回计）。
- *
- * 使用示例：
- *   const result = await collectXV2({
- *     config,                     // data/news/config/news-config-v2.json（缺省自动加载）
- *     xApiKey,                    // 缺省读 X_API_KEY（经 loadCollectorConfig）
- *     sinceIso: '2026-08-07T00:00:00Z',  // 时间窗起点（调用方算好）
- *     untilIso: '2026-08-07T14:00:00Z',  // 时间窗终点
- *     now: '2026-08-07T14:00:00Z',       // 可选，测试注入
- *     fetchImpl: customFetch,            // 可选，测试注入
- *   });
- *   // => { items, credits: { used, tweets, articles }, coverage }
+ * 严格按照 docs/x-advanced-search-design-plan.md §2.2 与 §13.2 契约：
+ * 1. 唯一 Interface：collectXV2(xRunSpec) -> Promise<XRunResult>
+ * 2. 彻底移除直接写盘（不写候选、不写 history、不写 checkpoint、不写 last-run、不调 Git）
+ * 3. 四桶预算控制（hot 7500 / cold 2500）与 Transport 客户端
+ * 4. 推文半开区间过滤、互动类型过滤、native_id 去重与长文 Article 补读
+ * 5. 账号组轮次公平调度、可选尾部重查与 Discovery 关键词发现
  */
 
 'use strict';
 
-const { requestText, hash, extractTweetArray } = require('../pipeline/feed-parser');
-const { normalizeXV2Tweet, hasArticleSignal, extractArticleText } = require('./collector-x-normalize');
-const { xApiKeyOf } = require('./loadCollectorConfig');
 const { readJson } = require('../../shared/json-store');
 const { NEWS_FILES } = require('../../shared/paths');
+const { beijingDayKey } = require('../../shared/beijing-time');
+const { xApiKeyOf } = require('./loadCollectorConfig');
+const {
+  normalizeXV2Tweet,
+  hasArticleSignal,
+  extractArticleText,
+} = require('./collector-x-normalize');
+const {
+  resolveXCollectionWindow,
+  inWindow,
+  resolveTailRecheckWindow,
+  createBudgetLedger,
+  createAdvancedSearchClient,
+  executeAccountGroups,
+  executeTailRecheck,
+  executeDiscoveryQueries,
+  queryContract,
+  checkpointContract,
+} = require('./x-search');
+const { buildAccountGroupQuery, buildDiscoveryQuery } = queryContract;
+const { buildCheckpointRecord } = checkpointContract;
 
-const DEFAULT_X_CREDITS_PER_RUN = 3750;
-const MIN_X_CREDITS_PER_TWEET = 15;
-const MIN_X_CREDITS_PER_ARTICLE = 100;
-const MIN_X_TWEETS_PER_REQUEST = 20;
-
-/** 缺失用默认值；显式非法预算 fail closed 为 0。 */
-function resolveBudget(value) {
-  if (value === undefined) return DEFAULT_X_CREDITS_PER_RUN;
-  const parsed = Number(value);
-  return Number.isFinite(parsed) && parsed >= 0
-    ? Math.min(DEFAULT_X_CREDITS_PER_RUN, Math.trunc(parsed))
-    : 0;
-}
-
-/** 供应商计费参数不能被配置调低；非法值回到安全下界。 */
-function resolveSafeMinimum(value, minimum) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? Math.max(minimum, Math.trunc(parsed)) : minimum;
-}
-
-/** 兜底配置：仅在未传入 config 且 v2 配置文件不可读时使用。 */
 const DEFAULT_CONFIG = Object.freeze({
   schema_version: 1,
   collection: {
-    enabled: false,
-    twitter_api_base_url: 'https://api.twitterapi.io',
-    x_credits_per_run: 3750,
-    x_credits_per_tweet: 15,
-    x_credits_per_article: 100,
-    x_tweets_per_request_max: 20,
-    request_timeout_ms: 15000,
-    max_retries: 2,
-    retry_base_ms: 750,
+    enabled: true, twitter_api_base_url: 'https://api.twitterapi.io',
+    request_timeout_ms: 15000, max_retries: 2, retry_base_ms: 500,
   },
-  keywords: { ai_keywords: [] },
-  x_accounts: [],
+  keywords: { x_discovery_queries: [] }, account_groups: [],
 });
 
 let cachedV2Config = null;
 
-/** 懒加载 news-config-v2.json；不可读时退回 DEFAULT_CONFIG。 */
 function loadV2Config() {
   if (cachedV2Config) return cachedV2Config;
   cachedV2Config = readJson(NEWS_FILES.configV2, null) || DEFAULT_CONFIG;
   return cachedV2Config;
 }
 
-/**
- * 以 v2 配置文件为基准，用调用方传入的 config 覆盖对应段。
- * 保证缺省字段（request_timeout_ms / max_retries 等）在调用方只传
- * 部分配置时也有兜底值（requestText 依赖这些字段）。
- */
 function resolveConfig(config) {
   const base = loadV2Config();
   if (!config) return base;
   return {
     ...base,
     ...config,
-    schedule: { ...(base.schedule || {}), ...(config.schedule || {}) },
     collection: { ...(base.collection || {}), ...(config.collection || {}) },
     keywords: { ...(base.keywords || {}), ...(config.keywords || {}) },
   };
 }
 
-/** 错误标签：防御 requestText 可能抛 undefined 的边界情况。 */
-function errorLabel(error) {
-  return (error && (error.code || error.message)) || 'api_error';
-}
+/**
+ * 校验单条推文的时间窗、归一化与互动类型，过滤不合格推文。
+ * @private
+ */
+function ingestRawTweet(rawTweet, { targetWindow, nowIso, diagnostics }) {
+  const created = rawTweet.createdAt || rawTweet.created_at || rawTweet.created || rawTweet.timestamp;
+  if (!inWindow(created, targetWindow)) return null;
 
-/** 执行一次请求并解出推文数组；beforeAttempt 在每次真实 fetch 前预占额度。 */
-async function fetchTweets(url, headers, fetchImpl, config, beforeAttempt = null) {
-  const text = await requestText(url, { headers, fetchImpl }, config, beforeAttempt);
-  return extractTweetArray(JSON.parse(text));
+  const item = normalizeXV2Tweet(rawTweet, null, nowIso);
+  if (!item) return null;
+
+  if (item.interaction_type !== 'original' && item.interaction_type !== 'quote') {
+    const type = item.interaction_type || 'unknown';
+    diagnostics.excluded_interaction_counts[type] = (diagnostics.excluded_interaction_counts[type] || 0) + 1;
+    return null;
+  }
+  return item;
 }
 
 /**
- * X（TwitterAPI.io）采集入口。
- * 任何 API 失败不抛错，降级返回部分结果与 coverage 状态。
- *
- * @param {object} options
- * @param {object} [options.config] v2 配置（缺省自动加载 news-config-v2.json）
- * @param {string} [options.xApiKey] X_API_KEY（缺省经 loadCollectorConfig 读取）
- * @param {string} [options.sinceIso] 时间窗起点（含）；缺省不限制
- * @param {string} [options.untilIso] 时间窗终点（含）；缺省不限制
- * @param {string|Date} [options.now] 采集参考时间（测试注入，缺省当前时间）
- * @param {string} [options.fetchedAt] fetched_at（缺省 now ISO）
- * @param {function} [options.fetchImpl] fetch 实现（测试注入）
- * @returns {Promise<{items: object[], credits: object, coverage: object}>}
+ * 对命中长文信号的候选，从 article_retry 桶预占额度并读取正文。
+ * 失败仅记 diagnostics，不阻断主候选。
+ * @private
  */
-async function collectXV2(options = {}) {
-  const config = resolveConfig(options.config);
-  const collection = config.collection || {};
-  const creditsPerRun = resolveBudget(collection.x_credits_per_run);
-  const tweetsCost = resolveSafeMinimum(collection.x_credits_per_tweet, MIN_X_CREDITS_PER_TWEET);
-  const articlesCost = resolveSafeMinimum(collection.x_credits_per_article, MIN_X_CREDITS_PER_ARTICLE);
-  const tweetsPerRequestMax = resolveSafeMinimum(collection.x_tweets_per_request_max, MIN_X_TWEETS_PER_REQUEST);
-  const emptyCredits = {
-    used: 0,
-    budget: creditsPerRun,
-    tweets: 0,
-    articles: 0,
-    requests: { total: 0, tweet: 0, article: 0, retries: 0 },
-  };
+async function enrichArticle(item, rawTweet, { client, budgetLedger, diagnostics }) {
+  if (!hasArticleSignal(rawTweet, item.description)) return;
 
-  if (collection.enabled !== true) {
-    return { items: [], credits: emptyCredits, coverage: { status: 'failed', reason: 'collection_disabled' } };
+  if (!budgetLedger.canReserve('article_retry', 100)) {
+    diagnostics.article_failures.push({ native_id: item.native_id, reason: 'BUDGET_EXHAUSTED' });
+    return;
   }
 
-  const apiKey = xApiKeyOf(options);
-  if (!apiKey) {
-    return { items: [], credits: emptyCredits, coverage: { status: 'failed', reason: 'missing_api_key' } };
+  let reservation = null;
+  try {
+    reservation = budgetLedger.reserve('article_retry', 100, { isArticle: true });
+  } catch {
+    diagnostics.article_failures.push({ native_id: item.native_id, reason: 'BUDGET_EXHAUSTED' });
+    return;
   }
 
-  const fetchImpl = options.fetchImpl || globalThis.fetch;
-  const nowMs = options.now ? new Date(options.now).getTime() : Date.now();
-  const now = new Date(Number.isFinite(nowMs) ? nowMs : Date.now());
-  const fetchedAt = options.fetchedAt || now.toISOString();
-  const sinceMs = options.sinceIso ? new Date(options.sinceIso).getTime() : null;
-  const untilMs = options.untilIso ? new Date(options.untilIso).getTime() : null;
-
-  const baseUrl = collection.twitter_api_base_url || 'https://api.twitterapi.io';
-  const accounts = Array.isArray(config.x_accounts) ? config.x_accounts : [];
-  const keywords = Array.isArray(config.keywords?.ai_keywords) ? config.keywords.ai_keywords : [];
-
-  const headers = { 'X-API-Key': apiKey };
-  const credits = emptyCredits;
-  const items = new Map(); // native_id -> item（博主 + 关键词全局去重）
-  const articleCandidates = []; // { tweetId, item } 待补读长文
-  const failures = [];
-  let tweetResponseExceededMax = false;
-
-  const canAfford = cost => credits.used + cost <= creditsPerRun;
-  const tweetAttemptCost = tweetsPerRequestMax * tweetsCost;
-
-  /** 每次真实 fetch 前预占；失败/空响应不在调用层自动退款。 */
-  const reserveAttempt = (kind, cost, attempt) => {
-    if (!canAfford(cost)) return null;
-    credits.used += cost;
-    credits.requests.total += 1;
-    credits.requests[kind] += 1;
-    if (attempt > 0) credits.requests.retries += 1;
-    return { kind, cost };
-  };
-
-  /** tweet 成功响应按平台实际返回总数结算；窗外/重复/无效项也属于计费返回。 */
-  const settleTweetAttempt = (reservation, returnedCount) => {
-    if (!reservation) return false;
-    const count = Math.max(0, Number(returnedCount) || 0);
-    const billableCount = Math.max(1, count); // TwitterAPI.io 每请求最低 15 credits
-    const actualCost = billableCount * tweetsCost;
-    credits.used += actualCost - reservation.cost;
-    credits.tweets += count;
-    return count > tweetsPerRequestMax;
-  };
-
-  /** 时间窗过滤：created 缺失/不可解析视为不在窗内。 */
-  const inWindow = created => {
-    if (!created) return false;
-    const ms = new Date(created).getTime();
-    if (!Number.isFinite(ms)) return false;
-    if (sinceMs !== null && ms < sinceMs) return false;
-    if (untilMs !== null && ms > untilMs) return false;
-    return true;
-  };
-
-  /** 统一收口：已在请求级预占额度；这里只做时间窗过滤、规范化和去重。 */
-  const ingestTweet = (tweet, author) => {
-    const created = tweet.createdAt || tweet.created_at || tweet.created || tweet.timestamp;
-    if (!inWindow(created)) return true; // 窗外条目已在响应结算时计费
-    const item = normalizeXV2Tweet(tweet, author, fetchedAt);
-    if (!item) return true;
-    if (!items.has(item.native_id)) {
-      items.set(item.native_id, item);
-      if (hasArticleSignal(tweet, item.description)) {
-        articleCandidates.push({ tweetId: item.native_id, item });
-      }
+  try {
+    const payload = await client.fetchArticle(item.native_id);
+    const body = extractArticleText(payload);
+    if (body) {
+      const base = item.description || '';
+      item.description = [body, base].filter(Boolean).join('\n\n').slice(0, 600);
     }
-    return true;
+    budgetLedger.settle(reservation, 1, 100, Boolean(body));
+  } catch (err) {
+    budgetLedger.retainAsUnknown(reservation);
+    diagnostics.article_failures.push({ native_id: item.native_id, error: err.message });
+  }
+}
+
+/**
+ * 遍历 outcomes 中的原始推文，执行时间窗裁决、归一化、去重、上下文注入与 Article 补读。
+ * @private
+ */
+async function processOutcomeItems(outcomes, queryKind, targetWindow, context) {
+  const { dedupedItems, runId, slot, nowIso, client, budgetLedger, diagnostics } = context;
+  let newlyAddedCount = 0;
+
+  for (const outcome of outcomes) {
+    const rawTweets = Array.isArray(outcome.items) ? outcome.items : [];
+    let retainedForGroup = 0;
+    const queryId = outcome.group_id || outcome.query_id;
+
+    for (const rawTweet of rawTweets) {
+      const item = ingestRawTweet(rawTweet, { targetWindow, nowIso, diagnostics });
+      if (!item) continue;
+      if (dedupedItems.has(item.native_id)) continue;
+
+      item.collection_context = {
+        window_id: targetWindow.window_id,
+        half: slot,
+        query_kind: queryKind,
+        query_id: queryId,
+        first_seen_run_id: runId,
+        last_seen_run_id: runId,
+      };
+
+      await enrichArticle(item, rawTweet, { client, budgetLedger, diagnostics });
+      dedupedItems.set(item.native_id, item);
+      retainedForGroup += 1;
+      newlyAddedCount += 1;
+    }
+    outcome.retained_items = retainedForGroup;
+  }
+  return newlyAddedCount;
+}
+
+/**
+ * 汇总执行总体状态。
+ * @private
+ */
+function deriveStatus(accountResult, discResult, tailResult, diagnostics, totalItems) {
+  if (accountResult.status === 'failed' && totalItems === 0) return 'failed';
+  if (accountResult.status === 'failed' || accountResult.status === 'partial') return 'partial';
+  if (discResult && (discResult.status === 'failed' || discResult.status === 'partial')) return 'partial';
+  if (tailResult && (tailResult.status === 'failed' || tailResult.status === 'partial')) return 'partial';
+  if (diagnostics.article_failures.some(f => f.reason === 'BUDGET_EXHAUSTED')) return 'partial';
+  return 'complete';
+}
+
+/**
+ * 组装各阶段 outcomes 为标准 Checkpoint 记录数组。
+ * @private
+ */
+function buildPatches(accountOutcomes, discOutcomes, window, slot, nowIso) {
+  const patches = [];
+  for (const o of accountOutcomes) {
+    patches.push(buildCheckpointRecord({
+      window_id: window.window_id, half: slot, query_kind: 'account_group',
+      query_id: o.group_id, group_id: o.group_id, query_hash: o.query_hash,
+      status: o.status, pages_completed: o.pages_completed, next_cursor: o.next_cursor,
+      reason_code: o.reason, credits_used: o.credits_used, retained_items: o.retained_items || 0,
+      updated_at: nowIso,
+    }));
+  }
+  for (const o of discOutcomes) {
+    patches.push(buildCheckpointRecord({
+      window_id: window.window_id, half: slot, query_kind: 'discovery',
+      query_id: o.query_id, group_id: null, query_hash: o.query_hash,
+      status: o.status, pages_completed: o.pages_completed, next_cursor: o.next_cursor,
+      reason_code: o.reason, credits_used: o.credits_used, retained_items: o.retained_items || 0,
+      updated_at: nowIso,
+    }));
+  }
+  return patches;
+}
+
+/**
+ * 初始化采集参数、时间窗口与执行环境。
+ * @private
+ */
+function initCollectionEnv(specOrOptions) {
+  const spec = specOrOptions.xRunSpec || specOrOptions;
+  const config = resolveConfig(spec.config);
+  const slot = spec.slot;
+  const now = spec.now instanceof Date ? spec.now : new Date(spec.now || Date.now());
+  const nowIso = now.toISOString();
+  const runId = spec.run_id || spec.runId || `x-${now.getTime()}`;
+  const runKind = spec.run_kind || spec.runKind || 'scheduled';
+  const apiKey = spec.xApiKey || spec.apiKey || xApiKeyOf(spec);
+  return { spec, config, slot, now, nowIso, runId, runKind, apiKey };
+}
+
+/**
+ * 构建错误/快速退出情况下的空 XRunResult。
+ * @private
+ */
+function buildQuickExitResult(runId, runKind, errorReason, slot = 'hot') {
+  return {
+    platform: 'x', run_id: runId, run_kind: runKind, window: null, status: 'failed',
+    items: [], account_groups: [], discovery_queries: [],
+    credits: createBudgetLedger(slot === 'cold' ? 'cold' : 'hot').toCreditsDto(),
+    diagnostics: { error: errorReason }, checkpoint_patches: [],
   };
+}
 
-  // ── 1. 博主时间窗：last_tweets（按响应条数计费，先按每页上限预占） ──
-  for (const handle of accounts) {
-    if (!canAfford(tweetAttemptCost)) { failures.push('credits_exhausted'); break; }
-    if (!handle) continue;
-    const author = { id: `x-${hash(handle)}`, handle, name: handle, language: 'en', content_tags: [] };
-    try {
-      const url = new URL('/twitter/user/last_tweets', baseUrl);
-      url.searchParams.set('userName', handle);
-      let lastReservation = null;
-      const tweets = await fetchTweets(url, headers, fetchImpl, config, attempt => {
-        lastReservation = reserveAttempt('tweet', tweetAttemptCost, attempt);
-        return lastReservation !== null;
-      });
-      const exceededMax = settleTweetAttempt(lastReservation, tweets.length);
-      for (const tweet of tweets) ingestTweet(tweet, author);
-      if (exceededMax) {
-        failures.push('tweet_response_exceeded_max');
-        tweetResponseExceededMax = true;
-        break;
-      }
-    } catch (error) {
-      failures.push(`accounts:${handle}:${errorLabel(error)}`);
-    }
+/**
+ * 校验采集必要条件并构造前置快速退出结果。
+ * @private
+ */
+function checkPreconditions(env) {
+  const { config, apiKey, slot, runId, runKind } = env;
+  if (config.collection?.enabled !== true) return buildQuickExitResult(runId, runKind, 'collection_disabled', slot);
+  if (!apiKey) return buildQuickExitResult(runId, runKind, 'missing_api_key', slot);
+  if (slot !== 'hot' && slot !== 'cold') return buildQuickExitResult(runId, runKind, 'invalid_or_missing_slot', 'hot');
+  return null;
+}
+
+/**
+ * 执行尾部重查子阶段（若启用）。
+ * @private
+ */
+async function executeTailPhase({ spec, accountGroups, slot, window, now, nowIso, client, budgetLedger, context }) {
+  if (spec.tail_recheck?.enabled !== true) {
+    return { tailResult: null, tailObservations: [] };
   }
 
-  // ── 2. 关键词搜索：advanced_search（按响应条数计费，与博主结果按 native_id 去重） ──
-  for (const keyword of keywords) {
-    if (tweetResponseExceededMax) break;
-    if (!canAfford(tweetAttemptCost)) { failures.push('credits_exhausted'); break; }
-    if (!keyword) continue;
-    try {
-      const url = new URL('/twitter/tweet/advanced_search', baseUrl);
-      url.searchParams.set('query', keyword);
-      url.searchParams.set('queryType', 'Latest');
-      let lastReservation = null;
-      const tweets = await fetchTweets(url, headers, fetchImpl, config, attempt => {
-        lastReservation = reserveAttempt('tweet', tweetAttemptCost, attempt);
-        return lastReservation !== null;
-      });
-      const exceededMax = settleTweetAttempt(lastReservation, tweets.length);
-      for (const tweet of tweets) ingestTweet(tweet, null);
-      if (exceededMax) {
-        failures.push('tweet_response_exceeded_max');
-        tweetResponseExceededMax = true;
-        break;
-      }
-    } catch (error) {
-      failures.push(`search:${keyword}:${errorLabel(error)}`);
-    }
+  const tailRecheckWindow = spec.tail_recheck.since_bjt
+    ? spec.tail_recheck
+    : resolveTailRecheckWindow(slot, window.business_date || beijingDayKey(now));
+  const tailResult = await executeTailRecheck({
+    accountGroups,
+    tailRecheckWindow,
+    client,
+    budgetLedger,
+  });
+
+  const tailObservations = [];
+  for (const tailOutcome of tailResult.outcomes) {
+    const recoveredCount = await processOutcomeItems([tailOutcome], 'account_group', {
+      window_id: tailRecheckWindow.source_window_id || tailRecheckWindow.window_id,
+      since_unix: tailRecheckWindow.since_unix,
+      until_unix: tailRecheckWindow.until_unix,
+    }, context);
+    tailObservations.push({
+      recorded_at: nowIso,
+      half: slot,
+      group_id: tailOutcome.group_id,
+      recovered_new_count: recoveredCount,
+      credits_used: tailOutcome.credits_used,
+      recovered_approved_count: 0,
+    });
+  }
+  return { tailResult, tailObservations };
+}
+
+/**
+ * 执行 Discovery 关键词发现子阶段。
+ * @private
+ */
+async function executeDiscoveryPhase({ spec, config, window, client, budgetLedger, context }) {
+  const discoveryQueries = Array.isArray(spec.discovery_queries)
+    ? spec.discovery_queries
+    : (spec.account_groups ? [] : (Array.isArray(config.keywords?.x_discovery_queries) ? config.keywords.x_discovery_queries : []));
+  if (discoveryQueries.length === 0) {
+    return { outcomes: [], items: [], status: 'complete' };
   }
 
-  // ── 3. 长文读取：/twitter/article（每次尝试预占 100 credits） ──
-  for (const candidate of articleCandidates) {
-    if (tweetResponseExceededMax) break;
-    if (!canAfford(articlesCost)) { failures.push('credits_exhausted'); break; }
-    try {
-      const url = new URL('/twitter/article', baseUrl);
-      url.searchParams.set('tweetId', String(candidate.tweetId));
-      const bodyText = await requestText(url, { headers, fetchImpl }, config, attempt =>
-        reserveAttempt('article', articlesCost, attempt) !== null
-      );
-      const body = extractArticleText(JSON.parse(bodyText));
-      if (body) {
-        credits.articles += 1;
-        const base = candidate.item.description || '';
-        candidate.item.description = [body, base].filter(Boolean).join('\n\n').slice(0, 600);
-      }
-    } catch (error) {
-      failures.push(`article:${candidate.tweetId}:${errorLabel(error)}`);
-    }
-  }
+  const discResult = await executeDiscoveryQueries({
+    discoveryQueries,
+    window,
+    client,
+    budgetLedger,
+    bucketKey: 'discovery',
+  });
+  await processOutcomeItems(discResult.outcomes, 'discovery', window, context);
+  return discResult;
+}
 
-  // ── 4. coverage 状态 ──
-  const finalItems = [...items.values()];
-  let status = 'success';
-  if (finalItems.length === 0 && failures.length > 0) status = 'failed';
-  else if (failures.length > 0) status = 'partial';
-  const coverage = { status, reason: failures.length ? failures[0] : null };
+/**
+ * 初始化客户端、预算账本与推文处理上下文。
+ * @private
+ */
+function initExecutionContext(spec, config, env) {
+  const { apiKey, slot, runId, nowIso } = env;
+  const budgetLedger = createBudgetLedger(slot, spec.budget_caps || config.budget_caps || {});
+  const client = createAdvancedSearchClient({
+    apiKey,
+    baseUrl: config.collection?.twitter_api_base_url,
+    fetchImpl: spec.fetchImpl,
+    timeoutMs: config.collection?.request_timeout_ms,
+    maxRetries: config.collection?.max_retries,
+    retryBaseMs: config.collection?.retry_base_ms,
+  });
+  const diagnostics = {
+    delayed: Boolean(spec.delayed),
+    excluded_interaction_counts: { reply: 0, repost: 0, unknown: 0 },
+    article_failures: [],
+    errors: [],
+  };
+  const dedupedItems = new Map();
+  const context = { dedupedItems, runId, slot, nowIso, client, budgetLedger, diagnostics };
+  return { budgetLedger, client, diagnostics, dedupedItems, context };
+}
 
-  return { items: finalItems, credits, coverage };
+/**
+ * X（TwitterAPI.io）Advanced Search 采集入口。
+ * @param {object} specOrOptions xRunSpec 或平铺参数对象
+ * @returns {Promise<object>} XRunResult
+ */
+async function collectXV2(specOrOptions = {}) {
+  const env = initCollectionEnv(specOrOptions);
+  const exitResult = checkPreconditions(env);
+  if (exitResult) return exitResult;
+
+  const { spec, config, slot, now, nowIso, runId, runKind } = env;
+  const window = spec.window || resolveXCollectionWindow({
+    slot,
+    businessDate: spec.businessDate || beijingDayKey(now),
+  });
+
+  const { budgetLedger, client, diagnostics, dedupedItems, context } = initExecutionContext(spec, config, env);
+
+  // 1. 调度 7 个账号组
+  const accountGroups = Array.isArray(spec.account_groups)
+    ? spec.account_groups
+    : (Array.isArray(config.account_groups) ? config.account_groups : []);
+  const accountResult = await executeAccountGroups({
+    accountGroups,
+    window,
+    client,
+    budgetLedger,
+    bucketKey: 'account',
+  });
+  await processOutcomeItems(accountResult.outcomes, 'account_group', window, context);
+
+  // 2. 尾部重查
+  const { tailResult, tailObservations } = await executeTailPhase({
+    spec, accountGroups, slot, window, now, nowIso, client, budgetLedger, context,
+  });
+
+  // 3. Discovery 关键词查询
+  const discResult = await executeDiscoveryPhase({ spec, config, window, client, budgetLedger, context });
+
+  // 4. 组装结果
+  const finalItems = [...dedupedItems.values()];
+  const status = deriveStatus(accountResult, discResult, tailResult, diagnostics, finalItems.length);
+  const patches = buildPatches(accountResult.outcomes, discResult.outcomes, window, slot, nowIso);
+  if (tailObservations.length > 0) patches.push(...tailObservations);
+
+  return {
+    platform: 'x', run_id: runId, run_kind: runKind, window, status, items: finalItems,
+    account_groups: accountResult.outcomes, discovery_queries: discResult.outcomes,
+    credits: budgetLedger.toCreditsDto(), diagnostics, checkpoint_patches: patches,
+  };
 }
 
 module.exports = {
   collectXV2,
+  resolveConfig,
+  loadV2Config,
   normalizeXV2Tweet,
   extractArticleText,
   hasArticleSignal,
-  resolveConfig,
-  loadV2Config,
 };

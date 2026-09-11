@@ -71,7 +71,7 @@ node scripts/news-cli.js localize preview --title <t> [--description <d>] [--loc
 
 | 工作流 | 触发条件 | 核心任务与输出 |
 |---|---|---|
-| `collect-news.yml` | 每日 cron（YouTube 每日北京 20:00；X 每日北京 13:00 / 22:00）/ 手动 | YouTube 受管线内 72h 到期闸保护；产出 `data/news/output/hotspots.json`、`min-candidates.json`、`source-history.json`、`public/feed.xml` |
+| `collect-news.yml` | 每日 cron（YouTube 每日北京 20:00；X 热半区每日北京 08:30 / 冷半区每日北京 20:30）/ 手动 | YouTube 受管线内 72h 到期闸保护；产出 `data/news/output/hotspots.json`、`min-candidates.json`、`source-history.json`、`x-checkpoints.json`、`last-run.json`、`public/feed.xml` |
 | `publish-news.yml` | push `main` 监听 `data/news/runtime/min-candidates.json` 变动 | 从已审核候选重构公开投影，提交 `hotspots.json` 与 `public/feed.xml` |
 | `refresh-comparison.yml` | 每日北京 05:17（UTC 21:17）/ 手动 | 抓取各源最新数据并重建 `data/comparison/`（raw 快照 + integrated 索引） |
 | `refresh-vibe-hub-cache.yml` | 每日北京 19:00（UTC 11:00，YouTube 采集前 1h）/ 手动 | 刷新超过 3 天 TTL 的概念缓存，更新 `data/manual/registries/vibe-hub-cache.json` |

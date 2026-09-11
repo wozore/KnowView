@@ -13,10 +13,123 @@
 const { collectYouTubeV2 } = require('../collectors/collector-youtube-v2');
 const { collectXV2 } = require('../collectors/collector-x-v2');
 const { isYoutubeDue, readScheduleState, resolveXWindow, writeScheduleState } = require('./pipeline-schedule');
+const { beijingDayKey } = require('../../shared/beijing-time');
+const { resolveXCollectionWindow } = require('../collectors/x-search');
 
 /** 错误标签：防御 undefined 边界。 */
 function errorLabel(error) {
   return (error && (error.message || error.code)) || String(error);
+}
+
+/**
+ * 从 options 与参考时间推导 X 的 slot（hot/cold）与 run_kind。
+ * @private
+ */
+function deriveXRunParams(options) {
+  const slot = options.slot || options.xSlot;
+  const runKind = options.run_kind || options.runKind || (options.scheduled === true ? 'scheduled' : 'manual_backfill');
+  return { slot, runKind };
+}
+
+/**
+ * 构造传递给 xCollector 的结构化 xRunSpec。
+ * @private
+ */
+function buildXRunSpec({ options, config, now, runId, xWindow }) {
+  const { slot, runKind } = deriveXRunParams(options);
+  if (options.scheduled === true && !['hot', 'cold'].includes(slot)) {
+    return { invalid: true, slot, runKind };
+  }
+  const resolvedWindow = (xWindow && xWindow.window_id)
+    ? xWindow
+    : resolveXCollectionWindow({
+        slot,
+        businessDate: options.businessDate || beijingDayKey(now),
+        manualWindow: (xWindow && xWindow.sinceIso && xWindow.untilIso)
+          ? { since_bjt: xWindow.sinceIso, until_bjt: xWindow.untilIso }
+          : null,
+      });
+
+  return {
+    platform: 'x',
+    run_id: runId,
+    run_kind: runKind,
+    slot,
+    window: resolvedWindow,
+    tail_recheck: options.tail_recheck || { enabled: options.scheduled === true },
+    config,
+    xApiKey: options.xApiKey,
+    apiKey: options.xApiKey,
+    fetchImpl: options.fetchImpl,
+    now,
+    scheduled_at: options.scheduled_at,
+    actual_started_at: now.toISOString(),
+    account_groups: options.account_groups,
+    discovery_queries: options.discovery_queries,
+    budget_caps: options.budget_caps,
+    sinceIso: xWindow ? xWindow.sinceIso : null,
+    untilIso: xWindow ? xWindow.untilIso : null,
+  };
+}
+
+/**
+ * 调度 YouTube 采集任务。
+ * @private
+ */
+async function runYoutubeTask({ options, config, now, coverage }) {
+  const slot = coverage.collectors.youtube;
+  const youtubeCollector = (options.collectors && options.collectors.youtube) || collectYouTubeV2;
+  try {
+    const result = await youtubeCollector({
+      config,
+      now,
+      apiKey: options.youtubeApiKey,
+      fetchImpl: options.fetchImpl,
+    });
+    const collected = result && Array.isArray(result.items) ? result.items : [];
+    slot.items = collected.length;
+    slot.status = (result && result.coverage && result.coverage.status) || 'success';
+    slot.reason = (result && result.coverage && result.coverage.reason) || null;
+    slot.quota = result && result.quota ? result.quota : null;
+    return collected;
+  } catch (error) {
+    slot.status = 'failed';
+    slot.error = errorLabel(error);
+    return [];
+  }
+}
+
+/**
+ * 调度 X Advanced Search 采集任务。
+ * @private
+ */
+async function runXTask({ options, config, now, runId, coverage, xWindow }) {
+  const slot = coverage.collectors.x;
+  const xCollector = (options.collectors && options.collectors.x) || collectXV2;
+  const xRunSpec = buildXRunSpec({ options, config, now, runId, xWindow });
+  if (xRunSpec.invalid) {
+    slot.status = 'failed';
+    slot.reason = 'NEWS_INVALID_OR_MISSING_SLOT';
+    return [];
+  }
+
+  try {
+    const result = await xCollector(xRunSpec);
+    const collected = result && Array.isArray(result.items) ? result.items : [];
+    slot.items = collected.length;
+    slot.status = result?.status || result?.coverage?.status || 'success';
+    slot.reason = result?.diagnostics?.error || result?.coverage?.reason || null;
+    slot.credits = result?.credits || null;
+    slot.account_groups = result?.account_groups || null;
+    slot.discovery_queries = result?.discovery_queries || null;
+    slot.checkpoint_patches = result?.checkpoint_patches || null;
+    slot.diagnostics = result?.diagnostics || null;
+    return collected;
+  } catch (error) {
+    slot.status = 'failed';
+    slot.error = errorLabel(error);
+    return [];
+  }
 }
 
 /**
@@ -28,8 +141,6 @@ async function collectPlatforms({ options, config, now, runId, coverage, noteErr
   const platforms = Array.isArray(options.platforms) && options.platforms.length
     ? options.platforms
     : ['youtube', 'x'];
-  const youtubeCollector = (options.collectors && options.collectors.youtube) || collectYouTubeV2;
-  const xCollector = (options.collectors && options.collectors.x) || collectXV2;
   const xWindow = resolveXWindow(options, now);
 
   // YouTube 到期闸：仅调度运行生效。
@@ -50,44 +161,10 @@ async function collectPlatforms({ options, config, now, runId, coverage, noteErr
 
   const collectTasks = [];
   if (platforms.includes('youtube') && youtubeDueFlag) {
-    collectTasks.push((async () => {
-      const slot = coverage.collectors.youtube;
-      try {
-        const result = await youtubeCollector({ config, now, apiKey: options.youtubeApiKey, fetchImpl: options.fetchImpl });
-        const collected = result && Array.isArray(result.items) ? result.items : [];
-        slot.items = collected.length;
-        slot.status = (result && result.coverage && result.coverage.status) || 'success';
-        slot.reason = (result && result.coverage && result.coverage.reason) || null;
-        slot.quota = result && result.quota ? result.quota : null;
-        return collected;
-      } catch (error) {
-        slot.status = 'failed';
-        slot.error = errorLabel(error);
-        return [];
-      }
-    })());
+    collectTasks.push(runYoutubeTask({ options, config, now, coverage }));
   }
   if (platforms.includes('x')) {
-    collectTasks.push((async () => {
-      const slot = coverage.collectors.x;
-      try {
-        const result = await xCollector({
-          config, now,
-          sinceIso: xWindow.sinceIso, untilIso: xWindow.untilIso,
-          xApiKey: options.xApiKey, fetchImpl: options.fetchImpl,
-        });
-        const collected = result && Array.isArray(result.items) ? result.items : [];
-        slot.items = collected.length;
-        slot.status = (result && result.coverage && result.coverage.status) || 'success';
-        slot.reason = (result && result.coverage && result.coverage.reason) || null;
-        slot.credits = result && result.credits ? result.credits : null;
-        return collected;
-      } catch (error) {
-        slot.status = 'failed';
-        slot.error = errorLabel(error);
-        return [];
-      }
-    })());
+    collectTasks.push(runXTask({ options, config, now, runId, coverage, xWindow }));
   }
 
   const collectedArrays = await Promise.all(collectTasks);
@@ -95,7 +172,6 @@ async function collectPlatforms({ options, config, now, runId, coverage, noteErr
   coverage.collected_total = mergedRaw.length;
 
   // 调度状态落盘：仅「调度运行 + YouTube 实际采集（success/partial）」刷新到期基准。
-  // not_due、failed、手动/本地运行一律不写——失败不吞窗口，手动不挤压调度节奏。
   if (platforms.includes('youtube') && scheduledRun && youtubeDueFlag
     && ['success', 'partial'].includes(coverage.collectors.youtube.status)) {
     try {

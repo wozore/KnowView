@@ -35,6 +35,8 @@ async function mainMin(platforms) {
     ? { ...buildMinFixtureOptions(), catalogApi: createNewsCatalogApi() }
     : { autoRepair: true, catalogApi: createNewsCatalogApi() };
   if (Array.isArray(platforms) && platforms.length) options.platforms = platforms;
+  const slot = parseSlot();
+  if (slot) options.slot = slot;
   // --scheduled 仅由 collect-news.yml 的 schedule 触发传入：启用 YouTube 72h 到期闸 +
   // 允许写调度状态；workflow_dispatch / 本地运行不带此标志（手动与调度节奏互不影响）。
   if (process.argv.includes('--scheduled')) options.scheduled = true;
@@ -64,8 +66,13 @@ async function mainMin(platforms) {
   return { coverage, minCandidates, publicItems };
 }
 
-/**
- * 解析 --platforms youtube|x[,x]（逗号分隔可选；也接受 --platforms=...）。
+function parseSlot() {
+  const idx = process.argv.indexOf('--slot');
+  const eq = process.argv.find(arg => arg.startsWith('--slot='));
+  const raw = idx !== -1 ? process.argv[idx + 1] : (eq ? eq.slice(7) : undefined);
+  return raw === 'hot' || raw === 'cold' ? raw : undefined;
+}
+
  * 缺省返回 undefined（runMin 按双平台缺省处理）。
  * @returns {string[]|undefined}
  */

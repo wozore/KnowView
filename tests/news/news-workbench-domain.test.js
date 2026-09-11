@@ -120,19 +120,19 @@ test('setApprovedTopSelectedMin：仅 approved 候选可显式 set/unset，且�
   );
 });
 
-test('applyKeywordActions：只能从固定清单采纳子集，并只改变 ai_keywords', () => {
+test('applyKeywordActions：只能从固定清单采纳子集，并只改变 content_keywords', () => {
   const config = {
     schema_version: 1,
     collection: { enabled: true },
-    keywords: { ai_keywords: ['Claude'], other: 'preserve' },
+    keywords: { content_keywords: ['Claude'], other: 'preserve' },
     manual_folder: 'keep-me',
   };
   const result = applyKeywordActions(config, KEYWORD_LIST, { expectedRevision: revisionOfConfig(config) });
-  assert.deepEqual(result.config.keywords.ai_keywords, ['Claude', 'DeepSeek']);
+  assert.deepEqual(result.config.keywords.content_keywords, ['Claude', 'DeepSeek']);
   assert.equal(result.config.keywords.other, 'preserve');
   assert.equal(result.config.collection.enabled, true);
   assert.equal(result.duplicates, 1);
-  assert.deepEqual(config.keywords.ai_keywords, ['Claude'], '纯 mutation 不修改输入配置');
+  assert.deepEqual(config.keywords.content_keywords, ['Claude'], '纯 mutation 不修改输入配置');
 
   assert.throws(
     () => applyKeywordActions(config, { ...KEYWORD_LIST, adopted_keywords: ['outside'] }, {
@@ -149,7 +149,7 @@ test('applyKeywordActions：只能从固定清单采纳子集，并只改变 ai_
 test('commitKeywordActions：expected revision 通过后原子写配置，空变更不写', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'news-workbench-keywords-'));
   const configPath = path.join(dir, 'news-config-v2.json');
-  const config = { keywords: { ai_keywords: [] }, collection: { enabled: false } };
+  const config = { keywords: { content_keywords: [] }, collection: { enabled: false } };
   fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, 'utf8');
   try {
     const result = commitKeywordActions(KEYWORD_LIST, {
@@ -159,7 +159,7 @@ test('commitKeywordActions：expected revision 通过后原子写配置，空变
     });
     assert.equal(result.written, true);
     assert.deepEqual(JSON.parse(fs.readFileSync(configPath, 'utf8')), {
-      keywords: { ai_keywords: ['DeepSeek'] },
+      keywords: { content_keywords: ['DeepSeek'] },
       collection: { enabled: false },
     });
 

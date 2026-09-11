@@ -25,29 +25,37 @@ function hasYouTubeInLastRun(lastRun) {
   return Number(lastRun.collectors.youtube.items) > 0;
 }
 
+function beijingDateKey(value) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return null;
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(date);
+}
+
+function hasYouTubeApprovedToday(approved, now = new Date()) {
+  const today = beijingDateKey(now);
+  return approved.some(candidate => candidate?.platform === 'youtube'
+    && beijingDateKey(candidate.published_at) === today);
+}
+
 /**
  * 解析 ai-top 的 YouTube 判定与 top 数量（纯逻辑，无 I/O，便于测试）。
- * 有 approved 候选时优先以最后一次采集记录判定；历史审核或手工导入缺少
- * last-run 时，回退读取当前 approved 候选的 platform 字段，避免阻断后续编辑流程。
+ * YouTube 判定只使用当前北京时间自然日的 approved 候选，不依赖 last-run。
  * @param {Array} approved 候选层中 review_status==='approved' 的候选
- * @param {object|null} lastRun readJson(NEWS_FILES.lastRun, null) 的结果
- * @param {object} config v2 配置（读 collection.review_top_with_youtube / review_top_pure_x）
- * @returns {{ ok: true, hasYouTube: boolean, topN: number, source: 'last_run'|'approved_candidates' } |
- *            { ok: false, reason: 'no_approved' }}
+ * @param {object|null} lastRun 保留参数以维持调用签名，业务判定不读取
+ * @param {object} config v2 配置
  */
-function resolveAiTopConfig(approved, lastRun, config) {
+function resolveAiTopConfig(approved, lastRun, config, now = new Date()) {
   if (!Array.isArray(approved) || approved.length === 0) {
     return { ok: false, reason: 'no_approved' };
   }
-  const fromLastRun = Boolean(lastRun);
-  const hasYouTube = fromLastRun
-    ? hasYouTubeInLastRun(lastRun)
-    : approved.some(candidate => String(candidate?.platform || '').trim().toLowerCase() === 'youtube');
+  const hasYouTube = hasYouTubeApprovedToday(approved, now);
   const collection = (config && config.collection) || {};
   const topN = hasYouTube
     ? Number(collection.review_top_with_youtube) || 15
     : Number(collection.review_top_pure_x) || 10;
-  return { ok: true, hasYouTube, topN, source: fromLastRun ? 'last_run' : 'approved_candidates' };
+  return { ok: true, hasYouTube, topN, source: 'approved_candidates' };
 }
 
 /** 仅让 AI 读取按评分排序的有限候选池，避免历史 approved 大量累积时超出本地模型上下文。 */

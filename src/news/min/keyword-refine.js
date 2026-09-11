@@ -16,6 +16,7 @@ const { writeJsonAtomic } = require('../../shared/json-store');
 const { readMinStore } = require('./min-store');
 const { refineKeywords: refineKeywordsWithLlm } = require('../classify/llm-provider');
 const { beijingDateKey } = require('../../shared/beijing-time');
+const { KEYWORD_PURPOSES, resolvePurpose, revisionOfConfig } = require('./keyword-actions');
 
 const EN_STOPWORDS = new Set([
   'the', 'and', 'for', 'with', 'this', 'that', 'from', 'have', 'has', 'are', 'was',
@@ -143,9 +144,11 @@ function dateKeyOf(input) {
  */
 async function refineKeywords(store, config, options = {}) {
   const source = options.store ?? store ?? readMinStore();
+  const purpose = options.purpose || 'content';
+  const purposeDef = resolvePurpose(purpose);
   const keywords = (config && config.keywords) || {};
-  const existingKeywords = Array.isArray(keywords.ai_keywords) ? keywords.ai_keywords : [];
-  const excludedKeywords = Array.isArray(keywords.excluded_keywords) ? keywords.excluded_keywords : [];
+  const existingKeywords = Array.isArray(keywords[purposeDef.targetField]) ? keywords[purposeDef.targetField] : [];
+  const excludedKeywords = Array.isArray(keywords[purposeDef.excludedField]) ? keywords[purposeDef.excludedField] : [];
   const knownKeywords = [...existingKeywords, ...excludedKeywords];
   const manualFolder = (config && config.manual_folder) || 'data/manual';
   const approvedAll = collectApprovedOriginals(source);
@@ -156,10 +159,8 @@ async function refineKeywords(store, config, options = {}) {
   const retries = Number(keywords.refine_batch_retries ?? 1) || 0;
   if (!approvedAll.length) throw new Error('无 approved 候选可供提纯');
 
-  // 全局词频：全部 approved 都贡献候选与频次（不再只取高分子集），规则候选带全局 count。
   const globalFreq = buildWordFreq(approvedAll);
   const ruleCandidates = buildRuleCandidates(globalFreq, knownKeywords, ruleTopN);
-  // 送模型做语义归并的上下文：取评分最高的有限条原文，控制单次调用输入规模。
   const contextOriginals = approvedAll.slice(0, contextSize);
 
   const extract = options.keywordExtractor || refineKeywordsWithLlm;
@@ -170,6 +171,7 @@ async function refineKeywords(store, config, options = {}) {
     model: options.model,
     existingKeywords: knownKeywords,
     filterExisting: true,
+    purpose,
   };
   let result = await extract(contextOriginals, ruleCandidates, callOptions);
   for (let attempt = 0; attempt < retries && (!result || result.ok !== true); attempt += 1) {
@@ -179,25 +181,47 @@ async function refineKeywords(store, config, options = {}) {
     throw new Error(`AI 关键词提取失败：${result && result.error ? result.error : '未知错误'}${result && result.code ? `（${result.code}）` : ''}`);
   }
 
-  // 直接命中的词用全局频次校准 count（模型归并出的新词保留其估计值）。
   const freqMap = new Map([...globalFreq.entries()].map(([word, stat]) => [word, stat.count]));
-  const candidates = (result.keywords || [])
-    .map(kw => ({ ...kw, count: freqMap.get(kw.word.toLowerCase()) ?? kw.count }))
+  const rawList = result.keywords || [];
+  const candidates = rawList
+    .map(kw => {
+      const id = kw.id || (typeof kw.value === 'object' ? kw.value.id : null);
+      const val = purpose === 'x_discovery'
+        ? (typeof kw.value === 'object' && kw.value ? kw.value : { id: id || kw.word, query: kw.query || kw.value || kw.word, max_pages: 1 })
+        : (kw.value || kw.word);
+      const displayKey = typeof val === 'object' && val ? (val.id || val.query) : val;
+      const count = freqMap.get(String(displayKey).toLowerCase()) ?? kw.count;
+      const cid = kw.candidate_id || (id ? `${purpose}:${id}` : `${purpose}:${displayKey}`);
+      return {
+        candidate_id: cid,
+        purpose,
+        value: val,
+        category: kw.category || 'other',
+        candidate_type: kw.candidate_type || 'emerging',
+        count,
+        source_basis: 'all_approved_frequency',
+        status: 'pending',
+      };
+    })
     .slice(0, outputMax);
+
   if (!candidates.length) {
     throw new Error('AI 关键词提取失败：无有效关键词可生成');
   }
   const sourceBasis = 'all_approved_frequency';
 
   const date = dateKeyOf(options.now);
-  const file = path.join(manualFolder, 'keyword-refine.json');
+  const file = path.join(manualFolder, purposeDef.fileName);
   if (fs.existsSync(file)) {
     throw new Error(`关键词提纯清单已存在：${file}。为保留维护者的 adopted_keywords，拒绝覆盖；请先处理现有清单。`);
   }
+  const configRevision = revisionOfConfig(config);
   const payload = {
-    schema_version: 2,
+    schema_version: 3,
     kind: 'keyword_refine_candidates',
+    purpose,
     date,
+    config_revision: configRevision,
     source_review_status: 'approved',
     source_count: approvedAll.length,
     input_count: approvedAll.length,

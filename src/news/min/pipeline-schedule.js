@@ -10,9 +10,10 @@
 
 'use strict';
 
-const { beijingMidnightIso } = require('../../shared/beijing-time');
+const { beijingMidnightIso, beijingDayKey } = require('../../shared/beijing-time');
 const { readJson, writeJsonAtomic } = require('../../shared/json-store');
 const { NEWS_FILES } = require('../../shared/paths');
+const { resolveXCollectionWindow } = require('../collectors/x-search');
 
 /** YouTube 调度采集默认最小间隔（小时）；config.schedule.youtube_interval_hours 可覆盖。 */
 const DEFAULT_YOUTUBE_INTERVAL_HOURS = 72;
@@ -73,17 +74,41 @@ function normalizeNow(now) {
 
 /**
  * 解析 X 采集时间窗。
- * options.xWindow = { since, until } 注入时用之（since/until 可为 Date 或 ISO 字符串）；
- * 缺省用「北京时间今天 0 点 → now」（统一北京时间，不依赖 runner 系统时区）。
- * @returns {{ sinceIso: string|null, untilIso: string|null }}
+ * 1. options.xWindow = { since, until } 注入时使用之；
+ * 2. options.slot = 'hot' | 'cold' 或 options.xSlot 注入时，构造标准 hot/cold 窗口；
+ * 3. 缺省回退用「北京时间今天 0 点 → now」（保持既有基线测试兼容）。
+ * @returns {object}
  */
 function resolveXWindow(options, now) {
   if (options && options.xWindow) {
+    const sinceIso = options.xWindow.since != null ? new Date(options.xWindow.since).toISOString() : null;
+    const untilIso = options.xWindow.until != null ? new Date(options.xWindow.until).toISOString() : null;
+    const res = { sinceIso, untilIso };
+    if (options.xWindow.window_id || options.xWindow.since_bjt) {
+      res.window_id = options.xWindow.window_id || (sinceIso && untilIso ? `${sinceIso}__${untilIso}` : null);
+      res.since_bjt = options.xWindow.since_bjt || sinceIso;
+      res.until_bjt = options.xWindow.until_bjt || untilIso;
+      res.since_unix = options.xWindow.since_unix ?? (sinceIso ? Math.floor(Date.parse(sinceIso) / 1000) : null);
+      res.until_unix = options.xWindow.until_unix ?? (untilIso ? Math.floor(Date.parse(untilIso) / 1000) : null);
+      res.slot = options.slot || options.xSlot || 'hot';
+    }
+    return res;
+  }
+
+  const slot = (options && (options.slot === 'hot' || options.slot === 'cold'))
+    ? options.slot
+    : (options && (options.xSlot === 'hot' || options.xSlot === 'cold') ? options.xSlot : null);
+
+  if (slot) {
+    const normNow = normalizeNow(now);
+    const win = resolveXCollectionWindow({ slot, businessDate: options.businessDate || beijingDayKey(normNow) });
     return {
-      sinceIso: options.xWindow.since != null ? new Date(options.xWindow.since).toISOString() : null,
-      untilIso: options.xWindow.until != null ? new Date(options.xWindow.until).toISOString() : null,
+      ...win,
+      sinceIso: new Date(win.since_unix * 1000).toISOString(),
+      untilIso: new Date(win.until_unix * 1000).toISOString(),
     };
   }
+
   return { sinceIso: beijingMidnightIso(now), untilIso: normalizeNow(now).toISOString() };
 }
 
@@ -94,6 +119,7 @@ function resolveXWindow(options, now) {
  * 记录 platforms、各平台 status/items，以及 X credits/请求账本。
  */
 function buildLastRunRecord(coverage, { runId, now, platforms }) {
+  const xSlot = coverage.collectors?.x || {};
   return {
     schema_version: 1,
     run_id: runId,
@@ -101,18 +127,21 @@ function buildLastRunRecord(coverage, { runId, now, platforms }) {
     platforms,
     collectors: {
       youtube: {
-        status: coverage.collectors.youtube.status,
-        items: coverage.collectors.youtube.items,
-        error: coverage.collectors.youtube.error,
-        reason: coverage.collectors.youtube.reason || null,
-        quota: coverage.collectors.youtube.quota || null,
+        status: coverage.collectors?.youtube?.status || 'not_run',
+        items: coverage.collectors?.youtube?.items || 0,
+        error: coverage.collectors?.youtube?.error || null,
+        reason: coverage.collectors?.youtube?.reason || null,
+        quota: coverage.collectors?.youtube?.quota || null,
       },
       x: {
-        status: coverage.collectors.x.status,
-        items: coverage.collectors.x.items,
-        error: coverage.collectors.x.error,
-        reason: coverage.collectors.x.reason || null,
-        credits: coverage.collectors.x.credits || null,
+        status: xSlot.status || 'not_run',
+        items: xSlot.items || 0,
+        error: xSlot.error || null,
+        reason: xSlot.reason || null,
+        credits: xSlot.credits || null,
+        account_groups: xSlot.account_groups || null,
+        discovery_queries: xSlot.discovery_queries || null,
+        diagnostics: xSlot.diagnostics || null,
       },
     },
   };
@@ -169,10 +198,13 @@ function formatRunSummary(run) {
         lines.push('- 本次运行未写入 credits 记录。');
       } else {
         const r = c.requests || {};
-        lines.push(`- credits: ${c.used || 0}/${c.budget || 0}`);
-        lines.push(`- billable tweets: ${c.tweets || 0}`);
-        lines.push(`- successful articles: ${c.articles || 0}`);
-        lines.push(`- requests: ${r.total || 0} (tweet=${r.tweet || 0}, article=${r.article || 0}, retries=${r.retries || 0})`);
+        const budget = c.budget ?? c.total_budget ?? 0;
+        lines.push(`- credits: ${c.used || 0}/${budget}`);
+        if (c.tweets !== undefined) lines.push(`- billable tweets: ${c.tweets || 0}`);
+        if (c.settled !== undefined) lines.push(`- settled: ${c.settled}, reserved: ${c.reserved || 0}, unknown: ${c.unknown_reserved || 0}`);
+        if (c.articles !== undefined) lines.push(`- successful articles: ${c.articles || 0}`);
+        lines.push(`- requests: ${r.total || 0} (tweet=${r.tweet ?? r.pages ?? 0}, article=${r.article ?? r.articles ?? 0}, retries=${r.retries || 0})`);
+        if (c.overage > 0) lines.push(`- overage: ${c.overage}`);
       }
     }
   }

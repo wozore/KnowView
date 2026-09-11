@@ -64,34 +64,30 @@ test('resolveAiTopConfig：无 approved 候选 → no_approved', () => {
   assert.deepEqual(resolveAiTopConfig(undefined, null, CONFIG), { ok: false, reason: 'no_approved' });
 });
 
-test('resolveAiTopConfig：last-run 缺失时使用已批准候选的平台回退', () => {
-  assert.deepEqual(resolveAiTopConfig(APPROVED, null, CONFIG), { ok: true, hasYouTube: false, topN: 10, source: 'approved_candidates' });
-  assert.deepEqual(resolveAiTopConfig([{ ...APPROVED[0], platform: 'youtube' }], undefined, CONFIG), { ok: true, hasYouTube: true, topN: 15, source: 'approved_candidates' });
+test('resolveAiTopConfig：按当前北京时间自然日的 approved 候选判定 YouTube', () => {
+  const now = '2026-09-11T04:00:00Z';
+  assert.deepEqual(resolveAiTopConfig(APPROVED, null, CONFIG, now), { ok: true, hasYouTube: false, topN: 10, source: 'approved_candidates' });
+  const youtube = [{ ...APPROVED[0], platform: 'youtube', published_at: '2026-09-11T03:00:00Z' }];
+  assert.deepEqual(resolveAiTopConfig(youtube, null, CONFIG, now), { ok: true, hasYouTube: true, topN: 15, source: 'approved_candidates' });
 });
 
-test('resolveAiTopConfig：YouTube 实际采到内容 → topN 15', () => {
-  const lastRun = { collectors: { youtube: { status: 'success', items: 3 }, x: { status: 'success', items: 20 } } };
-  assert.deepEqual(resolveAiTopConfig(APPROVED, lastRun, CONFIG), { ok: true, hasYouTube: true, topN: 15, source: 'last_run' });
+test('resolveAiTopConfig：last-run 不影响当前自然日 approved 候选判定', () => {
+  const youtube = [{ ...APPROVED[0], platform: 'youtube', published_at: '2026-09-11T03:00:00Z' }];
+  const lastRun = { collectors: { youtube: { status: 'success', items: 0 }, x: { status: 'success', items: 20 } } };
+  assert.deepEqual(resolveAiTopConfig(youtube, lastRun, CONFIG, '2026-09-11T04:00:00Z'), { ok: true, hasYouTube: true, topN: 15, source: 'approved_candidates' });
 });
 
-test('resolveAiTopConfig：无 YouTube 内容（X 日）→ topN 10', () => {
-  // not_run / failed / items=0 三种无 YouTube 语义都落到 topN 10
-  for (const youtube of [
-    { status: 'not_run', items: 0 },
-    { status: 'failed', items: 0, error: 'timeout' },
-    { status: 'success', items: 0 },
-  ]) {
-    const lastRun = { collectors: { youtube, x: { status: 'success', items: 20 } } };
-    assert.deepEqual(resolveAiTopConfig(APPROVED, lastRun, CONFIG), { ok: true, hasYouTube: false, topN: 10, source: 'last_run' }, `youtube=${youtube.status}`);
-  }
+test('resolveAiTopConfig：非当前自然日的 YouTube 候选不扩大 Top N', () => {
+  const youtube = [{ ...APPROVED[0], platform: 'youtube', published_at: '2026-09-10T03:00:00Z' }];
+  assert.deepEqual(resolveAiTopConfig(youtube, null, CONFIG, '2026-09-11T04:00:00Z'), { ok: true, hasYouTube: false, topN: 10, source: 'approved_candidates' });
 });
 
 test('resolveAiTopConfig：配置缺字段 → 回退默认 15/10', () => {
   const cfg = { collection: {} };
-  const withYt = { collectors: { youtube: { items: 1 } } };
-  const withoutYt = { collectors: { youtube: { items: 0 } } };
-  assert.equal(resolveAiTopConfig(APPROVED, withYt, cfg).topN, 15);
-  assert.equal(resolveAiTopConfig(APPROVED, withoutYt, cfg).topN, 10);
+  const withYt = [{ ...APPROVED[0], platform: 'youtube', published_at: '2026-09-11T03:00:00Z' }];
+  const withoutYt = APPROVED;
+  assert.equal(resolveAiTopConfig(withYt, null, cfg, '2026-09-11T04:00:00Z').topN, 15);
+  assert.equal(resolveAiTopConfig(withoutYt, null, cfg, '2026-09-11T04:00:00Z').topN, 10);
 });
 
 test('topCandidatesForAi 限制模型输入并保持评分排序', () => {

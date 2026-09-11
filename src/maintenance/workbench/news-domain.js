@@ -8,7 +8,13 @@ const { buildDailyProjection } = require('../../news/min/daily-projection');
 const { enrichHotspotProjection, buildProjectionInputs } = require('../../news/pipeline/projection');
 const { filterProjectionByWindow } = require('../../news/core/news-public-gate');
 const { minReviewCommand } = require('../../news/cli/cmd-min');
-const { revisionOfConfig, commitKeywordActions, commitKeywordExclusions } = require('../../news/min/keyword-actions');
+const {
+  KEYWORD_PURPOSES,
+  resolvePurpose,
+  revisionOfConfig,
+  commitKeywordActions,
+  commitKeywordExclusions,
+} = require('../../news/min/keyword-actions');
 const { uploadTranscript, summarizeTranscripts } = require('../../news/min/transcript-workflow');
 const { catalog } = require('../../catalog/interface');
 const { createCostLedger } = require('../../catalog/core/index');
@@ -82,17 +88,25 @@ function publishNewsProjectionDirect(catalogApi = null) {
 
 function unresolvedKeywordCount(news) {
   const config = news.readConfig() || {};
-  const list = news.readKeywords() || {};
-  const adopted = new Set(Array.isArray(config?.keywords?.ai_keywords) ? config.keywords.ai_keywords.map(word => String(word).trim().toLowerCase()) : []);
-  const discarded = new Set(Array.isArray(config?.keywords?.excluded_keywords) ? config.keywords.excluded_keywords.map(word => String(word).trim().toLowerCase()) : []);
-  return (Array.isArray(list.candidates) ? list.candidates : []).filter(item => {
-    const key = String(item?.word || '').trim().toLowerCase();
-    return key && !adopted.has(key) && !discarded.has(key);
-  }).length;
+  let total = 0;
+  for (const purpose of ['content', 'youtube', 'x_discovery']) {
+    const def = KEYWORD_PURPOSES[purpose];
+    const list = news.readKeywords(purpose) || {};
+    const existingList = Array.isArray(config?.keywords?.[def.targetField]) ? config.keywords[def.targetField] : [];
+    const excludedList = Array.isArray(config?.keywords?.[def.excludedField]) ? config.keywords[def.excludedField] : [];
+    const adopted = new Set(existingList.map(item => (typeof item === 'object' && item ? String(item.id || item.query).trim().toLowerCase() : String(item).trim().toLowerCase())));
+    const discarded = new Set(excludedList.map(item => String(item).trim().toLowerCase()));
+    const unhandled = (Array.isArray(list.candidates) ? list.candidates : []).filter(item => {
+      const val = item?.value || item?.word || item?.id;
+      const key = String(val || '').trim().toLowerCase();
+      return key && !adopted.has(key) && !discarded.has(key);
+    }).length;
+    total += unhandled;
+  }
+  return total;
 }
 
 function createDefaultNewsApi(options = {}) {
-  const keywordFile = options.keywordFile || path.join(DIRS.manual, 'keyword-refine.json');
   const catalogApi = options.catalogApi || createNewsCatalogApi();
   return {
     readStore: () => minStore.readMinStore(),
@@ -100,16 +114,20 @@ function createDefaultNewsApi(options = {}) {
     commit: (mutation, commitOptions) => requireMutation('commitMinStoreMutation', minStore.commitMinStoreMutation)(mutation, commitOptions),
     reviewMutation: (store, ids, decision, mutationOptions) => requireMutation('reviewPendingCandidates', minActions.reviewPendingCandidates)(store, ids, decision, mutationOptions),
     topMutation: (store, ids, selected, mutationOptions) => requireMutation('setApprovedTopSelectedMin', minActions.setApprovedTopSelectedMin)(store, ids, selected, mutationOptions),
-    readKeywords: () => readJson(keywordFile, null),
+    readKeywords: (purpose = 'content') => {
+      const def = resolvePurpose(purpose);
+      const filePath = path.join(DIRS.manual, def.fileName);
+      return readJson(filePath, null);
+    },
     readConfig: () => readJson(NEWS_FILES.configV2, {}),
     revisionOfConfig: config => revisionOfConfig(config),
     commitKeywords: (list, commitOptions) => commitKeywordActions(list, commitOptions),
     commitKeywordExclusions: (words, commitOptions) => commitKeywordExclusions(words, commitOptions),
     uploadTranscript: (payload, commitOptions) => uploadTranscript(payload.candidate_id, payload.filename, payload.content_base64, commitOptions),
     summarizeTranscripts: (ids, commitOptions) => summarizeTranscripts(ids, commitOptions),
-    generateKeywords: async () => {
+    generateKeywords: async (purpose = 'content') => {
       loadDotEnv();
-      return minReviewCommand('refine', {});
+      return minReviewCommand('refine', { purpose });
     },
     generateTop: async () => {
       loadDotEnv();
@@ -154,21 +172,42 @@ function handleReviewNews(body, news, { idsOf, expectedRevision }) {
   return { updated: result.updated, missing: result.missing || [], not_pending: result.not_pending || [], revision: result.revision };
 }
 
-function handleKeywords(news) {
+function handleKeywords(news, requestedPurpose = 'content') {
   const config = news.readConfig();
-  const list = news.readKeywords();
-  const adoptedSet = new Set(Array.isArray(config?.keywords?.ai_keywords) ? config.keywords.ai_keywords.map(word => String(word).trim().toLowerCase()) : []);
-  const excludedSet = new Set(Array.isArray(config?.keywords?.excluded_keywords) ? config.keywords.excluded_keywords.map(word => String(word).trim().toLowerCase()) : []);
+  const purpose = requestedPurpose || 'content';
+  const def = resolvePurpose(purpose);
+  const list = news.readKeywords(purpose);
+  const existingList = Array.isArray(config?.keywords?.[def.targetField])
+    ? config.keywords[def.targetField]
+    : (Array.isArray(config?.keywords?.ai_keywords) ? config.keywords.ai_keywords : []);
+  const excludedList = Array.isArray(config?.keywords?.[def.excludedField])
+    ? config.keywords[def.excludedField]
+    : (Array.isArray(config?.keywords?.excluded_keywords) ? config.keywords.excluded_keywords : []);
+  const adoptedSet = new Set(existingList.map(item => (typeof item === 'object' && item ? String(item.id || item.query).trim().toLowerCase() : String(item).trim().toLowerCase())));
+  const excludedSet = new Set(excludedList.map(item => String(item).trim().toLowerCase()));
+
   const items = Array.isArray(list?.candidates) ? list.candidates.map(item => {
-    const key = String(item?.word || '').trim().toLowerCase();
-    return {
+    const val = item?.value || item?.word || item?.id;
+    const cid = item?.candidate_id || (item?.id ? item.id : `${purpose}:${val}`);
+    const key = String(val || '').trim().toLowerCase();
+    const idKey = String(cid).trim().toLowerCase();
+    const res = {
       ...item,
-      adopted: adoptedSet.has(key),
-      discarded: excludedSet.has(key),
+      id: item?.id || cid,
+      word: typeof val === 'object' && val ? (val.query || val.id) : String(val || item?.word || ''),
+      adopted: adoptedSet.has(key) || adoptedSet.has(idKey),
+      discarded: excludedSet.has(key) || excludedSet.has(idKey),
     };
+    if (item?.candidate_id || purpose !== 'content') {
+      res.candidate_id = cid;
+      res.purpose = purpose;
+      res.value = val;
+    }
+    return res;
   }) : [];
   const hasSource = list && (list.source_count != null || list.input_count != null || list.source_basis != null);
   return {
+    ...(purpose !== 'content' ? { purpose } : {}),
     revision: news.revisionOfConfig(config),
     ...(hasSource ? { source: { source_count: list.source_count ?? null, input_count: list.input_count ?? null, source_basis: list.source_basis ?? null } } : {}),
     items,
@@ -178,18 +217,38 @@ function handleKeywords(news) {
 function handleApplyKeywords(body, news, { idsOf, expectedRevision }) {
   const ids = idsOf(body?.ids);
   const revision = expectedRevision(body);
-  const list = news.readKeywords();
+  const purpose = body?.purpose || 'content';
+  const list = news.readKeywords(purpose);
   if (!list || !Array.isArray(list.candidates)) throw new Error('关键词候选清单不存在或无效');
   const selected = new Set(ids);
-  const adopted_keywords = list.candidates.filter(item => selected.has(String(item.id || item.word || ''))).map(item => item.word);
-  if (adopted_keywords.length !== selected.size) throw new Error('存在未知关键词 id');
-  return news.commitKeywords({ ...list, adopted_keywords }, { expectedRevision: revision, runId: 'maintainer-workbench-keywords' });
+  const adopted_candidate_ids = list.candidates
+    .filter(item => {
+      const cid = String(item.candidate_id || item.id || `${purpose}:${item.value || item.word}`);
+      const val = String(item.value || item.word || '');
+      return selected.has(cid) || selected.has(val);
+    })
+    .map(item => item.candidate_id || `${purpose}:${item.value || item.word}`);
+  if (adopted_candidate_ids.length !== selected.size) throw new Error('存在未知关键词 id');
+  return news.commitKeywords({ ...list, purpose, adopted_candidate_ids }, { expectedRevision: revision, purpose, runId: 'maintainer-workbench-keywords' });
 }
 
 function handleDiscardKeywords(body, news, { idsOf, expectedRevision }) {
   const words = idsOf(body?.ids);
   const revision = expectedRevision(body);
-  return news.commitKeywordExclusions(words, { expectedRevision: revision, runId: 'maintainer-workbench-keywords-discard' });
+  const purpose = body?.purpose || 'content';
+  const list = news.readKeywords(purpose);
+  const selected = new Set(words);
+  let resolvedValues = words;
+  if (list && Array.isArray(list.candidates)) {
+    resolvedValues = list.candidates
+      .filter(item => {
+        const cid = String(item.candidate_id || item.id || `${purpose}:${item.value || item.word}`);
+        const val = String(item.value || item.word || '');
+        return selected.has(cid) || selected.has(val);
+      })
+      .map(item => (typeof item.value === 'object' && item.value ? item.value.id : String(item.value || item.word || '')));
+  }
+  return news.commitKeywordExclusions(resolvedValues, { purpose, expectedRevision: revision, runId: 'maintainer-workbench-keywords-discard' });
 }
 
 function handleTop(store, news, options) {

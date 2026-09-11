@@ -12,6 +12,40 @@ const crypto = require('crypto');
 const { readJson, writeJsonAtomic } = require('../../shared/json-store');
 const { NEWS_FILES } = require('../../shared/paths');
 
+const KEYWORD_PURPOSES = Object.freeze({
+  content: Object.freeze({
+    purpose: 'content',
+    fileName: 'keyword-refine.json',
+    targetField: 'content_keywords',
+    excludedField: 'excluded_content_keywords',
+    label: '内容识别词',
+  }),
+  youtube: Object.freeze({
+    purpose: 'youtube',
+    fileName: 'youtube-queries-refine.json',
+    targetField: 'youtube_queries',
+    excludedField: 'excluded_youtube_queries',
+    label: 'YouTube 查询',
+  }),
+  x_discovery: Object.freeze({
+    purpose: 'x_discovery',
+    fileName: 'x-queries-refine.json',
+    targetField: 'x_discovery_queries',
+    excludedField: 'excluded_x_discovery_queries',
+    label: 'X 发现查询',
+  }),
+});
+
+function resolvePurpose(purpose = 'content') {
+  const def = KEYWORD_PURPOSES[purpose];
+  if (!def) {
+    const err = new Error(`未知关键词用途：${purpose}`);
+    err.code = 'NEWS_INVALID_KEYWORD_PURPOSE';
+    throw err;
+  }
+  return def;
+}
+
 function stableStringify(value) {
   if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
   if (value && typeof value === 'object') {
@@ -40,61 +74,116 @@ function assertExpectedConfigRevision(config, expectedRevision) {
 }
 
 /**
- * 既有关键词清单规则：候选字段完整且唯一，adopted_keywords 必须是 candidates 子集，
- * 采纳词按大小写不敏感去重，并幂等追加到 keywords.ai_keywords。
+ * 三用途关键词清单采纳规则：
+ * 候选字段合法且唯一，采纳项必须从 candidates 反查（禁止客户端裸词直接写配置），
+ * 采纳后幂等追加到对应的正式配置段（content_keywords / youtube_queries / x_discovery_queries）。
  */
-function applyRefineKeywords(config, list) {
-  if (!list || list.kind !== 'keyword_refine_candidates' || !Array.isArray(list.candidates) || !Array.isArray(list.adopted_keywords)) {
-    throw new Error('非法关键词清单：需要 kind=\'keyword_refine_candidates\'，且含 candidates 与 adopted_keywords 数组');
+function applyRefineKeywords(config, list, options = {}) {
+  const rawAdopted = list?.adopted_candidate_ids ?? list?.adopted_keywords;
+  if (!list || list.kind !== 'keyword_refine_candidates' || !Array.isArray(list.candidates) || !Array.isArray(rawAdopted)) {
+    throw new Error('非法关键词清单：需要 kind=\'keyword_refine_candidates\'，且含 candidates 与 adopted 数组');
   }
-  const candidateWords = new Set();
+  const purpose = list.purpose || options.purpose || 'content';
+  const purposeDef = resolvePurpose(purpose);
+  const targetField = purposeDef.targetField;
+
+  const candidateMap = new Map(); // id -> candidate item
   for (const candidate of list.candidates) {
-    if (!candidate || typeof candidate.word !== 'string' || !candidate.word.trim() || typeof candidate.category !== 'string' || !candidate.category.trim() || !['repeated', 'emerging'].includes(candidate.candidate_type) || !Number.isInteger(candidate.count) || candidate.count < 1) {
-      throw new Error('关键词清单含非法 candidates 条目（需 word、category、candidate_type、count 四字段）');
+    if (!candidate || typeof candidate !== 'object') {
+      throw new Error('关键词清单含非法 candidates 条目');
     }
-    const key = candidate.word.trim().toLowerCase();
-    if (candidateWords.has(key)) throw new Error(`关键词清单含重复候选词：${candidate.word.trim()}`);
-    candidateWords.add(key);
+    if (candidate.category !== undefined && (typeof candidate.category !== 'string' || !candidate.category.trim())) {
+      throw new Error('关键词清单含非法 candidates 条目（category 不能为空）');
+    }
+    const val = candidate.value || candidate.word;
+    const cid = candidate.candidate_id || candidate.id || (typeof val === 'string' ? `${purpose}:${val.trim()}` : null);
+    if (!cid || !val) {
+      throw new Error('关键词候选需具备有效 candidate_id 与 value');
+    }
+    if (candidate.purpose && candidate.purpose !== purpose) {
+      throw new Error(`候选用途与清单用途不匹配：${candidate.purpose} !== ${purpose}`);
+    }
+    const key = String(cid).trim().toLowerCase();
+    if (candidateMap.has(key)) throw new Error(`关键词清单含重复候选：${cid}`);
+    candidateMap.set(key, { ...candidate, candidate_id: cid, value: val });
   }
 
-  const adopted = [];
-  const adoptedKeys = new Set();
+  const adoptedItems = [];
+  const seenKeys = new Set();
   let duplicates = 0;
-  for (const raw of list.adopted_keywords) {
-    if (typeof raw !== 'string' || !raw.trim()) throw new Error('adopted_keywords 只能包含非空字符串');
-    const word = raw.trim();
-    const key = word.toLowerCase();
-    if (!candidateWords.has(key)) throw new Error(`adopted_keywords 含不在 candidates 中的词：${word}`);
-    if (adoptedKeys.has(key)) {
+  for (const raw of rawAdopted) {
+    const rawStr = typeof raw === 'string' ? raw.trim() : (raw && raw.candidate_id ? String(raw.candidate_id).trim() : null);
+    if (!rawStr) throw new Error('采纳项只能包含非空字符串或有效候选 ID');
+    const key = rawStr.toLowerCase();
+    const candidate = candidateMap.get(key) || candidateMap.get(`${purpose}:${key}`.toLowerCase()) || [...candidateMap.values()].find(c => String(c.value).toLowerCase() === key);
+    if (!candidate) throw new Error(`adopted_keywords 含不在 candidates 中的词：${rawStr}`);
+    const uniqueKey = candidate.candidate_id.toLowerCase();
+    if (seenKeys.has(uniqueKey)) {
       duplicates += 1;
       continue;
     }
-    adoptedKeys.add(key);
-    adopted.push(word);
+    seenKeys.add(uniqueKey);
+    adoptedItems.push(candidate);
   }
 
   const nextConfig = { ...(config || {}), keywords: { ...((config && config.keywords) || {}) } };
-  const existing = Array.isArray(nextConfig.keywords.ai_keywords) ? nextConfig.keywords.ai_keywords.slice() : [];
-  const existingKeys = new Set(existing.map(word => String(word).trim().toLowerCase()));
+  const hasContentField = Array.isArray(nextConfig.keywords[targetField]);
+  const hasAiKeywords = purpose === 'content' && Array.isArray(nextConfig.keywords.ai_keywords);
+  const existingList = hasContentField
+    ? nextConfig.keywords[targetField].slice()
+    : (hasAiKeywords ? nextConfig.keywords.ai_keywords.slice() : []);
   const added = [];
   const alreadyExists = [];
-  for (const word of adopted) {
-    if (existingKeys.has(word.toLowerCase())) {
-      alreadyExists.push(word);
-      continue;
+
+  if (purpose === 'x_discovery') {
+    const existingIds = new Set(existingList.map(item => (typeof item === 'object' && item ? String(item.id).trim().toLowerCase() : String(item).trim().toLowerCase())));
+    for (const item of adoptedItems) {
+      const objVal = typeof item.value === 'object' && item.value ? item.value : { id: item.candidate_id.replace(/^x_discovery:/, ''), query: item.value, max_pages: 1 };
+      const idKey = String(objVal.id).trim().toLowerCase();
+      if (existingIds.has(idKey)) {
+        alreadyExists.push(objVal.id);
+        continue;
+      }
+      existingList.push(objVal);
+      existingIds.add(idKey);
+      added.push(objVal.id);
     }
-    existing.push(word);
-    existingKeys.add(word.toLowerCase());
-    added.push(word);
+    nextConfig.keywords[targetField] = existingList;
+  } else {
+    const existingKeys = new Set(existingList.map(w => String(w).trim().toLowerCase()));
+    for (const item of adoptedItems) {
+      const valStr = String(item.value).trim();
+      const valKey = valStr.toLowerCase();
+      if (existingKeys.has(valKey)) {
+        alreadyExists.push(valStr);
+        continue;
+      }
+      existingList.push(valStr);
+      existingKeys.add(valKey);
+      added.push(valStr);
+    }
+    if (hasContentField || !hasAiKeywords) {
+      nextConfig.keywords[targetField] = existingList;
+    }
+    if (hasAiKeywords) {
+      nextConfig.keywords.ai_keywords = existingList;
+    }
   }
-  nextConfig.keywords.ai_keywords = existing;
-  return { config: nextConfig, added, already_exists: alreadyExists, duplicates, changed: added.length > 0 };
+  return {
+    config: nextConfig,
+    purpose,
+    target_field: targetField,
+    added,
+    already_exists: alreadyExists,
+    duplicates,
+    changed: added.length > 0,
+  };
 }
 
 /** 纯 mutation：expected revision 通过后才生成配置候选，不做 I/O。 */
 function applyKeywordActions(config, list, options = {}) {
   assertExpectedConfigRevision(config, options.expectedRevision);
-  const result = applyRefineKeywords(config, list);
+  const result = applyRefineKeywords(config, list, options);
   return {
     ...result,
     before_revision: options.expectedRevision,
@@ -103,25 +192,30 @@ function applyKeywordActions(config, list, options = {}) {
 }
 
 /**
- * 丢弃关键词（黑名单）：把维护者明确不要的词加入 keywords.excluded_keywords，
- * 避免下次 refine 再次建议。大小写不敏感去重，幂等追加。
+ * 丢弃关键词（黑名单）：把维护者明确不要的词加入对应用途的 excluded 列表。
+ * 大小写不敏感去重，幂等追加。
  */
 function applyKeywordExclusions(config, words, options = {}) {
   assertExpectedConfigRevision(config, options.expectedRevision);
+  const purpose = options.purpose || 'content';
+  const purposeDef = resolvePurpose(purpose);
+  const excludedField = purposeDef.excludedField;
+
   const list = Array.isArray(words) ? words : [];
   const normalized = [];
   const seen = new Set();
   for (const raw of list) {
-    if (typeof raw !== 'string' || !raw.trim()) throw new Error('丢弃的关键词只能是非空字符串');
-    const word = raw.trim();
+    const word = typeof raw === 'string' ? raw.trim() : (raw && raw.value ? String(raw.value).trim() : null);
+    if (!word) throw new Error('丢弃的关键词只能是非空字符串');
     const key = word.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
     normalized.push(word);
   }
+
   const nextConfig = { ...(config || {}), keywords: { ...((config && config.keywords) || {}) } };
-  const existing = Array.isArray(nextConfig.keywords.excluded_keywords) ? nextConfig.keywords.excluded_keywords.slice() : [];
-  const existingKeys = new Set(existing.map(word => String(word).trim().toLowerCase()));
+  const existing = Array.isArray(nextConfig.keywords[excludedField]) ? nextConfig.keywords[excludedField].slice() : [];
+  const existingKeys = new Set(existing.map(w => String(w).trim().toLowerCase()));
   const added = [];
   for (const word of normalized) {
     if (existingKeys.has(word.toLowerCase())) continue;
@@ -129,11 +223,13 @@ function applyKeywordExclusions(config, words, options = {}) {
     existingKeys.add(word.toLowerCase());
     added.push(word);
   }
-  nextConfig.keywords.excluded_keywords = existing;
+  nextConfig.keywords[excludedField] = existing;
   return {
     config: nextConfig,
+    purpose,
+    excluded_field: excludedField,
     added,
-    already_exists: normalized.filter(word => !added.some(addedWord => addedWord.toLowerCase() === word.toLowerCase())),
+    already_exists: normalized.filter(w => !added.some(a => a.toLowerCase() === w.toLowerCase())),
     changed: added.length > 0,
     before_revision: options.expectedRevision,
     revision: revisionOfConfig(nextConfig),
@@ -177,6 +273,8 @@ function commitKeywordActions(list, options = {}) {
 }
 
 module.exports = {
+  KEYWORD_PURPOSES,
+  resolvePurpose,
   revisionOfConfig,
   assertExpectedConfigRevision,
   applyRefineKeywords,

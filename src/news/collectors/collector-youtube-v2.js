@@ -6,7 +6,7 @@
  * 再用 videos.list / videoCategories.list / commentThreads.list 补详情、
  * 分类名与评论，统一输出为 v1 管线相同的内容模型。
  *
- * 采集模型：按 config.keywords.ai_keywords 关键词搜索，使用独立配额计数，
+ * 采集模型：按 config.keywords.youtube_queries 关键词搜索，使用独立配额计数，
  * 全程无来源名单；不依赖 quota ledger / registry / scheduler。
  *
  * 配额模型（成本要点）：
@@ -52,7 +52,7 @@ const DEFAULT_CONFIG = Object.freeze({
     max_retries: 2,
     retry_base_ms: 750,
   },
-  keywords: { ai_keywords: ['ai'] },
+  keywords: { youtube_queries: ['AI'] },
 });
 
 let cachedV2Config = null;
@@ -149,7 +149,9 @@ async function collectYouTubeV2(options = {}) {
   const fetchedAt = options.fetchedAt || now.toISOString();
 
   const collection = config.collection || {};
-  const keywords = config.keywords?.ai_keywords || [];
+  const keywords = Array.isArray(config.keywords?.youtube_queries)
+    ? config.keywords.youtube_queries
+    : [];
   const windowDays = Math.max(1, config.schedule?.youtube_window_days ?? 3);
   const searchMax = collection.youtube_search_max_per_run ?? 100;
   const searchCost = collection.youtube_search_cost_units ?? 1;

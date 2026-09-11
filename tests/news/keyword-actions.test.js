@@ -14,19 +14,30 @@ const {
 
 function tmpConfig(overrides = {}) {
   const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'kw-actions-')), 'config.json');
-  fs.writeFileSync(file, JSON.stringify({ keywords: { ai_keywords: [], excluded_keywords: [], ...(overrides.keywords || {}) }, ...(overrides.rest || {}) }));
+  fs.writeFileSync(file, JSON.stringify({
+    keywords: {
+      content_keywords: [],
+      youtube_queries: [],
+      x_discovery_queries: [],
+      excluded_content_keywords: [],
+      excluded_youtube_queries: [],
+      excluded_x_discovery_queries: [],
+      ...(overrides.keywords || {}),
+    },
+    ...(overrides.rest || {}),
+  }));
   return file;
 }
 
 test('applyKeywordExclusions 幂等追加丢弃词并大小写不敏感去重', () => {
-  const config = { keywords: { ai_keywords: ['ai'], excluded_keywords: ['gpt'] } };
+  const config = { keywords: { content_keywords: ['ai'], excluded_content_keywords: ['gpt'] } };
   const revision = revisionOfConfig(config);
-  const result = applyKeywordExclusions(config, ['google', 'GOOGLE', 'yolo'], { expectedRevision: revision });
+  const result = applyKeywordExclusions(config, ['google', 'GOOGLE', 'yolo'], { purpose: 'content', expectedRevision: revision });
   assert.equal(result.added.length, 2);
-  assert.deepEqual(result.config.keywords.excluded_keywords, ['gpt', 'google', 'yolo']);
+  assert.deepEqual(result.config.keywords.excluded_content_keywords, ['gpt', 'google', 'yolo']);
   assert.equal(result.changed, true);
   // 已存在的丢弃词不再重复
-  const second = applyKeywordExclusions(result.config, ['google'], { expectedRevision: result.revision });
+  const second = applyKeywordExclusions(result.config, ['google'], { purpose: 'content', expectedRevision: result.revision });
   assert.equal(second.added.length, 0);
   assert.equal(second.changed, false);
 });
@@ -44,7 +55,7 @@ test('commitKeywordExclusions 带 revision 门禁原子写回且无变化不写'
   const written = commitKeywordExclusions(['google'], { configPath: file, expectedRevision: revision, runId: 'test-kw-exclude' });
   assert.equal(written.written, true);
   assert.equal(written.added.length, 1);
-  assert.deepEqual(JSON.parse(fs.readFileSync(file, 'utf8')).keywords.excluded_keywords, ['google']);
+  assert.deepEqual(JSON.parse(fs.readFileSync(file, 'utf8')).keywords.excluded_content_keywords, ['google']);
   // 重复丢弃：无新增，不写盘
   const current = JSON.parse(fs.readFileSync(file, 'utf8'));
   const noop = commitKeywordExclusions(['google'], { configPath: file, expectedRevision: revisionOfConfig(current) });
@@ -54,17 +65,52 @@ test('commitKeywordExclusions 带 revision 门禁原子写回且无变化不写'
   fs.rmSync(path.dirname(file), { recursive: true, force: true });
 });
 
-test('refine 采纳只进 ai_keywords，丢弃词独立不混入采集关键词', () => {
-  const config = { keywords: { ai_keywords: ['ai'], excluded_keywords: ['google'] } };
-  const list = {
-    kind: 'keyword_refine_candidates',
-    candidates: [
-      { word: 'google', category: 'tool', candidate_type: 'repeated', count: 5 },
-      { word: 'yolo', category: 'tool', candidate_type: 'repeated', count: 4 },
-    ],
-    adopted_keywords: ['yolo'],
+test('refine 采纳按 purpose 写入对应配置段', () => {
+  // 1. content
+  const config = {
+    keywords: {
+      content_keywords: ['ai'],
+      youtube_queries: ['Sora'],
+      x_discovery_queries: [],
+      excluded_content_keywords: ['google'],
+    },
   };
-  const result = applyRefineKeywords(config, list);
-  assert.deepEqual(result.config.keywords.ai_keywords, ['ai', 'yolo']);
-  assert.deepEqual(result.config.keywords.excluded_keywords, ['google']);
+  const contentList = {
+    kind: 'keyword_refine_candidates',
+    purpose: 'content',
+    candidates: [
+      { candidate_id: 'content:google', value: 'google' },
+      { candidate_id: 'content:yolo', value: 'yolo' },
+    ],
+    adopted_candidate_ids: ['content:yolo'],
+  };
+  const resContent = applyRefineKeywords(config, contentList);
+  assert.deepEqual(resContent.config.keywords.content_keywords, ['ai', 'yolo']);
+  assert.deepEqual(resContent.config.keywords.excluded_content_keywords, ['google']);
+
+  // 2. youtube
+  const ytList = {
+    kind: 'keyword_refine_candidates',
+    purpose: 'youtube',
+    candidates: [
+      { candidate_id: 'youtube:Claude 3.7', value: 'Claude 3.7' },
+    ],
+    adopted_candidate_ids: ['youtube:Claude 3.7'],
+  };
+  const resYt = applyRefineKeywords(resContent.config, ytList);
+  assert.deepEqual(resYt.config.keywords.youtube_queries, ['Sora', 'Claude 3.7']);
+
+  // 3. x_discovery
+  const xList = {
+    kind: 'keyword_refine_candidates',
+    purpose: 'x_discovery',
+    candidates: [
+      { candidate_id: 'x_discovery:agent-event', value: { id: 'agent-event', query: '(agent) launch', max_pages: 1 } },
+    ],
+    adopted_candidate_ids: ['x_discovery:agent-event'],
+  };
+  const resX = applyRefineKeywords(resYt.config, xList);
+  assert.deepEqual(resX.config.keywords.x_discovery_queries, [
+    { id: 'agent-event', query: '(agent) launch', max_pages: 1 },
+  ]);
 });

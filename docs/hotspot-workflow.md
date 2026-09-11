@@ -18,11 +18,11 @@
    ├─ collector-youtube-v2.js —— search.list 关键词发现（3 天窗口）→ videos.list 补详情
    │        → videoCategories.list 分类名 → commentThreads.list 点赞最高 10 条评论（并发池）
    │        ⚠️ search 独立桶（100 次/天）耗尽 → 自动降级 videos.list mostPopular（合并桶计费）
-   └─ collector-x-v2.js —— 博主名单 last_tweets + 关键词 advanced_search + 长文 article 补读
-          （独立 credits 计数：推文 15 / 长文 100，单次运行上限 3750）
+   └─ collector-x-v2.js —— 账号组 advanced_search + 关键词发现 + 长文 article 补读
+          （四桶独立 credits 账本：推文 15 / 长文 100，热半区 7500 / 冷半区 2500）
    ▼
 去重/过滤  projection.dedupeItems（platform:native_id）+ review-v2.l0HardFilter
-   │        缺 title/url/published_at、未命中 ai_keywords、命中广告词 → 直接标 discarded
+   │        缺 title/url/published_at、未命中 content_keywords、命中广告词 → 直接标 discarded
    ▼
 分类  content-classifier.classifyCandidate → content_type（L0 规则式 → L1 DeepSeek 兜底回退）
    ▼
@@ -68,15 +68,15 @@
 | 字段 | 默认值 | 说明 |
 |---|---|---|
 | `youtube_cron` | `"0 12 * * *"` | YouTube 每日调度（北京时间 20:00 = UTC 12:00），配合管线内 72h 到期闸（`youtube_interval_hours: 72`）触发实际采集 |
-| `x_cron_first` | `"0 5 * * *"` | X 每日抓一次（意图北京时间 13:00 = UTC 05:00） |
-| `x_cron_second` | `"0 14 * * *"` | X 每日抓一次（意图北京时间 22:00 = UTC 14:00） |
+| `x_cron_hot` | `"30 0 * * *"` | X 热半区抓取（北京时间 08:30 = UTC 00:30） |
+| `x_cron_cold` | `"30 12 * * *"` | X 冷半区抓取（北京时间 20:30 = UTC 12:30） |
 | `youtube_interval_hours` | `72` | YouTube 两次有效采集之间的最小间隔（小时），避免 Actions cron 跨月连续触发缺陷 |
 | `youtube_window_days` | `3` | YouTube 回看窗口天数 |
 
 ### 2.3 collection —— 配额 / 数量 / 网络（`config.collection`）
 
 - **YouTube**：`youtube_search_max_per_run 100`（search.list 独立桶 100 次/天硬上限）、`youtube_search_cost_units 1`、`youtube_daily_quota_units 10000`（videos/comments/categories 共享合并桶）、`youtube_videos_batch_size 50`、`youtube_comments_top_n 10`。
-- **X**：`x_credits_per_run 3750`（每次运行预算 ≈ 250 条推文）、`x_credits_per_tweet 15`、`x_credits_per_article 100`。
+- **X**：`x_credits_per_hot_run 7500`、`x_credits_per_cold_run 2500`、`x_credits_per_tweet 15`、`x_credits_per_article 100`。
 - **公开数量**：`max_output_items_daily 5`（纯 X 日公开上限）、`min_output_items_daily 3`（目标最小数，投影不强凑）、`max_output_with_youtube 8`（有 YouTube 日公开上限，即"3~5 / 3~8"的上界）。
 - **审核范围**：`review_top_pure_x 10` / `review_top_with_youtube 15`（`min-review list --top` 与 `ai-top` 的缺省待选项数量）。
 - **网络**：`concurrency 5`（评论抓取 + AI 分类/审核并发池）、`request_timeout_ms 15000`、`max_retries 2`、`retry_base_ms 750`、`twitter_api_base_url`。

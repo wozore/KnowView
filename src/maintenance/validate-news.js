@@ -1,62 +1,193 @@
 /**
  * validate-news.js — 知览 KnowView news 域数据校验
  *
- * 从 validate.js 拆分出的 news 域：v2 主链仍存在的数据文件——
- * hotspots.json（公开投影）与 min-candidates.json（v2 单状态轴候选层）的校验函数与入口。
- * 失败通过本模块独立的 fail()/failed 状态记录，由 validate.js 聚合为最终退出码。
- *
- * 用法：由 validate.js 调用 validateNews()。
+ * 校验 news 域核心数据：news-config-v2、last-run、hotspots 与 min-candidates。
+ * 失败记录独立 fail() 状态，由 validate.js 聚合为退出码。
  */
 
 'use strict';
 
 const fs = require('fs');
 const { NEWS_FILES } = require('../shared/paths');
-// 热点管线 v2 单状态轴候选层：只读其枚举常量，避免与 min-store 的状态轴语义漂移。
 const { MIN_REVIEW_STATUSES } = require('../news/min/min-store');
 
 let failed = false;
 
-/** 记录一个校验失败项。不中断执行，确保一次运行能报告所有问题 */
 function fail(msg) {
   console.error('❌', msg);
   failed = true;
 }
 
-/** 批量检查对象是否缺少必填字段 */
 function checkRequired(obj, path, fields) {
   for (const f of fields) {
-    if (obj[f] === undefined || obj[f] === null) {
-      fail(`${path}.${f} 缺失`);
-    }
+    if (obj[f] === undefined || obj[f] === null) fail(`${path}.${f} 缺失`);
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 平台 / 内容类型常量（v2 主链枚举，validateHotspots 与 validateMinNews 共用）
-// ═══════════════════════════════════════════════════════════════
-
 const NEWS_PLATFORMS = ['youtube', 'x'];
-// B16 决策 65：来源媒体类型（采集时的平台内容形态，仅作溯源元信息，不进前端筛选）。
-const SOURCE_TYPES = [
-  'youtube_video', 'x_post', 'unknown'
-];
-// B16 决策 65/66/79：内容类型（热点视图主分类维度）。unclassified 表示
-// AI 分类 + 人工确认未上线前的诚实占位（路径 B）；路径 A 上线后由审核确认填充。
+const SOURCE_TYPES = ['youtube_video', 'x_post', 'unknown'];
 const CONTENT_TYPES = [
   'ai_tool', 'ai_product', 'ai_concept', 'ai_technology', 'ai_industry', 'other', 'unclassified'
 ];
 
-const X_CREDITS_MAX_PER_RUN = 3750;
-const X_CREDITS_MIN_PER_TWEET = 15;
-const X_CREDITS_MIN_PER_ARTICLE = 100;
-const X_TWEETS_MIN_PER_REQUEST_MAX = 20;
+const X_CREDITS_MAX_PER_HOT_RUN = 7500, X_CREDITS_MAX_PER_COLD_RUN = 2500, X_CREDITS_MAX_BUDGET = 7500;
+const X_CREDITS_MIN_PER_TWEET = 15, X_CREDITS_MIN_PER_ARTICLE = 100, X_TWEETS_MIN_PER_REQUEST_MAX = 20;
+const HIGH_FREQ_HANDLES = new Set(['xiaohu', 'testingcatalog', 'emollick', 'nima_owji', 'nvidiaai']);
 
-function isNonNegativeInteger(value) {
-  return Number.isInteger(value) && value >= 0;
+const isNonNegInt = v => Number.isInteger(v) && v >= 0;
+const normStr = s => (typeof s === 'string' ? s.trim().toLowerCase() : '');
+const normHandle = h => (typeof h === 'string' ? h.trim().replace(/^@/, '').toLowerCase() : '');
+
+function validateNewsConfigCore(data, reject) {
+  const DEPRECATED_FIELDS = [
+    ['collection.x_credits_per_run', data.collection?.x_credits_per_run],
+    ['keywords.ai_keywords', data.keywords?.ai_keywords],
+    ['keywords.excluded_keywords', data.keywords?.excluded_keywords],
+    ['schedule.x_cron_first', data.schedule?.x_cron_first],
+    ['schedule.x_cron_second', data.schedule?.x_cron_second],
+  ];
+  for (const [f, val] of DEPRECATED_FIELDS) {
+    if (val !== undefined) reject('NEWS_CONFIG_DEPRECATED_FIELD', `配置包含弃用字段 ${f}`);
+  }
+  const sch = data.schedule;
+  if (!sch || typeof sch !== 'object' || Array.isArray(sch)) {
+    reject('NEWS_CONFIG_SCHEDULE_INVALID', 'news-config-v2.json.schedule 应为对象');
+  } else {
+    for (const k of ['x_cron_hot', 'x_cron_cold']) {
+      if (typeof sch[k] !== 'string' || !sch[k].trim()) reject('NEWS_CONFIG_SCHEDULE_INVALID', `schedule.${k} 应为非空字符串`);
+    }
+  }
+  const col = data.collection;
+  if (!col || typeof col !== 'object' || Array.isArray(col)) {
+    reject('NEWS_CONFIG_SECTION_INVALID', 'news-config-v2.json.collection 应为对象');
+    return;
+  }
+  if (typeof col.enabled !== 'boolean') reject('NEWS_CONFIG_ENABLED_INVALID', 'collection.enabled 应为布尔值');
+  if (!isNonNegInt(col.x_credits_per_hot_run) || col.x_credits_per_hot_run > X_CREDITS_MAX_PER_HOT_RUN) {
+    reject('NEWS_CONFIG_HOT_BUDGET_INVALID', `x_credits_per_hot_run 应为 0–${X_CREDITS_MAX_PER_HOT_RUN} 整数`);
+  }
+  if (!isNonNegInt(col.x_credits_per_cold_run) || col.x_credits_per_cold_run > X_CREDITS_MAX_PER_COLD_RUN) {
+    reject('NEWS_CONFIG_COLD_BUDGET_INVALID', `x_credits_per_cold_run 应为 0–${X_CREDITS_MAX_PER_COLD_RUN} 整数`);
+  }
+  if (!Number.isInteger(col.x_credits_per_tweet) || col.x_credits_per_tweet < X_CREDITS_MIN_PER_TWEET) {
+    reject('NEWS_CONFIG_TWEET_COST_INVALID', `x_credits_per_tweet 应为不小于 ${X_CREDITS_MIN_PER_TWEET} 整数`);
+  }
+  if (!Number.isInteger(col.x_credits_per_article) || col.x_credits_per_article < X_CREDITS_MIN_PER_ARTICLE) {
+    reject('NEWS_CONFIG_ARTICLE_COST_INVALID', `x_credits_per_article 应为不小于 ${X_CREDITS_MIN_PER_ARTICLE} 整数`);
+  }
+  if (!Number.isInteger(col.x_tweets_per_request_max) || col.x_tweets_per_request_max < X_TWEETS_MIN_PER_REQUEST_MAX) {
+    reject('NEWS_CONFIG_REQUEST_MAX_INVALID', `x_tweets_per_request_max 应为不小于 ${X_TWEETS_MIN_PER_REQUEST_MAX} 整数`);
+  }
 }
 
-/** 校验热点配置中的统一开关与 X 供应商安全预算边界。 */
+function validateAccountGroups(data, reject) {
+  const groups = data.account_groups;
+  if (!Array.isArray(groups) || groups.length !== 7) {
+    reject('NEWS_CONFIG_GROUPS_INVALID', 'account_groups 必须为长度为 7 的数组');
+    return;
+  }
+  if (!Array.isArray(data.x_accounts) || data.x_accounts.length === 0) {
+    reject('NEWS_CONFIG_ACCOUNTS_INVALID', 'x_accounts 必须为非空数组');
+    return;
+  }
+  const allGroupHandles = new Set();
+  const groupIds = new Set();
+  const priorities = new Set();
+  for (let i = 0; i < groups.length; i++) {
+    const g = groups[i];
+    const tag = `account_groups[${i}]`;
+    if (!g || typeof g !== 'object') { reject('NEWS_CONFIG_GROUPS_INVALID', `${tag} 应为对象`); continue; }
+    if (!g.id || typeof g.id !== 'string' || groupIds.has(g.id)) reject('NEWS_CONFIG_GROUPS_INVALID', `${tag}.id 缺失或重复`);
+    groupIds.add(g.id);
+    if (!g.label || typeof g.label !== 'string') reject('NEWS_CONFIG_GROUPS_INVALID', `${tag}.label 必须为非空字符串`);
+    if (!Number.isInteger(g.priority) || g.priority < 1 || g.priority > 7 || priorities.has(g.priority)) {
+      reject('NEWS_CONFIG_GROUPS_INVALID', `${tag}.priority 应为 1..7 唯一整数`);
+    }
+    priorities.add(g.priority);
+    if (!Number.isInteger(g.max_pages) || g.max_pages < 1) reject('NEWS_CONFIG_GROUPS_INVALID', `${tag}.max_pages 应为正整数`);
+    if (typeof g.high_frequency !== 'boolean') reject('NEWS_CONFIG_GROUPS_INVALID', `${tag}.high_frequency 必须为布尔值`);
+    const isG7 = g.id === 'g7';
+    if (isG7 !== g.high_frequency) reject('NEWS_CONFIG_GROUPS_INVALID', `${tag} G7 与 high_frequency 必须对应`);
+    if (!Array.isArray(g.handles) || g.handles.length === 0) {
+      reject('NEWS_CONFIG_GROUPS_INVALID', `${tag}.handles 必须为非空数组`);
+      continue;
+    }
+    if (g.handles.length > 16) reject('NEWS_CONFIG_GROUPS_INVALID', `${tag}.handles 数量不得超过 16`);
+    const thisGroupHandles = new Set();
+    for (const h of g.handles) {
+      const nh = normHandle(h);
+      if (!nh) { reject('NEWS_CONFIG_GROUPS_INVALID', `${tag} 存在空 handle`); continue; }
+      if (thisGroupHandles.has(nh)) reject('NEWS_CONFIG_GROUPS_INVALID', `${tag} handle 重复: ${h}`);
+      if (allGroupHandles.has(nh)) reject('NEWS_CONFIG_GROUPS_INVALID', `handle 跨组重复: ${h}`);
+      thisGroupHandles.add(nh);
+      allGroupHandles.add(nh);
+    }
+    if (isG7) {
+      for (const hf of HIGH_FREQ_HANDLES) {
+        if (!thisGroupHandles.has(hf)) reject('NEWS_CONFIG_GROUPS_INVALID', `G7 缺少高频账号: ${hf}`);
+      }
+    }
+  }
+  if (!groupIds.has('g7')) reject('NEWS_CONFIG_GROUPS_INVALID', 'account_groups 必须包含 g7 组');
+  const accSet = new Set();
+  for (const h of data.x_accounts) {
+    const nh = normHandle(h);
+    if (!nh || accSet.has(nh)) reject('NEWS_CONFIG_ACCOUNTS_INVALID', `x_accounts 存在空或重复 handle: ${h}`);
+    accSet.add(nh);
+  }
+  if (allGroupHandles.size !== accSet.size || [...allGroupHandles].some(h => !accSet.has(h))) {
+    reject('NEWS_CONFIG_GROUPS_MISMATCH', 'account_groups handles 并集必须与 x_accounts 严格全等');
+  }
+}
+
+function validateKeywords(kw, reject) {
+  if (!kw || typeof kw !== 'object' || Array.isArray(kw)) {
+    reject('NEWS_CONFIG_KEYWORDS_INVALID', 'keywords 应为对象');
+    return;
+  }
+  const reqSections = ['content_keywords', 'youtube_queries', 'x_discovery_queries', 'excluded_content_keywords', 'excluded_youtube_queries', 'excluded_x_discovery_queries'];
+  for (const s of reqSections) {
+    if (!Array.isArray(kw[s])) { reject('NEWS_CONFIG_KEYWORDS_INVALID', `keywords.${s} 必须为数组`); return; }
+  }
+  const checkList = (arr, name, allowEmpty = false) => {
+    if (!allowEmpty && arr.length === 0) reject('NEWS_CONFIG_KEYWORDS_INVALID', `${name} 不能为空`);
+    const set = new Set();
+    for (const item of arr) {
+      if (typeof item !== 'string' || !item.trim()) { reject('NEWS_CONFIG_KEYWORDS_INVALID', `${name} 元素必须为非空字符串`); continue; }
+      const n = normStr(item);
+      if (set.has(n)) reject('NEWS_CONFIG_KEYWORDS_INVALID', `${name} 存在重复项: ${item}`);
+      set.add(n);
+    }
+    return set;
+  };
+  const contentSet = checkList(kw.content_keywords, 'content_keywords');
+  const ytSet = checkList(kw.youtube_queries, 'youtube_queries');
+  const exclContent = checkList(kw.excluded_content_keywords, 'excluded_content_keywords', true);
+  const exclYt = checkList(kw.excluded_youtube_queries, 'excluded_youtube_queries', true);
+  const exclX = checkList(kw.excluded_x_discovery_queries, 'excluded_x_discovery_queries', true);
+  for (const w of exclContent) if (contentSet.has(w)) reject('NEWS_CONFIG_KEYWORDS_OVERLAP', `content_keywords 与排除词重叠: ${w}`);
+  for (const w of exclYt) if (ytSet.has(w)) reject('NEWS_CONFIG_KEYWORDS_OVERLAP', `youtube_queries 与排除词重叠: ${w}`);
+  if (kw.x_discovery_queries.length === 0) reject('NEWS_CONFIG_KEYWORDS_INVALID', 'x_discovery_queries 不能为空');
+  const xIds = new Set();
+  const timeOpRegex = /\b(?:since_time|until_time|since|until):/i;
+  for (let i = 0; i < kw.x_discovery_queries.length; i++) {
+    const q = kw.x_discovery_queries[i];
+    const tag = `x_discovery_queries[${i}]`;
+    if (!q || typeof q !== 'object') { reject('NEWS_CONFIG_KEYWORDS_INVALID', `${tag} 应为对象`); continue; }
+    if (!q.id || typeof q.id !== 'string' || xIds.has(q.id)) reject('NEWS_CONFIG_KEYWORDS_INVALID', `${tag}.id 缺失或重复`);
+    xIds.add(q.id);
+    if (!q.query || typeof q.query !== 'string') reject('NEWS_CONFIG_KEYWORDS_INVALID', `${tag}.query 必须为非空字符串`);
+    else {
+      if (q.query.length > 768) reject('NEWS_CONFIG_KEYWORDS_INVALID', `${tag}.query 超过 768 字符`);
+      if (timeOpRegex.test(q.query)) reject('NEWS_CONFIG_KEYWORDS_INVALID', `${tag}.query 禁止包含动态时间操作符`);
+    }
+    if (q.max_pages !== 1) reject('NEWS_CONFIG_KEYWORDS_INVALID', `${tag}.max_pages 首期必须为 1`);
+    if (exclX.has(normStr(q.id)) || exclX.has(normStr(q.query))) {
+      reject('NEWS_CONFIG_KEYWORDS_OVERLAP', `${tag} 与 excluded_x_discovery_queries 重叠`);
+    }
+  }
+}
+
 function validateNewsConfig(data, onError = fail) {
   let valid = true;
   const reject = (code, message) => { valid = false; onError(`[${code}] ${message}`); };
@@ -64,34 +195,12 @@ function validateNewsConfig(data, onError = fail) {
     reject('NEWS_CONFIG_TYPE_INVALID', 'news-config-v2.json 顶层应为对象');
     return false;
   }
-  const collection = data.collection;
-  if (!collection || typeof collection !== 'object' || Array.isArray(collection)) {
-    reject('NEWS_CONFIG_SECTION_INVALID', 'news-config-v2.json.collection 应为对象');
-    return false;
-  }
-  if (typeof collection.enabled !== 'boolean') {
-    reject('NEWS_CONFIG_ENABLED_INVALID', 'news-config-v2.json.collection.enabled 应为布尔值');
-  }
-  const budget = collection.x_credits_per_run;
-  if (!isNonNegativeInteger(budget) || budget > X_CREDITS_MAX_PER_RUN) {
-    reject('NEWS_CONFIG_BUDGET_INVALID', `news-config-v2.json.collection.x_credits_per_run 应为 0–${X_CREDITS_MAX_PER_RUN} 整数`);
-  }
-  const tweetCost = collection.x_credits_per_tweet;
-  if (!Number.isInteger(tweetCost) || tweetCost < X_CREDITS_MIN_PER_TWEET) {
-    reject('NEWS_CONFIG_TWEET_COST_INVALID', `news-config-v2.json.collection.x_credits_per_tweet 应为不小于 ${X_CREDITS_MIN_PER_TWEET} 的整数`);
-  }
-  const articleCost = collection.x_credits_per_article;
-  if (!Number.isInteger(articleCost) || articleCost < X_CREDITS_MIN_PER_ARTICLE) {
-    reject('NEWS_CONFIG_ARTICLE_COST_INVALID', `news-config-v2.json.collection.x_credits_per_article 应为不小于 ${X_CREDITS_MIN_PER_ARTICLE} 的整数`);
-  }
-  const requestMax = collection.x_tweets_per_request_max;
-  if (!Number.isInteger(requestMax) || requestMax < X_TWEETS_MIN_PER_REQUEST_MAX) {
-    reject('NEWS_CONFIG_REQUEST_MAX_INVALID', `news-config-v2.json.collection.x_tweets_per_request_max 应为不小于 ${X_TWEETS_MIN_PER_REQUEST_MAX} 的整数`);
-  }
+  validateNewsConfigCore(data, reject);
+  validateAccountGroups(data, reject);
+  validateKeywords(data.keywords, reject);
   return valid;
 }
 
-/** 校验 last-run 中的 X credits/request 账本；失败/未运行允许 credits=null。 */
 function validateLastRun(data, onError = fail) {
   let valid = true;
   const reject = (code, message) => { valid = false; onError(`[${code}] ${message}`); };
@@ -99,7 +208,7 @@ function validateLastRun(data, onError = fail) {
     reject('LAST_RUN_TYPE_INVALID', 'last-run.json 顶层应为对象');
     return false;
   }
-  const x = data.collectors && data.collectors.x;
+  const x = data.collectors?.x;
   if (!x || typeof x !== 'object' || Array.isArray(x)) {
     reject('LAST_RUN_SECTION_INVALID', 'last-run.json.collectors.x 应为对象');
     return false;
@@ -115,45 +224,33 @@ function validateLastRun(data, onError = fail) {
     reject('LAST_RUN_CREDITS_TYPE_INVALID', 'last-run.json.collectors.x.credits 应为对象或 null');
     return false;
   }
-  for (const field of ['used', 'budget', 'tweets', 'articles']) {
-    if (!isNonNegativeInteger(credits[field])) {
-      reject('LAST_RUN_CREDITS_FIELD_INVALID', `last-run.json.collectors.x.credits.${field} 应为非负整数`);
-    }
+  for (const f of ['used', 'budget', 'tweets', 'articles']) {
+    if (!isNonNegInt(credits[f])) reject('LAST_RUN_CREDITS_FIELD_INVALID', `credits.${f} 应为非负整数`);
   }
-  if (isNonNegativeInteger(credits.budget) && credits.budget > X_CREDITS_MAX_PER_RUN) {
-    reject('LAST_RUN_BUDGET_OVERFLOW', `last-run.json.collectors.x.credits.budget 不得超过 ${X_CREDITS_MAX_PER_RUN}`);
+  if (isNonNegInt(credits.budget) && credits.budget > X_CREDITS_MAX_BUDGET) {
+    reject('LAST_RUN_BUDGET_OVERFLOW', `credits.budget 不得超过 ${X_CREDITS_MAX_BUDGET}`);
   }
-  if (isNonNegativeInteger(credits.used) && isNonNegativeInteger(credits.budget)
-    && credits.used > credits.budget) {
-    reject('LAST_RUN_CREDITS_OVER_BUDGET', 'last-run.json.collectors.x.credits.used 不得超过 budget');
+  if (isNonNegInt(credits.used) && isNonNegInt(credits.budget) && credits.used > credits.budget) {
+    reject('LAST_RUN_CREDITS_OVER_BUDGET', 'credits.used 不得超过 budget');
   }
   const requests = credits.requests;
   if (!requests || typeof requests !== 'object' || Array.isArray(requests)) {
-    reject('LAST_RUN_REQUESTS_TYPE_INVALID', 'last-run.json.collectors.x.credits.requests 应为对象');
+    reject('LAST_RUN_REQUESTS_TYPE_INVALID', 'credits.requests 应为对象');
     return false;
   }
-  for (const field of ['total', 'tweet', 'article', 'retries']) {
-    if (!isNonNegativeInteger(requests[field])) {
-      reject('LAST_RUN_REQUESTS_FIELD_INVALID', `last-run.json.collectors.x.credits.requests.${field} 应为非负整数`);
-    }
+  for (const f of ['total', 'tweet', 'article', 'retries']) {
+    if (!isNonNegInt(requests[f])) reject('LAST_RUN_REQUESTS_FIELD_INVALID', `credits.requests.${f} 应为非负整数`);
   }
-  if (isNonNegativeInteger(requests.total) && isNonNegativeInteger(requests.tweet)
-    && isNonNegativeInteger(requests.article) && requests.total !== requests.tweet + requests.article) {
-    reject('LAST_RUN_REQUESTS_INCONSISTENT', 'last-run.json.collectors.x.credits.requests.total 应等于 tweet + article');
+  if (isNonNegInt(requests.total) && isNonNegInt(requests.tweet)
+    && isNonNegInt(requests.article) && requests.total !== requests.tweet + requests.article) {
+    reject('LAST_RUN_REQUESTS_INCONSISTENT', 'credits.requests.total 应等于 tweet + article');
   }
-  if (isNonNegativeInteger(requests.retries) && isNonNegativeInteger(requests.total)
-    && requests.retries > requests.total) {
-    reject('LAST_RUN_RETRIES_OVERFLOW', 'last-run.json.collectors.x.credits.requests.retries 不得超过 total');
+  if (isNonNegInt(requests.retries) && isNonNegInt(requests.total) && requests.retries > requests.total) {
+    reject('LAST_RUN_RETRIES_OVERFLOW', 'credits.requests.retries 不得超过 total');
   }
   return valid;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 第 4 组：hotspots.json — 前端热点投影引用完整性
-//
-// 核心约束：
-//   - items 为数组，每条内容有完整的 id/platform/content_type/url/title/日期
-// ═══════════════════════════════════════════════════════════════
 function validateHotspots(data) {
   if (!data || !Array.isArray(data.items)) {
     fail('hotspots.json.items 应为数组');
@@ -171,72 +268,47 @@ function validateHotspots(data) {
     if (item.content_type !== undefined && !CONTENT_TYPES.includes(item.content_type)) fail(`${tag}.content_type 不支持: ${item.content_type}`);
     if (Number.isNaN(new Date(item.published_at).getTime())) fail(`${tag}.published_at 不是有效日期`);
     if (item.metrics && typeof item.metrics !== 'object') fail(`${tag}.metrics 应为对象`);
-    // B16 决策 74/77/85/88/89：公开热点数据契约补充字段（可选字段，存在才校验）
     if (item.hot_score !== undefined && item.hot_score !== null && !(typeof item.hot_score === 'number' && item.hot_score >= 0 && item.hot_score <= 100)) {
       fail(`${tag}.hot_score 应为 0–100 数值或 null`);
     }
     if (item.evidence_excerpt !== undefined && item.evidence_excerpt !== null && typeof item.evidence_excerpt !== 'string') {
       fail(`${tag}.evidence_excerpt 应为字符串或 null`);
     }
-    // content-summarizer：公开 summary 字段（存在时校验格式；仅经人工审核 approved 的候选才会带）
     if (item.summary !== undefined && item.summary !== null && typeof item.summary !== 'string') {
       fail(`${tag}.summary 应为字符串或 null`);
     }
     if (item.summary_key_points !== undefined) {
       if (!Array.isArray(item.summary_key_points)) fail(`${tag}.summary_key_points 应为数组`);
-      else for (const point of item.summary_key_points) {
-        if (typeof point !== 'string') fail(`${tag}.summary_key_points 元素应为字符串`);
-      }
+      else item.summary_key_points.forEach(p => { if (typeof p !== 'string') fail(`${tag}.summary_key_points 元素应为字符串`); });
     }
     if (item.related_resources !== undefined) {
       if (!Array.isArray(item.related_resources)) fail(`${tag}.related_resources 应为数组`);
-      else for (const [resourceIndex, resource] of item.related_resources.entries()) {
-        const resourceTag = `${tag}.related_resources[${resourceIndex}]`;
-        if (!resource || typeof resource !== 'object') { fail(`${resourceTag} 应为对象`); continue; }
-        if (!['tool', 'concept', 'scene'].includes(resource.type)) fail(`${resourceTag}.type 应为 tool/concept/scene`);
-        if (!resource.id || typeof resource.id !== 'string') fail(`${resourceTag}.id 应为非空字符串`);
-      }
+      else item.related_resources.forEach((r, ri) => {
+        if (!r || typeof r !== 'object') { fail(`${tag}.related_resources[${ri}] 应为对象`); return; }
+        if (!['tool', 'concept', 'scene'].includes(r.type)) fail(`${tag}.related_resources[${ri}].type 应为 tool/concept/scene`);
+        if (!r.id || typeof r.id !== 'string') fail(`${tag}.related_resources[${ri}].id 应为非空字符串`);
+      });
     }
-    // content-localizer：公开 localizations 字段（存在时校验形状；与候选层同规则。
-    // 内部痕迹 localizations_meta 已由 INTERNAL_FIELDS 剔除，不应出现在公开投影）
     if (item.localizations !== undefined) {
-      if (!item.localizations || typeof item.localizations !== 'object') {
-        fail(`${tag}.localizations 应为对象`);
-      } else {
-        for (const [locale, localized] of Object.entries(item.localizations)) {
-          if (!localized || typeof localized !== 'object') {
-            fail(`${tag}.localizations.${locale} 应为对象`);
-            continue;
-          }
-          if (localized.title !== undefined && typeof localized.title !== 'string') fail(`${tag}.localizations.${locale}.title 应为字符串`);
-          if (localized.description !== undefined && typeof localized.description !== 'string') fail(`${tag}.localizations.${locale}.description 应为字符串`);
-        }
+      if (!item.localizations || typeof item.localizations !== 'object') fail(`${tag}.localizations 应为对象`);
+      else for (const [loc, lz] of Object.entries(item.localizations)) {
+        if (!lz || typeof lz !== 'object') { fail(`${tag}.localizations.${loc} 应为对象`); continue; }
+        if (lz.title !== undefined && typeof lz.title !== 'string') fail(`${tag}.localizations.${loc}.title 应为字符串`);
+        if (lz.description !== undefined && typeof lz.description !== 'string') fail(`${tag}.localizations.${loc}.description 应为字符串`);
       }
     }
     if (item.localizations_meta !== undefined) fail(`${tag}.localizations_meta 是内部字段，不应出现在公开投影`);
   }
-  if (data.heat_definition !== undefined && typeof data.heat_definition !== 'string') {
-    fail('hotspots.json.heat_definition 应为字符串');
-  }
-
+  if (data.heat_definition !== undefined && typeof data.heat_definition !== 'string') fail('hotspots.json.heat_definition 应为字符串');
   if (!data.coverage || typeof data.coverage !== 'object') fail('hotspots.json.coverage 缺失');
   console.log(`  hotspots.json: ${data.items.length} 条内容，通过`);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 热点管线候选层（min-candidates.json，单状态轴）校验
-//
-// 单状态轴候选层：review_status 只取
-// pending/approved/discarded（MIN_REVIEW_STATUSES，读自 min-store）。
-// 文件不存在 → 优雅跳过（管线未首跑，不阻塞）；空候选 → 通过。
-// 硬错误走 fail()（计入本模块 failed，由 validate.js 聚合退出码）；
-// approved 缺公开字段（title/url/published_at）只告警不阻塞。
-// ═══════════════════════════════════════════════════════════════
 function validateMinNews() {
   const file = NEWS_FILES.minCandidates;
   const errors = [];
   const warnings = [];
-
+  const reportErr = msg => { errors.push(msg); fail(msg); };
   let data;
   try {
     data = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -245,72 +317,35 @@ function validateMinNews() {
       console.log('  min-candidates.json: 文件不存在（v2 管线未首跑），优雅跳过');
       return { valid: true, errors, warnings };
     }
-    const message = `min-candidates.json 解析失败：${error.message}`;
-    errors.push(message);
-    fail(message);
+    reportErr(`min-candidates.json 解析失败：${error.message}`);
     return { valid: false, errors, warnings };
   }
-
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
-    const message = 'min-candidates.json 顶层应为对象';
-    errors.push(message);
-    fail(message);
+    reportErr('min-candidates.json 顶层应为对象');
     return { valid: false, errors, warnings };
   }
-
-  // 顶层 schema：schema_version 为缺省 1；缺失仅告警（createMinStore 容缺省），
-  // 存在但非法（非正整数）则报错。
-  if (data.schema_version !== undefined
-    && (!Number.isInteger(data.schema_version) || data.schema_version < 1)) {
-    const message = 'min-candidates.json.schema_version 应为正整数';
-    errors.push(message);
-    fail(message);
+  if (data.schema_version !== undefined && (!Number.isInteger(data.schema_version) || data.schema_version < 1)) {
+    reportErr('min-candidates.json.schema_version 应为正整数');
   } else if (data.schema_version === undefined) {
     warnings.push('min-candidates.json 缺少 schema_version（缺省按 1 处理）');
     console.warn('⚠️  min-candidates.json 缺少 schema_version（缺省按 1 处理）');
   }
-
   if (!Array.isArray(data.candidates)) {
-    const message = 'min-candidates.json.candidates 应为数组';
-    errors.push(message);
-    fail(message);
+    reportErr('min-candidates.json.candidates 应为数组');
     return { valid: false, errors, warnings };
   }
-
   const ids = new Set();
   for (let i = 0; i < data.candidates.length; i++) {
-    const candidate = data.candidates[i];
-    const tag = `min-candidates.json.candidates[${i}] (${(candidate && candidate.title) || '未知'})`;
-    if (!candidate || typeof candidate !== 'object') {
-      const message = `${tag} 应为对象`;
-      errors.push(message);
-      fail(message);
-      continue;
-    }
-    // v2 单状态轴候选：id 非空且唯一
-    if (!candidate.id || ids.has(candidate.id)) {
-      const message = `${tag}.id 缺失或重复: ${candidate.id}`;
-      errors.push(message);
-      fail(message);
-    }
-    ids.add(candidate.id);
-    // review_status 必须 ∈ MIN_REVIEW_STATUSES（pending/approved/discarded）
-    if (!MIN_REVIEW_STATUSES.includes(candidate.review_status)) {
-      const message = `${tag}.review_status 无效（合法值：${MIN_REVIEW_STATUSES.join(' / ')}）`;
-      errors.push(message);
-      fail(message);
-    }
-    // platform 必须合法（youtube / x）
-    if (!NEWS_PLATFORMS.includes(candidate.platform)) {
-      const message = `${tag}.platform 不支持: ${candidate.platform}`;
-      errors.push(message);
-      fail(message);
-    }
-    // 公开字段完整性：approved 候选必须有 title/url/published_at（不全告警，不阻塞）
-    if (candidate.review_status === 'approved') {
+    const c = data.candidates[i];
+    const tag = `min-candidates.json.candidates[${i}] (${(c && c.title) || '未知'})`;
+    if (!c || typeof c !== 'object') { reportErr(`${tag} 应为对象`); continue; }
+    if (!c.id || ids.has(c.id)) reportErr(`${tag}.id 缺失或重复: ${c.id}`);
+    ids.add(c.id);
+    if (!MIN_REVIEW_STATUSES.includes(c.review_status)) reportErr(`${tag}.review_status 无效（合法值：${MIN_REVIEW_STATUSES.join(' / ')}）`);
+    if (!NEWS_PLATFORMS.includes(c.platform)) reportErr(`${tag}.platform 不支持: ${c.platform}`);
+    if (c.review_status === 'approved') {
       for (const field of ['title', 'url', 'published_at']) {
-        const value = candidate[field];
-        if (value === undefined || value === null || value === '') {
+        if (c[field] === undefined || c[field] === null || c[field] === '') {
           const message = `${tag} 已 approved 但缺少公开字段 ${field}`;
           warnings.push(message);
           console.warn(`⚠️  ${message}`);
@@ -318,28 +353,16 @@ function validateMinNews() {
       }
     }
   }
-
-  if (errors.length === 0) {
-    console.log(`  min-candidates.json: ${data.candidates.length} 条候选（v2 单状态轴），通过`);
-  }
+  if (errors.length === 0) console.log(`  min-candidates.json: ${data.candidates.length} 条候选（v2 单状态轴），通过`);
   return { valid: errors.length === 0, errors, warnings };
 }
 
-// ═══════════════════════════════════════════════════════════════
-// news 域入口：校验公开投影与 v2 候选层
-//
-// 只校验仍存在的数据文件：hotspots.json（公开投影）与
-// min-candidates.json（v2 候选层）。
-// ═══════════════════════════════════════════════════════════════
 function validateNews() {
-  // v2 配置：总开关与 X 预算属于采集安全边界，配置非法必须阻断。
   try {
     validateNewsConfig(JSON.parse(fs.readFileSync(NEWS_FILES.configV2, 'utf8')));
   } catch (error) {
     fail(`news-config-v2.json 解析失败：${error.message}`);
   }
-
-  // last-run 为运行产物，尚未首跑时允许不存在；存在则校验 credits/request 账本。
   try {
     validateLastRun(JSON.parse(fs.readFileSync(NEWS_FILES.lastRun, 'utf8')));
   } catch (error) {
@@ -349,8 +372,6 @@ function validateNews() {
       fail(`last-run.json 解析失败：${error.message}`);
     }
   }
-
-  // hotspots.json
   try {
     validateHotspots(JSON.parse(fs.readFileSync(NEWS_FILES.hotspots, 'utf8')));
   } catch (e) {
@@ -363,5 +384,8 @@ module.exports = {
   validateMinNews,
   validateNewsConfig,
   validateLastRun,
+  X_CREDITS_MAX_PER_HOT_RUN,
+  X_CREDITS_MAX_PER_COLD_RUN,
+  X_CREDITS_MAX_BUDGET,
   get failed() { return failed; },
 };

@@ -5,10 +5,9 @@ on:
     # GitHub Actions cron 固定按 UTC；此处统一按「北京时间」换算（UTC = 北京 - 8h）：
     #   YouTube：每天北京 20:00 → UTC 12:00（管线内 72h 到期闸决定是否真正采集；
     #            不用 */3 因其按月历日触发，月末会 31→1 背靠背）
-    #   X：每天北京 13:00 → UTC 05:00；每天北京 22:00 → UTC 14:00
-    - cron: '0 12 * * *'
-    - cron: '0 5 * * *'
-    - cron: '0 14 * * *'
+    #   X：热半区每天北京时间 08:30 → UTC 00:30；冷半区每天北京时间 20:30 → UTC 12:30
+    - cron: '30 0 * * *'
+    - cron: '30 12 * * *'
   workflow_dispatch:
     inputs:
       platforms:
@@ -119,10 +118,17 @@ jobs:
             else
               echo "NEWS_PLATFORMS=$PLATFORMS_INPUT" >> "$GITHUB_ENV"
             fi
+          elif [[ "$SCHEDULE" == "30 0 * * *" ]]; then
+            echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"
+            echo "NEWS_X_SLOT=hot" >> "$GITHUB_ENV"
+          elif [[ "$SCHEDULE" == "30 12 * * *" ]]; then
+            echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"
+            echo "NEWS_X_SLOT=cold" >> "$GITHUB_ENV"
           elif [[ "$SCHEDULE" == "0 12 * * *" ]]; then
             echo "NEWS_PLATFORMS=youtube" >> "$GITHUB_ENV"
           else
             echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"
+            echo "NEWS_X_SLOT=hot" >> "$GITHUB_ENV"
           fi
 
       - name: Collect and build news
@@ -138,7 +144,11 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" == "schedule" ]]; then
             FLAGS="--scheduled"
           fi
-          node scripts/build-news.js --platforms "$NEWS_PLATFORMS" $FLAGS
+          if [[ -n "$NEWS_X_SLOT" ]]; then
+            node scripts/build-news.js --platforms "$NEWS_PLATFORMS" $FLAGS --slot "$NEWS_X_SLOT"
+          else
+            node scripts/build-news.js --platforms "$NEWS_PLATFORMS" $FLAGS
+          fi
 
       - name: Record collection summary
         if: always()
@@ -172,7 +182,7 @@ jobs:
           # 候选零变化时它可能是唯一变更，漏提交会导致到期闸失效、每天都采）。
           # 公开投影在审核 PR 合并后由 publish-news.yml 重建，不在此直接提交 main。
           # 检查候选层与调度状态是否有变更（git status --porcelain 兼顾已跟踪修改与新生成未跟踪文件）
-          TARGET_FILES="data/news/runtime/min-candidates.json data/manual/review.json data/news/runtime/schedule-state.json"
+          TARGET_FILES="data/news/runtime/min-candidates.json data/news/runtime/source-history.json data/manual/review.json data/news/runtime/schedule-state.json data/news/runtime/x-checkpoints.json data/news/runtime/last-run.json"
           CHANGES=$(git status --porcelain -- $TARGET_FILES)
           if [ -z "$CHANGES" ]; then
             echo "No candidate changes"

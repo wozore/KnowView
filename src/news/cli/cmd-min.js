@@ -81,6 +81,8 @@ const MANUAL_LIST_FILES = [
   'review.json',
   'transcript-requests.json',
   'keyword-refine.json',
+  'youtube-queries-refine.json',
+  'x-queries-refine.json',
   'top.json',
 ];
 
@@ -249,19 +251,25 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
   }
 
   if (action === 'refine') {
-    return refineKeywords(undefined, config, { timeoutMs: Number(flags.timeout_ms) || undefined });
+    const purpose = flags.purpose || 'content';
+    return refineKeywords(undefined, config, {
+      purpose,
+      timeoutMs: Number(flags.timeout_ms) || undefined,
+    });
   }
 
   if (action === 'refine-apply') {
     if (!flags.file) throw new Error('min-review refine-apply 缺少 --file（关键词清单路径，如 data/manual/keyword-refine.json）');
     const list = readJson(flags.file, null);
     const expectedRevision = expectedConfigRevision(flags, config);
+    const purpose = flags.purpose || list?.purpose || 'content';
     const result = commitKeywordActions(list, {
       config,
+      purpose,
       expectedRevision,
       runId: `min-review-refine-apply-${Date.now()}`,
     });
-    return { ...result, file: flags.file };
+    return { ...result, file: flags.file, purpose };
   }
 
   // ── ai-top：第二阶段，AI 从 approved 候选提供 top 待选项给维护者 ──

@@ -1,7 +1,8 @@
-import { writeRequest, unwrap } from '../api.js';
+import { readResource, writeRequest, unwrap } from '../api.js';
 import {
   state,
   $,
+  $$,
   text,
   showNotice,
 } from '../state.js';
@@ -13,29 +14,32 @@ import {
   runAction,
 } from './common.js';
 
+let activePurpose = 'content';
+
+export function getActiveKeywordPurpose() {
+  return activePurpose;
+}
+
+export function setActiveKeywordPurpose(purpose) {
+  activePurpose = purpose || 'content';
+}
+
 export function renderKeywords(payload) {
   const value = unwrap(payload) || {};
   const all = Array.isArray(value.items) ? value.items : [];
   const pending = all.filter(item => !(item && (item.adopted === true || item.discarded === true)));
   renderQueue('keywords', 'keywordList', pending, 'keywordsState', {
     selectable: true,
-    titleKeys: ['word'],
-    empty: all.length > 0 ? '当前关键词候选已全部处理（采纳或丢弃）。' : '当前没有关键词候选。',
+    titleKeys: ['word', 'value', 'id'],
+    empty: all.length > 0 ? '当前用途关键词候选已全部处理。' : '当前用途没有待处理关键词候选。',
   });
   const note = $('#keywordSourceNote');
   if (note) {
     const source = value.source;
     if (source && source.input_count != null) {
-      if (String(source.source_basis || '').startsWith('all_approved_frequency')) {
-        note.textContent = `来源：覆盖全部 ${source.source_count == null ? '?' : source.source_count} 条 approved（全局词频）生成候选。`;
-      } else if (String(source.source_basis || '').startsWith('all_approved_batched')) {
-        const batch = (String(source.source_basis).match(/batched_(\d+)/) || [])[1];
-        note.textContent = `来源：覆盖全部 ${source.source_count == null ? '?' : source.source_count} 条 approved，分批（每批 ${batch || '?'} 条）生成候选。`;
-      } else {
-        note.textContent = `来源：共 ${source.source_count == null ? '?' : source.source_count} 条 approved，AI 读取评分前 ${source.input_count} 条（${text(source.source_basis || '')}）生成候选。`;
-      }
+      note.textContent = `来源：共 ${source.source_count ?? '?'} 条 approved，读取评分前 ${source.input_count} 条生成候选。`;
     } else if (all.length === 0) {
-      note.textContent = '尚未生成关键词候选；点击上方「生成关键词候选」。';
+      note.textContent = '当前用途尚未生成候选；可点击上方按钮生成。';
     } else {
       note.textContent = '';
     }
@@ -50,9 +54,9 @@ export async function adoptKeywords(button, onRefreshAll) {
   button.textContent = '处理中…';
   button.disabled = true;
   try {
-    await writeRequest('news/keywords', 'keywords', { ids });
+    await writeRequest('news/keywords', 'keywords', { ids, purpose: activePurpose });
     state.selected.keywords.clear();
-    showNotice(`已采纳 ${ids.length} 条关键词候选。`);
+    showNotice(`已采纳 ${ids.length} 条 [${activePurpose}] 候选。`);
     if (typeof onRefreshAll === 'function') await onRefreshAll();
   } catch (error) {
     handleMutationError(error, 'keywords', 'keywordsState', button);
@@ -69,9 +73,9 @@ export async function discardKeywords(button, onRefreshAll) {
   button.textContent = '处理中…';
   button.disabled = true;
   try {
-    await writeRequest('news/keywords/discard', 'keywords', { ids });
+    await writeRequest('news/keywords/discard', 'keywords', { ids, purpose: activePurpose });
     state.selected.keywords.clear();
-    showNotice(`已丢弃 ${ids.length} 条关键词候选（加入黑名单，不再建议）。`);
+    showNotice(`已丢弃 ${ids.length} 条 [${activePurpose}] 候选（加入对应黑名单）。`);
     if (typeof onRefreshAll === 'function') await onRefreshAll();
   } catch (error) {
     handleMutationError(error, 'keywords', 'keywordsState', button);
@@ -80,28 +84,54 @@ export async function discardKeywords(button, onRefreshAll) {
   }
 }
 
-export async function generateKeywords(button, onRefreshAll) {
+export async function generateKeywords(button, onRefreshAll, purpose = activePurpose) {
+  activePurpose = purpose;
+  updatePurposeTabStyles();
   await runAction('news/keywords/generate', button, '生成中…', result => {
     const count = Number(result?.candidates?.length || result?.candidate_count || 0);
-    const total = Number(result?.approvedCount ?? result?.source_count ?? 0);
-    const basis = total ? `覆盖全部 ${total} 条 approved` : '';
-    return `已生成 ${count} 条关键词候选${basis ? `（${basis}）。` : '。'}`;
-  }, onRefreshAll);
+    return `已生成 ${count} 条 [${purpose}] 候选。`;
+  }, onRefreshAll, { purpose });
 }
 
-export function loadKeywords() {
-  return loadResource('keywords', 'news/keywords', renderKeywords, {
+export function loadKeywords(purpose = activePurpose) {
+  activePurpose = purpose;
+  updatePurposeTabStyles();
+  return loadResource('keywords', `news/keywords?purpose=${encodeURIComponent(activePurpose)}`, renderKeywords, {
     rootId: 'keywordList',
     stateId: 'keywordsState',
   });
 }
 
+function updatePurposeTabStyles() {
+  const tabs = $$('#keywordPurposeTabs button[data-purpose]');
+  for (const tab of tabs) {
+    const p = tab.getAttribute('data-purpose');
+    if (p === activePurpose) tab.classList.add('active');
+    else tab.classList.remove('active');
+  }
+}
+
 export function setupKeywordsPanel(onRefreshAll) {
   bindSelection('keywords', 'keywordList', 'keywordSelectAll');
+  const tabs = $$('#keywordPurposeTabs button[data-purpose]');
+  for (const tab of tabs) {
+    tab.addEventListener('click', async event => {
+      const p = event.currentTarget.getAttribute('data-purpose') || 'content';
+      await loadKeywords(p);
+    });
+  }
+
+  const genContentBtn = $('#keywordGenerateContentButton');
+  if (genContentBtn) genContentBtn.addEventListener('click', e => generateKeywords(e.currentTarget, onRefreshAll, 'content'));
+  const genYtBtn = $('#keywordGenerateYoutubeButton');
+  if (genYtBtn) genYtBtn.addEventListener('click', e => generateKeywords(e.currentTarget, onRefreshAll, 'youtube'));
+  const genXBtn = $('#keywordGenerateXButton');
+  if (genXBtn) genXBtn.addEventListener('click', e => generateKeywords(e.currentTarget, onRefreshAll, 'x_discovery'));
   const genBtn = $('#keywordGenerateButton');
-  if (genBtn) genBtn.addEventListener('click', (event) => generateKeywords(event.currentTarget, onRefreshAll));
+  if (genBtn) genBtn.addEventListener('click', e => generateKeywords(e.currentTarget, onRefreshAll, activePurpose));
+
   const adoptBtn = $('#keywordAdoptButton');
-  if (adoptBtn) adoptBtn.addEventListener('click', (event) => adoptKeywords(event.currentTarget, onRefreshAll));
+  if (adoptBtn) adoptBtn.addEventListener('click', e => adoptKeywords(e.currentTarget, onRefreshAll));
   const discardBtn = $('#keywordDiscardButton');
-  if (discardBtn) discardBtn.addEventListener('click', (event) => discardKeywords(event.currentTarget, onRefreshAll));
+  if (discardBtn) discardBtn.addEventListener('click', e => discardKeywords(e.currentTarget, onRefreshAll));
 }

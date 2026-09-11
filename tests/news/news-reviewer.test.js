@@ -257,7 +257,7 @@ test('L1 高置信 approve/discard 自动分流，自动项不调用 L2 且不�
   ];
   const verdicts = { approve: { verdict: 'approve', confidence: 0.9, reasons: ['不应保留'] }, discard: { verdict: 'discard', confidence: 0.95, reasons: ['不应保留'] }, hold: { verdict: 'hold', confidence: 0.6, reasons: ['需要人工确认'] } };
   const result = await applyL1Verdicts(items, {
-    keywords: { ai_keywords: ['ai'] },
+    keywords: { content_keywords: ['ai'] },
     collection: { concurrency: 1 },
     review: { l1_confidence_auto_approve: 0.85, l1_confidence_auto_discard: 0.9, l2_enabled: true },
   }, {

@@ -11,7 +11,7 @@
  *
  * 三层结构：
  *   L0 l0HardFilter —— 规则式硬过滤，零成本、零外部依赖。缺 title/url/published_at、
- *                       非 AI 主题（未命中 config.keywords.ai_keywords）、明显广告/推广
+ *                       非 AI 主题（未命中 config.keywords.content_keywords）、明显广告/推广
  *                       词 → 直接剔除（discarded，带 discard_reason）。
  *   L1 l1AiReview   —— AI 初步审核（复用 content-reviewer.reviewCandidate → DeepSeek）。
  *                       approve/discard 达到置信度门槛时自动分流；hold、低置信度与失败留给人工。
@@ -60,10 +60,10 @@ const TOP_COMMENTS_LABEL = '[TOP_COMMENTS]';
 /**
  * L0 规则式硬过滤（纯函数，零成本零外部依赖）。
  * @param {object} item - 统一内容模型条目（含 title / url / published_at / description）
- * @param {object} config - news-config-v2.json（读 keywords.ai_keywords 段）
+ * @param {object} config - news-config-v2.json（读 keywords.content_keywords 段）
  * @returns {{ pass: boolean, reason?: string }}
  *   pass=false 的 reason：'incomplete'（缺 title/url/published_at）
- *                       | 'not_ai'（title+description 未命中任何 ai_keywords）
+ *                       | 'not_ai'（title+description 未命中任何 content_keywords）
  *                       | 'advertising'（命中明显广告/推广词）
  *                       | 'ai_generated_disclosure'（简介命中明确 AI 生成披露模板）
  */
@@ -83,8 +83,8 @@ function l0HardFilter(item, config) {
     return { pass: false, reason: 'ai_generated_disclosure' };
   }
 
-  const keywords = Array.isArray(config && config.keywords && config.keywords.ai_keywords)
-    ? config.keywords.ai_keywords
+  const keywords = Array.isArray(config?.keywords?.content_keywords)
+    ? config.keywords.content_keywords
     : [];
   const hitsAi = keywords.some(keyword =>
     keyword && text.includes(String(keyword).toLowerCase())
@@ -199,6 +199,83 @@ async function l2AiAdvice(item, options = {}) {
 // ═══════════════════════════════════════════════════════════════
 
 /**
+ * 根据 L1 结果分流为 approved、discarded 或附 L2 建议的 pending 条目。
+ * @private
+ */
+async function resolveL1Decision(item, l1Review, thresholds, options, config) {
+  const { verdict, confidence } = l1Review;
+  const highConfidenceApprove = verdict === 'approve' && confidence >= thresholds.autoApproveConfidence;
+  const highConfidenceDiscard = verdict === 'discard' && confidence >= thresholds.autoDiscardConfidence;
+
+  if (highConfidenceApprove) {
+    return {
+      kept: {
+        ...item,
+        review_status: 'approved',
+        l1_review: { ...l1Review, reasons: [] },
+        ai_advice: null,
+      },
+    };
+  }
+  if (highConfidenceDiscard) {
+    return {
+      discarded: {
+        ...item,
+        review_status: 'discarded',
+        discard_reason: 'ai_discard',
+        discard_stage: 'l1',
+        l1_review: { ...l1Review, reasons: [] },
+        ai_advice: null,
+      },
+    };
+  }
+
+  const advice = thresholds.l2Enabled
+    ? await l2AiAdvice(item, { ...options, config })
+    : null;
+  return {
+    kept: {
+      ...item,
+      review_status: 'pending',
+      l1_review: l1Review,
+      ai_advice: advice,
+    },
+  };
+}
+
+/**
+ * 单条候选审核评定辅助函数（L0 硬审 → L1 AI 审 → 自动分流 / L2 建议）。
+ * @private
+ */
+async function evaluateReviewItem(item, config, options, thresholds) {
+  if (!item || typeof item !== 'object') return null;
+
+  const hard = l0HardFilter(item, config);
+  if (!hard.pass) {
+    return {
+      discarded: {
+        ...item,
+        review_status: 'discarded',
+        discard_reason: hard.reason,
+        discard_stage: 'l0',
+        l1_review: null,
+        ai_advice: null,
+      },
+    };
+  }
+
+  const l1 = await l1AiReview(item, { ...options, config });
+  const l1Review = {
+    verdict: l1.verdict,
+    reasons: l1.reasons || [],
+    confidence: l1.confidence || 0,
+    llm_error: l1.llm_error || null,
+  };
+
+  return resolveL1Decision(item, l1Review, thresholds, options, config);
+}
+
+/**
  * 批量审核入口：L0 硬审 → L1 AI 审 → 自动分流 / pending 项附 L2 建议。输出单状态轴。
  *
  * L1/L2 按 config.collection.concurrency（缺省 5）并发执行，保持输入顺序；
@@ -222,75 +299,15 @@ async function applyL1Verdicts(items, config, options = {}) {
     || DEFAULT_AUTO_DISCARD_CONFIDENCE;
   const l2Enabled = !(config && config.review && config.review.l2_enabled === false);
   const concurrency = Number(config && config.collection && config.collection.concurrency) || 5;
+  const thresholds = { autoApproveConfidence, autoDiscardConfidence, l2Enabled };
 
   const result = new Array(source.length); // result[index] = { kept } | { discarded } | null
 
   await runPool(source, concurrency, async (item, index) => {
-    if (!item || typeof item !== 'object') return; // 跳过，留 null
-
-    // ── L0 规则硬审 ──
-    const hard = l0HardFilter(item, config);
-    if (!hard.pass) {
-      result[index] = {
-        discarded: {
-          ...item,
-          review_status: 'discarded',
-          discard_reason: hard.reason,
-          discard_stage: 'l0',
-          l1_review: null,
-          ai_advice: null,
-        },
-      };
-      return;
+    const outcome = await evaluateReviewItem(item, config, options, thresholds);
+    if (outcome) {
+      result[index] = outcome;
     }
-
-    // ── L1 AI 审（评论注入按 config.review 决定）──
-    const l1 = await l1AiReview(item, { ...options, config });
-    const l1Review = {
-      verdict: l1.verdict,
-      reasons: l1.reasons || [],
-      confidence: l1.confidence || 0,
-      llm_error: l1.llm_error || null,
-    };
-    const highConfidenceApprove = l1.verdict === 'approve' && l1.confidence >= autoApproveConfidence;
-    const highConfidenceDiscard = l1.verdict === 'discard' && l1.confidence >= autoDiscardConfidence;
-    if (highConfidenceApprove) {
-      result[index] = {
-        kept: {
-          ...item,
-          review_status: 'approved',
-          l1_review: { ...l1Review, reasons: [] },
-          ai_advice: null,
-        },
-      };
-      return;
-    }
-    if (highConfidenceDiscard) {
-      result[index] = {
-        discarded: {
-          ...item,
-          review_status: 'discarded',
-          discard_reason: 'ai_discard',
-          discard_stage: 'l1',
-          l1_review: { ...l1Review, reasons: [] },
-          ai_advice: null,
-        },
-      };
-      return;
-    }
-
-    // ── pending：hold / 低置信度 / LLM 失败 → 附 L2 建议供人工参考 ──
-    const advice = l2Enabled
-      ? await l2AiAdvice(item, { ...options, config })
-      : null;
-    result[index] = {
-      kept: {
-        ...item,
-        review_status: 'pending',
-        l1_review: l1Review,
-        ai_advice: advice,
-      },
-    };
   });
 
   const kept = [];

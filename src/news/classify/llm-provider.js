@@ -292,7 +292,7 @@ async function refineKeywords(approvedItems, ruleCandidates, options = {}) {
   }
   let payload;
   try {
-    payload = buildKeywordRefinePayload(approvedItems, ruleCandidates, options.existingKeywords, options.model);
+    payload = buildKeywordRefinePayload(approvedItems, ruleCandidates, options.existingKeywords, options.model, options.purpose);
   } catch (err) {
     return { ok: false, error: err.message, code: 'payload_error' };
   }
@@ -302,7 +302,10 @@ async function refineKeywords(approvedItems, ruleCandidates, options = {}) {
   if (typeof content !== 'string' || !content.trim()) {
     return { ok: false, error: '本地模型返回空内容', code: 'empty_content' };
   }
-  const keywords = normalizeKeywordRefine(content, options.existingKeywords, { filterExisting: options.filterExisting === true });
+  const keywords = normalizeKeywordRefine(content, options.existingKeywords, {
+    filterExisting: options.filterExisting === true,
+    purpose: options.purpose,
+  });
   if (!keywords) {
     return { ok: false, error: `本地模型输出无法解析为关键词清单：${content.slice(0, 60)}`, code: 'invalid_keyword_refine' };
   }

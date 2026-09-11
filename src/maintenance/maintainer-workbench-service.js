@@ -148,8 +148,8 @@ function createMaintainerWorkbenchService(options = {}) {
     reviewNews(body) {
       return handleReviewNews(body, news, { idsOf, expectedRevision });
     },
-    keywords() {
-      return handleKeywords(news);
+    keywords(purpose = 'content') {
+      return handleKeywords(news, purpose);
     },
     applyKeywords(body) {
       return handleApplyKeywords(body, news, { idsOf, expectedRevision });
@@ -157,11 +157,11 @@ function createMaintainerWorkbenchService(options = {}) {
     discardKeywords(body) {
       return handleDiscardKeywords(body, news, { idsOf, expectedRevision });
     },
-    async generateKeywords() {
+    async generateKeywords(body = {}) {
       if (store().candidates.some(item => item.review_status === 'pending')) {
         throw new Error('仍有待审核新闻，完成首审后才能生成关键词候选');
       }
-      return news.generateKeywords();
+      return news.generateKeywords(body?.purpose || 'content');
     },
     top() {
       return handleTop(store, news, options);

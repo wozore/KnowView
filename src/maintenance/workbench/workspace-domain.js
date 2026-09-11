@@ -21,7 +21,14 @@ async function clearWorkspaceFiles(options = {}) {
   const archive = await minReviewCommand('archive', {});
   const removed = [];
   const manualFolder = path.resolve(DIRS.project, config.manual_folder || 'data/manual');
-  for (const name of ['review.json', 'transcript-requests.json', 'keyword-refine.json', 'top.json']) {
+  for (const name of [
+    'review.json',
+    'transcript-requests.json',
+    'keyword-refine.json',
+    'youtube-queries-refine.json',
+    'x-queries-refine.json',
+    'top.json',
+  ]) {
     removeFile(path.join(manualFolder, name), removed);
   }
   const pendingFiles = [

@@ -61,8 +61,22 @@
       </section>
       <section class="panel panel-keywords" id="keywordsPanel" aria-labelledby="keywordsTitle">
         <div class="section-heading"><div><p class="kicker">02 / SIGNALS</p><h2 id="keywordsTitle">关键词候选</h2></div><span class="load-state" id="keywordsState">未加载</span></div>
-        <p class="panel-lead">完成新闻首审后，可在此生成 AI 提纯候选；采纳后才会进入后续采集配置，丢弃的词会进入黑名单避免再次建议。</p>
-        <div class="toolbar"><button class="button button-quiet" id="keywordGenerateButton" type="button">生成关键词候选</button><label class="check-all"><input type="checkbox" id="keywordSelectAll"> <span>全选候选</span></label><span class="selection-count" id="keywordSelectionCount">0 条已选</span><button class="button button-danger" id="keywordDiscardButton" type="button" disabled>丢弃所选</button><button class="button button-primary" id="keywordAdoptButton" type="button" disabled>采纳所选</button></div>
+        <p class="panel-lead">完成新闻首审后，可在此按用途查看与生成候选；采纳后写入对应配置段，丢弃进入对应用途黑名单。</p>
+        <div class="toolbar keyword-tabs" id="keywordPurposeTabs">
+          <button class="button button-quiet active" id="kwTabContent" data-purpose="content" type="button">内容识别词</button>
+          <button class="button button-quiet" id="kwTabYoutube" data-purpose="youtube" type="button">YouTube 查询</button>
+          <button class="button button-quiet" id="kwTabXDiscovery" data-purpose="x_discovery" type="button">X 发现查询</button>
+        </div>
+        <div class="toolbar">
+          <button class="button button-primary" id="keywordGenerateContentButton" type="button">生成内容识别词</button>
+          <button class="button button-danger" id="keywordGenerateYoutubeButton" type="button">生成 YouTube 查询</button>
+          <button class="button button-quiet" id="keywordGenerateXButton" type="button">生成 X 发现查询</button>
+          <button class="button button-quiet" id="keywordGenerateButton" type="button" style="display:none">生成关键词候选</button>
+          <label class="check-all"><input type="checkbox" id="keywordSelectAll"> <span>全选候选</span></label>
+          <span class="selection-count" id="keywordSelectionCount">0 条已选</span>
+          <button class="button button-danger" id="keywordDiscardButton" type="button" disabled>丢弃所选</button>
+          <button class="button button-primary" id="keywordAdoptButton" type="button" disabled>采纳所选</button>
+        </div>
         <p class="panel-note" id="keywordSourceNote"></p>
         <div class="item-list" id="keywordList" aria-live="polite"></div>
       </section>

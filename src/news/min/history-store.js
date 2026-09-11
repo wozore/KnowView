@@ -34,6 +34,7 @@
 
 'use strict';
 
+const fs = require('fs');
 const { readJson, writeJsonAtomic } = require('../../shared/json-store');
 const { NEWS_FILES } = require('../../shared/paths');
 
@@ -48,7 +49,15 @@ const RATE_WEIGHTS = { c: 0.6, d: 0.25, a: 0.15 };
 
 /** 读历史库；文件不存在时返回空 store。 */
 function readHistoryStore() {
-  return readJson(HISTORY_PATH, { sources: {} });
+  if (!fs.existsSync(HISTORY_PATH)) return { sources: {} };
+  const data = readJson(HISTORY_PATH, null);
+  if (!data || typeof data !== 'object' || Array.isArray(data)
+    || !data.sources || typeof data.sources !== 'object' || Array.isArray(data.sources)) {
+    const error = new Error('Invalid source history store');
+    error.code = 'NEWS_INVALID_HISTORY_STORE';
+    throw error;
+  }
+  return data;
 }
 
 /** 原子写回历史库。 */

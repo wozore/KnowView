@@ -23,6 +23,7 @@
 'use strict';
 
 const crypto = require('crypto');
+const fs = require('fs');
 const { readJson, writeJsonAtomic } = require('../../shared/json-store');
 const { NEWS_FILES } = require('../../shared/paths');
 
@@ -98,7 +99,14 @@ function assertExpectedMinRevision(store, expectedRevision) {
 
 /** 读候选层；文件不存在时返回空 store（{schema_version:1, updated_at:null, candidates:[]}）。 */
 function readMinStore() {
-  return createMinStore(readJson(MIN_CANDIDATES_PATH, null));
+  if (!fs.existsSync(MIN_CANDIDATES_PATH)) return createMinStore();
+  const data = readJson(MIN_CANDIDATES_PATH, null);
+  if (!data || typeof data !== 'object' || Array.isArray(data) || !Array.isArray(data.candidates)) {
+    const error = new Error('Invalid min candidates store');
+    error.code = 'NEWS_INVALID_MIN_STORE';
+    throw error;
+  }
+  return createMinStore(data);
 }
 
 /** 原子写回候选层；提供 expectedRevision 时先核对磁盘当前版本。 */
@@ -161,7 +169,16 @@ function mergeCandidatesMin(store, items) {
       // ai_advice / l1_review：本轮已有新的（incoming 已生成）则保留新的，否则保留既有。
       if (prev.ai_advice && incoming.ai_advice === undefined) incoming.ai_advice = prev.ai_advice;
       if (prev.l1_review && incoming.l1_review === undefined) incoming.l1_review = prev.l1_review;
-      // 人工/AI 加工结果：重新采集未提供时必须保留，避免丢失字幕、总结和本地化。
+      if (prev.collection_context || incoming.collection_context) {
+        const previousContext = prev.collection_context || {};
+        const currentContext = incoming.collection_context || {};
+        incoming.collection_context = {
+          ...previousContext,
+          ...currentContext,
+          first_seen_run_id: previousContext.first_seen_run_id || currentContext.first_seen_run_id,
+          last_seen_run_id: currentContext.last_seen_run_id || previousContext.last_seen_run_id,
+        };
+      }
       // 含字幕付费总结的保护元数据（transcript_summarized_at 等），丢失会导致保护失效。
       for (const field of [
         'transcript', 'transcript_file', 'summary', 'summary_key_points',

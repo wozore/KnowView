@@ -13,11 +13,14 @@
 | `youtube_interval_hours` | `72` | YouTube 两次调度采集的最小间隔（小时）。距上次「调度触发」成功采集不足该间隔 → 当次跳过（`not_due`）。仅调度运行受闸并写状态；手动/本地运行不受闸、不写状态 |
 | `youtube_tz` | `"Asia/Shanghai"` | YouTube 抓取意图时区（北京时间） |
 | `youtube_window_days` | `3` | YouTube 采集窗口天数（回看 N 天内的新视频） |
-| `x_cron_first` | `"0 5 * * *"` | X 第一次抓取 cron（UTC 值；意图北京时间每天 13:00 = UTC 05:00） |
-| `x_cron_second` | `"0 14 * * *"` | X 第二次抓取 cron（UTC 值；意图北京时间每天 22:00 = UTC 14:00） |
+| `x_cron_hot` | `"30 0 * * *"` | X 热半区抓取 cron（UTC 值；北京时间每天 08:30 触发，覆盖前一日 20:00 至当日 08:00 发布高峰） |
+| `x_cron_cold` | `"30 12 * * *"` | X 冷半区抓取 cron（UTC 值；北京时间每天 20:30 触发，覆盖当日 08:00 至 20:00 白天发布） |
 | `x_tz` | `"Asia/Shanghai"` | X 抓取意图时区（北京时间） |
 
-X 采集窗口由管线 `resolveXWindow` 决定：缺省「北京时间今天 0 点 → now」，两次采集（13:00 / 22:00 北京）均从北京当天 0 点起，去重后合并进候选层。
+X 采集窗口按方案 A 双半区连续覆盖：
+- **热半区**：覆盖北京时间 `[前一日 20:00, 当日 08:00)`，08:30 启动；
+- **冷半区**：覆盖北京时间 `[当日 08:00, 当日 20:00)`，20:30 启动；
+两次采集窗口连续无重叠，去重后合并入单状态轴候选层。调度触发时每次只采 X，不采 YouTube。
 
 ## collection —— 配额上限 / 公开数量 / 审核量 / 网络
 
@@ -31,7 +34,8 @@ X 采集窗口由管线 `resolveXWindow` 决定：缺省「北京时间今天 0 
 | `youtube_comments_top_n` | `10` | 每条视频抓取的评论数（点赞最高的前 N 条） |
 | `youtube_fallback_enabled` | `true` | search 桶耗尽时自动降级 videos.list mostPopular（热门榜，合并桶计费） |
 | `youtube_fallback_popular_pages` | `2` | 降级热门榜最多翻页数（每页 50 条） |
-| `x_credits_per_run` | `3750` | X 每次抓取的 credits 硬上限；允许设为 `0` 完全停用 X 请求，不允许高于 3750，非法值按 0 fail closed |
+| `x_credits_per_hot_run` | `7500` | X 热半区单次运行 credits 硬上限；允许设为 `0` 完全停用，上限 7500 |
+| `x_credits_per_cold_run` | `2500` | X 冷半区单次运行 credits 硬上限；允许设为 `0` 完全停用，上限 2500 |
 | `x_credits_per_tweet` | `15` | X 单条返回推文 credits 成本；不得低于供应商安全下界 15 |
 | `x_credits_per_article` | `100` | X 长文请求单次尝试的 credits 成本；空正文、失败与重试也保留预占，不得低于 100 |
 | `x_tweets_per_request_max` | `20` | tweet 请求发出前的最大返回条数预占上界；不得低于供应商单页安全上界 20，超量响应按完整条数结算并停止后续请求 |
@@ -46,7 +50,7 @@ X 采集窗口由管线 `resolveXWindow` 决定：缺省「北京时间今天 0 
 | `retry_base_ms` | `750` | 重试退避基数（毫秒，递增） |
 | `twitter_api_base_url` | `https://api.twitterapi.io` | TwitterAPI.io 基地址 |
 
-X 预算采用请求级预占：tweet attempt 先按 `x_tweets_per_request_max × x_credits_per_tweet` 预占，成功后按全部返回条数结算（窗外、重复和无效条目仍属于平台计费返回；空响应按供应商最低 15 credits）；article attempt 每次预占 100，重试独立计入。失败或无法解析的请求不退款，以避免本地账本低估后台费用。
+X 预算采用请求级预占与四桶分配策略（热半区 7,500 = 账号 5,500 + X 发现 800 + Article/重试 750 + 尾部重查 450；冷半区 2,500 = 账号 1,300 + X 发现 300 + Article/重试 300 + 尾部重查 600）：tweet attempt 先按 `x_tweets_per_request_max × x_credits_per_tweet`（20 × 15 = 300 credits）预占，成功后按全部返回条数结算（窗外、重复和无效条目仍属于平台计费返回；空响应按供应商最低 15 credits）；article attempt 每次预占 100，重试独立计入。失败或无法解析的请求不退款，以避免本地账本低估后台费用。两次标准 cron 配置合计 10,000 credits。
 
 ## long_term_quality —— 来源长期质量分
 
@@ -71,14 +75,40 @@ X 预算采用请求级预占：tweet attempt 先按 `x_tweets_per_request_max �
 
 ## keywords —— 关键词表与提纯
 
+采用三用途关键词与独立排除词架构：
+
 | 字段 | 默认值 | 说明 |
 |---|---|---|
-| `ai_keywords` | `[20 词]` | AI 关键词表：L0 硬过滤判定 + 提纯剔除基准 + 采集搜索词 |
-| `refine_high_frequency_top_n` | `5` | 提纯高频候选取前 N 个 |
+| `content_keywords` | `[36 词]` | 高信号 AI 内容词：L0 硬过滤判定与内容候选匹配基准，剔除宽泛泛称（如 model/code/google/meta 等），聚焦实体与核心词 |
+| `youtube_queries` | `[20 词]` | YouTube 视频搜索短语列表，精选高信号搜索词 |
+| `x_discovery_queries` | `[4 对象]` | X 关键词发现受控对象数组（`{ id, query, max_pages }`）；时间条件由采集器统一追加，禁止手写时间操作符，单条 ASCII ≤ 768，首期 max_pages=1 |
+| `excluded_content_keywords` | `[5 词]` | 内容负向硬排除词列表，命中即剔除；禁止与 content_keywords 重叠 |
+| `excluded_youtube_queries` | `[]` | YouTube 搜索排除词列表；禁止与 youtube_queries 重叠 |
+| `excluded_x_discovery_queries` | `[]` | X 发现排除词列表；禁止与 x_discovery_queries 重叠 |
+| `refine_rule_top_n` | `30` | 规则提纯筛选 top N 候选 |
+| `refine_batch_size` | `8` | 提纯每批处理候选数 |
+| `refine_max_output` | `20` | 提纯最大输出建议词数 |
+| `refine_timeout_ms` | `600000` | 提纯操作超时（毫秒） |
 
 ## x_accounts —— X 博主名单
 
-`[31 个 handle]`：X 采集的博主名单（`热点信息源清单.md` X 部分全部保留）。
+`[52 个 handle]`：X 采集的全量博主名单（经最新清理，包含头部模型机构、国内厂商、工具生态与评测社区账号）。
+
+## account_groups —— 账号分组（7 组）
+
+采用 7 组结构组织 X Advanced Search，每组具备稳定 `id`、优先级 `priority` (1..7) 与 `max_pages`：
+
+| 组 ID | 名称 | 账号数 | 特点 |
+|---|---|---|---|
+| `g1` | 头部模型与研究机构 | 9 | OpenAI, AnthropicAI, GoogleDeepMind, GoogleAI, AIatMeta, SpaceXAI, MistralAI, cohere, MicrosoftAI |
+| `g2` | 中国 AI 厂商 | 7 | TencentHunyuan, Alibaba_Qwen, deepseek_ai, Zai_org, Kimi_Moonshot, StepFun_ai, Baidu_Inc |
+| `g3` | AI 产品、助手与编程工具 | 9 | ChatGPTapp, claudeai, GeminiApp, perplexity_ai, HeyGen, v0, devindesktop, cursor_ai, cognition |
+| `g4` | 图像、视频、音频生成 | 12 | midjourney, StabilityAI, bfl_ai, LumaLabsAI, runwayml, pika_labs, ideogram_ai, ElevenLabs, suno, Kling_ai, Hailuo_AI, ViduAI_official |
+| `g5` | 推理基础设施与模型平台 | 6 | GroqLLC, togethercompute, cerebras, OpenRouter, upstageai, huggingface |
+| `g6` | 评测、开源与社区 | 4 | lmsysorg, ArtificialAnlys, simonw, btibor91 |
+| `g7` | 高频隔离（极小组） | 5 | `xiaohu`, `testingcatalog`, `emollick`, `nima_owji`, `NVIDIAAI`；`high_frequency=true`，单次请求容易占满结果，单独隔离调度 |
+
+**严格一致性约束**：所有组 handles 的并集与 `x_accounts` 严格一一对应（不多不少不重复，fail-closed）。
 
 ## feedback —— 工具/概念反哺
 
@@ -100,10 +130,10 @@ X 预算采用请求级预占：tweet attempt 先按 `x_tweets_per_request_max �
 | 字段 | 默认值 | 说明 |
 |---|---|---|
 | `weights.long_term_quality` | `0.20` | 长期专业质量权重 |
-| `weights.recent_timeliness` | `0.10` | 时效权重（指数衰减） |
+| `weights.recent_timeliness` | `0.15` | 时效权重（指数衰减） |
 | `weights.light_user_experience` | `0.05` | 轻度用户体验权重（实测/上手等信号词） |
 | `weights.source_reliability` | `0.15` | 来源可靠性权重（仅 X，看认证；YouTube 并入长期质量） |
-| `weights.interaction_quality` | `0.20` | 互动质量权重（三率：综合参与率主 + 赞评比修正 + 点赞率最小加分） |
+| `weights.interaction_quality` | `0.15` | 互动质量权重（三率：综合参与率主 + 赞评比修正 + 点赞率最小加分） |
 | `weights.type_preference` | `0.30` | 类型偏好权重（实用 > 技术，最高项） |
 | `type_preference_score.*` | 见下表 | 各内容类型的类型分 |
 | `neutral_score` | `50` | 评分中性兜底值 |
@@ -117,8 +147,8 @@ X 预算采用请求级预占：tweet attempt 先按 `x_tweets_per_request_max �
 | `ai_concept` | 70 | AI 概念 |
 | `ai_industry` | 60 | AI 行业事件 |
 | `ai_technology` | 50 | AI 技术/论文（实用度低，最低） |
-| `other` | 40 | 其他 |
-| `unclassified` | 40 | 未分类 |
+| `other` | 30 | 其他 |
+| `unclassified` | 30 | 未分类 |
 
 ## manual_folder —— 人工维护文件夹
 

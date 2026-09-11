@@ -247,9 +247,19 @@
 ### collectors/ — 各平台采集（会发网络请求）
 - [collector-youtube-v2.js](src/news/collectors/collector-youtube-v2.js) — 热点管线 v2 的 YouTube 采集器（search.list 关键词发现，不依赖旧 quota/registry/scheduler）。导出: `collectYouTubeV2, buildItem, parseDuration, loadV2Config`
 - [collector-youtube-normalize.js](src/news/collectors/collector-youtube-normalize.js) — YouTube 视频元数据与时长解析规范化。
-- [collector-x-v2.js](src/news/collectors/collector-x-v2.js) — 热点管线 v2 的 X(TwitterAPI.io) 采集器（博主时间窗 last_tweets + 关键词 advanced_search + 长文 article 补读；请求级 credits 预占/结算与重试预算；零/非法预算 fail closed、供应商单价/单页下界保护、超量响应完整结算并止损；独立 credits 计数，不依赖旧 quota/registry/scheduler）。导出: `collectXV2, normalizeXV2Tweet, extractArticleText, hasArticleSignal, resolveConfig, loadV2Config`
-- [collector-x-normalize.js](src/news/collectors/collector-x-normalize.js) — X(Twitter) 原始推文与长文数据规范化。
+- [collector-x-v2.js](src/news/collectors/collector-x-v2.js) — 热点管线 v2 的 X(TwitterAPI.io) 采集器门面（分组轮询 advanced_search + 关键词发现 + 长文 article 补读；请求级 credits 四桶预算预占/结算与重试预算；零/非法预算 fail closed、超量响应完整结算并止损；返回结构化 XRunResult，零直接写盘）。导出: `collectXV2, normalizeXV2Tweet, extractArticleText, hasArticleSignal, resolveConfig, loadV2Config`
+- [collector-x-normalize.js](src/news/collectors/collector-x-normalize.js) — X(Twitter) 原始推文与长文数据规范化、五态互动类型判定与 Article 正文解析。导出: `extractHandleFromUrl, determineInteractionType, normalizeXV2Tweet, hasArticleSignal, extractArticleText`
 - [loadCollectorConfig.js](src/news/collectors/loadCollectorConfig.js) — 采集器共享配置读取与校验。
+- [x-search/index.js](src/news/collectors/x-search/index.js) — X Advanced Search 纯逻辑子域统一门面。导出: `resolveXCollectionWindow, inWindow, resolveTailRecheckWindow, checkDelayed, queryContract, createPaginationState, advancePagination, createBudgetLedger, createAdvancedSearchClient, executeAccountGroups, executeTailRecheck, executeDiscoveryQueries, checkpointStore, checkpointContract`
+- [x-search/window.js](src/news/collectors/x-search/window.js) — X 采集时间窗解析（hot/cold/manual）、严格半开区间判定 [since, until)、尾部重查窗口与延迟启动检查。导出: `resolveXCollectionWindow, inWindow, resolveTailRecheckWindow, checkDelayed`
+- [x-search/query-contract.js](src/news/collectors/x-search/query-contract.js) — 账号组与关键词 Advanced Search 查询构造、字符长度与分支门禁、query_hash 与组配置校验。导出: `normalizeHandle, buildAccountGroupQuery, buildDiscoveryQuery, generateQueryHash, validateAccountGroups`
+- [x-search/pagination.js](src/news/collectors/x-search/pagination.js) — cursor 分页纯状态机与单调推进校验。导出: `createPaginationState, advancePagination`
+- [x-search/budget.js](src/news/collectors/x-search/budget.js) — 四桶预算账本（account/discovery/article_retry/tail_recheck）、请求预占、成功结算与未知计费保留。导出: `DEFAULT_BUDGET_CAPS, BudgetLedger, createBudgetLedger`
+- [x-search/advanced-search-client.js](src/news/collectors/x-search/advanced-search-client.js) — TwitterAPI.io Advanced Search 与 Article Transport 封装、响应 DTO 归一化与有限重试。导出: `AdvancedSearchClient, createAdvancedSearchClient`
+- [x-search/account-executor.js](src/news/collectors/x-search/account-executor.js) — 账号组首轮公平调度与尾部重查执行器。导出: `executeAccountGroups, executeTailRecheck`
+- [x-search/discovery-executor.js](src/news/collectors/x-search/discovery-executor.js) — X Discovery 关键词查询执行器与页数政策。导出: `executeDiscoveryQueries`
+- [x-search/checkpoint-contract.js](src/news/collectors/x-search/checkpoint-contract.js) — Checkpoint Schema 唯一主键与 14 天尾部重查观察指标计算。导出: `checkpointKeyOf, buildCheckpointRecord, pruneTailRecheckObservations, computeTailRecheckMetrics`
+- [x-search/x-checkpoint-store.js](src/news/collectors/x-search/x-checkpoint-store.js) — X 采集断点与尾部重查观察指标持久层（T3 Store）。导出: `createDefaultCheckpointStore, readXCheckpointStore, writeXCheckpointStore, applyCheckpointPatches`
 
 ### classify/ — AI 内容分类/总结/审核建议/本地化
 - [content-classifier.js](src/news/classify/content-classifier.js) — L0 规则 + L1 AI 分类编排（L0 不按娱乐/二创关键词硬排除；普通关键词仅用于分类，AIGC 披露硬排除由 review-v2 负责）。导出: `classifyRuleBased, classifyCandidate, classifyCandidates, confirmContentType`
@@ -274,6 +284,10 @@
 
 ### transcripts/ — 收尾环节：字幕人工获取通知（独立于主链，只写清单文件）
 - [transcript-notify.js](src/news/transcripts/transcript-notify.js) — 每日"待人工获取字幕"清单（min 候选层挑评分最高 notify_count 个 YouTube，写 transcript-requests.json 交人工，文件名固定去掉日期后缀、dateKey 北京时间；不碰主链/不调采集总结）。导出: `notifyTranscripts, parseNotifyCount, scoreOf`
+
+### delivery/ — Data PR CAS 交付
+- [delivery/index.js](src/news/delivery/index.js) — Data PR 交付统一门面。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, findOpenDataPr, verifyHeadNotDrifted, deliverNewsDataPr`
+- [delivery/news-data-pr-delivery.js](src/news/delivery/news-data-pr-delivery.js) — 新闻 Data PR 独立 CAS 交付模块（6 个运行时文件严格白名单、单一开放 PR 查找与分支锁定、head 漂移二次核验与普通 push）。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, findOpenDataPr, verifyHeadNotDrifted, deliverNewsDataPr`
 
 ### feedback/ — 收尾环节：工具库/概念库反哺（独立于主链，只写待补卡文件）
 - [tool-feedback.js](src/news/feedback/tool-feedback.js) — 从 approved summary 提取带类型实体并写入待补卡。
@@ -358,6 +372,16 @@
 - [llm-gateway.test.js](tests/shared/llm-gateway.test.js) — 统一 AI 调用网关多协议路由（MESSAGES / RESPONSES / CHAT / local）、文本与结构化 JSON 提取及错误透传回归；含经真实 catalog 合成 Adapter 协作验证 `requestStructuredJson` 成本账本 fail-closed 的集成用例。
 - [ai-config.test.js](tests/catalog/ai-config.test.js) — 业务模块配置合并、Tavily retrieval 配置和 protocol 校验回归。
 - [collector-x-v2.test.js](tests/news/collector-x-v2.test.js) — X 请求级 credits 硬预算回归：窗外/空长文/重试/零预算/低配置/超量响应/直接门禁。
+- [collector-x-normalize.test.js](tests/news/collector-x-normalize.test.js) — X 推文归一化与五态互动类型（reply/repost/quote/original/unknown）、Article 正文 contents 优先与 blocks 数组离线回归。
+- [x-search-window.test.js](tests/news/x-search-window.test.js) — X 采集时间窗（hot/cold/manual）、半开区间 [since, until) 边界排除、尾部重查与 delayed 判定回归。
+- [x-search-query.test.js](tests/news/x-search-query.test.js) — 账号组与关键词查询构造、768 字符拦截、16 handles/OR 门禁与稳定 query_hash 回归。
+- [x-search-pagination.test.js](tests/news/x-search-pagination.test.js) — cursor 分页状态机状态流转、缺失/重复 cursor 阻断与 max_pages 限制回归。
+- [x-search-budget.test.js](tests/news/x-search-budget.test.js) — 四桶预算账本 hot/cold 默认上限、300 预占、15 最低结算、超量 20 条 overage 与未知计费保留回归。
+- [x-search-executors.test.js](tests/news/x-search-executors.test.js) — 账号组首轮轮次公平调度、G7 隔离、单组网络错误隔离与尾部重查预算耗尽 partial 回归。
+- [x-search-checkpoint.test.js](tests/news/x-search-checkpoint.test.js) — Checkpoint Schema 唯一主键、30 天滚动修剪与 14 天尾部观察指标汇总回归。
+- [x-checkpoint-store.test.js](tests/news/x-checkpoint-store.test.js) — Checkpoint Store 读写、成功清理、损坏阻断 fail-closed 与 30 天滚动修剪回归。
+- [x-search-client.test.js](tests/news/x-search-client.test.js) — AdvancedSearchClient 请求构造、分页 DTO 归一化、tweet_id 参数与有限重试回归。
+- [news-data-pr-delivery.test.js](tests/news/news-data-pr-delivery.test.js) — Data PR CAS 交付回归：6 个运行时文件白名单、开放 PR 查找与锁定、head 漂移阻断与正常推送。
 - [news-pipeline-min.test.js](tests/news/news-pipeline-min.test.js) — v2 全链编排、总开关、采集状态汇总、credits→last-run 透传回归。
 - [validate-news-config.test.js](tests/maintenance/validate-news-config.test.js) — news-config-v2 安全字段与 last-run X credits/request schema 校验。
 - [model-exclusions.test.js](tests/comparison/model-exclusions.test.js) — 排除规则 schema、token-boundary prefix、exact identity、命中诊断和 fail-closed 回归。

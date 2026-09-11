@@ -1,34 +1,14 @@
 /**
  * pipeline-min.js —— 热点管线 v2 总指挥（runMin 编排）
  *
- * 把 v2 各模块串成完整流水线的唯一入口：
- *   collect（pipeline-collect → collector-youtube-v2 / collector-x-v2）
- *   → 去重（projection.dedupeItems）→ L0 硬过滤（review-v2.l0HardFilter）
- *   → 分类（content-classifier）→ 评分（scoring-v2 + history-store）
- *   → L1/L2 审核（review-v2.applyL1Verdicts）→ 候选落地（min-store）
- *   → 总结（content-summarizer）+ 本地化（content-localizer）
- *   → 每日公开投影（daily-projection + projection.enrichHotspotProjection
- *     + news-public-gate.filterProjectionByWindow）→ 写 data/news/output/hotspots.json
+ * 完整流水线编排：collect → dedupe → L0 → classify → historyStore.append & write
+ *   → score → review → mergeCandidates → summarize & localize → minStore.write
+ *   → checkpointStore.write → review.json → hotspots.write → lastRun.write
  *
- * 本模块只编排，不重写任何子模块。**每步失败不抛错**：降级继续并把原因记进
- * coverage（子模块自身的失败语义已保证：LLM 失败 → 降级对象/verdict null，绝不 reject）。
- *
- * 注入点（测试 mock 用，缺省回落真实实现；采集/调度注入点见 pipeline-collect 与
- * pipeline-schedule）：
- *   options.classify / options.review / options.summarize / options.localize / options.score
- *   options.config / options.now / options.xWindow / options.runId
- *   options.minStoreIn / options.minStoreOut / options.historyIn / options.historyOut
- *   options.lastRunOut(record, runId) / options.scheduleStateIn / options.scheduleStateOut
- *   options.catalogApi  目录查询注入 { listToolCards, listVendorCards, readGlossary, readScenes }
- *                       （组合根构造）；未注入时公开投影按空词典处理（不关联 related_resources）
- *   options.autoReviewList=false 关闭自动生成人工审核清单；options.autoRepair=true 开启双通道自愈兜底
- *
- * 数据文件：
- *   - 候选层  data/news/runtime/min-candidates.json（writeMinStore）
- *   - 历史库  data/news/runtime/source-history.json（writeHistoryStore）
- *   - 采集记录 data/news/runtime/last-run.json（每次采集结束写；ai-top 据此判定
- *     "最后一次采集是否有 YouTube"来决定 top N，见 cmd-min.js hasYouTubeInLastRun）
- *   - 主输出  data/news/output/hotspots.json（writeJsonAtomic）
+ * 注入点（测试 mock 用，缺省回落真实实现）：
+ *   options.classify / review / summarize / localize / score / config / now / xWindow / runId
+ *   options.minStoreIn / minStoreOut / historyIn / historyOut / lastRunOut / scheduleStateIn/Out
+ *   options.checkpointStoreIn / checkpointStoreOut / catalogApi
  */
 
 'use strict';
@@ -37,6 +17,9 @@ const { readHistoryStore, writeHistoryStore, appendSamples, sourceKeyOf } = requ
 const { assessItemV2 } = require('../pipeline/scoring-v2');
 const { l0HardFilter, applyL1Verdicts } = require('./review-v2');
 const { readMinStore, writeMinStore, mergeCandidatesMin } = require('./min-store');
+const {
+  checkpointStore: { readXCheckpointStore, writeXCheckpointStore, applyCheckpointPatches },
+} = require('../collectors/x-search');
 const { buildDailyProjection } = require('./daily-projection');
 const { classifyCandidate } = require('../classify/content-classifier');
 const { summarizeCandidates } = require('../classify/content-summarizer');
@@ -178,18 +161,14 @@ async function runMin(options = {}) {
   // ═══ 5. 评分：先持久化本轮 metrics 到历史库，再对每条 assessItemV2。
   //        sourceKey 用 history-store.sourceKeyOf，保证 appendSamples 写入与
   //        evaluateLongTermQuality 查询用同一把 key。 ═══
-  let historyStore = { sources: {} };
+  let historyStore;
   try {
     historyStore = options.historyIn ? options.historyIn() : readHistoryStore();
+    appendSamples(historyStore, l0Passed);
   } catch (error) {
     noteError('history_read', error);
-  }
-  try {
-    appendSamples(historyStore, l0Passed);
-    if (options.historyOut) options.historyOut(historyStore, runId);
-    else writeHistoryStore(historyStore, runId);
-  } catch (error) {
-    noteError('history_write', error);
+    coverage.status = 'failed';
+    return { coverage, minCandidates: 0, publicItems: 0 };
   }
   const scoreFn = options.score || assessItemV2;
   for (const item of l0Passed) {
@@ -237,7 +216,8 @@ async function runMin(options = {}) {
     minStore = options.minStoreIn ? options.minStoreIn() : readMinStore();
   } catch (error) {
     noteError('min_read', error);
-    minStore = { schema_version: 1, updated_at: null, candidates: [] };
+    coverage.status = 'failed';
+    return { coverage, minCandidates: 0, publicItems: 0 };
   }
   let merged;
   try {
@@ -266,12 +246,37 @@ async function runMin(options = {}) {
     noteError('localize', error);
   }
   try {
+    if (options.historyOut) options.historyOut(historyStore, runId);
+    else writeHistoryStore(historyStore, runId);
+  } catch (error) {
+    noteError('history_write', error);
+    coverage.status = 'failed';
+    return { coverage, minCandidates: 0, publicItems: 0 };
+  }
+  try {
     if (options.minStoreOut) options.minStoreOut(merged, runId);
     else writeMinStore(merged, runId);
   } catch (error) {
     noteError('min_write', error);
+    coverage.status = 'failed';
+    return { coverage, minCandidates: 0, publicItems: 0 };
   }
   coverage.min_candidates = merged.candidates.length;
+
+  // ═══ 9.2 Checkpoint 写入接入（§10 写入时序保证：minStore.write 后原子写） ═══
+  const xPatches = coverage.collectors?.x?.checkpoint_patches;
+  if (xPatches && (Array.isArray(xPatches) ? xPatches.length > 0 : Object.keys(xPatches).length > 0)) {
+    try {
+      let cpStore = options.checkpointStoreIn ? options.checkpointStoreIn() : readXCheckpointStore();
+      cpStore = applyCheckpointPatches(cpStore, xPatches, runId, now);
+      if (options.checkpointStoreOut) options.checkpointStoreOut(cpStore, runId);
+      else writeXCheckpointStore(cpStore, runId);
+    } catch (error) {
+      noteError('checkpoint_write', error);
+      coverage.status = 'failed';
+      return { coverage, minCandidates: coverage.min_candidates, publicItems: 0 };
+    }
+  }
 
   // ═══ 9.1 双通道自愈兜底：可选开启（options.autoRepair=true）。 ═══
   if (options.autoRepair === true) {
@@ -319,6 +324,7 @@ async function runMin(options = {}) {
     const projection = buildDailyProjection(merged, config, { now });
     const { toolUrlIndex, relatedLexicon } = buildProjectionInputs(options.catalogApi);
     enrichHotspotProjection(projection.items, toolUrlIndex, relatedLexicon);
+    for (const item of projection.items) delete item.collection_context;
     const output = {
       schema_version: 1,
       generated_at: projection.generated_at,
@@ -326,6 +332,7 @@ async function runMin(options = {}) {
       coverage,
     };
     const filtered = filterProjectionByWindow(output, { config, now: nowMs });
+    for (const item of filtered.items) delete item.collection_context;
     if (filtered.items.length > 0) {
       writeJsonAtomic(NEWS_FILES.hotspots, filtered, runId);
       publicItems = filtered.items.length;

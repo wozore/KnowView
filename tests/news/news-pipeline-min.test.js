@@ -628,3 +628,92 @@ test('formatRunSummary：非法或空输入安全兜底', () => {
   assert.ok(formatRunSummary({}).includes('## 热点采集摘要 (Collection Summary)'));
 });
 
+test('pipeline-min fail-closed：候选层读取失败时严禁回退空 store，必须停止并标记 failed', async () => {
+  let minStoreWritten = false;
+  const result = await runMin({
+    config: CONFIG,
+    now: NOW,
+    collectors,
+    review,
+    summarize,
+    localize,
+    minStoreIn: () => {
+      const err = new Error('Corrupted min-candidates.json file');
+      err.code = 'CORRUPTED_FILE';
+      throw err;
+    },
+    minStoreOut: () => {
+      minStoreWritten = true;
+    },
+    runId: 'test-min-fail-closed',
+    autoReviewList: false,
+  });
+
+  assert.equal(result.coverage.status, 'failed', '候选层读失败必须标记总状态为 failed');
+  assert.ok(result.coverage.min_read_error.includes('Corrupted min-candidates.json'), '记录 min_read_error 错误原因');
+  assert.equal(result.minCandidates, 0);
+  assert.equal(result.publicItems, 0);
+  assert.equal(minStoreWritten, false, '读取失败严禁写回空候选层覆盖磁盘文件！');
+});
+
+test('pipeline-min 接入 checkpoint store 并保证严格写入时序', async () => {
+  const writeOrder = [];
+  let writtenCpStore = null;
+
+  const mockXResult = {
+    items: [xItem1],
+    status: 'complete',
+    credits: { used: 300, total_budget: 7500 },
+    account_groups: [{ group_id: 'g1', status: 'complete', credits_used: 300 }],
+    discovery_queries: [],
+    checkpoint_patches: [
+      {
+        window_id: 'win_test',
+        half: 'hot',
+        query_kind: 'account_group',
+        query_id: 'g1',
+        group_id: 'g1',
+        query_hash: 'hash_g1',
+        status: 'complete',
+      },
+    ],
+    diagnostics: {},
+  };
+
+  await runMin({
+    config: CONFIG,
+    now: NOW,
+    platforms: ['x'],
+    collectors: {
+      x: async () => mockXResult,
+      youtube: async () => ({ items: [] }),
+    },
+    review,
+    summarize,
+    localize,
+    historyIn: () => ({ sources: {} }),
+    historyOut: () => { writeOrder.push('historyStore'); },
+    minStoreIn: () => ({ schema_version: 1, updated_at: null, candidates: [] }),
+    minStoreOut: () => { writeOrder.push('minStore'); },
+    checkpointStoreIn: () => ({
+      schema_version: 1,
+      updated_at: null,
+      checkpoints: {
+        'win_test::account_group::g1::hash_g1': { status: 'partial' },
+      },
+      tail_recheck_observations: [],
+    }),
+    checkpointStoreOut: store => {
+      writeOrder.push('checkpointStore');
+      writtenCpStore = store;
+    },
+    lastRunOut: () => { writeOrder.push('lastRun'); },
+    runId: 'test-pipeline-checkpoint',
+    autoReviewList: false,
+  });
+
+  assert.ok(writtenCpStore, 'checkpoint store 必须被落盘写入');
+  assert.equal(writtenCpStore.checkpoints['win_test::account_group::g1::hash_g1'], undefined);
+  assert.deepEqual(writeOrder, ['historyStore', 'minStore', 'checkpointStore', 'lastRun']);
+});
+

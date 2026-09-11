@@ -107,6 +107,10 @@ const NEWS_FILES = Object.freeze({
   lastRun: path.join(NEWS_RUNTIME_DIR, 'last-run.json'),              // 热点管线 v2：最后一次采集运行记录（ai-top 判定 hasYouTube 用），不发布到 dist/
   scheduleState: path.join(NEWS_RUNTIME_DIR, 'schedule-state.json'),  // 热点管线 v2：YouTube 调度到期闸状态（上次调度采集时间），仅 CI 调度运行写入，不发布到 dist/
   hotspots: path.join(NEWS_OUTPUT_DIR, 'hotspots.json'),              // 公开热点投影，发布到 dist/
+  xCheckpoints: path.join(NEWS_RUNTIME_DIR, 'x-checkpoints.json'),    // X 采集断点与尾部观察指标，不发布到 dist/
+  keywordRefine: path.join(DIRS.manual, 'keyword-refine.json'),
+  youtubeQueriesRefine: path.join(DIRS.manual, 'youtube-queries-refine.json'),
+  xQueriesRefine: path.join(DIRS.manual, 'x-queries-refine.json'),
 });
 
 // 模型对比数据层（data/comparison）：抓取编排配置 + 前端 integrated + raw 快照。

@@ -1,255 +1,361 @@
 /**
- * collector-x-v2.test.js — X 采集请求级 credits 硬预算回归测试
+ * collector-x-v2.test.js —— X Advanced Search 统一采集门面集成测试
  *
  * 全部通过 fetchImpl 注入模拟 TwitterAPI.io，不发真实网络请求。
  * 运行：node --test tests/news/collector-x-v2.test.js
  */
+
 'use strict';
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('fs');
 const { collectXV2 } = require('../../src/news/collectors/collector-x-v2');
+const { NEWS_FILES } = require('../../src/shared/paths');
 
-const NOW = '2026-08-12T02:00:00.000Z';
-const SINCE = '2026-08-12T00:00:00.000Z';
-const UNTIL = '2026-08-12T03:00:00.000Z';
-
-function configFor({ accounts = [], maxRetries = 0, collection: collectionOverrides = {} } = {}) {
-  return {
-    collection: {
-      twitter_api_base_url: 'https://api.twitterapi.io',
-      x_credits_per_run: 3750,
-      x_credits_per_tweet: 15,
-      x_credits_per_article: 100,
-      x_tweets_per_request_max: 20,
-      request_timeout_ms: 1000,
-      max_retries: maxRetries,
-      retry_base_ms: 0,
-      ...collectionOverrides,
-    },
-    keywords: { ai_keywords: [] },
-    x_accounts: accounts,
-  };
-}
+const NOW = '2026-09-10T02:00:00.000Z'; // 北京时间 2026-09-10 10:00
 
 function response(payload, { ok = true, status = 200 } = {}) {
   return {
     ok,
     status,
     headers: { get: () => null },
-    text: async () => typeof payload === 'string' ? payload : JSON.stringify(payload),
+    text: async () => (typeof payload === 'string' ? payload : JSON.stringify(payload)),
   };
 }
 
-function tweetsFor(account, count, { createdAt = '2026-08-12T01:00:00.000Z', article = false } = {}) {
-  return Array.from({ length: count }, (_, index) => ({
-    id: `${account}-${index}`,
-    text: article
-      ? `AI article ${account}-${index} https://x.com/i/articles/${account}-${index}`
-      : `AI update ${account}-${index}`,
-    createdAt,
-    author: { username: account, name: account },
-  }));
-}
+test('collectXV2: 请求 /twitter/tweet/advanced_search 端点并核对标准参数与请求头', async () => {
+  const requestedUrls = [];
+  const requestedHeaders = [];
 
-test('窗外推文仍按全部返回条数计费，并在下一次请求前受 3750 硬预算阻断', async () => {
-  const accounts = Array.from({ length: 30 }, (_, index) => `account-${index + 1}`);
-  let fetchCount = 0;
+  const fetchImpl = async (url, init) => {
+    requestedUrls.push(new URL(url));
+    requestedHeaders.push(init?.headers || {});
+    return response({
+      tweets: [
+        {
+          id: '1001',
+          text: 'Announcing our new flagship LLM model https://x.com/OpenAI/status/1001',
+          createdAt: '2026-09-09T22:00:00.000Z',
+          author: { username: 'OpenAI', name: 'OpenAI' },
+        },
+      ],
+      has_next_page: false,
+      next_cursor: null,
+    });
+  };
+
+  const accountGroups = [
+    { id: 'g1', label: '头部模型', handles: ['OpenAI', 'AnthropicAI'], priority: 1, max_pages: 1 },
+  ];
+
+  const result = await collectXV2({
+    slot: 'hot',
+    businessDate: '2026-09-10',
+    account_groups: accountGroups,
+    xApiKey: 'test-api-key-123',
+    fetchImpl,
+    now: NOW,
+    run_id: 'test-run-1',
+  });
+
+  assert.equal(requestedUrls.length, 1);
+  const reqUrl = requestedUrls[0];
+  assert.equal(reqUrl.pathname, '/twitter/tweet/advanced_search');
+  assert.equal(reqUrl.searchParams.get('queryType'), 'Latest');
+
+  const query = reqUrl.searchParams.get('query');
+  assert.ok(query.includes('from:OpenAI OR from:AnthropicAI'), '包含账号组 Handle OR 连接');
+  assert.ok(query.includes('since_time:'), '包含 since_time 约束');
+  assert.ok(query.includes('until_time:'), '包含 until_time 约束');
+  assert.equal(requestedHeaders[0]['X-API-Key'], 'test-api-key-123');
+
+  assert.equal(result.status, 'complete');
+  assert.equal(result.items.length, 1);
+  const item = result.items[0];
+  assert.equal(item.native_id, '1001');
+  assert.equal(item.platform, 'x');
+  assert.equal(item.interaction_type, 'original');
+  assert.deepEqual(item.collection_context, {
+    window_id: result.window.window_id,
+    half: 'hot',
+    query_kind: 'account_group',
+    query_id: 'g1',
+    first_seen_run_id: 'test-run-1',
+    last_seen_run_id: 'test-run-1',
+  });
+});
+
+test('collectXV2: 请求 /twitter/article 严格使用 tweet_id 参数补读正文', async () => {
+  const requestedUrls = [];
+
   const fetchImpl = async url => {
     const parsed = new URL(url);
-    assert.equal(parsed.pathname, '/twitter/user/last_tweets');
-    fetchCount += 1;
+    requestedUrls.push(parsed);
+    if (parsed.pathname === '/twitter/tweet/advanced_search') {
+      return response({
+        tweets: [
+          {
+            id: 'article_post_999',
+            text: 'Deep dive into architecture https://x.com/i/articles/article_post_999',
+            createdAt: '2026-09-09T23:00:00.000Z',
+            author: { username: 'OpenAI', name: 'OpenAI' },
+            article_id: 'article_999',
+          },
+        ],
+        has_next_page: false,
+        next_cursor: null,
+      });
+    }
+    if (parsed.pathname === '/twitter/article') {
+      return response({
+        data: {
+          article: {
+            title: 'Model Architecture Deep Dive',
+            contents: 'This is the comprehensive deep dive article content that should be appended.',
+          },
+        },
+      });
+    }
+    throw new Error(`Unexpected endpoint: ${parsed.pathname}`);
+  };
+
+  const accountGroups = [
+    { id: 'g1', handles: ['OpenAI'], priority: 1, max_pages: 1 },
+  ];
+
+  const result = await collectXV2({
+    slot: 'hot',
+    businessDate: '2026-09-10',
+    account_groups: accountGroups,
+    xApiKey: 'test-key',
+    fetchImpl,
+    now: NOW,
+    run_id: 'test-article-run',
+  });
+
+  assert.equal(requestedUrls.length, 2);
+  const articleReq = requestedUrls.find(u => u.pathname === '/twitter/article');
+  assert.ok(articleReq, '调用了 /twitter/article 端点');
+  assert.equal(articleReq.searchParams.get('tweet_id'), 'article_post_999', '严格使用 tweet_id 作为参数名');
+  assert.equal(articleReq.searchParams.get('tweetId'), null, '严禁使用已被弃用的 tweetId');
+
+  assert.equal(result.items.length, 1);
+  const item = result.items[0];
+  assert.ok(item.description.includes('Model Architecture Deep Dive'));
+  assert.ok(item.description.includes('comprehensive deep dive article content'));
+
+  // 验证 Article 请求消耗的是 article_retry 独立预算桶（100 credits）
+  assert.equal(result.credits.buckets.article_retry.settled, 100);
+});
+
+test('collectXV2: 互动类型过滤：保留 original 与 quote，排除 reply、repost 与 unknown 并记入 diagnostics', async () => {
+  const fetchImpl = async () => {
     return response({
-      tweets: tweetsFor(parsed.searchParams.get('userName'), 20, {
-        createdAt: '2026-08-10T01:00:00.000Z',
-      }),
+      tweets: [
+        // 1. original（保留）
+        { id: 't_orig', text: 'Original AI release', createdAt: '2026-09-09T22:00:00.000Z' },
+        // 2. quote（保留）
+        { id: 't_quote', text: 'Quoting update', quoted_tweet: { id: 'orig' }, createdAt: '2026-09-09T22:01:00.000Z' },
+        // 3. reply（排除）
+        { id: 't_reply', text: 'Replying to user', isReply: true, createdAt: '2026-09-09T22:02:00.000Z' },
+        // 4. repost（排除）
+        { id: 't_repost', text: 'RT someone', retweeted_tweet: { id: 'orig2' }, createdAt: '2026-09-09T22:03:00.000Z' },
+        // 5. unknown（排除：缺正文与时间）
+        { id: 't_unknown' },
+      ],
+      has_next_page: false,
+      next_cursor: null,
     });
   };
 
   const result = await collectXV2({
-    config: configFor({ accounts }),
+    slot: 'hot',
+    businessDate: '2026-09-10',
+    account_groups: [{ id: 'g1', handles: ['OpenAI'], priority: 1, max_pages: 1 }],
     xApiKey: 'test-key',
     fetchImpl,
     now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
   });
 
-  assert.equal(fetchCount, 12, '每次最多预占 300 credits，只允许发出 12 次请求');
-  assert.equal(result.items.length, 0, '窗外推文不进入候选');
-  assert.equal(result.credits.used, 3600);
-  assert.equal(result.credits.budget, 3750);
-  assert.equal(result.credits.tweets, 240, '平台返回的窗外推文仍属于计费条目');
-  assert.deepEqual(result.credits.requests, { total: 12, tweet: 12, article: 0, retries: 0 });
+  assert.equal(result.items.length, 2, '仅 original 和 quote 进入候选');
+  const ids = result.items.map(i => i.native_id);
+  assert.ok(ids.includes('t_orig'));
+  assert.ok(ids.includes('t_quote'));
+  assert.equal(ids.includes('t_reply'), false);
+  assert.equal(ids.includes('t_repost'), false);
+
+  assert.equal(result.diagnostics.excluded_interaction_counts.reply, 1);
+  assert.equal(result.diagnostics.excluded_interaction_counts.repost, 1);
 });
 
-test('空 article 响应也保留请求预占，不允许长文补读突破总预算', async () => {
-  const accounts = Array.from({ length: 8 }, (_, index) => `article-account-${index + 1}`);
-  let tweetRequests = 0;
-  let articleRequests = 0;
+test('collectXV2: hot (7500) 与 cold (2500) 预算约束及 credits DTO 自洽', async () => {
+  const fetchImpl = async () => response({ tweets: [], has_next_page: false, next_cursor: null });
+
+  // 1. Hot 预算验证
+  const hotResult = await collectXV2({
+    slot: 'hot',
+    businessDate: '2026-09-10',
+    account_groups: [{ id: 'g1', handles: ['OpenAI'], priority: 1, max_pages: 1 }],
+    xApiKey: 'test-key',
+    fetchImpl,
+    now: NOW,
+  });
+  assert.equal(hotResult.credits.budget, 7500);
+  assert.equal(hotResult.credits.buckets.account.cap, 5500);
+  assert.equal(hotResult.credits.buckets.discovery.cap, 800);
+  assert.equal(hotResult.credits.buckets.article_retry.cap, 750);
+  assert.equal(hotResult.credits.buckets.tail_recheck.cap, 450);
+  assert.equal(hotResult.credits.used, hotResult.credits.settled + hotResult.credits.reserved + hotResult.credits.unknown_reserved);
+
+  // 2. Cold 预算验证
+  const coldResult = await collectXV2({
+    slot: 'cold',
+    businessDate: '2026-09-10',
+    account_groups: [{ id: 'g1', handles: ['OpenAI'], priority: 1, max_pages: 1 }],
+    xApiKey: 'test-key',
+    fetchImpl,
+    now: NOW,
+  });
+  assert.equal(coldResult.credits.budget, 2500);
+  assert.equal(coldResult.credits.buckets.account.cap, 1300);
+  assert.equal(coldResult.credits.buckets.discovery.cap, 300);
+  assert.equal(coldResult.credits.buckets.article_retry.cap, 300);
+  assert.equal(coldResult.credits.buckets.tail_recheck.cap, 600);
+  assert.equal(coldResult.credits.used, coldResult.credits.settled + coldResult.credits.reserved + coldResult.credits.unknown_reserved);
+});
+
+test('collectXV2: 轮次公平调度与超量 20 条响应止损', async () => {
+  const executionLog = [];
+
   const fetchImpl = async url => {
-    const parsed = new URL(url);
-    if (parsed.pathname === '/twitter/user/last_tweets') {
-      tweetRequests += 1;
-      const account = parsed.searchParams.get('userName');
-      return response({ tweets: tweetsFor(account, 20, { article: true }) });
+    const query = new URL(url).searchParams.get('query');
+    const groupName = query.includes('OpenAI') ? 'g1' : 'g2';
+    const cursor = new URL(url).searchParams.get('cursor');
+    const round = cursor ? 2 : 1;
+    executionLog.push(`${groupName}:round_${round}`);
+
+    if (groupName === 'g1' && round === 1) {
+      // g1 第一页返回超量 25 条推文
+      const overflowTweets = Array.from({ length: 25 }, (_, i) => ({
+        id: `g1_overflow_${i}`,
+        text: `AI overflow tweet ${i}`,
+        createdAt: '2026-09-09T21:00:00.000Z',
+      }));
+      return response({ tweets: overflowTweets, has_next_page: true, next_cursor: 'cursor_g1_p2' });
     }
-    if (parsed.pathname === '/twitter/article') {
-      articleRequests += 1;
-      return response({ article: null });
-    }
-    throw new Error(`unexpected endpoint: ${parsed.pathname}`);
+
+    return response({
+      tweets: [{ id: `${groupName}_t1`, text: 'normal tweet', createdAt: '2026-09-09T21:00:00.000Z' }],
+      has_next_page: false,
+      next_cursor: null,
+    });
   };
 
+  const accountGroups = [
+    { id: 'g1', handles: ['OpenAI'], priority: 1, max_pages: 2 },
+    { id: 'g2', handles: ['AnthropicAI'], priority: 2, max_pages: 2 },
+  ];
+
   const result = await collectXV2({
-    config: configFor({ accounts }),
+    slot: 'hot',
+    businessDate: '2026-09-10',
+    account_groups: accountGroups,
     xApiKey: 'test-key',
     fetchImpl,
     now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
   });
 
-  assert.equal(tweetRequests, 8);
-  assert.equal(articleRequests, 13, '2400 tweet credits 后只剩 13 次 article 预占空间');
-  assert.equal(result.credits.used, 3700);
-  assert.equal(result.credits.articles, 0, '空正文不算成功文章，但请求费用不能退回');
-  assert.deepEqual(result.credits.requests, { total: 21, tweet: 8, article: 13, retries: 0 });
+  // g1 第一页超量后被止损，未进入 round 2；g2 照常执行
+  assert.deepEqual(executionLog, ['g1:round_1', 'g2:round_1']);
+  assert.equal(result.credits.overage, 5, '超量 5 条记录入 overage');
+  const g1Outcome = result.account_groups.find(o => o.group_id === 'g1');
+  assert.equal(g1Outcome.status, 'partial');
+  assert.equal(g1Outcome.reason, 'NEWS_OVERAGE_STOP');
 });
 
-test('显式零预算时不发起任何请求', async () => {
-  let fetchCount = 0;
-  const result = await collectXV2({
-    config: configFor({
-      accounts: ['zero-budget'],
-      collection: { x_credits_per_run: 0 },
-    }),
-    xApiKey: 'test-key',
-    fetchImpl: async () => {
-      fetchCount += 1;
-      return response({ tweets: tweetsFor('zero-budget', 1) });
-    },
-    now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
-  });
-
-  assert.equal(fetchCount, 0);
-  assert.equal(result.credits.budget, 0);
-  assert.equal(result.credits.used, 0);
-  assert.equal(result.coverage.reason, 'credits_exhausted');
-});
-
-test('高于硬上限的预算配置会被限制为 3750', async () => {
-  const result = await collectXV2({
-    config: configFor({
-      accounts: [],
-      collection: { x_credits_per_run: 10000 },
-    }),
-    xApiKey: 'test-key',
-    fetchImpl: async () => { throw new Error('不应请求'); },
-    now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
-  });
-
-  assert.equal(result.credits.budget, 3750);
-  assert.equal(result.credits.used, 0);
-});
-
-test('过小的每请求条数配置不能削弱供应商安全预占', async () => {
-  const result = await collectXV2({
-    config: configFor({
-      accounts: ['undersized-limit'],
-      collection: { x_tweets_per_request_max: 1 },
-    }),
-    xApiKey: 'test-key',
-    fetchImpl: async () => response({ tweets: tweetsFor('undersized-limit', 20) }),
-    now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
-  });
-
-  assert.equal(result.credits.used, 300);
-  assert.equal(result.credits.tweets, 20);
-  assert.equal(result.credits.requests.total, 1);
-});
-
-test('超量 tweet 响应按完整条数结算并停止后续请求', async () => {
-  let fetchCount = 0;
-  const result = await collectXV2({
-    config: configFor({ accounts: ['overflow-1', 'overflow-2'] }),
-    xApiKey: 'test-key',
-    fetchImpl: async url => {
-      fetchCount += 1;
-      const account = new URL(url).searchParams.get('userName');
-      return response({ tweets: tweetsFor(account, 21, { article: true }) });
-    },
-    now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
-  });
-
-  assert.equal(fetchCount, 1);
-  assert.equal(result.credits.used, 315);
-  assert.equal(result.credits.tweets, 21);
-  assert.equal(result.coverage.status, 'partial');
-  assert.equal(result.coverage.reason, 'tweet_response_exceeded_max');
-});
-
-test('collection.enabled=false 时直接调用采集器也保持零网络', async () => {
-  let fetchCount = 0;
-  const result = await collectXV2({
-    config: configFor({
-      accounts: ['disabled'],
-      collection: { enabled: false },
-    }),
-    xApiKey: 'test-key',
-    fetchImpl: async () => {
-      fetchCount += 1;
-      return response({ tweets: tweetsFor('disabled', 1) });
-    },
-    now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
-  });
-
-  assert.equal(fetchCount, 0);
-  assert.equal(result.credits.used, 0);
-  assert.equal(result.coverage.status, 'failed');
-  assert.equal(result.coverage.reason, 'collection_disabled');
-});
-
-test('tweet 与 article 的每次重试都独立预占并记录', async () => {
-  let tweetAttempts = 0;
-  let articleAttempts = 0;
-  const fetchImpl = async url => {
-    const parsed = new URL(url);
-    if (parsed.pathname === '/twitter/user/last_tweets') {
-      tweetAttempts += 1;
-      if (tweetAttempts === 1) return response('temporary tweet failure', { ok: false, status: 500 });
-      return response({ tweets: tweetsFor('retry-account', 1, { article: true }) });
+test('collectXV2: 零直接写盘（纯采集 facade，不直接写任何 runtime 或 output 文件）', async () => {
+  const getFileState = file => {
+    try {
+      return fs.statSync(file).mtimeMs;
+    } catch {
+      return null;
     }
-    if (parsed.pathname === '/twitter/article') {
-      articleAttempts += 1;
-      if (articleAttempts === 1) return response('temporary article failure', { ok: false, status: 500 });
-      return response({ article: null });
-    }
-    throw new Error(`unexpected endpoint: ${parsed.pathname}`);
   };
 
+  const watchedFiles = [
+    NEWS_FILES.minCandidates,
+    NEWS_FILES.sourceHistory,
+    NEWS_FILES.xCheckpoints,
+    NEWS_FILES.lastRun,
+    NEWS_FILES.hotspots,
+  ];
+
+  const beforeMtimes = watchedFiles.map(getFileState);
+
+  const fetchImpl = async () => response({
+    tweets: [{ id: 'write_check_t1', text: 'test write isolation', createdAt: '2026-09-09T22:00:00.000Z' }],
+    has_next_page: false,
+    next_cursor: null,
+  });
+
   const result = await collectXV2({
-    config: configFor({ accounts: ['retry-account'], maxRetries: 1 }),
+    slot: 'hot',
+    businessDate: '2026-09-10',
+    account_groups: [{ id: 'g1', handles: ['OpenAI'], priority: 1, max_pages: 1 }],
     xApiKey: 'test-key',
     fetchImpl,
     now: NOW,
-    sinceIso: SINCE,
-    untilIso: UNTIL,
   });
 
-  assert.equal(tweetAttempts, 2);
-  assert.equal(articleAttempts, 2);
-  assert.equal(result.credits.used, 515, '失败 tweet 保守保留 300 + 成功 tweet 15 + 两次 article 各 100');
-  assert.equal(result.credits.tweets, 1);
-  assert.deepEqual(result.credits.requests, { total: 4, tweet: 2, article: 2, retries: 2 });
+  assert.equal(result.status, 'complete');
+  assert.equal(result.items.length, 1);
+
+  const afterMtimes = watchedFiles.map(getFileState);
+  assert.deepEqual(beforeMtimes, afterMtimes, 'collectXV2 运行期间绝未触碰任何磁盘文件');
+});
+
+test('collectXV2: 尾部重查与 Discovery 关键词查询端到端组装', async () => {
+  const requestedQueries = [];
+
+  const fetchImpl = async url => {
+    const q = new URL(url).searchParams.get('query');
+    requestedQueries.push(q);
+    return response({
+      tweets: [
+        { id: `t_${requestedQueries.length}`, text: `Tweet for ${q}`, createdAt: '2026-09-09T19:30:00.000Z' },
+      ],
+      has_next_page: false,
+      next_cursor: null,
+    });
+  };
+
+  const accountGroups = [
+    { id: 'g1', handles: ['OpenAI'], priority: 1, max_pages: 1 },
+  ];
+  const discoveryQueries = [
+    { id: 'release-events', query: '(AI OR LLM) launch', max_pages: 1 },
+  ];
+
+  const result = await collectXV2({
+    slot: 'hot',
+    businessDate: '2026-09-10',
+    account_groups: accountGroups,
+    discovery_queries: discoveryQueries,
+    tail_recheck: { enabled: true },
+    xApiKey: 'test-key',
+    fetchImpl,
+    now: NOW,
+  });
+
+  assert.equal(result.status, 'complete');
+  assert.equal(result.account_groups.length, 1);
+  assert.equal(result.discovery_queries.length, 1);
+  assert.ok(result.checkpoint_patches.length >= 2, '包含 account_group 与 discovery 的 checkpoint 记录');
+
+  // 尾部重查观察记录应在 patches 中
+  const tailObs = result.checkpoint_patches.find(p => p.recovered_new_count !== undefined);
+  assert.ok(tailObs, '产生 tail_recheck_observations 记录');
+  assert.equal(tailObs.group_id, 'g1');
+  assert.equal(tailObs.half, 'hot');
 });

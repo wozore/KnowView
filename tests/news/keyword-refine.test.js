@@ -50,8 +50,8 @@ test('refineKeywords 全局词频覆盖全部 approved、排除丢弃词并校�
   const config = {
     manual_folder: dir,
     keywords: {
-      ai_keywords: ['ai'],
-      excluded_keywords: ['google'],
+      content_keywords: ['ai'],
+      excluded_content_keywords: ['google'],
       refine_rule_top_n: 30,
     },
   };
@@ -72,10 +72,53 @@ test('refineKeywords 全局词频覆盖全部 approved、排除丢弃词并校�
   assert.equal(result.sourceBasis, 'all_approved_frequency');
   assert.equal(result.batches, 1);
   const payload = JSON.parse(fs.readFileSync(path.join(dir, 'keyword-refine.json'), 'utf8'));
+  assert.equal(payload.schema_version, 3);
+  assert.equal(payload.purpose, 'content');
   assert.equal(payload.source_count, 5);
   assert.equal(payload.source_basis, 'all_approved_frequency');
+  assert.equal(payload.candidates[0].candidate_id, 'content:deepseek');
   assert.equal(payload.candidates[0].count, 5, 'count 被全局频次校准（deepseek 在全部 5 条 approved 出现）');
   assert.deepEqual(payload.discarded_keywords, []);
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('refineKeywords 支持生成 youtube_queries 与 x_discovery 清单并分文件落盘', async () => {
+  const os = require('os');
+  const path = require('path');
+  const fs = require('fs');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kw-purposes-'));
+  const config = {
+    manual_folder: dir,
+    keywords: {
+      youtube_queries: ['Sora Demo'],
+      x_discovery_queries: [{ id: 'release-events', query: 'AI launch', max_pages: 1 }],
+    },
+  };
+  const store = { candidates: [{ id: 'id-0', review_status: 'approved', final_score: 1, title: 'Title', description: 'Desc', comments: [] }] };
+
+  // 1. YouTube 查询生成
+  const extractYt = async () => ({
+    ok: true,
+    keywords: [{ value: 'Claude 3.7 Coding', category: 'product', candidate_type: 'emerging', count: 1 }],
+  });
+  const resYt = await refineKeywords(store, config, { purpose: 'youtube', keywordExtractor: extractYt });
+  assert.equal(resYt.file.endsWith('youtube-queries-refine.json'), true);
+  const ytPayload = JSON.parse(fs.readFileSync(resYt.file, 'utf8'));
+  assert.equal(ytPayload.purpose, 'youtube');
+  assert.equal(ytPayload.candidates[0].candidate_id, 'youtube:Claude 3.7 Coding');
+
+  // 2. X 发现查询生成
+  const extractX = async () => ({
+    ok: true,
+    keywords: [{ id: 'frontier-agent', query: '(agent OR agentic) framework', category: 'technology', candidate_type: 'emerging', count: 1 }],
+  });
+  const resX = await refineKeywords(store, config, { purpose: 'x_discovery', keywordExtractor: extractX });
+  assert.equal(resX.file.endsWith('x-queries-refine.json'), true);
+  const xPayload = JSON.parse(fs.readFileSync(resX.file, 'utf8'));
+  assert.equal(xPayload.purpose, 'x_discovery');
+  assert.equal(xPayload.candidates[0].candidate_id, 'x_discovery:frontier-agent');
+  assert.equal(xPayload.candidates[0].value.max_pages, 1);
+
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
