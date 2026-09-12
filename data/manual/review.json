@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-07T03:49:36.161Z",
-  "date": "20260907",
-  "total_pending": 1,
+  "generated_at": "2026-09-12T09:01:20.564Z",
+  "date": "20260912",
+  "total_pending": 6,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -12,9 +12,49 @@
       "summary": "摘要：OpenAI launches new GPT model for developers",
       "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
       "review_status": "pending"
+    },
+    {
+      "id": "x-79ca106ed5fab11f5d29",
+      "score": 51.5,
+      "summary": "RT @evayzh: check out how AI helps scientists with quantum computing research @b",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-4ded62407a581bdbdf53",
+      "score": 50.9,
+      "summary": "RT @vanstriendaniel: The real tokenmaxxing move: use frontier agents to build sm",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8843561f4d18b5d01d86",
+      "score": 44.8,
+      "summary": "RT @novita_labs: 🤗 Novita now supports DeepSeek-V4.1-Flash on @huggingface. • 5",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c374551081ec1fbf7ebb",
+      "score": 44.6,
+      "summary": "RT @NielsRogge: For folks wondering what YOCO means, you can simply ask it on Pa",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-28d79c8204a1eb7f2d38",
+      "score": 38.7,
+      "summary": "RT @Gradio: New in Gradio 6.27: Streaming audio chunks are treated as if they we",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
-    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）"
+    "[48.8] 摘要：OpenAI launches new GPT model for developers\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] RT @evayzh: check out how AI helps scientists with quantum computing research @b\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[50.9] RT @vanstriendaniel: The real tokenmaxxing move: use frontier agents to build sm\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[44.8] RT @novita_labs: 🤗 Novita now supports DeepSeek-V4.1-Flash on @huggingface. • 5\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.6] RT @NielsRogge: For folks wondering what YOCO means, you can simply ask it on Pa\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[38.7] RT @Gradio: New in Gradio 6.27: Streaming audio chunks are treated as if they we\n    建议：人工判断：是否值得收录"
   ]
 }
