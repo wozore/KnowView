@@ -152,8 +152,13 @@ async function collectPlatforms({ options, config, now, runId, coverage, noteErr
       scheduleState = options.scheduleStateIn ? options.scheduleStateIn() : readScheduleState();
     } catch (error) {
       noteError('schedule_state_read', error);
+      coverage.fatal_error = 'schedule_state_read';
+      youtubeDueFlag = false;
+      coverage.collectors.youtube = {
+        status: 'failed', items: 0, error: errorLabel(error), reason: 'NEWS_SCHEDULE_STATE_READ_FAILED',
+      };
     }
-    youtubeDueFlag = isYoutubeDue(config, scheduleState, now);
+    if (youtubeDueFlag) youtubeDueFlag = isYoutubeDue(config, scheduleState, now);
     if (!youtubeDueFlag) {
       coverage.collectors.youtube = { status: 'not_due', items: 0, error: null, reason: 'not_due' };
     }
@@ -184,6 +189,7 @@ async function collectPlatforms({ options, config, now, runId, coverage, noteErr
       else writeScheduleState(scheduleState, runId);
     } catch (error) {
       noteError('schedule_state_write', error);
+      coverage.fatal_error = 'schedule_state_write';
     }
   }
 

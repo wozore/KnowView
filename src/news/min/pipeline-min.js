@@ -311,6 +311,7 @@ async function runMin(options = {}) {
       coverage.review_list = reviewList.skipped ? 'skipped_existing' : reviewList.total_pending;
     } catch (error) {
       coverage.review_list_error = errorLabel(error);
+      coverage.fatal_error = 'review_list_write';
     }
   } else {
     coverage.review_list = 'disabled';
@@ -320,27 +321,31 @@ async function runMin(options = {}) {
   //         （hot_score/evidence_excerpt/related_resources）→ 近期窗口一致过滤
   //         → 写 hotspots.json。空投影保护：不覆盖上一版数据（避免前端空白）。 ═══
   let publicItems = 0;
-  try {
-    const projection = buildDailyProjection(merged, config, { now });
-    const { toolUrlIndex, relatedLexicon } = buildProjectionInputs(options.catalogApi);
-    enrichHotspotProjection(projection.items, toolUrlIndex, relatedLexicon);
-    for (const item of projection.items) delete item.collection_context;
-    const output = {
-      schema_version: 1,
-      generated_at: projection.generated_at,
-      items: projection.items,
-      coverage,
-    };
-    const filtered = filterProjectionByWindow(output, { config, now: nowMs });
-    for (const item of filtered.items) delete item.collection_context;
-    if (filtered.items.length > 0) {
-      writeJsonAtomic(NEWS_FILES.hotspots, filtered, runId);
-      publicItems = filtered.items.length;
-    } else {
-      coverage.public_projection = 'empty_skipped_write';
+  if (options.writePublicProjection !== false) {
+    try {
+      const projection = buildDailyProjection(merged, config, { now });
+      const { toolUrlIndex, relatedLexicon } = buildProjectionInputs(options.catalogApi);
+      enrichHotspotProjection(projection.items, toolUrlIndex, relatedLexicon);
+      for (const item of projection.items) delete item.collection_context;
+      const output = {
+        schema_version: 1,
+        generated_at: projection.generated_at,
+        items: projection.items,
+        coverage,
+      };
+      const filtered = filterProjectionByWindow(output, { config, now: nowMs });
+      for (const item of filtered.items) delete item.collection_context;
+      if (filtered.items.length > 0) {
+        writeJsonAtomic(NEWS_FILES.hotspots, filtered, runId);
+        publicItems = filtered.items.length;
+      } else {
+        coverage.public_projection = 'empty_skipped_write';
+      }
+    } catch (error) {
+      noteError('projection', error);
     }
-  } catch (error) {
-    noteError('projection', error);
+  } else {
+    coverage.public_projection = 'deferred_to_publish';
   }
   coverage.public_items = publicItems;
 
@@ -352,8 +357,9 @@ async function runMin(options = {}) {
     const status = coverage.collectors[p] && coverage.collectors[p].status;
     return status === 'failed' || status === 'partial';
   });
-  coverage.status =
-    enabledCollectFailed
+  coverage.status = coverage.fatal_error
+    ? 'failed'
+    : enabledCollectFailed
       ? 'failed'
       : enabledCollectDegraded || errors.length > 0
         ? 'partial'
@@ -367,6 +373,8 @@ async function runMin(options = {}) {
     else writeJsonAtomic(NEWS_FILES.lastRun, lastRun, runId);
   } catch (error) {
     noteError('last_run', error);
+    coverage.fatal_error = 'last_run_write';
+    coverage.status = 'failed';
   }
 
   return { coverage, minCandidates: coverage.min_candidates, publicItems };

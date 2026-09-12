@@ -3,9 +3,9 @@ name: Collect AI News
 on:
   schedule:
     # GitHub Actions cron 固定按 UTC；此处统一按「北京时间」换算（UTC = 北京 - 8h）：
-    #   YouTube：每天北京 20:00 → UTC 12:00（管线内 72h 到期闸决定是否真正采集；
-    #            不用 */3 因其按月历日触发，月末会 31→1 背靠背）
+    #   YouTube：每天北京 20:00 → UTC 12:00，管线内 72h 到期闸决定是否真正采集
     #   X：热半区每天北京时间 08:30 → UTC 00:30；冷半区每天北京时间 20:30 → UTC 12:30
+    - cron: '0 12 * * *'
     - cron: '30 0 * * *'
     - cron: '30 12 * * *'
   workflow_dispatch:
@@ -36,9 +36,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # 双层门禁：Repository Variable 必须先在 Settings → Secrets and variables →
-  # Actions → Variables 中设为字符串 true；随后再读取版本化 JSON 开关。
-  # 任一层关闭时，含 Secrets 的 collect job 都不会启动。
   collection_gate:
     if: ${{ vars.NEWS_COLLECTION_ENABLED == 'true' }}
     runs-on: ubuntu-latest
@@ -68,9 +65,6 @@ jobs:
           const enabled = isCollectionEnabled(config);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `enabled=${enabled}\n`);
           console.log(`Versioned collection switch: ${enabled ? 'enabled' : 'disabled'}`);
-          // YouTube 到期预检：仅 YouTube 调度槽（每日 UTC 12:00）需要；X 槽 / 手动触发恒为 due。
-          // 预检不通过则整个 collect job 不启动（不占并发、不碰 Secrets）；
-          // 权威判定仍在管线内（collect job 以 --scheduled 再核一次，状态文件随后提交）。
           let youtubeDue = true;
           if (enabled && process.env.GITHUB_SCHEDULE === '0 12 * * *') {
             let state = null;
@@ -103,15 +97,10 @@ jobs:
         run: node scripts/check-secrets.js
 
       - name: Resolve platforms
-        id: platforms
         env:
           PLATFORMS_INPUT: ${{ github.event.inputs.platforms }}
           SCHEDULE: ${{ github.event.schedule }}
         run: |
-          # schedule 触发无 inputs：按 cron 模式映射（YouTube 每日北京 20:00，是否真正采集
-          # 由管线内 72h 到期闸决定 / X 每日北京 13:00 / 22:00，cron 为 UTC 值）；
-          # workflow_dispatch 的 platforms 输入优先覆盖。
-          # runMin 只认平台名数组，'both' 译为双平台，勿把 'both' 直接传给 --platforms。
           if [[ -n "$PLATFORMS_INPUT" ]]; then
             if [[ "$PLATFORMS_INPUT" == "both" ]]; then
               echo "NEWS_PLATFORMS=youtube,x" >> "$GITHUB_ENV"
@@ -138,12 +127,8 @@ jobs:
           ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          # 仅 schedule 触发传 --scheduled：受 YouTube 72h 到期闸约束并写调度状态；
-          # workflow_dispatch（手动）不带此标志——手动采集与调度节奏互不影响。
           FLAGS=""
-          if [[ "$GITHUB_EVENT_NAME" == "schedule" ]]; then
-            FLAGS="--scheduled"
-          fi
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" ]]; then FLAGS="--scheduled"; fi
           if [[ -n "$NEWS_X_SLOT" ]]; then
             node scripts/build-news.js --platforms "$NEWS_PLATFORMS" $FLAGS --slot "$NEWS_X_SLOT"
           else
@@ -171,80 +156,15 @@ jobs:
 
       - name: Test generated data
         run: |
-          node --test tests/news/collector-x-v2.test.js tests/news/news-pipeline-min.test.js tests/news/news-rss.test.js tests/news/news-public-gate.test.js tests/news/news-reviewer.test.js tests/news/news-summarizer.test.js tests/news/news-localizer.test.js tests/news/content-classifier-llm.test.js tests/maintenance/validate-news-config.test.js
+          node --test tests/news/collector-x-v2.test.js tests/news/news-pipeline-min.test.js tests/news/news-rss.test.js tests/news/news-public-gate.test.js tests/news/news-reviewer.test.js tests/news/news-summarizer.test.js tests/news/news-localizer.test.js tests/news/content-classifier-llm.test.js tests/news/news-data-pr-delivery.test.js tests/maintenance/validate-news-config.test.js
           node scripts/validate.js
 
-      - name: Create review branch with internal candidate data
-        id: review
-        run: |
-          # v2：采集只产生内部候选层 min-candidates.json + 待审清单 review.json（不发布）；
-          # schedule-state.json 是 YouTube 72h 到期闸状态，随批次一并提交（YouTube 全新收录、
-          # 候选零变化时它可能是唯一变更，漏提交会导致到期闸失效、每天都采）。
-          # 公开投影在审核 PR 合并后由 publish-news.yml 重建，不在此直接提交 main。
-          # 检查候选层与调度状态是否有变更（git status --porcelain 兼顾已跟踪修改与新生成未跟踪文件）
-          TARGET_FILES="data/news/runtime/min-candidates.json data/news/runtime/source-history.json data/manual/review.json data/news/runtime/schedule-state.json data/news/runtime/x-checkpoints.json data/news/runtime/last-run.json"
-          CHANGES=$(git status --porcelain -- $TARGET_FILES)
-          if [ -z "$CHANGES" ]; then
-            echo "No candidate changes"
-            exit 0
-          fi
-          batch="batch-$(date +%Y%m%d-%H%M%S)"
-          branch="news/review/${batch}"
-          echo "batch=${batch}" >> "$GITHUB_OUTPUT"
-          echo "branch=${branch}" >> "$GITHUB_OUTPUT"
-          echo "pushed=${branch}" >> "$GITHUB_OUTPUT"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b "${branch}"
-          for file in $TARGET_FILES; do
-            if [ -f "$file" ]; then
-              git add "$file"
-            fi
-          done
-          if git diff --cached --quiet; then
-            echo "No staged candidate changes"
-            exit 0
-          fi
-          git commit -m "chore(data): update min candidates + review list (${batch})"
-          git push origin "${branch}"
-
-      - name: Open review PR
-        if: steps.review.outputs.pushed != ''
+      - name: Deliver news data PR
         env:
           GH_TOKEN: ${{ github.token }}
-          BATCH: ${{ steps.review.outputs.batch }}
-          BRANCH: ${{ steps.review.outputs.branch }}
         run: |
-          node scripts/news-cli.js min-review list --status pending --top 15 --json > /tmp/min-review-list.json
-          node -e '
-            const fs = require("fs");
-            const list = JSON.parse(fs.readFileSync("/tmp/min-review-list.json", "utf8"));
-            const review = Object.entries(list.by_review_status || {})
-              .map(([k, v]) => `- ${k}: ${v}`).join("\n") || "（无）";
-            const body = [
-              `## 批次：${process.env.BATCH}`,
-              "",
-              `候选总数：${list.total}`,
-              "",
-              "### 审核状态分布（review_status）",
-              review,
-              "",
-              "## 如何审核",
-              "1. 查看本 PR 中 `data/news/runtime/min-candidates.json` 的候选记录（v2 单状态轴：pending / approved / discarded）。",
-              "2. 逐条设置 `review_status`：`pending` 待审核 / `approved` 通过 / `discarded` 丢弃。",
-              "3. 也可在本地用 `node scripts/news-cli.js min-review set --id <id> --status <status>`，或 `min-review batch --ids <id1,id2> --status approved` 批量通过明确选中的候选，再推送本分支。",
-              "4. **合并本 PR 后**，GitHub Actions 会从候选层自动重建公开 hotspots.json 与 RSS，部署到热点视图。",
-            ].join("\n");
-            fs.writeFileSync("/tmp/pr-body.md", body);
-          '
-          gh pr create --base main --head "${BRANCH}" \
-            --title "热点审核：批次 ${BATCH}" \
-            --body-file /tmp/pr-body.md
+          node scripts/deliver-news-data-pr.js \
+            --output "$GITHUB_OUTPUT" \
+            --commit-message "chore(data): update news runtime data"
 
-      # ── 收尾（v2 转正后启用自动挡；当前先手动执行，见开发计划）──
-      # - name: Finishing (transcripts)
-      #   run: node scripts/news-cli.js min-review transcripts --store min
-      # - name: Finishing (feedback)
-      #   run: node scripts/news-cli.js min-review feedback --store min
-      # - name: Finishing (refine)
-      #   run: node scripts/news-cli.js min-review refine --store min
+      # 公开投影在审核 PR 合并后由 publish-news.yml 重建，不在此直接提交 main。

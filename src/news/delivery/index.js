@@ -7,6 +7,7 @@
 const {
   DATA_PR_ALLOWED_FILES,
   verifyAllowedFilesOnly,
+  validateDataPrFiles,
   findOpenDataPr,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
@@ -15,6 +16,7 @@ const {
 module.exports = {
   DATA_PR_ALLOWED_FILES,
   verifyAllowedFilesOnly,
+  validateDataPrFiles,
   findOpenDataPr,
   verifyHeadNotDrifted,
   deliverNewsDataPr,

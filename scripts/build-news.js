@@ -32,8 +32,8 @@ async function mainMin(platforms) {
   const fixture = process.argv.includes('--fixture');
   // news 域不直读 catalog：目录查询面由组合根注入（fixture 模式同样注入，保证投影行为等价）。
   const options = fixture
-    ? { ...buildMinFixtureOptions(), catalogApi: createNewsCatalogApi() }
-    : { autoRepair: true, catalogApi: createNewsCatalogApi() };
+    ? { ...buildMinFixtureOptions(), catalogApi: createNewsCatalogApi(), writePublicProjection: false }
+    : { autoRepair: true, catalogApi: createNewsCatalogApi(), writePublicProjection: false };
   if (Array.isArray(platforms) && platforms.length) options.platforms = platforms;
   const slot = parseSlot();
   if (slot) options.slot = slot;
@@ -62,6 +62,10 @@ async function mainMin(platforms) {
     console.log(`   ⚠️ 启用平台采集均失败${reasons ? `（${reasons}）` : ''}——通常因缺 API key，管线已降级不崩`);
   }
   if (fixture) console.log('   注：--fixture 为 mock 采集，覆盖状态仅用于验证 v2 管线贯通');
+  if (coverage.fatal_error) {
+    console.log(`   ❌ 持久化门禁失败（${coverage.fatal_error}），已阻断 Data PR 交付`);
+    process.exitCode = 1;
+  }
   console.log(`✅ v2 构建完成：minCandidates=${minCandidates}，publicItems=${publicItems}`);
   return { coverage, minCandidates, publicItems };
 }

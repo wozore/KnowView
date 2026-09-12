@@ -230,9 +230,9 @@
 - [min-history.js](src/news/min/min-history.js) — 热点候选轻量历史（维护者手动归档；最近 30 批，每条仅保存 id/title，批次时间为北京时间 `YYYY-MM-DD-HH:MM:SS`）。导出: `readMinHistory, writeMinHistory, appendMinHistory, compactCandidates, formatBatchAt, archiveMinStore`
 - [review-v2.js](src/news/min/review-v2.js) — 热点管线 v2 审核层（L0 规则硬审：字段/AI 关键词/广告 + YouTube 简介明确 AI 生成披露硬排除 → L1 AI 审：高置信 approve/discard 自动分流，争议项 pending → L2 AI 建议+人工；单状态轴 pending/approved/discarded，不依赖旧双轴；复用 content-reviewer.reviewCandidate）。导出: `l0HardFilter, l1AiReview, l2AiAdvice, applyL1Verdicts, AI_DISCLOSURE_PATTERNS, DEFAULT_COMMENTS_TOP_N, DEFAULT_AUTO_APPROVE_CONFIDENCE, DEFAULT_AUTO_DISCARD_CONFIDENCE`
 - [min-store.js](src/news/min/min-store.js) — v2 单状态轴候选层读写与候选合并；维护者工作台 mutation 使用稳定 revision、pending→approved/discarded、仅 approved 的 Top 选择门禁，以及字幕写入（transcript/transcript_file）与字幕总结写回（summary/key_points）mutation；重新采集缺字段时保留既有字幕、总结、本地化等加工结果。导出: `readMinStore, writeMinStore, commitMinStoreMutation, reviewPendingCandidates, setApprovedTopSelectedMin, setCandidateTranscriptMin, setCandidateTranscriptSummaryMin`
-- [keyword-actions.js](src/news/min/keyword-actions.js) — 关键词候选清单的子集采纳与丢弃、配置 revision 与原子提交；只更新 `keywords.ai_keywords` / `keywords.excluded_keywords`（丢弃词进黑名单防止再建议），供 CLI 与本机工作台共同调用。
+- [keyword-actions.js](src/news/min/keyword-actions.js) — 三用途关键词候选清单的子集采纳与丢弃、配置 revision 与原子提交；按 purpose 更新 content/youtube/x_discovery 正式段与对应黑名单，供 CLI 与本机工作台共同调用。
 - [daily-projection.js](src/news/min/daily-projection.js) — v2 每日 top N 公开投影（approved 按北京时间自然日分组取前 N：含 YouTube 取 8 / 纯 X 取 5，纯逻辑不调 enrich/filter 两步）。导出: `buildDailyProjection`
-- [keyword-refine.js](src/news/min/keyword-refine.js) — 人工首次审核后关键词提纯（**分批覆盖全部 approved**，每批截断标题/描述/评论适配本地模型上下文，跨批合并频次、排除已采纳与已丢弃词；清单记录 source_count/input_count/source_basis，dateKey 北京时间，文件名固定 keyword-refine.json；维护者填 adopted_keywords；不直接改配置）。导出: `refineKeywords, collectApprovedOriginals, chunkItems, mergeKeywordBatches, buildRuleCandidates, MAX_KEYWORD_REFINEMENT_INPUT`
+- [keyword-refine.js](src/news/min/keyword-refine.js) — 人工首次审核后按 content/youtube/x_discovery 三用途提纯（分批覆盖全部 approved），每批截断标题/描述/评论适配本地模型上下文，跨批合并频次、排除已采纳与已丢弃值；各清单记录 candidate_id、purpose、source_basis、revision 与北京时间 dateKey，不直接改配置。导出: `refineKeywords, collectApprovedOriginals, chunkItems, mergeKeywordBatches, buildRuleCandidates, MAX_KEYWORD_REFINEMENT_INPUT`
 - [transcript-workflow.js](src/news/min/transcript-workflow.js) — 字幕文件落库与外部 AI 总结（维护者工作台）：校验文件名防路径穿越、字幕文本截断存储到 `data/manual/transcripts/<candidate_id>/<file>`（可提交、不发布），并写候选层 transcript；显式成本确认后用外部 DeepSeek 重新总结写回 summary/key_points。导出: `safeTranscriptFile, saveTranscriptFile, uploadTranscript, summarizeTranscripts, MAX_TRANSCRIPT_STORED_CHARS, MAX_SUMMARIZE_PER_RUN`
 - [pipeline-min.js](src/news/min/pipeline-min.js) — 热点管线 v2 总指挥（runMin 编排）：严格读取 collection.enabled 统一总开关（关闭时全链零网络/零写入）→ 采集 → 去重 → L0 硬过滤 → 分类 → 评分 → L1/L2 审核 → 候选落地 → 总结/本地化 → 自动生成待审清单 → 每日公开投影。导出: `runMin, loadV2Config, isCollectionEnabled, normalizeNow, resolveXWindow`
 - [pipeline-collect.js](src/news/min/pipeline-collect.js) — 热点管线采集步骤执行与多平台并行调度。
@@ -242,7 +242,7 @@
 - [local-enrichment.js](src/news/min/local-enrichment.js) — 本地 Bonsai 批量增量加工编排：按批调用 enrichment-core，维护断点恢复与人工/字幕保护；自愈修复流程由 min-repair.js 独立拥有。导出: `enrichMinCandidates`
 - [enrichment-core.js](src/news/min/enrichment-core.js) — 候选加工共享机制层：残缺判定、L1/L2 单条审核、并发安全落盘与摘要/本地化加工；供 enrich 与 repair 共用。导出: `nonNegativeInteger, needsL1Review, needsL2Advice, needsReviewWork, needsSummary, needsLocalize, needsRepair, countEnrichmentWork, countRepairWork, enrichCandidate, repairCandidate...`
 - [min-repair.js](src/news/min/min-repair.js) — 双通道自愈修复编排：按残缺判定对候选批量补齐审核、摘要与本地化，支持本地+外部通道。导出: `DEFAULT_REPAIR_LIMIT, repairIncompleteCandidates`
-- [ai-top.js](src/news/min/ai-top.js) — approved 候选的 AI top 结果确定性收敛：按 AI 选择顺序取值，对无效或漏选项按评分补齐，组装人工审核清单条目。导出: `selectTopCandidates`
+- [ai-top.js](src/news/min/ai-top.js) — approved 候选的 AI top 结果确定性收敛：按当前北京时间自然日的 approved 候选是否含 YouTube 决定 Top N，再按 AI 选择顺序取值并按评分补齐。导出: `selectTopCandidates`
 
 ### collectors/ — 各平台采集（会发网络请求）
 - [collector-youtube-v2.js](src/news/collectors/collector-youtube-v2.js) — 热点管线 v2 的 YouTube 采集器（search.list 关键词发现，不依赖旧 quota/registry/scheduler）。导出: `collectYouTubeV2, buildItem, parseDuration, loadV2Config`
@@ -279,15 +279,15 @@
 ### cli/ — 命令行
 - [news-cli.js](src/news/cli/news-cli.js) — **CLI 分发器 + 入口**（仅保留 v2 命令组）。导出: `parseArgs, main, minReviewCommand`
 - [cmd-content.js](src/news/cli/cmd-content.js) — `classify/localize preview` 子命令（纯函数预览；批量分类/本地化已由 v2 管线内建）。导出: `classifyCommand, localizeCommand`
-- [cmd-min.js](src/news/cli/cmd-min.js) — **v2 `min-review` 命令组**（操作 min-candidates.json；`enrich` 本地批量初审分流/摘要/本地化，支持分批与断点续跑，默认自动衔接双通道自愈修复；`repair` 双通道自愈修复残缺数据；`feedback` 默认接入 LLM 实体提取，feedback.llm_extract=false 关 / LLM 失败降级正则；`refine` 分批覆盖全部 approved 调本地模型生成关键词清单，`refine-apply` 校验 adopted_keywords 后原子幂等追加配置；`ai-top` 经 `topCandidatesForAi` 控制模型输入规模（`collection.ai_top_input_max` 可调）、优先以 last-run 判定 YouTube、缺失时回退 approved 平台字段，产物带 id 与输入范围统计；`top-apply` 应用 top_selected=true；`apply` 写回首审结论；`archive` 由维护者确认后把当前候选压缩为轻量历史、清空候选层，并重置 data/manual 当日人工清单）。维护者入口：维护者工作台、bat/after-first-review.bat、bat/archive-min.bat。导出: `minReviewCommand, resolveAiTopConfig, topCandidatesForAi, MAX_AI_TOP_INPUT, applyRefineKeywords, applyTopSelectedList, removeManualLists, MANUAL_LIST_FILES`
+- [cmd-min.js](src/news/cli/cmd-min.js) — **v2 `min-review` 命令组**（操作 min-candidates.json；`enrich` 本地批量初审分流/摘要/本地化，支持分批与断点续跑，默认自动衔接双通道自愈修复；`repair` 双通道自愈修复残缺数据；`feedback` 默认接入 LLM 实体提取，feedback.llm_extract=false 关 / LLM 失败降级正则；`refine` 分批覆盖全部 approved，按 content/youtube/x_discovery 生成三份候选清单；`refine-apply` 按 purpose 与 candidate_id 校验并原子幂等追加对应配置段；`ai-top` 按当前自然日 approved 候选判定 Top N；`top-apply` 应用 top_selected=true；`apply` 写回首审结论；`archive` 由维护者确认后把当前候选压缩为轻量历史、清空候选层，并重置 data/manual 当日人工清单）。维护者入口：维护者工作台、bat/after-first-review.bat、bat/archive-min.bat。导出: `minReviewCommand, resolveAiTopConfig, topCandidatesForAi, MAX_AI_TOP_INPUT, applyRefineKeywords, applyTopSelectedList, removeManualLists, MANUAL_LIST_FILES`
 - [min-review-flows.js](src/news/cli/min-review-flows.js) — min-review 命令组执行流编排（enrich、repair、feedback、refine 等）。
 
 ### transcripts/ — 收尾环节：字幕人工获取通知（独立于主链，只写清单文件）
 - [transcript-notify.js](src/news/transcripts/transcript-notify.js) — 每日"待人工获取字幕"清单（min 候选层挑评分最高 notify_count 个 YouTube，写 transcript-requests.json 交人工，文件名固定去掉日期后缀、dateKey 北京时间；不碰主链/不调采集总结）。导出: `notifyTranscripts, parseNotifyCount, scoreOf`
 
 ### delivery/ — Data PR CAS 交付
-- [delivery/index.js](src/news/delivery/index.js) — Data PR 交付统一门面。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, findOpenDataPr, verifyHeadNotDrifted, deliverNewsDataPr`
-- [delivery/news-data-pr-delivery.js](src/news/delivery/news-data-pr-delivery.js) — 新闻 Data PR 独立 CAS 交付模块（6 个运行时文件严格白名单、单一开放 PR 查找与分支锁定、head 漂移二次核验与普通 push）。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, findOpenDataPr, verifyHeadNotDrifted, deliverNewsDataPr`
+- [delivery/index.js](src/news/delivery/index.js) — Data PR 交付统一门面。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, verifyHeadNotDrifted, deliverNewsDataPr`
+- [delivery/news-data-pr-delivery.js](src/news/delivery/news-data-pr-delivery.js) — 新闻 Data PR 独立 CAS 交付模块（6 个运行时文件严格白名单、逐文件 schema 兼容门禁、单一开放 PR 查找与分支锁定、head 漂移二次核验与普通 push）。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, verifyHeadNotDrifted, deliverNewsDataPr`
 
 ### feedback/ — 收尾环节：工具库/概念库反哺（独立于主链，只写待补卡文件）
 - [tool-feedback.js](src/news/feedback/tool-feedback.js) — 从 approved summary 提取带类型实体并写入待补卡。
@@ -381,7 +381,8 @@
 - [x-search-checkpoint.test.js](tests/news/x-search-checkpoint.test.js) — Checkpoint Schema 唯一主键、30 天滚动修剪与 14 天尾部观察指标汇总回归。
 - [x-checkpoint-store.test.js](tests/news/x-checkpoint-store.test.js) — Checkpoint Store 读写、成功清理、损坏阻断 fail-closed 与 30 天滚动修剪回归。
 - [x-search-client.test.js](tests/news/x-search-client.test.js) — AdvancedSearchClient 请求构造、分页 DTO 归一化、tweet_id 参数与有限重试回归。
-- [news-data-pr-delivery.test.js](tests/news/news-data-pr-delivery.test.js) — Data PR CAS 交付回归：6 个运行时文件白名单、开放 PR 查找与锁定、head 漂移阻断与正常推送。
+- [news-data-pr-delivery.test.js](tests/news/news-data-pr-delivery.test.js) — Data PR CAS 交付回归：6 个运行时文件白名单、开放 PR 状态/base/head 校验、二次 head 核验与普通推送。
+- [deliver-news-data-pr-script.test.js](tests/news/deliver-news-data-pr-script.test.js) — Data PR CLI adapter 回归：参数数组、main 基线、普通 push、工作树白名单和输出参数。
 - [news-pipeline-min.test.js](tests/news/news-pipeline-min.test.js) — v2 全链编排、总开关、采集状态汇总、credits→last-run 透传回归。
 - [validate-news-config.test.js](tests/maintenance/validate-news-config.test.js) — news-config-v2 安全字段与 last-run X credits/request schema 校验。
 - [model-exclusions.test.js](tests/comparison/model-exclusions.test.js) — 排除规则 schema、token-boundary prefix、exact identity、命中诊断和 fail-closed 回归。
@@ -426,6 +427,7 @@
 
 ## scripts/ — 命令入口（薄包装；src/ 为纯逻辑）
 - [build-news.js](scripts/build-news.js) — 热点管线 v2 CLI 实际入口；加载 `.env` 后运行 `runMin`，支持默认双平台、`--platforms` 分时采集与 `--fixture` 离线全链。导出: `main, mainMin, buildMinFixtureOptions`
+- [deliver-news-data-pr.js](scripts/deliver-news-data-pr.js) — GitHub Actions 新闻 Data PR 交付薄包装；装配原生 `git`/`gh` 命令到 delivery facade，严格传递白名单文件、main 基线与普通 push。导出: `parseArgs, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, main`
 - [catalog-generator.js](scripts/catalog-generator.js) — schema v3 五模块目录生成器 CLI；`plan/prepare` 零网络，`new/resume/probe/batch` 要求显式 `--tavily-access-mode` 并透传到 Tavily，Apply 要求维护者输入完整确认；支持 `remove --targets` 精确 ID 删除（revision/确认值/事务回滚）、`batch`（`--confirm-cost` 全局确认自动 apply / `--dry-run` 预览 / `--from-preview` 复用解析）以及双表 `url-registry vendor/product` 维护和纯本地 product freshness audit。导出: `parseArgs, main, readSeed, tavilyAccessModeFromFlags, generatorOptionsFromFlags`
 - [concept-generator.js](scripts/concept-generator.js) — **AI 概念库生成器 CLI（与五模块目录生成器分离）**：`batch --file <待补概念卡> --dry-run/--confirm-cost` 合成预览 → `preview` → `apply [--terms]` 人工写 glossary。导出: `parseArgs, main`
 - [catalog-series-migration.js](scripts/catalog-series-migration.js) — LLM 二级系列迁移 CLI：预览（人类可读 / `--json`）加载政策 + 当前快照输出变更；`--apply <targetRevision>` 阶段 3 原子 Apply——按当前快照重算目标 revision 校验防漂移，经 commitSnapshotChange 五文件事务 + dist 重建提交，expectedRevision 绑定防并发冲突。导出: `currentPlan, humanReport, applyMigration, main`
