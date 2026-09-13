@@ -1,6 +1,173 @@
 {
-  "fetched_at": "2026-09-10T23:08:45.734Z",
+  "fetched_at": "2026-09-13T23:07:59.809Z",
   "data": [
+    {
+      "id": "inference-net/schematron-v2-turbo",
+      "name": "Inference.net: Schematron V2 Turbo",
+      "created": 1789176949,
+      "hugging_face_id": "inference-net/schematron-v2-granite-4.0-h-micro",
+      "context_length": 128000,
+      "modality": "text->text",
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 3e-8,
+      "completion": 1.5e-7,
+      "input_cache_read": 3e-8
+    },
+    {
+      "id": "inference-net/schematron-v2-small",
+      "name": "Inference.net: Schematron V2 Small",
+      "created": 1789176933,
+      "hugging_face_id": "inference-net/schematron-v2-llama-3.2-3b",
+      "context_length": 128000,
+      "modality": "text->text",
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 5e-8,
+      "completion": 2.3e-7,
+      "input_cache_read": 5e-8
+    },
+    {
+      "id": "~openai/gpt-astra-latest",
+      "name": "OpenAI: GPT Astra Latest",
+      "created": 1789130932,
+      "hugging_face_id": null,
+      "context_length": 1050000,
+      "modality": "text+image+file->text",
+      "input_modalities": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0.00001,
+      "completion": 0.00005,
+      "input_cache_read": 0.000001
+    },
+    {
+      "id": "~openai/gpt-sol-latest",
+      "name": "OpenAI: GPT Sol Latest",
+      "created": 1789130928,
+      "hugging_face_id": null,
+      "context_length": 1050000,
+      "modality": "text+image+file->text",
+      "input_modalities": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0.000002,
+      "completion": 0.00001,
+      "input_cache_read": 2e-7
+    },
+    {
+      "id": "~openai/gpt-terra-latest",
+      "name": "OpenAI: GPT Terra Latest",
+      "created": 1789130925,
+      "hugging_face_id": null,
+      "context_length": 1050000,
+      "modality": "text+image+file->text",
+      "input_modalities": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0.000002,
+      "completion": 0.000012,
+      "input_cache_read": 2e-7
+    },
+    {
+      "id": "~openai/gpt-luna-latest",
+      "name": "OpenAI: GPT Luna Latest",
+      "created": 1789130922,
+      "hugging_face_id": null,
+      "context_length": 1050000,
+      "modality": "text+image+file->text",
+      "input_modalities": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 2e-7,
+      "completion": 0.0000012,
+      "input_cache_read": 2e-8
+    },
+    {
+      "id": "sakana/fugu-ultra-v2",
+      "name": "Sakana: Fugu Ultra v2",
+      "created": 1789105383,
+      "hugging_face_id": null,
+      "context_length": 1000000,
+      "modality": "text+image+file->text",
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0.000005,
+      "completion": 0.00003,
+      "input_cache_read": 5e-7
+    },
+    {
+      "id": "sakana/fugu-max",
+      "name": "Sakana: Fugu Max",
+      "created": 1789104771,
+      "hugging_face_id": null,
+      "context_length": 1000000,
+      "modality": "text+image+file->text",
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0.000002,
+      "completion": 0.000006,
+      "input_cache_read": 2.5e-7
+    },
+    {
+      "id": "inclusionai/ling-3.0-flash-vl",
+      "name": "inclusionAI: Ling 3.0 Flash VL",
+      "created": 1789056114,
+      "hugging_face_id": "inclusionAI/Ling-3.0-flash-VL",
+      "context_length": 131072,
+      "modality": "text+image+video->text",
+      "input_modalities": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 6e-8,
+      "completion": 1.8e-7,
+      "input_cache_read": 1.2e-8
+    },
     {
       "id": "inclusionai/ling-3.0-flash-vl:free",
       "name": "inclusionAI: Ling 3.0 Flash VL (free)",
@@ -573,9 +740,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 7e-7,
-      "completion": 0.0000022,
-      "input_cache_read": 1.3e-7
+      "prompt": 9.36e-7,
+      "completion": 0.000003168,
+      "input_cache_read": 1.872e-7
     },
     {
       "id": "tencent/hy-mt2-7b",
@@ -607,9 +774,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000014,
-      "completion": 0.0000044,
-      "input_cache_read": 2.6e-7
+      "prompt": 0.000001092,
+      "completion": 0.000003432,
+      "input_cache_read": 2.028e-7
     },
     {
       "id": "z-ai/glm-5.3:batch",
@@ -643,9 +810,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4.2e-7,
-      "completion": 0.000003,
-      "input_cache_read": 8.5e-8
+      "prompt": 2.14e-7,
+      "completion": 0.00000255,
+      "input_cache_read": 1.5e-7
     },
     {
       "id": "dots-studio/dots-3-note-preview:free",
@@ -794,7 +961,7 @@
       ],
       "prompt": 5.7948e-7,
       "completion": 0.00000173844,
-      "input_cache_read": 1.8438e-8
+      "input_cache_read": 1.9316e-8
     },
     {
       "id": "deepseek/deepseek-v4-pro-0813:batch",
@@ -915,9 +1082,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3e-8,
-      "completion": 1.2e-7,
-      "input_cache_read": 6e-9
+      "prompt": 9e-8,
+      "completion": 3.6e-7,
+      "input_cache_read": 1.8e-8
     },
     {
       "id": "meta/muse-glimmer-30b",
@@ -933,8 +1100,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3e-7,
-      "completion": 0.0000011,
+      "prompt": 3.5e-7,
+      "completion": 0.0000015,
       "input_cache_read": 4e-8
     },
     {
@@ -978,7 +1145,7 @@
     },
     {
       "id": "~deepseek/deepseek-v4-flash-latest",
-      "name": "DeepSeek V4 Flash Latest",
+      "name": "DeepSeek: DeepSeek V4 Flash Latest",
       "created": 1785606009,
       "hugging_face_id": null,
       "context_length": 1310720,
@@ -989,9 +1156,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5e-8,
-      "completion": 1.6e-7,
-      "input_cache_read": 1.3e-8
+      "prompt": 3.52e-8,
+      "completion": 1.056e-7,
+      "input_cache_read": 1.12e-9
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731",
@@ -1006,9 +1173,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6.5e-8,
-      "completion": 1.8e-7,
-      "input_cache_read": 1.6e-8
+      "prompt": 4e-8,
+      "completion": 8e-8,
+      "input_cache_read": 8e-9
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731:batch",
@@ -1387,9 +1554,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.000003,
-      "completion": 0.000015,
-      "input_cache_read": 3e-7
+      "prompt": 0.000002648138063,
+      "completion": 0.00001328272425,
+      "input_cache_read": 3.0264435e-7
     },
     {
       "id": "moonshotai/kimi-k3:batch",
@@ -1942,9 +2109,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2.8e-7,
-      "completion": 8.8e-7,
-      "input_cache_read": 5.2e-8
+      "prompt": 6e-7,
+      "completion": 0.000002,
+      "input_cache_read": 1.5e-7
     },
     {
       "id": "z-ai/glm-5.2:batch",
@@ -2494,7 +2661,7 @@
     },
     {
       "id": "~anthropic/claude-haiku-latest",
-      "name": "Anthropic Claude Haiku Latest",
+      "name": "Anthropic: Claude Haiku Latest",
       "created": 1777318492,
       "hugging_face_id": null,
       "context_length": 200000,
@@ -2513,7 +2680,7 @@
     },
     {
       "id": "~openai/gpt-mini-latest",
-      "name": "OpenAI GPT Mini Latest",
+      "name": "OpenAI: GPT Mini Latest",
       "created": 1777318471,
       "hugging_face_id": null,
       "context_length": 400000,
@@ -2532,7 +2699,7 @@
     },
     {
       "id": "~google/gemini-pro-latest",
-      "name": "Google Gemini Pro Latest",
+      "name": "Google: Gemini Pro Latest",
       "created": 1777318451,
       "hugging_face_id": null,
       "context_length": 1048576,
@@ -2553,7 +2720,7 @@
     },
     {
       "id": "~moonshotai/kimi-latest",
-      "name": "MoonshotAI Kimi Latest",
+      "name": "MoonshotAI: Kimi Latest",
       "created": 1777318428,
       "hugging_face_id": null,
       "context_length": 1048576,
@@ -2566,13 +2733,13 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000024,
-      "completion": 0.000012,
-      "input_cache_read": 2.4e-7
+      "prompt": 0.0000021,
+      "completion": 0.00001095,
+      "input_cache_read": 2.3e-7
     },
     {
       "id": "~google/gemini-flash-latest",
-      "name": "Google Gemini Flash Latest",
+      "name": "Google: Gemini Flash Latest",
       "created": 1777318398,
       "hugging_face_id": null,
       "context_length": 1048576,
@@ -2593,7 +2760,7 @@
     },
     {
       "id": "~anthropic/claude-sonnet-latest",
-      "name": "Anthropic Claude Sonnet Latest",
+      "name": "Anthropic: Claude Sonnet Latest",
       "created": 1777318368,
       "hugging_face_id": null,
       "context_length": 1000000,
@@ -2602,25 +2769,6 @@
         "text",
         "image",
         "file"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0.000002,
-      "completion": 0.00001,
-      "input_cache_read": 2e-7
-    },
-    {
-      "id": "~openai/gpt-latest",
-      "name": "OpenAI GPT Latest",
-      "created": 1777318334,
-      "hugging_face_id": null,
-      "context_length": 1050000,
-      "modality": "text+image+file->text",
-      "input_modalities": [
-        "file",
-        "image",
-        "text"
       ],
       "output_modalities": [
         "text"
@@ -2811,9 +2959,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 8.7e-7,
-      "completion": 0.00000174,
-      "input_cache_read": 7.25e-8
+      "prompt": 0.0000016,
+      "completion": 0.0000032,
+      "input_cache_read": 1.35e-7
     },
     {
       "id": "deepseek/deepseek-v4-flash",
@@ -2828,9 +2976,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 8.092e-8,
-      "completion": 1.6184e-7,
-      "input_cache_read": 1.6184e-8
+      "prompt": 4.62e-8,
+      "completion": 9.24e-8,
+      "input_cache_read": 9.24e-9
     },
     {
       "id": "tencent/hy3-preview",
@@ -3030,9 +3178,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4.2e-8,
-      "completion": 2.2e-7,
-      "input_cache_read": null
+      "prompt": 9e-8,
+      "completion": 3e-7,
+      "input_cache_read": 5e-8
     },
     {
       "id": "google/gemma-4-26b-a4b-it:free",
@@ -5957,9 +6105,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2.2e-7,
-      "completion": 8.8e-7,
-      "input_cache_read": null
+      "prompt": 8.75e-8,
+      "completion": 3.5e-7,
+      "input_cache_read": 1.75e-8
     },
     {
       "id": "moonshotai/kimi-k2",
@@ -6069,7 +6217,7 @@
       "name": "Mistral: Mistral Small 3.2 24B",
       "created": 1750443016,
       "hugging_face_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-      "context_length": 131072,
+      "context_length": 256000,
       "modality": "text+image->text",
       "input_modalities": [
         "image",
@@ -6678,9 +6826,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2.9e-7,
-      "completion": 0.00000114,
-      "input_cache_read": 1.1e-7
+      "prompt": 2.5e-7,
+      "completion": 0.000001,
+      "input_cache_read": null
     },
     {
       "id": "openai/o1-pro",
