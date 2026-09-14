@@ -1,5 +1,87 @@
 {
   "schema_version": 1,
-  "updated_at": null,
-  "candidates": []
+  "updated_at": "2026-09-14T10:19:47.580Z",
+  "candidates": [
+    {
+      "id": "x-36dea54c78a4006f51fa",
+      "platform": "x",
+      "native_id": "2099284354731999680",
+      "source_type": "x_post",
+      "url": "https://x.com/cohere/status/2099284354731999680",
+      "title": "Who Gets to Define the Rules for AI?\n\nArtificial intelligence needs evidenced standards, not a cartel. A perspective from @aidangomez, co-founder &amp; CEO of Cohere:\n\nhttps://t.co",
+      "description": "Who Gets to Define the Rules for AI?\n\nArtificial intelligence needs evidenced standards, not a cartel. A perspective from @aidangomez, co-founder &amp; CEO of Cohere:\n\nhttps://t.co/QnDmIfsLPM",
+      "published_at": "2026-09-13T23:49:27.000Z",
+      "fetched_at": "2026-09-14T10:19:29.308Z",
+      "author_id": "x-72e8088a05b38ae3cffb",
+      "author_name": "Cohere",
+      "source_id": "x-72e8088a05b38ae3cffb",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 8804,
+        "likes": 150,
+        "comments": null,
+        "reposts": 22,
+        "replies": 13
+      },
+      "explicit_links": [
+        "https://t.co/QnDmIfsLPM"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 46.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 95.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 22.9,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地模型启动脚本不存在"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 371,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 371,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 371,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    }
+  ]
 }
