@@ -1,5 +1,166 @@
 {
   "schema_version": 1,
-  "updated_at": null,
-  "candidates": []
+  "updated_at": "2026-09-14T18:58:23.747Z",
+  "candidates": [
+    {
+      "id": "x-6f6d7e9bb1bf1ac8aff0",
+      "platform": "x",
+      "native_id": "2099552627491041507",
+      "source_type": "x_post",
+      "url": "https://x.com/cohere/status/2099552627491041507",
+      "title": "RT @aidangomez: The idea that two or three Silicon Valley companies should act as the creator, gatekeeper, and rulemaker of AI for every go…",
+      "description": "RT @aidangomez: The idea that two or three Silicon Valley companies should act as the creator, gatekeeper, and rulemaker of AI for every go…",
+      "published_at": "2026-09-14T17:35:28.000Z",
+      "fetched_at": "2026-09-14T18:57:56.991Z",
+      "author_id": "x-72e8088a05b38ae3cffb",
+      "author_name": "Cohere",
+      "source_id": "x-72e8088a05b38ae3cffb",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 5837,
+        "likes": 232,
+        "comments": null,
+        "reposts": 33,
+        "replies": 10
+      },
+      "explicit_links": [],
+      "content_type": "other",
+      "comments": [],
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 49.4,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 99.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 36.6,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地模型启动脚本不存在"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 280,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 280,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 280,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-de27cfb059e8439926ea",
+      "platform": "x",
+      "native_id": "2099550869381353910",
+      "source_type": "x_post",
+      "url": "https://x.com/NVIDIAAI/status/2099550869381353910",
+      "title": "A lot of work goes into serving a model efficiently.\n\nFor the Nemotron 3 Ultra NIM, our engineers tuned caching, memory, parallelism, decoding and more. On four B200 GPUs, those op",
+      "description": "A lot of work goes into serving a model efficiently.\n\nFor the Nemotron 3 Ultra NIM, our engineers tuned caching, memory, parallelism, decoding and more. On four B200 GPUs, those optimizations supported up to 2.5x more concurrent users while maintaining 50 TPS/user.\n\nRead the engineering deep dive → https://t.co/GJmXWA5y5I",
+      "published_at": "2026-09-14T17:28:29.000Z",
+      "fetched_at": "2026-09-14T18:57:56.991Z",
+      "author_id": "x-97195d2a8377b1621835",
+      "author_name": "NVIDIA AI",
+      "source_id": "x-97195d2a8377b1621835",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSMaY55WMAEoHSM.jpg",
+      "metrics": {
+        "views": 6789,
+        "likes": 119,
+        "comments": null,
+        "reposts": 12,
+        "replies": 17
+      },
+      "explicit_links": [
+        "https://t.co/GJmXWA5y5I"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 46.7,
+      "score_breakdown": {
+        "long_term_quality": 16.8,
+        "recent_timeliness": 99.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 22.8,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 503,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 503,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 503,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    }
+  ]
 }
