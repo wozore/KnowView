@@ -30,7 +30,7 @@ test('verifyAllowedFilesOnly: 仅允许 6 个运行时数据文件', () => {
 test('validateDataPrFiles：六类交付文件结构非法时 fail-closed', () => {
   const valid = {
     'data/news/runtime/min-candidates.json': { schema_version: 1, candidates: [] },
-    'data/news/runtime/source-history.json': { schema_version: 1, sources: {} },
+    'data/news/runtime/source-history.json': { sources: {} },
     'data/manual/review.json': { schema_version: 1, kind: 'review_candidates', candidates: [] },
     'data/news/runtime/last-run.json': { schema_version: 1, platforms: [], collectors: { x: {} } },
     'data/news/runtime/schedule-state.json': { schema_version: 1, youtube_last_collected_at: '2026-09-11T00:00:00.000Z' },
@@ -43,6 +43,14 @@ test('validateDataPrFiles：六类交付文件结构非法时 fail-closed', () =
   );
   assert.throws(
     () => validateDataPrFiles(['data/news/runtime/x-checkpoints.json'], () => JSON.stringify({ schema_version: 1, checkpoints: [] })),
+    /NEWS_DELIVERY_SCHEMA_INVALID/
+  );
+  assert.throws(
+    () => validateDataPrFiles(['data/news/runtime/source-history.json'], () => JSON.stringify({ sources: [] })),
+    /NEWS_DELIVERY_SCHEMA_INVALID/
+  );
+  assert.throws(
+    () => validateDataPrFiles(['data/news/runtime/source-history.json'], () => JSON.stringify({ sources: { a: { samples: [], seen_native_ids: null } } })),
     /NEWS_DELIVERY_SCHEMA_INVALID/
   );
 });

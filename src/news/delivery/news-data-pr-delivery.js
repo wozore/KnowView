@@ -45,8 +45,21 @@ function isObject(value) {
 }
 
 function assertSchema(file, data) {
-  if (!isObject(data) || !Number.isInteger(data.schema_version) || data.schema_version < 1) {
-    fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file} schema_version 或顶层结构非法`);
+  if (!isObject(data)) {
+    fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file} 顶层结构非法`);
+  }
+  if (file.endsWith('source-history.json')) {
+    // history-store 落盘形状为 { sources }，顶层无 schema_version
+    if (!isObject(data.sources)) fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file}.sources 必须为对象`);
+    for (const entry of Object.values(data.sources)) {
+      if (!isObject(entry) || !Array.isArray(entry.samples) || !Array.isArray(entry.seen_native_ids)) {
+        fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file} 含非法来源条目`);
+      }
+    }
+    return;
+  }
+  if (!Number.isInteger(data.schema_version) || data.schema_version < 1) {
+    fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file} schema_version 非法`);
   }
   if (file.endsWith('min-candidates.json')) {
     if (!Array.isArray(data.candidates)) fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file}.candidates 必须为数组`);
@@ -54,13 +67,6 @@ function assertSchema(file, data) {
       if (!isObject(candidate) || typeof candidate.id !== 'string' || !VALID_REVIEW_STATUSES.has(candidate.review_status)
         || !['youtube', 'x'].includes(candidate.platform)) {
         fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file} 含非法候选条目`);
-      }
-    }
-  } else if (file.endsWith('source-history.json')) {
-    if (!isObject(data.sources)) fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file}.sources 必须为对象`);
-    for (const entry of Object.values(data.sources)) {
-      if (!isObject(entry) || !Array.isArray(entry.samples) || !Array.isArray(entry.seen_native_ids)) {
-        fail('NEWS_DELIVERY_SCHEMA_INVALID', `${file} 含非法来源条目`);
       }
     }
   } else if (file.endsWith('review.json')) {
