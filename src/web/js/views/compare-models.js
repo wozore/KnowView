@@ -37,7 +37,6 @@ import {
   recomputeValues
 } from './compare-dimensions.js';
 import { renderTable } from './compare-table.js';
-
 let selected = [];
 let activeDims = [];
 let viewMode = 'chart';
@@ -60,11 +59,9 @@ export const loadingPromise = comparisonLoadingPromise.then(() => {
 });
 
 export { bridgeToCanonical, canonicalForTool, modelCap };
-
 export function modelCompareIsSelected(canonical) {
   return selected.includes(canonical);
 }
-
 function syncChartClass() {
   const panel = document.getElementById('compareModelPanel');
   if (!panel) return;
@@ -88,18 +85,28 @@ function syncModeButtons() {
   });
 }
 
+function renderComparisonLoadError(out) {
+  if (!getComparisonState().comparisonFailed) return false;
+  out.innerHTML = renderState({ icon: '⚠️', title: t('compare.empty.loadFailed'), message: t('compare.empty.loadFailedLead'), type: 'error' });
+  return true;
+}
 function renderResults() {
   const out = document.getElementById('cmpResults');
   if (!out) return;
-  const { indexMap, dataMap, indexData } = getComparisonState();
   if (!selected.length) {
-    ensureComparisonData().then(() => { out.innerHTML = renderBrowse(activeDims, dataMap); });
+    ensureComparisonData().then(() => {
+      if (renderComparisonLoadError(out)) return;
+      const { dataMap } = getComparisonState();
+      out.innerHTML = renderBrowse(activeDims, dataMap);
+    });
     return;
   }
   ensureComparisonData().then(() => {
+    if (renderComparisonLoadError(out)) return;
+    const { dataMap, indexData } = getComparisonState();
     const models = selected.map(getModelData).filter(Boolean);
     if (!models.length || models.length !== selected.length) {
-      out.innerHTML = renderState({ icon: '⏳', title: t('compare.loadingDetail'), message: t('compare.viewLead'), type: 'empty' });
+      out.innerHTML = renderState({ icon: '⏳', title: t('compare.empty.loading'), message: t('compare.viewLead'), type: 'empty' });
       return;
     }
     recomputeValues(models, activeVariants, dataMap);
@@ -142,11 +149,11 @@ export function renderModelCompare() {
   if (!panel) return;
   const { comparisonReady, comparisonFailed } = getComparisonState();
   if (comparisonFailed) {
-    panel.innerHTML = renderState({ icon: '⚠️', title: t('compare.failed.title'), message: t('compare.failed.lead'), type: 'error' });
+    panel.innerHTML = renderState({ icon: '⚠️', title: t('compare.empty.loadFailed'), message: t('compare.viewLead'), type: 'error' });
     return;
   }
   if (!comparisonReady) {
-    panel.innerHTML = renderState({ icon: '⏳', title: t('compare.loading.title'), message: t('compare.loading.lead'), type: 'empty' });
+    panel.innerHTML = renderState({ icon: '⏳', title: t('compare.empty.loading'), message: t('compare.viewLead'), type: 'empty' });
     return;
   }
   renderAll();

@@ -40,6 +40,7 @@ const BROWSE_TOP_N = 10;
 
 export function dimensionValue(model, key) {
   if (!model) return null;
+  if (key === 'composite') return Number.isFinite(model.composite?.score) ? model.composite.score : null;
   if (key === 'value') return Number.isFinite(model.value?.score) ? model.value.score : null;
   const dim = model.dimensions?.[key];
   return Number.isFinite(dim?.value) ? dim.value : null;
@@ -57,8 +58,9 @@ function normalizeEloRange(x, bounds) {
 }
 
 let eloBoundsCache = null;
+let eloBoundsSource = null;
 function lmarenaEloBounds(dataMap) {
-  if (eloBoundsCache) return eloBoundsCache;
+  if (eloBoundsSource === dataMap && eloBoundsCache) return eloBoundsCache;
   const bounds = {};
   for (const model of dataMap.values()) {
     const scores = model.lmarena_scores || {};
@@ -72,6 +74,7 @@ function lmarenaEloBounds(dataMap) {
       }
     }
   }
+  eloBoundsSource = dataMap;
   eloBoundsCache = bounds;
   return bounds;
 }
@@ -149,7 +152,7 @@ export function availableDims(selected, indexMap, dataMap) {
 }
 
 export function renderDimPicker(selected, activeDims, indexMap, dataMap) {
-  const container = document.getElementById('cmpDimPicker');
+  const container = document.getElementById('cmpDims');
   if (!container) return;
   const available = availableDims(selected, indexMap, dataMap);
   const blocks = DIM_GROUPS.map(group => {
@@ -157,12 +160,12 @@ export function renderDimPicker(selected, activeDims, indexMap, dataMap) {
     if (!groupDims.length) return '';
     const chips = groupDims.map(dim => {
       const active = activeDims.includes(dim);
-      return '<button class="filter-chip' + (active ? ' active' : '') + '" type="button" data-cmp-dim="' + escapeHtml(dim) + '" aria-pressed="' + active + '">' +
+      return '<button class="cmp-dim-chip' + (active ? ' checked' : '') + '" type="button" data-cmp-dim="' + escapeHtml(dim) + '" aria-pressed="' + active + '">' +
         '<span class="cmp-dim-swatch" style="background:' + dimColor(dim) + '"></span>' +
         escapeHtml(t('compare.dimension.' + dim)) +
       '</button>';
     }).join('');
-    return '<div class="cmp-dim-group"><span class="cmp-dim-group-title">' + escapeHtml(t('compare.dimGroup.' + group.key)) + '</span><div class="cmp-dim-chips">' + chips + '</div></div>';
+    return '<div class="cmp-dim-group"><span class="cmp-dim-group-label">' + escapeHtml(t('compare.dimGroup.' + group.key)) + '</span><div class="cmp-dim-chips">' + chips + '</div></div>';
   }).join('');
   container.innerHTML = blocks || '<span class="cmp-no-dims">' + escapeHtml(t('compare.noSharedDims')) + '</span>';
 }

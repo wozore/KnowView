@@ -27,7 +27,7 @@ import {
 } from './views/search.js';
 import {
   focusSearchSource, setSearchFeedback, closeSearchConcept, openSearchConcept,
-  scheduleSearchConceptOpen, scheduleSearchConceptClose
+  scheduleSearchConceptOpen, scheduleSearchConceptClose, cancelSearchConceptClose
 } from './views/search-render.js';
 
 export let currentView = 'search';
@@ -186,8 +186,9 @@ if (typeof document !== 'undefined') {
   document.addEventListener('pointerover', event => {
     if (event.pointerType === 'touch') return;
     const t = event.target.closest('[data-search-concept]');
-    if (t) scheduleSearchConceptOpen(t);
-    else if (!event.target.closest('#searchConceptPopover')) scheduleSearchConceptClose();
+    if (t) { scheduleSearchConceptOpen(t); return; }
+    if (event.target.closest('#searchConceptPopover')) { cancelSearchConceptClose(); return; }
+    scheduleSearchConceptClose();
   });
   document.addEventListener('click', event => {
     const t = event.target.closest('[data-search-concept]');

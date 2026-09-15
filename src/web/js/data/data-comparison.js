@@ -96,6 +96,27 @@ export async function loadComparisonEntry() {
 
 let dataLoading = null;
 
+function validateComparisonModels(models) {
+  if (!Array.isArray(models)) throw new Error('integrated/data.json models must be an array');
+  const seen = new Set();
+  for (const model of models) {
+    if (!model || typeof model !== 'object' || Array.isArray(model)) {
+      throw new Error('integrated/data.json model must be an object');
+    }
+    const canonical = model.canonical;
+    if (typeof canonical !== 'string' || !canonical.trim()) {
+      throw new Error('integrated/data.json model canonical must be a non-empty string');
+    }
+    if (seen.has(canonical)) {
+      throw new Error('integrated/data.json model canonical must be unique: ' + canonical);
+    }
+    seen.add(canonical);
+  }
+  return models;
+}
+
+export { validateComparisonModels };
+
 export function ensureComparisonData() {
   if (dataMap.size > 0) return Promise.resolve(dataMap);
   if (dataLoading) return dataLoading;
@@ -105,7 +126,8 @@ export function ensureComparisonData() {
       return response.json();
     })
     .then(data => {
-      dataMap = new Map(Object.entries(data.models || {}));
+      const models = validateComparisonModels(data.models);
+      dataMap = new Map(models.map(model => [model.canonical, model]));
       return dataMap;
     })
     .catch(error => {

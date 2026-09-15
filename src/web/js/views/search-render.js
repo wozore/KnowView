@@ -312,10 +312,14 @@ export function closeSearchConcept({ restoreFocus = false } = {}) {
   }
 }
 
+export function cancelSearchConceptClose() {
+  clearTimeout(searchConceptCloseTimer);
+}
+
 export function scheduleSearchConceptOpen(trigger) {
   clearTimeout(searchConceptCloseTimer);
   clearTimeout(searchConceptHoverTimer);
-  searchConceptHoverTimer = window.setTimeout(() => openSearchConcept(trigger), 2000);
+  searchConceptHoverTimer = window.setTimeout(() => openSearchConcept(trigger), 150);
 }
 
 export function scheduleSearchConceptClose() {
