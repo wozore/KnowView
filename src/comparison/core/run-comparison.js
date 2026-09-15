@@ -11,7 +11,7 @@
  */
 
 const fs = require('fs');
-const { COMPARISON_FILES } = require('../../shared/paths');
+const { COMPARISON_FILES, SHARED_FILES } = require('../../shared/paths');
 const { readRawSnapshot, writeJsonAtomic } = require('./compare-store');
 const { fetchOpenRouter } = require('../fetch/fetch-openrouter');
 const { fetchLmarena } = require('../fetch/fetch-lmarena');
@@ -29,15 +29,15 @@ const FETCHERS = {
   llm_stats: fetchLlmStats,
 };
 
-function readConfig() {
-  if (!fs.existsSync(COMPARISON_FILES.refreshConfig)) {
-    throw new Error(`refresh-config.json 不存在：${COMPARISON_FILES.refreshConfig}`);
+function readConfig(file = COMPARISON_FILES.refreshConfig) {
+  if (!fs.existsSync(file)) {
+    throw new Error(`refresh-config.json 不存在：${file}`);
   }
-  return JSON.parse(fs.readFileSync(COMPARISON_FILES.refreshConfig, 'utf8'));
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
-function writeConfig(config) {
-  writeJsonAtomic(COMPARISON_FILES.refreshConfig, config);
+function writeConfig(config, file = COMPARISON_FILES.refreshConfig) {
+  writeJsonAtomic(file, config);
 }
 
 function ageHours(dateIso) {
@@ -47,8 +47,8 @@ function ageHours(dateIso) {
 }
 
 /** 源是否就绪（快照存在且 ≤ 间隔）。 */
-function isFresh(source, config) {
-  const snapshot = readRawSnapshot(source);
+function isFresh(source, config, files = COMPARISON_FILES) {
+  const snapshot = readRawSnapshot(source, files);
   return Boolean(snapshot) && ageHours(snapshot.fetched_at) <= config.interval_hours;
 }
 
@@ -57,7 +57,7 @@ function isFresh(source, config) {
  * @returns {Promise<{ok: boolean, count: number, errors: string[]}>}
  */
 async function fetchSource(source, config, options = {}) {
-  const fetcher = FETCHERS[source];
+  const fetcher = (options.fetchers || FETCHERS)[source];
   if (!fetcher) return { ok: false, count: 0, errors: [`未知源: ${source}`] };
   const fetchOptions = { ...options.fetchOptions };
   if (source === 'livebench' && config.release) fetchOptions.release = config.release;
@@ -72,7 +72,8 @@ async function fetchSource(source, config, options = {}) {
  * @returns {Promise<{fetched: string[], failed: string[], pending: string[], rebuilt: boolean, errors: object}>}
  */
 async function runComparison(options = {}) {
-  const config = readConfig();
+  const files = options.files || COMPARISON_FILES;
+  const config = readConfig(files.refreshConfig);
   const summary = { fetched: [], failed: [], pending: [], rebuilt: false, errors: {} };
 
   const now = options.now || new Date();
@@ -81,7 +82,7 @@ async function runComparison(options = {}) {
   for (const source of SOURCE_ORDER) {
     const sourceConfig = config.sources[source];
     if (!sourceConfig) { summary.errors[source] = 'refresh-config 缺该源配置'; summary.failed.push(source); continue; }
-    const snapshot = readRawSnapshot(source);
+    const snapshot = readRawSnapshot(source, files);
     const due = options.force || !snapshot || ageHours(snapshot.fetched_at) >= sourceConfig.interval_hours;
     if (!due) continue;
     const result = await fetchSource(source, sourceConfig, options);
@@ -93,7 +94,7 @@ async function runComparison(options = {}) {
         if (sourceConfig.count >= (sourceConfig.full_every || 10)) sourceConfig.count = 0;
       }
       sourceConfig.last_run = new Date().toISOString();
-      writeConfig(config);
+      writeConfig(config, files.refreshConfig);
     } else {
       summary.failed.push(source);
       summary.errors[source] = result.errors || [];
@@ -101,7 +102,7 @@ async function runComparison(options = {}) {
   }
 
   // 全绿才重建
-  const pending = SOURCE_ORDER.filter(source => !isFresh(source, config.sources[source]));
+  const pending = SOURCE_ORDER.filter(source => !isFresh(source, config.sources[source], files));
   if (pending.length) {
     summary.pending = pending;
   } else if (!options.skipRebuild) {
@@ -109,7 +110,7 @@ async function runComparison(options = {}) {
     if (rebuild.ok) {
       summary.rebuilt = true;
       // 重建成功后才落盘推进 retention，确保与 integrated 数据状态严格自洽
-      advanceRetentionToNow(now);
+      advanceRetentionToNow(now, options.retentionFile || SHARED_FILES.retention);
     } else {
       summary.errors.rebuild = rebuild.errors;
     }

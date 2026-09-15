@@ -18,8 +18,8 @@ function rawKeyOf(key) {
 }
 
 /** 读取 raw 快照；文件不存在返回 null；解析失败抛错（调用方 WARN 隔离）。 */
-function readRawSnapshot(key) {
-  const file = COMPARISON_FILES[rawKeyOf(key)];
+function readRawSnapshot(key, files = COMPARISON_FILES) {
+  const file = files[rawKeyOf(key)];
   if (!file) throw new Error(`未知 raw 源: ${key}`);
   if (!fs.existsSync(file)) return null;
   return JSON.parse(fs.readFileSync(file, 'utf8'));

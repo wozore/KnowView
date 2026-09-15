@@ -12,34 +12,53 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
-
+const os = require('os');
 const { runComparison } = require('../../src/comparison/core/run-comparison');
-const { SHARED_FILES } = require('../../src/shared/paths');
+const { COMPARISON_FILES } = require('../../src/shared/paths');
 const { readRetentionState, writeRetention } = require('../../src/shared/retention');
 
 test('runComparison: 未全绿时跳过重建，磁盘 retention.json 保持原状不提前推进', async () => {
-  // 记录原始 retention 内容以便安全恢复
-  const original = readRetentionState();
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'comparison-test-'));
+  const retentionFile = path.join(tempDir, 'retention.json');
+  const files = { refreshConfig: path.join(tempDir, 'refresh-config.json') };
+  const sources = {};
+  const rawKeys = {
+    openrouter: 'rawOpenRouter',
+    lmarena: 'rawLmarena',
+    livebench: 'rawLivebench',
+    llm_stats: 'rawLlmStats',
+  };
+  for (const source of Object.keys(rawKeys)) {
+    const key = rawKeys[source];
+    files[key] = path.join(tempDir, `${source}.json`);
+    sources[source] = { interval_hours: 24, full_every: 10, count: 0 };
+    fs.writeFileSync(files[key], JSON.stringify({ fetched_at: new Date().toISOString(), items: [] }), 'utf8');
+  }
+  fs.writeFileSync(files.refreshConfig, JSON.stringify({ sources }), 'utf8');
+
   const baseRetention = {
     schema_version: 1,
     months: 14,
     retention_year_month: '2025-06',
     last_advanced_at: '2026-08-01T00:00:00.000Z',
   };
-  writeRetention(baseRetention);
+  writeRetention(baseRetention, retentionFile);
 
   try {
-    // 注入虚拟时间 2026-09-15（正常会推进到 2025-07）
     const virtualNow = new Date('2026-09-15T12:00:00.000Z');
-    // options.skipRebuild 或模拟未全绿跳过重建
-    const summary = await runComparison({ skipRebuild: true, now: virtualNow });
+    const summary = await runComparison({
+      skipRebuild: true,
+      now: virtualNow,
+      files,
+      retentionFile,
+      fetchers: Object.fromEntries(Object.keys(sources).map(source => [source, async () => {
+        throw new Error('测试不应调用 fetcher');
+      }])),
+    });
     assert.equal(summary.rebuilt, false);
-
-    // 关键断言：因为没有重建成功，磁盘 retention.json 仍然必须是 2025-06，绝不能变成 2025-07！
-    const current = readRetentionState();
+    const current = readRetentionState(retentionFile);
     assert.equal(current.year_month, '2025-06', '未重建时磁盘 retention.json 保持原状');
   } finally {
-    // 恢复
-    writeRetention(original);
+    fs.rmSync(tempDir, { recursive: true, force: true });
   }
 });
