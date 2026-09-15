@@ -1,34 +1,97 @@
 {
   "schema_version": 1,
-  "run_id": "min-1788436661472",
-  "collected_at": "2026-09-03T11:57:41.472Z",
+  "run_id": "min-1789458603678",
+  "collected_at": "2026-09-15T07:50:03.678Z",
   "platforms": [
     "youtube",
     "x"
   ],
   "collectors": {
     "youtube": {
+      "status": "partial",
+      "items": 928,
+      "error": null,
+      "reason": "comments:http_403",
+      "quota": {
+        "search_calls": 20,
+        "videos_calls": 19,
+        "comments_calls": 928,
+        "categories_calls": 1
+      }
+    },
+    "x": {
       "status": "failed",
       "items": 0,
       "error": null,
-      "reason": "search:fetch failed"
-    },
-    "x": {
-      "status": "partial",
-      "items": 17,
-      "error": null,
-      "reason": "credits_exhausted",
+      "reason": "invalid_or_missing_slot",
       "credits": {
-        "used": 3615,
-        "budget": 3750,
-        "tweets": 240,
+        "total_budget": 7500,
+        "budget": 7500,
+        "used": 0,
+        "tweets": 0,
         "articles": 0,
+        "settled": 0,
+        "reserved": 0,
+        "unknown_reserved": 0,
+        "overage": 0,
         "requests": {
-          "total": 13,
-          "tweet": 13,
+          "total": 0,
+          "tweet": 0,
           "article": 0,
-          "retries": 0
+          "retries": 0,
+          "pages": 0
+        },
+        "buckets": {
+          "account": {
+            "cap": 5500,
+            "reserved": 0,
+            "settled": 0,
+            "unknown_reserved": 0,
+            "requests": 0,
+            "pages": 0,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          },
+          "discovery": {
+            "cap": 800,
+            "reserved": 0,
+            "settled": 0,
+            "unknown_reserved": 0,
+            "requests": 0,
+            "pages": 0,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          },
+          "article_retry": {
+            "cap": 750,
+            "reserved": 0,
+            "settled": 0,
+            "unknown_reserved": 0,
+            "requests": 0,
+            "pages": 0,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          },
+          "tail_recheck": {
+            "cap": 450,
+            "reserved": 0,
+            "settled": 0,
+            "unknown_reserved": 0,
+            "requests": 0,
+            "pages": 0,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          }
         }
+      },
+      "account_groups": [],
+      "discovery_queries": [],
+      "diagnostics": {
+        "error": "invalid_or_missing_slot"
       }
     }
   }
