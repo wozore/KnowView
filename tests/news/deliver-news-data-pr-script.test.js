@@ -48,6 +48,27 @@ test('deliver script：白名单外工作树改动 fail-closed', () => {
   assert.deepEqual(assertCleanOutsideData(() => ` M ${ALLOWED}\0`), [ALLOWED]);
 });
 
+test('deliver script：git status -z 原始输出不被 trim 破坏（review.json 首条目回归）', () => {
+  // 真实 execFileSync 输出不做 trim：首条目 " M data/manual/review.json" 的
+  // 前导空格是状态位的一部分；整体 trim 曾把它削掉导致 slice(3) 解析成
+  // "ata/manual/review.json" 而误判白名单外。
+  const raw = ' M data/manual/review.json\0 M data/news/runtime/min-candidates.json\0 M data/news/runtime/x-checkpoints.json\0';
+  assert.deepEqual(assertCleanOutsideData(() => raw), [
+    'data/manual/review.json',
+    'data/news/runtime/min-candidates.json',
+    'data/news/runtime/x-checkpoints.json',
+  ]);
+});
+
+test('deliver script：getBranchHeadSha 去除 gh 输出换行', async () => {
+  const gh = createGitHubClient((command, args) => {
+    if (command === 'gh' && args[0] === 'repo') return 'owner/repo\n';
+    if (command === 'gh' && args[0] === 'api') return '  sha-abc\n';
+    return '';
+  });
+  assert.equal(await gh.getBranchHeadSha('news/review/a'), 'sha-abc');
+});
+
 test('deliver script：argv 解析支持 output、batch 和提交消息', () => {
   assert.deepEqual(parseArgs(['--output', '/tmp/out', '--batch=batch-1', '--commit-message', 'msg']), {
     output: '/tmp/out', batch: 'batch-1', commitMessage: 'msg',

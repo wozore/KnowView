@@ -32,14 +32,16 @@ function parseArgs(argv = process.argv.slice(2)) {
   return args;
 }
 
+// 不做整体 trim：git status -z 的首条目以前导空格开头（状态位 " M " 的一部分），
+// trim 会破坏 slice(3) 的路径解析；需要去空白的位置各自显式 trim。
 function defaultRunner(command, args) {
-  return execFileSync(command, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  return execFileSync(command, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
 }
 
 function createGitHubClient(run = defaultRunner) {
   let repository = null;
   const repositoryName = () => {
-    if (!repository) repository = run('gh', ['repo', 'view', '--json', 'nameWithOwner', '--jq', '.nameWithOwner']);
+    if (!repository) repository = run('gh', ['repo', 'view', '--json', 'nameWithOwner', '--jq', '.nameWithOwner']).trim();
     if (!repository) throw new Error('无法解析 GitHub repository');
     return repository;
   };
@@ -50,7 +52,7 @@ function createGitHubClient(run = defaultRunner) {
     ]) || '[]'),
     getBranchHeadSha: async branch => run('gh', [
       'api', `repos/${repositoryName()}/branches/${encodeURIComponent(branch)}`, '--jq', '.commit.sha',
-    ]),
+    ]).trim(),
     createPr: async payload => {
       if (payload.base !== 'main') throw new Error('Data PR base 必须是 main');
       const url = run('gh', [

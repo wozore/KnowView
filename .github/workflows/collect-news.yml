@@ -26,6 +26,14 @@ on:
         type: choice
         options:
           - min
+      x_slot:
+        description: 'X 窗口槽位（platforms 含 x 时生效）：hot=前晚20:00-当日08:00，cold=当日08:00-20:00'
+        required: false
+        default: hot
+        type: choice
+        options:
+          - hot
+          - cold
 
 permissions:
   contents: write
@@ -114,6 +122,7 @@ jobs:
       - name: Resolve platforms
         env:
           PLATFORMS_INPUT: ${{ github.event.inputs.platforms }}
+          X_SLOT_INPUT: ${{ github.event.inputs.x_slot }}
           SCHEDULE: ${{ github.event.schedule }}
         run: |
           if [[ -n "$PLATFORMS_INPUT" ]]; then
@@ -121,6 +130,10 @@ jobs:
               echo "NEWS_PLATFORMS=youtube,x" >> "$GITHUB_ENV"
             else
               echo "NEWS_PLATFORMS=$PLATFORMS_INPUT" >> "$GITHUB_ENV"
+            fi
+            # dispatch 携带 x 平台时显式传槽位，避免 X 因缺 slot 而失败
+            if [[ "$PLATFORMS_INPUT" == *x* ]]; then
+              echo "NEWS_X_SLOT=${X_SLOT_INPUT:-hot}" >> "$GITHUB_ENV"
             fi
           elif [[ "$SCHEDULE" == "30 0 * * *" ]]; then
             echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"
