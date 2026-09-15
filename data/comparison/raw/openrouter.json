@@ -1,6 +1,41 @@
 {
-  "fetched_at": "2026-09-13T23:07:59.809Z",
+  "fetched_at": "2026-09-15T23:31:20.880Z",
   "data": [
+    {
+      "id": "~deepseek/deepseek-pro-latest",
+      "name": "DeepSeek: DeepSeek Pro Latest",
+      "created": 1789399174,
+      "hugging_face_id": null,
+      "context_length": 1048576,
+      "modality": "text->text",
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 5.808e-7,
+      "completion": 0.0000017424,
+      "input_cache_read": 5.808e-8
+    },
+    {
+      "id": "~deepseek/deepseek-flash-latest",
+      "name": "DeepSeek: DeepSeek Flash Latest",
+      "created": 1789399150,
+      "hugging_face_id": null,
+      "context_length": 1048576,
+      "modality": "text+image->text",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 1.5e-7,
+      "completion": 6e-7,
+      "input_cache_read": 1.5e-8
+    },
     {
       "id": "inference-net/schematron-v2-turbo",
       "name": "Inference.net: Schematron V2 Turbo",
@@ -613,9 +648,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.5e-7,
-      "completion": 5e-7,
-      "input_cache_read": 3e-8
+      "prompt": 7.5e-8,
+      "completion": 2.5e-7,
+      "input_cache_read": 1.5e-8
     },
     {
       "id": "z-ai/glm-5.3-flash:batch",
@@ -740,9 +775,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 9.36e-7,
-      "completion": 0.000003168,
-      "input_cache_read": 1.872e-7
+      "prompt": 8.775e-7,
+      "completion": 0.00000297,
+      "input_cache_read": 1.755e-7
     },
     {
       "id": "tencent/hy-mt2-7b",
@@ -774,9 +809,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.000001092,
-      "completion": 0.000003432,
-      "input_cache_read": 2.028e-7
+      "prompt": 0.0000014,
+      "completion": 0.0000044,
+      "input_cache_read": 2.6e-7
     },
     {
       "id": "z-ai/glm-5.3:batch",
@@ -959,9 +994,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5.7948e-7,
-      "completion": 0.00000173844,
-      "input_cache_read": 1.9316e-8
+      "prompt": 6.6e-7,
+      "completion": 0.00000198,
+      "input_cache_read": 2.2e-8
     },
     {
       "id": "deepseek/deepseek-v4-pro-0813:batch",
@@ -1156,9 +1191,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3.52e-8,
-      "completion": 1.056e-7,
-      "input_cache_read": 1.12e-9
+      "prompt": 4e-8,
+      "completion": 1e-7,
+      "input_cache_read": 1e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731",
@@ -1173,9 +1208,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4e-8,
-      "completion": 8e-8,
-      "input_cache_read": 8e-9
+      "prompt": 5.5e-8,
+      "completion": 1.1e-7,
+      "input_cache_read": 1.1e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731:batch",
@@ -1210,25 +1245,6 @@
         "text"
       ],
       "prompt": 4.5e-7,
-      "completion": 0.0000012,
-      "input_cache_read": 1e-7
-    },
-    {
-      "id": "thinkingmachines/inkling-small:batch",
-      "name": "Thinking Machines: Inkling Small (batch)",
-      "created": 1785443117,
-      "hugging_face_id": "thinkingmachines/Inkling-Small",
-      "context_length": 524288,
-      "modality": "text+image+audio->text",
-      "input_modalities": [
-        "text",
-        "image",
-        "audio"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 5e-7,
       "completion": 0.0000012,
       "input_cache_read": 1e-7
     },
@@ -1272,7 +1288,7 @@
     },
     {
       "id": "anthropic/claude-opus-5",
-      "name": "Claude Opus 5",
+      "name": "Anthropic: Claude Opus 5",
       "created": 1784912544,
       "hugging_face_id": null,
       "context_length": 1000000,
@@ -1291,7 +1307,7 @@
     },
     {
       "id": "anthropic/claude-opus-5:batch",
-      "name": "Claude Opus 5 (batch)",
+      "name": "Anthropic: Claude Opus 5 (batch)",
       "created": 1784912544,
       "hugging_face_id": null,
       "context_length": 1000000,
@@ -2109,9 +2125,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6e-7,
-      "completion": 0.000002,
-      "input_cache_read": 1.5e-7
+      "prompt": 0.0000014,
+      "completion": 0.0000044,
+      "input_cache_read": 1.4e-7
     },
     {
       "id": "z-ai/glm-5.2:batch",
@@ -2129,6 +2145,23 @@
       "prompt": 7e-7,
       "completion": 0.0000022,
       "input_cache_read": 7e-8
+    },
+    {
+      "id": "z-ai/glm-5.2:free",
+      "name": "Z.ai: GLM 5.2 (free)",
+      "created": 1781631930,
+      "hugging_face_id": "zai-org/GLM-5.2",
+      "context_length": 32768,
+      "modality": "text->text",
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0,
+      "completion": 0,
+      "input_cache_read": null
     },
     {
       "id": "openrouter/fusion",
@@ -2271,9 +2304,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6.25e-7,
-      "completion": 0.000003125,
-      "input_cache_read": 1.875e-7
+      "prompt": 6e-7,
+      "completion": 0.0000024,
+      "input_cache_read": 1.2e-7
     },
     {
       "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -2976,9 +3009,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4.62e-8,
-      "completion": 9.24e-8,
-      "input_cache_read": 9.24e-9
+      "prompt": 7.476e-8,
+      "completion": 1.4952e-7,
+      "input_cache_read": 1.4952e-8
     },
     {
       "id": "tencent/hy3-preview",
@@ -3219,25 +3252,6 @@
       "prompt": 9e-8,
       "completion": 3.4e-7,
       "input_cache_read": 5e-8
-    },
-    {
-      "id": "google/gemma-4-31b-it:batch",
-      "name": "Google: Gemma 4 31B (batch)",
-      "created": 1775148486,
-      "hugging_face_id": "google/gemma-4-31B-it",
-      "context_length": 262144,
-      "modality": "text+image+video->text",
-      "input_modalities": [
-        "image",
-        "text",
-        "video"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 3.9e-7,
-      "completion": 9.7e-7,
-      "input_cache_read": null
     },
     {
       "id": "google/gemma-4-31b-it:free",
@@ -3584,8 +3598,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 8.5e-8,
-      "completion": 4e-7,
+      "prompt": 8e-8,
+      "completion": 4.5e-7,
       "input_cache_read": null
     },
     {
@@ -3829,9 +3843,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3.125e-7,
-      "completion": 0.00000125,
-      "input_cache_read": 1.5625e-7
+      "prompt": 1.625e-7,
+      "completion": 0.0000013,
+      "input_cache_read": null
     },
     {
       "id": "qwen/qwen3.5-27b",
@@ -5840,23 +5854,6 @@
       "input_cache_read": 3e-8
     },
     {
-      "id": "openai/gpt-oss-20b:batch",
-      "name": "OpenAI: gpt-oss-20b (batch)",
-      "created": 1754414229,
-      "hugging_face_id": "openai/gpt-oss-20b",
-      "context_length": 131072,
-      "modality": "text->text",
-      "input_modalities": [
-        "text"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 5e-8,
-      "completion": 2e-7,
-      "input_cache_read": null
-    },
-    {
       "id": "anthropic/claude-opus-4.1",
       "name": "Anthropic: Claude Opus 4.1",
       "created": 1754411591,
@@ -6445,27 +6442,6 @@
       "input_cache_read": 4e-8
     },
     {
-      "id": "google/gemini-2.5-pro-preview-05-06",
-      "name": "Google: Gemini 2.5 Pro Preview 05-06",
-      "created": 1746578513,
-      "hugging_face_id": "",
-      "context_length": 1048576,
-      "modality": "text+image+file+audio+video->text",
-      "input_modalities": [
-        "text",
-        "image",
-        "file",
-        "audio",
-        "video"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0.00000125,
-      "completion": 0.00001,
-      "input_cache_read": 1.25e-7
-    },
-    {
       "id": "meta-llama/llama-guard-4-12b",
       "name": "Meta: Llama Guard 4 12B",
       "created": 1745975193,
@@ -6530,8 +6506,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2.275e-7,
-      "completion": 9.1e-7,
+      "prompt": 1.2e-7,
+      "completion": 2.4e-7,
       "input_cache_read": null
     },
     {
@@ -6791,8 +6767,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2e-7,
-      "completion": 6.96e-7,
+      "prompt": 1.875e-7,
+      "completion": 6.525e-7,
       "input_cache_read": null
     },
     {
@@ -7974,23 +7950,6 @@
       ],
       "prompt": 0.000001,
       "completion": 0.000002,
-      "input_cache_read": null
-    },
-    {
-      "id": "openai/gpt-4-turbo-preview",
-      "name": "OpenAI: GPT-4 Turbo Preview",
-      "created": 1706140800,
-      "hugging_face_id": null,
-      "context_length": 128000,
-      "modality": "text->text",
-      "input_modalities": [
-        "text"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0.00001,
-      "completion": 0.00003,
       "input_cache_read": null
     },
     {
