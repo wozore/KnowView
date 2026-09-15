@@ -8185,6 +8185,41 @@
         "id": "tool-level3:vidu-platform"
       },
       "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:deepseek-v4.1-flash",
+      "tool_key": "deepseek-v4.1-flash",
+      "vendor_key": "deepseek",
+      "title": "DeepSeek-V4.1-Flash",
+      "vendor_label": "深度求索",
+      "icon": "🤖",
+      "summary": "DeepSeek V4.1 Flash 是 DeepSeek API 上最新的文本模型，通过模型名 deepseek-flash 调用，原生支持多模态与 1M 上下文，价格较前代下调。",
+      "theme": "general",
+      "scenes": [
+        "智能体与代码代理任务",
+        "长文档与大上下文处理",
+        "通用对话与推理",
+        "JSON 结构化输出与工具调用"
+      ],
+      "best_for_preview": "需要 1M 长上下文、Agent 能力与高性价比推理的开发者场景。",
+      "not_for_preview": "对峰值计费敏感且任务无法调度到空闲时段的高并发场景需评估成本。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "DeepSeek-V4.1-Flash",
+        "深度求索",
+        "deepseek-v4.1-flash",
+        "智能体与代码代理任务",
+        "长文档与大上下文处理",
+        "通用对话与推理",
+        "JSON 结构化输出与工具调用"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:deepseek-v4.1-flash"
+      },
+      "detail_kind": "api_model",
+      "model_key": "deepseek-deepseek-v4.1-flash"
     }
   ]
 }

@@ -21016,6 +21016,106 @@
         }
       ],
       "theme": "general"
+    },
+    {
+      "vendor_key": "deepseek",
+      "detail_kind": "api_model",
+      "title": "DeepSeek-V4.1-Flash",
+      "vendor_label": "深度求索",
+      "icon": "🤖",
+      "official_url": "https://api-docs.deepseek.com/updates",
+      "status": "active",
+      "summary": "DeepSeek V4.1 Flash 是 DeepSeek API 上最新的文本模型，通过模型名 deepseek-flash 调用，原生支持多模态与 1M 上下文，价格较前代下调。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "官方价格页列明上下文长度为 1M，输出长度最大 384K。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "deepseek-flash（DeepSeek-V4.1-Flash）",
+            "pricing_basis": "按输入与输出 token 总量计费，单位为每百万 tokens",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入（缓存命中）高峰时段",
+                "amount": 0.04,
+                "unit": "元/百万tokens"
+              },
+              {
+                "label": "输入（缓存命中）空闲时段",
+                "amount": 0.02,
+                "unit": "元/百万tokens"
+              },
+              {
+                "label": "输入（缓存未命中）高峰时段",
+                "amount": 2,
+                "unit": "元/百万tokens"
+              },
+              {
+                "label": "输入（缓存未命中）空闲时段",
+                "amount": 1,
+                "unit": "元/百万tokens"
+              },
+              {
+                "label": "输出高峰时段",
+                "amount": 8,
+                "unit": "元/百万tokens"
+              },
+              {
+                "label": "输出空闲时段",
+                "amount": 4,
+                "unit": "元/百万tokens"
+              }
+            ],
+            "conditions": "高峰时段为北京时间周一至周五 9:00-12:00、14:00-18:00，其余为空闲时段；空闲时段价格为高峰时段的一半；并发限制 2500。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Agent 与代码任务",
+          "description": "模型显著增强了 Agent 能力，并原生支持 Responses API 且针对 Codex 适配，适合编码代理场景。"
+        },
+        {
+          "title": "长上下文处理",
+          "description": "上下文长度达 1M、输出最大 384K，适合超长文档分析与大规模代码库理解。"
+        },
+        {
+          "title": "成本敏感的批量任务",
+          "description": "空闲时段价格为高峰时段一半，可调度任务安排在空闲时段以降低费用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "强时效高峰并发",
+          "description": "高峰时段（北京时间周一至周五 9:00-12:00、14:00-18:00）价格较高且并发受限，需评估成本与限速。"
+        },
+        {
+          "title": "必须使用 V4 Pro 独立服务",
+          "description": "V4 Pro 已计划有序下线，部分时段请求会被路由到 V4.1 Flash 并按 Flash 价格计费。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Change Log | DeepSeek API Docs",
+          "url": "https://api-docs.deepseek.com/updates"
+        },
+        {
+          "title": "模型 & 价格 | DeepSeek API Docs",
+          "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-10",
+      "model_key": "deepseek-deepseek-v4.1-flash",
+      "id": "tool-level3:deepseek-v4.1-flash"
     }
   ]
 }

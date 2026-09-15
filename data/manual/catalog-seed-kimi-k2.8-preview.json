@@ -1,0 +1,31 @@
+{
+  "detail_kind": "product_variant",
+  "name": "Kimi K2.8 Preview",
+  "vendor_name": "月之暗面（Kimi）",
+  "vendor_key": "moonshot",
+  "tool_key": "kimi-k2.8-preview",
+  "official_url": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+  "repair_layers": [],
+  "placement": {
+    "existing_level1_ref": null,
+    "existing_level2_ref": {
+      "kind": "vendor-level2",
+      "id": "vendor-level2:moonshot:kimi"
+    }
+  },
+  "known_fields": {},
+  "discovery_sources": [
+    {
+      "url": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+      "kind": "official_hint"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html",
+      "kind": "official_hint"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/third-party-tools/claude-code",
+      "kind": "official_hint"
+    }
+  ]
+}

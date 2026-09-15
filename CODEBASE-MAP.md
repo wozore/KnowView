@@ -43,9 +43,6 @@
 - [LICENSE](LICENSE) — 软件 MIT 许可证。
 - [docs/manual/editorial-and-data-policy.md](docs/manual/editorial-and-data-policy.md) — AI 内容编辑、来源核验、可上传内容和禁止内容的数据政策。
 
-## src/ — Node 侧公共入口
-- [interface.js](src/catalog/interface.js) — Node 侧五模块目录唯一 Interface；三级批量替换委托共同事务。导出: `catalog, DATA_FILES, resetCatalogForTests`
-
 ## src/shared/ — 跨模块基础能力
 - [beijing-time.js](src/shared/beijing-time.js) — 固定 UTC+8 北京时间日期键、自然日键与当天零点 ISO 工具，避免本地 Windows 与 CI 时区差异。导出: `BEIJING_OFFSET_MS, beijingDateKey, beijingDayKey, beijingMidnightIso`
 - [env.js](src/shared/env.js) — dotenv 子集解析 + 项目根目录。导出: `loadDotEnv, PROJECT_DIR`
@@ -58,7 +55,6 @@
   - [openai.js](src/shared/providers/openai.js) — OpenAI 提供方独立配置。
   - [anthropic.js](src/shared/providers/anthropic.js) — Anthropic 原生提供方独立配置。
   - [index.js](src/shared/providers/index.js) — 统一汇总注册与提供方解析出口。导出: `AI_PROTOCOLS, AI_PROVIDERS, DEFAULT_PROVIDER_NAME, getProvider, resolveProvider, apiKeyForProvider`
-- [ai-config.js](src/catalog/ai-config.js) — catalog 域 AI 配置：按模块读取、合并和校验 provider/model/protocol 与 Tavily retrieval 配置（默认值跟随 registry 开关）。导出: `DEFAULT_MODULE_CONFIGS, readAiConfig, loadAiModuleConfig, validateModuleConfig`
 - [ai-transport.js](src/shared/ai-transport.js) — provider-aware Responses/Chat transport、认证/HTTP/超时错误归一化；endpoint 校验放行本地 localhost HTTP（本地 Bonsai 接入点）。导出: `DEFAULT_BASE_URL, DEFAULT_RESPONSES_ENDPOINT, classifyHttpError, redact, requestResponses, requestChatCompletions, requestMessages, textFromResponse`
 - [llm-gateway.js](src/shared/llm-gateway.js) — 统一 AI 调用网关：实现 requestStructuredJson 与 requestLlmText，统一多协议（RESPONSES / MESSAGES / CHAT / local）路由分发、负载格式自适应折叠与错误码映射。导出: `requestStructuredJson, requestLlmText, resolveTransportRoute, extractJsonValues, diagnosticsOf, toChatCompletionsPayload, toMessagesPayload, toExternalChatPayload`
 - [llm-protocol-payload.js](src/shared/llm-protocol-payload.js) — 协议负载构造与自适应格式转换。导出: `toChatCompletionsPayload, toMessagesPayload, toExternalChatPayload`
@@ -229,19 +225,19 @@
 - [history-store.js](src/news/min/history-store.js) — 来源长期质量历史库（source-history.json 持久化 + 三率加权长期质量分，纯本地无 API）。导出: `readHistoryStore, writeHistoryStore, appendSamples, evaluateLongTermQuality, computeThreeRateScore, sourceKeyOf, perSampleRates`
 - [min-history.js](src/news/min/min-history.js) — 热点候选轻量历史（维护者手动归档；最近 30 批，每条仅保存 id/title，批次时间为北京时间 `YYYY-MM-DD-HH:MM:SS`）。导出: `readMinHistory, writeMinHistory, appendMinHistory, compactCandidates, formatBatchAt, archiveMinStore`
 - [review-v2.js](src/news/min/review-v2.js) — 热点管线 v2 审核层（L0 规则硬审：字段/AI 关键词/广告 + YouTube 简介明确 AI 生成披露硬排除 → L1 AI 审：高置信 approve/discard 自动分流，争议项 pending → L2 AI 建议+人工；单状态轴 pending/approved/discarded，不依赖旧双轴；复用 content-reviewer.reviewCandidate）。导出: `l0HardFilter, l1AiReview, l2AiAdvice, applyL1Verdicts, AI_DISCLOSURE_PATTERNS, DEFAULT_COMMENTS_TOP_N, DEFAULT_AUTO_APPROVE_CONFIDENCE, DEFAULT_AUTO_DISCARD_CONFIDENCE`
-- [min-store.js](src/news/min/min-store.js) — v2 单状态轴候选层读写与候选合并；维护者工作台 mutation 使用稳定 revision、pending→approved/discarded、仅 approved 的 Top 选择门禁，以及字幕写入（transcript/transcript_file）与字幕总结写回（summary/key_points）mutation；重新采集缺字段时保留既有字幕、总结、本地化等加工结果。导出: `readMinStore, writeMinStore, commitMinStoreMutation, reviewPendingCandidates, setApprovedTopSelectedMin, setCandidateTranscriptMin, setCandidateTranscriptSummaryMin`
+- [min-store.js](src/news/min/min-store.js) — v2 单状态轴候选层（data/news/runtime/min-candidates.json）存储与合并：store 创建、revision 断言、原子写与候选合并，新条目按 id 覆盖内容字段，重新采集保留既有审核结论与字幕、总结、本地化等加工结果。导出: `MIN_CANDIDATES_PATH, MIN_REVIEW_STATUSES, DEFAULT_REVIEW_STATUS, MIN_INTERNAL_FIELDS, MIN_PUBLIC_FIELDS, createMinStore, revisionOfMinStore, assertExpectedMinRevision, readMinStore, writeMinStore, commitMinStoreMutation, mergeCandidatesMin`
 - [keyword-actions.js](src/news/min/keyword-actions.js) — 三用途关键词候选清单的子集采纳与丢弃、配置 revision 与原子提交；按 purpose 更新 content/youtube/x_discovery 正式段与对应黑名单，供 CLI 与本机工作台共同调用。
 - [daily-projection.js](src/news/min/daily-projection.js) — v2 每日 top N 公开投影（approved 按北京时间自然日分组取前 N：含 YouTube 取 8 / 纯 X 取 5，纯逻辑不调 enrich/filter 两步）。导出: `buildDailyProjection`
-- [keyword-refine.js](src/news/min/keyword-refine.js) — 人工首次审核后按 content/youtube/x_discovery 三用途提纯（分批覆盖全部 approved），每批截断标题/描述/评论适配本地模型上下文，跨批合并频次、排除已采纳与已丢弃值；各清单记录 candidate_id、purpose、source_basis、revision 与北京时间 dateKey，不直接改配置。导出: `refineKeywords, collectApprovedOriginals, chunkItems, mergeKeywordBatches, buildRuleCandidates, MAX_KEYWORD_REFINEMENT_INPUT`
+- [keyword-refine.js](src/news/min/keyword-refine.js) — 人工首次审核后按 content/youtube/x_discovery 三用途提纯（分批覆盖全部 approved），每批截断标题/描述/评论适配本地模型上下文，跨批合并频次、排除已采纳与已丢弃值；各清单记录 candidate_id、purpose、source_basis、revision 与北京时间 dateKey，不直接改配置。导出: `tokenize, buildWordFreq, buildRuleCandidates, collectApprovedOriginals, MAX_KEYWORD_REFINEMENT_INPUT, dateKeyOf, refineKeywords`
 - [transcript-workflow.js](src/news/min/transcript-workflow.js) — 字幕文件落库与外部 AI 总结（维护者工作台）：校验文件名防路径穿越、字幕文本截断存储到 `data/manual/transcripts/<candidate_id>/<file>`（可提交、不发布），并写候选层 transcript；显式成本确认后用外部 DeepSeek 重新总结写回 summary/key_points。导出: `safeTranscriptFile, saveTranscriptFile, uploadTranscript, summarizeTranscripts, MAX_TRANSCRIPT_STORED_CHARS, MAX_SUMMARIZE_PER_RUN`
 - [pipeline-min.js](src/news/min/pipeline-min.js) — 热点管线 v2 总指挥（runMin 编排）：严格读取 collection.enabled 统一总开关（关闭时全链零网络/零写入）→ 采集 → 去重 → L0 硬过滤 → 分类 → 评分 → L1/L2 审核 → 候选落地 → 总结/本地化 → 自动生成待审清单 → 每日公开投影。导出: `runMin, loadV2Config, isCollectionEnabled, normalizeNow, resolveXWindow`
 - [pipeline-collect.js](src/news/min/pipeline-collect.js) — 热点管线采集步骤执行与多平台并行调度。
 - [pipeline-schedule.js](src/news/min/pipeline-schedule.js) — 热点管线到期判定、时间窗计算与调度状态持久化。
-- [min-review-actions.js](src/news/min/min-review-actions.js) — min-candidates 审核状态批量流转与变更提交动作。
+- [min-review-actions.js](src/news/min/min-review-actions.js) — min-candidates 维护者 mutation 动作集：审核状态批量流转（pending→approved/discarded）、仅 approved 的 Top 选择门禁、字幕写入（transcript/transcript_file）与字幕总结写回（summary/key_points），以及公开/展示资格判定与公开投影内部字段剔除。导出: `MAX_TRANSCRIPT_STORED_CHARS, assertValidReviewStatusMin, reviewPendingCandidates, setReviewStatusMin, setBatchReviewStatusMin, setTopSelectedMin, setApprovedTopSelectedMin, setCandidateTranscriptMin, setCandidateTranscriptSummaryMin, isMinPublicEligible, isMinDisplayEligible, toPublicItemMin`
 - [review-list.js](src/news/min/review-list.js) — 人工审核清单：自动生成待审清单 review.json（文件名固定去掉日期后缀，date 为北京时间；带 id、只含 pending、评分倒序；已存在时追加新 pending、保留人工结论、--force 强制重建）+ 应用人工结论批量写回候选层（apply；pending 跳过、无 id 旧格式拒绝）。维护者入口：bat/after-first-review.bat、bat/archive-min.bat（归档时重置当日人工清单）。导出: `scoreOf, suggestReview, buildReviewList, mergeReviewCandidates, loadReviewList, applyReviewList`
 - [local-enrichment.js](src/news/min/local-enrichment.js) — 本地 Bonsai 批量增量加工编排：按批调用 enrichment-core，维护断点恢复与人工/字幕保护；自愈修复流程由 min-repair.js 独立拥有。导出: `enrichMinCandidates`
 - [enrichment-core.js](src/news/min/enrichment-core.js) — 候选加工共享机制层：残缺判定、L1/L2 单条审核、并发安全落盘与摘要/本地化加工；供 enrich 与 repair 共用。导出: `nonNegativeInteger, needsL1Review, needsL2Advice, needsReviewWork, needsSummary, needsLocalize, needsRepair, countEnrichmentWork, countRepairWork, enrichCandidate, repairCandidate...`
-- [min-repair.js](src/news/min/min-repair.js) — 双通道自愈修复编排：按残缺判定对候选批量补齐审核、摘要与本地化，支持本地+外部通道。导出: `DEFAULT_REPAIR_LIMIT, repairIncompleteCandidates`
+- [min-repair.js](src/news/min/min-repair.js) — 双通道自愈修复编排：按残缺判定对候选批量补齐审核、摘要与本地化，支持本地+外部通道。导出: `repairIncompleteCandidates`
 - [ai-top.js](src/news/min/ai-top.js) — approved 候选的 AI top 结果确定性收敛：按当前北京时间自然日的 approved 候选是否含 YouTube 决定 Top N，再按 AI 选择顺序取值并按评分补齐。导出: `selectTopCandidates`
 
 ### collectors/ — 各平台采集（会发网络请求）
@@ -344,6 +340,7 @@
 - [catalog-synthesis-prompt.test.js](tests/catalog/catalog-synthesis-prompt.test.js) — 合成 prompt 按层分组、来源截断限量、跳过无正文来源与指令规则回归。
 - [catalog-adapters.test.js](tests/catalog/catalog-adapters.test.js) — Tavily 官方域名发现、清洗正文、能力探针与 DeepSeek 组合 Adapter 回归。
 - [catalog-batch.test.js](tests/catalog/catalog-batch.test.js) — 批量生成编排回归：读卡、三层查重、双表登记/解析/detail_kind_hint、`update_sources` 严格契约与 batch 兼容性、dry-run 预览、全局成本门禁、批量循环失败隔离、登记表增删。
+- [catalog-bundle.test.js](tests/catalog/catalog-bundle.test.js) — SeriesBundle v4 全链离线回归：prepare 锁与超时回收、成员富化 hard-limit 二次确认与共享 ledger、finalize 内存收口、富化失败保持 blocked、cleanup_pending 只收敛不重复提交、v4 不读取 v3 Draft。
 - [catalog-workbench.test.js](tests/catalog/catalog-workbench.test.js) — 工作台 Catalog 协调器回归：成本/计划/Apply 门禁、不自动 Apply、discard 绑定当前 catalog revision。
 - [catalog-integrated-lookup.test.js](tests/catalog/catalog-integrated-lookup.test.js) — 共享 release_date 索引机械查找回归：tool_key/标题/slug/identity 对齐、deterministic 来源跳过官方来源校验。
 - [catalog-retention-prune.test.js](tests/catalog/catalog-retention-prune.test.js) — 14 个月滚动级联删除回归：过期 tool/api_model 判据、级联删 vendor 链、无日期/subscription_plan 保守保留、引用清理、featured 悬空只报不改。
@@ -353,6 +350,7 @@
 - [tool-update-collector.test.js](tests/catalog/tool-update-collector.test.js) — 专用更新网页 collector 全离线回归：GitHub REST/raw 请求构造、来源仓库/路径校验、release 过滤、限流重试、tag-only discovery、Tavily Extract-only 和统一证据。
 - [tool-update-review.test.js](tests/catalog/tool-update-review.test.js) — 工具更新 AI/planner/store 全离线回归：五字段结构化输出、本地/DeepSeek 成本门禁、实体/组件/日期阻断、队列幂等、人工结论保留和 evidence hash 重开。
 - [tool-update-review-cli.test.js](tests/catalog/tool-update-review-cli.test.js) — 工具更新 CLI 离线回归：参数解析、Tavily/DeepSeek 门禁、本地模型汉化与失败重试、外部摘要成本门禁、scan 不 Apply、localize 回填/list 只读和 Apply 三重确认门禁。
+- [tool-update-review-workbench.test.js](tests/catalog/tool-update-review-workbench.test.js) — 工具更新审核队列工作台动作回归：只读投影与 revision、单条审核状态原子写、blocked 候选仅可显式拒绝、陈旧 revision/未知候选/非法状态 fail-closed 不写盘。
 - [concept-batch.test.js](tests/catalog/concept-batch.test.js) — 概念批量编排回归：读卡、双层查重、approved 摘要证据匹配与 K 上限、vibe-hub 补充/失败静默、成本估算、dry-run 零网络零写入、成本门禁、合成失败隔离、预览文件、apply 必填校验/去重/合并保序/terms 子集。
 - [vibe-hub-evidence.test.js](tests/catalog/vibe-hub-evidence.test.js) — vibe-hub 提取回归：term→slug（中文 null）、JSON-LD/正文结构化提取、缓存命中零网络、未命中 GET+写缓存、TTL 过期重抓、404/网络失败 null、串行节流、过期刷新与失败保留。
 - [catalog-profile-contract.test.js](tests/catalog/catalog-profile-contract.test.js) — CatalogProfile 适用性、video API 必需谓词、稳定目标与逐层 create/replace/noop 规划回归。
@@ -360,6 +358,9 @@
 - [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、全新创建、专用改名、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、孤儿为空、既有浮空详情入 warnings、非政策厂商零漂移；集成真实快照迁移后校验通过且关键终态符合政策。
 - [catalog-series-placement-ai.test.js](tests/catalog/catalog-series-placement-ai.test.js) — 二级系列 AI 分类 Adapter 回归：prompt 白名单无密钥、结构校验、缺 ledger fail-closed、resolveSeriesPlacement 人工优先/非法拒绝、确定性 decision existing/create、专用与无政策厂商 not_applicable、GLM 第 4 个成员 migration_required、needs_ai 未放行/放行+AI hint/冲突/失败各分支、applyPlacementToSeed 写入 seed。
 - [series-data-audit.test.js](tests/catalog/series-data-audit.test.js) — 系列/模型键数据纯只读审计回归：12 类 finding 与 5 类建议动作枚举、干净快照零 finding、全注入输入零改动、空输入鲁棒。
+- [model-identity-verification.test.js](tests/catalog/model-identity-verification.test.js) — 模型/系列官方身份核验全离线回归：AI 建议值校验与正文出现判定、回执复用与 24 小时 TTL、成员发现与 catalog model_key 索引、receipts 临时目录注入。
+- [series-bundle-contract.test.js](tests/catalog/series-bundle-contract.test.js) — SeriesBundle 契约校验全离线回归：合法基线逐条变异触发 Patch 覆盖集八条规则与结构校验 blocker、bundleTokenOf 稳定性。
+- [series-bundle-planner.test.js](tests/catalog/series-bundle-planner.test.js) — SeriesBundle 确定性规划器零网络回归：成员三分类（already_complete/bundled/deferred）、政策重算目标系列、容量 6 与第 7 个起按 release_date 最旧转 hidden_history、新建 L2 的 L1 补丁、bridge entries 与非系列 verdict 拒绝。
 - [catalog-research.test.js](tests/catalog/catalog-research.test.js) — 官方域名过滤、Tavily-only 成本、字段级 missing-only resume 和硬成本账本回归。
 - [catalog-synthesis.test.js](tests/catalog/catalog-synthesis.test.js) — 完整层字段合成、来源 provenance、字段级 Profile mismatch、占位/伪造覆盖拒绝和 noop 层回归。
 - [catalog-transaction-store.test.js](tests/catalog/catalog-transaction-store.test.js) — 精确 area/id 删除规划、引用清理、缺失目标和不完整删除集回归。
@@ -387,6 +388,7 @@
 - [validate-news-config.test.js](tests/maintenance/validate-news-config.test.js) — news-config-v2 安全字段与 last-run X credits/request schema 校验。
 - [model-exclusions.test.js](tests/comparison/model-exclusions.test.js) — 排除规则 schema、token-boundary prefix、exact identity、命中诊断和 fail-closed 回归。
 - [rebuild-comparison.test.js](tests/comparison/rebuild-comparison.test.js) — 模型对比管线回归：4 源对齐/合并、models-alias 覆盖、维度归一化、综合分缺源重分配、性价比、单源/无综合分模型、整系列排除在 Elo/value/series 前生效且不写 raw、LiveBench CSV 聚合、llm-stats RSC 解析、LMArena 快照 fail-closed。
+- [run-comparison.test.js](tests/comparison/run-comparison.test.js) — 对比抓取编排与 retention 事务性回归：抓取未全绿跳过重建且磁盘 retention.json 不提前推进，全绿且重建成功后才持久化推进。
 - [model-series.test.js](tests/comparison/model-series.test.js) — 系列投影回归：系列/成员/修订变体聚合、人工成员展示名与重叠登记优先级。
 - [retention.test.js](tests/comparison/retention.test.js) — 14 个月滚动删除回归：纯函数（窗口/推进/幂等/自愈）+ 校验接口（readRetentionState 冻结回退、advanceRetentionToNow 唯一写入口、writeRetention fail-closed）。
 - [release-date.test.js](tests/comparison/release-date.test.js) — release_date 多源解析回归：llm-stats 优先、openrouter 兜底、catalog 反查 Path A/B 经共享投影、filterByReleaseCutoff 排除/保守保留。
@@ -408,6 +410,7 @@
 - [transcript-workflow.test.js](tests/news/transcript-workflow.test.js) — 字幕文件落库与外部 AI 总结回归：路径穿越/非法文件名拒绝、approved 门禁、成本确认、AI 总结写回、无字幕/缺失候选失败汇总、存储截断。
 - [min-history.test.js](tests/news/min-history.test.js) — 热点候选轻量历史归档、压缩与批次日期回归。
 - [news-cmd-min.test.js](tests/news/news-cmd-min.test.js) — `min-review` 审核/关键词/top/归档命令纯逻辑回归。
+- [news-workbench-domain.test.js](tests/news/news-workbench-domain.test.js) — 新闻工作台领域 mutation 离线回归：revision 防陈旧写、approved/pending 门禁、Top set/unset 不触碰公开投影、关键词仅从固定清单采纳子集并原子写。
 - [news-localizer.test.js](tests/news/news-localizer.test.js) — 候选标题/描述本地化输入、输出与降级回归。
 - [news-public-gate.test.js](tests/news/news-public-gate.test.js) — 公开字段完整性、时间窗与投影过滤回归。
 - [local-enrichment.test.js](tests/news/local-enrichment.test.js) — 本地 Bonsai 增量加工与双通道自愈修复回归：分批落盘、跳过阶段、人工/字幕保护、失败回退与审核统计边界。
@@ -423,6 +426,8 @@
 - [document-policy.test.js](tests/maintenance/document-policy.test.js) — 文档路径、忽略与 Git 暂存状态、扩展名大小写和 Git 失败的离线回归。
 - [env.test.js](tests/maintenance/env.test.js) — `.env` 子集解析、覆盖规则与项目根目录回归。
 - [validate-comparison.test.js](tests/maintenance/validate-comparison.test.js) — integrated 对比数据、raw 快照与引用契约校验回归。
+- [maintainer-workbench-server.test.js](tests/maintenance/maintainer-workbench-server.test.js) — 维护者工作台 server HTTP 集成回归（注入 service）：127.0.0.1 绑定与 token URL、静态资源白名单与超大/恶意请求体拒绝、Bearer + 同源鉴权、stale revision 以 409 返回不泄露内部值、recovery/Bundle 路由字段白名单与二阶段富化确认、字幕上传更大请求体与成本确认。
+- [maintainer-workbench-service.test.js](tests/maintenance/maintainer-workbench-service.test.js) — 维护者工作台 service 领域编排回归（注入 API）：读取投影携带 revision、首审 enriching 锁定与门禁统计、Top 池仅收录 approved、工具更新当前 pending 与历史证据分离、字幕上传/外部总结委托底层并保留成本确认、Catalog recovery 顶层参数白名单与受控提交、清空需全部审核完成。
 - [fixtures/x.json](tests/fixtures/x.json) — 新闻管线 X 平台测试夹具。
 
 ## scripts/ — 命令入口（薄包装；src/ 为纯逻辑）
@@ -441,7 +446,7 @@
 - [validate.js](scripts/validate.js) — 校验聚合入口
 - [check-document-policy.js](scripts/check-document-policy.js) — 只读文档路径、忽略与 Git 跟踪状态检查，接入 validate。导出: `validateDocumentPaths, checkDocuments, main`
 - [check-standards.js](scripts/check-standards.js) — 零依赖规范静态检查器（validate.js 前置门禁，全部 CI 工作流生效）：依赖方向/垫片/旧契约叙事/体量导出/环/组装纪律/src 文件 CODEBASE-MAP 登记完整性 7 类检测；存量违规白名单 `scripts/check-standards.whitelist.json`（git 跟踪，条目带机器校验 count，白名单文件内违规增长报 whitelist-growth，铁律只减不增）。导出: `runChecks, main`
-- [build-dist.js](scripts/build-dist.js) — src/web + public + data → dist/（维护者入口：bat/build-dist.bat）
+- [build-dist.js](scripts/build-dist.js) — 调 buildStaticSite 构建 dist/：src/web 与 public 全量复制，data 仅选择性复制（catalog 全量、news/output、comparison 的 view-config/models-alias/integrated）；data/manual 与 data/shared 不进 dist（维护者入口：bat/build-dist.bat）
 - [browser-acceptance.js](scripts/browser-acceptance.js) — 依赖零安装的 Edge/CDP 真实页面验收：读取被忽略的 `config/browser.local.json`，启动 dist 静态站与临时 Edge profile，检查 18 张模型卡搜索/详情、三级模型对比选择器的厂商/系列展开与模型搜索、revision/degree 交互、旧 Spark/xunfei 隐藏和排除模型不可见。
 - [publish-news.js](scripts/publish-news.js) — 候选 → 公开投影 + RSS 发布（**默认走 v2：min-candidates approved 按每日 top 重建 hotspots.json**）
 - [run-after-first-review.js](scripts/run-after-first-review.js) — 首次审核结论落地后安全并行 `refine` 与 `ai-top`；任一失败仅终止本次记录子进程并整体失败。导出: `runAfterFirstReview`
@@ -459,24 +464,9 @@
 - [build-dist.bat](bat/build-dist.bat) — 重建静态 dist。
 
 ## R4 新增实现文件
-- [draft-options.js](src/catalog/draft/draft-options.js) — Catalog Draft 配置、Seed 校验与研究成本预算。
 - [static-site.js](src/build/static-site.js) — 静态站点复制构建器。
-- [preview-store.js](src/catalog/concept/preview-store.js) — 概念预览读写与校验。
-- [resolution.js](src/catalog/intake/resolution.js) — 待补卡批量解析与查重编排。
-- [html-collector.js](src/catalog/tool-update/html-collector.js) — 官方更新页 HTML 抓取与文本清洗。
-- [review-model.js](src/catalog/tool-update/review-model.js) — 工具更新审核队列的安全投影与排序纯函数。
-- [review-queue-store.js](src/catalog/tool-update/review-queue-store.js) — 工具更新审核队列持久化契约。
-- [directory-swap.js](src/catalog/transaction/directory-swap.js) — 目录交换、备份与 Windows 回退操作。
-- [engine.js](src/catalog/transaction/engine.js) — Catalog 快照事务、journal、回滚与恢复。
-- [removal-planner.js](src/catalog/transaction/removal-planner.js) — 精确删除目标与引用清理规划。
-- [product-registry.js](src/catalog/url-registry/product-registry.js) — 产品官方 URL 与更新源登记模块。
-- [catalog-seed.js](src/pending/catalog-seed.js) — 待补工具候选到 Catalog Seed 的转换。
-- [rules.js](src/pending/rules.js) — 待补候选名称与知识库匹配规则。
 
 ## R5-R9 新增实现文件
-- [rebuild-canonical.js](src/comparison/core/rebuild-canonical.js) — 模型对比名称与别名多源规范化。
-- [rebuild-collector.js](src/comparison/core/rebuild-collector.js) — 4 源快照收集聚拢与有效记录过滤。
-- [rebuild-dimensions.js](src/comparison/core/rebuild-dimensions.js) — 评测维度归一化与模型指标装配。
 - [check-secrets.js](src/maintenance/check-secrets.js) — 核心密钥与高熵模式扫描守卫。
 - [news-domain.js](src/maintenance/workbench/news-domain.js) — 维护者工作台新闻首审与处理领域服务。
 - [tool-update-domain.js](src/maintenance/workbench/tool-update-domain.js) — 维护者工作台工具更新审核领域服务。
@@ -489,8 +479,8 @@
 - [overview-panel.js](src/maintainer-web/js/panels/overview-panel.js) — 维护者平台概览与清空面板。
 - [news-panel.js](src/maintainer-web/js/panels/news-panel.js) — 维护者平台新闻首审流转面板。
 - [keywords-panel.js](src/maintainer-web/js/panels/keywords-panel.js) — 维护者平台关键词提纯面板。
-- [top-panel.js](src/maintainer-web/js/panels/top-panel.js) — 维护者平台 Top 选择与发布预览面板。
+- [top-panel.js](src/maintainer-web/js/panels/top-panel.js) — 维护者平台 Top 待选池面板：Top 生成/选择/保存、公开投影重建与发布预览渲染，及已选 Top YouTube 条目的字幕文件上传与显式成本确认后的外部 AI 总结。
 - [knowledge-panel.js](src/maintainer-web/js/panels/knowledge-panel.js) — 维护者平台知识提取与待补卡面板。
-- [catalog-panel.js](src/maintainer-web/js/panels/catalog-panel.js) — 维护者平台目录草稿生成与应用面板。
+- [catalog-panel.js](src/maintainer-web/js/panels/catalog-panel.js) — 维护者平台目录草稿与 SeriesBundle 审核面板：Catalog/Bundle 计划、准备与增量成本确认，Draft 阻断恢复（恢复计划预览 + resume）与 cleanup-only 清理，Bundle 审核/Apply/丢弃与 pending outcome 收敛，批次预览与 apply-batch 事务写入。
 - [concept-panel.js](src/maintainer-web/js/panels/concept-panel.js) — 维护者平台概念合成与应用面板。
 - [tool-update-panel.js](src/maintainer-web/js/panels/tool-update-panel.js) — 维护者平台工具更新审核面板。

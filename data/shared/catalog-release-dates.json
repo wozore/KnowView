@@ -1,7 +1,47 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-07T12:34:32.097Z",
+  "generated_at": "2026-09-15T16:01:20.466Z",
   "entries": [
+    {
+      "detail_id": "tool-level3:bailing-ling-1t",
+      "detail_kind": "api_model",
+      "vendor_key": "antgroup",
+      "title": "Ling-1T",
+      "tool_key": "bailing-ling-1t",
+      "release_date": "2025-11-06"
+    },
+    {
+      "detail_id": "tool-level3:bailing-ling-2-5-1t",
+      "detail_kind": "api_model",
+      "vendor_key": "antgroup",
+      "title": "Ling-2.5-1T",
+      "tool_key": "bailing-ling-2-5-1t",
+      "release_date": "2026-02-18"
+    },
+    {
+      "detail_id": "tool-level3:bailing-ming-omni",
+      "detail_kind": "api_model",
+      "vendor_key": "antgroup",
+      "title": "Ming-omni",
+      "tool_key": "bailing-ming-omni",
+      "release_date": "2025-11-06"
+    },
+    {
+      "detail_id": "tool-level3:bailing-ring-1t",
+      "detail_kind": "api_model",
+      "vendor_key": "antgroup",
+      "title": "Ring-1T",
+      "tool_key": "bailing-ring-1t",
+      "release_date": "2025-11-06"
+    },
+    {
+      "detail_id": "tool-level3:bailing-ring-2-5-1t",
+      "detail_kind": "api_model",
+      "vendor_key": "antgroup",
+      "title": "Ring-2.5-1T",
+      "tool_key": "bailing-ring-2-5-1t",
+      "release_date": "2026-02-18"
+    },
     {
       "detail_id": "tool-level3:claude-fable-5.1",
       "detail_kind": "api_model",
@@ -35,6 +75,14 @@
       "release_date": "2026-02-17"
     },
     {
+      "detail_id": "tool-level3:command-a",
+      "detail_kind": "api_model",
+      "vendor_key": "cohere",
+      "title": "Command A",
+      "tool_key": "command-a",
+      "release_date": "2025-03-13"
+    },
+    {
       "detail_id": "tool-level3:command-a-plus",
       "detail_kind": "api_model",
       "vendor_key": "cohere",
@@ -49,6 +97,110 @@
       "title": "DeepSeek-V4-Pro",
       "tool_key": "deepseek-v4-pro",
       "release_date": "2026-04-24"
+    },
+    {
+      "detail_id": "tool-level3:deepseek-v4.1-flash",
+      "detail_kind": "api_model",
+      "vendor_key": "deepseek",
+      "title": "DeepSeek-V4.1-Flash",
+      "tool_key": "deepseek-v4.1-flash",
+      "release_date": "2026-09-10"
+    },
+    {
+      "detail_id": "tool-level3:doubao-1.5-lite",
+      "detail_kind": "api_model",
+      "vendor_key": "bytedance",
+      "title": "Doubao-1.5-Lite",
+      "tool_key": "doubao-1.5-lite",
+      "release_date": "2025-07-15"
+    },
+    {
+      "detail_id": "tool-level3:doubao-1.5-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "bytedance",
+      "title": "Doubao-1.5-Pro",
+      "tool_key": "doubao-1.5-pro",
+      "release_date": "2025-07-15"
+    },
+    {
+      "detail_id": "tool-level3:doubao-seed-2.0-mini",
+      "detail_kind": "api_model",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seed-2.0-Mini",
+      "tool_key": "doubao-seed-2.0-mini",
+      "release_date": "2026-04-28"
+    },
+    {
+      "detail_id": "tool-level3:doubao-seed-character",
+      "detail_kind": "api_model",
+      "vendor_key": "bytedance",
+      "title": "Doubao Seed Character",
+      "tool_key": "doubao-seed-character",
+      "release_date": "2026-06-28"
+    },
+    {
+      "detail_id": "tool-level3:doubao-seedance-2.5",
+      "detail_kind": "api_model",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seedance-2.5",
+      "tool_key": "doubao-seedance-2.5",
+      "release_date": "2026-08-14"
+    },
+    {
+      "detail_id": "tool-level3:doubao-seedream-5.0-lite",
+      "detail_kind": "api_model",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seedream-5.0-Lite",
+      "tool_key": "doubao-seedream-5.0-lite",
+      "release_date": "2026-01-28"
+    },
+    {
+      "detail_id": "tool-level3:doubao-seedream-5.0-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "bytedance",
+      "title": "Doubao-Seedream-5.0-Pro",
+      "tool_key": "doubao-seedream-5.0-pro",
+      "release_date": "2026-06-28"
+    },
+    {
+      "detail_id": "tool-level3:flux-2-flex",
+      "detail_kind": "api_model",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [flex]",
+      "tool_key": "flux-2-flex",
+      "release_date": "2025-11-25"
+    },
+    {
+      "detail_id": "tool-level3:flux-2-klein",
+      "detail_kind": "api_model",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [klein]",
+      "tool_key": "flux-2-klein",
+      "release_date": "2026-01-15"
+    },
+    {
+      "detail_id": "tool-level3:flux-2-max",
+      "detail_kind": "api_model",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [max]",
+      "tool_key": "flux-2-max",
+      "release_date": "2026-02-10"
+    },
+    {
+      "detail_id": "tool-level3:flux-2-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX.2 [pro]",
+      "tool_key": "flux-2-pro",
+      "release_date": "2025-11-25"
+    },
+    {
+      "detail_id": "tool-level3:flux-3",
+      "detail_kind": "api_model",
+      "vendor_key": "black-forest-labs",
+      "title": "FLUX 3",
+      "tool_key": "flux-3",
+      "release_date": "2026-07-23"
     },
     {
       "detail_id": "tool-level3:gemini-3-1-pro",
@@ -97,6 +249,14 @@
       "title": "Gemini 3.5 Flash",
       "tool_key": "gemini-3.5-flash",
       "release_date": "2026-05-19"
+    },
+    {
+      "detail_id": "tool-level3:glm-4-7-flash",
+      "detail_kind": "api_model",
+      "vendor_key": "zhipu",
+      "title": "GLM-4.7 Flash",
+      "tool_key": "glm-4-7-flash",
+      "release_date": "2025-12-22"
     },
     {
       "detail_id": "tool-level3:glm-5-3-flash",
@@ -299,20 +459,68 @@
       "release_date": "2026-07-29"
     },
     {
-      "detail_id": "tool-level3:kling-2-6-pro",
+      "detail_id": "tool-level3:hunyuan-image-3.0",
       "detail_kind": "api_model",
-      "vendor_key": "kuaishou",
-      "title": "Kling 2.6 Pro",
-      "tool_key": "kling-2-6-pro",
-      "release_date": "2025-12-03"
+      "vendor_key": "tencent",
+      "title": "混元图像 3.0",
+      "tool_key": "hunyuan-image-3.0",
+      "release_date": "2026-01-26"
     },
     {
-      "detail_id": "tool-level3:kling-3-0",
+      "detail_id": "tool-level3:hunyuan-t1",
       "detail_kind": "api_model",
-      "vendor_key": "kuaishou",
-      "title": "Kling 3.0",
-      "tool_key": "kling-3-0",
-      "release_date": "2026-02-06"
+      "vendor_key": "tencent",
+      "title": "Hunyuan T1",
+      "tool_key": "hunyuan-t1",
+      "release_date": "2025-08-15"
+    },
+    {
+      "detail_id": "tool-level3:hunyuan-video",
+      "detail_kind": "api_model",
+      "vendor_key": "tencent",
+      "title": "混元生视频",
+      "tool_key": "hunyuan-video",
+      "release_date": "2025-12-10"
+    },
+    {
+      "detail_id": "tool-level3:hy2-think",
+      "detail_kind": "api_model",
+      "vendor_key": "tencent",
+      "title": "Tencent HY 2.0 Think",
+      "tool_key": "hy2-think",
+      "release_date": "2025-11-10"
+    },
+    {
+      "detail_id": "tool-level3:hy3",
+      "detail_kind": "api_model",
+      "vendor_key": "tencent",
+      "title": "混元 Hy3",
+      "tool_key": "hy3",
+      "release_date": "2025-10-15"
+    },
+    {
+      "detail_id": "tool-level3:hy4-preview",
+      "detail_kind": "api_model",
+      "vendor_key": "tencent",
+      "title": "Hy4 Preview",
+      "tool_key": "hy4-preview",
+      "release_date": "2026-08-28"
+    },
+    {
+      "detail_id": "tool-level3:inkling",
+      "detail_kind": "api_model",
+      "vendor_key": "thinking-machines",
+      "title": "Inkling",
+      "tool_key": "inkling",
+      "release_date": "2026-04-15"
+    },
+    {
+      "detail_id": "tool-level3:inkling-small",
+      "detail_kind": "api_model",
+      "vendor_key": "thinking-machines",
+      "title": "Inkling-Small",
+      "tool_key": "inkling-small",
+      "release_date": "2026-08-12"
     },
     {
       "detail_id": "tool-level3:kimi-k2.6",
@@ -345,6 +553,150 @@
       "title": "Kimi K3",
       "tool_key": "kimi-k3",
       "release_date": "2026-07-16"
+    },
+    {
+      "detail_id": "tool-level3:kling-2-6-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "kuaishou",
+      "title": "Kling 2.6 Pro",
+      "tool_key": "kling-2-6-pro",
+      "release_date": "2025-12-03"
+    },
+    {
+      "detail_id": "tool-level3:kling-3-0",
+      "detail_kind": "api_model",
+      "vendor_key": "kuaishou",
+      "title": "Kling 3.0",
+      "tool_key": "kling-3-0",
+      "release_date": "2026-02-06"
+    },
+    {
+      "detail_id": "tool-level3:kling-3-0-omni",
+      "detail_kind": "api_model",
+      "vendor_key": "kuaishou",
+      "title": "Kling VIDEO 3.0 Omni",
+      "tool_key": "kling-3-0-omni",
+      "release_date": "2026-02-05"
+    },
+    {
+      "detail_id": "tool-level3:kling-image-3-0",
+      "detail_kind": "product_variant",
+      "vendor_key": "kuaishou",
+      "title": "Kling IMAGE 3.0",
+      "tool_key": "kling-image-3-0",
+      "release_date": "2026-02-04"
+    },
+    {
+      "detail_id": "tool-level3:kling-image-3-0-omni",
+      "detail_kind": "product_variant",
+      "vendor_key": "kuaishou",
+      "title": "Kling IMAGE 3.0 Omni",
+      "tool_key": "kling-image-3-0-omni",
+      "release_date": "2026-02-06"
+    },
+    {
+      "detail_id": "tool-level3:luma-ray-3-14",
+      "detail_kind": "api_model",
+      "vendor_key": "luma",
+      "title": "Ray 3.14",
+      "tool_key": "luma-ray-3-14",
+      "release_date": "2026-01-26"
+    },
+    {
+      "detail_id": "tool-level3:luma-ray-3-2",
+      "detail_kind": "api_model",
+      "vendor_key": "luma",
+      "title": "Ray 3.2",
+      "tool_key": "luma-ray-3-2",
+      "release_date": "2026-06-09"
+    },
+    {
+      "detail_id": "tool-level3:luma-ray-3-2-edit",
+      "detail_kind": "api_model",
+      "vendor_key": "luma",
+      "title": "Ray 3.2 Edit",
+      "tool_key": "luma-ray-3-2-edit",
+      "release_date": "2026-06-15"
+    },
+    {
+      "detail_id": "tool-level3:luma-uni-1-1",
+      "detail_kind": "api_model",
+      "vendor_key": "luma",
+      "title": "Uni-1.1",
+      "tool_key": "luma-uni-1-1",
+      "release_date": "2026-05-05"
+    },
+    {
+      "detail_id": "tool-level3:luma-uni-1-1-max",
+      "detail_kind": "api_model",
+      "vendor_key": "luma",
+      "title": "Uni-1.1 Max",
+      "tool_key": "luma-uni-1-1-max",
+      "release_date": "2026-05-05"
+    },
+    {
+      "detail_id": "tool-level3:mai-image-2-5",
+      "detail_kind": "api_model",
+      "vendor_key": "microsoft",
+      "title": "MAI-Image 2.5",
+      "tool_key": "mai-image-2-5",
+      "release_date": "2026-05-20"
+    },
+    {
+      "detail_id": "tool-level3:mai-thinking-1",
+      "detail_kind": "api_model",
+      "vendor_key": "microsoft",
+      "title": "MAI-Thinking 1",
+      "tool_key": "mai-thinking-1",
+      "release_date": "2026-05-20"
+    },
+    {
+      "detail_id": "tool-level3:mai-voice-2",
+      "detail_kind": "api_model",
+      "vendor_key": "microsoft",
+      "title": "MAI-Voice 2",
+      "tool_key": "mai-voice-2",
+      "release_date": "2026-05-20"
+    },
+    {
+      "detail_id": "tool-level3:mimo-v2-5",
+      "detail_kind": "api_model",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.5",
+      "tool_key": "mimo-v2-5",
+      "release_date": "2026-03-19"
+    },
+    {
+      "detail_id": "tool-level3:mimo-v2-5-omni",
+      "detail_kind": "api_model",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.5 Omni",
+      "tool_key": "mimo-v2-5-omni",
+      "release_date": "2026-03-19"
+    },
+    {
+      "detail_id": "tool-level3:mimo-v2-5-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.5 Pro",
+      "tool_key": "mimo-v2-5-pro",
+      "release_date": "2026-04-22"
+    },
+    {
+      "detail_id": "tool-level3:mimo-v2-5-tts",
+      "detail_kind": "api_model",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.5 TTS",
+      "tool_key": "mimo-v2-5-tts",
+      "release_date": "2026-03-19"
+    },
+    {
+      "detail_id": "tool-level3:mimo-v2-flash",
+      "detail_kind": "api_model",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2-Flash",
+      "tool_key": "mimo-v2-flash",
+      "release_date": "2025-12-16"
     },
     {
       "detail_id": "tool-level3:minimax-h3",
@@ -483,6 +835,102 @@
       "release_date": "2025-12-02"
     },
     {
+      "detail_id": "tool-level3:muse-glimmer",
+      "detail_kind": "api_model",
+      "vendor_key": "meta",
+      "title": "Muse Glimmer",
+      "tool_key": "muse-glimmer",
+      "release_date": "2026-08-10"
+    },
+    {
+      "detail_id": "tool-level3:muse-spark-1-2",
+      "detail_kind": "api_model",
+      "vendor_key": "meta",
+      "title": "Muse Spark 1.2",
+      "tool_key": "muse-spark-1-2",
+      "release_date": "2026-08-05"
+    },
+    {
+      "detail_id": "tool-level3:muse-spark-1.3",
+      "detail_kind": "api_model",
+      "vendor_key": "meta",
+      "title": "Muse Spark 1.3",
+      "tool_key": "muse-spark-1.3",
+      "release_date": "2026-09-02"
+    },
+    {
+      "detail_id": "tool-level3:nemotron-3-5",
+      "detail_kind": "api_model",
+      "vendor_key": "nvidia",
+      "title": "Nemotron 3.5",
+      "tool_key": "nemotron-3-5",
+      "release_date": "2026-07-28"
+    },
+    {
+      "detail_id": "tool-level3:nemotron-3-super",
+      "detail_kind": "api_model",
+      "vendor_key": "nvidia",
+      "title": "Nemotron 3 Super",
+      "tool_key": "nemotron-3-super",
+      "release_date": "2026-03-11"
+    },
+    {
+      "detail_id": "tool-level3:nemotron-3-ultra",
+      "detail_kind": "api_model",
+      "vendor_key": "nvidia",
+      "title": "Nemotron 3 Ultra",
+      "tool_key": "nemotron-3-ultra",
+      "release_date": "2026-06-04"
+    },
+    {
+      "detail_id": "tool-level3:phi-4-mini",
+      "detail_kind": "api_model",
+      "vendor_key": "microsoft",
+      "title": "Phi-4-Mini",
+      "tool_key": "phi-4-mini",
+      "release_date": "2025-08-10"
+    },
+    {
+      "detail_id": "tool-level3:phi-4-multimodal",
+      "detail_kind": "api_model",
+      "vendor_key": "microsoft",
+      "title": "Phi-4-Multimodal",
+      "tool_key": "phi-4-multimodal",
+      "release_date": "2025-07-25"
+    },
+    {
+      "detail_id": "tool-level3:phi-4-reasoning-vision",
+      "detail_kind": "api_model",
+      "vendor_key": "microsoft",
+      "title": "Phi-4 Reasoning Vision",
+      "tool_key": "phi-4-reasoning-vision",
+      "release_date": "2026-03-18"
+    },
+    {
+      "detail_id": "tool-level3:pplx-embed",
+      "detail_kind": "api_model",
+      "vendor_key": "perplexity",
+      "title": "Pplx Embed",
+      "tool_key": "pplx-embed",
+      "release_date": "2026-08-15"
+    },
+    {
+      "detail_id": "tool-level3:qwen-image-2-0-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "Qwen Image 2.0 Pro",
+      "tool_key": "qwen-image-2-0-pro",
+      "release_date": "2025-08-12"
+    },
+    {
+      "detail_id": "tool-level3:qwen-image-3.0-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "Qwen Image 3.0 Pro",
+      "tool_key": "qwen-image-3.0-pro",
+      "release_date": "2026-04-18"
+    },
+    {
       "detail_id": "tool-level3:qwen3-5-omni",
       "detail_kind": "api_model",
       "vendor_key": "alibaba",
@@ -523,12 +971,228 @@
       "release_date": "2026-07-19"
     },
     {
+      "detail_id": "tool-level3:qwen3-rerank",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "Qwen3 Rerank",
+      "tool_key": "qwen3-rerank",
+      "release_date": "2026-03-15"
+    },
+    {
+      "detail_id": "tool-level3:reve-2-0",
+      "detail_kind": "api_model",
+      "vendor_key": "reve",
+      "title": "Reve 2.0",
+      "tool_key": "reve-2-0",
+      "release_date": "2026-06-03"
+    },
+    {
       "detail_id": "tool-level3:reve-2-1",
       "detail_kind": "api_model",
       "vendor_key": "reve",
       "title": "Reve 2.1",
       "tool_key": "reve-2-1",
       "release_date": "2026-07-09"
+    },
+    {
+      "detail_id": "tool-level3:reve-video",
+      "detail_kind": "api_model",
+      "vendor_key": "reve",
+      "title": "Reve Video",
+      "tool_key": "reve-video",
+      "release_date": "2025-11-18"
+    },
+    {
+      "detail_id": "tool-level3:solar-mini",
+      "detail_kind": "api_model",
+      "vendor_key": "upstage",
+      "title": "Solar Mini",
+      "tool_key": "solar-mini",
+      "release_date": "2025-07-20"
+    },
+    {
+      "detail_id": "tool-level3:solar-pro-3",
+      "detail_kind": "api_model",
+      "vendor_key": "upstage",
+      "title": "Solar Pro 3",
+      "tool_key": "solar-pro-3",
+      "release_date": "2026-05-15"
+    },
+    {
+      "detail_id": "tool-level3:solar-pro-4",
+      "detail_kind": "api_model",
+      "vendor_key": "upstage",
+      "title": "Solar Pro 4",
+      "tool_key": "solar-pro-4",
+      "release_date": "2026-08-11"
+    },
+    {
+      "detail_id": "tool-level3:sonar",
+      "detail_kind": "api_model",
+      "vendor_key": "perplexity",
+      "title": "Sonar",
+      "tool_key": "sonar",
+      "release_date": "2025-08-10"
+    },
+    {
+      "detail_id": "tool-level3:sonar-deep-research",
+      "detail_kind": "api_model",
+      "vendor_key": "perplexity",
+      "title": "Sonar Deep Research",
+      "tool_key": "sonar-deep-research",
+      "release_date": "2026-04-18"
+    },
+    {
+      "detail_id": "tool-level3:sonar-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "perplexity",
+      "title": "Sonar Pro",
+      "tool_key": "sonar-pro",
+      "release_date": "2025-11-20"
+    },
+    {
+      "detail_id": "tool-level3:sonar-reasoning-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "perplexity",
+      "title": "Sonar Reasoning Pro",
+      "tool_key": "sonar-reasoning-pro",
+      "release_date": "2026-02-15"
+    },
+    {
+      "detail_id": "tool-level3:step-2x-large",
+      "detail_kind": "api_model",
+      "vendor_key": "stepfun",
+      "title": "Step 2X Large",
+      "tool_key": "step-2x-large",
+      "release_date": "2026-06-12"
+    },
+    {
+      "detail_id": "tool-level3:step-3",
+      "detail_kind": "api_model",
+      "vendor_key": "stepfun",
+      "title": "Step 3",
+      "tool_key": "step-3",
+      "release_date": "2025-07-31"
+    },
+    {
+      "detail_id": "tool-level3:step-3-5-flash",
+      "detail_kind": "api_model",
+      "vendor_key": "stepfun",
+      "title": "Step-3.5-Flash",
+      "tool_key": "step-3-5-flash",
+      "release_date": "2026-02-02"
+    },
+    {
+      "detail_id": "tool-level3:step-3-7-flash",
+      "detail_kind": "api_model",
+      "vendor_key": "stepfun",
+      "title": "Step-3.7-Flash",
+      "tool_key": "step-3-7-flash",
+      "release_date": "2026-05-29"
+    },
+    {
+      "detail_id": "tool-level3:step-image-edit-2",
+      "detail_kind": "api_model",
+      "vendor_key": "stepfun",
+      "title": "Step Image Edit 2",
+      "tool_key": "step-image-edit-2",
+      "release_date": "2026-04-10"
+    },
+    {
+      "detail_id": "tool-level3:stepaudio-2.5-asr",
+      "detail_kind": "api_model",
+      "vendor_key": "stepfun",
+      "title": "StepAudio 2.5 ASR",
+      "tool_key": "stepaudio-2.5-asr",
+      "release_date": "2026-03-25"
+    },
+    {
+      "detail_id": "tool-level3:stepaudio-2.5-tts",
+      "detail_kind": "api_model",
+      "vendor_key": "stepfun",
+      "title": "StepAudio 2.5 TTS",
+      "tool_key": "stepaudio-2.5-tts",
+      "release_date": "2026-03-25"
+    },
+    {
+      "detail_id": "tool-level3:text-embedding-v4",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "Text Embedding V4",
+      "tool_key": "text-embedding-v4",
+      "release_date": "2026-03-12"
+    },
+    {
+      "detail_id": "tool-level3:upstage-document-ocr",
+      "detail_kind": "api_model",
+      "vendor_key": "upstage",
+      "title": "Document OCR",
+      "tool_key": "upstage-document-ocr",
+      "release_date": "2025-08-01"
+    },
+    {
+      "detail_id": "tool-level3:upstage-document-parse",
+      "detail_kind": "api_model",
+      "vendor_key": "upstage",
+      "title": "Document Parse",
+      "tool_key": "upstage-document-parse",
+      "release_date": "2025-08-01"
+    },
+    {
+      "detail_id": "tool-level3:upstage-embed-2",
+      "detail_kind": "api_model",
+      "vendor_key": "upstage",
+      "title": "Embed 2",
+      "tool_key": "upstage-embed-2",
+      "release_date": "2026-06-18"
+    },
+    {
+      "detail_id": "tool-level3:upstage-information-extract",
+      "detail_kind": "api_model",
+      "vendor_key": "upstage",
+      "title": "Information Extract",
+      "tool_key": "upstage-information-extract",
+      "release_date": "2025-09-10"
+    },
+    {
+      "detail_id": "tool-level3:vidu-2-0",
+      "detail_kind": "api_model",
+      "vendor_key": "vidu",
+      "title": "Vidu 2.0",
+      "tool_key": "vidu-2-0",
+      "release_date": "2025-01-15"
+    },
+    {
+      "detail_id": "tool-level3:vidu-s1",
+      "detail_kind": "api_model",
+      "vendor_key": "vidu",
+      "title": "Vidu S1",
+      "tool_key": "vidu-s1",
+      "release_date": "2026-07-03"
+    },
+    {
+      "detail_id": "tool-level3:viduq3-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "vidu",
+      "title": "ViduQ3 Pro",
+      "tool_key": "viduq3-pro",
+      "release_date": "2025-08-15"
+    },
+    {
+      "detail_id": "tool-level3:viduq3-turbo",
+      "detail_kind": "api_model",
+      "vendor_key": "vidu",
+      "title": "ViduQ3 Turbo",
+      "tool_key": "viduq3-turbo",
+      "release_date": "2025-08-15"
+    },
+    {
+      "detail_id": "tool-level3:wan2.7-t2v",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "Wan2.7 T2V",
+      "tool_key": "wan2.7-t2v",
+      "release_date": "2026-05-10"
     },
     {
       "detail_id": "tool-level3:xai-speech-to-text",

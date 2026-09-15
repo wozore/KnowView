@@ -1,0 +1,29 @@
+{
+  "detail_kind": "api_model",
+  "modality": "text",
+  "name": "DeepSeek-V4.1-Flash",
+  "vendor_name": "深度求索",
+  "vendor_key": "deepseek",
+  "tool_key": "deepseek-v4.1-flash",
+  "model_key": "deepseek-deepseek-v4.1-flash",
+  "official_url": "https://api-docs.deepseek.com/updates",
+  "repair_layers": [],
+  "placement": {
+    "existing_level1_ref": null,
+    "existing_level2_ref": {
+      "kind": "vendor-level2",
+      "id": "vendor-level2:deepseek:deepseek"
+    }
+  },
+  "known_fields": {},
+  "discovery_sources": [
+    {
+      "url": "https://api-docs.deepseek.com/updates",
+      "kind": "official_hint"
+    },
+    {
+      "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+      "kind": "official_hint"
+    }
+  ]
+}
