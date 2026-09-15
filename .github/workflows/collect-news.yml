@@ -41,6 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: read
     outputs:
       config_enabled: ${{ steps.config.outputs.enabled }}
       youtube_due: ${{ steps.config.outputs.youtube_due }}
@@ -52,6 +53,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      # 存在开放 Data PR 时，从其分支播种 schedule-state 等六文件，
+      # 保证 72h 到期闸按 PR 分支上的最新调度状态判定（而非 main 陈旧基线）。
+      - name: Sync open Data PR baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/deliver-news-data-pr.js --sync-baseline
 
       - name: Resolve versioned collection switch
         id: config
@@ -95,6 +103,13 @@ jobs:
 
       - name: Secret scan guard
         run: node scripts/check-secrets.js
+
+      # 存在开放 Data PR 时，先从其分支播种六文件作为管线读入基线，
+      # 管线自身的记录级幂等合并在此基线上继续（§8.7），避免按 main 陈旧基线覆盖 PR 分支状态。
+      - name: Sync open Data PR baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/deliver-news-data-pr.js --sync-baseline
 
       - name: Resolve platforms
         env:
@@ -156,7 +171,7 @@ jobs:
 
       - name: Test generated data
         run: |
-          node --test tests/news/collector-x-v2.test.js tests/news/news-pipeline-min.test.js tests/news/news-rss.test.js tests/news/news-public-gate.test.js tests/news/news-reviewer.test.js tests/news/news-summarizer.test.js tests/news/news-localizer.test.js tests/news/content-classifier-llm.test.js tests/news/news-data-pr-delivery.test.js tests/maintenance/validate-news-config.test.js
+          node --test tests/news/collector-x-v2.test.js tests/news/news-pipeline-min.test.js tests/news/news-rss.test.js tests/news/news-public-gate.test.js tests/news/news-reviewer.test.js tests/news/news-summarizer.test.js tests/news/news-localizer.test.js tests/news/content-classifier-llm.test.js tests/news/news-data-pr-delivery.test.js tests/news/deliver-news-data-pr-script.test.js tests/maintenance/validate-news-config.test.js
           node scripts/validate.js
 
       - name: Deliver news data PR

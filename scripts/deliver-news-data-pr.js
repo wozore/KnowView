@@ -5,8 +5,15 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const { execFileSync } = require('child_process');
-const { DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, deliverNewsDataPr } = require('../src/news/delivery');
+const {
+  DATA_PR_ALLOWED_FILES,
+  verifyAllowedFilesOnly,
+  validateDataPrFiles,
+  deliverNewsDataPr,
+  syncDataPrBaseline,
+} = require('../src/news/delivery');
 
 function parseArgs(argv = process.argv.slice(2)) {
   const args = {};
@@ -14,7 +21,13 @@ function parseArgs(argv = process.argv.slice(2)) {
     const arg = argv[index];
     if (!arg.startsWith('--')) continue;
     const [key, inline] = arg.slice(2).split('=', 2);
-    args[key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = inline ?? argv[++index];
+    if (inline !== undefined) {
+      args[key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = inline;
+    } else if (argv[index + 1] !== undefined && !argv[index + 1].startsWith('--')) {
+      args[key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = argv[++index];
+    } else {
+      args[key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = true;
+    }
   }
   return args;
 }
@@ -65,7 +78,24 @@ function assertCleanOutsideData(run = defaultRunner) {
   return changedFiles;
 }
 
-function createGitClient(run = defaultRunner) {
+function createGitClient(run = defaultRunner, { rootDir = process.cwd() } = {}) {
+  const allowedPathOf = file => path.join(rootDir, file);
+  // 切分支前保存六文件内容、切完恢复：让 checkout -f 不会丢掉本次管线产出
+  //（六文件相对 PR 分支是脏的，普通 checkout 会被 git 拒绝或覆盖）。
+  const snapshotAllowedFiles = () => {
+    const saved = new Map();
+    for (const file of DATA_PR_ALLOWED_FILES) {
+      const target = allowedPathOf(file);
+      if (fs.existsSync(target)) saved.set(target, fs.readFileSync(target, 'utf8'));
+    }
+    return saved;
+  };
+  const restoreAllowedFiles = saved => {
+    for (const [target, content] of saved) {
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, content, 'utf8');
+    }
+  };
   const configureIdentity = () => {
     run('git', ['config', 'user.name', 'github-actions[bot]']);
     run('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
@@ -74,7 +104,9 @@ function createGitClient(run = defaultRunner) {
     checkoutBranch: async branch => {
       configureIdentity();
       run('git', ['fetch', 'origin', `refs/heads/${branch}:refs/remotes/origin/${branch}`]);
-      run('git', ['checkout', '-b', branch, `origin/${branch}`]);
+      const saved = snapshotAllowedFiles();
+      run('git', ['checkout', '-f', '-B', branch, `origin/${branch}`]);
+      restoreAllowedFiles(saved);
     },
     createAndCheckoutBranch: async branch => {
       configureIdentity();
@@ -85,7 +117,10 @@ function createGitClient(run = defaultRunner) {
       verifyAllowedFilesOnly(files);
       run('git', ['add', '--', ...files]);
     },
-    commit: async message => run('git', ['commit', '-m', message]),
+    commit: async message => {
+      if (!run('git', ['diff', '--cached', '--name-only']).trim()) return '(no staged changes)';
+      return run('git', ['commit', '-m', message]);
+    },
     pushNormal: async branch => run('git', ['push', 'origin', `HEAD:refs/heads/${branch}`]),
   };
 }
@@ -116,8 +151,49 @@ async function runDelivery({ args = parseArgs(), run = defaultRunner, outputWrit
   return output;
 }
 
+/**
+ * 基线播种模式（--sync-baseline）：管线运行前调用，把开放 Data PR 分支上的
+ * 六个运行时文件写回工作树，作为本次采集的读入基线。要求当前工作树完全干净，
+ * 防止覆盖维护者本地未提交数据。
+ */
+async function runBaselineSync({ args = parseArgs(), run = defaultRunner, outputWriter = writeOutput, rootDir = process.cwd() } = {}) {
+  const raw = run('git', ['status', '--porcelain', '-z', '--untracked-files=all']);
+  const dirty = raw ? raw.split('\0').filter(Boolean) : [];
+  if (dirty.length > 0) {
+    throw new Error(`[NEWS_DELIVERY_BASELINE_DIRTY] 基线同步要求干净工作树：${dirty.map(entry => entry.slice(3)).join(', ')}`);
+  }
+  const fetchedBranches = new Set();
+  const fetchFile = async (branch, filePath) => {
+    if (!fetchedBranches.has(branch)) {
+      run('git', ['fetch', 'origin', `refs/heads/${branch}:refs/remotes/origin/${branch}`]);
+      fetchedBranches.add(branch);
+    }
+    try {
+      return run('git', ['show', `refs/remotes/origin/${branch}:${filePath}`]);
+    } catch {
+      return null;
+    }
+  };
+  const result = await syncDataPrBaseline({
+    ghClient: createGitHubClient(run),
+    fetchFile,
+    writeFile: (file, content) => {
+      const target = path.join(rootDir, file);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, content, 'utf8');
+    },
+  });
+  outputWriter(args.output, {
+    action: result.synced ? 'baseline_synced' : 'none',
+    pr_number: result.prNumber ?? '',
+    branch: result.branch ?? '',
+  });
+  return result;
+}
+
 async function main() {
-  await runDelivery();
+  if (parseArgs().syncBaseline === true) await runBaselineSync();
+  else await runDelivery();
 }
 
 if (require.main === module) {
@@ -127,4 +203,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { parseArgs, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, main };
+module.exports = { parseArgs, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, runBaselineSync, main };

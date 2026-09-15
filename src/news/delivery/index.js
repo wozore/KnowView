@@ -9,6 +9,7 @@ const {
   verifyAllowedFilesOnly,
   validateDataPrFiles,
   findOpenDataPr,
+  syncDataPrBaseline,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 } = require('./news-data-pr-delivery');
@@ -18,6 +19,7 @@ module.exports = {
   verifyAllowedFilesOnly,
   validateDataPrFiles,
   findOpenDataPr,
+  syncDataPrBaseline,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 };

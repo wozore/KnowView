@@ -7,6 +7,7 @@ const {
   verifyAllowedFilesOnly,
   validateDataPrFiles,
   findOpenDataPr,
+  syncDataPrBaseline,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 } = require('../../src/news/delivery');
@@ -74,6 +75,55 @@ test('findOpenDataPr: 零开放 PR 返回 null，单个复用，多个 fail-clos
   await assert.rejects(
     async () => findOpenDataPr(ghMulti),
     err => err.code === 'NEWS_DELIVERY_MULTIPLE_PRS'
+  );
+});
+
+test('syncDataPrBaseline: 无开放 PR 时不取文件；有开放 PR 时按分支播种六文件', async () => {
+  const ghNone = { listOpenPrs: async () => [] };
+  const noFetch = async () => {
+    throw new Error('无开放 PR 时不应取文件');
+  };
+  const none = await syncDataPrBaseline({ ghClient: ghNone, fetchFile: noFetch, writeFile: noFetch });
+  assert.deepEqual(none, { synced: false, reason: 'no_open_data_pr' });
+
+  const ghSingle = {
+    listOpenPrs: async () => [
+      { number: 42, state: 'OPEN', baseRefName: 'main', headRefName: 'news/review/batch-1', headRefOid: 'sha-123' },
+    ],
+  };
+  const fetched = [];
+  const written = [];
+  const result = await syncDataPrBaseline({
+    ghClient: ghSingle,
+    fetchFile: async (branch, file) => {
+      fetched.push([branch, file]);
+      return file.endsWith('schedule-state.json') ? null : `{"file":"${file}"}`;
+    },
+    writeFile: async (file, content) => written.push([file, content]),
+  });
+  assert.equal(result.synced, true);
+  assert.equal(result.prNumber, 42);
+  assert.equal(result.branch, 'news/review/batch-1');
+  assert.deepEqual(fetched.map(pair => pair[0]), Array(6).fill('news/review/batch-1'));
+  assert.deepEqual(fetched.map(pair => pair[1]), [...DATA_PR_ALLOWED_FILES]);
+  assert.deepEqual(written.map(pair => pair[0]), DATA_PR_ALLOWED_FILES.filter(file => !file.endsWith('schedule-state.json')));
+  assert.deepEqual(result.files, DATA_PR_ALLOWED_FILES.filter(file => !file.endsWith('schedule-state.json')));
+});
+
+test('syncDataPrBaseline: 多个开放 PR 或非法适配器 fail-closed', async () => {
+  const ghMulti = {
+    listOpenPrs: async () => [
+      { number: 42, state: 'OPEN', baseRefName: 'main', headRefName: 'news/review/batch-1', headRefOid: 'sha-123' },
+      { number: 43, state: 'OPEN', baseRefName: 'main', headRefName: 'news/review/batch-2', headRefOid: 'sha-456' },
+    ],
+  };
+  await assert.rejects(
+    async () => syncDataPrBaseline({ ghClient: ghMulti, fetchFile: async () => '', writeFile: async () => {} }),
+    err => err.code === 'NEWS_DELIVERY_MULTIPLE_PRS'
+  );
+  await assert.rejects(
+    async () => syncDataPrBaseline({ ghClient: { listOpenPrs: async () => [] }, fetchFile: null, writeFile: async () => {} }),
+    err => err.code === 'NEWS_DELIVERY_INVALID_BASELINE_ADAPTER'
   );
 });
 

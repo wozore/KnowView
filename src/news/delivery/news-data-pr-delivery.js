@@ -142,6 +142,30 @@ async function findOpenDataPr(ghClient) {
   return dataPrs[0] || null;
 }
 
+/**
+ * 开放 Data PR 基线播种：把 PR 分支上的六个运行时文件内容写回工作树，
+ * 作为本次管线读取的数据基线（§8.7 记录级幂等合并由管线自身完成）。
+ * 文件在 PR 分支上不存在时跳过（保留 main 版本）；无开放 PR 时为无操作。
+ */
+async function syncDataPrBaseline({ ghClient, fetchFile, writeFile }) {
+  if (!ghClient || typeof ghClient.listOpenPrs !== 'function') {
+    fail('NEWS_DELIVERY_INVALID_GH_CLIENT', 'syncDataPrBaseline 需要有效 ghClient');
+  }
+  if (typeof fetchFile !== 'function' || typeof writeFile !== 'function') {
+    fail('NEWS_DELIVERY_INVALID_BASELINE_ADAPTER', 'syncDataPrBaseline 需要 fetchFile 与 writeFile 适配器');
+  }
+  const pr = await findOpenDataPr(ghClient);
+  if (!pr) return { synced: false, reason: 'no_open_data_pr' };
+  const seeded = [];
+  for (const file of DATA_PR_ALLOWED_FILES) {
+    const content = await fetchFile(pr.branch, file);
+    if (typeof content !== 'string') continue;
+    writeFile(file, content);
+    seeded.push(file);
+  }
+  return { synced: true, prNumber: pr.prNumber, branch: pr.branch, headSha: pr.headSha, files: seeded };
+}
+
 async function verifyHeadNotDrifted(ghClient, branch, expectedHeadSha) {
   if (!ghClient || typeof ghClient.getBranchHeadSha !== 'function') {
     fail('NEWS_DELIVERY_INVALID_GH_CLIENT', 'verifyHeadNotDrifted 需要有效 ghClient');
@@ -223,6 +247,7 @@ module.exports = {
   verifyAllowedFilesOnly,
   validateDataPrFiles,
   findOpenDataPr,
+  syncDataPrBaseline,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 };
