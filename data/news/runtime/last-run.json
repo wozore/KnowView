@@ -1,32 +1,223 @@
 {
   "schema_version": 1,
-  "run_id": "min-1789490379059",
-  "collected_at": "2026-09-15T16:39:39.059Z",
+  "run_id": "min-1789492286884",
+  "collected_at": "2026-09-15T17:11:26.884Z",
   "platforms": [
-    "youtube"
+    "x"
   ],
   "collectors": {
     "youtube": {
-      "status": "partial",
-      "items": 925,
-      "error": null,
-      "reason": "comments:http_403",
-      "quota": {
-        "search_calls": 20,
-        "videos_calls": 19,
-        "comments_calls": 925,
-        "categories_calls": 1
-      }
-    },
-    "x": {
       "status": "not_run",
       "items": 0,
       "error": null,
       "reason": null,
-      "credits": null,
-      "account_groups": null,
-      "discovery_queries": null,
-      "diagnostics": null
+      "quota": null
+    },
+    "x": {
+      "status": "partial",
+      "items": 0,
+      "error": null,
+      "reason": null,
+      "credits": {
+        "total_budget": 2500,
+        "budget": 2500,
+        "used": 225,
+        "tweets": 0,
+        "articles": 0,
+        "settled": 225,
+        "reserved": 0,
+        "unknown_reserved": 0,
+        "overage": 0,
+        "requests": {
+          "total": 15,
+          "tweet": 15,
+          "article": 0,
+          "retries": 0,
+          "pages": 15
+        },
+        "buckets": {
+          "account": {
+            "cap": 1300,
+            "reserved": 0,
+            "settled": 105,
+            "unknown_reserved": 0,
+            "requests": 7,
+            "pages": 7,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          },
+          "discovery": {
+            "cap": 300,
+            "reserved": 0,
+            "settled": 15,
+            "unknown_reserved": 0,
+            "requests": 1,
+            "pages": 1,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          },
+          "article_retry": {
+            "cap": 300,
+            "reserved": 0,
+            "settled": 0,
+            "unknown_reserved": 0,
+            "requests": 0,
+            "pages": 0,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          },
+          "tail_recheck": {
+            "cap": 600,
+            "reserved": 0,
+            "settled": 105,
+            "unknown_reserved": 0,
+            "requests": 7,
+            "pages": 7,
+            "retries": 0,
+            "articles": 0,
+            "overage": 0
+          }
+        }
+      },
+      "account_groups": [
+        {
+          "group_id": "g1",
+          "status": "complete",
+          "pages_completed": 1,
+          "retained_items": 0,
+          "credits_used": 15,
+          "reason": null,
+          "errors": [],
+          "query_hash": "488861de41cb325b"
+        },
+        {
+          "group_id": "g2",
+          "status": "complete",
+          "pages_completed": 1,
+          "retained_items": 0,
+          "credits_used": 15,
+          "reason": null,
+          "errors": [],
+          "query_hash": "12534429e9e667ce"
+        },
+        {
+          "group_id": "g3",
+          "status": "complete",
+          "pages_completed": 1,
+          "retained_items": 0,
+          "credits_used": 15,
+          "reason": null,
+          "errors": [],
+          "query_hash": "6819018f9149a893"
+        },
+        {
+          "group_id": "g4",
+          "status": "complete",
+          "pages_completed": 1,
+          "retained_items": 0,
+          "credits_used": 15,
+          "reason": null,
+          "errors": [],
+          "query_hash": "0806d3d6a1224454"
+        },
+        {
+          "group_id": "g5",
+          "status": "complete",
+          "pages_completed": 1,
+          "retained_items": 0,
+          "credits_used": 15,
+          "reason": null,
+          "errors": [],
+          "query_hash": "8eef342ae5e2e180"
+        },
+        {
+          "group_id": "g6",
+          "status": "complete",
+          "pages_completed": 1,
+          "retained_items": 0,
+          "credits_used": 15,
+          "reason": null,
+          "errors": [],
+          "query_hash": "4aada14e479b3ca4"
+        },
+        {
+          "group_id": "g7",
+          "status": "complete",
+          "pages_completed": 1,
+          "retained_items": 0,
+          "credits_used": 15,
+          "reason": null,
+          "errors": [],
+          "query_hash": "3c6b724620c4dba6"
+        }
+      ],
+      "discovery_queries": [
+        {
+          "query_id": "release-events",
+          "query": "(AI OR LLM) (launch OR release OR \"announcing\") since_time:1789516800 until_time:1789560000",
+          "status": "complete",
+          "pages_completed": 1,
+          "items": [],
+          "credits_used": 15,
+          "next_cursor": null,
+          "reason": null,
+          "errors": [],
+          "query_hash": "ae617c345f9d369c",
+          "retained_items": 0
+        },
+        {
+          "query_id": "open-source-models",
+          "query": "(\"open source\" OR weights) (LLM OR model OR checkpoint) since_time:1789516800 until_time:1789560000",
+          "status": "partial",
+          "pages_completed": 0,
+          "items": [],
+          "credits_used": 0,
+          "next_cursor": null,
+          "reason": "NEWS_BUDGET_EXHAUSTED",
+          "errors": [],
+          "query_hash": "2dade602434860e5",
+          "retained_items": 0
+        },
+        {
+          "query_id": "benchmarks-eval",
+          "query": "(benchmark OR evaluation OR arena) (LLM OR reasoning) since_time:1789516800 until_time:1789560000",
+          "status": "partial",
+          "pages_completed": 0,
+          "items": [],
+          "credits_used": 0,
+          "next_cursor": null,
+          "reason": "NEWS_BUDGET_EXHAUSTED",
+          "errors": [],
+          "query_hash": "8a585963e18142c1",
+          "retained_items": 0
+        },
+        {
+          "query_id": "frontier-agents",
+          "query": "(\"AI agent\" OR agentic) (framework OR autonomous) since_time:1789516800 until_time:1789560000",
+          "status": "partial",
+          "pages_completed": 0,
+          "items": [],
+          "credits_used": 0,
+          "next_cursor": null,
+          "reason": "NEWS_BUDGET_EXHAUSTED",
+          "errors": [],
+          "query_hash": "6d961937d3788be4",
+          "retained_items": 0
+        }
+      ],
+      "diagnostics": {
+        "delayed": false,
+        "excluded_interaction_counts": {
+          "reply": 0,
+          "repost": 0,
+          "unknown": 0
+        },
+        "article_failures": [],
+        "errors": []
+      }
     }
   }
 }
