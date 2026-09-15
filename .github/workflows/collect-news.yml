@@ -128,11 +128,14 @@ jobs:
           if [[ -n "$PLATFORMS_INPUT" ]]; then
             if [[ "$PLATFORMS_INPUT" == "both" ]]; then
               echo "NEWS_PLATFORMS=youtube,x" >> "$GITHUB_ENV"
+              RESOLVED_PLATFORMS="youtube,x"
             else
               echo "NEWS_PLATFORMS=$PLATFORMS_INPUT" >> "$GITHUB_ENV"
+              RESOLVED_PLATFORMS="$PLATFORMS_INPUT"
             fi
             # dispatch 携带 x 平台时显式传槽位，避免 X 因缺 slot 而失败
-            if [[ "$PLATFORMS_INPUT" == *x* ]]; then
+            #（用解析后的平台串判断，both 展开为 youtube,x 后同样命中）
+            if [[ "$RESOLVED_PLATFORMS" == *x* ]]; then
               echo "NEWS_X_SLOT=${X_SLOT_INPUT:-hot}" >> "$GITHUB_ENV"
             fi
           elif [[ "$SCHEDULE" == "30 0 * * *" ]]; then
