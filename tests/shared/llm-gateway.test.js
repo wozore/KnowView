@@ -363,10 +363,10 @@ test('extractJsonValues accepts object, array, code fence, and surrounding text'
 
 test('requestStructuredJson distinguishes empty, incomplete, invalid, and schema failures', async () => {
   const cases = [
-    [{ output: [] }, 'DEEPSEEK_SYNTHESIS_EMPTY'],
-    [{ status: 'incomplete', incomplete_details: { reason: 'max_output_tokens' }, output_text: '{"layer_fields":' }, 'DEEPSEEK_SYNTHESIS_INCOMPLETE'],
-    [{ output_text: 'not json' }, 'DEEPSEEK_SYNTHESIS_OUTPUT_INVALID'],
-    [{ output_text: '{"items":[]}' }, 'DEEPSEEK_SYNTHESIS_SCHEMA_INVALID'],
+    [{ output: [] }, 'SYNTHESIS_EMPTY'],
+    [{ status: 'incomplete', incomplete_details: { reason: 'max_output_tokens' }, output_text: '{"layer_fields":' }, 'SYNTHESIS_INCOMPLETE'],
+    [{ output_text: 'not json' }, 'SYNTHESIS_OUTPUT_INVALID'],
+    [{ output_text: '{"items":[]}' }, 'SYNTHESIS_SCHEMA_INVALID'],
   ];
   for (const [data, code] of cases) {
     const result = await requestStructuredJson({
@@ -425,7 +425,7 @@ test('structured failure preserves bounded response diagnostics', async () => {
     validate: synthesisValidate,
   }, { apiKey: 'test-key', fetchImpl: async () => okJsonResponse({ status: 'completed', output_text: preview }) });
   assert.equal(result.ok, false);
-  assert.equal(result.code, 'DEEPSEEK_SYNTHESIS_OUTPUT_INVALID');
+  assert.equal(result.code, 'SYNTHESIS_OUTPUT_INVALID');
   assert.equal(result.output_preview.length, 1200);
 });
 
@@ -469,6 +469,6 @@ test('requestStructuredJson(默认 zhipu) Messages 截断（stop_reason=max_toke
     fetchImpl: async () => okJsonResponse({ content: [{ type: 'text', text: '{"layer_fields":' }], stop_reason: 'max_tokens' }),
   });
   assert.equal(result.ok, false);
-  assert.equal(result.code, 'DEEPSEEK_SYNTHESIS_INCOMPLETE');
+  assert.equal(result.code, 'SYNTHESIS_INCOMPLETE');
   assert.equal(result.incomplete_reason, 'max_output_tokens');
 });

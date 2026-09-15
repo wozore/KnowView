@@ -36,7 +36,7 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
 → value → series projection → integrated index/data
 ```
 
-
+## 2. 维度键与归一化
 
 | 键 | 中文标签（i18n key 见 §9） | 来源 | 归一化 |
 |---|---|---|---|
@@ -80,15 +80,20 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
       "series_key": "openai--gpt-5.6",
       "display": "GPT-5.6",
       "vendor": "openai",
+      "theme": "general",
+      "order": 50,
       "member_count": 4,
       "model_count": 4,
+      "max_composite_score": 89.9,
       "members": [
         {
           "member_key": "openai--gpt-5.6-sol",
           "display": "基础版",
+          "order": 0,
           "default_canonical": "openai--gpt-5.6-sol",
           "variant_count": 1,
-          "variants": [{ "canonical": "openai--gpt-5.6-sol", "revision": null }]
+          "theme": "general",
+          "variants": [{ "canonical": "openai--gpt-5.6-sol", "display": "基础版", "revision": null, "composite_score": 73.7, "sources": ["openrouter", "lmarena", "llm_stats"] }]
         }
       ]
     }
@@ -105,8 +110,6 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
       "identity": "gpt-5.6-sol",
       "family": "gpt-5.6",
       "revisions": [],
-      "release_date": "2026-07-09",
-      "release_date_provenance": "llm_stats",
       "evaluation_profiles": ["codex-harness"],
       "offerings": { "openrouter": [{ "kind": "batch", "raw_name": "openai/gpt-5.6-sol:batch" }] },
       "display": "GPT-5.6 Sol",
@@ -138,6 +141,7 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
 - `degrees`：该模型各源可选程度变体（供变体圆圈）；无变体则源缺失或空数组。它与 `offerings`、模型身份规格严格分离。
 - `file`：完整数据所在文件，当前全部 `data.json`（分块时改此指针）。
 - `sources`：有数据的源列表（前端标「仅 X 源」）。
+- `release_date` / `release_date_provenance`：发布日期事实只存于 `data.json` 模型完整记录（§4），`index.json` 模型条目不携带。
 - `series`：轻量系列投影；只保存系列、成员与 canonical 变体引用，不复制完整分数。`series_key` 是选择器分组键，`member_key` 是系列内具体产品键；`series.members[].theme` 是成员类型（值与 model 层 `theme` 一致，用于类别筛选）。
 - `series_key` / `series_display`：人工登记优先的系列归属与展示名；自动回退只用于组织未登记模型，不能用于 canonical 合并。
 - `member_key` / `member_display`：系列内具体产品/模型的稳定键与短名；同一 `member_key` 的多个明确 revision 收拢到 `series.members[].variants`，选择器默认只显示一个成员行。
@@ -151,9 +155,10 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
   "schema_version": 1,
   "series": [
     {
-      "series_key": "openai--gpt-5.6",
-      "display": "GPT-5.6",
+      "series_key": "openai--gpt-5.5",
+      "display": "GPT-5.5",
       "vendor": "openai",
+      "order": 10,
       "match": { "vendor": "openai", "identity_prefix": "gpt-5.5" },
       "member_rules": [
         { "identity": "gpt-5.5", "display": "基础版", "order": 0 },
@@ -186,6 +191,7 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
       "release_date_provenance": "llm_stats",
       "evaluation_profiles": ["codex-harness"],
       "offerings": { "openrouter": [{ "kind": "batch", "raw_name": "openai/gpt-5.6-sol:batch" }] },
+      "source_names": { "openrouter": ["openai/gpt-5.6-sol"], "lmarena": ["GPT-5.6 Sol (High)"], "llm_stats": ["gpt-5.6-sol"] },
       "display": "GPT-5.6 Sol",
       "vendor": "openai",
       "theme": "general",
@@ -222,6 +228,7 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
         },
         "text": { "High": { "score": 0.10, "rank": 8 }, "XHigh": { "score": 0.09, "rank": 9 } }
       },
+      "lmarena_profiles": {},
       "livebench_scores": {
         "high": { "reasoning": 82.0, "coding": 78.0, "language": 74.0 },
         "low":  { "reasoning": 70.0, "coding": 66.0, "language": 63.0 }
@@ -293,13 +300,13 @@ AI 审计不参与 `rebuild`，也不得直接写入 `models-alias.json`。确�
 
 ## 7. raw/ 快照形状（管线写）
 
-- `raw/openrouter.json`：`{ "fetched_at": …, "data": [ …官方 API data 数组原样… ] }`（存全量 414）。
+- `raw/openrouter.json`：`{ "fetched_at": …, "data": [ …官方 API data 数组原样… ] }`（存全量）。
 - `raw/lmarena.json`：`{ "fetched_at": …, "configs": { "agent": [行…], "text": [行…], … } }`，行字段 = 数据集原样，经 schema 白名单校验后落盘。config 拉取范围 = 设计文档已定 15 个。**两套行 schema（实测 2026-08-19）**：
   - agent 榜（`agent` + 5 个 agent 子维度）为**比例分**：`model_name/organization/license/score/score_ci_lower/score_ci_upper/observation_count/session_count/rank/category/leaderboard_publish_date`（`score` 为净提升比例，可负；CI 上下界与观测数可空）。
   - 其余 9 榜（`text/vision/webdev/search/text_to_image/image_edit/image_to_video/text_to_video/video_edit`）为 **Elo rating**：`model_name/organization/license/rating/rating_lower/rating_upper/variance/vote_count/rank/category/leaderboard_publish_date`。
   - datasets-server rows API 的 `filter` 参数实测无效 → 抓取按「每 config 限量取前段（overall 类别在数据中排前）+ 客户端收敛 `category='overall'`」实现，取各榜精选 top。
 - `raw/livebench.json`：`{ "fetched_at": …, "release": …, "groups": [ …all_groups.csv 解析后行… ] }`（行 = `model` + 分组列 reasoning/coding/math/language/instruction_following/data_analysis/agentic_coding）。
-- `raw/llm-stats.json`：`{ "fetched_at": …, "models": [ …白名单字段记录… ] }`（白名单见设计文档 line 156：身份 5 + 规格 4 + 性能 4 + 6 benchmark + 12 index；benchmark 字段实为 `aime_2025_score/hle_score/gpqa_score/swe_bench_verified_score/swe_bench_pro_score/mmmu_pro_score`）。
+- `raw/llm-stats.json`：`{ "fetched_at": …, "models": [ …白名单字段记录… ] }`（白名单见设计文档「抓站 prompt 只取结构化字段」一节：身份 6 + 规格 4 + 性能 4 + 6 benchmark + 12 index；benchmark 字段实为 `aime_2025_score/hle_score/gpqa_score/swe_bench_verified_score/swe_bench_pro_score/mmmu_pro_score`）。
 
 ## 8. 前端渲染规则映射
 

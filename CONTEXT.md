@@ -75,3 +75,31 @@ LLM 二级系列分类的唯一规则源（`data/manual/registries/llm-series-po
 
 人工在待补卡/Seed 上显式指定的 `existing_level1_ref` / `existing_level2_ref` / `new_group_title`，优先于 AI 与政策自动归类，但必须通过引用 kind、存在性与厂商归属校验，否则拒绝。
 
+## CatalogSeed
+
+批量生成链路的最小输入单元（schema v3）：声明 `detail_kind`（tool / api_model / subscription_plan / product_variant）、名称、厂商、官方 URL 提示、placement 与已知字段。由热点待补候选经 `src/pending/catalog-seed.js` 转换而来；系列候选与笼统名一律拒绝转 seed（fail-closed），系列走 SeriesBundle 管线。
+
+## SeriesBundle
+
+一个系列的原子变更包：一个系列 = 一个 Bundle Draft = 一次事务提交。manifest 声明成员分类（`already_complete` / `bundled` / `deferred` / `hidden_history`）、layer_patches 与 bridge entries；确定性校验执行 Patch 覆盖集八条规则、`base_revisions` 漂移拒绝与删除禁止，任一 blocker 整包拒绝写入。
+
+## IdentityReceipt
+
+模型/系列官方身份核验的通过回执（`data/manual/tools/identity-receipts.json`，追加 + 7 天 TTL 压缩）。核验五条件——候选名、catalog/policy/bridge revision 与官方 URL+正文 hash——全等且 24 小时内可复用回执；无官方正文背书绝不按名称建卡，登记表命中只是域提示，不免除正文核验。
+
+## ModelIdentityBridge
+
+共享段 `data/shared/model-identity-bridge.json`：统一模型键 ↔ 目录实体的桥接投影。Catalog 事务提交路径唯一写入，反哺查重与系列审计只读；只经 `readModelIdentityBridge` / `writeModelIdentityBridge` 接口访问，写路径逐条校验 fail-closed 并内部重算 revision，读路径校验后冻结。
+
+## CatalogTransaction
+
+目录变更的落盘事务（`src/catalog/transaction/`）：共同锁 + staging + 备份 + journal + 回滚（`data/catalog/.transactions` / `.staging` / `.backup`）。Apply 经它把 LayerPatch 原子换入正式目录，提交后发布共享投影（release dates、identity bridge）并保证可从中断点恢复。
+
+## ConceptPreview
+
+概念批量合成的预览产物：待补概念卡经查重、approved 摘要证据回读与逐概念合成后写入预览文件（带 `preview_hash`），等待维护者查看；显式 `concept apply` 后才原子写 `glossary.json`，绝不自动生效。
+
+## x-search
+
+X（Twitter）高级搜索采集子系统（`src/news/collectors/x-search/`）：按逻辑时间窗与查询契约经 twitterapi.io Advanced Search 拉取推文与文章，账号组轮次公平调度、预算桶限额、检查点续跑与尾部重查；纯逻辑子域经统一门面导出，采集状态持久化在 X checkpoint。
+

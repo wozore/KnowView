@@ -11,7 +11,7 @@ echo ============================================================
 echo.
 echo 指令说明：
 echo   probe --confirm-cost
-echo     检查 TAVILY_API_KEY、DEEPSEEK_API_KEY、模型和检索能力；会产生一次 Tavily 调用。
+echo     检查 TAVILY_API_KEY、ZHIPU_API_KEY、模型和检索能力；会产生一次 Tavily 调用。
 echo.
 echo   new --seed ^<file^> --confirm-cost
 echo     联网研究并生成目录草案 Preview；不会直接写入正式目录。
@@ -38,12 +38,12 @@ echo   batch --file ^<待补工具卡.json^> [--confirm-cost^|--dry-run]
 echo     热点待补工具卡 → 查重/解析/逐工具生成 → 自动写正式五模块目录。
 echo.
 echo   url-registry list ^| add --name ^<名^> --url ^<URL^> ^| remove --name ^<名^>
-echo     人工官方 URL 登记表增删查（批量解析第一道命中源，免 Tavily/DeepSeek）。
+echo     人工官方 URL 登记表增删查（批量解析第一道命中源，免 Tavily/ZhipuAI）。
 echo.
 echo 概念批量生成（concept-cards-pending → glossary.json）已拆到独立入口：bat\concept-generator.bat。
 echo.
-echo 注意：new、probe、batch 可能产生 Tavily/DeepSeek API 费用；apply、cancel、recover 可能修改本地文件。
-echo      API Key 只从 TAVILY_API_KEY、DEEPSEEK_API_KEY 环境变量读取，不要写入文件。
+echo 注意：new、probe、batch 可能产生 Tavily/ZhipuAI API 费用；apply、cancel、recover 可能修改本地文件。
+echo      API Key 只从 TAVILY_API_KEY、ZHIPU_API_KEY 环境变量读取，不要写入文件。
 echo.
 set /p "ARGS=请输入指令及参数（直接回车退出）: "
 if not defined ARGS exit /b 0

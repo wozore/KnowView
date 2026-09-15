@@ -241,7 +241,7 @@ a { color: var(--link); }
 
 /* ═══ Main / View ═══════════════════════════════════════════════
    视图容器：默认隐藏，.view.active 才显示。
-   switchView() 通过增减 .active class 控制六视图切换 */
+   switchView() 通过增减 .active class 控制八视图切换 */
 main { max-width: var(--content-wide); margin: 0 auto; padding: 24px var(--space-page) 56px; }
 .view { display: none; }
 .view.active { display: block; }

@@ -25,6 +25,7 @@ const {
   validateCatalogDraftEnvelope,
   classifyFailure,
   failureCodeOf,
+  normalizeGatewayErrorCode,
 } = require('./catalog-draft-envelope');
 const {
   probeCatalogCapabilities,
@@ -133,8 +134,8 @@ async function prepareCatalogDraft(seed, options = {}) {
 
 function draftRecoveryOf(draft) {
   const failure = draft?.last_error || {};
-  let errorCode = failure.code || 'DRAFT_BLOCKED';
-  if (errorCode === 'DEEPSEEK_OUTPUT_INVALID' && /missing field [`']?model/i.test(String(failure.error || ''))) errorCode = 'MODEL_REQUIRED';
+  let errorCode = normalizeGatewayErrorCode(failure.code) || 'DRAFT_BLOCKED';
+  if (errorCode === 'OUTPUT_INVALID' && /missing field [`']?model/i.test(String(failure.error || ''))) errorCode = 'MODEL_REQUIRED';
   const classified = classifyFailure({ ok: false, code: errorCode, error: failure.error }, null);
   const researchComplete = draft?.research?.ok === true
     || (draft?.research?.ok !== false && Array.isArray(draft?.research?.official_sources) && draft.research.official_sources.length > 0 && !draft.research_progress?.failed_scope);

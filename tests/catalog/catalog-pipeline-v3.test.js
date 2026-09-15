@@ -234,7 +234,7 @@ test('assistant resume reuses completed research after a missing-model synthesis
     },
     synthesize: async input => {
       synthesisCalls += 1;
-      if (synthesisCalls === 1) return { ok: false, code: 'DEEPSEEK_OUTPUT_INVALID', error: 'missing field `model`', cost: input.ledger.snapshot() };
+      if (synthesisCalls === 1) return { ok: false, code: 'SYNTHESIS_OUTPUT_INVALID', error: 'missing field `model`', cost: input.ledger.snapshot() };
       return createKlingDossierAdapters().synthesize(input);
     },
   };
@@ -298,7 +298,7 @@ test('assistant allows only one concurrent resume claim for a Draft', async () =
     acquire: async ({ sources }) => ({ contents: sources.map(source => ({ url: source.url, content: 'Official facts.' })) }),
     synthesize: async input => {
       synthesisCalls += 1;
-      if (synthesisCalls === 1) return { ok: false, code: 'DEEPSEEK_OUTPUT_INVALID', error: 'missing field `model`', cost: input.ledger.snapshot() };
+      if (synthesisCalls === 1) return { ok: false, code: 'SYNTHESIS_OUTPUT_INVALID', error: 'missing field `model`', cost: input.ledger.snapshot() };
       await waiting;
       return createKlingDossierAdapters().synthesize(input);
     },

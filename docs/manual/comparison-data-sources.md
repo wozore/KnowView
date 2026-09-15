@@ -6,11 +6,11 @@
 
 ## 一、结论速览（定稿）
 
-- **已定保留（4 源，官方/当前可用）**：Artificial Analysis（**仅内部参考**）、LMArena（官方数据集）、OpenRouter、LiveBench
+- **已定保留（4 源，官方/当前可用）**：LMArena（官方数据集）、OpenRouter、LiveBench、Open LLM Leaderboard（llm-stats）；Artificial Analysis（**仅内部参考**，二期，当前未建）
 - **已搁置**：**SWE-bench-Live**（官方实时，但**提交驱动、数据少且旧**——2026-07 以来仅 10 条提交，多数模型评测日期早）→ **暂不展示，以后再说**
-- **可选待定**：Open LLM Leaderboard（llm-stats.com）—— 实时 358 模型（343 有分），benchmark/index 分**需抓站**（解析 Next.js RSC payload）；另有**官方 API**（models/list 目录 + metrics 实时吞吐）可作基础信息源（见第六节）
+- **已入定稿四源**：Open LLM Leaderboard（llm-stats.com）—— benchmark/index 分走**抓站**（解析 Next.js RSC payload）；另有**官方 API**（models/list 目录 + metrics 实时吞吐）可作基础信息源（见第六节）
 - **已弃用**：**DeepSWE**（无干净数据源）、**HF 原站 open-llm-leaderboard**（实测停更，v2 遗留）、**swe-bench/experiments 旧仓库**（新评测已停，见下）
-- 获取通路：AA 页面抓取 / LMArena HF 数据集 / OpenRouter API / LiveBench 脚本（4 条官方）+ 可选 llm-stats 抓站
+- 获取通路：LMArena HF 数据集 / OpenRouter API / LiveBench 脚本 / llm-stats 抓站（4 条现行通路）；AA 公开页抓取仅作内部参考备用（二期）
 
 ## 二、平台逐一核实
 
@@ -22,7 +22,7 @@
   - **Pro**：`Restricted external use`（受限外部使用）
   - **Commercial**：`Redistribution with attribution`（可再分发，需署名）
 - **✅ 已定（2026-08-18）**：AA 仅作**内部参考**，对比页**不公开显示 AA 具体数值** → 免费层合规，无需 Pro/Commercial
-- **内部参考用途（已定，2026-08-18）**：AA 数据**物理隔离**存 `data/comparison/aa-internal.json`，不进 `integrated.json`/前端（防公开再分发）；三用途——① 交叉校验（Intelligence Index 对照 4 源综合分排序、异常去 `raw/` 快速核对）② 速度/延迟内部备用（全量速度数据，其余源缺失）③ 维护者决策佐证（默认推荐/权重调整）；默认不显示，内测显示需显式 `internal` 开关且生产构建不打包
+- **内部参考用途（已定，2026-08-18）**：AA 数据**物理隔离**存 `data/comparison/aa-internal.json`（二期，当前未建），不进 `integrated/`/前端（防公开再分发）；三用途——① 交叉校验（Intelligence Index 对照 4 源综合分排序、异常去 `raw/` 快速核对）② 速度/延迟内部备用（全量速度数据，其余源缺失）③ 维护者决策佐证（默认推荐/权重调整）；默认不显示，内测显示需显式 `internal` 开关且生产构建不打包
 - **⚠️ API 实测（2026-08-18，临时 key）**：
   - 认证：`X-API-Key: <key>` 头（Bearer 头不识别）
   - **`/api/v2/language/models` 与 model detail 均需 Pro 订阅**（免费 key 报错 `requires a Pro subscription`）→ **免费 key 访问不了语言模型数据**
@@ -112,8 +112,7 @@
 
 | 目标 | 组合 |
 |---|---|
-| **定稿 4 源** | Artificial Analysis（内部参考）+ LMArena（官方数据集）+ OpenRouter + LiveBench |
-| +开源模型覆盖（可选） | 上面 + Open LLM Leaderboard（llm-stats，需抓站） |
+| **定稿 4 源** | LMArena（官方数据集）+ OpenRouter + LiveBench + Open LLM Leaderboard（llm-stats） |
 | 已搁置 | SWE-bench-Live（数据少且旧，以后再说） |
 | 已弃用 | ~~DeepSWE~~、~~HF 原站 Open LLM Leaderboard~~、~~swe-bench/experiments 旧仓库~~ |
 
@@ -151,12 +150,12 @@
   - **吞吐/延迟（已定，2026-08-18）**：数据量少（llm-stats 仅 ~13% 模型有值）、跨源口径不可比 → **暂不加入前端显示**；AA 输出速度仅作内部参考备用
   - **细分维度子项（已定，2026-08-18）**：LiveBench 与 llm-stats index **跨源合并收敛为 7 项**（表 A②）：推理 reasoning / 编码 coding（A+B 同名合并）+ 沟通/语言 communication（idx communication + LB language 合并）+ 执行成功率 instruction_following + 自主编程 agentic_coding + 工具调用 tool_calling + 长上下文 long_context；**数学 math 并入 benchmark 组 Math**（aime_2025 优先 + LB/idx math 兜底）、**vision 并入 benchmark 组 Multimodal 作兜底**；llm-stats **专业人员补充 3 项**（金融/法律/医疗）不参与普通默认对比；index_search 搜索归属待定
   - **benchmark 精简与合并（已定，2026-08-18）**：llm-stats benchmark 收敛为 **4 个能力维度**（英文名 + 落库键）：**Knowledge 知识问答 `expert_knowledge`** = GPQA+HLE（GPQA 优先、HLE 兜底：239 vs 99 覆盖）｜**Math 数学推理 `math_reasoning`** = **aime_2025 优先 + LB math + idx math 兜底**｜**Multimodal 图文多模态 `multimodal`** = **mmmu_pro 优先 + idx vision 兜底**｜**SWE 工程能力 `swe_capability`** = SWE-bench Verified+Pro（Pro 优先、Verified 兜底：Pro 未泄漏/未饱和/2026 官方口径，Verified 覆盖广 111 补缺但已泄漏+OpenAI 2026-02 弃用须标注）；统一归一化后取非空、顶尖差异进详情卡片；**coding_arena 去掉**（与 LMArena 编码榜重复）
-- [x] **数据落库形态（已定，2026-08-18）**：**独立数据层 `data/comparison/`，不入 catalog**（生命周期/语义/校验/许可四隔离）——`refresh-config.json`（抓取编排配置，含拉取 config 清单）+ `models-alias.json`（主键对齐人工登记表）+ `aa-internal.json`（AA 内部参考，不公开）+ `raw/`（4 源原样快照，留作快速校对与重跑合并不重抓：lmarena 由 parquet 只读解析转 JSON / livebench / llm-stats / openrouter）+ `integrated/`（**前端唯一入口层，拆两文件**：`index.json` 小——模型列表 + `file` 指针，秒开；`data.json` 大——完整分数/定价/上下文/综合分，用户勾选模型后懒加载；将来 data 超 ~1.5MB 可按类别拆块、仅改指针前端契约不变）；4 源按表 A 规矩合并、主键对齐、存原始值；刷新链路独立于 catalog（fetch → 校验 → 写 raw → 重建 integrated）
+- [x] **数据落库形态（已定，2026-08-18）**：**独立数据层 `data/comparison/`，不入 catalog**（生命周期/语义/校验/许可四隔离）——`refresh-config.json`（抓取编排配置，含拉取 config 清单）+ `models-alias.json`（主键对齐人工登记表）+ `aa-internal.json`（AA 内部参考，不公开；二期，当前未建）+ `raw/`（4 源原样快照，留作快速校对与重跑合并不重抓：lmarena 由 parquet 只读解析转 JSON / livebench / llm-stats / openrouter）+ `integrated/`（**前端唯一入口层，拆两文件**：`index.json` 小——模型列表 + `file` 指针，秒开；`data.json` 大——完整分数/定价/上下文/综合分，用户勾选模型后懒加载；将来 data 超 ~1.5MB 可按类别拆块、仅改指针前端契约不变）；4 源按表 A 规矩合并、主键对齐、存原始值；刷新链路独立于 catalog（fetch → 校验 → 写 raw → 重建 integrated）
 - [x] **抓取链路编排（已定，2026-08-18）**：**每源独立脚本**（`fetch-openrouter` / `fetch-lmarena` / `fetch-livebench` / `fetch-llm-stats` / `fetch-aa`）+ `run-comparison.js` 定时调度（cron 每日）+ 配置 `data/comparison/refresh-config.json`（可手动改）——频率：OpenRouter/llm-stats/LMArena 每 2 天、AA 每周、LiveBench 每月；**每源独立计数全量**：到间隔即抓、count+1，count 达 fullEvery（2 天源 n=10、周源 n=5、月源 n=2）该次升级为全量（从源强制完整重抓一遍）后归 0，手动单跑不计 count；**失败隔离**：每源失败 WARN 具体任务、不阻塞其余源；**全绿才重建**：全部源成功且 fresh 才由 `rebuild-comparison.js` 重建 integrated.json，任一源未就绪则停住不重建并列出待修源，维护者修复后自动继续后续链路
 - [x] **模型主键对齐策略（已定，2026-08-18）**：以 line 145 已定统一格式 `Model (Degree)` 为锚——**canonical id = 统一格式里 Model 部分 slug 化**（`claude-opus-5` / `o3-mini` / `gpt-5.6-sol`），**Degree 是主键下的变体属性**不占独立主键（呼应「程度变体是模型对比时可选项」）；各源 raw 名按同一套规则归到统一格式天然对齐（LMArena `Claude Opus 5 (High)`→claude-opus-5+High / OpenRouter `claude-opus-5`→claude-opus-5 / LiveBench `o3-mini-high`→o3-mini+high / llm-stats `model_id` 即 slug）；**归一化规则**：剥离程度/日期后缀 → 大小写与分隔符统一 → 多版本取最新（已定）→ 命中即对齐；失败/歧义进**人工登记表 `models-alias.json` 兜底**（同 official-url-registry 先例，只覆盖进入对比的模型子集）；**未对齐/单源独有模型独立展示**（仅该源数据），不进综合分加权；对齐后 integrated 记录形如 `{ canonical, display, degrees: {源→[变体]}, sources }`
 - [x] **落库前核实三方数据许可（已核实，2026-08-18）**：LMArena 数据集 `lmarena-ai/leaderboard-dataset` = **cc-by-4.0**（hf-mirror API 实测；可存储再分发，**须署名**）；LiveBench 仓库 = **Apache-2.0（FastChat 部分）+ MIT（LiveCodeBench 部分）复合 LICENSE**（GitHub 标 NOASSERTION 因复合；宽松，署名即可）；OpenRouter = ⚠️ **可行 + 缓解**：ToS 禁「自动化爬取网站/服务信息」与「转售 API 访问/开发竞争服务」，但走官方免 key models API（文档化限速、第三方生态惯例用法）、不转售不竞争且外链引流 → **缓解（落库时落地）**：仅官方 API 不抓网页、频率受限速、前端署名 + 外链 openrouter.ai、定价标注「OpenRouter 挂牌参考价」非实时价
 - [x] **parquet 下载只读解析 + schema 白名单校验（方案已定，2026-08-18；2026-08-19 改主用 C）**：LMArena 数据链路——**主用 C：datasets-server rows API 直取 JSON**（零依赖；HF 服务端把 parquet 转 JSON，本地仅 JSON.parse + 白名单校验；项目零依赖是刻意的、CI 无 npm install，故弃 hyparquet）→ **后备 A：hyparquet 纯 JS 只读解析**（C 通路不可用时启用）；两者均满足**绝不执行网络内容**；**schema 白名单校验 fail-closed**（按 config 校验列名集合 + 类型 + 行数；多余列/缺列/类型不符/超限 → 整文件拒绝，保留旧 raw 快照，WARN 具体原因）→ 转 JSON 写 `raw/lmarena.json`
-- [x] **抓站 prompt 只取结构化字段（方案已定，2026-08-18）**：llm-stats 提取**主路径确定性、无 LLM**（RSC flight payload 解析 + 字段白名单校验 fail-closed）；**LLM 仅作兜底**——RSC 结构改版解析失败时启用，走**本地 Bonsai**（任务简单不需长上下文）经 requestStructuredJson（ledger 必传 fail-closed），且**只喂结构化 key:value 候选、绝不拼整页 prose**（防 R2 注入）；**字段白名单**：身份 model_id/name/organization/license/release_date + 规格 params/context/multimodal/is_moe + 性能 input_price/output_price/throughput/latency + 6 benchmark（aime_2025/hle/gpqa/swe_bench_verified/swe_bench_pro/mmmu_pro）+ 12 index（index_general/reasoning/math/code/search/communication/vision/tool_calling/long_context/finance/legal/healthcare）；**training_tokens/knowledge_cutoff 丢掉**（训练规模无用户意义；知识截止日期无展示位且覆盖率低，以后要「知识新鲜度」维度再加）；**三道闸**：结构化候选（去 prose）→ 字段白名单（去未知键）→ 值域校验（aime∈[0,1]、覆盖率非负、model_id 符合 slug）
+- [x] **抓站 prompt 只取结构化字段（方案已定，2026-08-18）**：llm-stats 提取**主路径确定性、无 LLM**（RSC flight payload 解析 + 字段白名单校验 fail-closed）；**LLM 仅作兜底**——RSC 结构改版解析失败时启用，走**本地 Bonsai**（任务简单不需长上下文）经 requestStructuredJson（ledger 必传 fail-closed），且**只喂结构化 key:value 候选、绝不拼整页 prose**（防 R2 注入）；**字段白名单**：身份 model_id/name/organization/organization_id/license/release_date + 规格 params/context/multimodal/is_moe + 性能 input_price/output_price/throughput/latency + 6 benchmark（aime_2025/hle/gpqa/swe_bench_verified/swe_bench_pro/mmmu_pro）+ 12 index（index_general/reasoning/math/code/search/communication/vision/tool_calling/long_context/finance/legal/healthcare）；**training_tokens/knowledge_cutoff 丢掉**（训练规模无用户意义；知识截止日期无展示位且覆盖率低，以后要「知识新鲜度」维度再加）；**三道闸**：结构化候选（去 prose）→ 字段白名单（去未知键）→ 值域校验（aime∈[0,1]、覆盖率非负、model_id 符合 slug）
 - [ ] **SWE-bench 重新评估**（已搁置：提交驱动、数据少且旧；以后再说，工具集 `SWE-bench-Live/launch` 已核实保留）
 - [x] **AA 许可落地**（已定）：AA 仅内部参考，对比页不公开显示 AA 数值 → 免费层合规
 - [x] **实现决策（已定，2026-08-19）**：① parquet **主用 C**（datasets-server rows API 零依赖）、**A（hyparquet）后备**；② 调度走 **GitHub Actions cron 每日 + workflow_dispatch**，auto-commit `data/comparison/`；③ **AA 首批跳过**（二期，失败不阻塞 integrated）；④ 综合分 **rebuild 预计算**进 data.json（带 weights）；⑤ 工具对比 tab **逻辑重做**（复用柱状图组件）；⑥ 路由按类型：catalog api_model → 模型 tab（**标题→canonical 桥接**）、tool/套餐 → 工具 tab；⑦ 综合分**缺源时权重按比例重分配**（有分就能比，无分显示数据不足）；⑧ 默认勾选 = **综合分+推理+编码+Math**，进可配置文件；⑨ 来源 footer 每块带**平台名+许可证名+链接**；⑩ comparison 校验**接入 validate.js**（网络抽检延后）；⑪ 对比页文案走 **i18n**（t()+zh.js，en 二期）；⑫ **雷达图维度上限 12 条**；⑬ 首批**前端先行（mock integrated 数据）**、数据管线并行随后；index.json/data.json 契约先定死防返工

@@ -6,7 +6,7 @@
 
 知览（KnowView）是部署在 GitHub Pages 的开源 AI 信息聚合与编辑部平台。浏览器使用原生 HTML/CSS/JS，构建脚本使用 Node.js 20；项目无 npm 依赖，以 Git 管理静态 JSON，构建产物为 `dist/`。
 
-当前为环 B（MVP 交付），提供工具库、场景导航、对比模式、AI 热点、编辑精选、AI 概念和关于七个视图。
+当前为环 B（MVP 交付），提供 AI 搜索、工具库、场景、对比、AI 热点、编辑精选、AI 概念和关于八个视图。
 
 ## 系统拓扑
 
@@ -22,15 +22,22 @@ YouTube、X → 热点构建 ─────────────────
 
 | 目录 | 契约 |
 |---|---|
-| `src/web/` | 页面、样式、数据加载、筛选、比较和七视图渲染 |
+| `src/web/` | 页面、样式、数据加载、筛选、比较和八视图渲染 |
 | `src/news/` | 热点管线 v2（采集、去重、分类、审核、评分、候选与投影）和 CLI 实现 |
+| `src/catalog/` | 目录生成与研究域：厂商/工具/概念卡合成、URL 登记与工具更新审核 |
+| `src/comparison/` | 对比数据抓取、模型身份对齐与系列归一 |
 | `src/content/` | RSS 和 OG 生成 |
 | `src/maintenance/` | 数据校验 |
+| `src/maintainer-web/` | 维护者工作台前端页面与面板 |
+| `src/pending/` | 目录待补卡（工具/概念）存储与采纳规则 |
 | `src/shared/paths.js` | Node 数据路径的唯一登记点 |
 | `scripts/` | CI 使用的稳定薄入口，不放业务逻辑 |
 | `tests/` | 自动化测试和 fixtures |
 | `data/catalog/` | 工具、术语、场景和编辑精选主数据 |
 | `data/news/` | 热点配置（configV2）、运行时状态和公开投影 |
+| `data/comparison/` | 模型对比数据层：raw 原样快照、integrated 前端索引与人工对齐登记表 |
+| `data/manual/` | 人工工作目录：官方登记表（registries）、工具/概念链路与待审清单 |
+| `data/shared/` | comparison 与 catalog 间唯一跨层共享数据（发布日期、身份桥与保留策略） |
 | `public/` | RSS、sitemap、robots、OG 等部署根资源 |
 | `docs/` | 系统级设计与工程手册，不放运行时数据或代码 |
 | `resources/` | 人工参考材料，不直接发布 |
@@ -39,7 +46,7 @@ YouTube、X → 热点构建 ─────────────────
 
 ## 浏览器运行时
 
-浏览器只读取 `data/catalog/` 主数据和 `data/news/output/hotspots.json`，不读取 `data/news/runtime/` 内部状态。`catalog(request)` 是五模块目录的唯一 Interface，`loadData()` 加载其他独立数据，`switchView()` 切换视图，各渲染函数生成页面；单份数据加载失败时保留其他视图并显示降级说明。
+浏览器读取 `data/catalog/` 主数据、`data/comparison/` 集成索引（`view-config.json`、`models-alias.json` 与 `integrated/`）和 `data/news/output/hotspots.json`，不读取 `data/news/runtime/` 与 `data/comparison/raw/` 内部状态。`catalog(request)` 是五模块目录的唯一 Interface，`loadData()` 加载其他独立数据，`switchView()` 切换视图，各渲染函数生成页面；单份数据加载失败时保留其他视图并显示降级说明。
 
 五模块目录层级：
 
@@ -90,6 +97,7 @@ X（TwitterAPI.io）──────────────┤→ pipeline-mi
 
 - `collector-youtube-v2.js`：YouTube search.list 关键词发现，配额耗尽降级 mostPopular；
 - `collector-x-v2.js`：X（TwitterAPI.io）博主时间窗 + 关键词搜索，独立计 credits；
+- `collectors/x-search/`：X Advanced Search 纯逻辑子域（时间窗、查询构造、分页、预算账本、账号/发现执行器与断点存储），由 `index.js` 门面统一导出；
 - `review-v2.js`：L0 规则硬审 → L1 AI 审 → L2 AI 建议 + 人工；
 - `history-store.js`：来源长期质量历史库（三率加权）；
 - `scoring-v2.js`：6 权重加权评分（长期质量来自历史库，互动用真实三率）；
@@ -106,7 +114,7 @@ X（TwitterAPI.io）──────────────┤→ pipeline-mi
 多源上游（OpenRouter / LMArena / LiveBench / llm-stats）→ fetch-comparison.js → rebuild-comparison.js
   → 维度归一化与模型对齐 → data/comparison/integrated/
 
-Vibe Hub 概念术语 → refresh-vibe-hub-cache.js → data/catalog/vibe-hub-cache.json
+Vibe Hub 概念术语 → refresh-vibe-hub-cache.js → data/manual/registries/vibe-hub-cache.json
 ```
 
 ### RSS / SEO
@@ -118,7 +126,7 @@ src/web/ → generate-og-image.js → OG 图
 
 ## 当前边界
 
-已实现静态七视图、热点管线 v2（采集、去重、分类、审核、评分、候选与公开投影）、模型对比数据管理、规则评分、证据与溯源、管理 CLI、单元测试和部署前校验。
+已实现静态八视图、热点管线 v2（采集、去重、分类、审核、评分、候选与公开投影）、模型对比数据管理、规则评分、证据与溯源、管理 CLI、单元测试和部署前校验。
 
 当前 MVP 不包含：
 

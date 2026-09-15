@@ -11,6 +11,8 @@
 | `TAVILY_API_KEY` | `src/shared/tavily-client.js`、`src/catalog/core/catalog-research.js` | 官方来源发现、提取与回退抓取 |
 | `YOUTUBE_API_KEY` | `src/news/collectors/collector-youtube-v2.js` | YouTube search.list 关键词发现，配额耗尽降级 mostPopular |
 | `X_API_KEY` | `src/news/collectors/collector-x-v2.js` | TwitterAPI.io（X 博主时间窗 + 关键词搜索，独立计 credits） |
+| `OPENAI_API_KEY` | `src/shared/providers/openai.js` | OpenAI Responses/Chat 提供商密钥，provider 切至 openai 时经 llm-gateway 生效 |
+| `ANTHROPIC_API_KEY` | `src/shared/providers/anthropic.js` | Anthropic Messages 提供商密钥，实现标记为预留，网关当前拒绝调用 |
 
 密钥仅存放在本地根目录 `.env` 或 GitHub Repository Secrets，不进入代码、JSON、浏览器或 CLI 参数。
 
@@ -30,6 +32,13 @@ python -m http.server 8000
 # 浏览器打开 http://localhost:8000
 ```
 
+启动维护者工作台：
+
+```bash
+node scripts/maintainer-workbench.js
+# 仅监听 127.0.0.1，控制台输出带访问 token 的地址
+```
+
 ## CLI 与维护批处理速查
 
 ### 常用批处理（Windows 维护入口）
@@ -37,7 +46,6 @@ python -m http.server 8000
 | 批处理文件 | 作用 | 说明 |
 |---|---|---|
 | `bat/build-dist.bat` | 重建 `dist/` | 复制 `src/web`、`public`、`data` |
-| `bat/maintainer-workbench.bat` | 启动维护者审核平台 | 监听 127.0.0.1 本机端口 |
 | `bat/after-first-review.bat` | 应用首审结论 | 自动触发关键词提纯与 Top 候选生成 |
 | `bat/apply-top.bat` | 标记 Top 候选 | 发布每日热点公开投影 |
 | `bat/apply-keywords.bat` | 采纳关键词提纯 | 更新后续采集关键词库 |
@@ -54,11 +62,14 @@ python -m http.server 8000
 node scripts/news-cli.js min-review list [--status pending|approved|discarded] [--platform ...] [--limit N] [--top N] [--json]
 node scripts/news-cli.js min-review set --id <id> --status approved|discarded
 node scripts/news-cli.js min-review batch --ids <id1,id2,...> --status approved|discarded
+node scripts/news-cli.js min-review repair [--no-external]
 node scripts/news-cli.js min-review ai-top
 node scripts/news-cli.js min-review top-selected --ids <id1,id2,...>
+node scripts/news-cli.js min-review top-apply --file data/manual/top.json
 node scripts/news-cli.js min-review transcripts
 node scripts/news-cli.js min-review feedback
 node scripts/news-cli.js min-review refine
+node scripts/news-cli.js min-review refine-apply --file data/manual/keyword-refine.json
 
 # 分类 / 本地化试跑
 node scripts/news-cli.js classify preview --title <t> [--description <d>]
@@ -71,7 +82,7 @@ node scripts/news-cli.js localize preview --title <t> [--description <d>] [--loc
 
 | 工作流 | 触发条件 | 核心任务与输出 |
 |---|---|---|
-| `collect-news.yml` | 每日 cron（YouTube 每日北京 20:00；X 热半区每日北京 08:30 / 冷半区每日北京 20:30）/ 手动 | YouTube 受管线内 72h 到期闸保护；产出 `data/news/output/hotspots.json`、`min-candidates.json`、`source-history.json`、`x-checkpoints.json`、`last-run.json`、`public/feed.xml` |
+| `collect-news.yml` | 每日 cron（YouTube 每日北京 20:00；X 热半区每日北京 08:30 / 冷半区每日北京 20:30）/ 手动 | YouTube 受管线内 72h 到期闸保护；采集结果以 Data PR 交付候选与 runtime 状态（`min-candidates.json`、`source-history.json`、`x-checkpoints.json`、`last-run.json`、`schedule-state.json`、`review.json`），不直接提交 `main`，公开投影与 RSS 由 PR 合并后的 `publish-news.yml` 重建 |
 | `publish-news.yml` | push `main` 监听 `data/news/runtime/min-candidates.json` 变动 | 从已审核候选重构公开投影，提交 `hotspots.json` 与 `public/feed.xml` |
 | `refresh-comparison.yml` | 每日北京 05:17（UTC 21:17）/ 手动 | 抓取各源最新数据并重建 `data/comparison/`（raw 快照 + integrated 索引） |
 | `refresh-vibe-hub-cache.yml` | 每日北京 19:00（UTC 11:00，YouTube 采集前 1h）/ 手动 | 刷新超过 3 天 TTL 的概念缓存，更新 `data/manual/registries/vibe-hub-cache.json` |

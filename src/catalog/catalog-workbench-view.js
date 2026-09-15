@@ -18,9 +18,9 @@ const { getProvider } = require('../shared/providers');
 const assistant = require('./draft/index');
 
 const RETRYABLE_ERROR_CODES = new Set([
-  'DEEPSEEK_TIMEOUT', 'DEEPSEEK_RATE_LIMITED', 'DEEPSEEK_PROVIDER_ERROR', 'DEEPSEEK_NETWORK_ERROR',
-  'DEEPSEEK_SYNTHESIS_INCOMPLETE', 'DEEPSEEK_SYNTHESIS_EMPTY', 'DEEPSEEK_SYNTHESIS_FAILED',
-  'DEEPSEEK_OUTPUT_INVALID', 'DEEPSEEK_SCHEMA_INVALID',
+  'TIMEOUT', 'RATE_LIMITED', 'PROVIDER_ERROR', 'NETWORK_ERROR',
+  'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED',
+  'OUTPUT_INVALID', 'SCHEMA_INVALID',
 ]);
 
 const PROJECT_ROOT = DIRS.project;
@@ -83,7 +83,7 @@ function recoveryDiagnostic(draft) {
   if (draft?.readiness?.status === 'ready') return { recoveryKind: null, errorCode: null, missingFields: [], missingConfigFields: [], suggestedDetailKind: null, reason: null };
   const failure = draft?.last_error || {};
   let errorCode = assistant.normalizeGatewayErrorCode(failure.code);
-  if (errorCode === 'DEEPSEEK_OUTPUT_INVALID' && /missing field [`']?model/i.test(String(failure.error || ''))) errorCode = 'MODEL_REQUIRED';
+  if (errorCode === 'OUTPUT_INVALID' && /missing field [`']?model/i.test(String(failure.error || ''))) errorCode = 'MODEL_REQUIRED';
   const missingFields = [...new Set([
     ...(Array.isArray(failure.missing_fields) ? failure.missing_fields : []),
     ...(Array.isArray(draft?.coverage?.missing) ? draft.coverage.missing.map(item => `${item.layer}.${item.field}`) : []),
@@ -93,7 +93,7 @@ function recoveryDiagnostic(draft) {
   // manual_required），已知 retryable 码强制覆盖，否则该 Draft 在面板上永久丢失恢复入口。
   let recoveryKind = RETRYABLE_ERROR_CODES.has(errorCode) ? 'retryable' : (failure.recovery_kind || null);
   if (!recoveryKind) {
-    if (errorCode === 'MODEL_REQUIRED' || ['DEEPSEEK_AUTH_REQUIRED', 'DEEPSEEK_ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED', 'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'TAVILY_ACCESS_MODE_REQUIRED'].includes(errorCode)) recoveryKind = 'config_required';
+    if (errorCode === 'MODEL_REQUIRED' || ['AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED', 'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'TAVILY_ACCESS_MODE_REQUIRED'].includes(errorCode)) recoveryKind = 'config_required';
     else if (RETRYABLE_ERROR_CODES.has(errorCode)) recoveryKind = 'retryable';
     else if (errorCode === 'PROFILE_MISMATCH_SUSPECTED' || errorCode.startsWith('PLACEMENT_') || errorCode === 'SEED_INVALID') recoveryKind = 'seed_or_profile_required';
     else if (missingFields.length || errorCode === 'SYNTHESIS_COVERAGE_INCOMPLETE') recoveryKind = 'evidence_required';
@@ -105,7 +105,7 @@ function recoveryDiagnostic(draft) {
   const recoveryMode = researchComplete && ['config_required', 'retryable'].includes(recoveryKind) && !errorCode.startsWith('TAVILY_') ? 'synthesis_only' : 'research_resume';
   const reason = {
     MODEL_REQUIRED: '缺少 model 配置，请填写模型名后重试。',
-    DEEPSEEK_AUTH_REQUIRED: '缺少 DeepSeek 凭据，请在仓库根目录 .env 配置对应 key。',
+    AUTH_REQUIRED: '缺少 AI provider 凭据，请在仓库根目录 .env 配置对应 key。',
     TAVILY_ACCESS_MODE_REQUIRED: '缺少 Tavily access mode 配置。',
     SYNTHESIS_COVERAGE_INCOMPLETE: missingFields.length ? `缺少官方证据字段：${missingFields.join('、')}` : '官方证据字段不完整。',
     PROFILE_MISMATCH_SUSPECTED: suggestedDetailKind ? `候选类型可能应为 ${suggestedDetailKind}，请修正候选资料。` : '候选类型或 Profile 不匹配。',

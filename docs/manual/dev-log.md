@@ -3119,3 +3119,44 @@
 - 本次全流程离线执行，无外部网络请求，未读取凭据；业务代码行为零变更；
 - 按照安全规范未执行任何 git commit 或 git push。
 
+<a id="log-entry-92"></a>
+
+## 2026-09-16 · 文档治理契约落地与全仓过时信息覆盖式修正
+
+> 起因：补卡时手册残留的旧系列政策（3 成员拆分阈值）导致错误判断，用户确立新规则——除开发日志外，任何文档不得以"已过时"标记保留旧信息，必须原地删除并改写为当前事实。本条目按规则将本次治理过程记录于此（唯一允许存放历史叙述处）。
+
+### 契约落地
+
+- [x] [codebase-standards.md](codebase-standards.md) §1.8 新增第 3 款「**过时信息覆盖式修正**」：文档正文（手册、契约、索引、配置示例、bat 提示、代码注释）与代码/登记表现状不符时原地删除改写为当前事实；严禁"已过时/此前为/legacy/（已废弃）"标记式保留；ADR 以决策当时语境写过去时事实、状态行只写当前事实。用户明确批准条文与全量修正范围。
+
+### 修正实现（四路只读审计确认约 48 处 + 执行中补充发现，全部先核实后改写）
+
+- [x] [hotspot-workflow.md](../hotspot-workflow.md)（12+2 处）：X 预算改四桶预付-结算制（budget.js）；CI cron 与 Data PR 流程校准；LLM 层改 llm-gateway + providers（外部默认 zhipu）+ 本地 Bonsai；refine 三固定输出文件与 refine-apply；命令表补齐 14 个 action；discarded 终态语义；L0 补 ai_generated_disclosure 硬排除；type_preference_score 与 ai_keywords 拆分字段校准；管线步骤与 runtime 文件补全；删除"paths.js 死常量"失效断言；补 transcript 上传链路。
+- [x] [catalog-generator.md](catalog-generator.md)（11 处）：§12 系列政策按 schema v2 重写（28 厂商、visible_members=6、第 7+ 转 hidden_history、双迁移闸、newest/previous）；provider 全文 DeepSeek Responses → ZhipuAI glm-5.3-flash messages（ZHIPU_API_KEY）；§4 补 model_key 必填与 MODEL_KEY_NOT_APPLICABLE；错误码章节按现行拼码规则记载（传输类带动态 provider 前缀、合成类 SYNTHESIS_* 前缀，见下方"错误码去厂商化"）；batch approved-only 闸、prune 命令、vibe-hub 每日 + 3 天 TTL、integrated_release_date、交叉引用。
+- [x] [architecture.md](../architecture.md)（7 处）+ [operations.md](../operations.md)（4 处）：八视图、模块表补 src/catalog/comparison/pending/maintainer-web 与数据目录、浏览器直读补 data/comparison、vibe-hub 缓存路径改 data/manual/registries、删除幽灵 bat/maintainer-workbench.bat 行并补真实启动命令、collect-news 输出改 Data PR 六文件、min-review 速查补 repair/top-apply/refine-apply、env 表补 OPENAI/ANTHROPIC 键名。
+- [x] [decisions.md](../decisions.md)：ADR-007/008/009/010 按新契约 ADR 款改写——被推翻的现在时断言改决策当时语境，状态行写当前事实（ADR-010 路径 A 已落地、ADR-008 关联资料已自动补充、ADR-009 tools.json 已移除、ADR-007 实现引用改现模块与 45 条现状）。
+- [x] [CODEBASE-MAP.md](../../CODEBASE-MAP.md)（21 处）：补 10 个缺失 tests 条目；修正 keyword-refine/min-repair/min-store/min-review-actions 导出漂移；合并 R4/R5-R9 共 15 条重复；ai-config.js/interface.js 挂错分区条目移除；top-panel/catalog-panel 描述与 build-dist 的 data/manual 豁免注记改写。
+- [x] 对比链路文档：[comparison-data-sources.md](comparison-data-sources.md) 四源定稿改 LMArena/OpenRouter/LiveBench/llm-stats（AA 二期未建）；[comparison-data-contract.md](comparison-data-contract.md) index.json 示例剔除不存在的 release_date、补 series 真实形状、补回丢失的 §2 标题。
+- [x] [CONTEXT.md](../../CONTEXT.md) 补 7 词条（CatalogSeed/SeriesBundle/IdentityReceipt/ModelIdentityBridge/CatalogTransaction/ConceptPreview/x-search）；[requirements.md](../requirements.md) 补 FR-COMP-06 模型对比能力；[content-quality.md](../content-quality.md) type_preference_score 取值校准。
+- [x] 外围与代码注释：config/catalog-generator.example.json 删除无消费点的 news 块；两个 bat 菜单去 DeepSeek 时代措辞（概念链路按代码事实写本地 Bonsai 合成）；llm-provider.js:91 错误文案、style.css 视图注释、llm-endpoints.js 与 paths.js 注释（"DeepSeek 合成"→现状）。
+- [x] 同日早前：DeepSeek-V4.1-Flash 经单 seed 事务链路 apply 入库（release_date 2026-09-10，revision sha256:24badf0c…），入-record sources 中同一 changelog 的 cache-buster 重复项去重为 2 条；Kimi K2.8 Preview 三次合成跑偏后按用户决定暂缓（seed 保留于 data/manual/）。
+
+### 用户委托裁量后的追加执行（同日）
+
+- [x] **hotspot-workflow.md §16 历史节整体删除**：16.1（v1 删除清单）与 16.2（v2 简化对照）与 dev-log 2026-08-08「v2 转正」条目完全重复，按 §1.8"历史叙述只进 dev-log"删除；16.3 名义"当前仍有效"实为正文速查（§7/§8/§12）已覆盖，且自身含失实导出名（`getToolUrlIndex`/`upgradeHotspotsProjection`/`migrateContentTypeProjection` 均已不存在）；§12 projection.js 行补全为真实导出（新增 `buildProjectionInputs`/`buildToolUrlIndex`/`titleContainsKeyword`/`searchConceptKey`，依据 projection.js:312-324）。
+- [x] **网关错误码去厂商化（覆盖式修正 + 全调用方迁移）**：llm-gateway `failure()` 拼码 `DEEPSEEK_<KIND>_<REASON>` → `<KIND>_<REASON>`（如 `SYNTHESIS_SCHEMA_INVALID`），依据 §1 红线"通用模块不得带特定厂商名"；catalog-draft-envelope 归一化升级——阶段码折叠 `RESEARCH_/SYNTHESIS_ → OUTPUT_INVALID/SCHEMA_INVALID`、传输类码按后缀归一（剥离 ZHIPU/DEEPSEEK/OPENAI/ANTHROPIC/LOCAL 前缀，修复 zhipu 下 ZHIPU_TIMEOUT 落不进 retryable 集的既有误分类）、`DEEPSEEK_*` 存量码读取时迁移；catalog-workbench-view 码表/提示同步，catalog-assistant `draftRecoveryOf` 改走统一归一化；顺带清除三处厂商文案（gateway 成本账本提示、MODEL_REQUIRED 说明、AUTH_REQUIRED 工作台提示）。测试同步：llm-gateway.test 5 断言、catalog-pipeline-v3 网关桩 2 处、catalog-workbench 投影断言；catalog-pipeline-v3:211 与 workbench:167 特意保留旧码入参，充当存量迁移覆盖。
+- [x] **系列政策名册补录**：DeepSeek-V4.1-Flash 入库后全量回归暴露集成测试孤儿——政策名册核验于 09-07、未含 09-10 发布的 `deepseek-v4.1-flash`，迁移规划按名册重排致其失去父级。补录进 `vendor-level2:deepseek:deepseek` 的 expected_members（名册对齐现实，非改测试迁就数据）。
+
+### 验证结果
+
+- [x] node scripts/validate.js：全部通过（原则 1–6，50 个 JSON 路径登记覆盖）；
+- [x] node scripts/check-standards.js：238 个 src 文件白名单外违规 0 处（含 codemap 完整性）；
+- [x] node scripts/check-document-policy.js：passed；node scripts/check-secrets.js：568 文件无密钥形态；
+- [x] 行尾自愈：agent 编辑引入的 CRLF 翻换（llm-endpoints.js、两个 bat）已转回与 HEAD 一致的 LF，diff 收敛至实际改动行；
+- [x] 各路执行者自测：bat 菜单 grep 无 deepseek 残留、min-review 14 action 与 cmd-min.js 支持集逐一比对通过、配置 JSON 合法、llm-provider 改动仅文案。
+
+### 已知边界
+
+- 网关错误码已去厂商化（传输类动态 provider 前缀 + 合成类 SYNTHESIS_*），历史 Draft 的 DEEPSEEK_* 存量码在读取时自动迁移，无兼容双轨；
+- Kimi K2.8 Preview 暂缓中，恢复条件：出现独立 k2.8 API id 或清晰官方模型页。
+

@@ -72,7 +72,7 @@
 - **轻度用户体验价值**：标题/描述命中体验信号词（实测|上手|使用|体验|教程|工作流，或配置 `light_user_signals`）→ 70，否则 50。
 - **来源可靠性**：仅 X 平台评分（认证 → 90，无认证数据 → 中性 50）；YouTube（及非 x 平台）不评此项，该项权重并入长期专业质量，保持权重合计 1.00。
 - **互动质量**：单条真实三率加权（`computeThreeRateScore`），与 `history-store` 同一套三率算法。
-- **类型偏好**：按 `content_type` 查 `scoring.type_preference_score`（`ai_tool`/`ai_product` 90、`ai_concept`/`ai_industry` 60、`ai_technology` 40、`other`/`unclassified` 50）。
+- **类型偏好**：按 `content_type` 查 `scoring.type_preference_score`（`ai_tool`/`ai_product` 90、`ai_concept` 70、`ai_industry` 60、`ai_technology` 50、`other`/`unclassified` 30）。
 
 近期沉默只影响当前时效/活跃度，不降低历史内容质量。
 

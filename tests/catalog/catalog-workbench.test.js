@@ -268,7 +268,7 @@ test('projection reclassifies stale manual_required schema failures as retryable
   });
   assert.equal(projected.recovery_kind, 'retryable');
   assert.equal(projected.recovery_mode, 'synthesis_only');
-  assert.equal(projected.error_code, 'DEEPSEEK_SCHEMA_INVALID');
+  assert.equal(projected.error_code, 'SCHEMA_INVALID');
 });
 
 

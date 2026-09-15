@@ -33,12 +33,12 @@ const {
 } = require('./llm-protocol-payload');
 
 function reserveResponses(ledger) {
-  if (!ledger?.reserve) return { ok: false, code: 'COST_LEDGER_REQUIRED', error: 'DeepSeek 结构化调用缺少成本账本' };
+  if (!ledger?.reserve) return { ok: false, code: 'COST_LEDGER_REQUIRED', error: '结构化调用缺少成本账本' };
   return ledger.reserve('responses_calls', 1);
 }
 
 function failure(kind, code, error, diagnostics = {}) {
-  return { ok: false, code: `DEEPSEEK_${kind.toUpperCase()}_${code}`, error, ...diagnostics };
+  return { ok: false, code: `${kind.toUpperCase()}_${code}`, error, ...diagnostics };
 }
 
 /**

@@ -4,27 +4,37 @@ const { validatePlannedRecords } = require('../core/catalog-record-completeness'
 const { fieldCoverageOf } = require('../core/catalog-synthesis');
 
 const RETRYABLE_CODES = new Set([
-  'DEEPSEEK_TIMEOUT', 'DEEPSEEK_RATE_LIMITED', 'DEEPSEEK_PROVIDER_ERROR', 'DEEPSEEK_NETWORK_ERROR',
-  'DEEPSEEK_SYNTHESIS_INCOMPLETE', 'DEEPSEEK_SYNTHESIS_EMPTY', 'DEEPSEEK_SYNTHESIS_FAILED',
-  'DEEPSEEK_OUTPUT_INVALID', 'DEEPSEEK_SCHEMA_INVALID', 'COST_BUDGET_EXHAUSTED',
+  'TIMEOUT', 'RATE_LIMITED', 'PROVIDER_ERROR', 'NETWORK_ERROR',
+  'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED',
+  'OUTPUT_INVALID', 'SCHEMA_INVALID', 'COST_BUDGET_EXHAUSTED',
 ]);
 const CONFIG_CODES = new Set([
-  'MODEL_REQUIRED', 'DEEPSEEK_AUTH_REQUIRED', 'DEEPSEEK_ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED',
+  'MODEL_REQUIRED', 'AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED',
   'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'TAVILY_AUTH_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED',
 ]);
 const PROFILE_CODES = new Set(['PROFILE_MISMATCH_SUSPECTED', 'PLACEMENT_MANUAL_REQUIRED', 'PLACEMENT_AI_FAILED', 'SEED_INVALID']);
 const EVIDENCE_CODES = new Set(['SYNTHESIS_COVERAGE_INCOMPLETE', 'SOURCE_ID_INVALID', 'PATCH_PROVENANCE_MISSING', 'OFFICIAL_SOURCE_REQUIRED']);
 
-// llm-gateway 按 DEEPSEEK_<kind>_<reason> 拼码（如 DEEPSEEK_SYNTHESIS_SCHEMA_INVALID），
-// 而 retryable 分类字面量无 kind 段；不归一会让模型输出抖动被误判成 manual_required，
-// Draft 在面板上永久失去恢复入口。
+// 网关阶段码形如 SYNTHESIS_SCHEMA_INVALID；传输类码由 ai-transport 按当前 provider 拼
+// 前缀（如 ZHIPU_TIMEOUT），必须按后缀归一，否则非 deepseek provider 的传输失败会被
+// 误判 manual_required，Draft 在面板上永久失去恢复入口。DEEPSEEK_* 为历史 Draft 存量
+// 码，读取时迁移到现行码。
+const STAGE_COLLAPSE_RE = /^(?:RESEARCH|SYNTHESIS)_(OUTPUT_INVALID|SCHEMA_INVALID)$/;
+const LEGACY_STAGE_RE = /^DEEPSEEK_(?:(?:RESEARCH|SYNTHESIS)_)?(OUTPUT_INVALID|SCHEMA_INVALID|SYNTHESIS_EMPTY|SYNTHESIS_INCOMPLETE|SYNTHESIS_FAILED)$/;
+const TRANSPORT_SUFFIX_RE = /^(?:(?:ZHIPU|DEEPSEEK|OPENAI|ANTHROPIC|LOCAL)_)?(TIMEOUT|RATE_LIMITED|PROVIDER_ERROR|NETWORK_ERROR|AUTH_REQUIRED|ENDPOINT_INVALID)$/;
+
 function normalizeGatewayErrorCode(code) {
-  return String(code || '').replace(/^DEEPSEEK_(?:RESEARCH|SYNTHESIS)_(OUTPUT_INVALID|SCHEMA_INVALID)$/, 'DEEPSEEK_$1');
+  const raw = String(code || '');
+  const stage = raw.match(STAGE_COLLAPSE_RE) || raw.match(LEGACY_STAGE_RE);
+  if (stage) return stage[1];
+  const transport = raw.match(TRANSPORT_SUFFIX_RE);
+  if (transport) return transport[1];
+  return raw;
 }
 
 function failureCodeOf(failure) {
   const code = normalizeGatewayErrorCode(failure?.code) || 'DRAFT_BLOCKED';
-  if (code === 'DEEPSEEK_OUTPUT_INVALID' && /missing field [`']?model/i.test(String(failure?.error || ''))) return 'MODEL_REQUIRED';
+  if (code === 'OUTPUT_INVALID' && /missing field [`']?model/i.test(String(failure?.error || ''))) return 'MODEL_REQUIRED';
   return code;
 }
 
@@ -84,7 +94,7 @@ function failureDetailsOf(research, synthesis, fallbackError) {
   const details = {
     code: classification.error_code,
     recovery_kind: classification.recovery_kind,
-    error: classification.error_code === 'MODEL_REQUIRED' ? 'DeepSeek 模型配置缺失' : (failure.error || fallbackError),
+    error: classification.error_code === 'MODEL_REQUIRED' ? '合成模型配置缺失' : (failure.error || fallbackError),
     missing_fields: missingFieldsOf(research, synthesis),
     missing_config_fields: missingConfigFieldsOf(failure, classification.error_code),
     suggested_detail_kind: suggestedDetailKindOf(failure),

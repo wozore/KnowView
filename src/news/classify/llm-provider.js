@@ -88,7 +88,7 @@ function requireFetch(options) {
 
 function requireLocalKey(options) {
   const apiKey = options.apiKey ?? 'local-bonsai';
-  return apiKey ? null : { ok: false, error: '缺少 DEEPSEEK_API_KEY', code: 'missing_api_key' };
+  return apiKey ? null : { ok: false, error: '缺少本地模型 API Key', code: 'missing_api_key' };
 }
 
 function providerLabel(options) {

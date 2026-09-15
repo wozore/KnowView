@@ -94,7 +94,7 @@ const CATALOG_GENERATOR_FILES = Object.freeze({
 });
 
 const CONCEPT_FILES = Object.freeze({
-  previews: path.join(CONCEPTS_DIR, 'concept-previews.json'), // 概念批量：DeepSeek 合成预览（待维护者 apply）
+  previews: path.join(CONCEPTS_DIR, 'concept-previews.json'), // 概念批量：本地模型合成预览（待维护者 apply）
   vibeHubCache: REGISTRIES_FILES.vibeHubCache, // 概念批量：vibe-hub 概念页本地缓存（TTL 3 天）
   pendingConcepts: path.join(CONCEPTS_DIR, 'concept-cards-pending.json'), // 概念待补卡（feedback 产物，batch 输入）
 });

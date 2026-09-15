@@ -8,23 +8,23 @@
 
 - Node.js；
 - 在项目根目录执行命令；
-- 目录模块配置的 DeepSeek provider 对应 API Key 环境变量（默认是 `DEEPSEEK_API_KEY`）；
+- 目录模块配置的合成 provider 对应 API Key 环境变量（默认 provider 为 ZhipuAI，使用 `ZHIPU_API_KEY`）；
 - 官方资料搜索和正文提取使用 Tavily。目录生成器的联网命令必须显式传入 `--tavily-access-mode keyed`，使用 `TAVILY_API_KEY`；本轮工具卡生成不使用 keyless 模式。缺少 Key 时会在发出请求前 fail-closed；不要把真实 Key 写入 Seed、配置文件、BAT 或目录 JSON。
-- Tavily Search 负责发现官方来源，Tavily Extract 负责返回清洗后的正文，DeepSeek 单段式基于官方来源正文合成五层字段与来源 provenance。
+- Tavily Search 负责发现官方来源，Tavily Extract 负责返回清洗后的正文，合成模型（默认 ZhipuAI `glm-5.3-flash`）单段式基于官方来源正文合成五层字段与来源 provenance。
 
 API Key 只通过环境变量读取，不要写入 Seed、配置文件、BAT、草案或目录 JSON。
 
 ### CMD 临时设置
 
 ```bat
-set DEEPSEEK_API_KEY=你的DeepSeek_API_Key
+set ZHIPU_API_KEY=你的ZhipuAI_API_Key
 set TAVILY_API_KEY=你的Tavily_API_Key
 ```
 
 ### PowerShell 临时设置
 
 ```powershell
-$env:DEEPSEEK_API_KEY = "你的DeepSeek_API_Key"
+$env:ZHIPU_API_KEY = "你的ZhipuAI_API_Key"
 $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 ```
 
@@ -39,10 +39,10 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
   "modules": {
     "catalog": {
       "enabled": true,
-      "provider": "deepseek",
+      "provider": "zhipu",
       "retrieval_provider": "tavily",
-      "model": "deepseek-v4-flash",
-      "protocol": "responses",
+      "model": "glm-5.3-flash",
+      "protocol": "messages",
       "timeout_ms": 180000,
       "max_search_queries": 4,
       "max_pages": 8,
@@ -60,11 +60,11 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 }
 ```
 
-- `provider` 选择字段合成的模型厂商；当前目录生成器默认使用 DeepSeek Responses API。
+- `provider` 选择字段合成的模型厂商；当前目录生成器默认使用 ZhipuAI（默认模型 `glm-5.3-flash`）。
 - `retrieval_provider` 固定为 `tavily`；Tavily Search 发现来源，Tavily Extract 获取清洗后的正文。
-- `model` 选择 DeepSeek provider 的模型；OpenAI 等没有默认模型的 provider 必须显式填写。
-- `protocol` 必须与 provider 匹配；当前目录生成器只执行 `responses`，Messages API 会 fail-closed，不会发请求。
-- API Key 只按职责从环境变量读取：DeepSeek 使用 `DEEPSEEK_API_KEY`，Tavily 使用 `TAVILY_API_KEY`；Key 不进入配置文件。
+- `model` 选择合成 provider 的模型；OpenAI 等没有默认模型的 provider 必须显式填写。
+- `protocol` 必须与 provider 匹配；zhipu 使用 Anthropic 兼容的 `messages` 端点，协议不匹配会 fail-closed，不会发请求。
+- API Key 只按职责从环境变量读取：ZhipuAI 使用 `ZHIPU_API_KEY`，Tavily 使用 `TAVILY_API_KEY`；Key 不进入配置文件。
 - `max_search_queries`、`max_pages`、`max_responses_calls`、`max_synthesis_calls` 是执行前就生效的硬上限；搜索请求、正文 URL 和模型请求均在执行前扣减，额度不足时返回 `COST_BUDGET_EXHAUSTED`。
 - `resume --confirm-cost` 表示维护者授权一组新的增量硬预算；历史消耗仍保留在 Draft 成本账本中，不会被重置。
 - `news` 配置项为新闻链路模块配置。
@@ -79,13 +79,14 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 |---|---|---|---|
 | `plan --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
 | `prepare --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
-| `probe --confirm-cost --tavily-access-mode keyed` | 检查 Tavily 检索和 DeepSeek 合成配置 | 会调用一次 Tavily | 否 |
+| `probe --confirm-cost --tavily-access-mode keyed` | 检查 Tavily 检索和合成 provider 配置 | 会调用一次 Tavily | 否 |
 | `new --seed <file> --confirm-cost --tavily-access-mode keyed` | 按计划联网研究并生成 schema v3 Preview Draft | 会联网并可能产生费用 | 否 |
 | `resume <draft-id> --confirm-cost --tavily-access-mode keyed` | 只补 FieldCoverage 中仍缺失字段对应的层来源并重新合成 | 会联网并可能产生费用 | 否 |
 | `list` | 列出草案及状态 | 否 | 否 |
 | `review <draft-id>` | 重算字段覆盖、LayerPatch、Preview hash 和目录版本 | 否 | 否 |
 | `apply <draft-id>` | 等待 `APPLY <draft-id>` 确认后正式写入 | 通常不需要 AI 调用 | 是 |
 | `cancel <draft-id>` | 删除尚未 Apply 的草案 | 否 | 否 |
+| `prune [--cutoff <YYYY-MM|YYYY-MM-DD>] [--dry-run] [--confirm]` | 14 个月滚动级联删除过期详情、工具卡与空父级，确认串 `PRUNE <cutoff>`，cutoff 缺省读共享段 `data/shared/retention.json` | 否 | 是 |
 | `remove --targets <file> --expected-revision <revision> --confirm "REMOVE <file>"` | 按精确 area/id 列表事务化删除目录记录并清理父级引用 | 否 | 是 |
 | `recover` | 恢复中断的目录事务 | 否 | 可能回滚本地事务文件 |
 
@@ -105,7 +106,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 
 双击后直接按回车会退出，不会修改任何文件。命令执行完毕后窗口不会自动进入下一轮交互；需要执行下一条命令时重新双击 BAT，或在终端中再次运行。
 
-## 3. 先检查 Tavily 检索和 DeepSeek 提取配置
+## 3. 先检查 Tavily 检索和合成 provider 配置
 
 在项目根目录执行：
 
@@ -116,7 +117,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 这会执行一次最小 Tavily 动态检查，可能产生 API 调用费用。成功时应看到：
 
 - Tavily 检索 provider；
-- DeepSeek 提取 provider 和 model；
+- 合成 provider 和 model；
 - 可审计官方来源数量。
 
 常见失败：
@@ -124,13 +125,13 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 - `TAVILY_SEARCH_AUTH_REQUIRED`：keyed 模式（`TAVILY_ACCESS_MODE=keyed` 或 keyed 端点）下当前终端没有 `TAVILY_API_KEY`；
 - `TAVILY_SEARCH_RATE_LIMITED` / `TAVILY_SEARCH_FAILED`：Tavily Search 被限流或返回失败；
 - `TAVILY_EXTRACT_FAILED`：官方页面正文提取失败，来源会保留但字段合成证据不足；
-- `DEEPSEEK_AUTH_REQUIRED`：当前终端没有 `DEEPSEEK_API_KEY`；
-- `DEEPSEEK_RATE_LIMITED` / `DEEPSEEK_TIMEOUT`：DeepSeek 字段合成请求失败；
-- `DEEPSEEK_SYNTHESIS_EMPTY`：DeepSeek 没有返回文本；
-- `DEEPSEEK_SYNTHESIS_INCOMPLETE`：DeepSeek 响应被截断，Draft 会保存 `response_status`、`incomplete_reason` 和有限输出预览；
-- `DEEPSEEK_SYNTHESIS_OUTPUT_INVALID`：DeepSeek 返回的文本不是可解析 JSON；
-- `DEEPSEEK_SYNTHESIS_SCHEMA_INVALID`：返回了 JSON，但缺少 `layer_fields` 对象或结构不符合约束；
-- DeepSeek 的 JSON 外壳允许有限归一化，但每个字段仍必须引用真实官方来源并通过 FieldCoverage 本地门禁；
+- 鉴权与传输类错误码带当前 provider 前缀（默认 ZhipuAI）：`ZHIPU_AUTH_REQUIRED`：当前终端没有 `ZHIPU_API_KEY`；`ZHIPU_RATE_LIMITED` / `ZHIPU_TIMEOUT`：字段合成请求被限流或超时；Draft 分类按后缀归一，与 provider 无关；
+- 合成类错误码固定使用 `SYNTHESIS_*` 前缀：`SYNTHESIS_EMPTY`：合成模型没有返回文本；
+- `SYNTHESIS_INCOMPLETE`：合成响应被截断，Draft 会保存 `response_status`、`incomplete_reason` 和有限输出预览；
+- `SYNTHESIS_OUTPUT_INVALID`：返回的文本不是可解析 JSON；
+- `SYNTHESIS_SCHEMA_INVALID`：返回了 JSON，但缺少 `layer_fields` 对象或结构不符合约束；
+- 早期 Draft 存量中可能出现 `DEEPSEEK_*` 旧码（如 `DEEPSEEK_SYNTHESIS_SCHEMA_INVALID`），Draft 读取时自动归一为现行码，无需手工处理；
+- 合成返回的 JSON 外壳允许有限归一化，但每个字段仍必须引用真实官方来源并通过 FieldCoverage 本地门禁；
 - `SYNTHESIS_COVERAGE_INCOMPLETE`：CatalogProfile 的适用字段仍无值、仍是占位或未引用官方来源；Draft 保持 `preview_blocked`；
 - `PROFILE_MISMATCH_SUSPECTED`：`api_model` 缺少访问方式、价格徽标或 API 计价等类型成立所必需的字段；继续检索官方 developer/API/pricing/credits 资料，仍找不到时可人工考虑改建为 `product_variant`，生成器不会自动改类；
 - `SYNTHESIS_INVALID` / `LAYER_PATCH_INVALID`：派生字段引用不存在的官方来源、记录字段不完整、存在空值，或字段缺少 provenance；
@@ -142,7 +143,8 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 创建一个临时 JSON 文件，例如 `data/manual/catalog-seed.json`。Seed 只写你已知的业务信息，不需要手工填写五份目录 JSON，也不要填写稳定 ID。
 - 如果 `name` 无法稳定转成 ASCII 业务键，需要手工填写 `tool_key`；如果 `vendor_name` 无法稳定转成 ASCII 业务键，需要手工填写 `vendor_key`。
 - `modality` 与 `detail_kind` 共同决定 CatalogProfile。API 模型必须明确 `text`、`video`、`image` 或 `audio`，不能让视频模型落入文本 token/context 假设。
-- `known_fields` 只放维护者已经确定的结构提示；当前稳定支持 `theme` 和 `icon`。摘要、价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
+- `model_key`：`api_model` 类 detail 必填，格式为 `<vendor_key>-<identity>` 的单横线小写键（如 `deepseek-deepseek-v4.1-flash`）；缺失时报 `MODEL_KEY_REQUIRED`，非 `api_model` 携带时报 `MODEL_KEY_NOT_APPLICABLE`。
+- `known_fields` 只放维护者已经确定的结构提示；当前稳定支持 `theme`、`icon` 和 `integrated_release_date`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），合成时仅在模型未给出 `release_date` 且记录不是 `tool` 时作为确定性兜底填入。摘要、价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
 - `repair_layers` 用于声明本次确实需要替换的污染层；未列入且已存在的健康层为 `noop`，不会因新增一个模型而重写厂商资料。
 
 生成器对本次新建或替换的记录执行严格完整性校验：每个适用契约字段都必须是非空、类型正确的明确值，禁止 `null`、空字符串、空数组、`unknown/未知` 等占位值。`one_m_context`、`api_pricing` 或 `plan` 确实不适用时，必须使用：
@@ -154,7 +156,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 }
 ```
 
-官方来源正文直接支撑字段合成：DeepSeek 一次调用按层生成全部字段，每个字段引用一个或多个 `source_id` 作为 provenance。摘要、特点、场景和适合/不适合说明属于 `DerivedField`，必须保留来源 IDs。官方资料未覆盖任一适用字段时，FieldCoverage 会保持 missing，Draft 不能 Apply。
+官方来源正文直接支撑字段合成：合成模型一次调用按层生成全部字段，每个字段引用一个或多个 `source_id` 作为 provenance。摘要、特点、场景和适合/不适合说明属于 `DerivedField`，必须保留来源 IDs。官方资料未覆盖任一适用字段时，FieldCoverage 会保持 missing，Draft 不能 Apply。
 
 ### 普通工具
 
@@ -195,6 +197,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
   "vendor_name": "Example Vendor",
   "vendor_key": "example-vendor",
   "tool_key": "example-video-model",
+  "model_key": "example-vendor-example-video-model",
   "official_url": "https://example.com/models/example-video-model",
   "repair_layers": [],
   "placement": {
@@ -310,7 +313,7 @@ bat\catalog-generator.bat new --seed data\manual\catalog-seed.json --confirm-cos
 2. 使用 Tavily Search 按官方域名和谓词联想搜索 developer/API/OpenAPI/pricing/credits/specifications 等资料；
 3. `detail` scope 还会把 Seed 的 `official_url` 与 `discovery_sources[kind=official_hint]` 作为指定官方来源直接加入待提取列表；它们不只是信任根，适用于用户已核验的具体 release notes、定价页或产品文档；
 4. canonicalize URL、过滤非官方域名，再用 Tavily Extract 获取清洗后的 markdown/text 正文；
-5. DeepSeek 不使用 web tools，单段式直接基于各层官方来源正文合成全部层字段与来源 provenance；
+5. 合成模型不使用 web tools，单段式直接基于各层官方来源正文合成全部层字段与来源 provenance；
 6. 计算 FieldCoverage；任一适用字段缺值、占位或未引用官方来源时保持 blocked；
 7. 验证每个字段引用的 source_id 真实存在，并校验记录完整性；
 8. 本地生成每层完整的 `create/replace/noop` LayerPatch，禁止空值、`null`、空数组和 `unknown/未知`；
@@ -470,11 +473,11 @@ pending candidate
   → Apply
 ```
 
-热点反哺可通过生成器的 `batch` 命令自动接入这条链（查重 → 厂商/官方源解析 → 逐工具生成 → 自动 Apply，见 §11）。但仍不要直接把 `tool-cards-pending.json` 复制到正式 `tool-cards.json`——必须经过研究合成与 readiness 门禁。
+热点反哺可通过生成器的 `batch` 命令自动接入这条链（查重 → 厂商/官方源解析 → 逐工具生成 → 自动 Apply，见 §12）。但仍不要直接把 `tool-cards-pending.json` 复制到正式 `tool-cards.json`——必须经过研究合成与 readiness 门禁。
 
 ## 12. 批量生成（热点待补卡 → 正式目录）
 
-`min-review feedback` 产出的 `data/manual/tools/tool-cards-pending.json` 由 `batch` 命令一键转成正式目录卡片：
+`min-review feedback` 产出的 `data/manual/tools/tool-cards-pending.json` 由 `batch` 命令一键转成正式目录卡片。`batch` 只处理已通过人工审核（`review_status: "approved"`）的待补卡，未审核条目直接记入报告 skipped 列表，不进入生成：
 
 ```text
 tool-cards-pending.json
@@ -537,7 +540,7 @@ tool-cards-pending.json
 
 契约硬规则：`kind` 只能是 `github_releases`、`github_file`、`changelog` 或 `release_notes`；collector 必须分别匹配 `github_web_release`、`github_web_file` 或 `tavily_extract`；`product_surface` 只能是 `product`、`cli`、`desktop`、`ide_extension`；`review_mode` 必须是 `deterministic` 或 `ai_fallback`，不能根据来源类型自动猜测。`deterministic` 表示日期和产品表面都由程序门禁完成，`ai_fallback` 只允许事实门禁通过后请求语义建议。GitHub URL 必须是可供人打开的 `https://github.com/<owner>/<repo>/releases...` 或 `/blob/<ref>/<file>` 页面，且 `<owner>/<repo>` 必须与 `repository` 对应；不持久化 `api.github.com`。价格页、Tags 页、单独 tag/commit 时间、重复 URL、HTTP、未知字段组合均拒绝。可选 `date_mode: "latest"` 表示该 changelog 列表页的全部条目都属于目标产品更新、多日期时取最新一条（GitHub Copilot 取最新 copilot 标签更新、Trae 全页均为 IDE 更新即此规则）。`updateSourcesForProduct()` 是只读读取接口，不参与 batch lookup。采集器对 `tavily_extract` 来源优先直接抓取官方 HTML 正文（Tavily Extract 对 JS 渲染/缓存文档站经常丢失 changelog 条目日期），HTML 失败才回退 Tavily Extract。
 
-后续更新审核清单路径为 `data/manual/tools/tool-update-review.json`。`scan --mode deterministic` 只把事实完整的确定性来源写成 candidate；`scan --mode hybrid` 先执行同样的事实门禁，只有 `review_mode: "ai_fallback"` 且事实通过的条目才调用语义审核 AI。确定性 candidate 记录 `decision_source: "deterministic"`，AI candidate 记录 `decision_source: "ai"`；未解决的歧义保留为 blocked，不丢弃证据。默认 provider 是本地 Bonsai，DeepSeek 必须显式确认成本。AI 只能输出 `verdict`、`matched_surface`、`confidence`、`reason`、`supporting_excerpt` 五个字段，不能创建或改写产品键、URL、repository 或日期。清单默认 `review_status: pending`，扫描永不写正式 catalog。
+后续更新审核清单路径为 `data/manual/tools/tool-update-review.json`。`scan --mode deterministic` 只把事实完整的确定性来源写成 candidate；`scan --mode hybrid` 先执行同样的事实门禁，只有 `review_mode: "ai_fallback"` 且事实通过的条目才调用语义审核 AI。确定性 candidate 记录 `decision_source: "deterministic"`，AI candidate 记录 `decision_source: "ai"`；未解决的歧义保留为 blocked，不丢弃证据。默认 provider 是本地 Bonsai，外部 provider（`deepseek` / `zhipu`）必须显式确认成本。AI 只能输出 `verdict`、`matched_surface`、`confidence`、`reason`、`supporting_excerpt` 五个字段，不能创建或改写产品键、URL、repository 或日期。清单默认 `review_status: pending`，扫描永不写正式 catalog。
 
 第 5 步的日期 Apply 只允许显式 `mode: "advance_update"` 的 `tool.last_updated_date` 向前更新：新日期必须严格晚于当前日期、不晚于 Apply/扫描日，证据日期必须来自官方发布时间 metadata 或正文；模型 `release_date`、套餐、同日、回退、未来日期和非官方来源均拒绝。批量 Apply 先以同一 base revision 生成一份 preview/hash，再重新读取 registry、catalog 和 review queue，逐条确认 `review_status: approved` 与 candidate hash，任一冲突则整批不写入；成功提交只改变目标日期和必要的官方 source 追加，其他字段零漂移。
 
@@ -555,7 +558,7 @@ bat\tool-update-review.bat preview
 bat\tool-update-review.bat apply --expected-revision sha256:... --preview-hash sha256:...
 ```
 
-`preflight` 将必需的登记表/GitHub/Tavily 能力与可选 AI fallback 分开报告，不写文件。`scan --mode deterministic` 永不探测或调用 AI；`scan --mode hybrid` 只为事实门禁通过且登记为 `ai_fallback` 的来源请求 AI。两种扫描都只合并 `tool-update-review.json`，不写正式 catalog；含 Tavily 来源必须显式选择 `--tavily-access-mode keyed|keyless`，DeepSeek fallback 还必须加 `--confirm-cost`。`list` 和 `preview` 只读；`preview` 输出当前 expected revision、精确变更和 preview hash。`.github/workflows/weekly-tool-update-review.yml` 每周按 [data/news/config/news-config-v2.json](../../data/news/config/news-config-v2.json) 中 `schedule.tool_update_review_hour_utc` 与 `schedule.tool_update_review_minute_utc` 的目标 UTC 时间运行确定性扫描，未设置时默认为 `03:17 UTC`（北京时间 11:17）；GitHub Actions 的 cron 负责每小时唤醒，实际执行允许约 30 分钟调度窗口。修改统一 JSON 的这两个字段即可调整时间；手动触发 workflow 不受时间门控影响。定时任务不会执行本地人工日期写入。
+`preflight` 将必需的登记表/GitHub/Tavily 能力与可选 AI fallback 分开报告，不写文件。`scan --mode deterministic` 永不探测或调用 AI；`scan --mode hybrid` 只为事实门禁通过且登记为 `ai_fallback` 的来源请求 AI。两种扫描都只合并 `tool-update-review.json`，不写正式 catalog；含 Tavily 来源必须显式选择 `--tavily-access-mode keyed|keyless`，外部 AI fallback（`deepseek` / `zhipu`）还必须加 `--confirm-cost`。`list` 和 `preview` 只读；`preview` 输出当前 expected revision、精确变更和 preview hash。`.github/workflows/weekly-tool-update-review.yml` 每周按 [data/news/config/news-config-v2.json](../../data/news/config/news-config-v2.json) 中 `schedule.tool_update_review_hour_utc` 与 `schedule.tool_update_review_minute_utc` 的目标 UTC 时间运行确定性扫描，未设置时默认为 `03:17 UTC`（北京时间 11:17）；GitHub Actions 的 cron 负责每小时唤醒，实际执行允许约 30 分钟调度窗口。修改统一 JSON 的这两个字段即可调整时间；手动触发 workflow 不受时间门控影响。定时任务不会执行本地人工日期写入。
 
 `apply` 只接受人工把候选改为 `review_status: "approved"` 且仍为 `status: "candidate"` 的条目。它要求 `--expected-revision`、`--preview-hash`，并交互输入精确的 `APPLY TOOL-UPDATES <preview_hash>`；CLI 会重新读取 registry、catalog 和审核队列，复算 candidate/preview，最后复用日期批量事务。任何 revision、hash、来源、日期或审核状态冲突都 fail-closed，不能写入；本入口不更新 registry 的 `last_official_update_at` / `last_verified_at`，那属于后续维护步骤。
 
@@ -600,10 +603,10 @@ node scripts/catalog-generator.js batch --file data/manual/tools/tool-cards-pend
 
 通用 LLM 模型（`detail_kind=api_model` 且属于政策中的 `general_llm` 家族）在批量 prepare 前由「LLM 二级系列分类政策」决定归属，不再默认以模型名建组：
 
-1. **政策规则源**：`data/manual/registries/llm-series-policy.json` 声明 16 个厂商的模型家族、用途、版本轴、允许的目标二级系列、容量（同系列最多 3 个，第 4 个触发拆分）与证据状态。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
+1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v2）声明 28 个厂商的模型家族、用途、版本轴、允许的目标二级系列、容量（同系列可见成员上限 `visible_members` 为 6，第 7 个起按 `release_date` 最旧转入 `hidden_history`，由 SeriesBundle planner 与迁移 CLI 执行）与证据状态。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
 2. **确定性判定**：`src/catalog/series/catalog-series-policy.js` 的 `planSeriesPlacement` 用品牌提示/家族 pattern 识别已知 LLM，直接产出 `existing`（加入已有系列）或 `create`（用政策稳定 id/标题新建）。已知模型不需要 AI，零成本。
 3. **AI 只作 hint**：仅当候选用途/家族无法确定性判定（`needs_ai`，如无任何品牌命中的新模型）且显式放行 `allowAiPlacement` 时，才调用 `catalog-series-placement-ai` 输出 `usage_kind/family/cohort/confidence` 建议，再由政策重算最终归属。AI 低置信、未知家族、与政策冲突一律 fail-closed；缺账本、未放行时直接 `PLACEMENT_MANUAL_REQUIRED`，绝不静默建组。
-4. **第 4 个成员触发拆分迁移**：目标系列成员数已达拆分阈值（3）时，新候选返回 `PLACEMENT_MIGRATION_REQUIRED` 并阻断该 seed，**不自动重排既有成员**。需要拆分时由维护者更新政策（声明 newest/last 系列）后执行系列迁移（见下）。
+4. **名册满员触发迁移**：目标系列 `expected_members` 名册成员已全部在快照且候选不在名册时，新候选返回 `PLACEMENT_MIGRATION_REQUIRED` 并阻断该 seed，**不自动重排既有成员**。需要扩容时由维护者更新政策（声明 newest/previous 代际与名册）后执行系列迁移（见下）。
 5. **人工 placement 仍最高优先**：Seed/待补卡显式指定 `existing_level2_ref` 时直接采用，但必须通过引用 kind/存在性/厂商归属校验，非法即 fail-closed。
 
 ### 二级系列迁移（合并/拆分当前目录）
@@ -619,37 +622,37 @@ node scripts/catalog-series-migration.js --apply <targetRevision>  # 原子 Appl
 - 预览列出：删除的碎片系列、成员搬迁、孤儿、既有浮空详情警告、`id_map` 与 `vendor-level1.level2_refs` 重写。
 - `--apply <targetRevision>` 会按当前快照**重新计算目标 revision**，与传入值不一致（数据已漂移）即中止；随后经 `commitSnapshotChange` 五文件事务 + dist 重建原子提交，并绑定 `expectedRevision` 防并发。
 - 迁移只改 `vendor-preview-level1.json` / `vendor-preview-level2.json`；`tool-level3` 与 `tool-card` 零漂移。
-- 第 4 个成员触发拆分时：先更新政策（把单系列改为 `*-newest` / `*-last` 双系列并分配成员），再跑迁移 Apply，最后重跑批量。
+- 目标系列不在快照且被非政策系列占用（`SERIES_MIGRATION_REQUIRED`），或名册满员（`PLACEMENT_MIGRATION_REQUIRED`）时：先更新政策（按 `newest` / `previous` 代际声明系列并分配 `expected_members` 名册），再跑迁移 Apply，最后重跑批量。
 
 ### 批量成本门禁（零确认零付费）
 
 `batch` 的联网/付费解析与生成严格门禁：
 
-- 未传 `--confirm-cost` 且非 `--dry-run`：**零付费返回**三本账成本估算，不执行任何 Tavily/DeepSeek 调用：
+- 未传 `--confirm-cost` 且非 `--dry-run`：**零付费返回**三本账成本估算，不执行任何 Tavily/AI 调用：
   - `resolution`：需要付费 vendor 解析的卡片数（人工登记表命中零成本）；
   - `placement`：AI 分类调用上界（默认 0，`allowAiPlacement` 才可能付费）；
   - `research`：各 seed 研究/合成硬上限。
 - `--dry-run`：付费解析预览 + 确定性 placement 写入 preview，并回填 `resolve_cost`。
 - `--confirm-cost`：确认后执行解析 → 批量生成 → 自动 Apply。
-- **同厂商多候选顺序规划**：批量前置按顺序维护投影成员数，第 3 个正常加入、第 4 个触发迁移阻断；`migration_required` 与 `fail_closed` 天然使后续同家族候选持续阻断。
+- **同厂商多候选顺序规划**：批量前置按顺序维护投影成员数，名册未满时正常加入、满员后触发迁移阻断；`migration_required` 与 `fail_closed` 天然使后续同家族候选持续阻断。
 - **from-preview / resume 复用**：`--from-preview` 复用上次 dry-run 的 seed（含 `placement_decision`），确定性判定短路，**不重复调用 AI**；已持久化 decision 的 seed 在重跑/续跑时直接采用。
 
 ### SeriesBundle 与普通 Draft 架构边界（schema v3 vs v4）
 
 - **普通 Draft（schema v3）**：由单工具 `new/resume/review/apply` 链路管理，`schema_version: 3`，负责单一工具五层目录记录的确定性规划与 Apply。
 - **SeriesBundle Draft（schema v4）**：在批量处理或工作台系列打包流程中，使用独立的 `series_bundle` Draft（`draft_kind: 'series_bundle'`, `schema_version: 4`）。它将同厂商/同系列的多个模型成员聚合成原子管理单元，维护独立的成员归属判定（`existing`/`create`/`deferred`）、增量富化确认 token（`enrichment_confirmation_token`）与硬上限（`enrichment_hard_limits`）。
-- **版本隔离与政策自洽**：SeriesBundle Draft 与普通 schema v3 Draft 状态机与存储结构隔离，不混为同一版本；系列成员规划严格依循 `llm-series-policy.json`，确保系列容量、拆分门槛与模型键（model_key）桥接数据全局自洽。
+- **版本隔离与政策自洽**：SeriesBundle Draft 与普通 schema v3 Draft 状态机与存储结构隔离，不混为同一版本；系列成员规划严格依循 `llm-series-policy.json`，确保系列容量、名册边界与模型键（model_key）桥接数据全局自洽。
 
 ## 13. 概念批量生成（热点待补概念 → glossary.json）
 
-`min-review feedback` 产出的 `data/manual/concepts/concept-cards-pending.json` 由**独立的 concept-generator 入口**转成正式 `data/catalog/glossary.json` 条目。概念生成产出的是 AI 概念知识库（glossary.json），不是五模块厂商/工具目录，故独立成入口，不挂在 catalog-generator 下。与工具批量链路（§11）不同，概念**不自动 apply**：batch 只合成出预览文件并停下，由维护者查看后再显式 `apply` 写入。
+`min-review feedback` 产出的 `data/manual/concepts/concept-cards-pending.json` 由**独立的 concept-generator 入口**转成正式 `data/catalog/glossary.json` 条目。概念生成产出的是 AI 概念知识库（glossary.json），不是五模块厂商/工具目录，故独立成入口，不挂在 catalog-generator 下。与工具批量链路（§12）不同，概念**不自动 apply**：batch 只合成出预览文件并停下，由维护者查看后再显式 `apply` 写入。
 
 ```text
 concept-cards-pending.json
   → 查重（同批 + 正式 glossary，term 大小写不敏感）
   → 回读 approved 摘要作主证据 + vibe-hub.org 自动补充证据
   → 成本估算 → --confirm-cost 确认一次
-  → 逐概念 DeepSeek 合成 → 写预览文件 data/manual/concepts/concept-previews.json
+  → 逐概念合成 → 写预览文件 data/manual/concepts/concept-previews.json
   → 维护者查看（preview）→ 显式 apply → 原子写 glossary.json
 ```
 
@@ -666,7 +669,7 @@ bat\concept-generator.bat ...
 node scripts/concept-generator.js batch --file data/manual/concepts/concept-cards-pending.json --dry-run
 ```
 
-只做查重 + 本地摘要证据 + 成本估算（每条概念 1 次合成），不抓 vibe-hub、不调 DeepSeek、不写文件。
+只做查重 + 本地摘要证据 + 成本估算（每条概念 1 次合成），不抓 vibe-hub、不调外部 AI、不写文件。
 
 ### 正式合成预览
 
@@ -675,7 +678,7 @@ node scripts/concept-generator.js batch --file data/manual/concepts/concept-card
 ```
 
 - 合成前会尽力抓 `https://vibe-hub.org/<slug>` 补充证据（term 为纯 ASCII 才尝试，含中文自动跳过；404/网络失败静默跳过，approved 摘要始终是主证据）。
-- 逐概念 DeepSeek 合成 7 字段条目（term/full_name/category/summary/related_terms/source{name,url}/relevance），成功写预览文件、单条失败跳过保留并报告，不阻塞后续。
+- 逐概念合成 7 字段条目（term/full_name/category/summary/related_terms/source{name,url}/relevance），成功写预览文件、单条失败跳过保留并报告，不阻塞后续。
 - 完成后**停在预览**，不写正式库，提示"请查看后执行 `apply`"。
 
 ### 查看与人工 apply
@@ -692,7 +695,7 @@ node scripts/concept-generator.js apply --terms 多智能体  # 只应用指定�
 
 vibe-hub 概念页正文会缓存到 `data/manual/registries/vibe-hub-cache.json`（按 slug，`fetched_at` + TTL 默认 3 天）。命中缓存零请求；未命中/过期才串行抓取（≥500ms 节流）。缓存只省重复抓取、**永不挡新抓取**，也永不成为证据缺失的原因。已上架的**新概念术语**由 cache-miss 自动抓取跟上。
 
-`.github/workflows/refresh-vibe-hub-cache.yml` 每 3 天（北京 19:00 / UTC 11:00，即 YouTube 采集北京 20:00 前 1h）刷新过期缓存条目并直接提交回 main；空缓存/全新鲜零网络。可手动触发：
+`.github/workflows/refresh-vibe-hub-cache.yml` 每日运行（北京 19:00 / UTC 11:00，即 YouTube 采集北京 20:00 前 1h），只刷新超过 TTL（默认 3 天）的过期缓存条目并直接提交回 main；空缓存/全新鲜零网络。可手动触发：
 
 ```bash
 # workflow_dispatch 手动跑（GitHub → Actions → Refresh VibeHub Cache）
@@ -764,7 +767,7 @@ node scripts/refresh-vibe-hub-cache.js
   - 命令行调用：`bat\concept-generator.bat <command> [options]`，透传至 `node scripts\concept-generator.js`。
 - **常用指令**：
   - `batch --file <pending.json> --dry-run`：查重与本地证据校验（零网络零费用）；
-  - `batch --file <pending.json> --confirm-cost`：抓取 vibe-hub 补充证据并由 DeepSeek 合成，输出 `concept-previews.json`；
+  - `batch --file <pending.json> --confirm-cost`：抓取 vibe-hub 补充证据并由合成模型生成，输出 `concept-previews.json`；
   - `preview`：查看当前概念预览；
   - `apply [--terms a,b]`：将预览写入正式 `glossary.json`。
 
