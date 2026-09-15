@@ -659,12 +659,13 @@ test('pipeline-min fail-closed：候选层读取失败时严禁回退空 store�
 test('pipeline-min 接入 checkpoint store 并保证严格写入时序', async () => {
   const writeOrder = [];
   let writtenCpStore = null;
+  let writtenLastRun = null;
 
   const mockXResult = {
     items: [xItem1],
     status: 'complete',
     credits: { used: 300, total_budget: 7500 },
-    account_groups: [{ group_id: 'g1', status: 'complete', credits_used: 300 }],
+    account_groups: [{ group_id: 'g1', status: 'complete', credits_used: 300, items: [{ type: 'tweet', id: 'raw-1', author: { userName: 'OpenAI' } }] }],
     discovery_queries: [],
     checkpoint_patches: [
       {
@@ -707,7 +708,10 @@ test('pipeline-min 接入 checkpoint store 并保证严格写入时序', async (
       writeOrder.push('checkpointStore');
       writtenCpStore = store;
     },
-    lastRunOut: () => { writeOrder.push('lastRun'); },
+    lastRunOut: record => {
+      writeOrder.push('lastRun');
+      writtenLastRun = record;
+    },
     runId: 'test-pipeline-checkpoint',
     autoReviewList: false,
   });
@@ -715,5 +719,10 @@ test('pipeline-min 接入 checkpoint store 并保证严格写入时序', async (
   assert.ok(writtenCpStore, 'checkpoint store 必须被落盘写入');
   assert.equal(writtenCpStore.checkpoints['win_test::account_group::g1::hash_g1'], undefined);
   assert.deepEqual(writeOrder, ['historyStore', 'minStore', 'checkpointStore', 'lastRun']);
+  const lastRunGroups = writtenLastRun.collectors.x.account_groups;
+  assert.equal(Array.isArray(lastRunGroups), true, 'last-run 保留账号组摘要');
+  assert.equal('items' in lastRunGroups[0], false, '原始推文载荷必须被剥离，不得进入 last-run.json');
+  assert.equal(lastRunGroups[0].group_id, 'g1');
+  assert.equal(lastRunGroups[0].credits_used, 300);
 });
 

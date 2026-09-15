@@ -22,6 +22,25 @@ function errorLabel(error) {
 }
 
 /**
+ * 账号组结果压缩投影：只保留运行摘要，剥离 items 等原始 API 载荷，
+ * 防止完整推文/作者资料（每轮 1MB+）泄入 coverage 与 last-run.json。
+ * @private
+ */
+function compactAccountGroupOutcomes(groups) {
+  if (!Array.isArray(groups)) return groups ?? null;
+  return groups.map(group => ({
+    group_id: group.group_id,
+    status: group.status,
+    pages_completed: group.pages_completed,
+    retained_items: group.retained_items,
+    credits_used: group.credits_used,
+    reason: group.reason ?? null,
+    errors: Array.isArray(group.errors) ? group.errors : [],
+    query_hash: group.query_hash,
+  }));
+}
+
+/**
  * 从 options 与参考时间推导 X 的 slot（hot/cold）与 run_kind。
  * @private
  */
@@ -120,7 +139,7 @@ async function runXTask({ options, config, now, runId, coverage, xWindow }) {
     slot.status = result?.status || result?.coverage?.status || 'success';
     slot.reason = result?.diagnostics?.error || result?.coverage?.reason || null;
     slot.credits = result?.credits || null;
-    slot.account_groups = result?.account_groups || null;
+    slot.account_groups = compactAccountGroupOutcomes(result?.account_groups);
     slot.discovery_queries = result?.discovery_queries || null;
     slot.checkpoint_patches = result?.checkpoint_patches || null;
     slot.diagnostics = result?.diagnostics || null;
