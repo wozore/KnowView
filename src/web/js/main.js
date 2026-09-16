@@ -18,6 +18,7 @@ import { renderTrending, clearTrendingFilters, reloadHotspots, openHotspotDetail
 import { renderGlossary, openGlossaryConcept, setActiveGlossaryId } from './views/glossary.js';
 import { applyStaticTranslations } from './ui/i18n.js';
 import { loadIcons } from './ui/brand-icons.js';
+import { setupFeedbackDrawer } from './ui/feedback-drawer.js';
 import { renderFeatured, setActiveEditorCat, setActiveHotCat } from './views/featured.js';
 import {
   searchState, renderSearchHome, renderSearchProcessing, renderSearchView,
@@ -275,6 +276,9 @@ if (typeof document !== 'undefined') {
       if (!mobileNav.hidden && !mobileNav.contains(e.target) && !menuToggle.contains(e.target)) closeMobileNav();
     });
   }
+
+  // 反馈抽屉（测试阶段全站入口）
+  setupFeedbackDrawer();
 
   // 筛选与对比
   document.querySelectorAll('.tools-filters').forEach(bar => {

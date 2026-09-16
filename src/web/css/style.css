@@ -1970,6 +1970,132 @@ main:has(#view-compare.active.cmp-wide-active) { max-width: none; }
   margin-top: 40px;
 }
 
+/* ═══ Feedback Drawer ═══════════════════════════════════════════
+   测试阶段全站反馈入口：右缘竖排标签 + 滑出抽屉选择飞书 / GitHub 渠道 */
+.feedback-tab {
+  position: fixed;
+  right: 0;
+  top: 42%;
+  z-index: 125;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 13px 10px;
+  border: 1px solid var(--border);
+  border-right: 0;
+  border-radius: var(--radius) 0 0 var(--radius);
+  background: var(--ink);
+  color: var(--on-solid);
+  writing-mode: vertical-rl;
+  letter-spacing: .14em;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition: background-color var(--transition);
+}
+.feedback-tab:hover { background: var(--primary); }
+.feedback-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.feedback-tab[hidden] { display: none; }
+.feedback-tab-mark { writing-mode: horizontal-tb; color: #f4bd73; font-size: 14px; }
+.feedback-drawer-overlay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 130;
+  background: var(--overlay);
+}
+.feedback-drawer-overlay[hidden] { display: none; }
+.feedback-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 140;
+  width: min(390px, calc(100vw - 28px));
+  padding: 26px 26px 28px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  animation: feedback-drawer-in .22s ease;
+}
+.feedback-drawer[hidden] { display: none; }
+@keyframes feedback-drawer-in {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.feedback-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.feedback-drawer-eyebrow {
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+.feedback-drawer-title {
+  margin-top: 4px;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+.feedback-drawer-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+.feedback-drawer-close:hover { border-color: var(--primary); color: var(--text); }
+.feedback-drawer-close:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.feedback-drawer-close .icon { width: 18px; height: 18px; }
+.feedback-drawer-lead {
+  margin-top: 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.feedback-drawer-channels {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+.feedback-channel {
+  display: grid;
+  gap: 3px;
+  padding: 14px 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+.feedback-channel:hover { border-color: var(--primary); background: var(--primary-light); }
+.feedback-channel:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.feedback-channel b { font-size: 14px; }
+.feedback-channel span { color: var(--text-secondary); font-size: 12px; line-height: 1.5; }
+.feedback-drawer-note {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  color: var(--text-hint);
+  font-size: 12px;
+  line-height: 1.6;
+}
+body.feedback-drawer-open { overflow: hidden; }
+
 /* ═══ Responsive ════════════════════════════════════════════════
    移动端适配（max-width: 768px）：
    导航竖排、卡片单列、筛选叠放、模态全屏、对比表横向滚动 */
@@ -2233,6 +2359,9 @@ main:has(#view-compare.active.cmp-wide-active) { max-width: none; }
   .about-section { grid-template-columns: 1fr; gap: 6px; }
   .about-principles li { grid-template-columns: 1fr; gap: 4px; }
   .about-actions { display: grid; }
+  /* 反馈抽屉：窄屏标签移到右下角，避开中部内容与顶栏 */
+  .feedback-tab { top: auto; bottom: 18px; }
+  .feedback-drawer { padding: 20px 18px 22px; }
 }
 
 @media (max-width: 360px) {

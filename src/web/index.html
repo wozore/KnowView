@@ -745,6 +745,35 @@
   <p style="margin-top:6px"><button class="btn-link" type="button" data-view="about">关于</button> · <a href="https://my.feishu.cn/share/base/form/shrcnBU7crL7oOwWJQsv7x7lMz7" rel="noopener">反馈与纠错</a> · <a href="https://github.com/wozore/KnowView/blob/main/CONTRIBUTING.md">如何贡献</a> · <a href="https://github.com/wozore/KnowView/issues/new?template=data-correction.yml">数据纠错</a> · <a href="https://github.com/wozore/KnowView/issues/new?template=new-tool.yml">收录建议</a></p>
 </footer>
 
+<!-- 测试阶段全站反馈抽屉：右缘标签打开，打开即隐藏标签，×/遮罩/Esc 关闭 -->
+<button class="feedback-tab" id="feedbackTab" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="feedbackDrawer">
+  <span class="feedback-tab-mark" aria-hidden="true">✦</span><span class="feedback-tab-text">反馈</span>
+</button>
+<div class="feedback-drawer-overlay" id="feedbackDrawerOverlay" hidden></div>
+<aside class="feedback-drawer" id="feedbackDrawer" role="dialog" aria-modal="true" aria-labelledby="feedbackDrawerTitle" hidden>
+  <div class="feedback-drawer-head">
+    <div class="feedback-drawer-heading">
+      <p class="feedback-drawer-eyebrow">测试阶段</p>
+      <h2 class="feedback-drawer-title" id="feedbackDrawerTitle">告诉我们哪里可以更好</h2>
+    </div>
+    <button class="feedback-drawer-close" id="feedbackDrawerClose" type="button" aria-label="关闭反馈面板">
+      <svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg>
+    </button>
+  </div>
+  <p class="feedback-drawer-lead">知览正在测试期，数据纠错、页面问题和功能建议都欢迎。选择你更方便的渠道：</p>
+  <div class="feedback-drawer-channels">
+    <a class="feedback-channel" href="https://my.feishu.cn/share/base/form/shrcnBU7crL7oOwWJQsv7x7lMz7" rel="noopener">
+      <b>飞书反馈</b>
+      <span>可匿名提交，适合快速反馈问题与建议</span>
+    </a>
+    <a class="feedback-channel" href="https://github.com/wozore/KnowView/issues/new" rel="noopener">
+      <b>GitHub 反馈</b>
+      <span>公开可追踪，适合 Bug、数据纠错与收录建议</span>
+    </a>
+  </div>
+  <p class="feedback-drawer-note">安全与隐私问题请勿通过以上公开渠道提交，请使用仓库 SECURITY.md 中的私密漏洞报告入口。</p>
+</aside>
+
 <script type="module" src="js/main.js?v=2026-09-08-2"></script>
 </body>
 </html>

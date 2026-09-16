@@ -195,6 +195,7 @@
 - [ui/modal.js](src/web/js/ui/modal.js) — 全站统一模态框与无障碍焦点管理。
 - [ui/ui-helpers.js](src/web/js/ui/ui-helpers.js) — 前端安全外链与文本转义通用辅助函数。
 - [ui/ui-icons.js](src/web/js/ui/ui-icons.js) — 前端通用内联 SVG 图标定义。
+- [ui/feedback-drawer.js](src/web/js/ui/feedback-drawer.js) — 测试阶段全站反馈抽屉；右缘标签开合、打开即隐藏标签、焦点回还与 Esc/焦点圈定关闭。导出: `isFeedbackDrawerOpen, openFeedbackDrawer, closeFeedbackDrawer, setupFeedbackDrawer`
 
 ### src/web/js/views/ — 视图模块
 - [views/compare.js](src/web/js/views/compare.js) — 对比视图双 tab（模型对比 ↔ 工具对比）+ 工具对比引擎。
@@ -450,7 +451,7 @@
 - [check-document-policy.js](scripts/check-document-policy.js) — 只读文档路径、忽略与 Git 跟踪状态检查，接入 validate。导出: `validateDocumentPaths, checkDocuments, main`
 - [check-standards.js](scripts/check-standards.js) — 零依赖规范静态检查器（validate.js 前置门禁，全部 CI 工作流生效）：依赖方向/垫片/旧契约叙事/体量导出/环/组装纪律/src 文件 CODEBASE-MAP 登记完整性 7 类检测；存量违规白名单 `scripts/check-standards.whitelist.json`（git 跟踪，条目带机器校验 count，白名单文件内违规增长报 whitelist-growth，铁律只减不增）。导出: `runChecks, main`
 - [build-dist.js](scripts/build-dist.js) — 调 buildStaticSite 构建 dist/：src/web 与 public 全量复制，data 仅选择性复制（catalog 全量、news/output、comparison 的 view-config/models-alias/integrated）；data/manual 与 data/shared 不进 dist（维护者入口：bat/build-dist.bat）
-- [browser-acceptance.js](scripts/browser-acceptance.js) — 依赖零安装的 Edge/CDP 真实页面验收：读取被忽略的 `config/browser.local.json`，启动 dist 静态站与临时 Edge profile，检查 18 张模型卡搜索/详情、三级模型对比选择器的厂商/系列展开与模型搜索、revision/degree 交互、旧 Spark/xunfei 隐藏和排除模型不可见。
+- [browser-acceptance.js](scripts/browser-acceptance.js) — 依赖零安装的 Edge/CDP 真实页面验收：读取被忽略的 `config/browser.local.json`，启动 dist 静态站与临时 Edge profile，检查 17 张模型卡搜索/详情、三级模型对比选择器的厂商/系列展开与模型搜索、revision/degree 交互、旧 Spark/xunfei 隐藏和排除模型不可见。
 - [browser-workbench-acceptance.js](scripts/browser-workbench-acceptance.js) — 维护者工作台浏览器端到端验收：Headless Edge/CDP 真实驱动，验证新闻双向状态流转与回退待审、待补卡丢弃、Top 待选池重置重新生成与公开投影发布全流程零卡死。导出: `runWorkbenchBrowserAcceptance`
 - [publish-news.js](scripts/publish-news.js) — 候选 → 公开投影 + RSS 发布（**默认走 v2：min-candidates approved 按每日 top 重建 hotspots.json**）
 - [run-after-first-review.js](scripts/run-after-first-review.js) — 首次审核结论落地后安全并行 `refine` 与 `ai-top`；任一失败仅终止本次记录子进程并整体失败。导出: `runAfterFirstReview`
