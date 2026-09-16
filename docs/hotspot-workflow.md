@@ -68,9 +68,9 @@
 
 | 字段 | 默认值 | 说明 |
 |---|---|---|
-| `youtube_cron` | `"0 12 * * *"` | YouTube 每日调度（北京时间 20:00 = UTC 12:00），配合管线内 72h 到期闸（`youtube_interval_hours: 72`）触发实际采集 |
-| `x_cron_hot` | `"30 0 * * *"` | X 热半区抓取（北京时间 08:30 = UTC 00:30） |
-| `x_cron_cold` | `"30 12 * * *"` | X 冷半区抓取（北京时间 20:30 = UTC 12:30） |
+| `youtube_cron` | `"13 12 * * *"` | YouTube 每日调度（北京时间 20:13 = UTC 12:13），配合管线内 72h 到期闸（`youtube_interval_hours: 72`）触发实际采集 |
+| `x_cron_hot` | `"37 0 * * *"` | X 热半区抓取（北京时间 08:37 = UTC 00:37） |
+| `x_cron_cold` | `"43 12 * * *"` | X 冷半区抓取（北京时间 20:43 = UTC 12:43） |
 | `youtube_interval_hours` | `72` | YouTube 两次有效采集之间的最小间隔（小时），避免 Actions cron 跨月连续触发缺陷 |
 | `youtube_window_days` | `3` | YouTube 回看窗口天数 |
 
@@ -412,8 +412,8 @@ node scripts/publish-news.js
 
 ### 11.2 collect-news.yml（构建工作流）
 
-- 触发：三个 schedule cron（`0 12 * * *` YouTube 每日北京 20:00（配合管线内 72h 到期闸实际采集） / `30 0 * * *` X 热半区每日北京 08:30 / `30 12 * * *` X 冷半区每日北京 20:30，均为 UTC 值）`+` 手动 `workflow_dispatch`（`platforms: both / youtube / x`，含 x 时可带 `x_slot: hot/cold`，`pipeline: min` 唯一选项）；concurrency 组 `collect-ai-news` 防并行。
-- 门禁与步骤：`collection_gate` job（`vars.NEWS_COLLECTION_ENABLED == 'true'` 才运行；YouTube cron 预检 `isYoutubeDue` 读 `schedule-state.json` 判 72h 到期）→ `--sync-baseline` 把开放 Data PR 分支的六个运行时文件播种为读入基线 → `node scripts/validate.js` → `node scripts/check-secrets.js`（密钥扫描）→ **Resolve platforms**（schedule 触发按 cron 映射：YouTube cron → `youtube`，X cron → `x` + 对应 slot；manual 的 platforms/x_slot 优先）→ 调度运行带 `--scheduled`（注入到期闸）跑 `node scripts/build-news.js --platforms "$NEWS_PLATFORMS" [--slot ...]` → 采集摘要写 step summary → 测试生成数据（11 个 tests/news 测试 + validate）→ `node scripts/deliver-news-data-pr.js` 交付 **Data PR**。
+- 触发：三个 schedule cron（`13 12 * * *` YouTube 每日北京 20:13（配合管线内 72h 到期闸实际采集） / `37 0 * * *` X 热半区每日北京 08:37 / `43 12 * * *` X 冷半区每日北京 20:43，均为 UTC 值；刻意错开 :00/:30 整点/半点——GitHub 官方文档警告该时段调度延迟严重，2026-09-14/15 曾实测延迟 4.6~10 小时且整次触发被丢弃）`+` 手动 `workflow_dispatch`（`platforms: both / youtube / x`，含 x 时可带 `x_slot: hot/cold`，可选 `business_date: YYYY-MM-DD` 补采历史窗口，`pipeline: min` 唯一选项）；concurrency 组 `collect-ai-news` 防并行。
+- 门禁与步骤：`collection_gate` job（`vars.NEWS_COLLECTION_ENABLED == 'true'` 才运行；YouTube cron 预检 `isYoutubeDue` 读 `schedule-state.json` 判 72h 到期）→ `--sync-baseline` 把开放 Data PR 分支的六个运行时文件播种为读入基线 → `node scripts/validate.js` → `node scripts/check-secrets.js`（密钥扫描）→ **Resolve platforms**（schedule 触发按 cron 映射：YouTube cron → `youtube`，X cron → `x` + 对应 slot；manual 的 platforms/x_slot 优先）→ 调度运行带 `--scheduled --business-date <cron 触发日>`（注入到期闸与业务日期，防 GitHub 延迟跨北京午夜后查到未来窗口）跑 `node scripts/build-news.js --platforms "$NEWS_PLATFORMS" [--slot ...]` → 采集摘要写 step summary → 测试生成数据（11 个 tests/news 测试 + validate）→ `node scripts/deliver-news-data-pr.js` 交付 **Data PR**。
 - **Data PR 交付（CAS）**：白名单六文件（`min-candidates.json` / `source-history.json` / `review.json` / `last-run.json` / `schedule-state.json` / `x-checkpoints.json`）逐项校验通过后提交到 `news/review/<batch>` 分支并创建 PR（base main）；已存在开放 Data PR 时推送同一分支并校验 head SHA 未漂移；工作树出现白名单外改动直接停止交付。
 - **关键设计**：采集只产生内部候选层（不直接提交 main）；公开投影在 Data PR 合并后由 `publish-news.yml` 重建，保证"人工审核通过 + top_selected"才进公开。
 

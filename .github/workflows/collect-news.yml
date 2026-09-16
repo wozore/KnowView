@@ -3,11 +3,13 @@ name: Collect AI News
 on:
   schedule:
     # GitHub Actions cron 固定按 UTC；此处统一按「北京时间」换算（UTC = 北京 - 8h）：
-    #   YouTube：每天北京 20:00 → UTC 12:00，管线内 72h 到期闸决定是否真正采集
-    #   X：热半区每天北京时间 08:30 → UTC 00:30；冷半区每天北京时间 20:30 → UTC 12:30
-    - cron: '0 12 * * *'
-    - cron: '30 0 * * *'
-    - cron: '30 12 * * *'
+    #   YouTube：每天北京 20:13 → UTC 12:13，管线内 72h 到期闸决定是否真正采集
+    #   X：热半区每天北京时间 08:37 → UTC 00:37；冷半区每天北京时间 20:43 → UTC 12:43
+    # 整点/半点（:00/:30）是全球定时任务最高峰，GitHub 官方文档明确警告该时段调度会
+    # 显著延迟——09-14/15 曾实测延迟 4.6~10 小时且 hot cron 整次被丢弃，故全部错峰。
+    - cron: '13 12 * * *'
+    - cron: '37 0 * * *'
+    - cron: '43 12 * * *'
   workflow_dispatch:
     inputs:
       platforms:
@@ -86,7 +88,7 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `enabled=${enabled}\n`);
           console.log(`Versioned collection switch: ${enabled ? 'enabled' : 'disabled'}`);
           let youtubeDue = true;
-          if (enabled && process.env.GITHUB_SCHEDULE === '0 12 * * *') {
+          if (enabled && process.env.GITHUB_SCHEDULE === '13 12 * * *') {
             let state = null;
             try { state = JSON.parse(fs.readFileSync('data/news/runtime/schedule-state.json', 'utf8')); } catch {}
             youtubeDue = isYoutubeDue(config, state, new Date());
@@ -143,13 +145,13 @@ jobs:
             if [[ "$RESOLVED_PLATFORMS" == *x* ]]; then
               echo "NEWS_X_SLOT=${X_SLOT_INPUT:-hot}" >> "$GITHUB_ENV"
             fi
-          elif [[ "$SCHEDULE" == "30 0 * * *" ]]; then
+          elif [[ "$SCHEDULE" == "37 0 * * *" ]]; then
             echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"
             echo "NEWS_X_SLOT=hot" >> "$GITHUB_ENV"
-          elif [[ "$SCHEDULE" == "30 12 * * *" ]]; then
+          elif [[ "$SCHEDULE" == "43 12 * * *" ]]; then
             echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"
             echo "NEWS_X_SLOT=cold" >> "$GITHUB_ENV"
-          elif [[ "$SCHEDULE" == "0 12 * * *" ]]; then
+          elif [[ "$SCHEDULE" == "13 12 * * *" ]]; then
             echo "NEWS_PLATFORMS=youtube" >> "$GITHUB_ENV"
           else
             echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"

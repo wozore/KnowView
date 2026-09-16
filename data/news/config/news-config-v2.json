@@ -5,12 +5,12 @@
     "x"
   ],
   "schedule": {
-    "youtube_cron": "0 12 * * *",
+    "youtube_cron": "13 12 * * *",
     "youtube_tz": "Asia/Shanghai",
     "youtube_interval_hours": 72,
     "youtube_window_days": 3,
-    "x_cron_hot": "30 0 * * *",
-    "x_cron_cold": "30 12 * * *",
+    "x_cron_hot": "37 0 * * *",
+    "x_cron_cold": "43 12 * * *",
     "x_tz": "Asia/Shanghai",
     "tool_update_review_hour_utc": 3,
     "tool_update_review_minute_utc": 17
