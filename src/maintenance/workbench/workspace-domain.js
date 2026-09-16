@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { readJson } = require('../../shared/json-store');
+const { readJson, writeJsonAtomic } = require('../../shared/json-store');
 const { DIRS, NEWS_FILES, CATALOG_GENERATOR_FILES, CONCEPT_FILES } = require('../../shared/paths');
 const { minReviewCommand } = require('../../news/cli/cmd-min');
 const pendingStore = require('../../pending/index');
@@ -18,7 +18,18 @@ function removeFile(file, removed) {
 
 async function clearWorkspaceFiles(options = {}) {
   const config = readJson(NEWS_FILES.configV2, {}) || {};
-  const archive = await minReviewCommand('archive', {});
+  let archive = null;
+  try {
+    archive = await minReviewCommand('archive', {});
+  } catch (err) {
+    if (options.force) {
+      const currentStore = readJson(NEWS_FILES.minCandidates, { candidates: [] });
+      writeJsonAtomic(NEWS_FILES.minCandidates, { schema_version: 1, updated_at: new Date().toISOString(), candidates: [] }, 'force-clear');
+      archive = { forced: true, cleared: currentStore.candidates?.length || 0 };
+    } else {
+      throw err;
+    }
+  }
   const removed = [];
   const manualFolder = path.resolve(DIRS.project, config.manual_folder || 'data/manual');
   for (const name of [

@@ -15,6 +15,8 @@ import {
   loadResource,
 } from './common.js';
 
+let currentNewsFilter = 'pending';
+
 export async function reviewNews(decision, button, onRefreshAll) {
   const ids = [...state.selected.news];
   if (!ids.length) return;
@@ -25,7 +27,12 @@ export async function reviewNews(decision, button, onRefreshAll) {
   try {
     await writeRequest('news/review', 'news', { ids, decision, status: decision });
     state.selected.news.clear();
-    showNotice(decision === 'approved' ? `已批准 ${ids.length} 条新闻候选。` : `已丢弃 ${ids.length} 条新闻候选。`);
+    const actionMsg = decision === 'approved'
+      ? `已批准 ${ids.length} 条新闻候选。`
+      : decision === 'discarded'
+        ? `已丢弃 ${ids.length} 条新闻候选。`
+        : `已将 ${ids.length} 条新闻回退为待审状态。`;
+    showNotice(actionMsg);
     if (typeof onRefreshAll === 'function') await onRefreshAll();
   } catch (error) {
     handleMutationError(error, 'news', 'newsState', button);
@@ -34,9 +41,36 @@ export async function reviewNews(decision, button, onRefreshAll) {
   }
 }
 
+function updateTabCounts(counts = {}) {
+  const p = $('#newsPendingCount'); if (p) p.textContent = counts.pending ?? 0;
+  const a = $('#newsApprovedCount'); if (a) a.textContent = counts.approved ?? 0;
+  const d = $('#newsDiscardedCount'); if (d) d.textContent = counts.discarded ?? 0;
+  const t = $('#newsTotalCount'); if (t) t.textContent = counts.total ?? 0;
+}
+
+function updateButtonVisibility(filter) {
+  const revertBtn = $('#newsRevertButton');
+  const approveBtn = $('#newsApproveButton');
+  const discardBtn = $('#newsDiscardButton');
+  if (revertBtn) {
+    revertBtn.style.display = filter === 'pending' ? 'none' : 'inline-block';
+  }
+  if (approveBtn) {
+    approveBtn.textContent = filter === 'discarded' ? '重新批准所选' : '批准所选';
+    approveBtn.style.display = 'inline-block';
+  }
+  if (discardBtn) {
+    discardBtn.textContent = filter === 'approved' ? '转为丢弃所选' : '丢弃所选';
+    discardBtn.style.display = 'inline-block';
+  }
+}
+
 export function loadNewsReview(onRefreshAll) {
-  return loadResource('news', 'news/review', (payload) => {
+  const filter = currentNewsFilter;
+  updateButtonVisibility(filter);
+  return loadResource('news', `news/review?status=${encodeURIComponent(filter)}`, (payload) => {
     const value = unwrap(payload) || {};
+    if (value.counts) updateTabCounts(value.counts);
     if (value.status === 'enriching') {
       const root = $('#newsList');
       clearChildren(root);
@@ -64,9 +98,14 @@ export function loadNewsReview(onRefreshAll) {
       updateSelectionControls('news');
       return;
     }
+    const emptyMsg = filter === 'approved'
+      ? '当前没有已批准的新闻。'
+      : filter === 'discarded'
+        ? '当前没有已丢弃的新闻。'
+        : '当前没有待首审新闻。';
     renderQueue('news', 'newsList', listFrom(payload, ['items', 'candidates', 'queue', 'news']), 'newsState', {
       selectable: true,
-      empty: '当前没有待首审新闻。',
+      empty: emptyMsg,
     });
   }, { rootId: 'newsList', stateId: 'newsState' });
 }
@@ -80,5 +119,26 @@ export function setupNewsPanel(onRefreshAll) {
   const discardBtn = $('#newsDiscardButton');
   if (discardBtn) {
     discardBtn.addEventListener('click', (event) => reviewNews('discarded', event.currentTarget, onRefreshAll));
+  }
+  const revertBtn = $('#newsRevertButton');
+  if (revertBtn) {
+    revertBtn.addEventListener('click', (event) => reviewNews('pending', event.currentTarget, onRefreshAll));
+  }
+
+  const tabContainer = $('#newsStatusTabs');
+  if (tabContainer) {
+    tabContainer.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-status]');
+      if (!button) return;
+      const status = button.dataset.status;
+      if (status === currentNewsFilter) return;
+      currentNewsFilter = status;
+      for (const btn of tabContainer.querySelectorAll('button[data-status]')) {
+        btn.classList.toggle('active', btn === button);
+      }
+      state.selected.news.clear();
+      updateSelectionControls('news');
+      loadNewsReview(onRefreshAll);
+    });
   }
 }

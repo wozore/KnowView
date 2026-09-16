@@ -272,14 +272,7 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
     return { ...result, file: flags.file, purpose };
   }
 
-  // ── ai-top：第二阶段，AI 从 approved 候选提供 top 待选项给维护者 ──
-  //    人工审核（第一阶段）后，approved 候选喂给本地模型语义挑选最值得公开的
-  //    top 10（纯 X）/ 15（有 YouTube）条作为**待选项**（R7 人工审 top 量），
-  //    写 data/manual/top.json 供维护者从中选出最终公开的 3~5/3~8 条。
-  //    AI 提供的是候选池，不是最终结论；最终条数由维护者从待选项中挑。
-  //    "有 YouTube"按**最后一次采集记录**（last-run.json）判定：youtube 平台实际
-  //    采到内容（items > 0）→ top15；否则 top10。last-run 缺失报错拒绝、
-  //    不静默回退——异常状态显式暴露（用户拍板）。
+  // ── ai-top：AI 从 approved 候选生成 top.json 待选项，超时离线时按评分降级 ──
   if (action === 'ai-top') {
     const store = readMinStore();
     const approved = store.candidates.filter(c => c && c.review_status === 'approved');
@@ -295,22 +288,31 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
     const aiTopInputMax = Number(collection.ai_top_input_max) || MAX_AI_TOP_INPUT;
     // 仅让 AI 读取按评分排序的有限候选池，避免历史 approved 大量累积时超出本地模型上下文。
     const aiInput = topCandidatesForAi(approved, aiTopInputMax);
-    const result = await selectTopItems(aiInput, { min: Math.min(topN, approved.length), max: Math.min(topN, approved.length) });
-    if (!result.ok) {
-      throw new Error(`AI 挑选失败：${result.error}（${result.code}）。可稍后重试。`);
+    let aiSelectedIds = [];
+    let aiNoteSuffix = '';
+    const timeoutMs = Number(flags.timeout_ms) || 6000;
+    try {
+      const result = await selectTopItems(aiInput, { min: Math.min(topN, approved.length), max: Math.min(topN, approved.length), timeoutMs });
+      if (result && result.ok && Array.isArray(result.ids)) {
+        aiSelectedIds = result.ids;
+      } else {
+        aiNoteSuffix = `（AI 挑选未就绪：${result?.error || result?.code || '离线'}，已自动按评分降级推荐待选项）。`;
+      }
+    } catch (err) {
+      aiNoteSuffix = `（AI 挑选超时或离线，已自动按评分降级推荐待选项）。`;
     }
-    const selected = selectTopCandidates(approved, result.ids, topN);
+    const selected = selectTopCandidates(approved, aiSelectedIds, topN);
     const dateKey = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const manualFolder = (config && config.manual_folder) || 'data/manual';
     const file = path.join(manualFolder, 'top.json');
     const payload = buildAiTopPayload({ approved, selected, aiInput, aiTopInputMax, topN, manualFolderDateKey: dateKey });
+    if (aiNoteSuffix) payload.note = (payload.note || '') + '\n' + aiNoteSuffix;
     fs.mkdirSync(path.dirname(file), { recursive: true });
     writeJsonAtomic(file, payload, 'min-review-ai-top');
-    return { ok: true, file, approved_count: approved.length, ai_input_count: aiInput.length, ai_top_input_max: aiTopInputMax, target_top_n: topN, ai_selected_count: selected.length, candidates: selected };
+    return { ok: true, file, approved_count: approved.length, ai_input_count: aiInput.length, ai_top_input_max: aiTopInputMax, target_top_n: topN, ai_selected_count: selected.length, candidates: selected, degraded: Boolean(aiNoteSuffix) };
   }
 
-  // ── top-selected：第二阶段，维护者从 AI 待选项确认最终显示 → top_selected 置 true ──
-  //    公开投影（buildDailyProjection → publish）只取 approved && top_selected 的候选。
+  // ── top-selected：维护者确认最终显示条目，top_selected 置 true ──
   if (action === 'top-selected') {
     if (!flags.ids) throw new Error('min-review top-selected 缺少 --ids（逗号分隔的待显示 id 列表）');
     const ids = String(flags.ids).split(',').map(id => id.trim()).filter(Boolean);
@@ -329,10 +331,7 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
     return { status: 'top_selected', selected, ...result, updated_at: result.store.updated_at };
   }
 
-  // ── top-apply：读 top 清单里 top_selected=true → 批量置候选层 top_selected=true ──
-  //    第二阶段收尾：维护者在 ai-top 产物（top.json）标 top_selected=true 后，
-  //    bat/apply-top.bat 调用本命令应用选择，接着跑 publish-news.js 重建前端。
-  //    对齐 apply 语义：只应用 true（false/未标不动作，幂等）；无 id 条目报错拒绝。
+  // ── top-apply：读取 top.json 批量写入候选层 top_selected=true ──
   if (action === 'top-apply') {
     if (!flags.file) throw new Error('min-review top-apply 缺少 --file（top 清单路径，如 data/manual/top.json）');
     const store = readMinStore();

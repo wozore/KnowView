@@ -101,6 +101,7 @@
 - [intake/catalog-batch.js](src/catalog/intake/catalog-batch.js) — 待补卡批量导入与 Draft 生命周期。
 - [intake/resolution.js](src/catalog/intake/resolution.js) — 待补卡解析、登记表查重与 placement 编排。
 - [intake/model-identity-verification.js](src/catalog/intake/model-identity-verification.js) — 模型/系列官方正文身份核验、系列成员发现、model_key 索引与 24 小时回执。
+- [intake/identity-adapters.js](src/catalog/intake/identity-adapters.js) — 身份核验层专用适配器工厂（核验契约形状，失败抛错）：Tavily 官方源发现/正文获取与 requestStructuredJson 身份建议；resolution 未显式注入时默认构造。导出: `identityAdapterOptionsOf, createIdentityVerificationAdapters, createIdentitySuggestAdapter`。
 - [intake/identity-receipts.js](src/catalog/intake/identity-receipts.js) — 身份核验回执的单一文件读写、去重与 7 天压缩。
 - [series/index.js](src/catalog/series/index.js) — Series 子域真实聚合门面。
 - [series/catalog-series-policy.js](src/catalog/series/catalog-series-policy.js) — LLM 系列政策读取、校验与确定性 placement。
@@ -450,6 +451,7 @@
 - [check-standards.js](scripts/check-standards.js) — 零依赖规范静态检查器（validate.js 前置门禁，全部 CI 工作流生效）：依赖方向/垫片/旧契约叙事/体量导出/环/组装纪律/src 文件 CODEBASE-MAP 登记完整性 7 类检测；存量违规白名单 `scripts/check-standards.whitelist.json`（git 跟踪，条目带机器校验 count，白名单文件内违规增长报 whitelist-growth，铁律只减不增）。导出: `runChecks, main`
 - [build-dist.js](scripts/build-dist.js) — 调 buildStaticSite 构建 dist/：src/web 与 public 全量复制，data 仅选择性复制（catalog 全量、news/output、comparison 的 view-config/models-alias/integrated）；data/manual 与 data/shared 不进 dist（维护者入口：bat/build-dist.bat）
 - [browser-acceptance.js](scripts/browser-acceptance.js) — 依赖零安装的 Edge/CDP 真实页面验收：读取被忽略的 `config/browser.local.json`，启动 dist 静态站与临时 Edge profile，检查 18 张模型卡搜索/详情、三级模型对比选择器的厂商/系列展开与模型搜索、revision/degree 交互、旧 Spark/xunfei 隐藏和排除模型不可见。
+- [browser-workbench-acceptance.js](scripts/browser-workbench-acceptance.js) — 维护者工作台浏览器端到端验收：Headless Edge/CDP 真实驱动，验证新闻双向状态流转与回退待审、待补卡丢弃、Top 待选池重置重新生成与公开投影发布全流程零卡死。导出: `runWorkbenchBrowserAcceptance`
 - [publish-news.js](scripts/publish-news.js) — 候选 → 公开投影 + RSS 发布（**默认走 v2：min-candidates approved 按每日 top 重建 hotspots.json**）
 - [run-after-first-review.js](scripts/run-after-first-review.js) — 首次审核结论落地后安全并行 `refine` 与 `ai-top`；任一失败仅终止本次记录子进程并整体失败。导出: `runAfterFirstReview`
 - [check-secrets.js](scripts/check-secrets.js) — 密钥/高熵扫描（validate.js 反向依赖）

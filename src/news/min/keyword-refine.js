@@ -12,7 +12,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const { writeJsonAtomic } = require('../../shared/json-store');
+const { readJson, writeJsonAtomic } = require('../../shared/json-store');
 const { readMinStore } = require('./min-store');
 const { refineKeywords: refineKeywordsWithLlm } = require('../classify/llm-provider');
 const { beijingDateKey } = require('../../shared/beijing-time');
@@ -212,10 +212,25 @@ async function refineKeywords(store, config, options = {}) {
 
   const date = dateKeyOf(options.now);
   const file = path.join(manualFolder, purposeDef.fileName);
-  if (fs.existsSync(file)) {
-    throw new Error(`关键词提纯清单已存在：${file}。为保留维护者的 adopted_keywords，拒绝覆盖；请先处理现有清单。`);
-  }
+  const existing = (fs.existsSync(file) && !options.force) ? readJson(file, null) : null;
   const configRevision = revisionOfConfig(config);
+  let finalCandidates = candidates;
+  let adoptedList = [];
+  let discardedList = [];
+  if (existing && Array.isArray(existing.candidates)) {
+    adoptedList = Array.isArray(existing.adopted_keywords) ? existing.adopted_keywords : [];
+    discardedList = Array.isArray(existing.discarded_keywords) ? existing.discarded_keywords : [];
+    const seenCids = new Set();
+    const merged = [];
+    for (const c of [...existing.candidates, ...candidates]) {
+      const cid = String(c?.candidate_id || c?.id || `${purpose}:${c?.value || c?.word || ''}`).trim();
+      if (cid && !seenCids.has(cid)) {
+        seenCids.add(cid);
+        merged.push(c);
+      }
+    }
+    finalCandidates = merged;
+  }
   const payload = {
     schema_version: 3,
     kind: 'keyword_refine_candidates',
@@ -226,13 +241,13 @@ async function refineKeywords(store, config, options = {}) {
     source_count: approvedAll.length,
     input_count: approvedAll.length,
     source_basis: sourceBasis,
-    candidates,
-    adopted_keywords: [],
-    discarded_keywords: [],
+    candidates: finalCandidates,
+    adopted_keywords: adoptedList,
+    discarded_keywords: discardedList,
   };
   fs.mkdirSync(manualFolder, { recursive: true });
   writeJsonAtomic(file, payload, 'keyword-refine');
-  return { candidates, file, approvedCount: approvedAll.length, inputCount: approvedAll.length, sourceBasis, batches: 1, failedBatches: 0, ruleCandidates: ruleCandidates.length, contextSize };
+  return { candidates: finalCandidates, file, approvedCount: approvedAll.length, inputCount: approvedAll.length, sourceBasis, batches: 1, failedBatches: 0, ruleCandidates: ruleCandidates.length, contextSize };
 }
 
 module.exports = {

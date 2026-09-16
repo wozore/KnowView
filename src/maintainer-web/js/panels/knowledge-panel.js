@@ -73,22 +73,28 @@ export function renderPendingCards(kind, payload, onRefreshAll) {
     const blockedText = (Array.isArray(item.blocking_reasons) ? item.blocking_reasons : [])
       .map(reason => BLOCKING_ZH[reason] || reason).join('；');
     if (blockedText) addText(content, 'p', blockedText, 'item-blocked');
-    if (item.review_status === 'pending' && item.workflow_state !== 'completed') {
+    if (item.workflow_state !== 'completed') {
       const actions = document.createElement('div');
       actions.className = 'item-actions';
-      const discard = document.createElement('button');
-      discard.type = 'button';
-      discard.className = 'button button-danger';
-      discard.textContent = '丢弃';
-      discard.addEventListener('click', () => reviewPending(kind, item.candidate_key, 'discarded', discard, onRefreshAll));
-      actions.appendChild(discard);
-      const approve = document.createElement('button');
-      approve.type = 'button';
-      approve.className = 'button button-primary';
-      approve.textContent = '批准';
-      approve.addEventListener('click', () => reviewPending(kind, item.candidate_key, 'approved', approve, onRefreshAll));
-      actions.appendChild(approve);
-      content.appendChild(actions);
+      if (item.review_status !== 'discarded') {
+        const discard = document.createElement('button');
+        discard.type = 'button';
+        discard.className = 'button button-danger';
+        discard.textContent = '丢弃';
+        discard.addEventListener('click', () => reviewPending(kind, item.candidate_key, 'discarded', discard, onRefreshAll));
+        actions.appendChild(discard);
+      }
+      if (item.review_status !== 'approved') {
+        const approve = document.createElement('button');
+        approve.type = 'button';
+        approve.className = 'button button-primary';
+        approve.textContent = '批准';
+        approve.addEventListener('click', () => reviewPending(kind, item.candidate_key, 'approved', approve, onRefreshAll));
+        actions.appendChild(approve);
+      }
+      if (actions.children.length > 0) {
+        content.appendChild(actions);
+      }
     }
     article.appendChild(document.createElement('span'));
     article.appendChild(content);

@@ -72,9 +72,36 @@ export async function clearWorkbench(button, refreshAll) {
   }
 }
 
+export async function forceClearWorkbench(button, refreshAll) {
+  if (!window.confirm('确认强制重置并清空工作台？\n\n注意：当前未完成的新闻与待补卡将被归档，临时工作区将被彻底重置，适合在状态卡死或开启全新批次时使用。')) return;
+  const original = button.textContent;
+  button.disabled = true;
+  button.textContent = '重置中…';
+  try {
+    const result = await request('workbench/clear', { method: 'POST', body: JSON.stringify({ force: true }) });
+    if (!result?.ok) throw new Error(result?.message || result?.code || '强制重置被阻断');
+    state.catalogPlan = null;
+    state.catalogBatch = null;
+    state.catalogRecovery.clear();
+    state.conceptPlan = null;
+    state.conceptPreview = null;
+    showNotice('工作台已强制重置，已归档历史并清空临时工作区。', 'success');
+    if (typeof refreshAll === 'function') await refreshAll();
+  } catch (error) {
+    showNotice(error.message || '强制重置失败。', 'error');
+  } finally {
+    button.textContent = original;
+    button.disabled = false;
+  }
+}
+
 export function setupOverviewPanel(refreshAll) {
   const clearBtn = $('#clearWorkbenchButton');
   if (clearBtn) {
     clearBtn.addEventListener('click', (event) => clearWorkbench(event.currentTarget, refreshAll));
+  }
+  const forceClearBtn = $('#forceClearWorkbenchButton');
+  if (forceClearBtn) {
+    forceClearBtn.addEventListener('click', (event) => forceClearWorkbench(event.currentTarget, refreshAll));
   }
 }

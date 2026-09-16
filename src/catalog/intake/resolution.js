@@ -18,6 +18,11 @@ const {
   catalogModelKeyIndex,
   readIdentityReceipts,
 } = require('./model-identity-verification');
+const {
+  createIdentityVerificationAdapters,
+  createIdentitySuggestAdapter,
+  identityAdapterOptionsOf,
+} = require('./identity-adapters');
 const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 
 const MODEL_NAME_PATTERN = /(?:GPT|Claude|Gemini|Qwen|Llama|GLM|Mistral|DeepSeek|MiniMax|Grok|Kling)[\s-]?[A-Za-z]*\d/i;
@@ -238,7 +243,7 @@ function identityContextOf(options) {
     bridgeRevision: options.bridgeRevision ?? bridge.revision,
     receipts: options.identityReceipts,
     ledger: options.identityLedger || createCostLedger({ responses_calls: Math.max(1, options.identityBudgetSize || 8) }),
-    suggestIdentity: options.suggestIdentity,
+    suggestIdentity: options.suggestIdentity || createIdentitySuggestAdapter(identityAdapterOptionsOf(options)),
     normalizeVendorKey: options.normalizeVendorKey,
   };
 }
@@ -282,6 +287,8 @@ async function resolveBatchCandidates(cards, options = {}) {
   const indexFn = options.catalogModelKeyIndex || catalogModelKeyIndex;
   const ledger = options.resolveLedger || createCostLedger({ responses_calls: Math.max(1, (cards || []).length) });
   const context = options.identityContext || identityContextOf(options);
+  // 核验适配器默认按白名单 options 构造真实 Tavily 适配器；options.identityAdapters 注入优先（测试/显式覆盖）。
+  const identityAdapters = options.identityAdapters || createIdentityVerificationAdapters(identityAdapterOptionsOf(options));
   const modelKeyIndex = indexFn(context.snapshot);
   const seeds = [];
   const unresolved = [];
@@ -304,7 +311,7 @@ async function resolveBatchCandidates(cards, options = {}) {
       const result = await verifyFn(
         { name, entity_type: card.entity_type || 'model', vendor_hint: card.vendor_key || card.vendor_hint, official_urls: officialUrls },
         context,
-        options.identityAdapters || {},
+        identityAdapters,
       );
       if (!result.ok) {
         blocked.push({ name, code: result.code, reason: result.error || '' });
@@ -315,7 +322,7 @@ async function resolveBatchCandidates(cards, options = {}) {
       if (result.verdict.entity_class === 'series') {
         let members = { ok: true, members: [] };
         if (options.discoverSeriesMembers !== null) {
-          members = await membersFn(result.verdict, options.identityAdapters || {}, context);
+          members = await membersFn(result.verdict, identityAdapters, context);
         }
         if (!members.ok || !members.members.length) {
           blocked.push({ name, code: members.code || 'IDENTITY_MEMBERS_INSUFFICIENT', reason: '系列成员证据不足' });

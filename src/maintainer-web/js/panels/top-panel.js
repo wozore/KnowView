@@ -27,8 +27,15 @@ export function renderTop(payload) {
   const all = listFrom(payload, ['items', 'candidates', 'top']);
   const selected = all.filter(item => item.top_selected === true);
   const controls = $('#topSelectionControls');
+  if (controls) controls.hidden = false;
+  const saveBtn = $('#topSaveButton');
+  const selectAllLabel = controls ? controls.querySelector('.check-all') : null;
+  const countSpan = $('#topSelectionCount');
+
   if (!selected.length) {
-    if (controls) controls.hidden = false;
+    if (saveBtn) saveBtn.style.display = 'inline-block';
+    if (selectAllLabel) selectAllLabel.style.display = 'inline-flex';
+    if (countSpan) countSpan.style.display = 'inline-block';
     renderQueue('top', 'topList', all, 'topState', {
       selectable: true,
       titleKeys: ['summary', 'description'],
@@ -36,11 +43,13 @@ export function renderTop(payload) {
     });
     return;
   }
-  if (controls) controls.hidden = true;
+  if (saveBtn) saveBtn.style.display = 'none';
+  if (selectAllLabel) selectAllLabel.style.display = 'none';
+  if (countSpan) countSpan.style.display = 'none';
   state.items.top = selected;
   const root = $('#topList');
   clearChildren(root);
-  addText(root, 'p', `Top 审核已完成：已选 ${selected.length} 条。公开发布预览位于右侧；如需写入公开投影，请显式点击「重建公开投影」。`, 'panel-note');
+  addText(root, 'p', `Top 审核已完成：已选 ${selected.length} 条。公开发布预览位于右侧；如需重新调整候选或重新生成，可随时点击「重置选择」或「重新生成待选池」。`, 'panel-note');
   for (const item of selected) root.appendChild(queueItem(item, 'top', { titleKeys: ['summary', 'description'] }));
   setLoadState('topState', `已完成 · ${selected.length} 条`, 'success');
 }
@@ -203,6 +212,30 @@ export async function saveTop(button, onRefreshAll) {
   }
 }
 
+export async function resetTop(discardPool = false, button, onRefreshAll) {
+  const originalLabel = button ? button.textContent : '';
+  if (button) {
+    button.textContent = '处理中…';
+    button.disabled = true;
+  }
+  try {
+    const result = await writeRequest('news/top/reset', 'top', { discard_pool: discardPool });
+    state.selected.top.clear();
+    const actionMsg = discardPool
+      ? `已丢弃 Top 待选池，重置 ${Number(result?.updated || 0)} 条选择。`
+      : `已重置 ${Number(result?.updated || 0)} 条 Top 选择。`;
+    showNotice(actionMsg);
+    if (typeof onRefreshAll === 'function') await onRefreshAll();
+  } catch (error) {
+    handleMutationError(error, 'top', 'topState', button);
+  } finally {
+    if (button) {
+      button.textContent = originalLabel;
+      button.disabled = false;
+    }
+  }
+}
+
 export async function generateTop(button, onRefreshAll) {
   await runAction('news/top/generate', button, '生成中…', result => {
     const count = Number(result?.candidates?.length || result?.count || 0);
@@ -261,6 +294,10 @@ export function setupTopPanel(onRefreshAll) {
   if (genBtn) genBtn.addEventListener('click', (event) => generateTop(event.currentTarget, onRefreshAll));
   const saveBtn = $('#topSaveButton');
   if (saveBtn) saveBtn.addEventListener('click', (event) => saveTop(event.currentTarget, onRefreshAll));
+  const resetBtn = $('#topResetButton');
+  if (resetBtn) resetBtn.addEventListener('click', (event) => resetTop(false, event.currentTarget, onRefreshAll));
+  const discardPoolBtn = $('#topDiscardPoolButton');
+  if (discardPoolBtn) discardPoolBtn.addEventListener('click', (event) => resetTop(true, event.currentTarget, onRefreshAll));
   const pubBtn = $('#publishNewsButton');
   if (pubBtn) pubBtn.addEventListener('click', (event) => publishNews(event.currentTarget, onRefreshAll));
   const prevRefBtn = $('#previewRefreshButton');

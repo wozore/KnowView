@@ -112,8 +112,9 @@ function createDefaultNewsApi(options = {}) {
     readStore: () => minStore.readMinStore(),
     revisionOfStore: store => requireMutation('revisionOfMinStore', minStore.revisionOfMinStore)(store),
     commit: (mutation, commitOptions) => requireMutation('commitMinStoreMutation', minStore.commitMinStoreMutation)(mutation, commitOptions),
-    reviewMutation: (store, ids, decision, mutationOptions) => requireMutation('reviewPendingCandidates', minActions.reviewPendingCandidates)(store, ids, decision, mutationOptions),
+    reviewMutation: (store, ids, decision, mutationOptions) => requireMutation('transitionReviewStatusMin', minActions.transitionReviewStatusMin)(store, ids, decision, mutationOptions),
     topMutation: (store, ids, selected, mutationOptions) => requireMutation('setApprovedTopSelectedMin', minActions.setApprovedTopSelectedMin)(store, ids, selected, mutationOptions),
+    resetTopMutation: (store, ids, mutationOptions) => requireMutation('resetTopSelectionsMin', minActions.resetTopSelectionsMin)(store, ids, mutationOptions),
     readKeywords: (purpose = 'content') => {
       const def = resolvePurpose(purpose);
       const filePath = path.join(DIRS.manual, def.fileName);
@@ -141,35 +142,82 @@ function createDefaultNewsApi(options = {}) {
   };
 }
 
-function handleNewsReview({ store, news, options, newsProjection }) {
-  const allPending = store().candidates.filter(item => item.review_status === 'pending');
+function handleNewsReview({ store, news, options, newsProjection }, filter = null) {
+  const currentStore = store();
+  const allCandidates = currentStore.candidates || [];
+  const counts = {
+    pending: allCandidates.filter(item => item.review_status === 'pending').length,
+    approved: allCandidates.filter(item => item.review_status === 'approved').length,
+    discarded: allCandidates.filter(item => item.review_status === 'discarded').length,
+    total: allCandidates.length,
+  };
+  const allPending = allCandidates.filter(item => item.review_status === 'pending');
   const unreviewed = allPending.filter(item => {
     const hasL1 = Boolean(item.l1_review && item.l1_review.verdict != null);
     const hasAdvice = Boolean(item.ai_advice?.verdict);
     return !hasL1 && !hasAdvice;
   });
-  if (unreviewed.length > 0) {
+  if ((!filter || filter === 'pending') && unreviewed.length > 0) {
     if (options.autoRepair !== false && typeof news.repairNews === 'function') {
       Promise.resolve().then(() => news.repairNews({ limit: unreviewed.length })).catch(() => {});
     }
-    return {
-      revision: news.revisionOfStore(store()),
+    const enrichingResult = {
+      revision: news.revisionOfStore(currentStore),
       status: 'enriching',
       message: `本地 Bonsai 正在进行 AI 初审分流与汉化（已链接外部 API 双通道自愈兜底，请稍候... 待初审: ${unreviewed.length} / 待审总数: ${allPending.length}）`,
       unreviewed_count: unreviewed.length,
       items: [],
     };
+    return filter ? { ...enrichingResult, counts, filter } : enrichingResult;
   }
-  return newsProjection(allPending);
+  let targets = allPending;
+  if (filter === 'approved') targets = allCandidates.filter(item => item.review_status === 'approved');
+  else if (filter === 'discarded') targets = allCandidates.filter(item => item.review_status === 'discarded');
+  else if (filter === 'all') targets = allCandidates;
+  const base = newsProjection(targets);
+  return filter ? { ...base, counts, filter } : base;
 }
 
 function handleReviewNews(body, news, { idsOf, expectedRevision }) {
   const ids = idsOf(body?.ids);
   const revision = expectedRevision(body);
   const decision = body?.decision;
-  if (!['approved', 'discarded'].includes(decision)) throw new Error('decision 必须是 approved 或 discarded');
+  if (!['approved', 'discarded', 'pending'].includes(decision)) {
+    throw new Error('decision 必须是 approved、discarded 或 pending');
+  }
   const result = news.commit(current => news.reviewMutation(current, ids, decision, { expectedRevision: revision }), { expectedRevision: revision, runId: 'maintainer-workbench-news-review' });
-  return { updated: result.updated, missing: result.missing || [], not_pending: result.not_pending || [], revision: result.revision };
+  return {
+    updated: result.updated,
+    missing: result.missing || [],
+    not_pending: result.not_pending || [],
+    revision: result.revision,
+    ...(Array.isArray(result.unchanged) && result.unchanged.length ? { unchanged: result.unchanged } : {}),
+  };
+}
+
+function handleResetTop(body, news, options = {}) {
+  const currentStore = options.store ? options.store() : { candidates: [] };
+  const revision = (typeof options.expectedRevision === 'function' && body)
+    ? options.expectedRevision(body)
+    : (body?.expected_revision || news.revisionOfStore(currentStore));
+  const topFile = options.topFile || path.join(DIRS.manual, 'top.json');
+  let discardedPool = false;
+  if (body?.discard_pool === true && fs.existsSync(topFile)) {
+    try {
+      fs.unlinkSync(topFile);
+      discardedPool = true;
+    } catch (_) {}
+  }
+  const ids = Array.isArray(body?.ids) && body.ids.length ? body.ids : null;
+  const result = news.commit(
+    current => news.resetTopMutation(current, ids, { expectedRevision: revision }),
+    { expectedRevision: revision, runId: 'maintainer-workbench-top-reset' },
+  );
+  return {
+    updated: result.updated,
+    discarded_pool: discardedPool,
+    revision: result.revision,
+  };
 }
 
 function handleKeywords(news, requestedPurpose = 'content') {
@@ -324,6 +372,7 @@ module.exports = {
   handleApplyKeywords,
   handleDiscardKeywords,
   handleTop,
+  handleResetTop,
   handleApplyTop,
   handleUploadTranscript,
   handleSummarizeTranscripts,

@@ -20,6 +20,7 @@
         <span>本机维护者工作台</span>
         <button class="button button-quiet" id="refreshButton" type="button">刷新数据</button>
         <button class="button button-danger" id="clearWorkbenchButton" type="button" disabled>清空工作台</button>
+        <button class="button button-quiet" id="forceClearWorkbenchButton" type="button" title="强制归档未完成状态并清空工作台">强制重置</button>
         <span class="load-state" id="workspaceClearState" aria-live="polite">等待完成态</span>
       </div>
     </div>
@@ -55,8 +56,14 @@
     <div class="desk-grid">
       <section class="panel panel-news" id="newsPanel" aria-labelledby="newsTitle">
         <div class="section-heading"><div><p class="kicker">01 / FIRST READ</p><h2 id="newsTitle">新闻首审</h2></div><span class="load-state" id="newsState">未加载</span></div>
-        <p class="panel-lead">只对明确勾选的候选执行决定，保留每一条原始 ID 的审计边界。</p>
-        <div class="toolbar"><label class="check-all"><input type="checkbox" id="newsSelectAll"> <span>全选当前待审</span></label><span class="selection-count" id="newsSelectionCount">0 条已选</span><button class="button button-danger" id="newsDiscardButton" type="button" disabled>丢弃所选</button><button class="button button-primary" id="newsApproveButton" type="button" disabled>批准所选</button></div>
+        <p class="panel-lead">可随时在待审、已批准与已丢弃之间回退或改判，支持合并批次统一处理。</p>
+        <div class="toolbar news-tabs" id="newsStatusTabs">
+          <button class="button button-quiet active" id="newsTabPending" data-status="pending" type="button">待首审 (<span id="newsPendingCount">0</span>)</button>
+          <button class="button button-quiet" id="newsTabApproved" data-status="approved" type="button">已批准 (<span id="newsApprovedCount">0</span>)</button>
+          <button class="button button-quiet" id="newsTabDiscarded" data-status="discarded" type="button">已丢弃 (<span id="newsDiscardedCount">0</span>)</button>
+          <button class="button button-quiet" id="newsTabAll" data-status="all" type="button">全部 (<span id="newsTotalCount">0</span>)</button>
+        </div>
+        <div class="toolbar"><label class="check-all"><input type="checkbox" id="newsSelectAll"> <span>全选所列候选</span></label><span class="selection-count" id="newsSelectionCount">0 条已选</span><button class="button button-danger" id="newsDiscardButton" type="button" disabled>丢弃所选</button><button class="button button-primary" id="newsApproveButton" type="button" disabled>批准所选</button><button class="button button-quiet" id="newsRevertButton" type="button" disabled>回退为待审</button></div>
         <div class="item-list" id="newsList" aria-live="polite"></div>
       </section>
       <section class="panel panel-keywords" id="keywordsPanel" aria-labelledby="keywordsTitle">
@@ -85,7 +92,7 @@
     <section class="panel panel-top" id="topPanel" aria-labelledby="topTitle">
       <div class="section-heading"><div><p class="kicker">03 / EDITOR'S CUT</p><h2 id="topTitle">Top 选择与发布预览</h2></div><span class="load-state" id="topState">未加载</span></div>
       <p class="panel-lead">先生成 AI 有限待选池（纯 X 10 / 有 YouTube 15），从中选 3~5（有 YouTube 3~8）条；保存选择后才可重建公开投影。</p>
-      <div class="top-layout"><div><div class="toolbar"><div class="toolbar" id="topSelectionControls"><button class="button button-quiet" id="topGenerateButton" type="button">生成 Top 待选池</button><label class="check-all"><input type="checkbox" id="topSelectAll"> <span>全选可选项目</span></label><span class="selection-count" id="topSelectionCount">0 条已选</span><button class="button button-primary" id="topSaveButton" type="button" disabled>保存 Top 选择</button></div><button class="button button-primary" id="publishNewsButton" type="button">重建公开投影</button></div><div class="item-list" id="topList" aria-live="polite"></div></div><aside class="preview-card" aria-labelledby="publishPreviewTitle"><div class="preview-heading"><p class="kicker">PUBLISH PROJECTION</p><h3 id="publishPreviewTitle">公开发布预览</h3><span class="load-state" id="previewState">未加载</span></div><div id="publishPreview" class="preview-body"><p class="muted">保存 Top 选择后，可在此处确认并重建公开投影。</p></div><button class="button button-quiet button-full" id="previewRefreshButton" type="button">刷新预览</button></aside></div>
+      <div class="top-layout"><div><div class="toolbar"><div class="toolbar" id="topSelectionControls"><button class="button button-quiet" id="topGenerateButton" type="button">生成 Top 待选池</button><label class="check-all"><input type="checkbox" id="topSelectAll"> <span>全选可选项目</span></label><span class="selection-count" id="topSelectionCount">0 条已选</span><button class="button button-primary" id="topSaveButton" type="button" disabled>保存 Top 选择</button><button class="button button-quiet" id="topResetButton" type="button">重置选择</button><button class="button button-danger" id="topDiscardPoolButton" type="button">丢弃待选池</button></div><button class="button button-primary" id="publishNewsButton" type="button">重建公开投影</button></div><div class="item-list" id="topList" aria-live="polite"></div></div><aside class="preview-card" aria-labelledby="publishPreviewTitle"><div class="preview-heading"><p class="kicker">PUBLISH PROJECTION</p><h3 id="publishPreviewTitle">公开发布预览</h3><span class="load-state" id="previewState">未加载</span></div><div id="publishPreview" class="preview-body"><p class="muted">保存 Top 选择后，可在此处确认并重建公开投影。</p></div><button class="button button-quiet button-full" id="previewRefreshButton" type="button">刷新预览</button></aside></div>
       <section class="panel transcript-panel" aria-labelledby="transcriptTitle"><div class="section-heading"><div><p class="kicker">TRANSCRIPTS</p><h2 id="transcriptTitle">字幕与详情增强</h2></div><span class="load-state" id="transcriptState">未加载</span></div><p class="panel-lead">为选中的 Top YouTube 条目上传字幕文件；保存后用 AI 重新总结，公开卡片的摘要会更丰富。字幕文件存入 <code>data/manual/transcripts/</code>，不随站点发布。</p><div class="item-list" id="transcriptList" aria-live="polite"></div><div class="toolbar transcript-actions"><label class="cost-check"><input type="checkbox" id="transcriptCostConfirm"> <span>已确认：AI 总结可能使用配置的模型服务并产生费用</span></label><button class="button button-primary" id="transcriptSummarizeButton" type="button" disabled>总结选中字幕（AI）</button></div></section>
     </section>
 

@@ -3184,3 +3184,50 @@
 - [~] 本次测试全部使用 fake search/review 注入，未在真实 Tavily key 环境执行一次完整 `min-review enrich`；需在有授权凭据的本地环境验证实际搜索结果写入与限流回退。
 - [~] Gemini 3.8 Live 候补卡已落盘但尚未人工批准/Apply，正式目录尚未新增对应模型卡。
 
+<a id="log-entry-94"></a>
+
+## 2026-09-16 · 维护者平台全边界防卡死重构与真实浏览器端到端验收
+
+### 已完成
+
+- [x] **审核状态全可逆与双向流转**（`min-review-actions.js`、`news-domain.js`、`news-panel.js`）：
+  - 新增 `transitionReviewStatusMin` 纯 mutation，解除旧版只能 `pending → approved/discarded` 的单向死门，支持 `approved ↔ discarded ↔ pending` 任意反悔与流转；
+  - 安全联动：离开 `approved` 状态（回退至 pending 或改判为 discarded）时，系统自动重置 `top_selected = false`，防止未发布条目污染公开投影；
+  - 工作台新闻面板新增「待首审 / 已批准 / 已丢弃 / 全部」多状态过滤 Tab 与角标统计，并在界面提供「回退为待审」动作，支持将历史与新进批次自由组合合并审核。
+- [x] **Top 待选池解除锁死与降级容错**（`cmd-min.js`、`top-panel.js`、`news-domain.js`）：
+  - 修复前端 `selected.length > 0` 时一刀切隐藏 controls 的缺陷，控制栏保持常驻，新增「重置选择」与「丢弃待选池（重新生成）」按钮，支持随时反悔重选；
+  - 后端新增 `handleResetTop` 接口（支持原子重置 `top_selected` 并可选物理删除 `top.json` 清空旧待选池）；
+  - `ai-top` 生成逻辑优化：去除“有 pending 就硬抛错”的单向死门；当本地 AI 离线或探测超时时自动按评分降级推荐 Top 待选项，并在 note 明确记录降级注记，彻底杜绝超时卡死。
+- [x] **待补卡全生命周期可丢弃**（`knowledge-panel.js`）：
+  - 对未进入正式目录（`workflow_state !== 'completed'`）的所有待补卡（无论当前是 `pending`、`approved` 还是 `verification_blocked`），前端始终提供醒目的「丢弃」按钮，随时可弃，消除悬挂死锁。
+- [x] **工作台强制重置救砖入口**（`maintainer-workbench-server.js`、`workspace-domain.js`、`overview-panel.js`）：
+  - `POST /workbench/clear` 接口支持 `{ force: true }`；
+  - 顶部操作区新增「强制重置」按钮（带二次确认），在状态异常或需要丢弃旧批次彻底重开时，允许绕过常规前置条件一键归档并清理临时工作区。
+- [x] **关键词提纯已有清单幂等合并**（`keyword-refine.js`）：
+  - 修复 `keyword-refine.json` 已存在时硬抛错拒绝的问题；支持在保留已有 `adopted_keywords` 与 `discarded_keywords` 人工决策的基础上安全合并追加新候选。
+- [x] **模型身份核验生产适配器接线**（`identity-adapters.js`、`resolution.js`）：
+  - 新增模型身份核验专用 Tavily 搜索/提取适配器与 AI 结构化建议适配器，修复此前未注入导致所有模型待补卡秒报 `IDENTITY_EVIDENCE_MISSING` 的缺陷。
+- [x] **Windows 平台原子写入 EPERM 容错**（`json-store.js`）：
+  - 为 `writeJsonAtomic` 增加 Windows 下文件重命名的短暂重试机制，消除防病毒软件瞬态句柄占用引发的偶然抛错。
+
+### 验证结果
+
+- [x] **真实浏览器端到端验收**（`scripts/browser-workbench-acceptance.js`）：
+  - 基于本地真实 Headless Edge 与 CDP 协议，启动真实工作台，全量自动化通过以下用例：
+    1. 工作台页面与概览卡片加载完整；
+    2. 新闻状态 Tab 切换，将已批准条目回退为待审，并在待审队列中即时可见；
+    3. 全选并重新批准，将两次数据合并为一份统一已批准数据集；
+    4. 待补卡列表中针对阻断卡执行丢弃与批准的完整闭环；
+    5. 关键词面板切换与采纳正常无阻断；
+    6. 重置 Top 选择、丢弃旧待选池并重新生成两批合并后的 Top 待选池；
+    7. 在新待选池中挑选 4 条候选并保存 Top 选择；
+    8. 重建公开投影并验证 RSS feed 与 hotspots 发布预览成功更新。
+- [x] 全仓测试套件：**1010 passed / 0 failed**（持续集成回归全绿）；
+- [x] 静态规范门禁：`node scripts/check-standards.js` 扫描 241 个 src 文件，白名单外违规 **0 处**；
+- [x] 架构原则校验：`node scripts/validate.js` 全部通过；
+- [x] 文档与密钥门禁：`check-document-policy.js` 与 `check-secrets.js`（577 文件）全量通过。
+
+### 已知边界
+
+- [~] 浏览器自动化验收已在本地真实 Edge 实例验证通过；若在无图形界面的极简 CI 容器中运行，需保证存在 Edge/Chromium 可执行文件或配置环境。
+

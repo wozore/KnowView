@@ -65,11 +65,26 @@ function writeJsonAtomic(file, value, runId = 'manual') {
   } finally {
     fs.closeSync(fd);
   }
-  try {
-    fs.renameSync(temp, file);
-  } catch (error) {
+  let renamed = false;
+  let renameError = null;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      fs.renameSync(temp, file);
+      renamed = true;
+      break;
+    } catch (error) {
+      renameError = error;
+      if (process.platform === 'win32' && (error.code === 'EPERM' || error.code === 'EBUSY' || error.code === 'EACCES') && attempt < 4) {
+        const start = Date.now();
+        while (Date.now() - start < 25) {}
+        continue;
+      }
+      break;
+    }
+  }
+  if (!renamed) {
     try { fs.unlinkSync(temp); } catch {}
-    throw error;
+    throw renameError;
   }
 }
 

@@ -138,7 +138,9 @@ async function prepareCatalogBundlesImpl(input = {}, options = {}, planned = nul
   const plan = planned || assertPlan(input, options);
   if (!plan.ok) return plan;
   const { pending, cards } = seriesCards(options);
-  const resolveOptions = { ...(options.resolveOptions || {}), ...(options.catalogAdapters ? { identityAdapters: options.catalogAdapters } : {}) };
+  // 核验适配器由 resolution 默认构造（identity-adapters.js）；显式覆盖走 options.resolveOptions.identityAdapters。
+  // 不得把 {discover,acquire,synthesize} 形状的 catalogAdapters 转发为 identityAdapters（形状错配）。
+  const resolveOptions = { ...(options.resolveOptions || {}) };
   const existing = new Map(listDrafts({ schema_version: BUNDLE_SCHEMA_VERSION, draft_kind: BUNDLE_DRAFT_KIND })
     .filter(draft => REUSABLE_STATES.has(draft.state))
     .filter(draft => draft.base_revision === plan.catalog_revision)

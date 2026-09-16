@@ -33,6 +33,64 @@ function normalizeMutationIds(ids) {
 }
 
 /**
+ * 双向可逆的审核状态流转（支持 approved ↔ discarded ↔ pending 任意转移）：
+ * - status: 'approved' | 'discarded' | 'pending'
+ * - 离开 approved 状态时，自动将其 top_selected 清为 false（安全联动，防已发布数据污染）
+ * - 转为 pending 时，清空 reviewed_at
+ * - 转为 approved/discarded 时，更新 reviewed_at
+ * - 目标状态与当前状态相同时，计入 unchanged
+ * - 缺失 id 计入 missing
+ */
+function transitionReviewStatusMin(store, ids, status, options = {}) {
+  assertValidReviewStatusMin(status);
+  assertExpectedMinRevision(store, options.expectedRevision);
+  const next = createMinStore(store);
+  const byId = new Map(next.candidates.map(candidate => [String(candidate && candidate.id), candidate]));
+  const missing = [];
+  const unchanged = [];
+  const targetIds = normalizeMutationIds(ids);
+  let updated = 0;
+  const reviewedAt = (options.now ? new Date(options.now) : new Date()).toISOString();
+  for (const id of targetIds) {
+    const candidate = byId.get(id);
+    if (!candidate) { missing.push(id); continue; }
+    if (candidate.review_status === status) { unchanged.push(id); continue; }
+    candidate.review_status = status;
+    if (status === 'pending') {
+      candidate.reviewed_at = null;
+      candidate.top_selected = false;
+    } else {
+      candidate.reviewed_at = reviewedAt;
+      if (status === 'discarded') {
+        candidate.top_selected = false;
+      }
+    }
+    updated += 1;
+  }
+  if (updated > 0) next.updated_at = reviewedAt;
+  return { store: next, updated, missing, unchanged, not_pending: [], changed: updated };
+}
+
+/**
+ * 重置候选层所有或指定条目的 top_selected 状态（清空已选 Top）。
+ * ids 为空数组或未传时，重置所有 top_selected 为 true 的候选；传 ids 时按指定列表重置。
+ */
+function resetTopSelectionsMin(store, ids = null, options = {}) {
+  assertExpectedMinRevision(store, options.expectedRevision);
+  const next = createMinStore(store);
+  const targetSet = Array.isArray(ids) && ids.length ? new Set(normalizeMutationIds(ids)) : null;
+  let updated = 0;
+  for (const candidate of next.candidates) {
+    if (candidate.top_selected === true && (!targetSet || targetSet.has(String(candidate.id)))) {
+      candidate.top_selected = false;
+      updated += 1;
+    }
+  }
+  if (updated > 0) next.updated_at = (options.now ? new Date(options.now) : new Date()).toISOString();
+  return { store: next, updated, changed: updated };
+}
+
+/**
  * 第一期工作台审核 mutation：只允许 pending → approved/discarded，按显式 id 定位。
  * 非 pending 条目不回退、不改写，汇入 not_pending；缺失 id 汇入 missing。
  */
@@ -186,6 +244,8 @@ module.exports = {
   MAX_TRANSCRIPT_STORED_CHARS,
   assertValidReviewStatusMin,
   reviewPendingCandidates,
+  transitionReviewStatusMin,
+  resetTopSelectionsMin,
   setReviewStatusMin,
   setBatchReviewStatusMin,
   setTopSelectedMin,

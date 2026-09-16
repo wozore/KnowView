@@ -12,6 +12,7 @@ const {
   handleApplyKeywords,
   handleDiscardKeywords,
   handleTop,
+  handleResetTop,
   handleApplyTop,
   handleUploadTranscript,
   handleSummarizeTranscripts,
@@ -112,9 +113,10 @@ function createMaintainerWorkbenchService(options = {}) {
       if (typeof configApi.read !== 'function') throw new Error('配置读取接口不可用');
       return configApi.read();
     },
-    async clearWorkspace() {
+    async clearWorkspace(body = {}) {
       const status = getWorkspaceStatus();
-      if (!status.clearable) {
+      const isForce = body?.force === true;
+      if (!status.clearable && !isForce) {
         return {
           ok: false,
           code: 'WORKBENCH_NOT_COMPLETE',
@@ -124,8 +126,8 @@ function createMaintainerWorkbenchService(options = {}) {
           counts: status.counts,
         };
       }
-      const result = await workspace.clear();
-      return { ok: true, status: 'cleared', ...result };
+      const result = await workspace.clear({ force: isForce });
+      return { ok: true, status: 'cleared', ...(isForce ? { force: true } : {}), ...result };
     },
 
     overview() {
@@ -146,8 +148,8 @@ function createMaintainerWorkbenchService(options = {}) {
         workspace: ws,
       };
     },
-    newsReview() {
-      return handleNewsReview({ store, news, options, newsProjection });
+    newsReview(filter = null) {
+      return handleNewsReview({ store, news, options, newsProjection }, filter);
     },
     async repairNews(body = {}) {
       return news.repairNews(body);
@@ -165,8 +167,8 @@ function createMaintainerWorkbenchService(options = {}) {
       return handleDiscardKeywords(body, news, { idsOf, expectedRevision });
     },
     async generateKeywords(body = {}) {
-      if (store().candidates.some(item => item.review_status === 'pending')) {
-        throw new Error('仍有待审核新闻，完成首审后才能生成关键词候选');
+      if (store().candidates.filter(item => item.review_status === 'approved').length === 0) {
+        throw new Error('当前没有已批准的新闻，无法生成关键词候选');
       }
       return news.generateKeywords(body?.purpose || 'content');
     },
@@ -177,10 +179,13 @@ function createMaintainerWorkbenchService(options = {}) {
       return handleApplyTop(body, news, { idsOf, expectedRevision });
     },
     async generateTop() {
-      if (store().candidates.some(item => item.review_status === 'pending')) {
-        throw new Error('仍有待审核新闻，完成首审后才能生成 Top 待选池');
+      if (store().candidates.filter(item => item.review_status === 'approved').length === 0) {
+        throw new Error('当前没有已批准的新闻，无法生成 Top 待选池');
       }
       return news.generateTop();
+    },
+    resetTop(body = {}) {
+      return handleResetTop(body, news, { store, topFile: options.topFile, expectedRevision });
     },
     publishNews() {
       if (!store().candidates.some(item => item.review_status === 'approved' && item.top_selected === true)) {

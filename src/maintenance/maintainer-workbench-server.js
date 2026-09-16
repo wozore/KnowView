@@ -137,8 +137,11 @@ function createMaintainerWorkbenchServer(options = {}) {
         let result;
         if (method === 'GET' && route === '/overview') result = service.overview();
         else if (method === 'GET' && route === '/config') result = service.config();
-        else if (method === 'POST' && route === '/workbench/clear') result = service.clearWorkspace();
-        else if (method === 'GET' && route === '/news/review') result = service.newsReview();
+        else if (method === 'POST' && route === '/workbench/clear') {
+          assertAllowedBody(body, ['force'], 'Workbench clear');
+          result = service.clearWorkspace(body);
+        }
+        else if (method === 'GET' && route === '/news/review') result = service.newsReview(url.searchParams.get('status') || 'pending');
         else if (method === 'POST' && route === '/news/review') result = service.reviewNews(body);
         else if (method === 'POST' && route === '/news/repair') result = service.repairNews(body);
         else if (method === 'GET' && route === '/news/keywords') result = service.keywords(url.searchParams.get('purpose') || 'content');
@@ -147,6 +150,10 @@ function createMaintainerWorkbenchServer(options = {}) {
         else if (method === 'POST' && route === '/news/keywords/discard') result = service.discardKeywords(body);
         else if (method === 'GET' && route === '/news/top') result = service.top();
         else if (method === 'POST' && route === '/news/top/generate') result = service.generateTop();
+        else if (method === 'POST' && route === '/news/top/reset') {
+          assertAllowedBody(body, ['ids', 'discard_pool', 'expected_revision'], 'Top reset');
+          result = service.resetTop(body);
+        }
         else if (method === 'POST' && route === '/news/top') result = service.applyTop(body);
         else if (method === 'POST' && route === '/news/publish') result = service.publishNews();
         else if (method === 'POST' && route === '/news/transcripts/upload') result = service.uploadTranscript(body);
