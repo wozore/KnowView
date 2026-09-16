@@ -47,7 +47,7 @@ const KNOWN_AI_NAMES = [
 
 // 默认实体提取（正则）
 // ═══════════════════════════════════════════════════════════════
-const AI_MODEL_PATTERN = /\b(?:GPT|Claude|Gemini|Qwen|Llama|Kling|GLM|Mistral|DeepSeek|MiniMax|Grok)[-\s]?[vV]?\d+(?:\.\d+)?(?:[-\s]?(?:Pro|Max|Ultra|Plus|Flash|Mini|Turbo|Preview|Instruct|Reasoning))?\b/gi;
+const AI_MODEL_PATTERN = /\b(?:GPT|Claude|Gemini|Qwen|Llama|Kling|GLM|Mistral|DeepSeek|MiniMax|Grok)[-\s]?[vV]?\d+(?:\.\d+)?(?:[-\s]?(?:Pro|Max|Ultra|Plus|Flash|Mini|Turbo|Preview|Instruct|Reasoning|Live|Thinking))?\b/gi;
 
 function matchWordOrChinese(text, name) {
   const isAscii = /^[\x00-\x7F]+$/.test(name);

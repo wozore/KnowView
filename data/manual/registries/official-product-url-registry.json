@@ -133,31 +133,37 @@
       "last_verified_at": "2026-08-23",
       "last_official_update_at": "2026-07-24"
     },
-    "nano-banana": {
-      "name": "Nano Banana",
+    "nano-banana-2": {
+      "name": "Nano Banana 2",
       "vendor_key": "google",
       "official_urls": [
+        "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
         "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/",
         "https://ai.google.dev/gemini-api/docs"
       ],
       "aliases": [
+        "Nano Banana 2",
+        "Gemini 3.1 Flash Image",
         "Nano Banana",
         "Nano Banana 2 Lite"
       ],
       "product_prefixes": [
-        "nano banana"
+        "nano banana 2",
+        "nano banana",
+        "gemini-3.1-flash-image"
       ],
       "update_sources": [
         {
           "kind": "release_notes",
           "review_mode": "ai_fallback",
-          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/",
+          "url": "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/",
           "collector": "tavily_extract",
           "product_surface": "product"
         }
       ],
       "lifecycle": "active",
-      "last_verified_at": "2026-08-23",
+      "last_verified_at": "2026-09-16",
       "last_official_update_at": "2026-06-30"
     },
     "jimeng": {

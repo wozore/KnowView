@@ -309,16 +309,16 @@
       "last_updated_date": "2026-07-24"
     },
     {
-      "id": "tool-level3:nano-banana",
+      "id": "tool-level3:nano-banana-2",
       "vendor_key": "google",
       "detail_kind": "tool",
       "theme": "vision",
-      "title": "Nano Banana",
+      "title": "Nano Banana 2",
       "vendor_label": "Google",
       "icon": "🍌",
       "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
       "status": "active",
-      "summary": "Nano Banana 是 Google 的图像生成与编辑产品入口，本轮作为商业工具卡保留。",
+      "summary": "Nano Banana 2（对应模型版本 Gemini 3.1 Flash Image）是 Google 官方图像生成与编辑模型产品，将 Pro 级视觉推理与世界知识融入 Flash 速度，大幅增强图内文字渲染与多语言本地化。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -334,35 +334,39 @@
       "applicable_scenarios": [
         {
           "title": "需要精准控制画面的设计师",
-          "description": "提示词理解与角色一致性表现好，适合需要精确控制出图的场景。"
+          "description": "提示词理解与角色一致性表现好，具备更强的文字排版与世界知识推理能力。"
         },
         {
-          "title": "营销素材制作",
-          "description": "可稳定生成符合规范的营销配图与海报素材。"
+          "title": "营销素材与海报制作",
+          "description": "可稳定生成多语言清晰文字的营销配图与高保真海报素材。"
         },
         {
-          "title": "中文用户",
-          "description": "对中文提示词支持良好，中文用户可直接使用。"
+          "title": "中文与多语言用户",
+          "description": "原生支持多语言提示词并在图像内直接渲染本地化文字。"
         }
       ],
       "inapplicable_scenarios": [
         {
           "title": "需要极致艺术性的场景",
-          "description": "艺术性表现不及 Midjourney 等专精工具。"
+          "description": "艺术风格表现不及 Midjourney 等专精工具。"
         },
         {
           "title": "国内直连用户",
-          "description": "国内网络环境直连服务不稳定。"
+          "description": "国内网络环境直连 Google 服务不稳定。"
         }
       ],
       "sources": [
         {
-          "title": "Nano Banana 2",
+          "title": "Nano Banana 2: Combining Pro capabilities with lightning-fast speed",
           "url": "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/"
         },
         {
-          "title": "Gemini 3.1 Flash image",
+          "title": "Gemini 3.1 Flash Image (Nano Banana 2)",
           "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image"
+        },
+        {
+          "title": "Gemini Developer API pricing",
+          "url": "https://ai.google.dev/gemini-api/docs/pricing"
         }
       ],
       "last_updated_date": "2026-06-30"
@@ -8226,6 +8230,89 @@
       "release_date": "2025-12-17",
       "id": "tool-level3:gemini-3-8-flash",
       "model_key": "google-gemini-3.8-flash"
+    },
+    {
+      "vendor_key": "google",
+      "detail_kind": "api_model",
+      "title": "Gemini 3.8 Live",
+      "vendor_label": "Google",
+      "icon": "🤖",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live",
+      "status": "active",
+      "summary": "Google 原生 Speech-to-Speech 实时语音与音频对话大模型，支持边说边思考的多步骤推理、近实时多模态视觉理解、97 种语言自动检测与无感中断后台工具调用；Extended Thinking 变体在 Artificial Analysis 语音评测榜登顶。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前为实时语音/音频对话模型，不适用标准 1M 文本上下文窗口评估。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Live API 音频流式计费",
+            "pricing_basis": "按音频时间计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "音频输入价格",
+                "amount": 0.005,
+                "unit": "USD / min"
+              },
+              {
+                "label": "音频输出价格",
+                "amount": 0.018,
+                "unit": "USD / min"
+              }
+            ],
+            "conditions": "通过 Gemini Live API 调用，实时语音输入每分钟 $0.005，实时语音输出每分钟 $0.018。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "实时双向语音助手",
+          "description": "以极低延迟进行原生语音对语音对话，支持在 97 种语言间平滑过渡与实时交互。"
+        },
+        {
+          "title": "深度推理语音代理（Extended Thinking）",
+          "description": "在维持流式对话的同时在后台执行复杂的多步骤推理与分析，支持自然打断与即时响应。"
+        },
+        {
+          "title": "视觉与语音多模态协同指导",
+          "description": "结合近实时视觉流与语音问答，实现如实时编程辅导、操作指南等复杂协同任务。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "离线批量文本处理",
+          "description": "设计面向实时双向音频交互，长篇文本分析和批处理应选用 Gemini 3.8 Flash。"
+        },
+        {
+          "title": "无网络或极端高延迟环境",
+          "description": "依赖 Live API 低延迟双向连接，网络不稳定会显著影响打断和流式对话体验。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing Gemini 3.8 Live and 3.8 Live Extended Thinking",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking"
+        },
+        {
+          "title": "Build real-time voice applications with Gemini Audio",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-real-time-voice-applications-gemini-audio"
+        },
+        {
+          "title": "Gemini 3.8 Live API documentation",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-15",
+      "id": "tool-level3:gemini-3-8-live",
+      "model_key": "google-gemini-3.8-live"
     },
     {
       "id": "tool-level3:gpt-6",

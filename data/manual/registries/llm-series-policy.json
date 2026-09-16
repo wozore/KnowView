@@ -377,7 +377,7 @@
     {
       "vendor_key": "google",
       "direction": "llm",
-      "description": "Google：Gemini 按 Flash/Flash-Lite 与 Pro 产品线分类；Nano Banana 图像产品、Coding Plan、Gemini CLI 与 Antigravity 独立维护；Gemma 等纯开源本地模型排除。",
+      "description": "Google：Gemini 按 Flash/Flash-Lite 与 Pro 产品线分类；Gemini Live 实时语音系列、Nano Banana 图像产品、Coding Plan、Gemini CLI 与 Antigravity 独立维护；Gemma 等纯开源本地模型排除。",
       "families": [
         {
           "family": "gemini_flash",
@@ -433,6 +433,30 @@
           }
         },
         {
+          "family": "gemini_live",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "name_patterns": [
+            "live"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:google:gemini-live",
+              "title": "Gemini Live 实时语音系列",
+              "generation_state": "newest",
+              "expected_members": [
+                "gemini-3-8-live"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking",
+            "status": "verified"
+          }
+        },
+        {
           "family": "gemini_image",
           "usage_kind": "image",
           "modality": "image",
@@ -448,7 +472,7 @@
               "title": "Nano Banana 图像产品",
               "generation_state": "newest",
               "expected_members": [
-                "nano-banana"
+                "nano-banana-2"
               ]
             }
           ],

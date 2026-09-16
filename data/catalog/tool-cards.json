@@ -211,13 +211,13 @@
       "detail_kind": "tool"
     },
     {
-      "id": "tool-card:nano-banana",
-      "tool_key": "nano-banana",
+      "id": "tool-card:nano-banana-2",
+      "tool_key": "nano-banana-2",
       "vendor_key": "google",
-      "title": "Nano Banana",
+      "title": "Nano Banana 2",
       "vendor_label": "Google",
       "icon": "🍌",
-      "summary": "Nano Banana 是 Google 的图像生成与编辑产品入口，本轮作为商业工具卡保留。",
+      "summary": "Nano Banana 2（对应模型版本 Gemini 3.1 Flash Image）是 Google 图像生成与编辑模型产品，兼具 Pro 级推理质量与 Flash 级生成速度。",
       "theme": "vision",
       "scenes": [
         "设计配图",
@@ -230,26 +230,25 @@
         "需要极致艺术性的场景",
         "国内直连用户"
       ],
-      "best_for_preview": "需要精准控制画面的设计师",
-      "not_for_preview": "需要极致艺术性的场景",
+      "best_for_preview": "需要精准图文排版、角色一致性与 Flash 级生成速度的设计师",
+      "not_for_preview": "需要极致艺术性或国内无代理直连的场景",
       "price_badge": "free",
       "access_level": "受限",
       "search_terms": [
-        "Nano Banana",
+        "Nano Banana 2",
         "Google",
+        "gemini-3.1-flash-image",
+        "Nano Banana",
         "AI图像",
         "AI绘画",
         "设计配图",
         "海报设计",
         "营销素材",
-        "角色设计",
-        "提示词理解最佳、角色一致性极好、多模态联动(Gemini)、免费可用",
-        "Nano Banana 2",
-        "gemini-3.1-flash-image"
+        "角色设计"
       ],
       "detail_ref": {
         "kind": "tool-level3",
-        "id": "tool-level3:nano-banana"
+        "id": "tool-level3:nano-banana-2"
       },
       "detail_kind": "tool"
     },
@@ -3001,6 +3000,40 @@
       },
       "detail_kind": "api_model",
       "model_key": "google-gemini-3.8-flash"
+    },
+    {
+      "id": "tool-card:gemini-3-8-live",
+      "tool_key": "gemini-3-8-live",
+      "vendor_key": "google",
+      "title": "Gemini 3.8 Live",
+      "vendor_label": "Google",
+      "icon": "🤖",
+      "summary": "Google 原生 Speech-to-Speech 实时语音与音频对话大模型，支持边说边思考的多步骤推理、近实时多模态视觉理解、97 种语言自动检测与无感中断后台工具调用。",
+      "theme": "general",
+      "scenes": [
+        "实时语音对话与智能助理",
+        "边说边思考的多步骤推理代理",
+        "多模态视觉与语音协同指导"
+      ],
+      "best_for_preview": "需要低延迟流式双向语音交互、复杂多步骤推理或实时多模态协同指导的应用场景",
+      "not_for_preview": "长文档离线批量分析（建议使用 Gemini 3.8 Flash）或无网络离线环境",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Gemini 3.8 Live",
+        "Google",
+        "gemini-3-8-live",
+        "实时语音",
+        "Speech to Speech",
+        "Live API",
+        "Extended Thinking"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gemini-3-8-live"
+      },
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.8-live"
     },
     {
       "id": "tool-card:gpt-6",
