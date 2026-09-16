@@ -12,7 +12,7 @@ function fixtures() {
       schema_version: 1,
       schedule: { youtube_cron: '0 0 * * *', x_cron_hot: '30 0 * * *' },
       collection: { enabled: true, concurrency: 5, request_timeout_ms: 15000, twitter_api_base_url: 'https://private.invalid' },
-      review: { l2_enabled: true },
+      review: { l2_enabled: true, web_verify: true },
       keywords: { content_keywords: ['ai'], youtube_queries: ['AI news'], x_discovery_queries: [{ id: 'release', query: 'launch', max_pages: 1 }], excluded_content_keywords: ['spam'] },
       x_accounts: ['OpenAI'], account_groups: [{ id: 'g1', label: 'group', handles: ['OpenAI'], priority: 1, max_pages: 1, high_frequency: false }],
       feedback: { tool_feedback: true, llm_model: 'model-a' }, transcripts: { notify_count: '3to5' },
@@ -66,6 +66,7 @@ test('配置域按固定四组输出逐字段安全投影', () => {
   assert.deepEqual(newsSections.long_term_quality.collections[0].items, [20, 60]);
   assert.equal(newsSections.long_term_quality.values.some(item => item.key === 'observation_score_range'), false);
   assert.equal(newsSections.x_sources.collections[1].items[0].id, 'g1');
+  assert.equal(newsSections.review.values.find(item => item.key === 'web_verify').value, true);
   assert.equal(comparisonSections.refresh_policy.collections[0].items[0].interval_hours, 48);
   assert.equal(comparisonSections.refresh_state.collections[0].items[0].count, 2);
   assert.equal(catalogSections.effective.values.find(item => item.key === 'provider').value, 'zhipu');

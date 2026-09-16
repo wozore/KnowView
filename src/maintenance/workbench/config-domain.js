@@ -14,7 +14,7 @@ const SOURCE_NAMES = Object.freeze(['openrouter', 'lmarena', 'livebench', 'llm_s
 const NEWS_FIELDS = Object.freeze({
   schedule: ['youtube_cron', 'youtube_tz', 'youtube_interval_hours', 'youtube_window_days', 'x_cron_hot', 'x_cron_cold', 'x_tz', 'tool_update_review_hour_utc', 'tool_update_review_minute_utc'],
   collection: ['enabled', 'youtube_search_max_per_run', 'youtube_search_cost_units', 'youtube_daily_quota_units', 'youtube_videos_batch_size', 'youtube_comments_top_n', 'x_credits_per_hot_run', 'x_credits_per_cold_run', 'x_credits_per_tweet', 'x_credits_per_article', 'x_tweets_per_request_max', 'max_output_items_daily', 'min_output_items_daily', 'max_output_with_youtube', 'review_top_pure_x', 'review_top_with_youtube', 'ai_top_input_max', 'concurrency', 'request_timeout_ms', 'max_retries', 'retry_base_ms'],
-  review: ['l1_input_include_comments', 'l1_comments_top_n', 'l1_confidence_auto_approve', 'l1_confidence_auto_discard', 'l2_enabled'],
+  review: ['l1_input_include_comments', 'l1_comments_top_n', 'l1_confidence_auto_approve', 'l1_confidence_auto_discard', 'l2_enabled', 'web_verify'],
   feedback: ['tool_feedback', 'concept_feedback', 'llm_extract', 'llm_model'],
   transcripts: ['notify_count'],
 });
