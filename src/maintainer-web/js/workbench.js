@@ -19,6 +19,7 @@ import { renderPendingCards, setupKnowledgePanel } from './panels/knowledge-pane
 import { renderCatalogDrafts, renderCatalogBundles, setupCatalogPanel } from './panels/catalog-panel.js';
 import { renderConcepts, renderKnowledgeConceptPreview, setupConceptPanel } from './panels/concept-panel.js';
 import { renderToolUpdates, setupToolUpdatePanel } from './panels/tool-update-panel.js';
+import { loadConfig, setupConfigPanel } from './panels/config-panel.js';
 
 export async function loadOverview() {
   setLoadState('overviewState', '加载中…', 'loading');
@@ -96,6 +97,7 @@ export async function refreshAllNow() {
       loadKnowledgeLoop(),
       loadConceptPreviewLoop(),
       loadPreview(),
+      loadConfig(),
     ]);
   } finally {
     if (refreshButton) {
@@ -120,6 +122,7 @@ export function start() {
   setupCatalogPanel(refreshAll);
   setupConceptPanel(refreshAll);
   setupToolUpdatePanel(refreshAll);
+  setupConfigPanel();
 
   const refreshButton = $('#refreshButton');
   if (refreshButton) refreshButton.addEventListener('click', refreshAll);

@@ -1,8 +1,7 @@
-import { readResource, writeRequest, unwrap } from '../api.js';
+import { writeRequest, unwrap } from '../api.js';
 import {
   state,
   $,
-  $$,
   text,
   showNotice,
 } from '../state.js';
@@ -103,7 +102,7 @@ export function loadKeywords(purpose = activePurpose) {
 }
 
 function updatePurposeTabStyles() {
-  const tabs = $$('#keywordPurposeTabs button[data-purpose]');
+  const tabs = document.querySelectorAll('#keywordPurposeTabs button[data-purpose]');
   for (const tab of tabs) {
     const p = tab.getAttribute('data-purpose');
     if (p === activePurpose) tab.classList.add('active');
@@ -113,7 +112,7 @@ function updatePurposeTabStyles() {
 
 export function setupKeywordsPanel(onRefreshAll) {
   bindSelection('keywords', 'keywordList', 'keywordSelectAll');
-  const tabs = $$('#keywordPurposeTabs button[data-purpose]');
+  const tabs = document.querySelectorAll('#keywordPurposeTabs button[data-purpose]');
   for (const tab of tabs) {
     tab.addEventListener('click', async event => {
       const p = event.currentTarget.getAttribute('data-purpose') || 'content';

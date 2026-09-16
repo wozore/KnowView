@@ -38,6 +38,7 @@ const {
   clearWorkspaceFiles,
   checkWorkspaceStatus,
 } = require('./workbench/workspace-domain');
+const { createConfigDomain } = require('./workbench/config-domain');
 
 function idsOf(value) {
   if (!Array.isArray(value) || value.length === 0 || value.some(id => typeof id !== 'string' || !id.trim())) {
@@ -67,6 +68,7 @@ function createDefaultApis(options = {}) {
     workspace: {
       clear: () => clearWorkspaceFiles(options),
     },
+    config: options.configApi || createConfigDomain(options),
   };
 }
 
@@ -78,6 +80,7 @@ function createMaintainerWorkbenchService(options = {}) {
   const pending = { ...defaults.pending, ...(options.pendingApi || {}) };
   const feedback = { ...defaults.feedback, ...(options.feedbackApi || {}) };
   const workspace = { ...defaults.workspace, ...(options.workspaceApi || {}) };
+  const configApi = options.configApi || defaults.config;
 
   const catalogWorkbench = options.catalogWorkbench || createCatalogWorkbench({
     ...(options.catalogWorkbenchOptions || {}),
@@ -105,6 +108,10 @@ function createMaintainerWorkbenchService(options = {}) {
 
   return Object.freeze({
     workspaceStatus: getWorkspaceStatus,
+    config() {
+      if (typeof configApi.read !== 'function') throw new Error('配置读取接口不可用');
+      return configApi.read();
+    },
     async clearWorkspace() {
       const status = getWorkspaceStatus();
       if (!status.clearable) {

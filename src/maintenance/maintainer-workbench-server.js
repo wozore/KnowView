@@ -21,6 +21,7 @@ const SAFE_ERROR_CODES = new Set([
   'CONCEPT_TERM_NOT_FOUND', 'CONCEPT_TERM_ALREADY_EXISTS', 'CONCEPT_PREVIEW_INCOMPLETE', 'CONCEPT_TERMS_REQUIRED',
   'CONCEPT_TERMS_INVALID', 'CONCEPT_APPLY_MODE_INVALID', 'PENDING_REVIEW_DECISION_INVALID', 'PENDING_FILE_INVALID', 'PENDING_KIND_INVALID',
   'PENDING_CANDIDATE_NAME_REQUIRED', 'PENDING_CANDIDATE_VAGUE', 'PENDING_DETAIL_KIND_INVALID', 'WORKBENCH_NOT_COMPLETE',
+  'CONFIG_READ_FAILED',
 ]);
 
 function randomToken() { return crypto.randomBytes(32).toString('base64url'); }
@@ -115,6 +116,7 @@ function createMaintainerWorkbenchServer(options = {}) {
       if (url.pathname.startsWith(API_PREFIX)) {
         const route = url.pathname.slice(API_PREFIX.length);
         if (method !== 'GET' && method !== 'POST') return send(res, 405, { error: 'METHOD_NOT_ALLOWED' }, { Allow: 'GET, POST' });
+        if (method === 'GET' && req.headers.authorization !== `Bearer ${token}`) return send(res, 403, { error: 'FORBIDDEN' });
         if (method === 'POST' && !authorizeMutation(req, token, server.address())) return send(res, 403, { error: 'FORBIDDEN' });
         let requestSignal = null;
         if (method === 'POST' && route === '/news/transcripts/summarize') {
@@ -134,6 +136,7 @@ function createMaintainerWorkbenchServer(options = {}) {
         const body = method === 'POST' ? await readJsonBody(req, route === '/news/transcripts/upload' ? TRANSCRIPT_UPLOAD_MAX_BYTES : MAX_BODY_BYTES) : null;
         let result;
         if (method === 'GET' && route === '/overview') result = service.overview();
+        else if (method === 'GET' && route === '/config') result = service.config();
         else if (method === 'POST' && route === '/workbench/clear') result = service.clearWorkspace();
         else if (method === 'GET' && route === '/news/review') result = service.newsReview();
         else if (method === 'POST' && route === '/news/review') result = service.reviewNews(body);
@@ -218,6 +221,7 @@ function createMaintainerWorkbenchServer(options = {}) {
       const status = Number.isInteger(error?.status) ? error.status : 400;
       if (status === 413) return send(res, 413, { error: 'PAYLOAD_TOO_LARGE' });
       if (status === 415) return send(res, 415, { error: 'UNSUPPORTED_MEDIA_TYPE' });
+      if (error?.code === 'CONFIG_READ_FAILED') return send(res, 500, { error: 'CONFIG_READ_FAILED' });
       const code = SAFE_ERROR_CODES.has(error?.code) ? error.code : 'OPERATION_FAILED';
       const message = typeof error?.message === 'string' && error.message.length > 0 ? error.message : code;
       return send(res, status, { error: code, message });

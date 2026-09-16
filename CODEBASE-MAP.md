@@ -167,9 +167,9 @@
 - [series/index.js](src/comparison/series/index.js) — series 子域门面。
 
 ## src/maintainer-web/ — 本机维护者前端（原生 HTML/CSS/JS；固定 `/api/workbench/v1/`，不参与公开静态站构建）
-- [index.html](src/maintainer-web/index.html) — 编辑部审核工作台页面骨架；待办概览、新闻首审、关键词提纯生成/采纳、Top 待选池生成/选择/公开投影、新闻摘要→工具/概念 pending 审核与 Catalog/Concept 成本确认闭环、工具更新审核/preview/确认 Apply、概念预览。
-- [css/workbench.css](src/maintainer-web/css/workbench.css) — 编辑部工作台响应式视觉样式与状态/队列/预览/工具确认/知识闭环组件样式。
-- [js/workbench.js](src/maintainer-web/js/workbench.js) — 固定工作台 API 客户端与交互；fragment token、revision 绑定写请求、新闻/关键词/Top 后续操作、知识提取、pending 审核、Catalog Draft/Concept preview Apply、工具 preview 与确认 Apply、工具更新当前待办与历史折叠、blocked 门禁、加载/错误/409 状态和 DOM 安全渲染。
+- [index.html](src/maintainer-web/index.html) — 编辑部审核工作台页面骨架；待办概览、新闻首审、关键词提纯生成/采纳、Top 待选池生成/选择/公开投影、新闻摘要→工具/概念 pending 审核与 Catalog/Concept 成本确认闭环、工具更新审核/preview/确认 Apply、概念预览、运行配置只读展示。
+- [css/workbench.css](src/maintainer-web/css/workbench.css) — 编辑部工作台响应式视觉样式与状态/队列/预览/工具确认/知识闭环/运行配置只读展示组件样式。
+- [js/workbench.js](src/maintainer-web/js/workbench.js) — 固定工作台 API 客户端与交互；fragment token、revision 绑定写请求、新闻/关键词/Top 后续操作、知识提取、pending 审核、Catalog Draft/Concept preview Apply、工具 preview 与确认 Apply、工具更新当前待办与历史折叠、blocked 门禁、运行配置只读加载、加载/错误/409 状态和 DOM 安全渲染。
 
 ## src/web/ — 前端静态站（原生 ES module，无打包器；build-dist.js 原样复制到 dist/）
 - [index.html](src/web/index.html) — 页面骨架与八视图 HTML 结构；AI 搜索首页为左中右布局（左侧「怎么用」三步引导栏 + 中间原样搜索主区 + 右侧留白），结果页三栏答案引擎。
@@ -426,6 +426,7 @@
 - [document-policy.test.js](tests/maintenance/document-policy.test.js) — 文档路径、忽略与 Git 暂存状态、扩展名大小写和 Git 失败的离线回归。
 - [env.test.js](tests/maintenance/env.test.js) — `.env` 子集解析、覆盖规则与项目根目录回归。
 - [validate-comparison.test.js](tests/maintenance/validate-comparison.test.js) — integrated 对比数据、raw 快照与引用契约校验回归。
+- [config-domain.test.js](tests/maintenance/config-domain.test.js) — 工作台配置域只读投影回归：四组固定逐字段安全投影、Catalog 默认值兜底、必需版本化配置缺失/损坏/版本错误 fail-closed、对象注入拒绝且错误不含敏感值、环境状态异常投影 unknown 不探测。
 - [maintainer-workbench-server.test.js](tests/maintenance/maintainer-workbench-server.test.js) — 维护者工作台 server HTTP 集成回归（注入 service）：127.0.0.1 绑定与 token URL、静态资源白名单与超大/恶意请求体拒绝、Bearer + 同源鉴权、stale revision 以 409 返回不泄露内部值、recovery/Bundle 路由字段白名单与二阶段富化确认、字幕上传更大请求体与成本确认。
 - [maintainer-workbench-service.test.js](tests/maintenance/maintainer-workbench-service.test.js) — 维护者工作台 service 领域编排回归（注入 API）：读取投影携带 revision、首审 enriching 锁定与门禁统计、Top 池仅收录 approved、工具更新当前 pending 与历史证据分离、字幕上传/外部总结委托底层并保留成本确认、Catalog recovery 顶层参数白名单与受控提交、清空需全部审核完成。
 - [fixtures/x.json](tests/fixtures/x.json) — 新闻管线 X 平台测试夹具。
@@ -472,6 +473,7 @@
 - [tool-update-domain.js](src/maintenance/workbench/tool-update-domain.js) — 维护者工作台工具更新审核领域服务。
 - [catalog-domain.js](src/maintenance/workbench/catalog-domain.js) — 维护者工作台目录草稿与待补卡领域服务。
 - [workspace-domain.js](src/maintenance/workbench/workspace-domain.js) — 维护者工作台工作区清理与完成度检查。
+- [config-domain.js](src/maintenance/workbench/config-domain.js) — 维护者工作台配置安全只读投影与配置源装配。导出: `createConfigDomain`
 - [api.js](src/maintainer-web/js/api.js) — 维护者平台 API 客户端封装与 revision/token 绑定。
 - [auth.js](src/maintainer-web/js/auth.js) — 维护者平台 URL 片段 Token 解析工具。
 - [state.js](src/maintainer-web/js/state.js) — 维护者平台前端状态管理与 DOM 工具。
@@ -484,3 +486,4 @@
 - [catalog-panel.js](src/maintainer-web/js/panels/catalog-panel.js) — 维护者平台目录草稿与 SeriesBundle 审核面板：Catalog/Bundle 计划、准备与增量成本确认，Draft 阻断恢复（恢复计划预览 + resume）与 cleanup-only 清理，Bundle 审核/Apply/丢弃与 pending outcome 收敛，批次预览与 apply-batch 事务写入。
 - [concept-panel.js](src/maintainer-web/js/panels/concept-panel.js) — 维护者平台概念合成与应用面板。
 - [tool-update-panel.js](src/maintainer-web/js/panels/tool-update-panel.js) — 维护者平台工具更新审核面板。
+- [config-panel.js](src/maintainer-web/js/panels/config-panel.js) — 维护者平台运行配置只读加载、分组/分段/键值/集合安全展示。导出: `loadConfig, renderConfig, setupConfigPanel`

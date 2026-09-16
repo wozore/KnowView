@@ -231,6 +231,13 @@ test('mutations require expected revision and delegate guarded commits', () => {
   assert.equal(service.reviewToolUpdate('tool-key', { decision: 'approved', expected_revision: 'tool-r1' }).expected_revision, 'tool-r1');
 });
 
+test('配置 API 通过构造注入只读装配并保持现有服务方法兼容', () => {
+  const dto = { schema_version: 1, mode: 'read_only', groups: [{ id: 'news' }] };
+  const service = createMaintainerWorkbenchService({ configApi: { read: () => dto } });
+  assert.equal(service.config(), dto);
+  assert.equal(typeof service.overview, 'function');
+});
+
 test('service catalogCleanup enforces parameter allowlist and delegates to workbench cleanup', () => {
   let cleanupPayload = null;
   const service = createMaintainerWorkbenchService({
