@@ -37,6 +37,10 @@ async function mainMin(platforms) {
   if (Array.isArray(platforms) && platforms.length) options.platforms = platforms;
   const slot = parseSlot();
   if (slot) options.slot = slot;
+  // 调度运行显式传业务日期（cron 触发日），避免 GitHub 延迟跨北京午夜后
+  // 按执行时刻取日期、查到未来窗口（09-16 冷跑曾因此全空并白耗 credits）。
+  const businessDate = parseBusinessDate();
+  if (businessDate) options.businessDate = businessDate;
   // --scheduled 仅由 collect-news.yml 的 schedule 触发传入：启用 YouTube 72h 到期闸 +
   // 允许写调度状态；workflow_dispatch / 本地运行不带此标志（手动与调度节奏互不影响）。
   if (process.argv.includes('--scheduled')) options.scheduled = true;
@@ -75,6 +79,14 @@ function parseSlot() {
   const eq = process.argv.find(arg => arg.startsWith('--slot='));
   const raw = idx !== -1 ? process.argv[idx + 1] : (eq ? eq.slice(7) : undefined);
   return raw === 'hot' || raw === 'cold' ? raw : undefined;
+}
+
+/** 解析 --business-date（YYYY-MM-DD）；非法或缺失返回 undefined。 */
+function parseBusinessDate() {
+  const idx = process.argv.indexOf('--business-date');
+  const eq = process.argv.find(arg => arg.startsWith('--business-date='));
+  const raw = idx !== -1 ? process.argv[idx + 1] : (eq ? eq.slice('--business-date='.length) : undefined);
+  return /^\d{4}-\d{2}-\d{2}$/.test(raw || '') ? raw : undefined;
 }
 
 /**

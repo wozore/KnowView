@@ -131,6 +131,15 @@ async function runXTask({ options, config, now, runId, coverage, xWindow }) {
     slot.reason = 'NEWS_INVALID_OR_MISSING_SLOT';
     return [];
   }
+  // 未来窗口 fail-closed：窗口起点晚于当前时间（容差 5 分钟）说明业务日期被
+  // 延迟执行带偏，查询注定全空（09-16 冷跑曾因此白耗 225 credits），拒绝发请求。
+  if (xRunSpec.window && Number.isFinite(xRunSpec.window.since_unix)
+    && xRunSpec.window.since_unix > Math.floor(now.getTime() / 1000) + 300) {
+    slot.status = 'failed';
+    slot.reason = 'NEWS_FUTURE_WINDOW';
+    slot.error = `window since ${xRunSpec.window.since_bjt} is in the future`;
+    return [];
+  }
 
   try {
     const result = await xCollector(xRunSpec);

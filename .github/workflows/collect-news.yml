@@ -34,6 +34,10 @@ on:
         options:
           - hot
           - cold
+      business_date:
+        description: '业务日期 YYYY-MM-DD（可选，补采历史窗口用；缺省按运行时刻的北京日期）'
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -123,6 +127,7 @@ jobs:
         env:
           PLATFORMS_INPUT: ${{ github.event.inputs.platforms }}
           X_SLOT_INPUT: ${{ github.event.inputs.x_slot }}
+          BUSINESS_DATE_INPUT: ${{ github.event.inputs.business_date }}
           SCHEDULE: ${{ github.event.schedule }}
         run: |
           if [[ -n "$PLATFORMS_INPUT" ]]; then
@@ -150,6 +155,14 @@ jobs:
             echo "NEWS_PLATFORMS=x" >> "$GITHUB_ENV"
             echo "NEWS_X_SLOT=hot" >> "$GITHUB_ENV"
           fi
+          # 业务日期：调度运行取 cron 触发日的 UTC 日期（GitHub 延迟 <11.5h 时与
+          # 预期北京日期一致），防止延迟跨北京午夜后按执行时刻取到下一天、查到
+          # 未来窗口；dispatch 可用 business_date 输入显式补采历史窗口。
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" ]]; then
+            echo "NEWS_BUSINESS_DATE=$(date -u +%F)" >> "$GITHUB_ENV"
+          elif [[ -n "$BUSINESS_DATE_INPUT" ]]; then
+            echo "NEWS_BUSINESS_DATE=$BUSINESS_DATE_INPUT" >> "$GITHUB_ENV"
+          fi
 
       - name: Collect and build news
         env:
@@ -160,6 +173,7 @@ jobs:
         run: |
           FLAGS=""
           if [[ "$GITHUB_EVENT_NAME" == "schedule" ]]; then FLAGS="--scheduled"; fi
+          if [[ -n "$NEWS_BUSINESS_DATE" ]]; then FLAGS="$FLAGS --business-date $NEWS_BUSINESS_DATE"; fi
           if [[ -n "$NEWS_X_SLOT" ]]; then
             node scripts/build-news.js --platforms "$NEWS_PLATFORMS" $FLAGS --slot "$NEWS_X_SLOT"
           else

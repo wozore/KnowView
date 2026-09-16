@@ -726,3 +726,33 @@ test('pipeline-min 接入 checkpoint store 并保证严格写入时序', async (
   assert.equal(lastRunGroups[0].credits_used, 300);
 });
 
+test('runMin：X 窗口起点在未来时 fail-closed 拒绝发请求（NEWS_FUTURE_WINDOW）', async () => {
+  let collectorCalled = false;
+  const result = await runMin({
+    config: CONFIG,
+    now: NOW,
+    platforms: ['x'],
+    slot: 'hot',
+    businessDate: '2099-01-01',
+    collectors: {
+      x: async () => {
+        collectorCalled = true;
+        return { items: [], status: 'success' };
+      },
+      youtube: async () => ({ items: [] }),
+    },
+    review,
+    summarize,
+    localize,
+    historyIn: () => ({ sources: {} }),
+    historyOut: () => {},
+    minStoreIn: () => ({ schema_version: 1, updated_at: null, candidates: [] }),
+    minStoreOut: () => {},
+    lastRunOut: () => {},
+    autoReviewList: false,
+  });
+  assert.equal(collectorCalled, false, '未来窗口严禁发起真实请求（credits 白耗）');
+  assert.equal(result.coverage.collectors.x.status, 'failed');
+  assert.equal(result.coverage.collectors.x.reason, 'NEWS_FUTURE_WINDOW');
+});
+
