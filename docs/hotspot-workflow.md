@@ -84,7 +84,7 @@
 
 ### 2.4 review / long_term_quality / keywords / scoring / feedback / transcripts / manual_folder
 
-- `review`：`l1_input_include_comments true`（L1 审核把点赞最高 N 条评论拼进输入）、`l1_comments_top_n 10`、`l1_confidence_auto_approve 0.85`（L1 判 approve 且置信度 ≥ 此值自动落 approved）、`l1_confidence_auto_discard 0.9`（L1 判 discard 且置信度 ≥ 此值才自动剔除）、`l2_enabled true`（L2 AI 建议供人工参考）。
+- `review`：`l1_input_include_comments true`（L1 审核把点赞最高 N 条评论拼进输入）、`l1_comments_top_n 10`、`l1_confidence_auto_approve 0.85`（L1 判 approve 且置信度 ≥ 此值自动落 approved）、`l1_confidence_auto_discard 0.9`（L1 判 discard 且置信度 ≥ 此值才自动剔除）、`l2_enabled true`（L2 AI 建议供人工参考）、`web_verify true`（hold/discard 建议联网查证，显式 false 关闭）。
 - `long_term_quality`：`observation_period_count 3`（样本 ≤3 走中性）、`observation_score_range [20,60]`（3~4 个样本走观察分）、`window_n 10`（滑动窗口最近 10 个样本）、`window_months_youtube 6` / `window_months_x 2`（窗口时限）、`min_samples 5`（≥5 走真实长期分）、`neutral_score 50`。
 - `keywords`：`content_keywords` 36 词（L0 硬过滤判定与提纯基准）、`youtube_queries` 20 条（YouTube 采集搜索词）、`x_discovery_queries` 4 条（X 关键词发现），`excluded_content_keywords / excluded_youtube_queries / excluded_x_discovery_queries` 三段排除词（与正式段重叠即校验失败），`refine_rule_top_n 30 / refine_batch_size 8 / refine_max_output 20 / refine_timeout_ms 600000`（提纯参数）。
 - `scoring.weights`（六权重合计 1.00）：`long_term_quality 0.20 / recent_timeliness 0.15 / light_user_experience 0.05 / source_reliability 0.15 / interaction_quality 0.15 / type_preference 0.30`；`type_preference_score`：`ai_tool 90 / ai_product 90 / ai_concept 70 / ai_industry 60 / ai_technology 50 / other 30 / unclassified 30`；`neutral_score 50`。
@@ -236,11 +236,12 @@ final_score = clamp(Σ weight_i × score_i, 0, 100)   （config.scoring.weights�
 - 内部痕迹：`summarizer / summary_generated_at / summary_input_chars / summary_llm_error`。
 - `enrichCandidateSummaries`（管线钩子）仍在，v2 由 `runMin` 第 8 步经 `summarizeCandidates` 批量调用。
 
-### 7.4 AI 审核建议（content-reviewer.js，v2 已精简）
+### 7.4 AI 审核建议（content-reviewer.js + web-verifier.js）
 
 - v2 中本模块**只保留** `reviewCandidate / reviewCandidates / runPool`（+ `VERDICTS / AUTO_APPLY_VERDICTS / collectReviewSource`）——旧的 `applyAiReviewVerdicts` / `enrichCandidateReviews` 批量钩子已随 v1 删除。v2 的 L0/L1/L2 审核编排统一在 **`src/news/min/review-v2.js`**（§八）中复用 `reviewCandidate`。
-- `reviewCandidate(item)`：对标题+描述+字幕+总结做 LLM 审核，输出 `{ verdict: approve|hold|discard, reasons, confidence, ... }`；LLM 失败 → `verdict null`（不误杀）。
-- `runPool`：固定并发池（按 concurrency 并行、保持输入顺序），分类/审核/总结/本地化/评论抓取共用。
+- `reviewCandidate(item)`：对标题+描述+字幕+总结做 LLM 审核，输出 `{ verdict: approve|hold|discard, reasons, confidence, ... }`；LLM 失败 → `verdict null`（不误杀）。`options.webEvidence` 可注入联网核验证据文本（追加进审核 prompt，供复判修订判断）。
+- **联网查证（web-verifier.js `verifyAdviceWithWeb`）**：审核 LLM 只凭训练记忆判断真伪，会把真实发布的最新模型误判为"编造"（2026-09-16 Gemini 3.8 Live 事故）。因此 verdict 为 `hold`/`discard` 的建议会自动用标题搜一次 Tavily（共享 `searchTavily`，keyless→keyed 降级），把前 5 条结果拼成证据复判一次，最终建议挂 `web_verification = { query, searched_at, results | search_error }` 随 `ai_advice` 持久化供人工追溯。**全程 fail-open**：搜索/复判失败不抛错、不阻断管线，原建议保留；搜索无有效结果时跳过复判省一次 LLM 调用。
+- **联网核验开关**：`config.review.web_verify` 缺省启用，仅显式设置为 `false` 时关闭；关闭后不搜索、不复判，也不为已有建议补核验，保持旧行为。该开关只控制语义查证成本，L0 完整性/广告等必要门禁不受影响。
 
 ### 7.5 内容本地化（content-localizer.js）
 
@@ -263,7 +264,7 @@ final_score = clamp(Σ weight_i × score_i, 0, 100)   （config.scoring.weights�
   - 高置信通过：`verdict==='approve'` 且 `confidence ≥ l1_confidence_auto_approve`（0.85）时自动落 `review_status:'approved'`（保留入库，但仍须人工确认 `top_selected:true` 才进入公开展示）；
   - 高置信剔除：`verdict==='discard'` 且 `confidence ≥ l1_confidence_auto_discard`（0.9）时自动落 `review_status:'discarded'`；
   - 待审保留：`hold`、低置信度或 LLM 失败（verdict null）落 `review_status:'pending'`，并进入 L2 生成辅助建议供人工参考。
-- **L2 `l2AiAdvice`**：AI 辅助建议（给人工看的），复用 `reviewCandidate`，**不自动改状态**；`l2_enabled=false` 时跳过。
+- **L2 `l2AiAdvice`**：AI 辅助建议（给人工看的），复用 `reviewCandidate`，**不自动改状态**；`l2_enabled=false` 时跳过。建议生成后经 `web-verifier.verifyAdviceWithWeb` 联网查证复判（hold/discard 才触发，fail-open，见 §7.4），`ai_advice.web_verification` 记录查证痕迹。
 - **批量入口 `applyL1Verdicts`**：`{ kept, discarded, advice }`。
   - `kept`：包含高置信自动通过项（`review_status:'approved'`）以及需要人工审核的待审项（`review_status:'pending'`，附 `ai_advice`）；
   - `discarded`：L0 硬审不过（带 `discard_stage:'l0'`）或 L1 高置信 discard（带 `discard_stage:'l1'`）；
@@ -396,7 +397,7 @@ node scripts/publish-news.js
 | 命令 | 模块 | 输出文件 | 说明 |
 |---|---|---|---|
 | `transcripts` | `src/news/transcripts/transcript-notify.js` | `transcript-requests.json` | 候选层挑评分最高的 `notify_count`（`"3to5"` 取低值 3）个 YouTube → 链接清单交人工 yt-dlp 抓取，经工作台上传链路回填（§4.3）；不调采集/总结、不碰主链 |
-| `feedback` | `src/news/feedback/tool-feedback.js` | `data/manual/tools/tool-cards-pending.json` / `data/manual/concepts/concept-cards-pending.json` | 从 approved summary 提取工具/概念名（配置外部 provider key 且未关 `feedback.llm_extract` 时走 LLM 提取，失败降级正则），与 tools.json/glossary.json 比对，缺失 → 待补卡草案（人工补全后导入），不直接改知识库 |
+| `feedback` | `src/news/feedback/tool-feedback.js` | `data/manual/tools/tool-cards-pending.json` / `data/manual/concepts/concept-cards-pending.json` | 从 approved summary 提取工具/概念名（配置外部 provider key 且未关 `feedback.llm_extract` 时走 LLM 提取，失败降级正则；无硬名单一票否决，类型过滤只由 LLM 类型判定产生），与 tools.json/glossary.json 比对：归一化精确同一（`toolExists`）→ 记已收录；非精确命中一律生成待补卡草案，目录有疑似近似卡时附 `similar_in_catalog`（前 3 条）供人工确认，不静默丢弃（2026-09-16 Gemini 3.8 Live 被旧模糊匹配吸附事故后的契约），不直接改知识库 |
 | `refine` | `src/news/min/keyword-refine.js` | `keyword-refine.json` / `youtube-queries-refine.json` / `x-queries-refine.json`（`--purpose content\|youtube\|x_discovery`，文件名固定，已存在时拒绝覆盖） | 从 approved 候选原文提炼关键词候选交人工勾选 `adopted_keywords`；人工确认后 `refine-apply` 校验清单并原子幂等追加 `content_keywords` / `youtube_queries` / `x_discovery_queries` |
 
 ---
@@ -453,7 +454,7 @@ collect-news.yml 构建 → Data PR（白名单六运行时文件，news/review/
 | 采集（X v2） | [collector-x-v2.js](../src/news/collectors/collector-x-v2.js) | `collectXV2`、`normalizeXV2Tweet`、`extractArticleText`、`hasArticleSignal` |
 | 字幕通知（收尾） | [transcript-notify.js](../src/news/transcripts/transcript-notify.js) | `notifyTranscripts`、`parseNotifyCount` |
 | 字幕上传/总结（工作台） | [transcript-workflow.js](../src/news/min/transcript-workflow.js) | `uploadTranscript`、`summarizeTranscripts` |
-| 工具/概念反哺（收尾） | [tool-feedback.js](../src/news/feedback/tool-feedback.js) | `feedbackFromSummaries`、`extractEntities`、`toolExists`、`conceptExists` |
+| 工具/概念反哺（收尾） | [tool-feedback.js](../src/news/feedback/tool-feedback.js) | `feedbackFromSummaries`、`extractEntities`、`toolExists`、`findSimilarTools`、`conceptExists` |
 | 解析与标准化 | [feed-parser.js](../src/news/pipeline/feed-parser.js) | `normalizeUrl`、`hash`、`numberOrNull`、`requestText`、`extractTweetArray` |
 | 评分（v2） | [scoring-v2.js](../src/news/pipeline/scoring-v2.js) | `assessItemV2`、`scoreTimelinessV2`、`detectLightExperienceV2`、`scoreSourceReliability`、`scoreTypePreference` |
 | 投影/去重/关联 | [projection.js](../src/news/pipeline/projection.js) | `dedupeItems`、`enrichHotspotProjection`、`computeHotScores`、`buildProjectionInputs`、`buildRelatedTitleLexicon`、`matchRelatedByTitle`、`titleContainsKeyword`、`searchConceptKey`、`buildEvidenceExcerpt`、`buildToolUrlIndex`、`resolveRelatedResources` |
@@ -462,6 +463,7 @@ collect-news.yml 构建 → Data PR（白名单六运行时文件，news/review/
 | AI 分类 | [content-classifier.js](../src/news/classify/content-classifier.js) | `classifyRuleBased`、`classifyCandidate`、`classifyCandidates`、`confirmContentType` |
 | AI 总结 | [content-summarizer.js](../src/news/classify/content-summarizer.js) | `summarizeCandidate`、`summarizeCandidates`、`enrichCandidateSummaries` |
 | AI 审核建议 | [content-reviewer.js](../src/news/classify/content-reviewer.js) | `reviewCandidate`、`reviewCandidates`、`runPool`（无 applyAiReviewVerdicts/enrichCandidateReviews） |
+| 审核联网查证 | [web-verifier.js](../src/news/classify/web-verifier.js) | `verifyAdviceWithWeb`（hold/discard 建议 Tavily 查证 + 证据复判，fail-open） |
 | AI 本地化 | [content-localizer.js](../src/news/classify/content-localizer.js) | `collectLocalizeSource`、`localizeCandidate`、`localizeCandidates`、`enrichCandidateLocalizations` |
 | LLM 网关 | [llm-gateway.js](../src/shared/llm-gateway.js) | `requestStructuredJson`、`requestLlmText`、`resolveTransportRoute` |
 | news AI 任务层 | [llm-provider.js](../src/news/classify/llm-provider.js) | `classifyContent`、`summarizeContent`、`reviewContent`、`localizeContent`、`selectTopItems`、`refineKeywords` |

@@ -104,7 +104,7 @@ function readRaw(kind, options = {}) {
 
 function businessPayload(kind, card) {
   const fields = kind === 'tools'
-    ? ['name', 'url', 'description', 'detail_kind_hint', 'entity_type', 'identity_key', 'vendor_key', 'tool_key', 'modality', 'official_url', 'official_urls', 'new_group_title', 'existing_level1_ref', 'existing_level2_ref']
+    ? ['name', 'url', 'description', 'detail_kind_hint', 'entity_type', 'identity_key', 'similar_in_catalog', 'vendor_key', 'tool_key', 'modality', 'official_url', 'official_urls', 'new_group_title', 'existing_level1_ref', 'existing_level2_ref']
     : ['term', 'full_name', 'definition', 'category', 'source', 'related_terms', 'relevance'];
   const result = {};
   for (const field of fields) {
@@ -192,6 +192,8 @@ function projectionItem(kind, card) {
     candidate_key: card.candidate_key || candidateKeyOf(kind, card[field]),
     [field]: card[field],
     ...(kind === 'tools' && card.detail_kind_hint ? { detail_kind_hint: card.detail_kind_hint } : {}),
+    ...(kind === 'tools' && Array.isArray(card.similar_in_catalog) && card.similar_in_catalog.length
+      ? { similar_in_catalog: card.similar_in_catalog } : {}),
     ...(card.entity_type ? { entity_type: card.entity_type } : {}),
     source_hotspot: Boolean(card.source_hotspot),
     mentioned_in_summaries: Number(card.mentioned_in_summaries || 0),

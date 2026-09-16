@@ -13,8 +13,8 @@
  *   concept AI 概念（RAG、vibe coding）→ 待补概念卡
  *   vague   产品/平台/品牌笼统名（可灵、通义千问、豆包）→ 不生成待补卡
  *
- * vague 名除 LLM 判定外，由 tool-feedback 的 isVagueName 兜底拦截：
- * 即使 LLM 把笼统名误标为 tool，也绝不会进入待补工具卡。
+ * vague 名只由 LLM 类型判定，无硬名单兜底：误标只会多生成候补卡交人工确认，
+ * 不会静默丢弃候选（收录裁决已降级为 similar_in_catalog 提示）。
  *
  * 复用 shared 的 requestStructuredJson（Responses 协议 + 结构化 JSON 外壳归一化 +
  * ledger fail-closed + 有限响应诊断）。成本账本与默认模型目录配置经

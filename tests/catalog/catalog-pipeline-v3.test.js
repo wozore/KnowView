@@ -18,7 +18,7 @@ const {
   resumeResearchLimits,
   recoveryPlanForDraft,
 } = require('../../src/catalog/draft/index');
-const { createDraft, deleteDraft } = require('../../src/catalog/draft/index');
+const { createDraft, readDraft, deleteDraft } = require('../../src/catalog/draft/index');
 const { klingVideoSeed, createKlingDossierAdapters } = require('./fixtures/kling-video-dossier');
 
 const LIMITS = {
@@ -172,7 +172,46 @@ test('assistant prepares a research-resume plan for evidence-blocked Drafts', ()
   }
 });
 
-test('assistant recovers an orphaned resuming Draft but still forbids ready Drafts', () => {  const current = loadCatalogSnapshot();
+test('assistant discards blocked and orphaned-resuming Drafts but forbids committed states', () => {
+  const current = loadCatalogSnapshot();
+  const blocked = createDraft({
+    state: 'preview_blocked',
+    base_revision: current.revision,
+    research: { ok: true, official_sources: [], warnings: [] },
+    readiness: { status: 'blocked', blocking_reasons: ['合成失败'] },
+    last_error: { code: 'PLANNER_FAILED', error: '合成失败' },
+  });
+  const orphanResuming = createDraft({
+    state: 'resuming',
+    base_revision: current.revision,
+    research: { ok: true, official_sources: [], warnings: [] },
+    readiness: { status: 'blocked', blocking_reasons: ['缺少 model 配置'] },
+    last_error: { code: 'MODEL_REQUIRED', error: '缺少 model 配置' },
+    recovery_checkpoint: { recovery_token: 'sha256:orphan', recovery_mode: 'synthesis_only', started_at: new Date().toISOString() },
+  });
+  const cleanupPending = createDraft({
+    state: 'cleanup_pending',
+    base_revision: current.revision,
+    research: { ok: true, official_sources: [], warnings: [] },
+    readiness: { status: 'ready', blocking_reasons: [] },
+    apply_checkpoint: { batch_token: 'sha256:batch', draft_ids: [], target_revision: current.revision },
+  });
+  try {
+    assert.equal(discardCatalogDraft(cleanupPending.draft_id).code, 'DRAFT_DISCARD_FORBIDDEN');
+    const orphanDiscard = discardCatalogDraft(orphanResuming.draft_id);
+    assert.equal(orphanDiscard.ok, true, JSON.stringify(orphanDiscard));
+    assert.throws(() => readDraft(orphanResuming.draft_id), { code: 'ENOENT' });
+    const blockedDiscard = discardCatalogDraft(blocked.draft_id);
+    assert.equal(blockedDiscard.ok, true, JSON.stringify(blockedDiscard));
+  } finally {
+    for (const id of [blocked.draft_id, orphanResuming.draft_id, cleanupPending.draft_id]) {
+      try { deleteDraft(id); } catch {}
+    }
+  }
+});
+
+test('assistant recovers an orphaned resuming Draft but still forbids ready Drafts', () => {
+  const current = loadCatalogSnapshot();
   const orphan = createDraft({
     state: 'resuming',
     base_revision: current.revision,

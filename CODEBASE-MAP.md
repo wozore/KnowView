@@ -261,6 +261,7 @@
 - [content-classifier.js](src/news/classify/content-classifier.js) — L0 规则 + L1 AI 分类编排（L0 不按娱乐/二创关键词硬排除；普通关键词仅用于分类，AIGC 披露硬排除由 review-v2 负责）。导出: `classifyRuleBased, classifyCandidate, classifyCandidates, confirmContentType`
 - [content-summarizer.js](src/news/classify/content-summarizer.js) — 候选内容总结（标题+描述+字幕 → summary/key_points；空白 summary 视为缺失可重试）。导出: `summarizeCandidate, summarizeCandidates, enrichCandidateSummaries`
 - [content-reviewer.js](src/news/classify/content-reviewer.js) — AI 审核建议（标题+描述+字幕+总结 → ai_review verdict/reasons/confidence；runPool 为分类/审核并发池，供 pipeline-min 复用）。导出: `reviewCandidate, reviewCandidates, runPool`
+- [web-verifier.js](src/news/classify/web-verifier.js) — 审核建议联网查证（hold/discard 建议用 Tavily 按标题搜索、前 5 条结果拼 webEvidence 经 reviewCandidate 复判一次；全程 fail-open 不阻断审核流程，web_verification 痕迹随 ai_advice 持久化；enrichment-core 的 L1/L2 建议处接入，searchTavily/reviewFn 可注入）。导出: `verifyAdviceWithWeb`
 - [content-localizer.js](src/news/classify/content-localizer.js) — 候选内容本地化（标题+描述 → localizations[locale]，按原文实际字段判定完整性，原文保留顶层）。导出: `collectLocalizeSource, hasLocalizedContent, localizeCandidate, localizeCandidates, enrichCandidateLocalizations`
 - [llm-provider.js](src/news/classify/llm-provider.js) — 内容加工模型提供方封装。
 - [llm-prompts.js](src/news/classify/llm-prompts.js) — 内容分类、审核、总结与本地化 LLM prompt 模板。
@@ -483,6 +484,7 @@
 - [keywords-panel.js](src/maintainer-web/js/panels/keywords-panel.js) — 维护者平台关键词提纯面板。
 - [top-panel.js](src/maintainer-web/js/panels/top-panel.js) — 维护者平台 Top 待选池面板：Top 生成/选择/保存、公开投影重建与发布预览渲染，及已选 Top YouTube 条目的字幕文件上传与显式成本确认后的外部 AI 总结。
 - [knowledge-panel.js](src/maintainer-web/js/panels/knowledge-panel.js) — 维护者平台知识提取与待补卡面板。
+- [catalog-draft-discard.js](src/maintainer-web/js/panels/catalog-draft-discard.js) — Catalog Draft 丢弃按钮与 discard 请求（从 catalog-panel 拆出）。
 - [catalog-panel.js](src/maintainer-web/js/panels/catalog-panel.js) — 维护者平台目录草稿与 SeriesBundle 审核面板：Catalog/Bundle 计划、准备与增量成本确认，Draft 阻断恢复（恢复计划预览 + resume）与 cleanup-only 清理，Bundle 审核/Apply/丢弃与 pending outcome 收敛，批次预览与 apply-batch 事务写入。
 - [concept-panel.js](src/maintainer-web/js/panels/concept-panel.js) — 维护者平台概念合成与应用面板。
 - [tool-update-panel.js](src/maintainer-web/js/panels/tool-update-panel.js) — 维护者平台工具更新审核面板。

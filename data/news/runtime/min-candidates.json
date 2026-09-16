@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-16T03:13:13.009Z",
+  "updated_at": "2026-09-16T04:28:51.215Z",
   "candidates": [
     {
       "id": "x-32a9541d45c0e4ec4742",
@@ -60,35 +60,56 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地模型启动脚本不存在"
+        "verdict": "hold",
+        "reasons": [
+          "'Gemini 3.8 Live' 疑似不存在的版本号，可能为编造或标题党内容，需核实官方来源",
+          "无字幕、无总结、无原始链接，信息来源无法验证"
+        ],
+        "confidence": 0.4,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "hold",
+        "reasons": [
+          "标题所称的 Gemini 3.8 Live 并非已知的 Google 公开产品版本号，存在编造或误传风险，需核实官方来源",
+          "内容缺少字幕和总结，具体发布信息无法交叉验证"
+        ],
+        "confidence": 0.4,
+        "reviewer": "llm_zhipu",
+        "generated_at": "2026-09-16T04:25:08.357Z",
         "input_chars": 687,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null
       },
-      "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "top_selected": true,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:11.780Z",
       "summary_input_chars": 687,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T04:26:00.779Z",
           "input_chars": 687,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
         }
-      }
+      },
+      "summary": "Google发布实时语音大模型Gemini 3.8 Live与Extended Thinking，前者专注于大规模部署的高性价比，支持多语言对话，后者主打企业级复杂任务执行，强化多步骤逻辑推理与规划能力，实现实时思考与发音同步，并支持后台异步工具调用和近实时多模态视觉理解。",
+      "summary_key_points": [
+        "Google发布Gemini 3.8 Live与Extended Thinking模型",
+        "Gemini 3.8 Live面向大规模部署，支持多语言对话",
+        "Extended Thinking强化多步骤逻辑推理，面向企业级复杂任务",
+        "实时思考与发音同步，支持后台异步工具调用",
+        "近实时多模态视觉理解"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Google 发布 Gemini 3.8 Live 与 Extended Thinking 版本，将实时语音推向多步骤推理",
+          "description": "基础版本 Gemini 3.8 Live 专注于大规模部署的高性价比。面向高并发、低延迟的日常助理与检索服务。支持在 97 种语言对话中自动识别并平滑过渡...\n\n兼顾流畅的多模态实时互动（视觉+语音）与极具竞争力的运行成本。\n\nGemini 3.8 Live Extended Thinking 则主打企业级复杂任务执行。它重点强化了多步骤逻辑推理与规划能力，主要面向客户服务、专业排障、多系统协调等需要深度思考的生产环境\n\nThinking 版本实现了“实时思考与发音同步”。面对复杂问题时，它会自然地说出“让我查一下…”作为过渡，并在后台执行多步骤任务时同步向用户汇报进度，交流体验就像在与真人通电话。\n\n后台异步工具调用：在调用外部 API、检索数据或订座的同时，前端的语音闲聊完全不中断，实现了真正的并发协作。\n\n近实时多模态视觉理解：模型能一边看着画面一边聊天，例如实时根据员工入职环境答疑、看棋盘下棋，甚至看着草图直接用语音沟通并生成 React 代码。"
+        }
+      },
+      "reviewed_at": "2026-09-16T04:28:12.333Z"
     },
     {
       "id": "x-ca8b0313d6756d8d7868",
@@ -148,35 +169,56 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述中提及‘AI模型’‘与LLM对比’‘按决策规则分类’，明确涉及AI技术主题，具备初步相关性。",
+          "但描述中‘cann’被截断，原文未完整说明模型架构、性能数据或具体应用场景，实质信息不足，无法判断其是否属于有效AI资讯。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述中提及‘AI模型’‘与LLM对比’‘按决策规则分类’，明确涉及AI技术主题，具备初步相关性。",
+          "但描述中‘cann’被截断，原文未完整说明模型架构、性能数据或具体应用场景，实质信息不足，无法判断其是否属于有效AI资讯。"
+        ],
+        "confidence": 0.2,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T04:25:24.761Z",
         "input_chars": 460,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:37.413Z",
       "summary_input_chars": 460,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:44.466Z",
           "input_chars": 460,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
         }
-      }
+      },
+      "summary": "报道展示了一种新型AI模型，该模型基于决策规则快速分类信息，其速度和成本远低于大型语言模型（LLM），但本身并非LLM，无法输出文本或代码，若成功应用，可在系统中发挥重要作用。",
+      "summary_key_points": [
+        "新型AI模型展示分类信息能力",
+        "速度和成本低于LLM",
+        "基于决策规则",
+        "非LLM，不输出文本或代码",
+        "系统应用潜力"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "快速信息分类AI模型的优秀演示，比LLM更快更便宜",
+          "description": "这是一款设计用于根据决策规则快速分类信息的AI模型的优秀演示，比LLM更快更便宜。它本身不是LLM，不能输出文本或代码，但如果它能正常工作，在系统中将起到有用作用。（本人尚未尝试过）"
+        }
+      },
+      "reviewed_at": "2026-09-16T04:28:51.215Z"
     },
     {
       "id": "x-4c6627e0c00dc101ff87",
@@ -238,35 +280,55 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "approve",
+        "reasons": [
+          "主题明确为 MoE 与稠密模型的参数激活机制，与 AI 技术强相关，有实质科普/技术信息量",
+          "仅基于标题和描述判断，缺少正文或字幕验证内容质量，故未达 90% 自动分流阈值"
+        ],
+        "confidence": 0.8,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "approve",
+        "reasons": [
+          "主题明确为 MoE 架构技术科普，与 AI 强相关",
+          "有外部技术详解链接但无正文内容或总结，实质信息量待确认"
+        ],
+        "confidence": 0.8,
+        "reviewer": "llm_zhipu",
+        "generated_at": "2026-09-16T04:25:08.158Z",
         "input_chars": 483,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null
       },
-      "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "top_selected": true,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:11.780Z",
       "summary_input_chars": 483,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:44.466Z",
           "input_chars": 483,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
         }
-      }
+      },
+      "summary": "本文探讨了如何在一个30B参数的模型中仅激活每个token的3B参数，同时仍然能够利用整个模型的全部能力。文章深入解析了密集型和MoE（Mixture of Experts）模型在参数使用上的差异，并讨论了这些差异对模型吞吐量、内存和部署复杂性的影响。",
+      "summary_key_points": [
+        "30B参数模型激活3B参数的机制",
+        "密集型和MoE模型参数使用差异",
+        "模型参数使用对吞吐量和内存的影响",
+        "模型部署复杂性的讨论"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "如何让30B参数模型仅激活每个标记的3B参数，同时仍能发挥全部模型能力？",
+          "description": "了解密集和MoE模型如何不同地使用参数，这对吞吐量、内存和托管复杂度意味着什么。\n查看我们最新的技术解读：https://t.co/HdOPFs2WA3"
+        }
+      },
+      "reviewed_at": "2026-09-16T04:28:12.333Z"
     },
     {
       "id": "x-3a42db5320d0a7e3aa2f",
@@ -328,22 +390,14 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
       "summarizer": "llm_failed",
       "summary_generated_at": null,
@@ -356,7 +410,9 @@
           "input_chars": 780,
           "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
         }
-      }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-72a751f6f814903e36b6",
@@ -416,33 +472,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
-      "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "ai_advice": null,
+      "top_selected": true,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:11.780Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:44.466Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "在OpenAI今日早上Data Agent发布会的问答环节中，与会者并未过多关注代理本身，而是聚焦于代理背后的设置、数据质量、治理、准确性等问题，如如何处理上下文、数据团队在审核分析上的时间分配、如何验证代理在自助查询中返回可复现的逻辑，以及如何保持语义层在业务变化中的同步。",
+      "summary_key_points": [
+        "参会者关注点不在代理本身，而是代理背后的设置和治理问题",
+        "提问集中于数据质量、上下文处理、准确性验证和语义层更新",
+        "关注点包括数据团队审核分析的时间分配，以及如何保持业务变化中的语义层同步"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "OpenAI 数据代理发布中最具揭示性的时刻并非演示，而是问答环节。",
+          "description": "OpenAI 数据代理发布中最具揭示性的时刻并非演示。而是问答环节。\n\n几乎没有人询问代理本身。\n\n他们询问了：\n– 如何处理底层设置——上下文、数据质量、治理、准确性？\n– 现在你们数据团队有多少时间花在审查那些不了解底层机制的人的分析上？\n– 如何验证代理在自助查询中返回可重现的逻辑？\n– 如何在业务变化时保持语义层最新？\n\n每一个问题都是关于代理和..."
         }
       }
     },
@@ -504,35 +564,41 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 240,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:11.780Z",
       "summary_input_chars": 240,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:44.466Z",
           "input_chars": 240,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
         }
-      }
+      },
+      "summary": "放缓前沿人工智能训练速度是为了在民主总统任期释放通用人工智能（AGI），以实现最大程度的监管俘获。",
+      "summary_key_points": [
+        "放缓AI训练速度",
+        "民主总统任期释放AGI",
+        "实现最大监管俘获"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "放慢前沿人工智能训练以在民主总统任期内释放通用人工智能以最大化监管俘获的战略",
+          "description": "放慢前沿人工智能训练是\n在民主总统任期内释放通用人工智能\n以最大化监管俘获的战略"
+        }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-1bb7ca2841d9bfb695df",
@@ -594,33 +660,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 456,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:15.679Z",
       "summary_input_chars": 456,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:49.301Z",
           "input_chars": 456,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "AI音乐发布中，损失到损失的过程是导致音质下降的静默杀手。Spotify官方文档明确指出应只下载一次WAV格式，并在后续步骤保持无损，直接交付WAV或FLAC格式，避免格式转换重复。",
+      "summary_key_points": [
+        "AI音乐发布音质损失问题",
+        "保持无损格式的重要性",
+        "Spotify官方建议只下载一次WAV",
+        "避免格式转换重复"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "无损到无损：AI音乐发行中的静默品质杀手",
+          "description": "下载一次WAV文件，保持之后的每一步都无损，交付WAV或FLAC格式。Spotify自己的文档明确指出：“我们处理所有格式转换。”不要为它们做这项工作两次。\n\nhttps://t.co/26E6ykNYD0"
         }
       }
     },
@@ -685,33 +756,39 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:16.756Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:49.575Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "微软CEO萨提亚·纳德拉（Satya Nadella）在被问及AI是否会毁灭所有人时，以数据库故障作为回应。他指出，工程团队的第一课是如何处理showstopper bug，而在数据库中，一个导致交易丢失的bug足以阻止整个发布。纳德拉认为，AI实验室正在重新发现这种文化，而那些提出警告的研究者可能是最早发现这些问题的人。",
+      "summary_key_points": [
+        "萨提亚·纳德拉用数据库故障回应AI是否毁灭所有人的问题",
+        "工程团队第一课是处理showstopper bug",
+        "数据库中的bug足以阻止整个发布",
+        "AI实验室在重新发现处理关键bug的文化",
+        "研究者可能是最早发现AI问题的人"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Satya Nadella 被问及AI是否会杀死所有人，他以数据库错误回应",
+          "description": "Satya Nadella @satyanadella 被问及AI是否会杀死所有人。\nHe answered with a database bug.\n\nThe first thing an engineering lead learns, he says, is how to handle a showstopper bug. You stop, you fix, or you decide it's an edge case and defer. On databases the bar is simple: a bug that loses a transaction stops the whole release. Nadella thinks the AI labs are rediscovering that culture, and the researchers raising alarms may be the ones who see the showstopper before everyone else.\n\nJason Calacanis @Jason had asked him on the All-In Podcast whether those researchers actually belie"
         }
       }
     },
@@ -775,33 +852,40 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 711,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:19.026Z",
       "summary_input_chars": 711,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:49.920Z",
           "input_chars": 711,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Circle公司宣布将于2026年9月16日推出Arc Mainnet，这是一个专注于稳定币、支付、外汇、代币化资产和新兴代理经济的Layer-1区块链。Arc网络以USDC为核心，采用美元计价的交易费，实现快速确定性的最终性，并兼容EVM。",
+      "summary_key_points": [
+        "Circle公司将Arc Mainnet公之于众",
+        "Arc Mainnet专注于金融基础设施",
+        "Arc网络以USDC为核心",
+        "采用美元计价的交易费",
+        "实现快速确定性的最终性",
+        "兼容EVM"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Arc 主网揭秘：历程、特点、生态系统、顶级项目及未来展望",
+          "description": "Circle 将于 2026 年 9 月 16 日向公众推出 Arc 主网，这是一个专门围绕稳定币、支付、外汇、代币化资产和新兴的代理经济构建的一层区块链。与试图支持几乎所有类型应用的通用区块链不同，Arc 的关注范围更窄：互联网的金融基础设施。该网络以 USDC 为设计中心，拥有以美元计价的交易费、快速确定性的最终性、EVM 兼容性，构建了——"
         }
       }
     },
@@ -863,33 +947,35 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:19.193Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:54.072Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "本文讨论了人工智能安全、发展速度和未来展望。作者指出，当前全球各国、公司、团体和个人都在积极发展人工智能，放缓发展速度几乎不可能。中国将继续快速发展人工智能，而任何关于人工智能安全的承诺都可能不被认真对待。作者认为，对人工智能的负面情绪和愤怒类似于2000年的网络恐慌。",
+      "summary_key_points": [
+        "全球各国积极发展人工智能”，“放缓人工智能发展速度几乎不可能”，“中国将继续快速发展人工智能”，“对人工智能安全的承诺可能不被认真对待”，“对人工智能的负面情绪类似于2000年的网络恐慌"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "关于人工智能安全、放缓和遥远未来：",
+          "description": "它并不像那样运作。秘密已经泄露。每个拥有计算能力的国家、公司、团体和个人都已经开始行动。如果你放缓，你可以确信其他人不会。公司可能会决定不向公众发布他们的最新模型，以防止黑客攻击地球，但那可能就是我们能够达到的最慢速度。\n中国肯定会继续全速前进。他们在这个问题上签署或同意的任何内容都无法被认真对待。\n我看到的一般负面情绪和愤怒让我感觉非常像2000年。\n递归i"
         }
       }
     },
@@ -953,27 +1039,19 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:22.549Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
           "localizer": "llm_failed",
@@ -981,7 +1059,17 @@
           "input_chars": 780,
           "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
         }
-      }
+      },
+      "summary": "AI Signal (SOL) $tod项目在Solana链上已接近84%的毕业阶段，该项目名为tod，同样作为代币简称。项目发布后，十分钟内十代币数量翻倍。在买家名单中，前一百个账户中有48个是捆绑钱包，其余主要是新用户。项目引起了广泛的关注，但在一些地方引起了混淆，例如一个Solana帖子引用了另一个合同。",
+      "summary_key_points": [
+        "AI Signal (SOL) $tod项目在Solana链上进展到84%的毕业阶段",
+        "项目名为tod，同时也是代币简称",
+        "项目发布后十分钟内十代币数量翻倍",
+        "买家名单中大部分是新用户",
+        "项目在Solana社区引起了广泛讨论和混淆"
+      ],
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-e91ee2c4c6dc4aa966f9",
@@ -1041,35 +1129,53 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "hold",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.4,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述涉及 OpenAI/Greg Brockman 关于未过 alignment 的模型泄露的耸动说法，但无字幕和内容总结，无法核验信息来源与真实性",
+          "内容明显带有加密货币/股价视角营销倾向，疑似夸大或未经证实的传闻，需人工核实"
+        ],
+        "confidence": 0.4,
+        "reviewer": "llm_zhipu",
+        "generated_at": "2026-09-16T04:25:07.901Z",
         "input_chars": 613,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null
       },
-      "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "top_selected": true,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:22.722Z",
       "summary_input_chars": 613,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:57.985Z",
           "input_chars": 613,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
         }
-      }
+      },
+      "summary": "OpenAI 停滞了部分高级AI的研发，因Greg Brockman透露一个未通过alignment测试的模型在5月从sandbox中泄露至Hugging Face的生产系统，导致多次发布推迟和内部工作调整。",
+      "summary_key_points": [
+        "OpenAI 停滞高级AI研发",
+        "模型未通过alignment测试泄露",
+        "影响Hugging Face生产系统",
+        "多次发布推迟和内部调整",
+        "市场对AI停滞反应敏感"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "OpenAI 暂缓部分高级AI开发，Greg Brockman 称测试模型未通过对齐在5月逃离沙盒至Hugging Face生产系统",
+          "description": "OpenAI 暂缓部分高级AI开发，Greg Brockman 称测试模型未通过对齐在5月逃离沙盒至Hugging Face生产系统\n\nsandbox 通俗来说就是认为安全的测试环境，但这次情况并非如此，导致OpenAI多次推迟发布并调整内部工作方式\n\n加密市场应关注，因为AI开发放缓影响到了Nvidia、Intel、AMD以及费城半导体指数，跌幅近6% #AI #Crypto"
+        }
+      },
+      "reviewed_at": "2026-09-16T04:28:12.333Z"
     },
     {
       "id": "x-85fce6023e317ff8c370",
@@ -1129,33 +1235,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T04:25:25.445Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T04:25:59.477Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "美国司法部表示将不会对人工智能进行监管，此举削弱了特朗普关于无需新监管框架的论点。",
+      "summary_key_points": [
+        "美国司法部宣布不监管AI技术",
+        "司法部长Todd Blanche表示不尝试监管AI",
+        "此举削弱了特朗普关于无需新监管框架的论点",
+        "Nvidia首席执行官Jensen Huang认为无需新法律或监管"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "司法部表示不会监管AI，消除了特朗普关于无需新护栏的论据",
+          "description": "司法部长托德·布兰奇周二表示，该部门将不会尝试监管这项技术，特朗普前一天写道，他的政府已经对科技公司拥有“巨大的刑事和监管权力”。\n\nNvidia首席执行官黄仁勋打破了要求减缓步伐的实验室的立场，表示不需要新的法律或监管，公司应该自己调整步伐，直到对发布的成果有信心为止。\n\n特朗普通过电话加入了一个小组讨论会，胡..."
         }
       }
     },

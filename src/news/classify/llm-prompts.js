@@ -68,6 +68,8 @@ const SUMMARY_USER_PROMPT_TEMPLATE = `请为下面这条 AI 资讯生成内容�
 const REVIEW_MAX_TOKENS = 200;
 // 总结输入截断（字符）：作为审核输入素材之一，控 token 成本。
 const REVIEW_MAX_SUMMARY_CHARS = 800;
+// 联网核验结果追加截断（字符）：web-verifier 证据文本的兜底上限。
+const REVIEW_MAX_WEB_EVIDENCE_CHARS = 3000;
 // 合法判定集合（与 content-reviewer.js 的 VERDICTS 一致）
 const VALID_VERDICTS = new Set(['approve', 'hold', 'discard']);
 const CONFIDENCE_RANGES = Object.freeze({
@@ -113,6 +115,7 @@ const REVIEW_USER_PROMPT_TEMPLATE = `请为下面这条 AI 资讯做初步审核
 - 自动分流阈值：approve 达到 0.85、discard 达到 0.90 才会自动处理；只有选择 90-100% 区间时才允许触发自动分流。
 - 如果 approve 的区间为 90-100% 或 discard 的区间为 90-100%，只输出 verdict、confidence_range 和 confidence，不要输出 reasons。
 - 其他情况必须输出 1~2 条简短、具体的 reasons。
+- 对标题/描述里出现的最新模型名、版本号，如果你的知识无法确认其真实性，不要断言“不存在/编造/标题党”，一律判 hold 并在 reasons 里写明“需联网核实官方来源”；如果输入中附有“联网核验结果”，以核验结果为准修订判断，并在 reasons 中引用证据。
 标题：{title}
 描述：{description}
 字幕：{transcript}
@@ -266,11 +269,17 @@ function buildReviewPayload(item, model, options = {}) {
     .trim()
     .slice(0, SUMMARY_MAX_TRANSCRIPT_CHARS);
   const summary = sanitizeSurrogates(String(item.summary || '')).trim().slice(0, REVIEW_MAX_SUMMARY_CHARS);
-  const prompt = REVIEW_USER_PROMPT_TEMPLATE
-    .replace('{title}', title || '（无标题）')
-    .replace('{description}', description || '（无描述）')
-    .replace('{transcript}', transcript || '（无字幕）')
-    .replace('{summary}', summary || '（无总结）');
+  const webEvidence = sanitizeSurrogates(String(options.webEvidence || '')).trim().slice(0, REVIEW_MAX_WEB_EVIDENCE_CHARS);
+  // 函数式替换：内容含 $& 等 replace 模式序列时不会被解释，与 webEvidence 的写法对齐
+  let prompt = REVIEW_USER_PROMPT_TEMPLATE
+    .replace('{title}', () => title || '（无标题）')
+    .replace('{description}', () => description || '（无描述）')
+    .replace('{transcript}', () => transcript || '（无字幕）')
+    .replace('{summary}', () => summary || '（无总结）');
+  if (webEvidence) {
+    // 用函数替换避免证据文本中的 $ 序列被当作替换模式解释
+    prompt = prompt.replace('只输出 JSON：', () => `联网核验结果：\n${webEvidence}\n只输出 JSON：`);
+  }
   return {
     model,
     messages: [
@@ -342,6 +351,7 @@ module.exports = {
   buildExternalJsonChatPayload,
   buildReviewPayload,
   normalizeReview,
+  REVIEW_USER_PROMPT_TEMPLATE,
   buildLocalizePayload,
   normalizeLocalization,
 };

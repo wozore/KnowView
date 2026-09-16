@@ -59,7 +59,8 @@ function countEnrichmentWork(candidates, options = {}) {
     if (isDiscarded) continue;
 
     if (!options.skipReview) {
-      if (force ? (c.review_status === 'pending' && !c.reviewed_at) : needsReviewWork(c, { l2Enabled })) {
+      if (force ? (c.review_status === 'pending' && !c.reviewed_at)
+        : needsReviewWork(c, { l2Enabled, webVerifyEnabled: options.webVerifyEnabled !== false })) {
         review += 1;
       }
     }
@@ -131,6 +132,8 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
   const dryRun = options.dryRun === true;
   const limit = options.limit != null ? nonNegativeInteger(options.limit, null, 'options.limit') : null;
   const l2Enabled = config?.review?.l2_enabled !== false && options.l2Enabled !== false;
+  // config.review.web_verify 显式 false 关闭联网核验（缺省启用）
+  const webVerifyEnabled = config?.review?.web_verify !== false;
   const apiKey = options.apiKeyLocal || options.apiKey || 'local-bonsai';
   // 本轮开始时的候选层 revision，用于逐批并发安全落盘（每批写回后滚动更新）
   let baseRevision = revisionOfMinStore(store);
@@ -153,7 +156,8 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
 
     let hasWork = false;
     if (!options.skipReview) {
-      if (force ? (c.review_status === 'pending' && !c.reviewed_at) : needsReviewWork(c, { l2Enabled })) hasWork = true;
+      if (force ? (c.review_status === 'pending' && !c.reviewed_at)
+        : needsReviewWork(c, { l2Enabled, webVerifyEnabled })) hasWork = true;
     }
     if (!options.skipSummary && !hasWork) {
       const isProtectedSummary = Boolean(c.transcript_summarized_at || c.transcript_summary_llm === 'deepseek');
@@ -230,6 +234,9 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
 
     // ── 步骤 3.1: L1 审核（缺 L1 的走完整 L1→L2 流程）──
     if (!options.skipReview) {
+      // 仅缺 L2 建议的条目（含缺核验痕迹的存量建议补核验）：只补建议，不重跑 L1、不改状态。
+      // 必须在 L1 池执行前筛选，避免本轮刚生成、核验失败未挂痕迹的建议被二次筛中重跑。
+      const l2Targets = force ? [] : batch.filter(c => needsL2Advice(c, l2Enabled, webVerifyEnabled));
       const l1Targets = batch.filter(c => (force ? (c.review_status === 'pending' && !c.reviewed_at) : needsL1Review(c)));
       await runPool(l1Targets, concurrency, async item => {
         const verdict = await executeCandidateReview(item, config, enrichOptions);
@@ -239,8 +246,6 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
         else batchStats.pending += 1;
       });
 
-      // 仅缺 L2 建议的条目：只补建议，不重跑 L1、不改状态
-      const l2Targets = force ? [] : batch.filter(c => needsL2Advice(c, l2Enabled));
       await runPool(l2Targets, concurrency, async item => {
         await executeL2OnlyAdvice(item, config, enrichOptions);
         batchStats.reviewed += 1;
@@ -335,6 +340,7 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
         ...options,
         locale,
         l2Enabled,
+        webVerifyEnabled,
       });
       baseRevision = writeResult.baseRevision;
     }

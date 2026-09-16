@@ -55,7 +55,7 @@ async function runRepairChannel(items, config, channelOpts) {
     const l2Targets = items.filter(c => {
       if (c.reviewed_at) return false;
       if (c.review_status !== 'pending') return false;
-      return needsL2Advice(c, channelOpts.l2Enabled !== false);
+      return needsL2Advice(c, channelOpts.l2Enabled !== false, channelOpts.webVerifyEnabled !== false);
     });
     if (l1Targets.length > 0) {
       await runPool(l1Targets, conc, async item => {
@@ -157,6 +157,8 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   const locale = options.locale || 'zh';
   const dryRun = options.dryRun === true;
   const l2Enabled = config?.review?.l2_enabled !== false;
+  // config.review.web_verify 显式 false 关闭联网核验（缺省启用）
+  const webVerifyEnabled = config?.review?.web_verify !== false;
   const repairLimit = nonNegativeInteger(options.limit, DEFAULT_REPAIR_LIMIT, 'options.limit');
   // 双通道请求期间的基准 revision，用于并发安全落盘
   const baseRevision = revisionOfMinStore(store);
@@ -165,6 +167,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   const rawTargets = candidates.filter(c => needsRepair(c, {
     locale,
     l2Enabled,
+    webVerifyEnabled,
     skipReview: options.skipReview === true,
     skipSummary: options.skipSummary === true,
     skipLocalize: options.skipLocalize === true,
@@ -185,6 +188,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     resultStats.remainingIncomplete = countRepairWork(candidates, {
       locale,
       l2Enabled,
+      webVerifyEnabled,
       skipReview: options.skipReview === true,
       skipSummary: options.skipSummary === true,
       skipLocalize: options.skipLocalize === true,
@@ -205,6 +209,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     maxDescChars: options.channelA?.maxDescChars ?? 1000,
     concurrency: options.channelA?.concurrency ?? 3,
     l2Enabled,
+    webVerifyEnabled,
     external: false,
     apiKey: options.apiKeyA || 'local-bonsai',
     fetchImpl: options.fetchImplA || options.fetchImpl,
@@ -219,6 +224,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     timeoutMs: options.channelB?.timeoutMs ?? 15000,
     concurrency: options.channelB?.concurrency ?? 5,
     l2Enabled,
+    webVerifyEnabled,
     external: true,
     provider: externalProvider,
     apiKey: externalApiKey,
@@ -249,7 +255,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
 
     // ── 审核结论合并 ──
     if (!target.reviewed_at) {
-      const hadReviewDefect = needsL1Review(target) || needsL2Advice(target, l2Enabled);
+      const hadReviewDefect = needsL1Review(target) || needsL2Advice(target, l2Enabled, webVerifyEnabled);
       if (hadReviewDefect) {
         const aSuccess = Boolean(a.l1_review?.verdict && (
           a.review_status !== 'pending' ||
@@ -353,6 +359,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
       ...options,
       locale,
       l2Enabled,
+      webVerifyEnabled,
     });
     resultStats.writeMerged = writeResult.merged;
   }
@@ -360,6 +367,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   resultStats.remainingIncomplete = countRepairWork(candidates, {
     locale,
     l2Enabled,
+    webVerifyEnabled,
     skipReview: options.skipReview === true,
     skipSummary: options.skipSummary === true,
     skipLocalize: options.skipLocalize === true,

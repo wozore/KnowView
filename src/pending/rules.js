@@ -14,21 +14,47 @@ function isVagueName(name) {
   return VAGUE_FAMILY_NAMES.has(String(name || '').trim().toLowerCase());
 }
 
+// 身份判定：归一化后精确同一才判"确实是同一个工具/型号"。
+// 不再做双向子串/vendor 包含等模糊裁决（Gemini 3.8 Live 被 Gemini 3.8 家族卡
+// 静默吸附的事故）；模糊命中改由 findSimilarTools 以提示返回，交人工确认。
 function toolExists(toolName, tools) {
-  const needle = String(toolName || '').toLowerCase();
-  if (!needle) return false;
   const needleNorm = normalizeToolToken(toolName);
+  if (!needleNorm) return false;
   return (tools || []).some(tool => {
+    const title = String(tool.title || tool.name || '');
+    const key = String(tool.tool_key || tool.id || '');
+    return (title && normalizeToolToken(title) === needleNorm)
+      || (key && normalizeToolToken(key) === needleNorm);
+  });
+}
+
+// 旧 toolExists 的模糊匹配逻辑（title/key 双向子串 + vendor 包含）整体搬迁至此：
+// 只产出"疑似近似卡"提示，不做收录裁决。按原顺序去重、不截断数量（调用方截断）。
+function findSimilarTools(toolName, tools) {
+  const needle = String(toolName || '').toLowerCase();
+  if (!needle) return [];
+  const seen = new Set();
+  const similar = [];
+  for (const tool of tools || []) {
     const title = String(tool.title || tool.name || '');
     const key = String(tool.tool_key || tool.id || '');
     const vendor = String(tool.vendor_label || tool.vendor_name || '').toLowerCase();
     const titleLower = title.toLowerCase();
     const keyLower = key.toLowerCase();
-    if (needleNorm && (normalizeToolToken(title) === needleNorm || normalizeToolToken(key) === needleNorm)) return true;
-    return (title && titleLower.includes(needle)) || (key && keyLower.includes(needle))
+    const hit = (title && titleLower.includes(needle)) || (key && keyLower.includes(needle))
       || (vendor && vendor.includes(needle)) || (needle.includes(titleLower) && title)
       || (needle.includes(keyLower) && key);
-  });
+    if (!hit) continue;
+    const dedupeKey = `${normalizeToolToken(key)}|${normalizeToolToken(title)}`;
+    if (seen.has(dedupeKey)) continue;
+    seen.add(dedupeKey);
+    similar.push({
+      tool_key: tool.tool_key ?? null,
+      title: tool.title ?? null,
+      vendor_label: tool.vendor_label ?? null,
+    });
+  }
+  return similar;
 }
 
 function conceptExists(conceptName, glossary) {
@@ -42,4 +68,4 @@ function conceptExists(conceptName, glossary) {
   });
 }
 
-module.exports = { isVagueName, toolExists, conceptExists };
+module.exports = { isVagueName, toolExists, findSimilarTools, conceptExists };

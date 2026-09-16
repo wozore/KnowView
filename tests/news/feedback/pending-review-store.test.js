@@ -165,10 +165,40 @@ test('pending store review is async and serializes concurrent writes', async () 
 
 test('pending facade exposes seed conversion and shared catalog duplicate rules', () => {
   assert.equal(store.isVagueName('ChatGPT'), true);
+  // toolExists 收紧为归一化精确同一：仅同一工具/型号才判已收录，双向子串不再裁决
   assert.equal(store.toolExists('Cursor', [{ title: 'Cursor' }]), true);
+  assert.equal(store.toolExists('GEMINI 3.8  flash', [{ title: 'Gemini 3.8 Flash' }]), true, '归一化后同一仍判已收录');
+  assert.equal(store.toolExists('Gemini 3.8 Live', [{ title: 'Gemini 3.8 Flash' }]), false, '子串相似不再判已收录');
+  assert.deepEqual(
+    store.findSimilarTools('Gemini 3.8 Live', [{ tool_key: 'gemini-3-8', title: 'Gemini 3.8', vendor_label: 'Google' }]),
+    [{ tool_key: 'gemini-3-8', title: 'Gemini 3.8', vendor_label: 'Google' }],
+  );
   assert.equal(store.conceptExists('RAG', [{ term: 'RAG' }]), true);
   assert.equal(store.pendingCandidateToSeed({ name: 'Kling 2.6 Pro', detail_kind_hint: 'api_model' }).detail_kind, 'api_model');
   assert.deepEqual([...store.INTAKE_OUTCOMES], ['pending', 'verification_blocked', 'deferred_insufficient_evidence', 'already_complete', 'bundled_for_review', 'committed']);
+});
+
+test('similar_in_catalog participates in tools business payload and projection', async () => {
+  const toolFile = tempFile('pending-similar-business-');
+  const first = await store.mergePending('tools', [{ name: 'Hint Model', similar_in_catalog: [{ tool_key: 'a', title: 'A', vendor_label: 'V' }] }], { toolFile });
+  const key = first.cards[0].candidate_key;
+  await store.reviewPending('tools', key, 'discarded', first.revision, { toolFile });
+  // 提示未变：人工结论保留
+  const same = await store.mergePending('tools', [{ name: 'Hint Model', similar_in_catalog: [{ tool_key: 'a', title: 'A', vendor_label: 'V' }] }], { toolFile });
+  assert.equal(same.cards[0].review_status, 'discarded', 'similar_in_catalog 未变不重置 review_status');
+  // 提示变化：按业务字段处理 → review_status 重置
+  const changed = await store.mergePending('tools', [{ name: 'Hint Model', similar_in_catalog: [{ tool_key: 'b', title: 'B' }] }], { toolFile });
+  assert.equal(changed.cards[0].review_status, 'pending', 'similar_in_catalog 变化触发 review_status 重置');
+  const view = store.projectPending('tools', changed);
+  assert.deepEqual(view.items[0].similar_in_catalog, [{ tool_key: 'b', title: 'B' }]);
+
+  // 无提示字段：投影不带；概念类目永远不带（投影按类目区分）
+  const plainFile = tempFile('pending-similar-plain-');
+  const plain = await store.mergePending('tools', [{ name: 'No Hint Tool' }], { toolFile: plainFile });
+  assert.equal(Object.hasOwn(store.projectPending('tools', plain).items[0], 'similar_in_catalog'), false);
+  const conceptFile = tempFile('pending-similar-concept-');
+  const concepts = await store.mergePending('concepts', [{ term: 'RAG', definition: 'x' }], { conceptFile });
+  assert.equal(Object.hasOwn(store.projectPending('concepts', concepts).items[0], 'similar_in_catalog'), false);
 });
 
 test('pendingCandidateToSeed rejects series candidates (SeriesBundle pipeline owns series)', () => {

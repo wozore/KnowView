@@ -86,7 +86,8 @@ function collectReviewSource(item) {
  *
  * @param {object} item - 含 title / description / 可选 transcript / summary
  * @param {{provider?: string, model?: string, apiKey?: string, fetchImpl?: Function,
- *          timeoutMs?: number, now?: string}} [options]
+ *          timeoutMs?: number, now?: string, webEvidence?: string}} [options]
+ *          webEvidence：联网核验结果文本（web-verifier 注入），存在时拼入审核 prompt
  * @returns {Promise<{ verdict: string|null, reasons: string[], confidence: number,
  *                     reviewer: string|null, generated_at: string|null,
  *                     input_chars: number, llm_error: string|null }>}

@@ -27,8 +27,8 @@ const { normalizeModelIdentity } = require('../../shared/model-key-contract');
 const {
   mergePending,
   candidateKeyOf,
-  isVagueName,
   toolExists,
+  findSimilarTools,
   conceptExists,
 } = require('../../pending');
 
@@ -99,7 +99,8 @@ async function extractEntities(text, options) {
     const result = await options.llmExtract(text);
     return normalizeEntities(result);
   }
-  return extractEntitiesDefault(text).map(name => ({ name, type: isVagueName(name) ? 'vague' : 'tool' }));
+  // 默认正则不做类型裁决（硬名单 vague 拦截已移除，宁多生成候补卡交人工确认）
+  return extractEntitiesDefault(text).map(name => ({ name, type: 'tool' }));
 }
 
 /** 归一化提取结果为 [{name,type}]；兼容 [{name,type}]、裸 string[]（兜底 tool）与 {names|entities}。 */
@@ -125,7 +126,7 @@ function normalizeEntities(result) {
 /**
  * 实体待补路由纯函数（S2a 契约冻结接口）：
  *   series → tools 待补卡（entity_type:'series'，走系列 Bundle 管线，绝不直接转 seed）
- *   vague  → filtered（不生成待补卡）
+ *   vague  → filtered（不生成待补卡；vague 只来自 LLM/类型层判定，无硬名单兜底）
  *   concept→ concepts 待补卡
  *   tool / model → tools 待补卡
  */
@@ -170,7 +171,7 @@ function dateKeyOf(input) {
  *   - catalogApi  目录查询注入 { listToolCards, readGlossary }（组合根构造）；
  *                 与 tools/glossary 均未提供时按空知识库处理
  * @returns {Promise<{
- *   toolsFound: string[], toolsPending: Array<{name,url,description,source_hotspot,pending}>,
+ *   toolsFound: string[], toolsPending: Array<{name,url,description,source_hotspot,similar_in_catalog?}>,
  *   conceptsFound: string[], conceptsPending: Array<{term,definition,source_hotspot,pending}>,
  * }>}
  */
@@ -213,8 +214,9 @@ async function feedbackFromSummaries(store, config, options = {}) {
 
   for (const [name, { count, type }] of allEntities) {
     const route = classifyEntityForPending({ name, type });
-    // 笼统名兜底拦截：即使 LLM/正则把笼统名标成 tool，也绝不生成待补卡
-    if (route.target === 'filtered' || isVagueName(name)) continue;
+    // filtered 只由类型路由（LLM/类型层判 vague、未知类型）产生；
+    // 不再做硬名单一票否决，宁可多生成候补卡交人工确认。
+    if (route.target === 'filtered') continue;
     if (route.target === 'concepts') {
       if (feedback.concept_feedback !== false) {
         if (conceptExists(name, glossary)) conceptsFound.push(name);
@@ -233,21 +235,28 @@ async function feedbackFromSummaries(store, config, options = {}) {
     }
     // tools 待补卡：tool / model / series；仅 model 带 api_model 提示，tool 显式 'tool'，series 省略
     if (feedback.tool_feedback !== false) {
-      if (toolExists(name, tools)) toolsFound.push(name);
-      else toolsPending.push({
-        id: placeholderId(name),
-        name,
-        entity_type: route.entity_type,
-        ...(route.entity_type === 'model' ? { detail_kind_hint: 'api_model' } : {}),
-        ...(route.entity_type === 'tool' ? { detail_kind_hint: 'tool' } : {}),
-        identity_key: normalizeModelIdentity(name),
-        url: '', // 占位：待人工补全
-        description: '', // 留空：待人工补全
-        source_hotspot: true,
-        pending: true,
-        mentioned_in_summaries: count,
-        generated_at: new Date().toISOString(),
-      });
+      if (toolExists(name, tools)) {
+        toolsFound.push(name);
+      } else {
+        // 收录判定降级为提示：目录有疑似近似卡时附 similar_in_catalog 供人工确认，
+        // 不再静默判"已收录"；近似为空时字段缺席。
+        const similar = findSimilarTools(name, tools).slice(0, 3);
+        toolsPending.push({
+          id: placeholderId(name),
+          name,
+          entity_type: route.entity_type,
+          ...(route.entity_type === 'model' ? { detail_kind_hint: 'api_model' } : {}),
+          ...(route.entity_type === 'tool' ? { detail_kind_hint: 'tool' } : {}),
+          identity_key: normalizeModelIdentity(name),
+          ...(similar.length ? { similar_in_catalog: similar } : {}),
+          url: '', // 占位：待人工补全
+          description: '', // 留空：待人工补全
+          source_hotspot: true,
+          pending: true,
+          mentioned_in_summaries: count,
+          generated_at: new Date().toISOString(),
+        });
+      }
     }
   }
 
@@ -280,7 +289,6 @@ module.exports = {
   extractEntities,
   extractEntitiesDefault,
   normalizeEntities,
-  isVagueName,
   toolExists,
   conceptExists,
 };
