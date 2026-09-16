@@ -316,9 +316,17 @@ function applyCatalogDraft({ draftId, previewHash, expectedRevision }, options =
 }
 
 
+const DISCARDABLE_DRAFT_STATES = Object.freeze(['researching', 'preview_ready', 'preview_blocked', 'failed_retryable', 'rolled_back']);
+
 function discardCatalogDraft(draftId) {
   const draft = readDraft(draftId);
-  if (!['researching', 'preview_ready', 'preview_blocked', 'failed_retryable', 'rolled_back'].includes(draft.state)) return { ok: false, code: 'DRAFT_DISCARD_FORBIDDEN', state: draft.state };
+  // resuming 本身不可丢，但进程重启留下的孤儿 resuming（磁盘 state 卡死）允许丢弃，
+  // 否则 base_revision 过期后既不能 resume 也不能 discard，Draft 永久死锁。
+  if (draft.state === 'resuming') {
+    if (activeDraftResumes.has(draftId)) return { ok: false, code: 'DRAFT_RECOVERY_IN_PROGRESS', state: draft.state };
+  } else if (!DISCARDABLE_DRAFT_STATES.includes(draft.state)) {
+    return { ok: false, code: 'DRAFT_DISCARD_FORBIDDEN', state: draft.state };
+  }
   return { ok: deleteDraft(draftId), draft_id: draftId };
 }
 

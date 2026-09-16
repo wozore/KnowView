@@ -3160,3 +3160,27 @@
 - 网关错误码已去厂商化（传输类动态 provider 前缀 + 合成类 SYNTHESIS_*），历史 Draft 的 DEEPSEEK_* 存量码在读取时自动迁移，无兼容双轨；
 - Kimi K2.8 Preview 暂缓中，恢复条件：出现独立 k2.8 API id 或清晰官方模型页。
 
+<a id="log-entry-93"></a>
+
+## 2026-09-16 · 审核与反哺链路改为智能联网查证
+
+### 已完成
+
+- [x] 审核建议新增 `web-verifier.js`：对 `hold`/`discard` 建议使用 Tavily 搜索标题，取前 5 条结果注入 LLM 复判；搜索与复判均 fail-open，失败不阻断管线，并持久化 `ai_advice.web_verification` 查证痕迹。
+- [x] 主审核入口 `review-v2.js` 与增量 enrich/repair 入口统一接入联网复判；已有未查证的 hold/discard 建议可补查证；`config.review.web_verify` 默认启用，显式 `false` 才关闭。
+- [x] Tavily 请求采用白名单参数，阻止 LLM `apiKey`、provider、model、config 等上层选项跨服务透传。
+- [x] 审核 prompt 增加认识论约束：无法凭知识确认的最新型号不得断言不存在/编造，需 hold 并联网核实；有核验结果时以证据为准。
+- [x] `toolExists` 改为归一化精确同一；旧模糊匹配降级为 `similar_in_catalog` 提示，非精确候选不再静默丢弃；反馈链路移除硬编码 vague 一票否决，类型过滤交给 LLM。
+- [x] 已登记 `Gemini 3.8 Live` 与 `Gemini 3.8 Live Extended Thinking` 两张待补模型卡，等待维护者批准后进入正式身份核验。
+
+### 验证结果
+
+- [x] news 测试：370 pass / 0 fail；maintenance + catalog 相关测试：137 pass / 0 fail。
+- [x] `node scripts/validate.js`：通过；`node scripts/check-standards.js`：240 个 src 文件，白名单外违规 0 处；`node scripts/check-secrets.js`：通过。
+- [x] reviewer 复审已发现并修复：主管线漏接联网核验、Tavily 误传 LLM 凭据、缺少联网查证成本开关。
+
+### 已知边界
+
+- [~] 本次测试全部使用 fake search/review 注入，未在真实 Tavily key 环境执行一次完整 `min-review enrich`；需在有授权凭据的本地环境验证实际搜索结果写入与限流回退。
+- [~] Gemini 3.8 Live 候补卡已落盘但尚未人工批准/Apply，正式目录尚未新增对应模型卡。
+

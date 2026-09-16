@@ -71,6 +71,13 @@ test('buildReviewPayload 缺素材时占位符填空（无总结）', () => {
   assert.ok(user.includes('（无总结）'));
 });
 
+test('buildReviewPayload 内容含 $ 替换模式序列时不污染 prompt', () => {
+  // 字符串 pattern 的 replace 会把 $&/$' 等当作替换模式解释，函数式替换不会
+  const tricky = '$&$`$\'$1$$';
+  const user = buildReviewPayload({ title: tricky, description: tricky, transcript: tricky, summary: tricky }).messages[1].content;
+  assert.equal(user.split(tricky).length - 1, 4, '四个字段原样出现，未被替换模式改写');
+});
+
 test('normalizeReview 解析标准 JSON', () => {
   const parsed = normalizeReview('{"verdict":"discard","reasons":["非 AI 主题","广告内容"],"confidence":0.95}');
   assert.deepEqual(parsed, { verdict: 'discard', reasons: ['非 AI 主题', '广告内容'], confidence: 0.95 });
@@ -248,8 +255,9 @@ test('reviewCandidates：LLM 全失败时 reviewed=0 且不写 ai_review（不�
   assert.ok(items[0].ai_review_llm_error);                // 留错误痕迹便于排查
 });
 
-test('L1 高置信 approve/discard 自动分流，自动项不调用 L2 且不保留 reasons', async () => {
+test('L1 高置信 approve/discard 自动分流，pending 的 L2 建议经联网核验后写入', async () => {
   let calls = 0;
+  const verifyTargets = [];
   const items = [
     { id: 'approve', title: 'AI 产品发布', url: 'https://example.com/a', published_at: '2026-08-09T00:00:00Z', description: 'AI tool release' },
     { id: 'discard', title: 'AI 内容', url: 'https://example.com/d', published_at: '2026-08-09T00:00:00Z', description: 'AI topic is unrelated to the product' },
@@ -262,6 +270,10 @@ test('L1 高置信 approve/discard 自动分流，自动项不调用 L2 且不�
     review: { l1_confidence_auto_approve: 0.85, l1_confidence_auto_discard: 0.9, l2_enabled: true },
   }, {
     reviewCandidate: async item => { calls += 1; return verdicts[item.id]; },
+    verifyAdviceWithWeb: async (item, advice) => {
+      verifyTargets.push({ id: item.id, verdict: advice.verdict });
+      return { ...advice, web_verification: { query: item.title, searched_at: '2026-09-16T00:00:00Z', results: [] } };
+    },
   });
   const byId = new Map([...result.kept, ...result.discarded].map(item => [item.id, item]));
   assert.equal(byId.get('approve').review_status, 'approved');
@@ -270,6 +282,30 @@ test('L1 高置信 approve/discard 自动分流，自动项不调用 L2 且不�
   assert.deepEqual(byId.get('approve').l1_review.reasons, []);
   assert.deepEqual(byId.get('discard').l1_review.reasons, []);
   assert.equal(calls, 4, 'L1 3 次 + pending 的 L2 1 次');
+  // 主管线接线：pending 项的 hold 建议必须经过核验并携带 web_verification 痕迹
+  assert.deepEqual(verifyTargets, [{ id: 'hold', verdict: 'hold' }], '仅 hold/discard 建议触发核验');
+  assert.equal(byId.get('hold').ai_advice.verdict, 'hold');
+  assert.equal(byId.get('hold').ai_advice.web_verification.query, 'AI 存疑内容');
+  // 自动分流项无建议、无核验
+  assert.equal(byId.get('approve').ai_advice, null);
+});
+
+test('config.review.web_verify=false：主管线 L2 建议不核验，行为与接入前一致', async () => {
+  let verifyCalled = false;
+  const items = [
+    { id: 'hold', title: 'AI 存疑内容', url: 'https://example.com/h', published_at: '2026-08-09T00:00:00Z', description: 'AI topic unclear' },
+  ];
+  const result = await applyL1Verdicts(items, {
+    keywords: { content_keywords: ['ai'] },
+    collection: { concurrency: 1 },
+    review: { l2_enabled: true, web_verify: false },
+  }, {
+    reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.6, reasons: ['需要人工确认'] }),
+    verifyAdviceWithWeb: async () => { verifyCalled = true; return null; },
+  });
+  assert.equal(verifyCalled, false, '开关显式 false 时绝不调用核验');
+  assert.equal(result.kept[0].ai_advice.verdict, 'hold');
+  assert.equal(result.kept[0].ai_advice.web_verification, undefined);
 });
 
 

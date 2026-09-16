@@ -67,6 +67,9 @@ export function renderPendingCards(kind, payload, onRefreshAll) {
     if (kind === 'tools' && item.detail_kind_hint) addText(meta, item.detail_kind_hint);
     content.appendChild(meta);
     if (item.candidate_key) addText(content, 'p', `candidate_key：${item.candidate_key}`, 'item-id');
+    if (kind === 'tools' && Array.isArray(item.similar_in_catalog) && item.similar_in_catalog.length) {
+      addText(content, 'p', `目录近似卡：${item.similar_in_catalog.map(t => t.title || t.tool_key).join('、')}——请确认是否同一工具/型号`, 'item-summary');
+    }
     const blockedText = (Array.isArray(item.blocking_reasons) ? item.blocking_reasons : [])
       .map(reason => BLOCKING_ZH[reason] || reason).join('；');
     if (blockedText) addText(content, 'p', blockedText, 'item-blocked');

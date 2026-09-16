@@ -45,6 +45,7 @@ async function runEnrichFlow(store, config, flags) {
   const work = parseWorkFlags(flags);
   const stats = countEnrichmentWork(store.candidates, {
     l2Enabled: config?.review?.l2_enabled !== false,
+    webVerifyEnabled: config?.review?.web_verify !== false,
     skipReview: work.skipReview,
     skipSummary: work.skipSummary,
     skipLocalize: work.skipLocalize,
@@ -79,6 +80,7 @@ async function runEnrichFlow(store, config, flags) {
   if (!flags.no_repair && !work.dryRun) {
     const repairWork = countRepairWork(store.candidates, {
       l2Enabled: config?.review?.l2_enabled !== false,
+      webVerifyEnabled: config?.review?.web_verify !== false,
       skipReview: work.skipReview,
       skipSummary: work.skipSummary,
       skipLocalize: work.skipLocalize,
@@ -104,6 +106,7 @@ async function runRepairFlow(store, config, flags) {
   const work = parseWorkFlags(flags);
   const stats = countRepairWork(store.candidates, {
     l2Enabled: config?.review?.l2_enabled !== false,
+    webVerifyEnabled: config?.review?.web_verify !== false,
   });
   if (!stats.hasWork) {
     return { stats, repaired: null };

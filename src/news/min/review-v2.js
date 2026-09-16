@@ -21,15 +21,18 @@
  *                       最终是否通过由人工决定。仅对需要人工处理的 L1 结果调用。
  *
  * 失败语义（沿用 v1 content-reviewer）：LLM 失败 → verdict null，条目保持 pending，
- * 绝不 reject、绝不误杀。本模块自身为纯逻辑 + reviewCandidate 复用，不发起额外网络。
+ * 绝不 reject、绝不误杀。
  *
  * 注入点：options.reviewCandidate 可替换真实 reviewCandidate（测试 mock 用），
- * 缺省回落到 content-reviewer 的真实实现。
+ * 缺省回落到 content-reviewer 的真实实现；options.verifyAdviceWithWeb 可替换
+ * hold/discard 建议的联网查证复判（fail-open，config.review.web_verify 控制，
+ * 显式 false 关闭）。
  */
 
 'use strict';
 
 const { reviewCandidate, runPool } = require('../classify/content-reviewer');
+const { verifyAdviceWithWeb } = require('../classify/web-verifier');
 
 // ═══════════════════════════════════════════════════════════════
 // 常量与默认值
@@ -233,12 +236,19 @@ async function resolveL1Decision(item, l1Review, thresholds, options, config) {
   const advice = thresholds.l2Enabled
     ? await l2AiAdvice(item, { ...options, config })
     : null;
+  // hold/discard 建议联网查证复判（fail-open）；options.verifyAdviceWithWeb 供测试注入，
+  // config.review.web_verify 显式 false 时关闭（与核验接入前行为一致）
+  let finalAdvice = advice;
+  if (finalAdvice && config?.review?.web_verify !== false) {
+    const verifyAdvice = options.verifyAdviceWithWeb || verifyAdviceWithWeb;
+    finalAdvice = await verifyAdvice(item, finalAdvice, { ...options, config });
+  }
   return {
     kept: {
       ...item,
       review_status: 'pending',
       l1_review: l1Review,
-      ai_advice: advice,
+      ai_advice: finalAdvice,
     },
   };
 }

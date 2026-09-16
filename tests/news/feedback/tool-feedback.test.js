@@ -9,7 +9,6 @@ const {
   classifyEntityForPending,
   extractEntities,
   normalizeEntities,
-  isVagueName,
 } = require('../../../src/news/feedback/tool-feedback');
 const { pendingCandidateToSeed } = require('../../../src/pending/index');
 
@@ -29,15 +28,8 @@ function restore(saved) {
   else fs.writeFileSync(PENDING_CONCEPT, saved.concept);
 }
 
-// ── isVagueName：笼统名识别 ──────────────────────────────────
-test('isVagueName 识别模型/产品笼统名，放过具体工具与模型名', () => {
-  for (const vague of ['可灵', '通义千问', '腾讯混元', '豆包', 'Kimi', 'ChatGPT', 'Claude', 'Gemini', 'DeepSeek', '讯飞星火', '海螺AI']) {
-    assert.equal(isVagueName(vague), true, `${vague} 应为笼统名`);
-  }
-  for (const specific of ['Cursor', 'Kling 2.6 Pro', 'GitHub Copilot', 'Qwen3.8-Max', 'GPT-5.6', 'Claude Opus 4.8', 'Suno']) {
-    assert.equal(isVagueName(specific), false, `${specific} 不应是笼统名`);
-  }
-});
+// isVagueName 仍由 pending facade（src/pending/rules.js，catalog-seed 生产调用）提供，
+// 其断言见 pending-review-store.test.js；tool-feedback 不再消费硬名单。
 
 // ── normalizeEntities：类型归一化 ─────────────────────────────
 test('normalizeEntities 兼容类型数组、裸字符串与对象，非法 type 兜底 tool', () => {
@@ -62,8 +54,8 @@ test('classifyEntityForPending 按契约路由五种实体类型', () => {
   assert.deepEqual(classifyEntityForPending(null), { target: 'filtered', entity_type: 'unknown' });
 });
 
-// ── feedbackFromSummaries：笼统名不进入待补工具卡 ──────────────
-test('feedback 路由：笼统名被排除、模型带 api_model 提示、概念走概念卡', async () => {
+// ── feedbackFromSummaries：硬名单不再一票否决，LLM 类型层说了算 ──
+test('feedback 路由：笼统名标 tool 也生成待补卡、模型带 api_model 提示、概念走概念卡', async () => {
   const saved = backup();
   try {
     const store = {
@@ -73,7 +65,7 @@ test('feedback 路由：笼统名被排除、模型带 api_model 提示、概念
         { review_status: 'pending', summary: '不该被处理的摘要。' },
       ],
     };
-    // LLM 把笼统名可灵误标为 tool——isVagueName 必须兜底拦截
+    // LLM 把笼统名可灵误标为 tool：不再硬名单兜底，宁多生成候补卡交人工确认
     const llmExtract = async text => {
       const out = [];
       if (text.includes('可灵')) out.push({ name: '可灵', type: 'tool' });
@@ -88,15 +80,17 @@ test('feedback 路由：笼统名被排除、模型带 api_model 提示、概念
       llmExtract,
     });
 
-    // 笼统名绝不进入待补工具卡（即使 LLM 标 tool）
-    assert.equal(result.toolsPending.some(c => c.name === '可灵'), false, '可灵不得出现在待补工具卡');
-    assert.equal(result.toolsPending.some(c => c.name === 'ChatGPT'), false);
+    // 笼统名（LLM 标 tool）→ 待补工具卡；目录无近似命中时不带 similar_in_catalog
+    const keling = result.toolsPending.find(c => c.name === '可灵');
+    assert.ok(keling, '可灵应生成待补工具卡（不再静默丢弃）');
+    assert.equal(keling.entity_type, 'tool');
+    assert.equal(Object.hasOwn(keling, 'similar_in_catalog'), false);
     // 具体模型 → 待补工具卡 + api_model 提示 + entity_type
     const model = result.toolsPending.find(c => c.name === 'Qwen3.8-Max');
     assert.ok(model, 'Qwen3.8-Max 应进入待补工具卡');
     assert.equal(model.detail_kind_hint, 'api_model');
     assert.equal(model.entity_type, 'model');
-    // 已有工具 → toolsFound
+    // 已有工具（归一化精确同一）→ toolsFound，不生成卡
     assert.deepEqual(result.toolsFound, ['Cursor']);
     assert.equal(result.toolsPending.some(c => c.name === 'Cursor'), false);
     // 概念 → 概念卡，不进工具卡
@@ -140,7 +134,7 @@ test('feedback 路由：series 实体进待补工具卡，entity_type=series 且
   }
 });
 
-test('feedback 正则路径：KNOWN_AI_NAMES 里的笼统名也被排除', async () => {
+test('feedback 正则路径：默认正则不再硬名单裁决，笼统名也生成待补卡', async () => {
   const saved = backup();
   try {
     const store = {
@@ -153,21 +147,69 @@ test('feedback 正则路径：KNOWN_AI_NAMES 里的笼统名也被排除', async
       tools: [],
       glossary: [],
     });
-    // 可灵/豆包是 KNOWN_AI_NAMES 里的笼统名 → 排除
-    assert.equal(result.toolsPending.some(c => c.name === '可灵'), false);
-    assert.equal(result.toolsPending.some(c => c.name === '豆包'), false);
-    // 正则只能识别单个词，Kling 2.6 Pro 的 brand 片段不在笼统集 → 可能作为工具待补
-    // （Kling 具体名可生成；只有家族名可灵被排除）
-    assert.ok(result.toolsPending.length >= 0);
+    // 正则路径一律标 tool：可灵/豆包不再被硬名单静默排除
+    for (const name of ['可灵', '豆包', 'Kling 2.6 Pro']) {
+      const card = result.toolsPending.find(c => c.name === name);
+      assert.ok(card, `${name} 应生成待补工具卡`);
+      assert.equal(Object.hasOwn(card, 'similar_in_catalog'), false);
+    }
+    assert.deepEqual(result.toolsFound, []);
+  } finally {
+    restore(saved);
+  }
+});
+
+// ── 收录判定降级为提示：Gemini 3.8 Live 事故回归（不得被家族卡静默吸附） ──
+test('feedback 路由：目录近似只提示不裁决，Gemini 3.8 Live 生成待补卡并带 similar_in_catalog', async () => {
+  const saved = backup();
+  try {
+    const store = { candidates: [{ review_status: 'approved', summary: 'Gemini 3.8 Live 开始推流。' }] };
+    const llmExtract = async () => [{ name: 'Gemini 3.8 Live', type: 'model' }];
+    const result = await feedbackFromSummaries(store, { feedback: {} }, {
+      tools: [
+        { tool_key: 'gemini-3-8-flash', title: 'Gemini 3.8 Flash', vendor_label: 'Google' },
+        { tool_key: 'gemini-3-8', title: 'Gemini 3.8', vendor_label: 'Google' },
+      ],
+      glossary: [],
+      llmExtract,
+    });
+    assert.deepEqual(result.toolsFound, [], '近似名不得判"已收录"');
+    const card = result.toolsPending.find(c => c.name === 'Gemini 3.8 Live');
+    assert.ok(card, 'Gemini 3.8 Live 必须生成待补卡，不得被双向子串静默丢弃');
+    assert.equal(card.entity_type, 'model');
+    // 家族卡 Gemini 3.8（needle.includes(title) 命中）作为近似提示；Flash 具体卡不命中
+    assert.deepEqual(card.similar_in_catalog, [{ tool_key: 'gemini-3-8', title: 'Gemini 3.8', vendor_label: 'Google' }]);
+  } finally {
+    restore(saved);
+  }
+});
+
+test('feedback 路由：精确同名进 toolsFound；近似为空时待补卡不带 similar_in_catalog 字段', async () => {
+  const saved = backup();
+  try {
+    const store = {
+      candidates: [{ review_status: 'approved', summary: 'Cursor 更新，Zed Editor 也值得关注。' }],
+    };
+    const llmExtract = async () => [{ name: 'Cursor', type: 'tool' }, { name: 'Zed Editor', type: 'tool' }];
+    const result = await feedbackFromSummaries(store, { feedback: {} }, {
+      tools: [{ tool_key: 'cursor', title: 'Cursor', vendor_label: 'Anysphere' }],
+      glossary: [],
+      llmExtract,
+    });
+    // 归一化精确同一 → 已收录；目录无 Zed 近似 → 不生成提示字段
+    assert.deepEqual(result.toolsFound, ['Cursor']);
+    const card = result.toolsPending.find(c => c.name === 'Zed Editor');
+    assert.ok(card, 'Zed Editor 应生成待补卡');
+    assert.equal(Object.hasOwn(card, 'similar_in_catalog'), false, '无近似命中时字段必须缺席');
   } finally {
     restore(saved);
   }
 });
 
 // ── extractEntities：返回带类型实体 ───────────────────────────
-test('extractEntities 默认正则返回带类型实体（笼统名标 vague）', async () => {
+test('extractEntities 默认正则返回带类型实体（不再硬名单标 vague）', async () => {
   const entities = await extractEntities('可灵 发布了新模型。', {});
-  assert.ok(entities.some(e => e.name === '可灵' && e.type === 'vague'));
+  assert.ok(entities.some(e => e.name === '可灵' && e.type === 'tool'), '默认正则统一标 tool，类型交 LLM/人工判断');
   const llm = await extractEntities('Cursor 很流行。', { llmExtract: async () => [{ name: 'Cursor', type: 'tool' }] });
   assert.deepEqual(llm, [{ name: 'Cursor', type: 'tool' }]);
 });

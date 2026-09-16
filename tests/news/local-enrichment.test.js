@@ -10,6 +10,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
   needsL1Review,
+  needsL2Advice,
   needsSummary,
   needsLocalize,
   needsRepair,
@@ -22,6 +23,9 @@ const {
 const {
   repairIncompleteCandidates,
 } = require('../../src/news/min/min-repair');
+
+// 联网查证透传桩：建议原样返回，离线测试绝不触达 Tavily（真实实现见 web-verifier.test.js）
+const verifyAdviceStub = async (item, advice) => advice;
 
 // ── 第 1 组：纯函数判定 ─────────────────────────────────────
 
@@ -43,6 +47,29 @@ test('needsL1Review：只有 pending 且无有效 verdict 的条目需要审核'
     review_status: 'pending',
     l1_review: { verdict: 'hold', confidence: 0.5 },
   }), false);
+});
+
+test('needsL2Advice：hold/discard 建议缺 web_verification 需补核验，approve/已核验跳过', () => {
+  const base = { review_status: 'pending', l1_review: { verdict: 'hold', confidence: 0.5 } };
+  // 缺建议 → 需要
+  assert.equal(needsL2Advice({ ...base }), true);
+  // hold/discard 且缺核验痕迹 → 需要补核验（历史与遗漏建议）
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'hold', confidence: 0.5 } }), true);
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'discard', confidence: 0.9 } }), true);
+  // approve 建议不重做（避免重复花钱）
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'approve', confidence: 0.9 } }), false);
+  // 已核验（带 web_verification 痕迹）不重做
+  assert.equal(needsL2Advice({
+    ...base,
+    ai_advice: { verdict: 'hold', confidence: 0.5, web_verification: { query: 'T', searched_at: '2026-09-16T00:00:00Z' } },
+  }), false);
+  // verdict 为 null（LLM 失败）仍算缺失
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: null, llm_error: 'x' } }), true);
+  // 开关关闭（webVerifyEnabled=false）：保持旧语义，有 verdict 即不需要
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'hold', confidence: 0.5 } }, true, false), false);
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'approve', confidence: 0.9 } }, true, false), false);
+  // 开关关闭但缺建议 → 仍需要
+  assert.equal(needsL2Advice({ ...base }, true, false), true);
 });
 
 test('needsSummary：非 discarded 且无 summary 且有素材的条目需要摘要', () => {
@@ -184,6 +211,7 @@ test('enrichMinCandidates：分批处理、调用 mock、每批落盘', async ()
     onBatchDone,
     reviewCandidate: reviewCandidateMock,
     fetchImpl: fetchImplMock,
+    verifyAdviceWithWeb: verifyAdviceStub,
   });
 
   // 3 条数据，batchSize=2，应切成 2 批
@@ -255,6 +283,7 @@ test('enrichMinCandidates：limit 参数限制处理条数', async () => {
     skipSummary: true,
     skipLocalize: true,
     reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.5 }),
+    verifyAdviceWithWeb: verifyAdviceStub,
   });
 
   assert.equal(result.processed, 2);
@@ -393,12 +422,12 @@ test('needsRepair 与 countRepairWork：准确识别残缺项并统计', () => {
     summary: '已有摘要',
   }), true);
 
-  // pending 全部齐全
+  // pending 全部齐全（hold 建议已带联网核验痕迹）
   assert.equal(needsRepair({
     review_status: 'pending',
     title: 'T',
     l1_review: { verdict: 'hold', confidence: 0.5 },
-    ai_advice: { verdict: 'hold', confidence: 0.5 },
+    ai_advice: { verdict: 'hold', confidence: 0.5, web_verification: { query: 'T', searched_at: '2026-09-16T00:00:00Z' } },
     summary: '已有摘要',
     localizations: { zh: { title: '已翻译' } },
   }), false);
@@ -605,6 +634,7 @@ test('repairIncompleteCandidates：本地通道假翻译不抢占外部真翻译
       reviewCandidateA,
       reviewCandidateB,
       writeStore: () => {},
+      verifyAdviceWithWeb: verifyAdviceStub,
     });
   } finally {
     if (originalKey === undefined) delete process.env.ZHIPU_API_KEY;
@@ -663,6 +693,7 @@ test('repairIncompleteCandidates：瞬时失败自动延迟重试（限流自愈
       channelB: { concurrency: 1 },
       retryDelayMs: 1,
       writeStore: () => {},
+      verifyAdviceWithWeb: verifyAdviceStub,
     });
   } finally {
     if (originalKey === undefined) delete process.env.ZHIPU_API_KEY;
@@ -947,6 +978,7 @@ test('enrichMinCandidates：仅缺 L2 建议的条目只补建议，不重跑 L1
       reviewCalls += 1;
       return { verdict: 'hold', confidence: 0.5, reasons: ['人工参考建议'] };
     },
+    verifyAdviceWithWeb: verifyAdviceStub,
   });
 
   assert.equal(reviewCalls, 1, '只应调用一次 L2 建议，绝不重跑 L1');
@@ -983,6 +1015,129 @@ test('enrichMinCandidates：force 失败时回滚既有摘要与翻译', async (
   assert.deepEqual(candidate.summary_key_points, ['既有要点']);
   assert.equal(candidate.localizations.zh.title, '既有标题');
   assert.equal(candidate.localizations.zh.description, '既有描述');
+});
+
+test('enrichMinCandidates：hold 建议接入联网查证，web_verification 随 ai_advice 写入', async () => {
+  const candidate = {
+    id: 'web-verify',
+    review_status: 'pending',
+    title: 'Gemini 3.8 Live 发布',
+  };
+  const store = { candidates: [candidate] };
+
+  const result = await enrichMinCandidates(store, {}, {
+    skipSummary: true,
+    skipLocalize: true,
+    dryRun: true,
+    reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.5, reasons: ['需联网核实官方来源'] }),
+    verifyAdviceWithWeb: async (item, advice) => ({
+      ...advice,
+      web_verification: {
+        query: item.title,
+        searched_at: '2026-09-16T00:00:00Z',
+        results: [{ title: '官方公告', url: 'https://blog.google/x' }],
+      },
+    }),
+  });
+
+  assert.equal(result.reviewed, 1);
+  assert.equal(candidate.ai_advice.verdict, 'hold');
+  assert.equal(candidate.ai_advice.web_verification.query, 'Gemini 3.8 Live 发布');
+  assert.deepEqual(candidate.ai_advice.web_verification.results, [
+    { title: '官方公告', url: 'https://blog.google/x' },
+  ]);
+});
+
+test('enrichMinCandidates：存量 hold/discard 建议缺核验痕迹时补核验，approve 与已核验项跳过', async () => {
+  const candidates = [
+    {
+      id: 'stale-hold',
+      review_status: 'pending',
+      title: '存量挂起',
+      l1_review: { verdict: 'hold', confidence: 0.5 },
+      ai_advice: { verdict: 'hold', confidence: 0.5, reasons: ['历史建议'] },
+      summary: '已有摘要',
+      localizations: { zh: { title: '中文标题', description: '中文描述' } },
+    },
+    {
+      id: 'verified-hold',
+      review_status: 'pending',
+      title: '已核验挂起',
+      l1_review: { verdict: 'hold', confidence: 0.5 },
+      ai_advice: { verdict: 'hold', confidence: 0.5, web_verification: { query: '已核验挂起' } },
+      summary: '已有摘要',
+      localizations: { zh: { title: '中文标题', description: '中文描述' } },
+    },
+    {
+      id: 'stale-approve',
+      review_status: 'pending',
+      title: '存量通过建议',
+      l1_review: { verdict: 'hold', confidence: 0.5 },
+      ai_advice: { verdict: 'approve', confidence: 0.9 },
+      summary: '已有摘要',
+      localizations: { zh: { title: '中文标题', description: '中文描述' } },
+    },
+  ];
+  const store = { candidates };
+
+  const work = countEnrichmentWork(candidates);
+  assert.equal(work.review, 1, '只有缺核验痕迹的存量 hold 建议计入审核工作量');
+
+  const verifyTargets = [];
+  const result = await enrichMinCandidates(store, {}, {
+    skipSummary: true,
+    skipLocalize: true,
+    writeStore: () => {},
+    reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.5, reasons: ['重新生成建议'] }),
+    verifyAdviceWithWeb: async (item, advice) => {
+      verifyTargets.push(item.id);
+      return { ...advice, web_verification: { query: item.title, searched_at: '2026-09-16T00:00:00Z', results: [] } };
+    },
+  });
+
+  assert.deepEqual(verifyTargets, ['stale-hold'], '只对缺核验痕迹的存量建议补核验');
+  assert.equal(result.reviewed, 1);
+  // stale-hold：L2 建议重新生成并经核验后写回，状态与 L1 结论不动
+  assert.equal(candidates[0].ai_advice.verdict, 'hold');
+  assert.equal(candidates[0].ai_advice.web_verification.query, '存量挂起');
+  assert.equal(candidates[0].review_status, 'pending', '补核验不得改动审核状态');
+  assert.equal(candidates[0].l1_review.verdict, 'hold', '补核验不得重跑 L1');
+  // 已核验项与 approve 建议项完全不进目标，原样保留
+  assert.deepEqual(candidates[1].ai_advice, { verdict: 'hold', confidence: 0.5, web_verification: { query: '已核验挂起' } });
+  assert.deepEqual(candidates[2].ai_advice, { verdict: 'approve', confidence: 0.9 });
+});
+
+test('enrichMinCandidates：web_verify=false 时不核验且存量建议不重做（旧语义）', async () => {
+  const candidates = [
+    {
+      id: 'stale-hold',
+      review_status: 'pending',
+      title: '存量挂起',
+      l1_review: { verdict: 'hold', confidence: 0.5 },
+      ai_advice: { verdict: 'hold', confidence: 0.5, reasons: ['历史建议'] },
+      summary: '已有摘要',
+      localizations: { zh: { title: '中文标题', description: '中文描述' } },
+    },
+    { id: 'fresh', review_status: 'pending', title: '新条目' },
+  ];
+  const store = { candidates };
+
+  const work = countEnrichmentWork(candidates, { l2Enabled: true, webVerifyEnabled: false });
+  assert.equal(work.review, 1, '开关关闭时存量 hold 建议不算缺失（旧语义），仅新条目缺 L1');
+
+  let verifyCalled = false;
+  await enrichMinCandidates(store, { review: { web_verify: false } }, {
+    skipSummary: true,
+    skipLocalize: true,
+    writeStore: () => {},
+    reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.5, reasons: ['新建议'] }),
+    verifyAdviceWithWeb: async () => { verifyCalled = true; return null; },
+  });
+
+  assert.equal(verifyCalled, false, '开关关闭时 enrich 绝不核验');
+  assert.deepEqual(candidates[0].ai_advice, { verdict: 'hold', confidence: 0.5, reasons: ['历史建议'] }, '存量建议不被重做');
+  assert.equal(candidates[1].ai_advice.verdict, 'hold');
+  assert.equal(candidates[1].ai_advice.web_verification, undefined);
 });
 
 test('limit 校验：非法值拒绝，0 表示零目标', async () => {

@@ -13,6 +13,7 @@ const {
   DEFAULT_AUTO_DISCARD_CONFIDENCE,
 } = require('./review-v2');
 const { hasUsableLocalizedContent } = require('../classify/content-localizer');
+const { verifyAdviceWithWeb } = require('../classify/web-verifier');
 const { readMinStore, writeMinStore, revisionOfMinStore } = require('./min-store');
 
 /** 校验并归一为有限的非负整数，非法输入抛错。 */
@@ -49,23 +50,30 @@ function needsL1Review(candidate) {
  * - L2 关闭（l2Enabled=false）时恒为 false。
  * - 已有人工审核标记（reviewed_at）或非 pending 状态不需要。
  * - L1 缺失的条目不算——它们走完整 L1→L2 流程。
+ * - webVerifyEnabled（config.review.web_verify，缺省 true）时，已有 hold/discard
+ *   建议但缺 web_verification 痕迹的条目也视为缺失（补联网核验）；approve 建议
+ *   与已核验建议不重做。开关关闭时保持旧语义（有 verdict 即不需要）。
  */
-function needsL2Advice(candidate, l2Enabled = true) {
+function needsL2Advice(candidate, l2Enabled = true, webVerifyEnabled = true) {
   if (!l2Enabled) return false;
   if (!candidate || typeof candidate !== 'object') return false;
   if (candidate.reviewed_at) return false;
   if (candidate.review_status !== 'pending') return false;
   if (needsL1Review(candidate)) return false;
-  return !candidate.ai_advice?.verdict;
+  if (!candidate.ai_advice?.verdict) return true;
+  if (!webVerifyEnabled) return false;
+  const advice = candidate.ai_advice;
+  if (advice.verdict !== 'hold' && advice.verdict !== 'discard') return false;
+  return !advice.web_verification;
 }
 
 /**
- * 统一的审核工作量判定：缺 L1，或在 L2 开启时缺 L2 建议。
+ * 统一的审核工作量判定：缺 L1，或在 L2 开启时缺 L2 建议（含缺核验痕迹的补核验）。
  * countEnrichmentWork / enrich 目标筛选 / repair 判定共用，防止语义漂移。
  */
 function needsReviewWork(candidate, options = {}) {
   if (needsL1Review(candidate)) return true;
-  return needsL2Advice(candidate, options.l2Enabled !== false);
+  return needsL2Advice(candidate, options.l2Enabled !== false, options.webVerifyEnabled !== false);
 }
 
 /**
@@ -125,12 +133,13 @@ function needsRepair(candidate, optionsOrLocale = 'zh') {
     : { locale: optionsOrLocale };
   const locale = options.locale || 'zh';
   const l2Enabled = options.l2Enabled !== false;
+  const webVerifyEnabled = options.webVerifyEnabled !== false;
 
   if (!options.skipSummary && needsSummary(candidate)) return true;
   if (!options.skipLocalize && needsLocalize(candidate, locale)) return true;
   if (!options.skipReview) {
     if (needsL1Review(candidate)) return true;
-    if (needsL2Advice(candidate, l2Enabled)) return true;
+    if (needsL2Advice(candidate, l2Enabled, webVerifyEnabled)) return true;
   }
   return false;
 }
@@ -151,7 +160,10 @@ function countRepairWork(candidates, options = {}) {
   for (const c of list) {
     if (needsRepair(c, options)) {
       total += 1;
-      if (!options.skipReview && needsReviewWork(c, { l2Enabled: options.l2Enabled !== false })) {
+      if (!options.skipReview && needsReviewWork(c, {
+        l2Enabled: options.l2Enabled !== false,
+        webVerifyEnabled: options.webVerifyEnabled !== false,
+      })) {
         review += 1;
       }
       if (!options.skipSummary && needsSummary(c)) {
@@ -215,10 +227,17 @@ async function executeCandidateReview(item, config, options = {}) {
   const advice = l2Enabled
     ? await l2AiAdvice(item, { ...options, config })
     : null;
+  // hold/discard 建议联网查证复判（fail-open）；options.verifyAdviceWithWeb 供测试注入，
+  // config.review.web_verify 显式 false 时跳过（与核验接入前行为一致）
+  let finalAdvice = advice;
+  if (finalAdvice && config?.review?.web_verify !== false) {
+    const verifyAdvice = options.verifyAdviceWithWeb || verifyAdviceWithWeb;
+    finalAdvice = await verifyAdvice(item, finalAdvice, { ...options, config });
+  }
 
   item.review_status = 'pending';
   item.l1_review = l1Review;
-  item.ai_advice = advice;
+  item.ai_advice = finalAdvice;
   return 'pending';
 }
 
@@ -232,7 +251,13 @@ async function executeL2OnlyAdvice(item, config, options = {}) {
   const l2Enabled = options.l2Enabled !== false && !(config?.review?.l2_enabled === false);
   if (!l2Enabled) return item.review_status;
   const advice = await l2AiAdvice(item, { ...options, config });
-  item.ai_advice = advice;
+  let finalAdvice = advice;
+  // config.review.web_verify 显式 false 时不核验（与核验接入前行为一致）
+  if (finalAdvice && config?.review?.web_verify !== false) {
+    const verifyAdvice = options.verifyAdviceWithWeb || verifyAdviceWithWeb;
+    finalAdvice = await verifyAdvice(item, finalAdvice, { ...options, config });
+  }
+  item.ai_advice = finalAdvice;
   return item.review_status;
 }
 
@@ -264,7 +289,10 @@ function mergeTargetsIntoFreshStore(fresh, targets, options = {}) {
     const ours = oursById.get(String(candidate && candidate.id));
     if (!ours || candidate.review_status === 'discarded') continue;
 
-    const stillNeedsReview = !candidate.reviewed_at && needsReviewWork(candidate, { l2Enabled: options.l2Enabled !== false });
+    const stillNeedsReview = !candidate.reviewed_at && needsReviewWork(candidate, {
+      l2Enabled: options.l2Enabled !== false,
+      webVerifyEnabled: options.webVerifyEnabled !== false,
+    });
     if (stillNeedsReview && ours.l1_review?.verdict && !ours.reviewed_at) {
       candidate.review_status = ours.review_status;
       candidate.l1_review = ours.l1_review;

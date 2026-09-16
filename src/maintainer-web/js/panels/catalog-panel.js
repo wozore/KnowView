@@ -1,5 +1,6 @@
 import { request, listFrom, ApiError } from '../api.js';
 import { state, $, addText, addBadge, clearChildren, showNotice } from '../state.js';
+import { discardButtonFor } from './catalog-draft-discard.js';
 export function recoveryControlsFor(draft, content, onRefreshAll) {
   if (!draft.recovery_kind || draft.readiness === 'ready') return;
   const panel = document.createElement('div');
@@ -10,6 +11,7 @@ export function recoveryControlsFor(draft, content, onRefreshAll) {
   const researchCanResume = draft.recovery_mode === 'research_resume' && ['evidence_required', 'seed_or_profile_required'].includes(draft.recovery_kind);
   if (draft.recovery_kind === 'manual_required' || (['evidence_required', 'seed_or_profile_required'].includes(draft.recovery_kind) && !researchCanResume)) {
     addText(panel, 'p', '此 Draft 需要人工补充资料或修正候选信息，不能通过运行配置重试。', 'muted');
+    discardButtonFor(draft, panel, onRefreshAll);
     content.appendChild(panel);
     return;
   }
@@ -49,6 +51,7 @@ export function recoveryControlsFor(draft, content, onRefreshAll) {
   result.className = 'recovery-result';
   panel.appendChild(controls);
   panel.appendChild(result);
+  discardButtonFor(draft, panel, onRefreshAll);
   action.addEventListener('click', () => recoverDraft(draft, { action, checkbox, inputs, result }, onRefreshAll));
   content.appendChild(panel);
 }
