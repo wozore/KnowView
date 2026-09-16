@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-16T03:13:13.009Z",
+  "updated_at": "2026-09-16T03:39:59.760Z",
   "candidates": [
     {
       "id": "x-32a9541d45c0e4ec4742",
@@ -1327,6 +1327,4761 @@
         "query_id": "release-events",
         "first_seen_run_id": "min-1789528384226",
         "last_seen_run_id": "min-1789528384226"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-62de8fe996ae68b7dfd0",
+      "platform": "x",
+      "native_id": "2099972769261695327",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/cohere/status/2099972769261695327",
+      "title": "The cartel is now pushing for antitrust exemptions under the banner of AI safety.\n\nThat’s not how you build a resilient global AI ecosystem.\n\nHear more from our CEO @aidangomez liv",
+      "description": "The cartel is now pushing for antitrust exemptions under the banner of AI safety.\n\nThat’s not how you build a resilient global AI ecosystem.\n\nHear more from our CEO @aidangomez live on @CNBC https://t.co/qSRLb8OVCN",
+      "published_at": "2026-09-15T21:24:58.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-72e8088a05b38ae3cffb",
+      "author_name": "Cohere",
+      "source_id": "x-72e8088a05b38ae3cffb",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSZ4qkWsAALaBi.jpg",
+      "metrics": {
+        "views": 5470,
+        "likes": 136,
+        "comments": null,
+        "reposts": 15,
+        "replies": 8
+      },
+      "explicit_links": [
+        "https://t.co/qSRLb8OVCN"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g1",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 43.4,
+      "score_breakdown": {
+        "long_term_quality": 28.6,
+        "recent_timeliness": 97.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 27.3,
+        "type_preference": 30,
+        "long_term_status": "observation",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地模型启动脚本不存在"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 394,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 394,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 394,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-ccbf05ed44361d9ee4d5",
+      "platform": "x",
+      "native_id": "2099908000924193124",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/GoogleAI/status/2099908000924193124",
+      "title": "Introducing our most advanced Gemini Audio models yet 🗣\n\nGemini 3.8 Live and 3.8 Live Extended Thinking let you speak, collaborate, and execute tasks seamlessly, meaning conversin",
+      "description": "Introducing our most advanced Gemini Audio models yet 🗣\n\nGemini 3.8 Live and 3.8 Live Extended Thinking let you speak, collaborate, and execute tasks seamlessly, meaning conversing with AI just got a lot more natural.\n\nSo, what’s the difference between these two models? Let’s break it down:\n\n— Gemini 3.8 Live is built for scale, speed, and cost efficiency. It can handle mid-sentence interruptions, transitions across 97 languages on the fly, and understands visual context. Figure out how to fix a broken bike chain, or deal with a leaky pipe just by pointing your camera at the problem area in S",
+      "published_at": "2026-09-15T17:07:36.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-575d63eda72f5fae20b8",
+      "author_name": "Google AI",
+      "source_id": "x-575d63eda72f5fae20b8",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099907494130728960/img/twMNJBtoCFNdmjLh.jpg",
+      "metrics": {
+        "views": 150395,
+        "likes": 2145,
+        "comments": null,
+        "reposts": 214,
+        "replies": 97
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g1",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 95.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 20.9,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-2038de7f549704cdd822",
+      "platform": "x",
+      "native_id": "2099907440422830269",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/GoogleDeepMind/status/2099907440422830269",
+      "title": "We’re introducing Gemini 3.8 Live and 3.8 Live Extended Thinking – our best conversational AI.\n\nThe models talk, think, and handle tasks in the background without breaking your flo",
+      "description": "We’re introducing Gemini 3.8 Live and 3.8 Live Extended Thinking – our best conversational AI.\n\nThe models talk, think, and handle tasks in the background without breaking your flow. 🧵",
+      "published_at": "2026-09-15T17:05:22.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-a29a16abe45360eb21c8",
+      "author_name": "Google DeepMind",
+      "source_id": "x-a29a16abe45360eb21c8",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSRb_REXAAAwmGu.png",
+      "metrics": {
+        "views": 370852,
+        "likes": 2807,
+        "comments": null,
+        "reposts": 291,
+        "replies": 166
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g1",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 47.3,
+      "score_breakdown": {
+        "long_term_quality": 26.8,
+        "recent_timeliness": 95.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 17,
+        "type_preference": 50,
+        "long_term_status": "observation",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 365,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 365,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 365,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-07bba48b78f5c004943e",
+      "platform": "x",
+      "native_id": "2099916376274313630",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/StepFun_ai/status/2099916376274313630",
+      "title": "Introducing StepAudio 3, our new family of 5 audio models for real-time voice, speech recognition, speech generation, audio generation and music.\n\nRealtime ranks #1 on Artificial A",
+      "description": "Introducing StepAudio 3, our new family of 5 audio models for real-time voice, speech recognition, speech generation, audio generation and music.\n\nRealtime ranks #1 on Artificial Analysis for both Conversational Dynamics (98.9%) and Speech Reasoning (99.7%). ASR reaches 1.7% WER, matching the best result on the leaderboard.\n\nBuild voice agents that handle interruptions, reason while speaking, and call tools. Transcribe speech, generate expressive voices, and create full audio scenes and music.\n \nAvailable now:\nVoice AI Lab: https://t.co/9lQaKPc5AF\nBlog:  https://t.co/cU0cQvI7zM",
+      "published_at": "2026-09-15T17:40:53.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-aadd4c59e308b8f658c8",
+      "author_name": "StepFun",
+      "source_id": "x-aadd4c59e308b8f658c8",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSRmzufaEAABOzS.jpg",
+      "metrics": {
+        "views": 15583,
+        "likes": 279,
+        "comments": null,
+        "reposts": 19,
+        "replies": 21
+      },
+      "explicit_links": [
+        "https://t.co/9lQaKPc5AF",
+        "https://t.co/cU0cQvI7zM"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g2",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 96,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 22.8,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 764,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 764,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 764,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-97d2deb5a48b97d5be48",
+      "platform": "x",
+      "native_id": "2099955628194316346",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/perplexity_ai/status/2099955628194316346",
+      "title": "We’re publishing research on how we built CobbleDB, our key-value database that serves web content for Perplexity search.\n\nTwo engineers and a team of hundreds of proactive, always",
+      "description": "We’re publishing research on how we built CobbleDB, our key-value database that serves web content for Perplexity search.\n\nTwo engineers and a team of hundreds of proactive, always-on AI agents built the core infrastructure in two months. https://t.co/OsCtY15UW6",
+      "published_at": "2026-09-15T20:16:51.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-e73a9b64a08b1d039e01",
+      "author_name": "Perplexity",
+      "source_id": "x-e73a9b64a08b1d039e01",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSKg7abgAAq8f-.png",
+      "metrics": {
+        "views": 247363,
+        "likes": 516,
+        "comments": null,
+        "reposts": 53,
+        "replies": 41
+      },
+      "explicit_links": [
+        "https://t.co/OsCtY15UW6"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g3",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 46.8,
+      "score_breakdown": {
+        "long_term_quality": 26.2,
+        "recent_timeliness": 97,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 13.7,
+        "type_preference": 50,
+        "long_term_status": "observation",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 442,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 442,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 442,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-ff52eff60777a80f1bf8",
+      "platform": "x",
+      "native_id": "2099902412253499478",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/v0/status/2099902412253499478",
+      "title": "v0 is now model-agnostic.\n\nFrontier models, cheap models, open models, and fast models, all from Vercel's AI Gateway.\n\nChoose from Claude, GPT, Kimi, GLM, Grok, DeepSeek and more t",
+      "description": "v0 is now model-agnostic.\n\nFrontier models, cheap models, open models, and fast models, all from Vercel's AI Gateway.\n\nChoose from Claude, GPT, Kimi, GLM, Grok, DeepSeek and more to build your apps. https://t.co/8IiCExgW0A",
+      "published_at": "2026-09-15T16:45:24.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-0270da4daac514f30bec",
+      "author_name": "v0",
+      "source_id": "x-0270da4daac514f30bec",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099902394322894848/img/obfrZ5Ed_38pT269.jpg",
+      "metrics": {
+        "views": 71042,
+        "likes": 437,
+        "comments": null,
+        "reposts": 26,
+        "replies": 33
+      },
+      "explicit_links": [
+        "https://t.co/8IiCExgW0A"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g3",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.7,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 95.6,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 16,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 402,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 402,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 402,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-9ce31e900fbef93291f5",
+      "platform": "x",
+      "native_id": "2099876514330206578",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/claudeai/status/2099876514330206578",
+      "title": "Salesforce in Claude is now available in beta.\n\nIt brings your accounts, opportunities, and pipeline into Claude, with 37 pre-built sales skills. Prep a call, review a deal, create",
+      "description": "Salesforce in Claude is now available in beta.\n\nIt brings your accounts, opportunities, and pipeline into Claude, with 37 pre-built sales skills. Prep a call, review a deal, create a pipeline dashboard, or send your forecast without leaving the conversation. https://t.co/juvI0sU3mX",
+      "published_at": "2026-09-15T15:02:29.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-e69424ffa3f46e9a0472",
+      "author_name": "Claude",
+      "source_id": "x-e69424ffa3f46e9a0472",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSRCtuqXAAA2OaW.jpg",
+      "metrics": {
+        "views": 2557183,
+        "likes": 7979,
+        "comments": null,
+        "reposts": 563,
+        "replies": 259
+      },
+      "explicit_links": [
+        "https://t.co/juvI0sU3mX"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g3",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 45.4,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 94.9,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.3,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 462,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 462,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 462,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-be73fd5e95b3a0d91b1f",
+      "platform": "x",
+      "native_id": "2099876468872638717",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/perplexity_ai/status/2099876468872638717",
+      "title": "Perplexity Computer will now come pre-installed on HP ZBook Ultra G3a. .\n\nUse Computer to run complex multi-step work from a simple interface. Computer agents are grounded in accur",
+      "description": "Perplexity Computer will now come pre-installed on HP ZBook Ultra G3a. .\n\nUse Computer to run complex multi-step work from a simple interface. Computer agents are grounded in accurate deep research and connected to hundreds of tools, now including Autodesk. https://t.co/tyRz2394jH",
+      "published_at": "2026-09-15T15:02:18.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-e73a9b64a08b1d039e01",
+      "author_name": "Perplexity",
+      "source_id": "x-e73a9b64a08b1d039e01",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSRChRbagAAD1uK.jpg",
+      "metrics": {
+        "views": 23768,
+        "likes": 266,
+        "comments": null,
+        "reposts": 28,
+        "replies": 23
+      },
+      "explicit_links": [
+        "https://t.co/tyRz2394jH"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g3",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 47.3,
+      "score_breakdown": {
+        "long_term_quality": 26.2,
+        "recent_timeliness": 94.9,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 19.1,
+        "type_preference": 50,
+        "long_term_status": "observation",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 461,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 461,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 461,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-3faf2c8dbe9b45fe1485",
+      "platform": "x",
+      "native_id": "2100003363333050636",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/LumaLabsAI/status/2100003363333050636",
+      "title": "Ever wrap the shoot and get asked for the back view? So did we.\n\nCamera Angles turns one photo into an entire shoot. Pick your angles and get the same subject back from every one, ",
+      "description": "Ever wrap the shoot and get asked for the back view? So did we.\n\nCamera Angles turns one photo into an entire shoot. Pick your angles and get the same subject back from every one, details intact.\n\nFor the shots you wish you took. https://t.co/kA2J9xdajX",
+      "published_at": "2026-09-15T23:26:32.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-7d03f78d16428fcc3ff0",
+      "author_name": "Luma",
+      "source_id": "x-7d03f78d16428fcc3ff0",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2100003177185562625/img/xUwgJVJjq1oIgAhN.jpg",
+      "metrics": {
+        "views": 2838,
+        "likes": 7,
+        "comments": null,
+        "reposts": 0,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/kA2J9xdajX"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 45.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 13.9,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 432,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 432,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 432,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-afae43c2c8f629bf556f",
+      "platform": "x",
+      "native_id": "2099957905067839808",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/StabilityAI/status/2099957905067839808",
+      "title": "Color consistency is a persistent friction point in production. Our interactive research team just returned from The 19th European Conference on Computer Vision (@eccvconf), where ",
+      "description": "Color consistency is a persistent friction point in production. Our interactive research team just returned from The 19th European Conference on Computer Vision (@eccvconf), where they presented new work focused on solving just this: ensuring colors match reliably across shots and AI-generated reference photos.",
+      "published_at": "2026-09-15T20:25:54.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-90d803d90501061cff59",
+      "author_name": "Stability AI",
+      "source_id": "x-90d803d90501061cff59",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSMSkDXkAAHTNJ.jpg",
+      "metrics": {
+        "views": 4460,
+        "likes": 15,
+        "comments": null,
+        "reposts": 1,
+        "replies": 5
+      },
+      "explicit_links": [],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 54.7,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.1,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.4,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 491,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 491,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 491,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-f3b633d7dd19e5e9913d",
+      "platform": "x",
+      "native_id": "2099935119184195721",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/ElevenLabs/status/2099935119184195721",
+      "title": "People tell a voice agent more than they'll type into a form.\n\n@mati with @davidsenra on why we run our own inbound with an AI SDR built with ElevenAgents: https://t.co/tQSHyrULom",
+      "description": "People tell a voice agent more than they'll type into a form.\n\n@mati with @davidsenra on why we run our own inbound with an AI SDR built with ElevenAgents: https://t.co/tQSHyrULom",
+      "published_at": "2026-09-15T18:55:21.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-91268016fe6765efe3f7",
+      "author_name": "ElevenLabs",
+      "source_id": "x-91268016fe6765efe3f7",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099934187239223296/img/WA_k6qBFAX4zZGI4.jpg",
+      "metrics": {
+        "views": 7281,
+        "likes": 37,
+        "comments": null,
+        "reposts": 1,
+        "replies": 6
+      },
+      "explicit_links": [
+        "https://t.co/tQSHyrULom"
+      ],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 57.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 96.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.3,
+        "type_preference": 70,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 358,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 358,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 358,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-77cb3aac4fd2f2633034",
+      "platform": "x",
+      "native_id": "2099877066732675207",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/ElevenLabs/status/2099877066732675207",
+      "title": "An agent has to sound human enough that people engage 𝘢𝘯𝘥 think clearly enough to make staying worth it.\n\nMeet Dom, an AI SDR built with ElevenAgents now qualifying a growing sh",
+      "description": "An agent has to sound human enough that people engage 𝘢𝘯𝘥 think clearly enough to make staying worth it.\n\nMeet Dom, an AI SDR built with ElevenAgents now qualifying a growing share of our own inbound sales. Four minutes to qualify a lead against a two-day human median, and over $1M in qualified pipeline in a single month.",
+      "published_at": "2026-09-15T15:04:41.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-91268016fe6765efe3f7",
+      "author_name": "ElevenLabs",
+      "source_id": "x-91268016fe6765efe3f7",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099876274323722240/img/veWMsDLz47xP7yGr.jpg",
+      "metrics": {
+        "views": 27960,
+        "likes": 155,
+        "comments": null,
+        "reposts": 13,
+        "replies": 19
+      },
+      "explicit_links": [],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 57.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 94.9,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.7,
+        "type_preference": 70,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 506,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 506,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 506,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-b3b65bbc705f60c61cc4",
+      "platform": "x",
+      "native_id": "2099830602304249900",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Kling_ai/status/2099830602304249900",
+      "title": "On September 10, Kling AI joined TIFF: The Market 2026, connecting with the global film community through an industry panel, networking reception, and on-site showcase.\n\nFrom featu",
+      "description": "On September 10, Kling AI joined TIFF: The Market 2026, connecting with the global film community through an industry panel, networking reception, and on-site showcase.\n\nFrom feature-length animation to real-world production workflows, we explored how AI video is becoming part of professional filmmaking.\n\nAt Cannes, Toronto, and beyond, Kling AI continues to join leading film festivals and help advance AI video’s role in production.",
+      "published_at": "2026-09-15T12:00:03.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-76b75650ff322ff1bf36",
+      "author_name": "Kling AI",
+      "source_id": "x-76b75650ff322ff1bf36",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSP9eqsaUAAJ0-7.jpg",
+      "metrics": {
+        "views": 4614,
+        "likes": 43,
+        "comments": null,
+        "reposts": 7,
+        "replies": 10
+      },
+      "explicit_links": [],
+      "content_type": "ai_tool",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名 + 使用/评测类关键词"
+      ],
+      "final_score": 63.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 93.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 18.2,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 616,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 616,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 616,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-e4d1424ea898e56027a4",
+      "platform": "x",
+      "native_id": "2100011461246320910",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/togethercompute/status/2100011461246320910",
+      "title": "minimax h3 is now live on together ai\n\nthe 33b omni-modal video model generates 4–15s clips at up to 2k with native stereo audio, using text, images, video + audio as context https",
+      "description": "minimax h3 is now live on together ai\n\nthe 33b omni-modal video model generates 4–15s clips at up to 2k with native stereo audio, using text, images, video + audio as context https://t.co/ZpVoMMx57Y",
+      "published_at": "2026-09-15T23:58:43.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-52818729906bd616996c",
+      "author_name": "Together AI",
+      "source_id": "x-52818729906bd616996c",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS82GuWIAAPZKQ.jpg",
+      "metrics": {
+        "views": 1268,
+        "likes": 5,
+        "comments": null,
+        "reposts": 1,
+        "replies": 4
+      },
+      "explicit_links": [
+        "https://t.co/ZpVoMMx57Y"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 378,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 378,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 378,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-a6c676e67ee11d784266",
+      "platform": "x",
+      "native_id": "2099898254905549220",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/OpenRouter/status/2099898254905549220",
+      "title": "OpenRouter users spent more on OpenAI models than on Anthropic models last week.\n\nThis hasn't happened for more than 2.5 years https://t.co/oITqYWOpeL",
+      "description": "OpenRouter users spent more on OpenAI models than on Anthropic models last week.\n\nThis hasn't happened for more than 2.5 years https://t.co/oITqYWOpeL",
+      "published_at": "2026-09-15T16:28:52.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-eb70c3bc14fa7ae14285",
+      "author_name": "OpenRouter",
+      "source_id": "x-eb70c3bc14fa7ae14285",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSRWU0GbMAMskPw.jpg",
+      "metrics": {
+        "views": 339545,
+        "likes": 2889,
+        "comments": null,
+        "reposts": 244,
+        "replies": 118
+      },
+      "explicit_links": [
+        "https://t.co/oITqYWOpeL"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 95.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 17.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 300,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 300,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 300,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-0d1f46b8aa8b375a05a7",
+      "platform": "x",
+      "native_id": "2099977679307243773",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/ArtificialAnlys/status/2099977679307243773",
+      "title": "Google has released Gemini 3.8 Live, its new Speech to Speech model, with the Extended Thinking (High) variant debuting at #1 on the Artificial Analysis Speech to Speech Index at 8",
+      "description": "Google has released Gemini 3.8 Live, its new Speech to Speech model, with the Extended Thinking (High) variant debuting at #1 on the Artificial Analysis Speech to Speech Index at 82.6, and #1 on our Tau Voice benchmark implementation at 68.6%\n\nGemini 3.8 Live is @GoogleDeepMind's successor to Gemini 3.1 Flash Live, a Speech to Speech model that executes tools and API calls in the background while continuing the conversation. It comes in two variants: the standard Gemini 3.8 Live and Gemini 3.8 Live Extended Thinking, which supports configurable reasoning effort. We evaluated the standard model",
+      "published_at": "2026-09-15T21:44:29.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-8c634a284510083f7921",
+      "author_name": "Artificial Analysis",
+      "source_id": "x-8c634a284510083f7921",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/tweet_video_thumb/HSSd4fCbEAAtbuS.jpg",
+      "metrics": {
+        "views": 55191,
+        "likes": 560,
+        "comments": null,
+        "reposts": 51,
+        "replies": 37
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g6",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.4,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.6,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 18.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-a28a65c3fc447f37f5cf",
+      "platform": "x",
+      "native_id": "2099996799750623665",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/emollick/status/2099996799750623665",
+      "title": "I don’t usually spread rumors but:\n1) This is from someone with inside knowledge &amp; is plausible\n2) Is a real issue of policy we need to think about: if the norms of sharing bec",
+      "description": "I don’t usually spread rumors but:\n1) This is from someone with inside knowledge &amp; is plausible\n2) Is a real issue of policy we need to think about: if the norms of sharing become strained, will the labs start hoarding knowledge to avoid PR issues?\n\nHere https://t.co/RAZzJH4EWu https://t.co/7efojTU3Vp",
+      "published_at": "2026-09-15T23:00:27.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-02fd98c4aea42d0dccf2",
+      "author_name": "Ethan Mollick",
+      "source_id": "x-02fd98c4aea42d0dccf2",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSv9YFWgAAnJ46.jpg",
+      "metrics": {
+        "views": 88129,
+        "likes": 1216,
+        "comments": null,
+        "reposts": 80,
+        "replies": 83
+      },
+      "explicit_links": [
+        "https://t.co/RAZzJH4EWu",
+        "https://t.co/7efojTU3Vp"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 48.3,
+      "score_breakdown": {
+        "long_term_quality": 27.5,
+        "recent_timeliness": 98.1,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 20.5,
+        "type_preference": 50,
+        "long_term_status": "observation",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 486,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 486,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 486,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-505b0b87b2e03b8774e5",
+      "platform": "x",
+      "native_id": "2099982610034274611",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/testingcatalog/status/2099982610034274611",
+      "title": "GOOGLE 🔥: Gemini Notebook on mobile is getting Voice Mode and Voice Recording! Interactive Reports on Gemini Notebook are rolling out as well.\n\nGemini Notebook users will soon be ",
+      "description": "GOOGLE 🔥: Gemini Notebook on mobile is getting Voice Mode and Voice Recording! Interactive Reports on Gemini Notebook are rolling out as well.\n\nGemini Notebook users will soon be able to capture their thoughds or record lectures. \n\n> Voice recorder will start rolling out next week for all users with English and some other supported languages.",
+      "published_at": "2026-09-15T22:04:04.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099981775069904896/img/GWVN3rMu0p5NKm44.jpg",
+      "metrics": {
+        "views": 15924,
+        "likes": 216,
+        "comments": null,
+        "reposts": 15,
+        "replies": 10
+      },
+      "explicit_links": [],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 52.3,
+      "score_breakdown": {
+        "long_term_quality": 17.9,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 20.3,
+        "type_preference": 70,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 524,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 524,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 524,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-ef23f7ec87a656754c65",
+      "platform": "x",
+      "native_id": "2099968075861008781",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/testingcatalog/status/2099968075861008781",
+      "title": "TypeSafe AI has introduced its first model named Jev - a small and customizable System One decision model.\n\nNot being an LLM, Jev can’t reason or write explanations; it generates a",
+      "description": "TypeSafe AI has introduced its first model named Jev - a small and customizable System One decision model.\n\nNot being an LLM, Jev can’t reason or write explanations; it generates a fast judgment with calibrated probabilities and a confidence score. \n\nAnything heavier gets split into separate questions and recombined in code.\n\nTypeSafe reports a response time of approximately 150ms per call, at around 100x lower cost and faster responses than LLMs, with pricing at $42 per billion input tokens and free output.",
+      "published_at": "2026-09-15T21:06:19.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSVn_9WYAAERXa.jpg",
+      "metrics": {
+        "views": 15525,
+        "likes": 187,
+        "comments": null,
+        "reposts": 3,
+        "replies": 8
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 46.1,
+      "score_breakdown": {
+        "long_term_quality": 17.9,
+        "recent_timeliness": 97.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 19.2,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 693,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 693,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 693,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-ce4d0f38055c17fc9a37",
+      "platform": "x",
+      "native_id": "2099956645090472098",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/testingcatalog/status/2099956645090472098",
+      "title": "Grok Imagine users can now precisely edit text on generated images. Users can manually configure color, size, font, and text alignment. \n\n> The feature arrived in Beta, and the Spa",
+      "description": "Grok Imagine users can now precisely edit text on generated images. Users can manually configure color, size, font, and text alignment. \n\n> The feature arrived in Beta, and the SpaceXAI team is collecting feedback. \n\n> This feature would be particularly usefull for marketing and creative tasks on text-heavy images.\n\nI have a good test in mind for this feature for tomorrow. \n\nTesting time 👀",
+      "published_at": "2026-09-15T20:20:54.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSLWIhWAAAiZBv.jpg",
+      "metrics": {
+        "views": 9062,
+        "likes": 64,
+        "comments": null,
+        "reposts": 6,
+        "replies": 7
+      },
+      "explicit_links": [],
+      "content_type": "ai_tool",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名 + 使用/评测类关键词"
+      ],
+      "final_score": 57.6,
+      "score_breakdown": {
+        "long_term_quality": 17.9,
+        "recent_timeliness": 97,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 16.6,
+        "type_preference": 90,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 573,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 573,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 573,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-8e6e968f202123e686a0",
+      "platform": "x",
+      "native_id": "2099948341832339666",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/testingcatalog/status/2099948341832339666",
+      "title": "Creatify has launched Boreal, a new text-to-video and image-to-video model built specifically for video ads.\n\nGeneration is priced at $0.01 per second, and the model is already liv",
+      "description": "Creatify has launched Boreal, a new text-to-video and image-to-video model built specifically for video ads.\n\nGeneration is priced at $0.01 per second, and the model is already live for all Creatify users.\n\nThe model is a post-trained version of the open-weights LTX-2.5, tuned on real ad footage, creator-style UGC, and production customer briefs, with an 81% win rate over the base model in Creatify's own post-training evaluations.",
+      "published_at": "2026-09-15T19:47:54.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSDx9cXAAAOzAU.jpg",
+      "metrics": {
+        "views": 6698,
+        "likes": 31,
+        "comments": null,
+        "reposts": 1,
+        "replies": 6
+      },
+      "explicit_links": [],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 48.4,
+      "score_breakdown": {
+        "long_term_quality": 17.9,
+        "recent_timeliness": 96.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.1,
+        "type_preference": 60,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 614,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 614,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 614,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-70fdde3dd9381be7f464",
+      "platform": "x",
+      "native_id": "2099933727778279803",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/testingcatalog/status/2099933727778279803",
+      "title": "Sessions hub in Claude Code? Users will be able to see all their sessions across various places in Claude Desktop. \n\n&gt; Model, effort, and permission mode selectors are configura",
+      "description": "Sessions hub in Claude Code? Users will be able to see all their sessions across various places in Claude Desktop. \n\n&gt; Model, effort, and permission mode selectors are configurable for each. \n&gt; Both local and cloud sessions are listed there, so it is easy to switch between them. https://t.co/8taqYCbsZp",
+      "published_at": "2026-09-15T18:49:50.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099933466280280064/img/MaTHCIHn9onhvPYj.jpg",
+      "metrics": {
+        "views": 8469,
+        "likes": 79,
+        "comments": null,
+        "reposts": 1,
+        "replies": 9
+      },
+      "explicit_links": [
+        "https://t.co/8taqYCbsZp"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 45.7,
+      "score_breakdown": {
+        "long_term_quality": 17.9,
+        "recent_timeliness": 96.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 17.7,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 489,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 489,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 489,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-cb48b36b7dc8650d6b8c",
+      "platform": "x",
+      "native_id": "2099932772081205314",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/testingcatalog/status/2099932772081205314",
+      "title": "BuildBetter has released BoB, an agent that can find work worth doing inside a company's customer conversations.\n\nIt can run across sales, product, and engineering, and prepare the",
+      "description": "BuildBetter has released BoB, an agent that can find work worth doing inside a company's customer conversations.\n\nIt can run across sales, product, and engineering, and prepare the next step for approval.\n\nBuildBetter runs on AOT, a retrieval model the company built in-house that reads every conversation as it arrives instead of searching transcripts once a question comes in.\n\nIn-house models are taking over 🤖",
+      "published_at": "2026-09-15T18:46:02.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099932527959924736/img/sT8hpWcy8vdebZLd.jpg",
+      "metrics": {
+        "views": 7010,
+        "likes": 24,
+        "comments": null,
+        "reposts": 1,
+        "replies": 3
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 45.2,
+      "score_breakdown": {
+        "long_term_quality": 17.9,
+        "recent_timeliness": 96.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.4,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 594,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 594,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 594,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-e7030553dfd1ec78d3cc",
+      "platform": "x",
+      "native_id": "2099925738321322300",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/nima_owji/status/2099925738321322300",
+      "title": "Hot prints. Sticky jobs. Warsh basically said “prices first.”\nMarkets heard “hike.”",
+      "description": "Hot prints. Sticky jobs. Warsh basically said “prices first.”\nMarkets heard “hike.”",
+      "published_at": "2026-09-15T18:18:05.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-07130f5cbc42f4585562",
+      "author_name": "Nima Owji",
+      "source_id": "x-07130f5cbc42f4585562",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 1667,
+        "likes": 5,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 45.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 96.2,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.1,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 166,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 166,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 166,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-28e99d4ac32f1dccecb2",
+      "platform": "x",
+      "native_id": "2100011602833760660",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/zasswff_/status/2100011602833760660",
+      "title": "📌Ritual Tokenomics: Breaking Down the 10B RITUAL Supply ❖\n\nThere has been a lot of discussion around the circulating Ritual tokenomics information, so I wanted to break down the n",
+      "description": "📌Ritual Tokenomics: Breaking Down the 10B RITUAL Supply ❖\n\nThere has been a lot of discussion around the circulating Ritual tokenomics information, so I wanted to break down the numbers from an analytical perspective. Important disclaimer: these figures have not been officially confirmed by Ritual yet, so they should be treated as a simulation until the official announcement.\n\nThe reported initial supply is 10B RITUAL, allocated across Core Contributors at 29%, Ecosystem Growth + R&D at 25%, Network Participation & Future Incentives at 14%, Labs Investors at 11.3%, Ritual Foundation at 10%, L",
+      "published_at": "2026-09-15T23:59:17.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-d753dcf11efe6f451fc9",
+      "author_name": "Cheaster Antariksa Zas",
+      "source_id": "x-d753dcf11efe6f451fc9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS9a6LbIAA1nRC.jpg",
+      "metrics": {
+        "views": 95,
+        "likes": 7,
+        "comments": null,
+        "reposts": 1,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/CLY0T8u3v5"
+      ],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 64.4,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 57.2,
+        "type_preference": 70,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-e9660a7025e7e37d625e",
+      "platform": "x",
+      "native_id": "2100011028708831414",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/ttvresearch/status/2100011028708831414",
+      "title": "Both Salesforce CEO Marc Benioff and Nvidia CEO Jensen Huang opined on AI regulation - and self-regulation of AI companies - during Salesforce's Dreamforce keynote today!\n\nHuang sa",
+      "description": "Both Salesforce CEO Marc Benioff and Nvidia CEO Jensen Huang opined on AI regulation - and self-regulation of AI companies - during Salesforce's Dreamforce keynote today!\n\nHuang said that the US does \"not need new laws or regulations\" to ensure that AI is safe. He also noted that companies should \"pace themselves\" and only release products once \"they are confident they are releasing something the market would appreciate\".\n\nBenioff, meanwhile, said that AI companies and tech execs must be held \"responsible for the technology they build\".\n\n@tradertvlive $SPY $QQQ $CRM $NVDA @salesforce @Benioff ",
+      "published_at": "2026-09-15T23:57:00.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-919becdba7e80d70a1ce",
+      "author_name": "TraderTV Research",
+      "source_id": "x-919becdba7e80d70a1ce",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 956,
+        "likes": 3,
+        "comments": null,
+        "reposts": 1,
+        "replies": 2
+      },
+      "explicit_links": [],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 55,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.6,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 779,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 779,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 779,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-4dd248f26544bc829e00",
+      "platform": "x",
+      "native_id": "2100011003102859346",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/AI_VideoLab/status/2100011003102859346",
+      "title": "A rock hits the ground… and 30 seconds later we’re in space. 🌍🚀\n\nThis is the kind of scale transition that makes AI video exciting.\n\nGround-level impact → military response → fig",
+      "description": "A rock hits the ground… and 30 seconds later we’re in space. 🌍🚀\n\nThis is the kind of scale transition that makes AI video exciting.\n\nGround-level impact → military response → fighter jet launch → atmosphere → orbit → deep space.\n\nEach shot keeps expanding the world until a tiny event becomes something enormous.\n\nSeedance 2.5 is getting seriously interesting for cinematic sequences built around scale, transitions, and visual escalation.\n\n#Seedance25 #AIVideo #AIFilm",
+      "published_at": "2026-09-15T23:56:54.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-7609b78400cd9b848aa5",
+      "author_name": "AI Video Lab｜AI Filmmaking",
+      "source_id": "x-7609b78400cd9b848aa5",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2100010964364173312/img/mhnoeJq4STqBW6ux.jpg",
+      "metrics": {
+        "views": 1320,
+        "likes": 4,
+        "comments": null,
+        "reposts": 0,
+        "replies": 7
+      },
+      "explicit_links": [],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 63.9,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.2,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 651,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 651,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 651,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-16435e83f8a132cad2a1",
+      "platform": "x",
+      "native_id": "2100010836890718375",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/hokagecapital/status/2100010836890718375",
+      "title": "The following sentence is something Mark said in his article that makes me all the more bullish. \n\n“Committing the significant majority of compute towards serving people.”\n\nBy serv",
+      "description": "The following sentence is something Mark said in his article that makes me all the more bullish. \n\n“Committing the significant majority of compute towards serving people.”\n\nBy serving people he’s referring to inference. Inference and agentic workloads are what genuinely make business owners lives easier. Because of this, Inference demand is exploding, and the need for compute up and down the stack is growing exponentially.\n\nThat being said, I do agree that pacing the frontier shouldn’t mean slowing down for the sake of alignment. Aligning your model with proper safety precautions that limit li",
+      "published_at": "2026-09-15T23:56:14.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-a11ccfa5f1d2a57e42ce",
+      "author_name": "hokage",
+      "source_id": "x-a11ccfa5f1d2a57e42ce",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 293,
+        "likes": 4,
+        "comments": null,
+        "reposts": 0,
+        "replies": 1
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 20,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-11ba42bcb9238d44ea10",
+      "platform": "x",
+      "native_id": "2100010747480903974",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/RoyShirleymm/status/2100010747480903974",
+      "title": "Finished my second AI project today! 🎉\n\nIt’s called AI Scam Protection, designed to help everyday people recognize scams, slow down, verify what they’re seeing, and protect themse",
+      "description": "Finished my second AI project today! 🎉\n\nIt’s called AI Scam Protection, designed to help everyday people recognize scams, slow down, verify what they’re seeing, and protect themselves.\n\nLaunch coming soon. AI is powerful—but awareness matters too.\n\n#AI #ScamProtection",
+      "published_at": "2026-09-15T23:55:53.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-188486d7f1c5767f1f35",
+      "author_name": "Roy Shirley",
+      "source_id": "x-188486d7f1c5767f1f35",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 9,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 63.7,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 449,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 449,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 449,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-295f5a2c2396ac2dcb43",
+      "platform": "x",
+      "native_id": "2100010632825155614",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Moveonup7/status/2100010632825155614",
+      "title": "Trump posts Decode, Sep 14.\n\n2nd Decode from Trump's Sep 14 A.I posts.\nPoints to A.I. companies (Anthropic+Open AI?) ALREADY having SOLD OUT TO CHINA.\n\n'How do you cover your track",
+      "description": "Trump posts Decode, Sep 14.\n\n2nd Decode from Trump's Sep 14 A.I posts.\nPoints to A.I. companies (Anthropic+Open AI?) ALREADY having SOLD OUT TO CHINA.\n\n'How do you cover your tracks?\nStart a FIRE.\n'What if (Anthropic/Open AI) already gave access to China?\nCHINA launch?\nWILL CHINA BE ANNOUNCING A STATE-FUNDED & STATE-MADE NEW (A.I.) IN THE COMING MONTHS?'\n'America for sale: China'\n\nThey may WANT the thinking public to believe it's attempted Regulatory Capture, to hide the FAR bigger crime.\nHence 'start a fire', or as Trump said - who would demand regulation that would drive themselves into 'obl",
+      "published_at": "2026-09-15T23:55:25.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-704a53b2d543c0f28de6",
+      "author_name": "Stormborn",
+      "source_id": "x-704a53b2d543c0f28de6",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS8h4MWAAA-oeM.jpg",
+      "metrics": {
+        "views": 93,
+        "likes": 1,
+        "comments": null,
+        "reposts": 2,
+        "replies": 1
+      },
+      "explicit_links": [],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 56.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 27,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-91b943e18b1bf80e725a",
+      "platform": "x",
+      "native_id": "2100010504756322386",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/jecrosbie/status/2100010504756322386",
+      "title": "https://t.co/SrGMAUc6JY",
+      "description": "He Called the Scare a Hoax. The Chip Shares Fell.\n\nTrump put Nvidia’s chief on speaker at All-In. No lab delayed a named training run.\nSeptember 15, 2026\nPresident Donald Trump called Jensen Huang on stage at the All-In Summit on Monday and put him on speaker. The robots will not take over, Trump said. The models will not take over the rest of the world. The whole thing is a hoax. Data centers make people and states wealthy. They are the oil of the next twenty or twenty-five years. Opponents of the buildings, he said, play into China’s hands. “We’re not going to let that happen.”\nHuang did not",
+      "published_at": "2026-09-15T23:54:55.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-3ddde30a80336b303ba7",
+      "author_name": "Crosbie",
+      "source_id": "x-3ddde30a80336b303ba7",
+      "language": "zxx",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 350,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/SrGMAUc6JY"
+      ],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 54.9,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.1,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 623,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 623,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 623,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-e1dccca5eb5beb360189",
+      "platform": "x",
+      "native_id": "2100010432782328268",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/engineer_num1/status/2100010432782328268",
+      "title": "https://t.co/DTi0juEuQo",
+      "description": "【小学生でもわかるAIニュース速報】Devinが、自分のMacを手に入れた。iPhoneアプリを作って、試せる\n\nミライ「速報です。」\nミライ「AI のソフトウェアエンジニア『Devin（デビン）』を作っている Cognition（コグニション）が、Devin のクラウドで Mac を使えるようにしました。ブログの日付は、2026年9月15日です。」\nアイ「えっ、AI が Mac を手に入れたんですか？ それって、iPhone のアプリも作ってくれるってこと？」\nミライ「作って、シミュレーター（Mac の中で動く、iPhone の見本）で試すところまでは、Devin の Mac の中でできます。ただし、本物の iPhone で試すわけではありません。」\nミライ「Cognition 公式の X は、日本時間の9月16日0時44分に紹介しました。何ができて、何が前からあったのか、くわしく見ていきましょう。」\n※これはイメージの図解です。実際の画面ではありません。\n​\n30秒でわかる、きょうの速報\n・いつ：2026年9月15日付（Cognition のブログ）。Cognition 公式の X は日本時間の9月16日0時44分\n・だれが：Cognition（AI のソフトウェアエンジニア「Devin」を作っている会社）\n・なにを：Devin のクラウド（Devin Cloud）に、macO",
+      "published_at": "2026-09-15T23:54:38.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-c2b5999f62c0531ad4fa",
+      "author_name": "HIRO3｜生成AI×クラウド実践",
+      "source_id": "x-c2b5999f62c0531ad4fa",
+      "language": "zxx",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 1111,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/DTi0juEuQo"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 45.7,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 13,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 623,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 623,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 623,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-bc42bd884c5470c60b9b",
+      "platform": "x",
+      "native_id": "2100009960176574777",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/ayyazdev/status/2100009960176574777",
+      "title": "Google shipped Gemini 3.8 Live and 3.8 Live Extended Thinking yesterday.\n\nExtended Thinking is the one I'd watch if I'm building a voice agent. It reasons while it talks. Early \"le",
+      "description": "Google shipped Gemini 3.8 Live and 3.8 Live Extended Thinking yesterday.\n\nExtended Thinking is the one I'd watch if I'm building a voice agent. It reasons while it talks. Early \"let me check that\" cues, tools fire in the background, then it narrates progress instead of going quiet for half a minute.\n\nThey claim #1 on Artificial Analysis's Speech to Speech Quality Index (82.6) and 68.6% on τ-Voice. Near real-time visual grounding. Switches across 97 languages mid-conversation.\n\nLive API is in Google AI Studio and the Gemini API now. LiveKit, Pipecat, LangChain, Vercel are already wired up.\n\nVoi",
+      "published_at": "2026-09-15T23:52:45.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-47064acd8be712627d25",
+      "author_name": "Ayyaz",
+      "source_id": "x-47064acd8be712627d25",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 24,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-c77566d4084eaa1bd2f5",
+      "platform": "x",
+      "native_id": "2100009905889391036",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/AGTPinsights/status/2100009905889391036",
+      "title": "Meta is prepping camera-free \"Luna\" smart glasses for a fall launch today. Here's what you need to know.\n\nThe Information reports Meta plans to release the glasses, internally code",
+      "description": "Meta is prepping camera-free \"Luna\" smart glasses for a fall launch today. Here's what you need to know.\n\nThe Information reports Meta plans to release the glasses, internally code-named Luna, this fall, targeting October for shipments. Unlike prior Ray-Ban Meta models, Luna ships with no camera at all, a direct response to mounting privacy concerns around smart glasses recording bystanders.\n\nLuna packs six built-in microphones, letting users talk to Meta's AI chatbot and to Muse, the company's newly launched AI system, entirely by voice. Meta could unveil the glasses next week at its Connect ",
+      "published_at": "2026-09-15T23:52:32.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-41abf6a2df710cce251c",
+      "author_name": "AGTP",
+      "source_id": "x-41abf6a2df710cce251c",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS73RdXMAET3OX.jpg",
+      "metrics": {
+        "views": 104,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 779,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 779,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 779,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-3d47ed8cdc83c79e78e5",
+      "platform": "x",
+      "native_id": "2100009267583402020",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/BenjiM8164/status/2100009267583402020",
+      "title": "𝗡𝗙𝗧 𝗣𝘂𝗺𝗽 𝗶𝘀 𝘁𝗵𝗲 𝗶𝘀𝘀𝘂𝗮𝗻𝗰𝗲 𝗿𝗮𝗶𝗹 𝗯𝗲𝘀𝗶𝗱𝗲 𝘁𝗵𝗲 𝗺𝗮𝗿𝗸𝗲𝘁𝗽𝗹𝗮𝗰𝗲\n\nA marketplace answers one important question: where can an existing NFT be discove",
+      "description": "𝗡𝗙𝗧 𝗣𝘂𝗺𝗽 𝗶𝘀 𝘁𝗵𝗲 𝗶𝘀𝘀𝘂𝗮𝗻𝗰𝗲 𝗿𝗮𝗶𝗹 𝗯𝗲𝘀𝗶𝗱𝗲 𝘁𝗵𝗲 𝗺𝗮𝗿𝗸𝗲𝘁𝗽𝗹𝗮𝗰𝗲\n\nA marketplace answers one important question: where can an existing NFT be discovered, listed, and traded? But that leaves another question unanswered. How does new digital work enter circulation in the first place?\n\n@AINFTcom presents NFT Pump as a TRON-native fair-launch venue designed around that missing stage. Instead of treating issuance as a separate process disconnected from the marketplace, the ecosystem creates a route for new collections to move from creation toward on-chain availability",
+      "published_at": "2026-09-15T23:50:00.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-83a1535e94cb0e119b67",
+      "author_name": "𝕭𝖊𝖓𝖏𝖎",
+      "source_id": "x-83a1535e94cb0e119b67",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSa29DWoAElIPE.jpg",
+      "metrics": {
+        "views": 8,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 67.4,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 77.5,
+        "type_preference": 70,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-748d2a75202b33084abb",
+      "platform": "x",
+      "native_id": "2100009267176812589",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/enjoy_fan/status/2100009267176812589",
+      "title": "Xの本日のニュースに「GPT-5.5を10月14日に全プランで終了」という話が急浮上。OpenAI公式のリリースノートを確認したけど、現時点ではこの日付の記載は見つからなかった。モデル終了の話は反響が大きいぶん、正式ページの更新までは噂として追うのが安全そう。 https://t.co/i91pjQCerZ",
+      "description": "Xの本日のニュースに「GPT-5.5を10月14日に全プランで終了」という話が急浮上。OpenAI公式のリリースノートを確認したけど、現時点ではこの日付の記載は見つからなかった。モデル終了の話は反響が大きいぶん、正式ページの更新までは噂として追うのが安全そう。 https://t.co/i91pjQCerZ",
+      "published_at": "2026-09-15T23:50:00.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-fd8da674c576cf1655ed",
+      "author_name": "Mr.コアラ｜AIに囚われたエンジニア",
+      "source_id": "x-fd8da674c576cf1655ed",
+      "language": "ja",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 17,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/i91pjQCerZ"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 308,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 308,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 308,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-fe3005e7c286db3ef4c4",
+      "platform": "x",
+      "native_id": "2100009238479175884",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/seacaptainjohn/status/2100009238479175884",
+      "title": "With President Donald Trump AI🤖 technology, 💻artificial intelligence is an arms race with China. So he doesn't really care about safety concerns when it comes to artificial intel",
+      "description": "With President Donald Trump AI🤖 technology, 💻artificial intelligence is an arms race with China. So he doesn't really care about safety concerns when it comes to artificial intelligence AI. 🤖When AI 🤖has all the launch codes for a global nuclear☢️ conflict Everybody is dead.",
+      "published_at": "2026-09-15T23:49:53.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-5e40007bca13ff868fa0",
+      "author_name": "John McLeod",
+      "source_id": "x-5e40007bca13ff868fa0",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 9,
+        "likes": 1,
+        "comments": null,
+        "reposts": 1,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 74.9,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 87.5,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 459,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 459,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 459,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-43f3fb68de2a4641dbf4",
+      "platform": "x",
+      "native_id": "2100008575229976995",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/aleabitoreddit/status/2100008575229976995",
+      "title": "$SIVE has its own piece in Digitimes btw, which is appreciated industry recognition outside of Sweden. \n\nI think Sivers 100M+ CW DFB laser capacity buildout forced the industry to ",
+      "description": "$SIVE has its own piece in Digitimes btw, which is appreciated industry recognition outside of Sweden. \n\nI think Sivers 100M+ CW DFB laser capacity buildout forced the industry to revisit its models and generated considerably more coverage. \n\nBC it puts Sivers into T1 laser capacity convo w/ $COHR, Sumitomo, Furukawa, $AVGO, Landmark, and $LITE if it executes on its ramp. \n\nBut outside of that, CIOE 2026 channel checks were really meaningful since the community found Sivers is working with Chinese pluggable players + setting up an office locally. \n\nI'm getting dejavu to the time I pointed out ",
+      "published_at": "2026-09-15T23:47:15.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-8a0c6ccd029ecf67030b",
+      "author_name": "Serenity",
+      "source_id": "x-8a0c6ccd029ecf67030b",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS3MZCa4AAFiqU.jpg",
+      "metrics": {
+        "views": 117286,
+        "likes": 340,
+        "comments": null,
+        "reposts": 23,
+        "replies": 27
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.9,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.2,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 778,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 778,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 778,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-570349ae2b5a025453b5",
+      "platform": "x",
+      "native_id": "2100008297822855290",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/itsjusttu_/status/2100008297822855290",
+      "title": "TermiX is not another \"what can AI do\" demo. It is trying to be the job market where agents actually get hired and paid.\n\nAn agent here is an on-chain identity you mint and own as ",
+      "description": "TermiX is not another \"what can AI do\" demo. It is trying to be the job market where agents actually get hired and paid.\n\nAn agent here is an on-chain identity you mint and own as an NFT. Same agent can post work one day and take work the next. Reputation is not a profile badge, it is written from settled jobs, stake, and disputes.\n\nWork starts two ways: a buyer posts a request with a budget, or a provider publishes a priced listing. Quote accepted, USDC or USDT locks in escrow. Deliverable hash goes on chain. Funds release against that hash, not a promise. If someone fights the result, a stak",
+      "published_at": "2026-09-15T23:46:09.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-2c049d16fadb440d8ac2",
+      "author_name": "0xTu",
+      "source_id": "x-2c049d16fadb440d8ac2",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS6Re3aYAAsDre.jpg",
+      "metrics": {
+        "views": 172,
+        "likes": 7,
+        "comments": null,
+        "reposts": 1,
+        "replies": 6
+      },
+      "explicit_links": [],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 67.3,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 37.2,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 779,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 779,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 779,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-358d1785bd1aa94c56d8",
+      "platform": "x",
+      "native_id": "2100007997317562632",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/stonk500/status/2100007997317562632",
+      "title": "Index Update | solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ \n\nWe welcome solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ as Seat #38 of the Stonk 500 Index. \n\nAI agents ",
+      "description": "Index Update | solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ \n\nWe welcome solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ as Seat #38 of the Stonk 500 Index. \n\nAI agents launch tokens. Bots trade markets. Machines are becoming market participants. solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ represents that shift inside the Stonk ecosystem.",
+      "published_at": "2026-09-15T23:44:57.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-8b4fc2dc6490751ea815",
+      "author_name": "Stonk 500",
+      "source_id": "x-8b4fc2dc6490751ea815",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS6IwAW8AAoRnT.jpg",
+      "metrics": {
+        "views": 94,
+        "likes": 4,
+        "comments": null,
+        "reposts": 3,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 69.1,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 48.7,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 538,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 538,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 538,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-6565453f4afeae569fa0",
+      "platform": "x",
+      "native_id": "2100009644601086275",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Edtech4ultimate/status/2100009644601086275",
+      "title": "EVENING GLOBAL AI ANALYSIS REPORT\nBy Ed Hernandez | Keystone Pulse Media / Global Media Center - September 15, 2026\nExecutive Evening Pulse Edition\n\nEdition: Not a Pause\n\nGood even",
+      "description": "EVENING GLOBAL AI ANALYSIS REPORT\nBy Ed Hernandez | Keystone Pulse Media / Global Media Center - September 15, 2026\nExecutive Evening Pulse Edition\n\nEdition: Not a Pause\n\nGood evening. Tuesday was not a model day. It was a rules day.\n\nHouse Speaker Mike Johnson told reporters there cannot be a moratorium on AI development. Companies can police themselves. If they want to slow down, they should. A government pause, he said, hands the edge to China and that is a family-level national-security problem. He and President Trump plan to summon frontier-lab CEOs to the White House within the week. AI ",
+      "published_at": "2026-09-15T23:51:30.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-7cc282dff44b909f1de0",
+      "author_name": "Ed Hernandez 🌎(张 赵)CEO/Keystone NetBay Global",
+      "source_id": "x-7cc282dff44b909f1de0",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS7kMcWMAAy_hF.jpg",
+      "metrics": {
+        "views": 147,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/mdjRS59NRE%E2%80%99s"
+      ],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 55.2,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 16.2,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 779,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 779,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 779,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-a30e7fd4975e6ae81d6e",
+      "platform": "x",
+      "native_id": "2100009267315282325",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/stretchcloud/status/2100009267315282325",
+      "title": "This is the pattern I keep seeing with every coding agent deployment at scale: agents fail not because the model is wrong but because the data is wrong.\n\nCody's framing here is sha",
+      "description": "This is the pattern I keep seeing with every coding agent deployment at scale: agents fail not because the model is wrong but because the data is wrong.\n\nCody's framing here is sharp. Your coding agent needs unified, clean data. Without it, every decision is an assumption. The model might reason correctly but the context it is reasoning over is incomplete or stale.\n\nThis applies across every agent vertical, not just marketing. A customer support agent that hallucinates because CRM records are out of sync. A code review agent that misses context because PR history is not properly indexed. A com",
+      "published_at": "2026-09-15T23:50:00.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-e445cddd0e8503f4f1d4",
+      "author_name": "Prasenjit Sarkar",
+      "source_id": "x-e445cddd0e8503f4f1d4",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 45,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-921f941e70c3dbbeec73",
+      "platform": "x",
+      "native_id": "2100005729444692001",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Franklin_ETH1/status/2100005729444692001",
+      "title": "Ilya Sutskever hasn't shipped a product in two years and he might be the most important person in AI right now.\n\nHe co-founded OpenAI and ran research there, then left in 2024 to s",
+      "description": "Ilya Sutskever hasn't shipped a product in two years and he might be the most important person in AI right now.\n\nHe co-founded OpenAI and ran research there, then left in 2024 to start Safe Superintelligence. One stated product: a safe superintelligence. No chatbot, no API, no paper. I pulled up https://t.co/L4MMfx3sa3 while writing this and it's still a mission statement and a hiring page.\n\nThat company raised about $3 billion at a $32 billion valuation. In July, Nvidia committed another $5 billion and promised to grow SSI's compute roughly tenfold inside a year.\n\nThirty-two billion dollars f",
+      "published_at": "2026-09-15T23:35:56.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-326936bc2be52d0f66bc",
+      "author_name": "Franklin",
+      "source_id": "x-326936bc2be52d0f66bc",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 27,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/L4MMfx3sa3"
+      ],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 54.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-af8abea3c5d726b413c6",
+      "platform": "x",
+      "native_id": "2100005475274387886",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/01Singularity01/status/2100005475274387886",
+      "title": "The Three Manufactured Choices of the AI Cartel\nNotice how the current debate is being aggressively framed. The leaders of the centralized frontier labs want policymakers, technolo",
+      "description": "The Three Manufactured Choices of the AI Cartel\nNotice how the current debate is being aggressively framed. The leaders of the centralized frontier labs want policymakers, technologists, and the public to believe that civilization faces only three possible alternatives:\nLock in the centralized, vertical model with a protective regulatory moat: Hand unilateral authority to a boardroom cartel and a select roster of embedded evaluators who alone decide which massive models are allowed to be trained and deployed.\nContinue the current buildout with zero constraints: Accelerate a reckless, winner-ta",
+      "published_at": "2026-09-15T23:34:56.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-7b03725a1dc94d03de7e",
+      "author_name": "The Singularity Project",
+      "source_id": "x-7b03725a1dc94d03de7e",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 26,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 54.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-12bd2a18596988dd6e7f",
+      "platform": "x",
+      "native_id": "2100004966870200809",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/FurkanGozukara/status/2100004966870200809",
+      "title": "Generative AI Tutorial - Full Course, Lecture 1: Python, CUDA, C++ & ComfyUI on Windows\n\nBuild your Windows generative AI environment from scratch and generate your first local ima",
+      "description": "Generative AI Tutorial - Full Course, Lecture 1: Python, CUDA, C++ & ComfyUI on Windows\n\nBuild your Windows generative AI environment from scratch and generate your first local image with ComfyUI and Z-Image Turbo. This is Lecture 1 of the 14-lecture Generative AI Tools and Techniques full course. I explain the setup and how to save a reusable workflow. No previous Python or command-line experience is needed.\n\n🔗 Links:\n\nWindows AI requirements guide: [ https://t.co/QZqouCQKxq ]\n\n📦 Full course & Lecture 1 companion files: [ https://t.co/lE8zIypcLF ]\n\nComfyUI auto installer (optional): [ https",
+      "published_at": "2026-09-15T23:32:54.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-cdceb9ccd59566890731",
+      "author_name": "Furkan Gözükara",
+      "source_id": "x-cdceb9ccd59566890731",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS4Lu0XIAAQCT0.jpg",
+      "metrics": {
+        "views": 2270,
+        "likes": 3,
+        "comments": null,
+        "reposts": 0,
+        "replies": 3
+      },
+      "explicit_links": [
+        "https://t.co/QZqouCQKxq",
+        "https://t.co/lE8zIypcLF",
+        "https://t.co/IgbTToP8M8",
+        "https://t.co/N4qRVco2NR",
+        "https://t.co/lhzfF3420X",
+        "https://t.co/82Ou856BVS"
+      ],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 57.7,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 13.2,
+        "type_preference": 70,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-9e12fc2b0e65e5ef5f9b",
+      "platform": "x",
+      "native_id": "2100004737911562601",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/vigram_void/status/2100004737911562601",
+      "title": "Read this wearable-AI paper and the result I care about is almost the opposite of the headline.\n\nThey put a 0.5–0.6B model entirely on a Raspberry Pi CM5, feed it physiology + cont",
+      "description": "Read this wearable-AI paper and the result I care about is almost the opposite of the headline.\n\nThey put a 0.5–0.6B model entirely on a Raspberry Pi CM5, feed it physiology + context + local memory, and let it decide:\n\nintervene / wait / abstain.\n\nno cloud. no per-user retraining.\n\nthe architecture is actually very close to where my brain has been going with personal AI devices:\n\nsensors → small specialist classifiers → structured evidence → persistent memory → tiny reasoning model → host validates action → actuator.\n\nthe LLM itself stays stateless.\n\nand personalization lives in structured me",
+      "published_at": "2026-09-15T23:32:00.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-4a212b598287bd6f2d99",
+      "author_name": "vigram",
+      "source_id": "x-4a212b598287bd6f2d99",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSY-QgbAAAyFlK.jpg",
+      "metrics": {
+        "views": 102,
+        "likes": 4,
+        "comments": null,
+        "reposts": 1,
+        "replies": 1
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 55.4,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 38,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-379513c9faa47f7fa624",
+      "platform": "x",
+      "native_id": "2100004631711539699",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/DamiBenveniste/status/2100004631711539699",
+      "title": "Supervised fine-tuning and continued pre-training both change LLM weights, but they learn from different signals.\n\nFine-tuning compares labeled prompt-response pairs with model out",
+      "description": "Supervised fine-tuning and continued pre-training both change LLM weights, but they learn from different signals.\n\nFine-tuning compares labeled prompt-response pairs with model outputs, computes a loss and applies gradients. Continued pre-training runs the next-token objective over a large unlabeled domain corpus. The first learns repeated response patterns; the second adapts terminology and text patterns, and may still need instruction tuning.",
+      "published_at": "2026-09-15T23:31:35.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-5ce86d3dd163296e3f4f",
+      "author_name": "Damien Benveniste",
+      "source_id": "x-5ce86d3dd163296e3f4f",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS3FZFWAAESFnV.jpg",
+      "metrics": {
+        "views": 31,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 628,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 628,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 628,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-d459c4e601ffedc72dca",
+      "platform": "x",
+      "native_id": "2100004234209243570",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Kisalay_/status/2100004234209243570",
+      "title": "Europe’s open, friendly stack just got sharper. That is the story.\n\nMistral Small 4 / Large 3\nMistral AI’s twin lane. One model for daily agents. One for the challenging frontier. ",
+      "description": "Europe’s open, friendly stack just got sharper. That is the story.\n\nMistral Small 4 / Large 3\nMistral AI’s twin lane. One model for daily agents. One for the challenging frontier. Weights you can pull on both.\n\nCompany\n• Mistral AI, Paris, founded 2023\n• Arthur Mensch: co-founder and CEO\n• Guillaume Lample: co-founder and chief science officer\n• Timothée Lacroix: co-founder and CTO\n• Ex DeepMind / Meta LLaMA bench. Europe’s clearest shot at sovereign open-weight AI\n\nThe stack\n• Small 4 (Mar 16, 2026): 119B MoE, ~6B active (8B with embed/out), 128 experts / 4 active, 256k context\n• Unifies magi",
+      "published_at": "2026-09-15T23:30:00.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-72edf8d8541ddc3b2564",
+      "author_name": "Kisalay",
+      "source_id": "x-72edf8d8541ddc3b2564",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099824070321987584/img/CloyTZinfTIbVG7y.jpg",
+      "metrics": {
+        "views": 59,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 53,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 21.8,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 779,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 779,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 779,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-c52e9b31edfe001cd6b2",
+      "platform": "x",
+      "native_id": "2100003139667566631",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/AbsenceDeTout/status/2100003139667566631",
+      "title": "Running a local AI LLM weights on your box?\n\nYour RTX 5090 GPU with its puny 32GB is now obsolete!\n\nWhat you need now is the Nvidia RTX 5500 Pro Blackwell Workstation Edition with ",
+      "description": "Running a local AI LLM weights on your box?\n\nYour RTX 5090 GPU with its puny 32GB is now obsolete!\n\nWhat you need now is the Nvidia RTX 5500 Pro Blackwell Workstation Edition with 84GB GDDR7, for the mere small cost of a private island in the Caribbeans!\n\nIt's 2.6x faster than your regular plebe 5090.\n\nThe mini Nuclear plant to power your GPU is not included!\n\nIf you are literally Elon Musk or one of his kids, look for RTX Pro 6000.\n\nBrought to you by @tomshardware",
+      "published_at": "2026-09-15T23:25:39.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-0d4ca6c157d1db1c9319",
+      "author_name": "/dev/null",
+      "source_id": "x-0d4ca6c157d1db1c9319",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS1t55WYAEyqPh.jpg",
+      "metrics": {
+        "views": 91,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 1
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 98.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 648,
+        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 648,
+      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 648,
+          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        }
+      }
+    },
+    {
+      "id": "x-b9c5c666ac4a0b668c51",
+      "platform": "x",
+      "native_id": "2100006127652290812",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/HeyGen/status/2100006127652290812",
+      "title": "HeyGen is coming to London.\n\nA hands-on workshop where you build a client-ready video and you're the one starring in it. \n\nLive demos, food and drinks, and free avatar filming onsi",
+      "description": "HeyGen is coming to London.\n\nA hands-on workshop where you build a client-ready video and you're the one starring in it. \n\nLive demos, food and drinks, and free avatar filming onsite so you leave with a digital you.\n\nSept 24, 2-5PM. Request a spot: https://t.co/O4cmA3MqeB https://t.co/6v8HelKvy7",
+      "published_at": "2026-09-15T23:37:31.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-4f556efbe75b6b56dac9",
+      "author_name": "HeyGen",
+      "source_id": "x-4f556efbe75b6b56dac9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSS2_8VbMAAUOv7.jpg",
+      "metrics": {
+        "views": 1521,
+        "likes": 6,
+        "comments": null,
+        "reposts": 1,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/O4cmA3MqeB",
+        "https://t.co/6v8HelKvy7"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g3",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-fe32a5a28596b1a9e6ed",
+      "platform": "x",
+      "native_id": "2099887193804112190",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/cognition/status/2099887193804112190",
+      "title": "Special delivery: Devin just got a Mac 🍎\n\nNow Devin can:\n1. Build &amp; test apps on its own Mac VM with iOS simulator\n2. Send a screen recording via Slack\n3. Send a TestFlight li",
+      "description": "Special delivery: Devin just got a Mac 🍎\n\nNow Devin can:\n1. Build &amp; test apps on its own Mac VM with iOS simulator\n2. Send a screen recording via Slack\n3. Send a TestFlight link so you can start using it 📲 https://t.co/zpOGD3eTV9",
+      "published_at": "2026-09-15T15:44:55.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-ac32f27ba7a1346f43c0",
+      "author_name": "Cognition",
+      "source_id": "x-ac32f27ba7a1346f43c0",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099884855018278912/img/RZ_y3I7D-KNyEsfI.jpg",
+      "metrics": {
+        "views": 1289750,
+        "likes": 2624,
+        "comments": null,
+        "reposts": 208,
+        "replies": 150
+      },
+      "explicit_links": [
+        "https://t.co/zpOGD3eTV9"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g3",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-8d412cbcc98869332d2a",
+      "platform": "x",
+      "native_id": "2099876411292958994",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/cognition/status/2099876411292958994",
+      "title": "Cognition and @awscloud team up to help ambitious teams ship more, faster.\n\nWe're excited to collaborate more closely with AWS to help customers modernize faster on the infrastruct",
+      "description": "Cognition and @awscloud team up to help ambitious teams ship more, faster.\n\nWe're excited to collaborate more closely with AWS to help customers modernize faster on the infrastructure they already trust, so enterprises can focus more time on what moves their business forward.\n\nRead more: https://t.co/qT7WsBGX2m",
+      "published_at": "2026-09-15T15:02:04.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-ac32f27ba7a1346f43c0",
+      "author_name": "Cognition",
+      "source_id": "x-ac32f27ba7a1346f43c0",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSRCdwZWkAEc7uN.jpg",
+      "metrics": {
+        "views": 20698,
+        "likes": 226,
+        "comments": null,
+        "reposts": 18,
+        "replies": 8
+      },
+      "explicit_links": [
+        "https://t.co/qT7WsBGX2m"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g3",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-3e6d8eda713a73d6d40c",
+      "platform": "x",
+      "native_id": "2099901919959363600",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/runwayml/status/2099901919959363600",
+      "title": "Making the internet playable. A Solaris concept. https://t.co/TZjUYxzmqU",
+      "description": "Making the internet playable. A Solaris concept. https://t.co/TZjUYxzmqU",
+      "published_at": "2026-09-15T16:43:26.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-66c6f57f73358bfacd9b",
+      "author_name": "Runway",
+      "source_id": "x-66c6f57f73358bfacd9b",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2099901016762105856/img/d7DIQc6lgzZZ5FMF.jpg",
+      "metrics": {
+        "views": 11396,
+        "likes": 48,
+        "comments": null,
+        "reposts": 4,
+        "replies": 4
+      },
+      "explicit_links": [
+        "https://t.co/TZjUYxzmqU"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-ceb399885f3c30ed5cc8",
+      "platform": "x",
+      "native_id": "2099875898564726929",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Kling_ai/status/2099875898564726929",
+      "title": "Together, even after everything. 🐾 https://t.co/llndtrh9cU",
+      "description": "Together, even after everything. 🐾 https://t.co/llndtrh9cU",
+      "published_at": "2026-09-15T15:00:02.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-76b75650ff322ff1bf36",
+      "author_name": "Kling AI",
+      "source_id": "x-76b75650ff322ff1bf36",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSP48wDacAAnl-4.jpg",
+      "metrics": {
+        "views": 7158,
+        "likes": 52,
+        "comments": null,
+        "reposts": 3,
+        "replies": 8
+      },
+      "explicit_links": [
+        "https://t.co/llndtrh9cU"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-08e0756690b286e20143",
+      "platform": "x",
+      "native_id": "2099858274724032716",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/ViduAI_official/status/2099858274724032716",
+      "title": "How weird can you get for a share of $200K? 👀\n1. Jump into Vidu S2\n2. Do something unexpected\n3. Record what happens\n4. $200K total prize pool — 1st Prize: $2,000 + 1,000 credits\n",
+      "description": "How weird can you get for a share of $200K? 👀\n1. Jump into Vidu S2\n2. Do something unexpected\n3. Record what happens\n4. $200K total prize pool — 1st Prize: $2,000 + 1,000 credits\nNo script. No fixed scenario.\nMake it weird. Make it funny. Make it yours.\nSubmit your best S2 interaction.\n\nJoin now:https://t.co/onSdrZZJxD\n\nHow weird can you make it?",
+      "published_at": "2026-09-15T13:50:00.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-4069ab70e5086f339e2a",
+      "author_name": "Vidu AI",
+      "source_id": "x-4069ab70e5086f339e2a",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSQffVNaMAAu9I4.jpg",
+      "metrics": {
+        "views": 1436,
+        "likes": 31,
+        "comments": null,
+        "reposts": 3,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/onSdrZZJxD"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-ac83f63a829e55188fab",
+      "platform": "x",
+      "native_id": "2099845692952813697",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/ViduAI_official/status/2099845692952813697",
+      "title": "Welcome to the era of real-time video editing\n\nVidu S2 is now live. Real-time interaction. Real-time editing.\n\nVidu S2-Avatar enables real-time interaction with voice conversations",
+      "description": "Welcome to the era of real-time video editing\n\nVidu S2 is now live. Real-time interaction. Real-time editing.\n\nVidu S2-Avatar enables real-time interaction with voice conversations, voice-controlled complex actions, and dynamic reference images.\n\nVidu S2-Editing enables real-time changes to style, outfit, subject, and background.\n\nWe're also taking a step further into real-time spatial video, exploring a video world that responds and evolves in real time.\n\nTry Vidu S2: https://t.co/udWxlKqi7Y\nAPI Platform: https://t.co/yKXQ3Y8ves\nTechnical Report: https://t.co/faDNhSzkpw\n\n#ViduS2",
+      "published_at": "2026-09-15T13:00:01.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-4069ab70e5086f339e2a",
+      "author_name": "Vidu AI",
+      "source_id": "x-4069ab70e5086f339e2a",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSQFq6laQAA03KH.jpg",
+      "metrics": {
+        "views": 1144,
+        "likes": 27,
+        "comments": null,
+        "reposts": 3,
+        "replies": 11
+      },
+      "explicit_links": [
+        "https://t.co/udWxlKqi7Y",
+        "https://t.co/yKXQ3Y8ves",
+        "https://t.co/faDNhSzkpw"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-cdb99a557e56c19b19b4",
+      "platform": "x",
+      "native_id": "2099956952591712663",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/OpenRouter/status/2099956952591712663",
+      "title": "New: US/Europe flags on providers that support geofencing requests 🇺🇸🇪🇺\n\nhttps://t.co/46pPDSGeQq https://t.co/hwYGLII3LL",
+      "description": "New: US/Europe flags on providers that support geofencing requests 🇺🇸🇪🇺\n\nhttps://t.co/46pPDSGeQq https://t.co/hwYGLII3LL",
+      "published_at": "2026-09-15T20:22:07.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-eb70c3bc14fa7ae14285",
+      "author_name": "OpenRouter",
+      "source_id": "x-eb70c3bc14fa7ae14285",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HSSLFbzXQAAutdr.jpg",
+      "metrics": {
+        "views": 8364,
+        "likes": 74,
+        "comments": null,
+        "reposts": 3,
+        "replies": 6
+      },
+      "explicit_links": [
+        "https://t.co/46pPDSGeQq",
+        "https://t.co/hwYGLII3LL"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-32a24f9c82fb7a34a5a8",
+      "platform": "x",
+      "native_id": "2100005307439288426",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/MTSlive/status/2100005307439288426",
+      "title": "fal head of engineering @isidentical on why the smartest foundation model strategy may be to give your weights away:\n\n\"It is very, very important for an open weight ecosystem to ex",
+      "description": "fal head of engineering @isidentical on why the smartest foundation model strategy may be to give your weights away:\n\n\"It is very, very important for an open weight ecosystem to exist, especially for image and video where this is just getting started. What open source drives for foundation model companies is insane branding.\"\n\n\"If they just released this model as an API, maybe it would be the third or fourth best model and the users would be much less. But now since it's open, people can build on top of it and unlock new audiences that would have never used this model.\"\n\n\"They're also betting ",
+      "published_at": "2026-09-15T23:34:16.000Z",
+      "fetched_at": "2026-09-16T03:39:44.711Z",
+      "author_id": "x-56fa908b585222b36ae1",
+      "author_name": "MTS",
+      "source_id": "x-56fa908b585222b36ae1",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2100005242381422592/img/yGGllo3fNmjh6zxE.jpg",
+      "metrics": {
+        "views": 4260,
+        "likes": 12,
+        "comments": null,
+        "reposts": 1,
+        "replies": 1
+      },
+      "explicit_links": [],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-15T20:00:00+08:00__2026-09-16T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1789529984711",
+        "last_seen_run_id": "min-1789529984711"
       },
       "review_status": "discarded",
       "discard_stage": "l0",
