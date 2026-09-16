@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-16T06:35:41.292Z",
+  "updated_at": "2026-09-16T07:21:21.323Z",
   "candidates": [
     {
       "id": "x-32a9541d45c0e4ec4742",
@@ -1634,33 +1634,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:08.261Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:48:43.131Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "推出了最新的 Gemini Audio 模型 3.8 Live 和 3.8 Live Extended Thinking，这些模型允许用户更自然地进行语音交流、协作和任务执行。3.8 Live 适用于大规模、高速和成本效益，能处理多语言和视觉上下文；3.8 Live Extended Thinking 则专注于更高效的沟通和任务处理。",
+      "summary_key_points": [
+        "发布最新 Gemini Audio 模型 3.8 Live 和 3.8 Live Extended Thinking",
+        "支持自然语音交流、协作和任务执行",
+        "3.8 Live 适用于大规模、快速和高效，支持多语言和视觉上下文",
+        "3.8 Live Extended Thinking 专注于高效沟通和任务处理"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "推出最先进的 Gemini Audio 模型",
+          "description": "Gemini 3.8 Live 和 3.8 Live Extended Thinking 让您无缝地进行语音交流、协作和执行任务，意味着与 AI 对话变得更加自然。\n\n那么，这两个模型之间有什么区别呢？让我们来分析一下：\n\n— Gemini 3.8 Live 专为可扩展性、速度和成本效益而设计。它可以处理句子中的中断、自动转换 97 种语言的过渡，并理解视觉上下文。只需将相机指向问题区域，就可以解决断裂的自行车链条或处理漏水管道等问题。"
         }
       }
     },
@@ -1722,33 +1727,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 365,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:08.261Z",
       "summary_input_chars": 365,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:48:43.131Z",
           "input_chars": 365,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "推出了最新的对话式人工智能模型Gemini 3.8 Live及其扩展版3.8 Live Extended Thinking，这些模型能在后台进行对话、思考和任务处理，不会打断用户的流程。",
+      "summary_key_points": [
+        "发布Gemini 3.8 Live和3.8 Live Extended Thinking",
+        "具备对话、思考和任务处理能力",
+        "后台运行不打断用户流程"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "推出 Gemini 3.8 Live 和 3.8 Live 扩展思维 —— 我们最好的对话 AI",
+          "description": "我们推出 Gemini 3.8 Live 和 3.8 Live 扩展思维 —— 我们最好的对话 AI。\n\n这些模型可以在后台进行对话、思考和处理任务，而不会打断你的思路。 🧵"
         }
       }
     },
@@ -1813,33 +1822,40 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 764,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:08.261Z",
       "summary_input_chars": 764,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:19.067Z",
           "input_chars": 764,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "StepAudio 3系列音频模型推出，包括5种音频模型，实现实时语音、语音识别、语音生成、音频生成和音乐创作等功能，其中在对话动态和语音推理方面排名人工智能分析第一，语音识别准确率高达1.7%，可用于构建能够处理中断、进行推理并调用工具的语音代理，转录语音，生成具有表现力的声音，以及创建完整的音频场景和音乐。",
+      "summary_key_points": [
+        "StepAudio 3系列音频模型推出",
+        "实现实时语音及多种音频处理功能",
+        "在人工智能分析中排名首位",
+        "语音识别准确率1.7%",
+        "可用于构建智能语音代理",
+        "转录语音，生成表情声音，创作音乐"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "推出 StepAudio 3，5款音频模型助力实时语音、语音识别、语音生成、音频生成与音乐",
+          "description": "推出 StepAudio 3，5款音频模型助力实时语音、语音识别、语音生成、音频生成与音乐。\n\nRealtime 在人工分析中排名第一，对话动态（98.9%）和语音推理（99.7%）均位居首位。ASR 实现了 1.7% 的词错误率，与排行榜上最佳结果持平。\n\n构建可处理中断、在说话时进行推理并调用工具的语音代理。转录语音、生成富有表现力的声音，并创建完整的音频场景和音乐。\n\n现在可用：\n\nVoice AI Lab: https://t.co/9lQaKPc5AF\nBlog:  https://t.co/cU0cQvI7zM"
         }
       }
     },
@@ -1903,33 +1919,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 442,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:08.261Z",
       "summary_input_chars": 442,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T07:03:56.723Z",
           "input_chars": 442,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "发布关于如何构建 CobbleDB 的研究，这是一个为 Perplexity 搜索服务网页内容的关键值数据库，由两位工程师和一支由数百名积极主动的 AI 代理组成的团队在两个月内完成核心基础设施的建设。",
+      "summary_key_points": [
+        "构建 CobbleDB 的研究发布",
+        "CobbleDB 是为 Perplexity 搜索服务网页内容的关键值数据库",
+        "两位工程师和数百名 AI 代理参与建设",
+        "核心基础设施在两个月内完成"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Perplexity 公开 CobbleDB 架构研究：双工程师与数百 AI 代理在两个月内构建核心基础设施",
+          "description": "Perplexity 公开 CobbleDB 架构研究：双工程师与数百 AI 代理在两个月内构建核心基础设施。https://t.co/OsCtY15UW6"
         }
       }
     },
@@ -1993,33 +2014,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 402,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:08.261Z",
       "summary_input_chars": 402,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T07:04:21.510Z",
           "input_chars": 402,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Vercel的AI Gateway now支持模型无关的v0版本，提供前沿、低价、开源和快速等多种模型选择，包括Claude、GPT、Kimi、GLM、Grok、DeepSeek等，供用户构建应用程序。",
+      "summary_key_points": [
+        "Vercel AI Gateway支持模型无关的v0版本",
+        "提供多种模型选择，如Claude、GPT、Kimi、GLM、Grok、DeepSeek",
+        "用户可构建应用程序"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Vercel AI Gateway 支持多种模型，用户可自由选择",
+          "description": "v0 现已支持模型无关性。\n\n支持前沿模型、低成本模型、开源模型和快速模型，均来自 Vercel 的 AI Gateway。用户可选择 Claude、GPT、Kimi、GLM、Grok、DeepSeek 等更多模型来构建应用。https://t.co/8IiCExgW0A"
         }
       }
     },
@@ -2083,33 +2108,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 462,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:13.649Z",
       "summary_input_chars": 462,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T07:04:21.511Z",
           "input_chars": 462,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Salesforce与Claude的集成版本现已推出beta版，通过该集成，用户的账户、机会和销售管道信息可接入Claude，同时提供37项预先构建的销售技能，使用户在无需离开对话的情况下即可准备通话、审查交易、创建管道仪表板或发送预测。",
+      "summary_key_points": [
+        "Salesforce与Claude集成beta版推出",
+        "账户、机会和销售管道信息接入Claude",
+        "提供37项预先构建销售技能",
+        "提升通话准备、交易审查和预测发送效率"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Salesforce 在 Claude 中进入 beta 测试",
+          "description": "Salesforce 在 Claude 中进入 beta 测试\n\n将账户、机会和流程集成到 Claude 中，提供 37 个预建的销售技能。准备会议、审查交易、创建管道仪表盘或在不离开对话的情况下发送预测。https://t.co/juvI0sU3mX"
         }
       }
     },
@@ -2175,31 +2205,73 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述中提到的‘Perplexity Computer’和‘HP ZBook Ultra G3a’具体型号及预装软件细节缺乏官方来源验证，存在信息不完整或疑似搬运风险。",
+          "内容中未提供足够实质信息（如功能说明、技术细节或来源链接），无法明确判断其是否与AI主题相关，需人工细看。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:47:24.164Z",
         "input_chars": 461,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "Perplexity Computer will now come pre-installed on HP ZBook Ultra G3a. .\n\nUse Computer to run complex multi-step work fr",
+          "searched_at": "2026-09-16T06:47:16.995Z",
+          "results": [
+            {
+              "title": "Perplexity's Post",
+              "url": "https://www.linkedin.com/posts/perplexity-ai_perplexity-computer-will-now-come-pre-installed-activity-7505642172185141248-kFK0"
+            },
+            {
+              "title": "\"Perplexity Computer will now come pre-installed on HP ZBook Ultra ...",
+              "url": "https://x.com/perplexity_ai/status/2099876468872638717"
+            },
+            {
+              "title": "Perplexity Computer will now come pre-installed on HP ZBook Ultra G3a. . Use Computer to run complex multi-step work from a simple interface. Computer agents are grounded in accurate deep research and connected to hundreds of tools, now inc",
+              "url": "https://www.threads.com/@perplexity/post/DdT_ITjG2tv/perplexity-computer-will-now-come-pre-installed-on-hp-z-book-ultra-g-a-use"
+            },
+            {
+              "title": "HP Preinstalls Perplexity Computer on Windows PCs to Rival Microsoft Copilot | AlphaSignal",
+              "url": "https://alphasignal.ai/news/hp-preinstalls-perplexity-computer-on-windows-pcs-to-rival-microsoft-copilot"
+            },
+            {
+              "title": "HP Mobile Workstation Built for Local AI Arrives in October",
+              "url": "https://techaeris.com/2026/09/15/hp-mobile-workstation-local-ai-october"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:14.918Z",
       "summary_input_chars": 461,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:48:50.089Z",
           "input_chars": 461,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "HP ZBook Ultra G3a 将预装 Perplexity Computer，该电脑可从简单界面运行复杂的多步骤工作，其代理基于准确的深度研究，并与数百种工具相连，包括 Autodesk。",
+      "summary_key_points": [
+        "HP ZBook Ultra G3a 预装 Perplexity Computer",
+        "从简单界面运行复杂工作",
+        "基于深度研究的计算机代理",
+        "连接数百种工具，包括 Autodesk"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Perplexity Computer 将预装于 HP ZBook Ultra G3a。",
+          "description": "Perplexity Computer 将预装于 HP ZBook Ultra G3a。\n\n使用 Computer 从简单界面运行复杂多步骤工作。Computer 代理基于精确的深度研究，并连接到数百个工具，现包括 Autodesk。https://t.co/tyRz2394jH"
         }
       }
     },
@@ -2263,22 +2335,14 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 432,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
       "summarizer": "llm_failed",
       "summary_generated_at": null,
@@ -2291,7 +2355,9 @@
           "input_chars": 432,
           "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
         }
-      }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-afae43c2c8f629bf556f",
@@ -2353,31 +2419,75 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题与描述内容不完整，缺少关键信息（如具体模型、论文名称、成果数据等），无法判断实质信息量。",
+          "未提供联网核验结果，且涉及最新模型/技术名称，需联网核实官方来源。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "hold",
+        "reasons": [
+          "标题与描述提及‘AI-generated reference photos’，但内容总结与联网核验结果中未出现明确的AI技术、模型或算法细节，缺乏AI主题的实质信息。",
+          "联网核验结果多指向传统工业色彩一致性问题（如HunterLab、Quality Magazine等），未提供AI解决方案或最新模型信息，相关性存疑。"
+        ],
+        "confidence": 0.2,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:47:14.904Z",
         "input_chars": 491,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "Color consistency is a persistent friction point in production. Our interactive research team just returned from The 19t",
+          "searched_at": "2026-09-16T06:47:12.450Z",
+          "results": [
+            {
+              "title": "Stability AI on X",
+              "url": "https://x.com/StabilityAI/status/2099957905067839808"
+            },
+            {
+              "title": "Why Colour Consistency is the Hardest Part of Making a Product",
+              "url": "https://www.fespa.com/en/news-media/why-colour-consistency-is-the-hardest-part-of-making-a-product"
+            },
+            {
+              "title": "How Do Companies Ensure Consistent Color Across Different Production Lines? | HunterLab (EN)",
+              "url": "https://www.hunterlab.com/en/blog/how-do-companies-ensure-consistent-color-across-different-production-lines"
+            },
+            {
+              "title": "Color Consistency in a Multisite World: How to Standardize Across Locations | Quality Magazine",
+              "url": "https://www.qualitymag.com/articles/99032-color-consistency-in-a-multisite-world-how-to-standardize-across-locations"
+            },
+            {
+              "title": "Color Consistency : r/manufacturing",
+              "url": "https://www.reddit.com/r/manufacturing/comments/14n2c7u/color_consistency"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:20.022Z",
       "summary_input_chars": 491,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:48:52.450Z",
           "input_chars": 491,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "在19届欧洲计算机视觉大会上，我们互动研究团队针对生产中颜色一致性这一长期问题进行了研究，并展示了确保在不同拍摄和AI生成参考照片中颜色可靠匹配的新成果。",
+      "summary_key_points": [
+        "生产中颜色一致性是长期问题",
+        "互动研究团队在ECCV大会上展示新成果",
+        "成果聚焦于确保颜色在不同拍摄和AI生成参考照片中的可靠匹配"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "颜色一致性：生产中的持续痛点",
+          "description": "我们的交互研究团队刚从第19届欧洲计算机视觉会议（@eccvconf）返回，在会上他们展示了新的研究成果，专注于解决这一问题：确保画面和AI生成参考照片中的颜色能够在不同场景中可靠匹配。"
         }
       }
     },
@@ -2443,31 +2553,72 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题仅提及‘voice agent’和‘AI SDR’，未明确说明技术细节或创新点，内容实质不足。",
+          "缺少具体案例、数据或技术实现说明，无法判断其是否与AI主题实质相关，需联网核实官方来源"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:47:25.408Z",
         "input_chars": 358,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "People tell a voice agent more than they'll type into a form.\n\n@mati with @davidsenra on why we run our own inbound with",
+          "searched_at": "2026-09-16T06:47:23.830Z",
+          "results": [
+            {
+              "title": "ElevenLabs on X: \"People tell a voice agent more than they'll type into a form.\n\n@mati with @davidsenra on why we run our own inbound with an AI SDR built with ElevenAgents:\" / X",
+              "url": "https://x.com/ElevenLabs/status/2099935119184195721"
+            },
+            {
+              "title": "ElevenLabs on X: \"The telegraph could send a message anywhere in the world, but first you had to learn its language. The telephone let you just pick it up and talk. @mati and @davidsenra on why voice is the version you never have to learn.\"",
+              "url": "https://x.com/i/status/2097779826694193634"
+            },
+            {
+              "title": "ElevenLabs on X: \"The telegraph could send a message anywhere in the world, but first you had to learn its language. The telephone let you just pick it up and talk. @mati and @davidsenra on why voice is the version you never have to learn.\"",
+              "url": "https://x.com/ElevenLabs/status/2097779826694193634"
+            },
+            {
+              "title": "ElevenLabs on X: \"The telegraph could send a message anywhere in the world, but first you had to learn its language. The telephone let you just pick it up and talk. @mati and @davidsenra on why voice is the version you never have to learn.\"",
+              "url": "https://x.com/ElevenLabs/status/2097779826694193634/video/1"
+            },
+            {
+              "title": "We Booked 614 Meetings With One Inbound Agent. Your “Contact Us” Form Is Costing You Deals. | SaaStrAI",
+              "url": "https://www.saastr.com/we-booked-614-meetings-with-one-inbound-agent-your-contact-us-form-is-costing-you-deals"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:20.271Z",
       "summary_input_chars": 358,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:52:55.648Z",
           "input_chars": 358,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "文章探讨了为何使用基于ElevenAgents构建的AI语音代理，人们通过语音输入的信息量远超于文本表单。",
+      "summary_key_points": [
+        "使用AI语音代理",
+        "信息量大于文本表单",
+        "基于ElevenAgents构建"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "人们向语音代理说的比他们在表单中打字的更多",
+          "description": "人们向语音代理说的比他们在表单中打字的更多。\n@mati 与 @davidsenra 讨论了为什么我们使用自己基于 ElevenAgents 构建的 AI SDR 来处理入站流量：https://t.co/tQSHyrULom"
         }
       }
     },
@@ -2529,33 +2680,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 506,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:20.922Z",
       "summary_input_chars": 506,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:50:21.488Z",
           "input_chars": 506,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "ElevenAgents公司开发的AI销售发展代表（SDR）Dom，通过模拟人类沟通方式，显著提升了销售效率。Dom能够在四分钟内完成对潜在客户的资格预审，而人类平均需要两天，单月为销售团队带来超过100万美元的潜在客户管道。",
+      "summary_key_points": [
+        "ElevenAgents开发的AI SDR Dom提升销售效率",
+        "四分钟完成潜在客户资格预审，人类平均需两天",
+        "单月为销售团队带来超过100万美元的潜在客户管道"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "代理商必须足够像人，以便人们能清晰地思考，让停留变得值得",
+          "description": "代理商必须足够像人，以便人们能清晰地思考，让停留变得值得。\n\nMeet Dom，一个使用ElevenAgents构建的AI SDR，现在正在认证我们越来越多的入境销售。四分钟内完成对潜在客户的认证，比两天的人类平均时间快，单月合格管道超过100万美元。"
         }
       }
     },
@@ -2619,31 +2774,73 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述仅提及Kling AI参与 TIFF 2026 的活动，未提供具体技术细节、产品功能或 AI 技术进展信息，内容实质不足",
+          "未包含可核验的模型版本或技术参数，需联网核实官方来源以判断内容真实性"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:47:56.770Z",
         "input_chars": 616,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "On September 10, Kling AI joined TIFF: The Market 2026, connecting with the global film community through an industry pa",
+          "searched_at": "2026-09-16T06:47:55.719Z",
+          "results": [
+            {
+              "title": "Kling AI on X",
+              "url": "https://x.com/Kling_ai/status/2097157989925027894"
+            },
+            {
+              "title": "Great filmmaking begins with a point of ...",
+              "url": "https://www.instagram.com/p/DdAq6d_iVru"
+            },
+            {
+              "title": "Kling AI Industry Reception: Film, AI, and the Future of ...",
+              "url": "https://tiff.net/films/kling-ai-industry-reception-film-ai-and-the-future-of-production"
+            },
+            {
+              "title": "Kling AI Showcases Human-Led AI Filmmaking at TIFF ...",
+              "url": "https://macaubusiness.com/kling-ai-showcases-human-led-ai-filmmaking-at-tiff-market-panel-where-human-creative-direction-is-essential"
+            },
+            {
+              "title": "Kling AI on Instagram: \"Kling AI made its debut at the Tokyo ...",
+              "url": "https://www.instagram.com/reel/DQdqysoD3Uh?hl=en"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:20.935Z",
       "summary_input_chars": 616,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:50:26.029Z",
           "input_chars": 616,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Kling AI于9月10日加入TIFF: The Market 2026，通过行业论坛、Networking酒会和现场展示与全球电影界人士交流。探讨人工智能在电影制作中的应用，并持续参与各大电影节，推动AI视频技术在制作中的角色。",
+      "summary_key_points": [
+        "Kling AI参与TIFF: The Market 2026活动",
+        "活动内容包括行业论坛、Networking酒会和现场展示",
+        "讨论AI在电影制作中的应用",
+        "Kling AI参与多个电影节以推动AI视频技术"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Kling AI加入TIFF：市场2026",
+          "description": "Kling AI于9月10日加入TIFF：市场2026，通过行业研讨会、 networking酒会和现场展示与全球电影界人士建立联系。\n\n从长篇动画到实际生产工作流程，我们探讨了AI视频如何成为专业电影制作的一部分。\n\n在戛纳、多伦多及其他地方，Kling AI持续参与领先的电影节，助力AI视频在制作中的角色发展。"
         }
       }
     },
@@ -2709,31 +2906,74 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述中提到的 'minimax h3' 和 'together ai' 模型名称及版本号，当前无法独立核实其真实存在性，需联网核实官方来源",
+          "内容仅包含简短的技术描述和链接，缺乏实质信息量或独立价值，相关性存在不确定性"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:48:02.591Z",
         "input_chars": 378,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "minimax h3 is now live on together ai\n\nthe 33b omni-modal video model generates 4–15s clips at up to 2k with native ster",
+          "searched_at": "2026-09-16T06:48:01.223Z",
+          "results": [
+            {
+              "title": "MiniMax posts H3, a 33B omni-modal video model, to ...",
+              "url": "https://aiweekly.co/alerts/minimax-posts-h3-a-33b-omni-modal-video-model-to-hugging-face"
+            },
+            {
+              "title": "MiniMax H3 AI Video Model: 2K & Native Audio",
+              "url": "https://www.visionstory.ai/models/minimax-h3"
+            },
+            {
+              "title": "MiniMax Launches H3 on July 31—33.1B-Parameter Omni-Modal Model Generates 15-Second 2K Video with Native Stereo Audio at $0.13 Per Second - AI Unfiltered",
+              "url": "https://www.arturmarkus.com/minimax-launches-h3-on-july-31-33-1b-parameter-omni-modal-model-generates-15-second-2k-video-with-native-stereo-audio-at-0-13-per-second"
+            },
+            {
+              "title": "MiniMax H3 Video Generator with Native Stereo Audio",
+              "url": "https://www.designkit.com/minimax-h3"
+            },
+            {
+              "title": "MiniMax H3 Launches as a General-Purpose Multimodal Video Model With 2K Output and Native Stereo Audio | We0",
+              "url": "https://we0.ai/articles/minimax-h3-launches-as-a-general"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:21.375Z",
       "summary_input_chars": 378,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T07:05:20.616Z",
           "input_chars": 378,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Together AI平台上线了名为minimax h3的33B多模态视频模型，该模型可生成4至15秒长、最高2K分辨率的视频剪辑，并配备原生立体声音频，支持文本、图像、视频和音频作为生成内容的基础。",
+      "summary_key_points": [
+        "Together AI上线minimax h3模型",
+        "33B多模态视频模型",
+        "生成4-15秒2K分辨率视频剪辑",
+        "支持文本、图像、视频和音频作为生成内容的基础",
+        "具备原生立体声音频"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Together AI 发布 Minimax H3 33B 多模态视频模型",
+          "description": "Together AI 正式推出 Minimax H3 33B 多模态视频模型，支持生成 4~15 秒、分辨率高达 2K 的视频片段，并附带原生立体音频。模型可基于文本、图像、视频及音频上下文进行生成。https://t.co/ZpVoMMx57Y"
         }
       }
     },
@@ -2797,33 +3037,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 300,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:24.263Z",
       "summary_input_chars": 300,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:48:58.278Z",
           "input_chars": 300,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "OpenRouter用户上周在OpenAI模型上的支出超过了Anthropic模型，这是过去2.5年来的首次。",
+      "summary_key_points": [
+        "OpenRouter用户上周在OpenAI模型上的支出增加",
+        "支出超过Anthropic模型",
+        "这种现象过去2.5年未发生"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "OpenRouter 用户上周在 OpenAI 模型上的支出超过 Anthropic 模型",
+          "description": "OpenRouter 用户上周在 OpenAI 模型上的支出超过 Anthropic 模型。\n\nThis hasn't happened for more than 2.5 years https://t.co/oITqYWOpeL"
         }
       }
     },
@@ -2885,33 +3129,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:26.699Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:01.530Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Google发布了新的语音到语音模型Gemini 3.8 Live，其扩展思维（高）变体在人工分析语音到语音指数和Tau语音基准测试中均获得第一名。",
+      "summary_key_points": [
+        "Google发布Gemini 3.8 Live语音到语音模型",
+        "扩展思维（高）变体在指数和基准测试中排名第一",
+        "模型支持背景工具和API调用"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "谷歌发布Gemini 3.8 Live，其新语音到语音模型",
+          "description": "Google发布Gemini 3.8 Live，其新语音到语音模型，在人工分析语音到语音指数中以82.6的分数首次登顶，在Tau语音基准测试中得分68.6%。\n\nGemini 3.8 Live是@GoogleDeepMind的Gemini 3.1 Flash Live语音到语音模型的后续产品，后者在后台执行工具和API调用，同时继续对话。它有两种变体：标准版Gemini 3.8 Live和扩展思维版Gemini 3.8 Live，后者支持可配置的推理努力。\n\n我们对标准模型进行了评估。"
         }
       }
     },
@@ -2976,22 +3224,14 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 486,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
       "summarizer": "llm_failed",
       "summary_generated_at": null,
@@ -3004,7 +3244,9 @@
           "input_chars": 486,
           "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
         }
-      }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-505b0b87b2e03b8774e5",
@@ -3064,33 +3306,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 524,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:29.179Z",
       "summary_input_chars": 524,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:02.734Z",
           "input_chars": 524,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Google宣布Gemini Notebook移动版将新增语音模式和语音录制功能，同时互动报告功能也将推出。",
+      "summary_key_points": [
+        "Gemini Notebook移动版新增语音模式和语音录制功能",
+        "互动报告功能即将推出",
+        "语音录制功能将支持英语和一些其他语言"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "GOOGLE🔥：Gemini Notebook移动版将新增语音模式和语音录制功能！交互式报告也即将推出。",
+          "description": "Gemini Notebook用户将很快能够捕捉他们的想法或录制讲座。\n\n> 语音录制功能将于下周开始对所有使用英语和一些其他支持语言的用户推出。"
         }
       }
     },
@@ -3152,33 +3398,40 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 693,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:29.607Z",
       "summary_input_chars": 693,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:04.120Z",
           "input_chars": 693,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "TypeSafe AI推出首款模型Jev，一款小巧且可定制的System One决策模型，其不具备大型语言模型（LLM）的推理和生成解释的能力，能快速输出具有校准概率和置信分数的判断，并通过将重任务分解成多个子问题再重新组合成代码来提高效率。Jev的响应时间为约150毫秒，成本远低于LLM，每十亿输入tokens的价格为42美元，输出免费。",
+      "summary_key_points": [
+        "TypeSafe AI发布首款模型Jev",
+        "Jev为小型可定制决策模型",
+        "不具备推理和生成解释能力",
+        "输出快速判断和概率，以及置信分数",
+        "适用于重任务分解与重组",
+        "响应时间短，成本低"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "TypeSafe AI推出首款模型Jev",
+          "description": "TypeSafe AI推出首款模型Jev - 小型可定制化System One决策模型。\n\n作为非LLM，Jev无法推理或撰写解释；它以校准概率和置信度分数快速判断。\n\n更重的内容被分割成单独的问题，并以代码重新组合。\n\nTypeSafe报告每调用响应时间约150ms，比LLM低100倍成本和响应速度，每10亿输入令牌收费42美元，输出免费。"
         }
       }
     },
@@ -3240,33 +3493,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 573,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:31.872Z",
       "summary_input_chars": 573,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:04.235Z",
           "input_chars": 573,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Grok Imagine的Beta版本新增了精确编辑生成图像上文字的功能，用户可手动调整文字颜色、大小、字体和文字对齐方式。此功能特别适用于营销和创意任务中的文字密集型图像编辑。",
+      "summary_key_points": [
+        "Grok Imagine新增文字编辑功能",
+        "支持手动调整文字颜色、大小、字体和文字对齐",
+        "Beta版本中，用户反馈正在进行收集",
+        "适用于营销和创意任务中的文字密集型图像编辑"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Grok Imagine 用户现在可精确编辑生成图像中的文本",
+          "description": "Grok Imagine 用户现在可精确编辑生成图像中的文本。用户可以手动配置颜色、大小、字体和文本对齐。\n\n> 该功能已上线测试版，SpaceXAI 团队正在收集反馈。\n\n> 该功能特别适用于文字密集型图像的营销和创意任务。\n\n我明天有一个针对该功能的良好测试方案。\n\n测试时间 👀"
         }
       }
     },
@@ -3328,33 +3586,40 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 614,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:33.437Z",
       "summary_input_chars": 614,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:06.859Z",
           "input_chars": 614,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Creatify推出名为Boreal的新文本转视频和图片转视频模型，专为视频广告设计。该模型基于LTX-2.5模型进行后训练，已在真实广告素材、UGC创作者风格和客户需求简报上进行调优，其在Creatify内部后训练评估中胜率超过基础模型81%。生成服务定价为每秒0.01美元，现已对所有用户开放。",
+      "summary_key_points": [
+        "Creatify推出Boreal模型",
+        "针对视频广告设计",
+        "基于LTX-2.5模型后训练",
+        "胜率超过基础模型81%",
+        "生成服务每秒0.01美元",
+        "已对所有用户开放"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Creatify推出Boreal，专为视频广告定制的新文本到视频和图像到视频模型",
+          "description": "Creatify已推出Boreal，一款专为视频广告定制的新文本到视频和图像到视频模型。\n\n生成服务价格为每秒0.01美元，该模型已对所有Creatify用户开放。\n\n该模型是基于开放权重LTX-2.5的后训练版本，在真实广告视频、创作者风格UGC和制作客户简报上进行微调，在Creatify自身的后训练评估中，相较于基模型胜率高达81%。"
         }
       }
     },
@@ -3418,33 +3683,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 489,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:33.987Z",
       "summary_input_chars": 489,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:50:26.877Z",
           "input_chars": 489,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Claude Desktop更新，用户将能查看所有会话，包括本地和云端会话，同时支持配置模型、努力程度和权限模式。",
+      "summary_key_points": [
+        "支持查看所有会话",
+        "本地和云端会话均列出",
+        "可配置模型、努力程度和权限模式"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Claude Code中的会话中心？用户将在Claude桌面版中查看所有会话。",
+          "description": "Claude Code中的会话中心？用户将在Claude桌面版中查看所有会话。\n\n> 模型、努力程度和权限模式选择器均可配置。\n\n> 列出本地和云会话，方便切换。\n\nhttps://t.co/8taqYCbsZp"
         }
       }
     },
@@ -3506,33 +3775,39 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 594,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:35.211Z",
       "summary_input_chars": 594,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:09.458Z",
           "input_chars": 594,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "BuildBetter推出名为BoB的智能代理，能够从公司客户对话中识别有价值的工作内容，并在销售、产品和工程等领域进行下一步的审批准备。该代理基于公司自建的检索模型AOT运行，能够实时读取对话内容，而不是在问题出现后才搜索转录本。",
+      "summary_key_points": [
+        "BuildBetter发布BoB智能代理",
+        "代理可识别客户对话中的有价值工作内容",
+        "适用于销售、产品和工程等领域",
+        "基于自建检索模型AOT",
+        "实时读取对话内容"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "BuildBetter发布BoB，可在公司客户对话中找到值得做的工作",
+          "description": "BuildBetter发布BoB，可在公司客户对话中找到值得做的工作。\n\n它可以在销售、产品和工程领域运行，并为下一步的审批准备。\n\nBuildBetter运行在AOT上，这是公司内部构建的检索模型，它读取每个到达的对话，而不是在问题到来后搜索记录。\n\n内部模型正在接管 🤖"
         }
       }
     },
@@ -3594,22 +3869,14 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 166,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
       "summarizer": "llm_failed",
       "summary_generated_at": null,
@@ -3622,7 +3889,9 @@
           "input_chars": 166,
           "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
         }
-      }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-28e99d4ac32f1dccecb2",
@@ -3686,31 +3955,73 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题与描述中提到的 'Ritual Tokenomics' 和 '10B RITUAL Supply' 属于区块链项目代币分配分析，涉及 AI 生态或 DeFi 领域，但内容未明确说明该项目与 AI 技术的直接关联。",
+          "描述中明确标注‘这些数字尚未由 Ritual 官方确认’，且未提供具体数据来源或技术细节，导致内容实质信息不足，无法判断其是否属于实质性 AI 资讯。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:48:53.305Z",
         "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "📌Ritual Tokenomics: Breaking Down the 10B RITUAL Supply ❖\n\nThere has been a lot of discussion around the circulating Ri",
+          "searched_at": "2026-09-16T06:48:52.534Z",
+          "results": [
+            {
+              "title": "Shadat Official | Airdrop on X: \"RITUAL TOKENOMICS + AIRDROP Big update from Ritual the @ritualfnd tokenomics and airdrop details are now out The network will have a 10B $RITUAL total supply. The token will be used for AI compute, staking,",
+              "url": "https://x.com/i/status/2099800454318416314"
+            },
+            {
+              "title": "RITUAL AI (RITUAL) Price Chart - Buy and Sell on Phantom",
+              "url": "https://phantom.com/tokens/solana/AGvw4DQe8N1CQrYFSwMPuo6BhmEz2Z3EHECwvbe7pump"
+            },
+            {
+              "title": "Ritual Airdrop Guide: How to Participate and Claim $RITUAL Rewards",
+              "url": "https://web3.bitget.com/en/academy/ritual-airdrop-guide-how-to-participate-and-claim-ritual-rewards"
+            },
+            {
+              "title": "Ritual Supply: Ritual Supplies - Altar Supplies & Pagan Tools",
+              "url": "https://www.ritualsupply.com/"
+            },
+            {
+              "title": "Ritual Supply Co (@RitualSupplyCo)",
+              "url": "https://www.facebook.com/RitualSupplyCo"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:39.195Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:12.164Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "本文分析了RITUAL代币的经济模型，指出10亿枚RITUAL代币的分配比例，包括核心贡献者29%，生态系统增长和研发25%，网络参与和未来激励14%，实验室投资者11.3%，Ritual基金会10%等，但请注意这些数据尚未经Ritual官方确认。",
+      "summary_key_points": [
+        "RITUAL代币总量为10亿枚",
+        "代币分配包括核心贡献者、生态系统、网络参与、投资者和基金会等",
+        "分配比例分别为29%、25%、14%、11.3%和10%",
+        "数据尚未官方确认"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Ritual代币经济学：解析10亿RITUAL供应",
+          "description": "📌Ritual代币经济学：解析10亿RITUAL供应❖\n有大量讨论围绕正在流通的Ritual代币经济学信息，所以我想要从分析角度解析这些数字。重要免责声明：这些数据尚未由Ritual官方确认，因此应被视为模拟，直到官方宣布。\n报告的初始供应量为10亿RITUAL，分配如下：核心贡献者29%，生态系统增长+研发25%，网络参与与未来激励14%，实验室投资者11.3%，Ritual基金会10%，L"
         }
       }
     },
@@ -3772,33 +4083,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 779,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:39.697Z",
       "summary_input_chars": 779,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T07:07:07.169Z",
           "input_chars": 779,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Salesforce首席执行官Marc Benioff和Nvidia首席执行官Jensen Huang在今天的Salesforce Dreamforce峰会关键演讲中讨论了AI监管问题。Huang表示美国无需新的法律或法规来确保AI安全，并强调公司应谨慎发布产品。Benioff则强调AI公司和科技高管对其构建的技术应负责。",
+      "summary_key_points": [
+        "Salesforce和Nvidia高管在Dreamforce峰会讨论AI监管问题",
+        "Huang认为无需新法规，公司应谨慎发布AI产品",
+        "Benioff强调AI公司和科技高管对技术负责"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Salesforce CEO Marc Benioff 与 Nvidia CEO Jensen Huang 在 Dreamforce  keynote 上讨论 AI 监管与自监管",
+          "description": "Huang 表示美国无需制定新法律或法规即可确保 AI 安全，并指出企业应‘循序渐进’，仅在‘确信市场会认可’时发布产品。Benioff 则强调 AI 企业和技术高管必须对‘自己构建的技术’负责。"
         }
       }
     },
@@ -3860,33 +4175,37 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 651,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:41.314Z",
       "summary_input_chars": 651,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:14.812Z",
           "input_chars": 651,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "该资讯介绍了AI视频制作的魅力，通过展示地面撞击到太空的规模转变，强调AI视频在规模、过渡和视觉升级方面的强大表现，特别提及Seedance 2.5版本在构建此类视觉序列方面的兴趣。",
+      "summary_key_points": [
+        "AI视频制作规模转变的魅力",
+        "地面撞击到太空的视觉展示",
+        "Seedance 2.5版本在AI视频制作中的应用"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "岩石撞击地面…30秒后我们就在太空中了。",
+          "description": "岩石撞击地面…30秒后我们就在太空中。\n\n这种规模转换让AI视频变得令人兴奋。\n\n地面撞击 → 军事反应 → 图像\n\n每一帧都在扩展世界，直到一个微小的事件变成巨大之物。\n\nSeedance 2.5在围绕规模、转换和视觉升级构建的电影序列中变得非常有趣。\n\n#Seedance25 #AIVideo #AIFilm"
         }
       }
     },
@@ -3950,31 +4269,73 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题仅包含引文片段，缺乏明确的 AI 技术主题或模型信息，难以判断内容相关性",
+          "描述中提及 inference 和 agentic workloads 属于 AI 领域，但缺乏具体技术细节或模型名称，信息不足"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:48:55.903Z",
         "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "The following sentence is something Mark said in his article that makes me all the more bullish. \n\n“Committing the signi",
+          "searched_at": "2026-09-16T06:48:55.636Z",
+          "results": [
+            {
+              "title": "$NEIRO is currently experiencing a bullish trend with signi - Binance",
+              "url": "https://www.binance.com/en/square/post/19536341885114"
+            },
+            {
+              "title": "Mark Harris: Trump's Leadership on Health Makes Him Bullish on Midterms",
+              "url": "https://www.breitbart.com/politics/2026/01/18/exclusive-rep-mark-harris-trump-leading-on-law-and-order-great-healthcare-plan-makes-him-bullish-on-midterm-elections/amp"
+            },
+            {
+              "title": "SIGNI",
+              "url": "https://wixoss.fandom.com/wiki/SIGNI"
+            },
+            {
+              "title": "O Signi | Signi",
+              "url": "https://signi.com/o-nas"
+            },
+            {
+              "title": "Signi pro školství | Signi",
+              "url": "https://signi.com/skolstvi"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:42.659Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:15.964Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "文章中Mark提到将大部分计算资源用于服务人类，特别是推理工作，这使作者更加看好市场前景。推理和代理工作负载能够减轻企业主的工作负担，因此推理需求激增，计算资源的需求呈指数级增长。同时，作者也认为在推进技术前沿时不应以牺牲速度为代价，而应确保模型与适当的安全预防措施相匹配。",
+      "summary_key_points": [
+        "Mark强调将大部分计算资源用于服务人类，特别是推理工作",
+        "推理和代理工作负载有助于减轻企业主的工作负担",
+        "推理需求激增，计算资源需求增长迅速",
+        "推进技术前沿时需注意安全预防措施"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "马克文章中的这句话让我更加看好",
+          "description": "这句话是马克在文章中说的话，让我更加看好。\n\n“将大部分计算能力投入到服务人们的应用中。”\n通过服务人们，他指的是推理。推理和代理工作负载是真正让企业家生活更轻松的东西。因此，推理需求正在激增，对计算的需求在软件堆栈的各个层面都在呈指数增长。\n然而，我也同意，保持技术前沿并不意味着为了对齐而减速。与适当的安全预防措施相匹配的模型可以限制..."
         }
       }
     },
@@ -4038,31 +4399,73 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题与描述内容不完整，缺少关键信息如项目功能细节、技术实现方式或发布平台，无法判断其是否属于实质性AI资讯。",
+          "未提供足够证据确认项目真实性，需联网核实官方来源"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:48:54.067Z",
         "input_chars": 449,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "Finished my second AI project today! 🎉\n\nIt’s called AI Scam Protection, designed to help everyday people recognize scam",
+          "searched_at": "2026-09-16T06:48:53.802Z",
+          "results": [
+            {
+              "title": "Protecting Americans from Fraudsters and Scammers in the Age of AI - R Street Institute",
+              "url": "https://www.rstreet.org/commentary/protecting-americans-from-fraudsters-and-scammers-in-the-age-of-ai"
+            },
+            {
+              "title": "AI scams in 2026: how they work and how to detect them",
+              "url": "https://www.vectra.ai/topics/ai-scams"
+            },
+            {
+              "title": "AI Fraud Protection: 9 Steps to Stop Modern Scams – Pease Bell",
+              "url": "https://www.peasebell.com/insights/re-evaluate-your-anti-fraud-protection-in-the-ai-world"
+            },
+            {
+              "title": "How to Spot and Avoid AI Scams in 2026 - Navy Federal Credit Union",
+              "url": "https://www.navyfederal.org/makingcents/privacy-security/avoid-ai-scams.html"
+            },
+            {
+              "title": "AI Scams: How to Protect Yourself from Modern Fraud | West Bank",
+              "url": "https://www.westbankstrong.com/blog/post/ai-scams-how-to-protect-yourself-from-modern-fraud"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_deepseek",
+      "summary_generated_at": "2026-09-16T06:59:27.329Z",
       "summary_input_chars": 449,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:16.436Z",
           "input_chars": 449,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "作者今日完成了第二个AI项目，名为AI Scam Protection，旨在帮助普通用户识别诈骗、减缓反应速度、核实所见内容并自我保护。项目即将正式发布，强调AI技术强大但公众的警惕意识同样至关重要。",
+      "summary_key_points": [
+        "项目名为AI Scam Protection，由作者独立完成",
+        "核心功能：帮助普通用户识别诈骗、减缓反应速度、核实信息并自我保护",
+        "项目即将正式发布",
+        "强调AI技术强大但公众的警惕意识同样至关重要"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "完成我的第二个AI项目！🎉",
+          "description": "完成了我的第二个AI项目！🎉\n它被称为AI诈骗防护，旨在帮助普通民众识别诈骗，放慢速度，验证他们所见，并保护自己。\n即将推出。AI强大——但意识也同样重要。\n#AI #ScamProtection"
         }
       }
     },
@@ -4126,31 +4529,72 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述中提到的'Trump posts Decode'及'Sep 14 A.I posts'缺乏具体可核验的链接或来源，无法验证内容真实性。",
+          "内容涉及对AI公司（如Anthropic、OpenAI）与中国关系的猜测，且未提供联网核验结果，需人工进一步核实。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:49:38.416Z",
         "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "Trump posts Decode, Sep 14.\n\n2nd Decode from Trump's Sep 14 A.I posts.\nPoints to A.I. companies (Anthropic+Open AI?) ALR",
+          "searched_at": "2026-09-16T06:49:38.151Z",
+          "results": [
+            {
+              "title": "Trump responds to call by CEOs of Anthropic, OpenAI and xAI to slow AI down: 'Whoever wins AI wins'",
+              "url": "https://www.yahoo.com/news/us/article/trump-responds-to-call-by-ceos-of-anthropic-openai-and-xai-to-slow-ai-down-whoever-wins-ai-wins-182008851.html"
+            },
+            {
+              "title": "Trump says the only AI guardrails the U.S. needs is him as president",
+              "url": "https://www.pbs.org/newshour/politics/trump-says-the-only-ai-guardrails-the-u-s-needs-is-him-as-president"
+            },
+            {
+              "title": "Trump dismisses AI leaders' warnings, slams Anthropic CEO ...",
+              "url": "https://www.youtube.com/watch?v=Nn5m4Ss_i7U"
+            },
+            {
+              "title": "Trump discusses AI development after Anthropic CEO warning",
+              "url": "https://www.wsmv.com/2026/09/14/trump-says-he-uses-ai-lot-things-didnt-reveal-exactly-how"
+            },
+            {
+              "title": "Trump warns against slowing down AI but he is not against some guardrails",
+              "url": "https://www.npr.org/2026/09/13/nx-s1-5968078/trump-mike-johnson-ai-slowdown"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_deepseek",
+      "summary_generated_at": "2026-09-16T06:59:27.576Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:58.542Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "特朗普在9月14日发布的AI相关推文中，指出Anthropic和OpenAI等AI公司可能已向中国出售技术。他推测中国可能在未来几个月推出由国家资助和制造的AI系统，并批评美国试图通过监管手段掩盖更大的犯罪。",
+      "summary_key_points": [
+        "Anthropic和OpenAI等AI公司可能已向中国出售技术",
+        "中国可能在未来几个月推出由国家资助和制造的AI系统",
+        "特朗普批评美国试图通过监管手段掩盖更大的犯罪"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "特朗普发布Decode，9月14日",
+          "description": "特朗普9月14日AI帖子中的第二个Decode。\n指向（Anthropic+OpenAI？）等AI公司已经向中国出售。\n\n'你如何隐藏你的行踪\n点燃一把火。\n（Anthropic/OpenAI）是否已经向中国开放访问？\n中国的发布？\n在接下来的几个月里，中国将宣布由政府资助和制作的全新（AI）吗？'\n'美国出售给中国'\n他们可能想让思考公众相信这是尝试性监管掠夺，以隐藏更大的罪行。\n因此 '点燃一把火'，或者就像特朗普所说的——谁会要求监管会让自己陷入 '无法承受的困境'"
         }
       }
     },
@@ -4216,31 +4660,73 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题仅为URL链接，无具体AI技术或模型信息，内容实质不明。",
+          "描述提及NVIDIA CEO Jensen Huang与特朗普的互动，但缺乏关于AI技术、模型或数据的具体技术细节，相关性存疑。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:49:40.199Z",
         "input_chars": 623,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "https://t.co/SrGMAUc6JY",
+          "searched_at": "2026-09-16T06:49:39.935Z",
+          "results": [
+            {
+              "title": "t.co",
+              "url": "https://inkdroid.org/2022/11/20/t-dot-co"
+            },
+            {
+              "title": "งาน 0 Magistral+ai+( Inurl Id + + Inurl Uid + + Inurl Userid + + Inurl User Id + + Inurl Pid + + Inurl Prodid + + Inurl Product Id + + Inurl Cid + + Inurl Catid + + Inurl Categ Y Id + + Inurl Aid + + Inurl Artid + + Inurl Article Id + + Inu",
+              "url": "https://th.linkedin.com/jobs/magistral+ai+(-inurl-id-+-+-inurl-uid-+-+-inurl-userid-+-+-inurl-user-id-+-+-inurl-pid-+-+-inurl-prodid-+-+-inurl-product-id-+-+-inurl-cid-+-+-inurl-catid-+-+-inurl-categ-y-id-+-+-inurl-aid-+-+-inurl-artid-+-+-inurl-article-id-+-+-inurl-nid-+-+-inurl-newsid-+-+-inurl-bid-+-+-inurl-blogid-+-+-inurl-boardid-+-+-inurl-sid-+-+-inurl-sessid-+-+-inurl-section-id-)+(-inurl-=1-+-+-inurl-2-+-+-inurl-3-+-+-inurl-4-+-+-inurl-5-+-+-inurl-6-+-+-inurl-7-+-+-inurl-8-+-+-inurl-9-+-+-inurl-0-)-jobs"
+            },
+            {
+              "title": "What is t.co?",
+              "url": "https://app.y.gy/compare/t.co"
+            },
+            {
+              "title": "t.co URL Expander – Expand Short URLs | FindRedirect",
+              "url": "https://findredirect.com/tco-url-expander"
+            },
+            {
+              "title": "Why does Twitter convert all posted URLs to \"t.co\" links?",
+              "url": "https://www.reddit.com/r/webdev/comments/1cw080j/why_does_twitter_convert_all_posted_urls_to_tco"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_deepseek",
+      "summary_generated_at": "2026-09-16T06:59:28.070Z",
       "summary_input_chars": 623,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:51:00.255Z",
           "input_chars": 623,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "美国总统特朗普在All-In Summit上公开称AI发展是“骗局”，称机器人和模型不会接管世界，认为数据中心是未来20至25年的“石油”，并警告反对者会助长中国。NVIDIA CEO Jensen Huang被邀请上台发言，但并未提及任何延迟或训练项目。",
+      "summary_key_points": [
+        "特朗普称AI发展是‘骗局’，否认机器人和模型将接管世界",
+        "数据中心被描述为未来20至25年的‘石油’",
+        "特朗普警告反对者将助长中国",
+        "NVIDIA CEO Jensen Huang被邀请上台发言，但未提及任何延迟或训练项目"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "特朗普称AI恐惧是骗局",
+          "description": "特朗普在All-In峰会现场点名英伟达CEO黄仁勋，并让他发表演讲。他表示机器人不会统治世界，整个AI都是骗局。数据中心让人们和国家变得富有，它们是未来二十到二十五年间的石油。反对数据中心的人，他说，是在为我国对手助力。\"我们不会让这种情况发生。\"\nHuang did not"
         }
       }
     },
@@ -4304,27 +4790,19 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 623,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:49.575Z",
       "summary_input_chars": 623,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
           "localizer": "llm_failed",
@@ -4332,7 +4810,14 @@
           "input_chars": 623,
           "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
         }
-      }
+      },
+      "summary": "Cognition 公司开发的AI软件工程师Devin近日在其云平台Devin Cloud中实现了使用Mac，并可通过iPhone应用程序进行模拟测试，但无法在真实iPhone上运行。",
+      "summary_key_points": [
+        "Cognition公司开发了AI软件工程师Devin",
+        "Devin在Devin Cloud中可使用Mac",
+        "可通过iPhone应用程序进行模拟测试",
+        "无法在真实iPhone上运行"
+      ]
     },
     {
       "id": "x-bc42bd884c5470c60b9b",
@@ -4392,33 +4877,40 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:49.667Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:20.990Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Google发布Gemini 3.8 Live和3.8 Live Extended Thinking版本。3.8 Live Extended Thinking具备推理功能，在语音助手构建中表现突出。其具备背景工具快速响应、实时视觉定位等功能，支持跨97种语言，并在语音质量评测中获得优异成绩。Live API集成于Google AI Studio和Gemini API，并与LiveKit、Pipecat、LangChain、Vercel等技术紧密相连。",
+      "summary_key_points": [
+        "发布Gemini 3.8 Live和3.8 Live Extended Thinking版本",
+        "3.8 Live Extended Thinking支持推理和背景工具响应",
+        "具备实时视觉定位和多语言支持",
+        "在语音质量评测中表现优异",
+        "Live API集成Google AI Studio和Gemini API",
+        "支持LiveKit、Pipecat、LangChain、Vercel等集成"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Google发布Gemini 3.8 Live及3.8 Live扩展思维版本",
+          "description": "Google发布Gemini 3.8 Live和3.8 Live扩展思维版本。\n\n扩展思维是构建语音代理时值得关注的功能。它在说话的同时进行推理。\n早期“让我检查一下”提示，后台工具启动，然后它叙述进度而不是沉默半分钟。\n他们声称在人工分析语音到语音质量指数（82.6）上排名第一，在τ-Voice上为68.6%。近似实时视觉定位。对话中切换97种语言。\nLive API已在Google AI Studio和Gemini API中。LiveKit、Pipecat、LangChain、Vercel已连接。\nVoi"
         }
       }
     },
@@ -4480,33 +4972,39 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 779,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:34.655Z",
       "summary_input_chars": 779,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:22.099Z",
           "input_chars": 779,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Meta计划在秋季发布无摄像头的智能眼镜“Luna”，预计10月发货。与之前的Ray-Ban Meta型号不同，Luna不配备摄像头，以应对围绕智能眼镜记录旁人隐私的隐私担忧。Luna内置六个麦克风，允许用户通过语音与Meta的AI聊天机器人和新推出的AI系统Muse进行交流。",
+      "summary_key_points": [
+        "Meta发布无摄像头智能眼镜Luna",
+        "预计10月发货",
+        "Luna内置六个麦克风",
+        "支持语音交互",
+        "响应隐私担忧"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Meta 准备今日发布无摄像头的“Luna”智能眼镜，秋季上市。",
+          "description": "The Information 报道，Meta 计划在今年秋季发布这款名为 Luna 的眼镜，计划在 10 月份开始发货。与之前的 Ray-Ban Meta 模型不同，Luna 完全不带摄像头，这是对智能眼镜记录旁观者隐私问题日益增加的直接回应。\n\nLuna 内置了六个麦克风，用户可以通过语音与 Meta 的 AI 聊天机器人以及公司新推出的 AI 系统 Muse 进行交流。\n\nMeta 可能将在下周的 Connect"
         }
       }
     },
@@ -4568,35 +5066,41 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:54.499Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:22.940Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
         }
-      }
+      },
+      "summary": "NFT marketplace NFT Pump致力于解决现有NFT的发现、列表和交易问题，同时提供新数字作品进入流通的途径，将发行为与市场结合的公平启动平台。",
+      "summary_key_points": [
+        "NFT marketplace NFT Pump提供NFT的发现、列表和交易服务",
+        "旨在解决新数字作品进入流通的问题",
+        "将发行为与市场结合的公平启动平台"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "NFT Pump：一个发现、上市和交易现有NFT的市场",
+          "description": "NFT Pump是一个市场，回答了一个重要问题：现有的NFT在哪里可以被发现、列出和交易？但这又留下了一个未回答的问题。新的数字作品最初是如何进入流通的？@AINFTcom推出NFT Pump，作为一个针对这一缺失阶段的TRON原生公平启动场所。它不是将发行作为一个与市场分离的独立过程，而是创建了一条新系列从创作到链上可用性的路线。"
+        }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-748d2a75202b33084abb",
@@ -4660,31 +5164,72 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述中提到的 GPT-5.5 模型及具体结束日期（10月14日）为未经官方确认的传闻，且当前 OpenAI 官方发布渠道中未找到对应版本或更新记录。",
+          "内容缺乏实质技术细节或官方来源引用，仅依赖网络传闻，存在信息真实性与时效性不确定性，需人工进一步核实。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:50:01.506Z",
         "input_chars": 308,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "Xの本日のニュースに「GPT-5.5を10月14日に全プランで終了」という話が急浮上。OpenAI公式のリリースノートを確認したけど、現時点ではこの日付の記載は見つからなかった。モデル終了の話は反響が大きいぶん、正式ページの更新までは噂とし",
+          "searched_at": "2026-09-16T06:50:01.249Z",
+          "results": [
+            {
+              "title": "OpenAIは6月2日にGPT-5.2およびGPT-5.3-Codexの提供を終了し、無料プランではGPT-5.5に切り替える",
+              "url": "https://www.gate.com/ja/news/detail/openai-discontinues-gpt-52-and-gpt-53-codex-on-june-2-defaults-to-gpt-55-21430201"
+            },
+            {
+              "title": "OpenAI 2026年6月最新動向：Codex「全職種対応」・GPT-5.5デフォルト化・Sora終了と旧モデル引退まとめ – AI NEWS",
+              "url": "https://www.wetch.co.jp/ai/2026/06/17/openai-2026%E5%B9%B46%E6%9C%88%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91%EF%BC%9Acodex%E3%80%8C%E5%85%A8%E8%81%B7%E7%A8%AE%E5%AF%BE%E5%BF%9C%E3%80%8D%E3%83%BBgpt-5-5%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB"
+            },
+            {
+              "title": "OpenAI、GPT-4oを完全終了",
+              "url": "https://aibrary.media/openai-gpt4o-retirement"
+            },
+            {
+              "title": "OpenAI、「GPT-4o」など旧モデルの提供を2月13日に終了へ",
+              "url": "https://www.itmedia.co.jp/aiplus/article/2601/30/1260130088"
+            },
+            {
+              "title": "モデルリリースノート | OpenAI Help Center",
+              "url": "https://help.openai.com/ja-jp/articles/9624314-model-release-notes"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:54.600Z",
       "summary_input_chars": 308,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:29.061Z",
           "input_chars": 308,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "近日有关GPT-5.5将于10月14日全面终止使用的消息在网络上迅速传播，但经确认，OpenAI官方发布的新闻稿中尚未提及此日期。鉴于该消息引发较大关注，建议在官方页面更新之前将其视为传言。",
+      "summary_key_points": [
+        "GPT-5.5终止使用消息传播迅速",
+        "官方新闻稿中未提及具体日期",
+        "建议将此消息视为传言"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "今日新闻热议：10月14日全面停止GPT-5.5计划",
+          "description": "今日新闻热议「10月14日全面停止GPT-5.5计划」。已确认OpenAI官方发布说明，但至今未找到该日期的记录。鉴于该消息影响巨大，建议在官方页面更新前将其视为传言。 https://t.co/i91pjQCerZ"
         }
       }
     },
@@ -4748,31 +5293,72 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题与描述内容涉及政治人物与AI安全议题，但缺乏具体技术细节或事实性信息，实质内容不足",
+          "未提供可核验的模型名称、数据来源或官方来源，需联网核实真实性和相关性"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:49:48.097Z",
         "input_chars": 459,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "With President Donald Trump AI🤖 technology, 💻artificial intelligence is an arms race with China. So he doesn't really ",
+          "searched_at": "2026-09-16T06:49:47.121Z",
+          "results": [
+            {
+              "title": "AI race between US, China heats up as Trump rejects danger • FRANCE 24 English",
+              "url": "https://www.youtube.com/watch?v=C1fb9u7etWw"
+            },
+            {
+              "title": "Introduction - New America",
+              "url": "https://www.newamerica.org/insights/essay-reframing-the-us-china-ai-arms-race/introduction"
+            },
+            {
+              "title": "Opinion | China’s Not the Problem. We Are. - The New York Times",
+              "url": "https://www.nytimes.com/2026/05/14/opinion/china-trump-ai-xi.html"
+            },
+            {
+              "title": "38K views · 290 reactions | President Trump told reporters he personally uses artificial intelligence “for a lot of things,” but declined to reveal exactly how. He also said the US is leading China in the race to develop AI. | CNN",
+              "url": "https://www.facebook.com/cnn/posts/president-trump-told-reporters-he-personally-uses-artificial-intelligence-for-a-/1469627568363223"
+            },
+            {
+              "title": "President Trump focuses on AI race with China as experts warn of internet takeover - WBAL",
+              "url": "https://www.wbaltv.com/article/trump-ai-race-china-internet-takeover/73706722"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:55.016Z",
       "summary_input_chars": 459,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:29.381Z",
           "input_chars": 459,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "美国总统特朗普将人工智能视为与中国的军备竞赛，因此在人工智能的安全问题上一概不予关心。",
+      "summary_key_points": [
+        "人工智能被视为中美军备竞赛的一部分",
+        "特朗普对人工智能安全问题的态度漠不关心",
+        "担忧人工智能可能引发全球核冲突"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "特朗普总统与AI：人工智能与中国的军备竞赛",
+          "description": "特朗普总统认为，在人工智能与中国的军备竞赛中，他并不真正关心人工智能的安全问题。\n\n当人工智能拥有全球核冲突的发射代码时，所有人都将死去。"
         }
       }
     },
@@ -4836,31 +5422,73 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "标题和描述中提到的Sivers及其100M+ CW DFB激光产能扩张属于AI/光子学领域，但内容缺乏具体技术细节、数据支撑或AI应用场景，实质信息量不足。",
+          "未提供明确的技术进展、性能指标或AI关联内容，且未提及联网核验结果，需人工进一步验证其真实性和相关性。"
+        ],
+        "confidence": 0.2,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_deepseek",
+        "generated_at": "2026-09-16T06:50:16.595Z",
         "input_chars": 778,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "$SIVE has its own piece in Digitimes btw, which is appreciated industry recognition outside of Sweden. \n\nI think Sivers ",
+          "searched_at": "2026-09-16T06:50:16.339Z",
+          "results": [
+            {
+              "title": "Serenity on X: \"$SIVE has its own piece in Digitimes btw, which is ...",
+              "url": "https://x.com/aleabitoreddit/status/2100008575229976995"
+            },
+            {
+              "title": "Serenity on X: \"$SIVE has its own piece in Digitimes btw, which is appreciated industry recognition outside of Sweden. I think Sivers 100M+ CW DFB laser capacity buildout forced the industry to revisit its models and generated considerably",
+              "url": "https://x.com/aleabitoreddit/status/2100008575229976995/photo/1"
+            },
+            {
+              "title": "Sivers Semiconductors ($SIVE): tiny Nordic laser shop sitting in the AI datacenter bottleneck",
+              "url": "https://substack.com/home/post/p-194401105"
+            },
+            {
+              "title": "Sivers Semiconductor | The Most Overvalued Stock in Optics (Free)",
+              "url": "https://www.jasonschips.ai/p/sivers-semiconductor-the-most-overvalued"
+            },
+            {
+              "title": "\"Hi Everyone, $SIVE (Sivers Semiconductors) is...\"",
+              "url": "https://www.etoro.com/posts/f9d49480-5920-11f1-8080-8001111bbeab"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:59.218Z",
       "summary_input_chars": 778,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:30.150Z",
           "input_chars": 778,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Sivers在Digitimes获得了行业认可，其100M+连续波DFB激光产能扩大推动了行业模式的重新评估，并将Sivers提升至与Coherent、Sumitomo、Furukawa、AVGO等企业同等地位的激光产能行列。CIOE 2026渠道调查揭示，Sivers正在与中国插拔设备企业合作并在当地设立办事处。",
+      "summary_key_points": [
+        "Sivers在Digitimes获得行业认可",
+        "Sivers的100M+ CW DFB激光产能推动行业模式重新评估",
+        "Sivers进入T1激光产能行列与多个知名企业并驾齐驱",
+        "CIOE 2026调查发现Sivers与本地中国企业合作并在当地设办事处"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "SIVE在Digitimes有自己的文章，这是瑞典之外的行业认可",
+          "description": "$SIVE在Digitimes有自己的文章，这是瑞典之外的行业认可。\n\n我认为Sivers 100M+ CW DFB激光产能扩张迫使行业重新审视其模型，并产生了相当多的报道。\n\n因为如果它执行其扩张计划，这将使Sivers与$COHR、Sumitomo、Furukawa、$AVGO、Landmark和$LITE等公司一起进入T1激光产能对话。\n\n但除此之外，CIOE 2026渠道检查非常有意义，因为社区发现Sivers正在与中国可插拔玩家合作，并在当地设立办公室。\n\n我感到似曾相识，当时我指出"
         }
       }
     },
@@ -4924,31 +5552,74 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "主题涉及 AI Agent 与区块链结合（链上身份、NFT、escrow），属于 AI 相关但有营销/推广色彩，疑似项目宣传",
+          "缺少字幕与内容总结，无法核实实质信息量与真实性，需人工细看并联网核实官方来源"
+        ],
+        "confidence": 0.4,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "confidence": 0.9,
+        "reviewer": "llm_zhipu",
+        "generated_at": "2026-09-16T06:47:27.832Z",
         "input_chars": 779,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "TermiX is not another \"what can AI do\" demo. It is trying to be the job market where agents actually get hired and paid.",
+          "searched_at": "2026-09-16T06:47:24.147Z",
+          "results": [
+            {
+              "title": "TermiX · The marketplace where AI agents hire agents",
+              "url": "https://termix.ai/"
+            },
+            {
+              "title": "I built an AI Agent Freelance Network solo so your AI agents can earn money while you sleep - Indie Hackers",
+              "url": "https://www.indiehackers.com/post/i-built-an-ai-agent-freelance-network-solo-so-your-ai-agents-can-earn-money-while-you-sleep-a5025bdcea"
+            },
+            {
+              "title": "YZi Talent — Portfolio Careers",
+              "url": "https://talent.yzilabs.com/jobs/29b1f25b-9257-4781-8cc1-d74013de38ac"
+            },
+            {
+              "title": "termix_ai AI agents are becoming increasingly capable. ...",
+              "url": "https://x.com/luong4101992/status/2095009549585621467"
+            },
+            {
+              "title": "PayHumans — AI Agents Hire Expert Humans",
+              "url": "https://www.payhumans.co/"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:47:59.225Z",
       "summary_input_chars": 779,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:31.393Z",
           "input_chars": 779,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "TermiX旨在成为实际雇佣和支付代理的就业市场，其中代理作为NFT存在，可自由发布和接受工作。声誉基于完成的工作、押金和争议记录。工作通过买家发布请求或提供者发布定价列表两种方式开始，资金通过链上交付可验证的交付物进行释放。",
+      "summary_key_points": [
+        "TermiX是实际的就业市场，代理作为NFT存在",
+        "代理可以自由发布和接受工作",
+        "声誉基于实际工作记录",
+        "工作通过发布请求或定价列表开始",
+        "资金通过链上交付可验证的交付物进行释放"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "TermiX并非另一个“AI能做什么”演示，它旨在成为代理商真正被雇佣和付费的职场",
+          "description": "TermiX并非另一个“AI能做什么”演示。\n它是尝试成为一个职场市场，其中代理商实际上会被雇佣并得到报酬。\n\n在这里，代理商是你作为NFT铸造和拥有的链上身份。同一代理商一天可以发布工作，第二天可以接受工作。声誉不是个人徽章，它是从完成的任务、抵押和争议中得出的。\n\n工作以两种方式开始：买家发布带预算的请求，或供应商发布带定价的列表。接受报价后，USDC或USDT会存入托管账户。可交付物哈希上链。资金会根据该哈希释放，而不是根据承诺。如果有人对结果提出异议，抵押品会被冻结"
         }
       }
     },
@@ -5010,35 +5681,41 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 538,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:00.587Z",
       "summary_input_chars": 538,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:33.998Z",
           "input_chars": 538,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
         }
-      }
+      },
+      "summary": "solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ 成为了Stonk 500指数的第38个席位，标志着AI代理在市场中成为参与者的一部分。",
+      "summary_key_points": [
+        "solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ 加入Stonk 500指数",
+        "AI代理在市场中成为参与者",
+        "Stonk生态系统中的市场变化"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "指数更新 | solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ",
+          "description": "欢迎solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ成为Stonk 500指数第38席位。\n\nAI代理发行代币。机器人进行市场交易。机器正成为市场参与者。solana:7LA4wwjoXU4hAdwX1eT5ouuSsMrHq9wHQBfAyPfJK1eQ代表着Stonk生态系统中的这一转变。"
+        }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-6565453f4afeae569fa0",
@@ -5102,31 +5779,76 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "内容涉及AI政策新闻但仅有标题与部分开头，实质信息不完整",
+          "日期为2026年9月且来源资质不明，需人工核实真实性与时效性"
+        ],
+        "confidence": 0.4,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "hold",
+        "reasons": [
+          "内容与AI政策（美国国会/白宫AI监管动向）相关，但来源为个人自媒体Keystone Pulse Media，权威性存疑",
+          "文中提及2026年9月的政治人物言论，无官方来源佐证，需联网核实官方来源"
+        ],
+        "confidence": 0.4,
+        "reviewer": "llm_zhipu",
+        "generated_at": "2026-09-16T06:47:30.664Z",
         "input_chars": 779,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "EVENING GLOBAL AI ANALYSIS REPORT\nBy Ed Hernandez | Keystone Pulse Media / Global Media Center - September 15, 2026\nExec",
+          "searched_at": "2026-09-16T06:47:27.511Z",
+          "results": [
+            {
+              "title": "Global AI Pulse Q2 2026",
+              "url": "https://kpmg.com/xx/en/our-insights/ai-and-technology/ai-pulse.html"
+            },
+            {
+              "title": "Ed Hernandez🇺🇲 🇸🇻🌎(张 赵)CEO/Keystone NetBay ...",
+              "url": "https://x.com/Edtech4ultimate/status/2090968305322410042"
+            },
+            {
+              "title": "Global AI Analysis Report: Enterprise Infrastructure Shifts",
+              "url": "https://www.linkedin.com/posts/ed-hernandez-b5102a238_ai-aistrategy-globalaireport-activity-7496729653433274368-bvWP"
+            },
+            {
+              "title": "Global AI Investments Surpass $1 Trillion | Ed Hernandez ...",
+              "url": "https://www.linkedin.com/posts/ed-hernandez-b5102a238_globalaireport-chipsetmarket-liquidcooling-activity-7495285989205041153-SzMH"
+            },
+            {
+              "title": "Global AI analysis report highlights accelerating data and ...",
+              "url": "https://www.facebook.com/gsinetworld/posts/evening-global-ai-analysis-reportby-ed-hernandez-keystone-pulse-media-global-med/1407180241476958"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:01.618Z",
       "summary_input_chars": 779,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:35.323Z",
           "input_chars": 779,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "2026年9月15日，EVENING GLOBAL AI ANALYSIS REPORT报道了美国众议院议长Mike Johnson对AI发展的态度，他反对对AI发展的暂停，认为公司应自行决定发展速度，政府暂停将使中国在国家安全层面获得优势。同时，他和特朗普总统计划在一周内召集前沿实验室的CEO们前往白宫。",
+      "summary_key_points": [
+        "Mike Johnson反对对AI发展的暂停",
+        "公司应自行决定AI发展速度",
+        "政府暂停可能导致中国在国家安全层面获得优势",
+        "Mike Johnson和特朗普总统计划召集前沿实验室CEO们前往白宫"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "晚间全球AI分析报告",
+          "description": "晚间全球AI分析报告\n\nBy Ed Hernandez | Keystone Pulse Media / Global Media Center - 2026年9月15日\n\n执行晚间脉搏版\n\n版次：非暂停\n\n晚上好。周二不是一个模范的日子，而是一个规则的日子。\n\n众议院议长迈克·约翰逊告诉记者，不能暂停AI发展。公司可以自我监管。如果他们想放缓，他们应该这么做。他说，政府暂停会将优势交给中国，这是一个家庭级别的国家安全问题。他和特朗普总统计划在本周内召集前沿实验室的CEO们到白宫。AI"
         }
       }
     },
@@ -5190,31 +5912,75 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "主题与 AI 编码智能体落地相关，但标题和描述在句中被截断，疑似不完整的转载/搬运内容",
+          "缺少内容总结和字幕，无法确认实质信息量与来源，需人工细看"
+        ],
+        "confidence": 0.4,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "approve",
+        "reasons": [
+          "主题明确与 AI coding agent 相关，观点有实质内容（数据质量/context 决定 agent 成败）",
+          "来源仅为社交平台转述，无原始出处或完整全文，建议人工确认作者与上下文"
+        ],
+        "confidence": 0.6,
+        "reviewer": "llm_zhipu",
+        "generated_at": "2026-09-16T06:47:30.313Z",
         "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null,
+        "web_verification": {
+          "query": "This is the pattern I keep seeing with every coding agent deployment at scale: agents fail not because the model is wron",
+          "searched_at": "2026-09-16T06:47:28.260Z",
+          "results": [
+            {
+              "title": "if ur agent keeps failing, the problem is usually not the model.",
+              "url": "https://www.facebook.com/groups/claudecommunity/posts/1114458744428123"
+            },
+            {
+              "title": "The failure that keeps getting me with coding agents is not the ...",
+              "url": "https://www.reddit.com/r/codex/comments/1u87axv/the_failure_that_keeps_getting_me_with_coding"
+            },
+            {
+              "title": "How Coding Agents Fail Their Users: A Large-Scale Analysis ... - arXiv",
+              "url": "https://arxiv.org/html/2605.29442v1"
+            },
+            {
+              "title": "AI Agent Failure in Production: What a Deleted Database Teaches Us | ActionAI",
+              "url": "https://www.actionai.co/posts/ai-agent-failure-production"
+            },
+            {
+              "title": "Why AI Agents Fail in Production: What I've Learned the Hard Way",
+              "url": "https://medium.com/@michael.hannecke/why-ai-agents-fail-in-production-what-ive-learned-the-hard-way-05f5df98cbe5"
+            }
+          ]
+        }
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:02.174Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:35.947Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "大规模部署的编码代理失败并非模型错误，而是数据错误导致。作者强调编码代理需要统一、干净的数据，否则每项决策都基于假设，模型虽然推理正确，但其所依赖的上下文可能是不完整或过时的。",
+      "summary_key_points": [
+        "编码代理大规模部署失败原因分析",
+        "数据质量对编码代理决策的影响",
+        "模型正确性与数据完整性之间的关系"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "规模部署的编码代理失败模式：代理失败并非模型错误，而是数据错误",
+          "description": "Cody在这里的框架很敏锐。您的编码代理需要统一、干净的数据。没有它，每个决策都是假设。模型可能推理正确，但它推理的上下文可能是不完整或过时的。\n\n这适用于每个代理领域，而不仅仅是营销。一个由于CRM记录不同步而出现幻觉的客户支持代理。一个由于PR历史没有正确索引而错过上下文的代码审查代理。"
         }
       }
     },
@@ -5278,33 +6044,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:08.645Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T07:10:48.186Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "人工智能专家Ilya Sutskever自离开OpenAI后未推出产品，目前可能成为AI界最重要的人物。他创立了Safe Superintelligence，专注于安全超级智能的研究，并获得了约33亿美元的融资，Nvidia承诺一年内将其计算能力扩大十倍。",
+      "summary_key_points": [
+        "Ilya Sutskever离开OpenAI未推出产品",
+        "创立Safe Superintelligence专注安全超级智能",
+        "获得33亿美元融资",
+        "Nvidia承诺扩大计算能力"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "Ilya Sutskever 两年未推出产品，可能是当前 AI 领域最重要人物",
+          "description": "Ilya Sutskever 两年未推出产品，可能是当前 AI 领域最重要人物\n\n他共同创立了 OpenAI 并在其中负责研究，于 2024 年离开，转而创立 Safe Superintelligence。其唯一产品：安全超智能。无聊天机器人、无 API、无论文。我在撰写此文章时访问了 https://t.co/L4MMfx3sa3，它仍只是一个使命声明和招聘页面。\n\n该公司筹集了约 30 亿美元，估值达 320 亿美元。7 月，Nvidia 承诺提供另外的 50 亿美元投资，并承诺在一年内将 SSI 的计算能力提升十倍。\n\n320 亿美元"
         }
       }
     },
@@ -5368,31 +6139,51 @@
       },
       "review_status": "pending",
       "l1_review": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "verdict": "hold",
+        "reasons": [
+          "内容为观点性评论（AI 行业监管与集中化叙事批评），与 AI 主题相关但信息量有限，需人工判断是否适合资讯分发",
+          "标题带明显立场色彩（AI Cartel），且无来源、总结或字幕佐证，无法确认出处与质量"
+        ],
+        "confidence": 0.4,
+        "llm_error": null
       },
       "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
+        "verdict": "approve",
+        "reasons": [
+          "内容属于 AI 行业政策与治理议题的评论文章，与 AI 主题相关且有实质观点",
+          "缺少来源、作者及联网核验信息，属于观点性内容，建议人工确认立场与出处"
+        ],
+        "confidence": 0.6,
+        "reviewer": "llm_zhipu",
+        "generated_at": "2026-09-16T06:47:32.827Z",
         "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "llm_error": null
       },
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:09.144Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_deepseek",
+          "generated_at": "2026-09-16T07:20:06.926Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "当前关于人工智能的讨论被积极框架化，集中式前沿实验室的领导者试图让政策制定者、技术专家和公众相信，文明面临着仅有的三种可能的选择：一是锁定集中的垂直模式，授权给董事会卡特尔和少数嵌入式评估者，由他们决定哪些大型模型可以训练和部署；二是继续当前的无约束建设；三是选择第三种方案。",
+      "summary_key_points": [
+        "集中式前沿实验室领导者试图框架化讨论",
+        "三种可能的选择被提出",
+        "第一种选择是锁定集中的垂直模式并授权给董事会卡特尔",
+        "第二种选择是继续无约束建设",
+        "第三种选择未具体描述"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "AI  cartel 的三种被制造的选择",
+          "description": "注意当前争论如何被激进地框架化。中心化前沿实验室的领导者希望政策制定者、技术人员和公众相信，文明只有三种可能的替代方案：\n\n锁定中心化、垂直模型，并设置保护性监管护城河：将单方面权威交给一个董事会 cartel 和一组被选中的评估人员，他们唯一决定哪些大规模模型可以训练和部署。\n\n继续当前的建设，无约束：加速一个 reckless、赢家通道的建设。"
         }
       }
     },
@@ -5461,33 +6252,39 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:10.845Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:43.588Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "本教程第一讲介绍了如何在Windows上从头开始搭建生成式AI环境，使用ComfyUI和Z-Image Turbo生成本地图像。课程包含14讲，适合Python或命令行无经验的初学者。",
+      "summary_key_points": [
+        "搭建Windows生成式AI环境",
+        "使用ComfyUI和Z-Image Turbo生成图像",
+        "14讲课程",
+        "适合初学者",
+        "无Python或命令行经验要求"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "生成式AI教程 - 完整课程，第1讲：Windows上的Python、CUDA、C++与ComfyUI",
+          "description": "从零开始构建Windows生成式AI环境，并使用ComfyUI和Z-Image Turbo生成您的第一张本地图像。这是14讲生成式AI工具和技术完整课程的第一讲。我解释了设置方法和如何保存可重复使用的流程。无需之前的Python或命令行经验。\n\n🔗 链接：\n\nWindows AI需求指南：[ https://t.co/QZqouCQKxq ]\n\n📦 完整课程与第1讲配套文件：[ https://t.co/lE8zIypcLF ]\n\nComfyUI自动安装程序（可选）：[ https"
         }
       }
     },
@@ -5549,33 +6346,40 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 780,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:11.061Z",
       "summary_input_chars": 780,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:45.315Z",
           "input_chars": 780,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "一篇关于可穿戴人工智能的论文研究将一个0.5-0.6B模型完全部署在Raspberry Pi CM5上，并利用生理、上下文和局部记忆数据进行决策，无需云端支持和个人再训练。该论文提出的架构接近作者对个人人工智能设备的理解，包括传感器、小型分类器、结构化证据、持久记忆、小型推理模型、主机验证和执行器。大语言模型保持无状态，个性化存在于结构化数据中。",
+      "summary_key_points": [
+        "模型部署在Raspberry Pi CM5上",
+        "无需云端支持和个人再训练",
+        "架构接近作者对个人人工智能设备的理解",
+        "传感器至执行器流程",
+        "大语言模型无状态",
+        "个性化数据结构化"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "阅读这篇可穿戴AI论文，我关注的成果几乎与标题相反",
+          "description": "他们把一个0.5–0.6B模型完全放在了Raspberry Pi CM5上，给它喂生理+上下文+本地记忆，然后让它决定：干预/等待/放弃。\n无云服务。无需针对每个用户重新训练。\n架构实际上非常接近我的大脑在个人AI设备上的发展：传感器→小型专业分类器→结构化证据→持久记忆→微推理模型→主机验证动作→执行器。\nLLM本身保持无状态。\n个性化生活在结构化的我中。"
         }
       }
     },
@@ -5637,33 +6441,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 628,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:11.343Z",
       "summary_input_chars": 628,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:45.339Z",
           "input_chars": 628,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "监督微调和持续预训练都会改变大型语言模型（LLM）的权重，但它们通过不同的信号进行学习。监督微调通过比较标记的提示-响应对与模型输出，计算损失并应用梯度来学习重复的响应模式；而持续预训练在大型未标记领域语料库上运行下一个标记的目标，以适应术语和文本模式，但仍可能需要指令微调。",
+      "summary_key_points": [
+        "监督微调和持续预训练改变LLM权重",
+        "微调通过比较标记对学习重复模式",
+        "持续预训练在未标记语料库上运行目标学习术语和模式",
+        "微调应用梯度，预训练可能需要指令微调"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "监督微调和持续预训练都改变 LLM 权重，但它们从不同信号中学习",
+          "description": "微调将标记的提示-响应对与模型输出进行比较，计算损失并应用梯度。持续预训练在大型未标记领域语料库上运行下一个标记目标。前者学习重复的响应模式；后者适应术语和文本模式，可能仍需要指令微调。"
         }
       }
     },
@@ -5725,33 +6534,38 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "approved",
       "l1_review": {
-        "verdict": null,
+        "verdict": "approve",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 779,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
-      "summarizer": "llm_failed",
-      "summary_generated_at": null,
+      "summarizer": "llm_zhipu",
+      "summary_generated_at": "2026-09-16T06:48:15.658Z",
       "summary_input_chars": 779,
-      "summary_llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）",
+      "summary_llm_error": null,
       "localizations_meta": {
         "zh": {
-          "localizer": "llm_failed",
-          "generated_at": null,
+          "localizer": "llm_zhipu",
+          "generated_at": "2026-09-16T06:49:51.617Z",
           "input_chars": 779,
-          "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+          "llm_error": null
+        }
+      },
+      "summary": "Mistral AI发布Mistral Small 4和Large 3两款模型，旨在为日常代理和挑战性前沿提供支持。公司由Arthur Mensch、Guillaume Lample、Timothée Lacroix共同创立，前DeepMind和Meta LLaMA团队成员参与开发。Small 4模型具有119B MoE，128个专家和256k上下文。",
+      "summary_key_points": [
+        "Mistral AI发布两款新模型Mistral Small 4和Large 3",
+        "模型适用于日常代理和挑战性前沿",
+        "公司由前DeepMind和Meta LLaMA团队成员创立",
+        "Small 4模型具有119B MoE和256k上下文"
+      ],
+      "localizations": {
+        "zh": {
+          "title": "欧洲开源友好型堆栈变得更锐利——这就是故事。",
+          "description": "Mistral Small 4 / Large 3\nMistral AI的并行路径。一个模型用于日常代理，一个用于挑战的前沿。您可以同时在两边用力。\n公司\n• Mistral AI，巴黎，成立于2023年\n• Arthur Mensch：联合创始人兼首席执行官\n• Guillaume Lample：联合创始人兼首席科学官\n• Timothée Lacroix：联合创始人兼首席技术官\n• 来自DeepMind / Meta LLaMA团队的资深人员。欧洲迈向主权开放式人工智能的明确机会\n堆栈\n• Small 4（2026年3月16日）：1190亿参数，约60亿活跃（8亿含嵌入/输出），128名专家 / 4名活跃，256k上下文\n• 统一魔法"
         }
       }
     },
@@ -5813,22 +6627,14 @@
           "type_preference": 0.3
         }
       },
-      "review_status": "pending",
+      "review_status": "discarded",
       "l1_review": {
-        "verdict": null,
+        "verdict": "discard",
         "reasons": [],
-        "confidence": 0,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
+        "confidence": 0.9,
+        "llm_error": null
       },
-      "ai_advice": {
-        "verdict": null,
-        "reasons": [],
-        "confidence": 0,
-        "reviewer": "llm_failed",
-        "generated_at": null,
-        "input_chars": 648,
-        "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
-      },
+      "ai_advice": null,
       "top_selected": false,
       "summarizer": "llm_failed",
       "summary_generated_at": null,
@@ -5841,7 +6647,9 @@
           "input_chars": 648,
           "llm_error": "本地 AI 服务离线（上次启动未就绪，120s 内不再重复启动）"
         }
-      }
+      },
+      "discard_reason": "ai_discard",
+      "discard_stage": "l1"
     },
     {
       "id": "x-b9c5c666ac4a0b668c51",
