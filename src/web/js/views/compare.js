@@ -277,39 +277,47 @@ function renderLeafCompareTable(targets) {
     }).join('') + '</tr></tbody></table>';
 }
 
+function compareRemoveButtonHtml(target) {
+  const toolId = target.ref?.toolId || '';
+  const itemId = target.ref?.itemId || '';
+  return '<button type="button" data-compare-remove data-compare-tool-id="' + escapeHtml(toolId) + '" data-compare-item-id="' + escapeHtml(itemId) + '" aria-label="移除 ' + escapeHtml(target.name) + '">×</button>';
+}
+function renderCompareSelection(targets) {
+  const chips = targets.map(target => '<span class="compare-chip"><span>' + compareTargetLabelHtml(target) + '</span>' + compareRemoveButtonHtml(target) + '</span>').join('');
+  const addButton = targets.length < 5 ? '<button class="btn btn-small compare-add-trigger" type="button" onclick="openAddComparePanel()"><svg class="icon" aria-hidden="true"><use href="#icon-plus"/></svg> 添加项目</button>' : '';
+  return '<div class="compare-chips">' + (targets.length ? chips : '<span class="hint">尚未选择可比较项目。</span>') + addButton + '</div>';
+}
+function bindCompareRemoveButtons(container) {
+  container.querySelectorAll('[data-compare-remove]').forEach(button => button.addEventListener('click', () => {
+    const toolId = button.dataset.compareToolId || button.dataset.compareRemove;
+    const itemId = button.dataset.compareItemId || null;
+    removeCompare(toolId, itemId);
+  }));
+}
+function renderCompareEmpty(title, message) {
+  return '<div class="compare-empty"><div class="compare-empty-icon" aria-hidden="true">⚖️</div><h3>' + escapeHtml(title) + '</h3><p>' + escapeHtml(message) + '</p>' +
+    '<button class="btn btn-primary" type="button" onclick="openAddComparePanel()"><svg class="icon" aria-hidden="true"><use href="#icon-plus"/></svg> 添加对比项目</button></div>';
+}
 export function renderCompare() {
-  const container = document.getElementById('compareContent');
-  const countBadge = document.getElementById('toolCompareCount');
-  if (!container) return;
-  const targets = state.compareList.map(resolveCompareTarget).filter(Boolean);
-  if (countBadge) countBadge.textContent = targets.length;
-
+  const selection = document.getElementById('compareSelection');
+  const table = document.getElementById('compareTable');
+  if (!selection && !table) return;
+  const targets = state.compareList.map(ref => { const target = resolveCompareTarget(ref); return target ? { ...target, ref } : null; }).filter(Boolean);
+  if (selection) { selection.innerHTML = renderCompareSelection(targets); bindCompareRemoveButtons(selection); }
+  if (!table) return;
   if (targets.length < 2) {
-    const remaining = 2 - targets.length;
-    container.innerHTML = '<div class="compare-empty"><div class="compare-empty-icon" aria-hidden="true">⚖️</div>' +
-      '<h3>还需添加 ' + remaining + ' 个项目</h3><p>请在下方选择项目加入对比，或在浏览工具/模型时点击「+对比」。</p>' +
-      '<button class="btn btn-primary" type="button" onclick="openAddComparePanel()"><svg class="icon" aria-hidden="true"><use href="#icon-plus"/></svg> 添加对比项目</button></div>';
+    table.innerHTML = renderCompareEmpty(targets.length ? '还需添加 ' + (2 - targets.length) + ' 个项目' : '还没有选择对比项目', '请在下方选择项目加入对比，或在浏览工具/模型时点击「+对比」。');
     return;
   }
-
   const firstKind = targets[0].kind;
-  if (!targets.every(t => t.kind === firstKind)) {
-    container.innerHTML = '<div class="compare-empty"><div class="compare-empty-icon" aria-hidden="true">⚠️</div>' +
-      '<h3>已选项目类型不一致</h3><p>模型、套餐与具体工具不能混合对比，请先移除不同类型的项目。</p>' +
-      '<div class="compare-chips">' + targets.map(t => '<span class="compare-chip">' + compareTargetLabelHtml(t) +
-      '<button type="button" aria-label="移除 ' + escapeHtml(t.name) + '" onclick="removeCompare(\'' + escapeHtml(t.tool?.tool_key || t.item.id) + '\',\'' + escapeHtml(t.item.id) + '\')">×</button></span>').join('') + '</div></div>';
+  if (!targets.every(target => target.kind === firstKind)) {
+    table.innerHTML = renderCompareEmpty('已选项目类型不一致', '模型、套餐与具体工具不能混合对比，请先移除不同类型的项目。');
     return;
   }
-
-  const chipsHtml = '<div class="compare-chips">' +
-    targets.map(t => '<span class="compare-chip">' + compareTargetLabelHtml(t) +
-      '<button type="button" aria-label="移除 ' + escapeHtml(t.name) + '" onclick="removeCompare(\'' + escapeHtml(t.tool?.tool_key || t.item.id) + '\',\'' + escapeHtml(t.item.id) + '\')">×</button></span>').join('') +
-    (targets.length < 5 ? '<button class="btn btn-small compare-add-trigger" type="button" onclick="openAddComparePanel()"><svg class="icon" aria-hidden="true"><use href="#icon-plus"/></svg> 添加项目</button>' : '') +
-  '</div>';
-  const isAllRoot = targets.every(t => t.type === 'root');
-  const isAllLeaf = targets.every(t => t.type === 'leaf');
+  const isAllRoot = targets.every(target => target.type === 'root');
+  const isAllLeaf = targets.every(target => target.type === 'leaf');
   const tableHtml = isAllRoot ? renderRootToolCompare(targets) : isAllLeaf ? renderLeafCompareTable(targets) : '';
-  container.innerHTML = chipsHtml + renderCompareBars(targets) + '<div class="compare-table-wrapper">' + tableHtml + '</div>';
+  table.innerHTML = renderCompareBars(targets) + tableHtml;
 }
 
 function getAddCompareTargets(query = '') {
@@ -361,9 +369,12 @@ export function renderAddCompare(query = '') {
   ).join('');
 }
 
-export function removeCompare(toolId, itemId = null) {
-  const key = compareKey({ toolId, itemId });
-  state.compareList = state.compareList.filter(ref => compareKey(ref) !== key);
+export function removeCompare(refOrToolId, itemId = null) {
+  const ref = refOrToolId && typeof refOrToolId === 'object'
+    ? refOrToolId
+    : { toolId: refOrToolId, itemId };
+  const key = compareKey(ref);
+  state.compareList = state.compareList.filter(candidate => compareKey(candidate) !== key);
   compareList = state.compareList;
   updateCompareCount();
   notifyCompareChange();
