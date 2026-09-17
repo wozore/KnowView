@@ -40,6 +40,17 @@ let activeHotCat = 'llm';
 function setActiveEditorCat(value) { activeEditorCat = value; }
 function setActiveHotCat(value) { activeHotCat = value; }
 
+// 北京时间（UTC+8）当天日期键：浏览器本地时区不可靠，固定偏移换算。
+function beijingDateKeyOf(date = new Date()) {
+  return new Date(date.getTime() + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
+}
+
+// 纯函数：精选到期判定——当天 = 到期日仍有效，次日失效；无到期信息保守保留。
+function isFeaturedActive(pick, todayKey) {
+  if (!pick) return false;
+  return !pick.featured_until || pick.featured_until >= todayKey;
+}
+
 function getCategoryLeaves(catKey) {
   const matcher = HOT_CATEGORY_MATCHERS[catKey] || (() => false);
   const leaves = getToolCardItems()
@@ -117,8 +128,9 @@ function renderEditorPicksForCat() {
   const grid = document.getElementById('featuredPicksGrid');
   if (!grid) return;
   const cat = FEATURED_CATEGORIES.find(c => c.key === activeEditorCat);
+  const todayKey = beijingDateKeyOf();
   const picks = state.featuredPicks
-    .filter(p => p.category === activeEditorCat)
+    .filter(p => p.category === activeEditorCat && isFeaturedActive(p, todayKey))
     .map(p => ({ ...p, tool: getToolCardItem(p.tool_id) }))
     .filter(p => p.tool);
   if (dataLoadFailures.has('featured')) {
@@ -191,6 +203,8 @@ export {
   setActiveHotCat,
   getCategoryLeaves,
   getFeaturedDetailUrl,
+  beijingDateKeyOf,
+  isFeaturedActive,
   renderFeatured,
   renderFeaturedTabs,
   renderEditorPicksForCat,

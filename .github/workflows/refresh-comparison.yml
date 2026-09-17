@@ -32,9 +32,8 @@ jobs:
 
       - name: Fetch due sources and rebuild integrated
         # 单源失败 WARN 隔离不阻塞其余源；任一源未就绪则跳过重建（保留旧 integrated）。
-        # 失败本身不终止工作流——真正的门禁是下一步 validate（数据坏了才红）。
-        run: |
-          node scripts/fetch-comparison.js run || echo "⚠️ 本次部分源抓取失败或未重建（旧数据保留）"
+        # run 在存在失败源、到期未就绪源或重建失败时非零退出，本步骤与后续步骤直接红灯。
+        run: node scripts/fetch-comparison.js run
 
       - name: Validate data and scan secrets
         run: |

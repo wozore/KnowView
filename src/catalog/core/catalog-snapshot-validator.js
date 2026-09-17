@@ -180,6 +180,56 @@ function checkLevel3(level3, cardsByDetail, errors) {
   });
 }
 
+// 免费额度/中文支持条件字段契约：字段缺失合法（存量零改动），存在则形状 fail-closed。
+const FREE_TIER_STATUSES = ['available', 'none', 'unknown', 'not_applicable'];
+const CHINESE_SUPPORT_STATUSES = ['supported', 'partial', 'unsupported', 'unknown', 'not_applicable'];
+const PROFILE_REQUIRED_BY_STATUS = {
+  free_tier: { available: ['quota'], not_applicable: ['reason'] },
+  chinese_support: { not_applicable: ['reason'] },
+};
+const PROFILE_OPTIONAL_FIELDS = {
+  free_tier: ['quota', 'conditions', 'reason'],
+  chinese_support: ['conditions', 'reason'],
+};
+
+function isNonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function checkProfileObject(item, index, field, statuses, errors) {
+  const path = `tool-level3[${index}].${field}`;
+  const value = item[field];
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    errors.push(error(`${field.toUpperCase()}_INVALID`, path, `记录 ${item.id} 的 ${field} 必须是对象`));
+    return;
+  }
+  if (!statuses.includes(value.status)) {
+    errors.push(error(`${field.toUpperCase()}_INVALID`, `${path}.status`, `记录 ${item.id} 的 ${field}.status 无效: ${value.status}`));
+    return;
+  }
+  for (const required of PROFILE_REQUIRED_BY_STATUS[field][value.status] || []) {
+    if (!isNonEmptyString(value[required])) {
+      errors.push(error(`${field.toUpperCase()}_FIELD_REQUIRED`, `${path}.${required}`, `记录 ${item.id} 的 ${field}.status=${value.status} 必须携带非空 ${required}`));
+    }
+  }
+  for (const optional of PROFILE_OPTIONAL_FIELDS[field]) {
+    if (value[optional] !== undefined && !isNonEmptyString(value[optional])) {
+      errors.push(error(`${field.toUpperCase()}_INVALID`, `${path}.${optional}`, `记录 ${item.id} 的 ${field}.${optional} 出现时必须为非空字符串`));
+    }
+  }
+}
+
+function checkLevel3ProfileFields(level3, errors) {
+  level3.forEach((item, index) => {
+    if (item?.free_tier !== undefined && item?.free_tier !== null) {
+      checkProfileObject(item, index, 'free_tier', FREE_TIER_STATUSES, errors);
+    }
+    if (item?.chinese_support !== undefined && item?.chinese_support !== null) {
+      checkProfileObject(item, index, 'chinese_support', CHINESE_SUPPORT_STATUSES, errors);
+    }
+  });
+}
+
 function validateCatalogSnapshot(snapshot) {
   const normalized = normalizeSnapshot(snapshot);
   const errors = [];
@@ -198,6 +248,7 @@ function validateCatalogSnapshot(snapshot) {
   const cardsByDetail = new Map(normalized['tool-card'].map(item => [item?.detail_ref?.id, item]));
   checkLevel3(normalized['tool-level3'], cardsByDetail, errors);
   checkSeriesFields(normalized, errors);
+  checkLevel3ProfileFields(normalized['tool-level3'], errors);
 
   normalized['vendor-card'].forEach((item, index) => {
     if (!item?.title || !item.vendor_key || !item.summary) errors.push(error('REQUIRED_FIELD_MISSING', `vendor-card[${index}]`, '缺少 title/vendor_key/summary'));

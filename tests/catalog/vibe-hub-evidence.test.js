@@ -2,6 +2,9 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 
 const {
   vibeHubSlugOf,
@@ -9,6 +12,7 @@ const {
   fetchVibeHubDefinition,
   refreshStaleVibeHubCache,
 } = require('../../src/catalog/concept/index');
+const { main: refreshVibeHubCacheScript } = require('../../scripts/refresh-vibe-hub-cache');
 
 function response(body, ok = true, status = 200) {
   return { ok, status, text: async () => body };
@@ -226,4 +230,93 @@ test('refreshStaleVibeHubCache 抓取失败计入 failed 且不更新条目', as
   assert.equal(report.failed[0].slug, 'chat-ui');
   assert.match(report.failed[0].reason, /404/);
   assert.equal(cache.entries['chat-ui'].fetched_at, new Date(nowMs - 4 * 24 * 60 * 60 * 1000).toISOString(), '失败不更新条目');
+});
+
+// ── 第 5 组：CI 脚本 main 的 ok 语义（scripts/refresh-vibe-hub-cache.js） ──
+
+function scriptCacheOptions(tempDir, cache, overrides = {}) {
+  const cacheFile = path.join(tempDir, 'vibe-hub-cache.json');
+  fs.writeFileSync(cacheFile, JSON.stringify(cache), 'utf8');
+  return {
+    cacheFile,
+    silent: true,
+    // 注入节流隔离，避免跨用例真实 500ms 等待
+    throttleState: { lastAtMs: 0 },
+    sleep: async () => {},
+    ...overrides,
+  };
+}
+
+test('CI 脚本 main：刷新失败 → ok:false，失败条目 fetched_at 不变', async () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vibe-hub-script-'));
+  try {
+    const nowMs = 1_000_000;
+    const staleFetchedAt = new Date(nowMs - 4 * 24 * 60 * 60 * 1000).toISOString();
+    const options = scriptCacheOptions(tempDir, {
+      schema_version: 1,
+      kind: 'vibe_hub_cache',
+      updated_at: null,
+      entries: { 'chat-ui': { fetched_at: staleFetchedAt, slug: 'chat-ui', title: '旧定义' } },
+    }, { now: () => nowMs, fetchImpl: async () => response('', false, 500) });
+    const report = await refreshVibeHubCacheScript([], options);
+    assert.equal(report.ok, false, '存在失败条目时脚本必须报告失败');
+    assert.equal(report.failed.length, 1);
+    const persisted = JSON.parse(fs.readFileSync(options.cacheFile, 'utf8'));
+    assert.equal(persisted.entries['chat-ui'].fetched_at, staleFetchedAt, '失败条目 fetched_at 不被前移');
+    assert.equal(persisted.entries['chat-ui'].title, '旧定义', '失败条目内容原样保留');
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test('CI 脚本 main：缓存全新鲜 → ok:true 且零网络', async () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vibe-hub-script-'));
+  try {
+    const nowMs = 1_000_000;
+    const options = scriptCacheOptions(tempDir, {
+      schema_version: 1,
+      kind: 'vibe_hub_cache',
+      updated_at: new Date(nowMs - 60_000).toISOString(),
+      entries: { 'chat-ui': { fetched_at: new Date(nowMs - 60_000).toISOString(), slug: 'chat-ui', title: '新定义' } },
+    }, {
+      now: () => nowMs,
+      fetchImpl: async () => { throw new Error('全新鲜时不应发请求'); },
+    });
+    const report = await refreshVibeHubCacheScript([], options);
+    assert.equal(report.ok, true);
+    assert.equal(report.refreshed.length, 0);
+    assert.equal(report.up_to_date, 1);
+    assert.equal(report.failed.length, 0);
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test('CI 脚本 main：部分刷新成功 + 部分失败 → ok:false，成功条目已前移', async () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vibe-hub-script-'));
+  try {
+    const nowMs = 1_000_000;
+    const staleFetchedAt = new Date(nowMs - 4 * 24 * 60 * 60 * 1000).toISOString();
+    const options = scriptCacheOptions(tempDir, {
+      schema_version: 1,
+      kind: 'vibe_hub_cache',
+      updated_at: null,
+      entries: {
+        'chat-ui': { fetched_at: staleFetchedAt, slug: 'chat-ui' },
+        'input': { fetched_at: staleFetchedAt, slug: 'input' },
+      },
+    }, {
+      now: () => nowMs,
+      fetchImpl: async (url) => (String(url).endsWith('/chat-ui') ? response(sampleHtml()) : response('', false, 404)),
+    });
+    const report = await refreshVibeHubCacheScript([], options);
+    assert.equal(report.ok, false);
+    assert.deepEqual(report.refreshed, ['chat-ui']);
+    assert.deepEqual(report.failed.map(item => item.slug), ['input']);
+    const persisted = JSON.parse(fs.readFileSync(options.cacheFile, 'utf8'));
+    assert.equal(persisted.entries['chat-ui'].fetched_at, new Date(nowMs).toISOString(), '成功条目前移');
+    assert.equal(persisted.entries['input'].fetched_at, staleFetchedAt, '失败条目保留');
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
 });

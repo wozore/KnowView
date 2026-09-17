@@ -39,24 +39,52 @@ export const searchAliases = {
   '数据分析': t => (t.scenes || []).includes('数据分析'),
 };
 
+// 纯函数：activeFilters 的 access/price/theme/scene 全 AND 判定（场景取 item.scenes 包含）。
+// dimensions 限定参与判定的维度子集；缺省 null 表示全部维度（工具视图语义不变）。
+export function matchesActiveFilters(item, activeFilters, dimensions = null) {
+  if (!item) return false;
+  const { access = 'all', price = 'all', theme = 'all', scene = 'all' } = activeFilters || {};
+  const applies = key => !dimensions || dimensions.includes(key);
+  if (applies('access') && access !== 'all' && item.access_level !== access) return false;
+  if (applies('price') && price === 'free' && item.price_badge !== 'free') return false;
+  if (applies('price') && price === 'paid' && item.price_badge === 'free') return false;
+  if (applies('theme') && theme !== 'all' && item.theme !== theme) return false;
+  if (applies('scene') && scene !== 'all' && !(item.scenes || []).includes(scene)) return false;
+  return true;
+}
+
+// 厂商卡无 theme/scenes 字段（VENDOR_CARD_FIELDS）：厂商视图只受 access/price 筛选影响。
+export function matchesVendorActiveFilters(item, activeFilters) {
+  return matchesActiveFilters(item, activeFilters, ['access', 'price']);
+}
+
+// 纯函数：从工具卡收集去重场景选项，频次降序并列按码点序（跨环境确定性），上限 limit。
+export function collectSceneOptions(items, limit = 12) {
+  const counts = new Map();
+  for (const item of Array.isArray(items) ? items : []) {
+    for (const scene of item?.scenes || []) {
+      if (typeof scene !== 'string' || !scene.trim()) continue;
+      counts.set(scene, (counts.get(scene) || 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .map(([value, count]) => ({ value, count }))
+    .sort((a, b) => b.count - a.count || (a.value < b.value ? -1 : a.value > b.value ? 1 : 0))
+    .slice(0, limit);
+}
+
 export function getFilteredVendorCardItems() {
   const query = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
   let filtered = getVendorCardItems();
   if (query) filtered = filtered.filter(item => (item.search_terms || []).some(term => String(term).toLowerCase().includes(query)));
-  if (state.activeFilters.access !== 'all') filtered = filtered.filter(item => item.access_level === state.activeFilters.access);
-  if (state.activeFilters.price === 'free') filtered = filtered.filter(item => item.price_badge === 'free');
-  if (state.activeFilters.price === 'paid') filtered = filtered.filter(item => item.price_badge !== 'free');
-  return filtered;
+  return filtered.filter(item => matchesVendorActiveFilters(item, state.activeFilters));
 }
 
 export function getFilteredToolCardItems() {
   const query = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
   let filtered = getToolCardItems();
   if (query) filtered = filtered.filter(item => (item.search_terms || []).some(term => String(term).toLowerCase().includes(query)));
-  if (state.activeFilters.access !== 'all') filtered = filtered.filter(item => item.access_level === state.activeFilters.access);
-  if (state.activeFilters.price === 'free') filtered = filtered.filter(item => item.price_badge === 'free');
-  if (state.activeFilters.price === 'paid') filtered = filtered.filter(item => item.price_badge !== 'free');
-  return filtered;
+  return filtered.filter(item => matchesActiveFilters(item, state.activeFilters));
 }
 
 export function getFilteredTools() {
@@ -74,11 +102,8 @@ export function getFilteredTools() {
     }
   }
 
-  // EXTENSION POINT: 新增筛选维度时在此追加过滤条件
-  if (state.activeFilters.access !== 'all') filtered = filtered.filter(t => t.access_level === state.activeFilters.access);
-  if (state.activeFilters.price === 'free') filtered = filtered.filter(t => t.price_badge === 'free');
-  if (state.activeFilters.price === 'paid') filtered = filtered.filter(t => t.price_badge !== 'free');
-  return filtered;
+  // EXTENSION POINT: 新增筛选维度时扩展 matchesActiveFilters
+  return filtered.filter(item => matchesActiveFilters(item, state.activeFilters));
 }
 
 export function getFilteredGlossary() {

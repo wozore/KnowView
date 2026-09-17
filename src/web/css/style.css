@@ -848,6 +848,7 @@ main:has(#view-search.active):has(#searchResultsPanel:not([hidden])) { max-width
   letter-spacing: .06em;
 }
 .tools-filters .filter-chip { padding: 5px 10px; border-radius: 999px; }
+.filter-chip-row { display: contents; }
 .tools-filters .filter-chip.active {
   background: var(--primary-light);
   border-color: var(--primary);
@@ -1703,7 +1704,8 @@ main:has(#view-compare.active.cmp-wide-active) { max-width: none; }
 .intelligence-item summary b { color: var(--text); font-size: 14px; }
 .intelligence-item summary small { color: var(--text-hint); font-size: 11px; }
 .intelligence-item-body { padding: 10px 4px 2px; font-size: 13px; color: var(--text-secondary); }
-.intelligence-context, .cache-status, .plan-card, .intelligence-scenarios, .intelligence-sources { margin-top: 10px; }
+.intelligence-context, .cache-status, .plan-card, .intelligence-scenarios, .intelligence-sources, .intelligence-profile { margin-top: 10px; }
+.intelligence-profile.intelligence-unknown { color: var(--text-hint); }
 .intelligence-context p, .plan-card p { margin-top: 3px; }
 .intelligence-pricing { margin-top: 12px; }
 .intelligence-pricing h5, .plan-card h5, .intelligence-scenarios h5 { color: var(--text); font-size: 13px; margin-bottom: 6px; }

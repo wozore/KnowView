@@ -32,6 +32,7 @@ const TOOL_LEVEL3_FIELDS = Object.freeze([
   'status', 'summary', 'one_m_context', 'api_pricing', 'plan',
   'applicable_scenarios', 'inapplicable_scenarios', 'sources',
   'release_date', 'last_updated_date',
+  'free_tier', 'chinese_support',
   'model_key', 'visibility', 'historical_since',
 ]);
 
@@ -46,7 +47,7 @@ const VISIBILITIES = Object.freeze(['visible', 'hidden_history']);
 
 // 各层级条件字段：不做无条件必填检查，存在才校验（存量兼容）。
 const CONDITIONAL_FIELDS = Object.freeze({
-  'tool-level3': Object.freeze(['model_key', 'visibility', 'historical_since']),
+  'tool-level3': Object.freeze(['model_key', 'visibility', 'historical_since', 'free_tier', 'chinese_support']),
   'tool-card': Object.freeze(['model_key', 'visibility', 'historical_since']),
   'vendor-level2': Object.freeze(['series_kind', 'generation_state']),
 });

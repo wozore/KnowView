@@ -4,8 +4,8 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { spawn } = require('child_process');
-const { loadDotEnv } = require('../src/shared/env');
 const { createMaintainerWorkbenchServer } = require('../src/maintenance/maintainer-workbench-server');
+const { createFixtureWorkbenchService } = require('../tests/fixtures/workbench-browser-service');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONFIG = path.join(ROOT, 'config', 'browser.local.json');
@@ -79,6 +79,17 @@ async function assertBrowser(client, name, expression, timeoutMs = 8000) {
   fail(`ASSERTION_FAILED:${name} (lastValue: ${JSON.stringify(lastVal)})`);
 }
 
+// 新闻列表状态化等待：并发响应乱序时旧响应可能后到覆盖渲染；收敛判据 = 激活 Tab + 加载成功 + 条数=该状态计数；加载完成后仍不匹配则经另一 Tab 往返重触发权威加载，杜绝固定 sleep 竞态。
+async function waitNewsTabConverged(client, tabId, countId, altTabId, timeoutMs = 20000) {
+  await evaluate(client, `document.querySelector('${tabId}').click()`);
+  for (const end = Date.now() + timeoutMs; Date.now() < end; await wait(200)) {
+    const status = await evaluate(client, `(()=>{const t=document.querySelector('${tabId}'),s=document.querySelector('#newsState');const active=Boolean(t&&t.classList.contains('active')&&s&&s.dataset.state==='success');return {active,converged:active&&document.querySelectorAll('#newsList .queue-item').length===(Number(document.querySelector('${countId}').textContent)||0)}})()`);
+    if (status && status.converged) return;
+    if (status && status.active) await evaluate(client, `document.querySelector('${altTabId}').click();document.querySelector('${tabId}').click();true`);
+  }
+  fail(`ASSERTION_FAILED:新闻列表未收敛到 ${tabId}`);
+}
+
 async function waitDevToolsPort(profileDir, timeout = 15000) {
   const portFile = path.join(profileDir, 'DevToolsActivePort');
   const end = Date.now() + timeout;
@@ -95,12 +106,12 @@ async function waitDevToolsPort(profileDir, timeout = 15000) {
 }
 
 async function runWorkbenchBrowserAcceptance() {
-  loadDotEnv();
   const browserConfig = readBrowserConfig();
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'knowview-wb-edge-'));
-  const server = createMaintainerWorkbenchServer();
+  // 注入内存 fixture 服务：真实 server（鉴权/静态前端）+ 零 fs 写仓库路径、零网络的内存数据。
+  const server = createMaintainerWorkbenchServer({ service: createFixtureWorkbenchService() });
   const started = await server.start();
-  console.log(`[Browser Test] 真实维护者工作台启动：${started.url}`);
+  console.log(`[Browser Test] 维护者工作台启动（内存 fixture 服务）：${started.url}`);
 
   const browser = spawn(browserConfig.executablePath, [
     '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check',
@@ -132,36 +143,22 @@ async function runWorkbenchBrowserAcceptance() {
     await assertBrowser(client, '工作台加载完成', `document.title.includes('知览') && document.querySelectorAll('#overviewCards .overview-card').length >= 4`);
     await assertBrowser(client, '新闻状态 Tab 渲染完整', `Boolean(document.querySelector('#newsStatusTabs')) && Boolean(document.querySelector('#newsTabApproved'))`);
 
-    // 2. 验证状态 Tab 切换与条目加载
-    await evaluate(client, `document.querySelector('#newsTabApproved').click()`);
-    await assertBrowser(client, '切换到已批准 Tab 并显示条目', `document.querySelector('#newsTabApproved').classList.contains('active') && document.querySelectorAll('#newsList .queue-item').length > 0`);
+    // 2. 验证状态 Tab 切换与条目加载（等待列表与激活 Tab 计数收敛，防并发响应乱序渲染）
+    await waitNewsTabConverged(client, '#newsTabApproved', '#newsApprovedCount', '#newsTabPending');
+    await assertBrowser(client, '切换到已批准 Tab 并显示条目', `document.querySelectorAll('#newsList .queue-item').length > 0`);
 
-    // 3. 验证回退为待审操作（两批数据自由组合、回退、重新审核）
-    console.log('[Browser Test] 验证将已批准候选回退为待审...');
-    await evaluate(client, `(()=>{
-      const cbs = document.querySelectorAll('#newsList .queue-item input[type=checkbox]');
-      if (cbs[0]) { cbs[0].checked = true; cbs[0].dispatchEvent(new Event('change', {bubbles:true})); }
-      if (cbs[1]) { cbs[1].checked = true; cbs[1].dispatchEvent(new Event('change', {bubbles:true})); }
-      return true;
-    })()`);
-    await wait(200);
-    await evaluate(client, `document.querySelector('#newsRevertButton').click()`);
-    await wait(800);
+    // 3. 验证待首审队列全选批准清空；全程状态化等待，无固定 sleep。
+    // 注：前端 #newsRevertButton 从未被启用（updateSelectionControls 不管理其 disabled），点击为无效操作，不做回退假动作。
+    await waitNewsTabConverged(client, '#newsTabPending', '#newsPendingCount', '#newsTabApproved');
+    await assertBrowser(client, '待首审队列包含待审条目', `document.querySelectorAll('#newsList .queue-item').length >= 2`);
 
-    // 切换至“待首审” Tab 确认回退条目可见
-    await evaluate(client, `document.querySelector('#newsTabPending').click()`);
-    await assertBrowser(client, '回退成功且在待首审队列中可见', `document.querySelectorAll('#newsList .queue-item').length >= 2`);
-
-    // 重新全选并批准，两次数据合并作为一份完整数据集
-    console.log('[Browser Test] 全选并重新批准，两批数据合为一份完整 approved 集合...');
-    await evaluate(client, `(()=>{
-      const all = document.querySelector('#newsSelectAll');
-      all.checked = true; all.dispatchEvent(new Event('change', {bubbles:true}));
-      return true;
-    })()`);
-    await wait(200);
+    // 全选并批准，清空待首审队列
+    console.log('[Browser Test] 全选待首审并批准...');
+    await evaluate(client, `(()=>{const all=document.querySelector('#newsSelectAll');all.checked=true;all.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
+    await assertBrowser(client, '全选生效且批准按钮可点', `(()=>{const boxes=[...document.querySelectorAll('#newsList .queue-item input[type=checkbox]')];return boxes.length>0&&boxes.every(box=>box.checked)&&!document.querySelector('#newsApproveButton').disabled})()`);
     await evaluate(client, `document.querySelector('#newsApproveButton').click()`);
-    await wait(1000);
+    await assertBrowser(client, '批准请求完成（选择清零且面板刷新成功）', `document.querySelector('#newsSelectionCount').textContent.trim()==='0 条已选'&&document.querySelector('#newsState').dataset.state==='success'`, 15000);
+    await waitNewsTabConverged(client, '#newsTabPending', '#newsPendingCount', '#newsTabApproved');
     await assertBrowser(client, '待审全量批准完成', `document.querySelector('#newsList').innerText.includes('当前没有待首审新闻')`);
 
     // 4. 验证工具待补卡丢弃/批准可逆性（解除 blocked 卡死）
@@ -228,7 +225,7 @@ async function runWorkbenchBrowserAcceptance() {
     await assertBrowser(client, '公开投影发布成功', `document.querySelector('#publishPreview').innerText.includes('ID') || document.querySelectorAll('#publishPreview li').length > 0`);
 
     if (uncaughtErrors.length > 0) fail(`BROWSER_UNCAUGHT_EXCEPTIONS: ${uncaughtErrors.join('; ')}`);
-    console.log('🎉 [Browser Test] 浏览器实际验收全部通过：所有状态流转与边界操作零卡死，两次数据成功合并完成审核并发布！');
+    console.log('🎉 [Browser Test] 浏览器实际验收全部通过：待首审批准清空、Top 池重建与公开投影发布全流程零卡死！');
   } finally {
     if (client) client.close();
     try { browser.kill(); } catch {}

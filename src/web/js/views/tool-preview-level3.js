@@ -9,6 +9,34 @@ function notApplicableHtml(title, value) {
     : '';
 }
 
+const FREE_TIER_LABELS = { available: null, none: '无', unknown: '待核验' };
+const CHINESE_SUPPORT_LABELS = { supported: '支持', partial: '部分支持', unsupported: '不支持', unknown: '待核验' };
+
+// 免费额度展示：available 带 quota（+conditions）；none/unknown 中性陈述；not_applicable 复用不适用模式。
+function renderFreeTier(freeTier) {
+  if (!freeTier || typeof freeTier !== 'object') return '';
+  if (freeTier.status === 'not_applicable') return notApplicableHtml('免费额度', freeTier);
+  if (freeTier.status === 'available' && freeTier.quota) {
+    const conditions = freeTier.conditions ? '（' + escapeHtml(freeTier.conditions) + '）' : '';
+    return '<div class="intelligence-profile"><b>免费额度：</b>' + escapeHtml(freeTier.quota) + conditions + '</div>';
+  }
+  const label = FREE_TIER_LABELS[freeTier.status];
+  return label
+    ? '<div class="intelligence-profile' + (freeTier.status === 'unknown' ? ' intelligence-unknown' : '') + '"><b>免费额度：</b>' + label + '</div>'
+    : '';
+}
+
+// 中文支持展示：supported/partial/unsupported/unknown；not_applicable 复用不适用模式。
+function renderChineseSupport(chineseSupport) {
+  if (!chineseSupport || typeof chineseSupport !== 'object') return '';
+  if (chineseSupport.status === 'not_applicable') return notApplicableHtml('中文支持', chineseSupport);
+  const label = CHINESE_SUPPORT_LABELS[chineseSupport.status];
+  if (!label) return '';
+  const conditions = chineseSupport.conditions ? '（' + escapeHtml(chineseSupport.conditions) + '）' : '';
+  const unknownClass = chineseSupport.status === 'unknown' ? ' intelligence-unknown' : '';
+  return '<div class="intelligence-profile' + unknownClass + '"><b>中文支持：</b>' + label + conditions + '</div>';
+}
+
 function renderScenario(title, items) {
   if (items?.status === 'not_applicable') return notApplicableHtml(title, items);
   if (!Array.isArray(items) || !items.length) return '';
@@ -87,8 +115,8 @@ function renderToolLevel3(request = {}) {
   return '<div class="model-index-page model-leaf-page">' + backHtml +
     '<section class="node-overview model-index-overview"><h2>' + detailIcon + ' ' + escapeHtml(detail.title) + '</h2><div class="vendor">' + vendorHtml + '<a href="' + escapeHtml(safeExternalUrl(detail.official_url)) + '" target="_blank" rel="noopener noreferrer">官网 ' + ICON_EXTERNAL + '</a></div></section>' +
     '<div class="model-leaf-panel"><div class="model-panel-heading"><div><span class="node-kind-badge leaf">具体' + kindLabel + '</span><h4>' + escapeHtml(detail.title) + '</h4>' + (dateDisplay?.freshnessEligible ? renderTimelinessBadge(dateDisplay.value) : '') + '</div>' + compareHtml + '</div>' +
-    '<div class="intelligence-item-body"><p>' + escapeHtml(detail.summary || '') + '</p>' + contextHtml + pricingHtml + planHtml + renderScenario('适用场景及说明', detail.applicable_scenarios) + renderScenario('不适用场景及说明', detail.inapplicable_scenarios) + sourceHtml + '</div></div></div>';
+    '<div class="intelligence-item-body"><p>' + escapeHtml(detail.summary || '') + '</p>' + contextHtml + renderFreeTier(detail.free_tier) + renderChineseSupport(detail.chinese_support) + pricingHtml + planHtml + renderScenario('适用场景及说明', detail.applicable_scenarios) + renderScenario('不适用场景及说明', detail.inapplicable_scenarios) + sourceHtml + '</div></div></div>';
 }
 
-export { renderToolLevel3, renderScenario, renderRateCard, notApplicableHtml };
+export { renderToolLevel3, renderScenario, renderRateCard, renderFreeTier, renderChineseSupport, notApplicableHtml };
 export default renderToolLevel3;

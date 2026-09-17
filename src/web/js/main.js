@@ -287,7 +287,7 @@ if (typeof document !== 'undefined') {
       if (!chip) return;
       const group = chip.closest('[data-filter-group]');
       const filterType = group?.dataset.filterGroup;
-      const value = chip.dataset.access || chip.dataset.price;
+      const value = chip.dataset.access || chip.dataset.price || chip.dataset.theme || chip.dataset.scene;
       if (filterType && value) {
         state.activeFilters[filterType] = value;
         group.querySelectorAll('.filter-chip').forEach(c => {
@@ -297,7 +297,17 @@ if (typeof document !== 'undefined') {
       }
     });
   });
-  document.getElementById('toolsClearSelected')?.addEventListener('click', clearToolFilters);
+  const toolsFilterToggle = document.getElementById('toolsFilterToggle');
+  const toolsFiltersPanel = document.getElementById('toolsFiltersPanel');
+  const setToolsFiltersOpen = open => {
+    if (!toolsFiltersPanel || !toolsFilterToggle) return;
+    toolsFiltersPanel.classList.toggle('open', open);
+    toolsFilterToggle.setAttribute('aria-expanded', String(open));
+  };
+  toolsFilterToggle?.addEventListener('click', () => setToolsFiltersOpen(!toolsFiltersPanel.classList.contains('open')));
+  document.getElementById('toolsFilterDone')?.addEventListener('click', () => setToolsFiltersOpen(false));
+  document.getElementById('toolsFilterClear')?.addEventListener('click', clearToolFilters);
+  document.getElementById('toolsClearFilters')?.addEventListener('click', clearToolFilters);
   document.getElementById('addCompareBtn')?.addEventListener('click', () => openAddComparePanel());
   document.getElementById('compareTabModel')?.addEventListener('click', () => setCompareTab('model'));
   document.getElementById('compareTabTool')?.addEventListener('click', () => setCompareTab('tool'));

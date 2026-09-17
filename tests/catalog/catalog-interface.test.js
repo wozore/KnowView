@@ -55,6 +55,7 @@ test('level1 and level3 records expose only owned fields', () => {
     'id', 'vendor_key', 'detail_kind', 'theme', 'title', 'vendor_label', 'icon', 'official_url',
     'status', 'summary', 'one_m_context', 'api_pricing', 'plan',
     'applicable_scenarios', 'inapplicable_scenarios', 'sources', 'release_date', 'last_updated_date',
+    'free_tier', 'chinese_support',
     'model_key', 'visibility', 'historical_since',
   ]);
   const level1 = catalog({ area: 'vendor-level1', operation: 'list' }).data;
@@ -166,6 +167,65 @@ test('subscription plans reject typed public dates', () => {
   });
   assert.equal(result.ok, false);
   assert.ok(result.errors.some(item => item.code === 'DATE_NOT_APPLICABLE'));
+});
+
+test('free tier and chinese support are conditional fields with fail-closed shapes', () => {
+  const base = {
+    id: 'tool-level3:profile-contract',
+    vendor_key: 'profile-vendor',
+    detail_kind: 'tool',
+    theme: 'dev',
+    title: 'Profile Contract Tool',
+    official_url: 'https://example.com/profile',
+    sources: [],
+  };
+  const card = {
+    id: 'tool-card:profile-contract',
+    tool_key: 'profile-contract',
+    vendor_key: 'profile-vendor',
+    title: 'Profile Contract Tool',
+    theme: 'dev',
+    detail_kind: 'tool',
+    detail_ref: { kind: 'tool-level3', id: base.id },
+  };
+  const snapshotOf = detail => ({
+    'vendor-card': [],
+    'tool-card': [card],
+    'vendor-level1': [],
+    'vendor-level2': [],
+    'tool-level3': [detail],
+  });
+
+  const missingFields = validateCatalogSnapshot(snapshotOf({ ...base }));
+  assert.equal(missingFields.ok, true);
+
+  const legal = validateCatalogSnapshot(snapshotOf({
+    ...base,
+    free_tier: { status: 'available', quota: '每月 50 条', conditions: '限标准模型' },
+    chinese_support: { status: 'partial', conditions: '界面中文' },
+  }));
+  assert.equal(legal.ok, true);
+  assert.deepEqual(legal.errors, []);
+
+  const badFreeTierStatus = validateCatalogSnapshot(snapshotOf({ ...base, free_tier: { status: 'maybe' } }));
+  assert.equal(badFreeTierStatus.ok, false);
+  assert.ok(badFreeTierStatus.errors.some(item => item.code === 'FREE_TIER_INVALID' && item.path.endsWith('free_tier.status')));
+
+  const availableWithoutQuota = validateCatalogSnapshot(snapshotOf({ ...base, free_tier: { status: 'available' } }));
+  assert.equal(availableWithoutQuota.ok, false);
+  assert.ok(availableWithoutQuota.errors.some(item => item.code === 'FREE_TIER_FIELD_REQUIRED' && item.path.endsWith('free_tier.quota')));
+
+  const notApplicableWithoutReason = validateCatalogSnapshot(snapshotOf({ ...base, chinese_support: { status: 'not_applicable' } }));
+  assert.equal(notApplicableWithoutReason.ok, false);
+  assert.ok(notApplicableWithoutReason.errors.some(item => item.code === 'CHINESE_SUPPORT_FIELD_REQUIRED' && item.path.endsWith('chinese_support.reason')));
+
+  const emptyOptional = validateCatalogSnapshot(snapshotOf({ ...base, free_tier: { status: 'none', quota: '   ' } }));
+  assert.equal(emptyOptional.ok, false);
+  assert.ok(emptyOptional.errors.some(item => item.code === 'FREE_TIER_INVALID' && item.path.endsWith('free_tier.quota')));
+
+  const badChineseStatus = validateCatalogSnapshot(snapshotOf({ ...base, chinese_support: { status: 'maybe' } }));
+  assert.equal(badChineseStatus.ok, false);
+  assert.ok(badChineseStatus.errors.some(item => item.code === 'CHINESE_SUPPORT_INVALID' && item.message.includes('tool-level3:profile-contract')));
 });
 
 test('scene and featured recommendations use stable tool and detail references', () => {

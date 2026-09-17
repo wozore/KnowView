@@ -11,8 +11,9 @@ import {
   getVendorLevel1Item,
   getToolLevel3Item,
   getCatalogItems,
+  getVisibleToolCardItems,
 } from '../data/data-catalog.js';
-import { getFilteredVendorCardItems, getFilteredToolCardItems } from '../data/data-filters.js';
+import { getFilteredVendorCardItems, getFilteredToolCardItems, collectSceneOptions } from '../data/data-filters.js';
 import { escapeHtml, renderState, setRegionBusy } from '../ui/ui-helpers.js';
 import { ICON_CLOSE } from '../ui/ui-icons.js';
 import {
@@ -34,10 +35,8 @@ const MODAL_CLOSE_HTML = '<button class="modal-close" type="button" aria-label="
 let toolsViewMode = 'vendor';
 
 const TOOL_GROUPS = [
-  { type: 'general', title: '通用对话与大模型入口' },
-  { type: 'dev', title: 'AI 编程与开发工具' },
-  { type: 'vision', title: '图像与视觉生成' },
-  { type: 'media', title: '视频、音乐与音频生成' },
+  { type: 'general', title: '通用对话与大模型入口' }, { type: 'dev', title: 'AI 编程与开发工具' },
+  { type: 'vision', title: '图像与视觉生成' }, { type: 'media', title: '视频、音乐与音频生成' },
 ];
 
 // EXTENSION POINT: 新增工具类型展示模式在此配置
@@ -281,31 +280,42 @@ function getDirectoryViews() {
   return directoryViews;
 }
 
+const THEME_LABELS = { general: '通用', dev: '编程', vision: '图像', media: '媒体' };
+
 export function renderSelectedFilters() {
   const section = document.getElementById('toolsSelected');
   const tagEl = document.getElementById('toolsSelectedTags');
   if (!section || !tagEl) return;
   const tags = [];
-  if (state.activeFilters.access !== 'all') {
-    tags.push('访问：' + (state.activeFilters.access === '开放' ? '国内可访问' : '需科学上网'));
-  }
-  if (state.activeFilters.price !== 'all') {
-    tags.push(state.activeFilters.price === 'free' ? '价格：有免费层' : '价格：仅付费');
-  }
+  if (state.activeFilters.access !== 'all') tags.push('访问：' + (state.activeFilters.access === '开放' ? '国内可访问' : '需科学上网'));
+  if (state.activeFilters.price !== 'all') tags.push(state.activeFilters.price === 'free' ? '价格：有免费层' : '价格：仅付费');
+  if (state.activeFilters.theme !== 'all') tags.push('分类：' + (THEME_LABELS[state.activeFilters.theme] || state.activeFilters.theme));
+  if (state.activeFilters.scene !== 'all') tags.push('场景：' + state.activeFilters.scene);
   section.hidden = tags.length === 0;
   tagEl.innerHTML = tags.map(tag => '<span class="tag">' + escapeHtml(tag) + '</span>').join('');
 }
 
 export function clearToolFilters() {
-  state.activeFilters.access = 'all';
-  state.activeFilters.price = 'all';
+  Object.keys(state.activeFilters).forEach(key => { state.activeFilters[key] = 'all'; });
   document.querySelectorAll('.tools-filters .filter-chip').forEach(chip => {
-    const isAll = (chip.dataset.category || chip.dataset.access || chip.dataset.price) === 'all';
-    chip.classList.toggle('active', isAll);
-    chip.setAttribute('aria-pressed', String(isAll));
+    const value = chip.dataset.access || chip.dataset.price || chip.dataset.theme || chip.dataset.scene || chip.dataset.category;
+    chip.classList.toggle('active', value === 'all');
+    chip.setAttribute('aria-pressed', String(value === 'all'));
   });
   renderSelectedFilters();
   renderTools();
+}
+
+// 场景筛选 chips：从当前可见工具卡 scenes 收集（频次降序、上限 12），随筛选结果动态渲染。
+function renderSceneFilterChips() {
+  const container = document.getElementById('toolsSceneChips');
+  if (!container) return;
+  const active = state.activeFilters.scene || 'all';
+  const chips = [{ value: 'all', label: '全部' }]
+    .concat(collectSceneOptions(getVisibleToolCardItems()).map(option => ({ value: option.value, label: option.value })));
+  container.innerHTML = chips.map(chip =>
+    '<button class="filter-chip' + (chip.value === active ? ' active' : '') + '" type="button" data-scene="' + escapeHtml(chip.value) + '" aria-pressed="' + (chip.value === active) + '">' + escapeHtml(chip.label) + '</button>'
+  ).join('');
 }
 
 export function renderTools() {
@@ -317,15 +327,16 @@ export function renderTools() {
   const currentGrid = currentView.grid;
   setRegionBusy(currentGrid, false);
   renderSelectedFilters();
+  renderSceneFilterChips();
   syncToolsViewControls();
 
   currentView.show();
   otherView.hide();
 
   document.getElementById('toolCount').textContent = filtered.length;
+  const hasActiveFilters = Object.keys(state.activeFilters).some(key => state.activeFilters[key] !== 'all');
   document.getElementById('filteredInfo').style.display =
-    (state.activeFilters.access !== 'all' || state.activeFilters.price !== 'all' || document.getElementById('searchInput').value)
-    ? 'inline' : 'none';
+    (hasActiveFilters || document.getElementById('searchInput').value) ? 'inline' : 'none';
 
   if (dataLoadFailures.has('tools')) {
     currentView.renderState({ icon: '⚠️', title: '工具数据加载失败', message: '请刷新页面重试；若问题持续，请检查公开工具数据文件是否可访问。', type: 'error' });
@@ -385,10 +396,4 @@ onCompareChange(() => {
   if (getCurrentView() === 'tools') renderTools();
 });
 
-export {
-  showModal,
-  closeModal,
-  setModalScrollPosition,
-  getModalFocusableElements,
-  configureModalAccessibility,
-};
+export { showModal, closeModal, setModalScrollPosition, getModalFocusableElements, configureModalAccessibility };

@@ -12,7 +12,7 @@ export const state = {
   scenes: [],
   hotspots: { items: [], coverage: null, generated_at: null },
   featuredPicks: [],
-  activeFilters: { access: 'all', price: 'all' },
+  activeFilters: { access: 'all', price: 'all', theme: 'all', scene: 'all' },
   activeGlossaryCategory: 'all',
   activeTrendingType: 'all',
   activeTrendingSort: 'recent',

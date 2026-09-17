@@ -54,6 +54,17 @@ function printIdentityReviewCandidates() {
   }, null, 2));
 }
 
+/**
+ * run 退出判定（纯函数）：exit 0 当且仅当「无失败源 且 无到期未就绪源」——
+ * 本轮全绿重建，或无源到期且数据保持新鲜，均算绿；重建失败同样视为失败（fail-closed）。
+ * @param {{fetched: string[], failed: string[], pending: string[], rebuilt: boolean, errors: object}} summary
+ * @returns {0|1}
+ */
+function runExitCode(summary) {
+  const green = summary.failed.length === 0 && summary.pending.length === 0 && !(summary.errors && summary.errors.rebuild);
+  return green ? 0 : 1;
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0];
@@ -61,7 +72,11 @@ async function main() {
   if (command === 'run') {
     const summary = await runComparison({ force: args.includes('--force') });
     console.log(`抓取 ${summary.fetched.length} 源，失败 ${summary.failed.length} 源${summary.rebuilt ? '，integrated 已重建' : ''}`);
-    process.exit(summary.rebuilt || summary.failed.length === 0 ? 0 : 1);
+    const exitCode = runExitCode(summary);
+    if (exitCode !== 0) {
+      console.log(`结构化摘要：${JSON.stringify({ fetched: summary.fetched, failed: summary.failed, pending: summary.pending, rebuilt: summary.rebuilt })}`);
+    }
+    process.exit(exitCode);
     return;
   }
   if (command === 'fetch') {
@@ -100,4 +115,4 @@ if (require.main === module) {
   main().catch(error => { console.error('管线异常：', error.message); process.exit(1); });
 }
 
-module.exports = { main };
+module.exports = { main, runExitCode };

@@ -363,17 +363,29 @@
 
       <div class="filters tools-filters" id="toolsFiltersPanel" aria-label="工具筛选条件">
         <!-- EXTENSION POINT: 新增筛选维度时在此添加 <div class="filter-group"> + filter-chip -->
-        <div class="filter-group">
+        <div class="filter-group" data-filter-group="access">
           <span class="filter-label">访问</span>
           <button class="filter-chip active" type="button" data-access="all" aria-pressed="true">全部</button>
           <button class="filter-chip" type="button" data-access="开放" aria-pressed="false">✅ 国内可访问</button>
           <button class="filter-chip" type="button" data-access="受限" aria-pressed="false">⚠️ 需科学上网</button>
         </div>
-        <div class="filter-group">
+        <div class="filter-group" data-filter-group="price">
           <span class="filter-label">价格</span>
           <button class="filter-chip active" type="button" data-price="all" aria-pressed="true">全部</button>
           <button class="filter-chip" type="button" data-price="free" aria-pressed="false">🆓 有免费层</button>
           <button class="filter-chip" type="button" data-price="paid" aria-pressed="false">💰 仅付费</button>
+        </div>
+        <div class="filter-group" data-filter-group="theme">
+          <span class="filter-label">分类</span>
+          <button class="filter-chip active" type="button" data-theme="all" aria-pressed="true">全部</button>
+          <button class="filter-chip" type="button" data-theme="general" aria-pressed="false">通用</button>
+          <button class="filter-chip" type="button" data-theme="dev" aria-pressed="false">编程</button>
+          <button class="filter-chip" type="button" data-theme="vision" aria-pressed="false">图像</button>
+          <button class="filter-chip" type="button" data-theme="media" aria-pressed="false">媒体</button>
+        </div>
+        <div class="filter-group" data-filter-group="scene">
+          <span class="filter-label">场景</span>
+          <span class="filter-chip-row" id="toolsSceneChips"></span>
         </div>
       </div>
       <div class="tools-filter-actions">
@@ -741,7 +753,7 @@
 </div>
 
 <footer class="footer">
-  <p>知览 KnowView MVP — 开源免费 · <span id="dataDate"></span> · 数据标注来源，评测方法公开 · 不接收厂商赞助</p>
+  <p>知览 KnowView MVP — 开源免费 · 数据标注来源，评测方法公开 · 不接收厂商赞助</p>
   <p style="margin-top:6px"><button class="btn-link" type="button" data-view="about">关于</button> · <a href="https://my.feishu.cn/share/base/form/shrcnBU7crL7oOwWJQsv7x7lMz7" rel="noopener">反馈与纠错</a> · <a href="https://github.com/wozore/KnowView/blob/main/CONTRIBUTING.md">如何贡献</a> · <a href="https://github.com/wozore/KnowView/issues/new?template=data-correction.yml">数据纠错</a> · <a href="https://github.com/wozore/KnowView/issues/new?template=new-tool.yml">收录建议</a></p>
 </footer>
 

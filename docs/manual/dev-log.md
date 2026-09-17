@@ -3231,3 +3231,48 @@
 
 - [~] 浏览器自动化验收已在本地真实 Edge 实例验证通过；若在无图形界面的极简 CI 容器中运行，需保证存在 Edge/Chromium 可执行文件或配置环境。
 
+<a id="log-entry-95"></a>
+
+## 2026-09-17 · 环 B 收口修复轮：P0 字段契约、筛选维度、过期精选与交付门禁加固
+
+> 由 2026-09-16 环 B 只读检查产出修复计划，经 Agent Teams 编排执行（2 名 implementer 并行 + verifier/reviewer 独立验证审查，2 轮返工）。本轮零付费 API 调用、零 data/ 写入、零 git 写操作；改动全部停留在工作树待用户审阅提交。
+
+### 已完成
+
+- [x] **P0 字段契约落地：`free_tier` / `chinese_support`**（`catalog-contract.js`、`catalog-snapshot-validator.js`、`tool-preview-level3.js`）：
+  - 五模块字段白名单与 CONDITIONAL_FIELDS 收入两字段；快照校验器新增 fail-closed 形状校验（`FREE_TIER_INVALID`/`FREE_TIER_FIELD_REQUIRED`/`CHINESE_SUPPORT_INVALID`/`CHINESE_SUPPORT_FIELD_REQUIRED`，报错带记录 id）：available 必带 quota、not_applicable 必带 reason；
+  - 三级详情按冻结映射渲染，`unknown` 显「待核验」中性态，不冒充满足；`requirements.md` FR-CORE-01 改「部分实现」并注明 unknown 不计入 P0 满足、正式数据回填待成本授权（RB-C1）。
+- [x] **工具筛选维度接线**（`index.html`、`data-filters.js`、`main.js`）：
+  - 筛选组补 `data-filter-group`（access/price/theme/scene）与场景 chips 容器；事件委托按维度键取值；
+  - `matchesVendorActiveFilters` 新增：厂商视图锁定 access/price 两维；工具视图保持多条件全 AND；筛选/完成/清除按钮接线。
+- [x] **过期精选诚实展示**（`featured.js`）：
+  - 新增 `beijingDateKeyOf`（UTC+8）与导出 `isFeaturedActive`，过期 `featured_until` 记录不再展示；新增 `tests/web/featured-expiry.test.js`（7 项，含厂商子集与工具 AND 回归）。
+- [x] **刷新失败语义 fail-closed**（`fetch-comparison.js`、`refresh-comparison.yml`、`refresh-vibe-hub-cache.js`）：
+  - 新增导出 `runExitCode`：存在失败源、到期未跑或重建错误任一即非零退出；workflow 移除把失败伪装成绿的 `|| echo`；概念缓存全量刷新失败不可返回成功，注释改为每日触发/3 天 TTL 的真实语义。
+- [x] **Pages 部署后冒烟**（`deploy.yml`）：部署 job 显式 Node 版本；部署后对归一化 `PAGE_URL` 的首页与 4 个关键子路径 `curl -fsS` 探活。
+- [x] **工作台 E2E 隔离改造**（`scripts/browser-workbench-acceptance.js`、新增 `tests/fixtures/workbench-browser-service.js`）：
+  - 新增 268 行内存替身服务（覆盖 21 条服务路由、revision CAS、可重放、零 fs/网络）经 server options 注入，验收不再写真实 `data/`；
+  - 新增 `waitNewsTabConverged` 状态收敛等待（活动 Tab + `#newsState` data-state=success + 列表数==角标数，200ms 轮询 20s 超时），修复 Tab 并发加载乱序导致的 flaky；第 3 步改全选→批准→清空；不再点击恢复按钮（其为死 UI，登记 RB-C3）。
+- [x] **公开站验收脚本去脆弱化**（`scripts/browser-acceptance.js`）：
+  - 18 张锁死模型名单改为动态取样：页面内 fetch tool-cards 与可见卡名求交集后均匀抽 15 张逐一搜索；
+  - 日期取样断言前移至搜索循环之前的全量未过滤窗口（修复搜索残留导致可见池塌缩的 flaky，返工第 2 轮）；对比断言厂商键 `zai`→`zhipu` 对齐现网数据。
+- [x] **运维文档校准**（`docs/operations.md`）：补仓库变量表（NEWS_COLLECTION_ENABLED、TOOL_UPDATE_AI_FALLBACK_ENABLED）、tool-update 真实调度时刻、失败处置一节；移除「47 项通过」失实声明。
+- [x] **用户提交合并**：与用户中途提交 e5fd2bc（反馈抽屉）经 `git merge-file` 三方合并（style.css/index.html/main.js），双方改动共存，无冲突标记。
+
+### 验证结果
+
+- [x] 全量回归：**1034 passed / 0 failed**；
+- [x] 静态规范门禁：`check-standards.js` 扫描 242 个 src 文件，白名单外违规 **0 处**；`validate.js`、`check-document-policy.js`、`check-secrets.js` 通过；
+- [x] 构建：`build-dist.js` 112 个文件；
+- [x] 公开站浏览器验收：3 连跑 exit 0（共 57 秒，单次约 19 秒，62 项断言含桌面+移动截图），零写入夹逼成立（git status 快照逐行一致，data/public 内容哈希 `774c67b5…` 全程稳定）；
+- [x] 工作台浏览器验收：3 连跑通过且零漂移（真实 `data/` 与 `public/` 无任何写入）；
+- [x] 独立审查：reviewer PASS（复用与简化、契约一致性、安全数据成本门禁通过）；返工共 2 轮（第 1 轮合并处置 workbench flaky FAIL；第 2 轮处置验收脚本日期取样 flaky）。
+
+### 已知边界
+
+- [~] GitHub workflow YAML 未做机器解析校验；deploy 冒烟步骤未经真实部署验证（本轮未推送、未触发 Actions）；
+- [~] 公开站筛选的浏览器级点击断言不在 browser-acceptance.js 内（已声明边界，纯函数单测锁定）；
+- [~] `#newsRevertButton` 死 UI（disabled 永不移除）登记为 RB-C3 未修；RB-C4~C9 已登记开发计划；
+- [~] 环 B 出口仍缺真实用户验收（RB-C2：5—10 名种子用户 ≥80% 任务完成、≥10 条反馈 ≥60% 正向）与 P0 字段数据回填（RB-C1，待成本授权）；
+- [~] 本轮 26 个修改 + 3 个新增文件停留在工作树，未经 commit/push，待用户审阅。
+

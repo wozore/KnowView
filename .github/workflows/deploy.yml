@@ -41,6 +41,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
@@ -55,3 +60,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # 部署后线上冒烟：任一关键地址不可达即本步骤失败（工作流红灯）。
+      - name: Smoke check deployed site
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          # page_url 标准形态带尾斜杠（如 https://…/KnowView/），先剥掉再拼子路径，避免 // 双斜杠 301/404 假信号
+          PAGE_URL="${PAGE_URL%/}"
+          curl -fsS "$PAGE_URL/" > /dev/null
+          curl -fsS "$PAGE_URL/data/catalog/tool-cards.json" > /dev/null
+          curl -fsS "$PAGE_URL/data/comparison/integrated/index.json" > /dev/null
+          curl -fsS "$PAGE_URL/data/news/output/hotspots.json" > /dev/null
+          curl -fsS "$PAGE_URL/feed.xml" > /dev/null

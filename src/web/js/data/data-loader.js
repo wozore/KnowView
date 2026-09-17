@@ -31,10 +31,6 @@ export async function loadData() {
     state.tools = [];
   } else {
     state.tools = getVisibleToolCardItems(); // hidden_history 卡对工具库/搜索不可见
-    const dateEl = document.getElementById('dataDate');
-    if (dateEl) {
-      dateEl.textContent = '数据更新: ' + new Date().toISOString().slice(0, 10);
-    }
   }
   // EXTENSION POINT: 新增静态数据集在此添加异步 fetch 加载逻辑
   try {
