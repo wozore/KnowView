@@ -316,14 +316,19 @@ if (typeof document !== 'undefined') {
   window.addEventListener('compare-models:change', () => renderTools());
 
   // 热点
-  document.getElementById('trendingContent')?.addEventListener('click', event => {
+  document.getElementById('trendingGrid')?.addEventListener('click', event => {
     const b = event.target.closest('[data-trending-action]');
-    if (!b) return;
-    const act = b.dataset.trendingAction;
-    if (act === 'reload') reloadHotspots();
-    else if (act === 'clear-filters') clearTrendingFilters();
-    else if (act === 'goto-tools') switchView('tools');
-    else if (act === 'goto-about') switchView('about');
+    if (b) {
+      const act = b.dataset.trendingAction;
+      if (act === 'reload') reloadHotspots();
+      else if (act === 'clear-filters') clearTrendingFilters();
+      else if (act === 'goto-tools') switchView('tools');
+      else if (act === 'goto-about') switchView('about');
+      return;
+    }
+    if (event.target.closest('a, [data-hotspot-source-toggle]')) return;
+    const card = event.target.closest('[data-hotspot-id]');
+    if (card) openHotspotDetail(card.dataset.hotspotId, card);
   });
   document.getElementById('trendingTypeTabs')?.addEventListener('click', event => {
     const chip = event.target.closest('[data-content-type]');
@@ -333,7 +338,6 @@ if (typeof document !== 'undefined') {
       renderTrending();
     }
   });
-
   // 精选 & 概念
   document.getElementById('editorPicksTabs')?.addEventListener('click', event => {
     const chip = event.target.closest('[data-cat]');
@@ -362,7 +366,6 @@ if (typeof document !== 'undefined') {
     const item = event.target.closest('[data-glossary-pick]');
     if (item) { setActiveGlossaryId(item.dataset.glossaryPick); renderGlossary(); }
   });
-
   // 快捷键
   document.addEventListener('keydown', e => {
     const overlay = document.getElementById('modalOverlay');

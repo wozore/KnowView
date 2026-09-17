@@ -251,6 +251,8 @@ async function main() {
     await evaluate(client, `(()=>{document.querySelector('[data-view="trending"]').click();return true})()`);
     await wait(300);
     await assertBrowser(client, '热点视图渲染卡片或状态', `document.querySelector('#trendingGrid .trending-card')!==null||document.querySelector('#trendingStatus .status-note')!==null`);
+    await assertBrowser(client, '热点卡片可打开详情', `(()=>{const card=document.querySelector('#trendingGrid .trending-card');if(!card)return false;card.click();return document.querySelector('#modalOverlay')?.hidden===false&&!!document.querySelector('[data-hotspot-detail]')})()`);
+    await evaluate(client, `window.closeModal?.();true`);
     // AI 概念视图
     await evaluate(client, `(()=>{document.querySelector('[data-view="glossary"]').click();return true})()`);
     await wait(300);
