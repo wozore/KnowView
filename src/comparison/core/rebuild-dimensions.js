@@ -38,6 +38,33 @@ const LICENSE_NORMALIZE = {
   deepseek: 'DeepSeek License',
 };
 
+const COMMERCIAL_WHITELIST_MODELS = new Set([
+  'moonshotai--kimi-k3',
+  'zhipu--glm-5.3',
+  'minimax--minimax-m3',
+  'google--gemini-2.5-flash-lite',
+  'qwen--qwen3.8-max',
+  'qwen--qwen3.8-flash',
+  'kimi-k3',
+  'glm-5.3',
+  'minimax-m3',
+]);
+
+function isKnownCommercial(modelOrRecord) {
+  if (!modelOrRecord) return false;
+  const canonical = (modelOrRecord.canonical || '').toLowerCase();
+  const identity = (modelOrRecord.identity || '').toLowerCase();
+  if (COMMERCIAL_WHITELIST_MODELS.has(canonical) || COMMERCIAL_WHITELIST_MODELS.has(identity)) return true;
+  if (canonical.startsWith('anthropic--claude-') || identity.startsWith('claude-')) return true;
+  if ((canonical.startsWith('openai--') || identity.startsWith('gpt-')) && !canonical.includes('gpt-oss') && !identity.includes('gpt-oss')) return true;
+  if (canonical.startsWith('google--gemini') || identity.startsWith('gemini-')) return true;
+  if (canonical.startsWith('google--imagen') || canonical.startsWith('google--veo')) return true;
+  if (canonical.startsWith('xai--grok') || identity.startsWith('grok-')) return true;
+  if (canonical.startsWith('baidu--ernie') || identity.startsWith('ernie-')) return true;
+  if ((canonical.startsWith('qwen--') || identity.startsWith('qwen')) && (canonical.includes('-max') || canonical.includes('-plus') || canonical.includes('-flash'))) return true;
+  return false;
+}
+
 function normalizeLicense(raw) {
   if (!raw) return null;
   const key = String(raw).toLowerCase().trim();
@@ -122,10 +149,11 @@ function buildModelRecord(entry, lmarenaEloBounds = {}) {
   );
   const display = revisions?.size ? `${baseDisplay} (${[...revisions].sort().join(', ')})` : baseDisplay;
   const vendor = normalizeVendor(recordVendor || (llm && llm.organization_id) || (or && or.vendor) || (lmarena && lmarena.organization) || 'unknown');
+  const isComm = isKnownCommercial({ canonical, identity, vendor });
   const licenseRaw = (llm && llm.license) || (lmarena && lmarena.license) || null;
-  const license = normalizeLicense(licenseRaw);
+  const license = isComm ? 'Proprietary' : normalizeLicense(licenseRaw);
 
-  const openSource = Boolean(
+  const openSource = !isComm && Boolean(
     (llm && llm.license && String(llm.license).toLowerCase() !== 'proprietary') ||
     (lmarena && lmarena.license && String(lmarena.license).toLowerCase() !== 'proprietary') ||
     (or && or.hugging_face_id)
@@ -350,4 +378,5 @@ module.exports = {
   computeLmarenaEloBounds,
   buildModelRecord,
   normalizeLicense,
+  isKnownCommercial,
 };

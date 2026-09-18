@@ -10,7 +10,7 @@ export const SOURCE_META = {
   openrouter: { label: 'OpenRouter', license: null, url: 'https://openrouter.ai/models', listed: true },
   lmarena: { label: 'LMArena', license: 'CC BY 4.0', url: 'https://arena.ai/leaderboard/agent' },
   livebench: { label: 'LiveBench', license: 'Apache-2.0 / MIT', url: 'https://livebench.ai/' },
-  llm_stats: { label: 'LLM Stats', license: null, url: 'https://llm-stats.com/leaderboards/open-llm-leaderboard' },
+  llm_stats: { label: 'LLM Stats', license: null, url: 'https://llm-stats.com/' },
 };
 export const SOURCE_ORDER = ['openrouter', 'lmarena', 'livebench', 'llm_stats'];
 

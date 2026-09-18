@@ -26,6 +26,7 @@ const {
   themeOfDimensions,
   computeLmarenaEloBounds,
   buildModelRecord,
+  isKnownCommercial,
 } = require('./rebuild-dimensions');
 const { normalizedDisplayKey } = require('../identity/model-identity');
 const { readExclusionConfig, filterExcludedRecords } = require('../identity/model-exclusions');
@@ -149,6 +150,58 @@ function writeSharedReleaseIndex(models, registry) {
   }
 }
 
+const PARAM_SIZE_RE = /(?:^|[-_\s(])\d+(?:\.\d+)?[bB](?:[-_\s)]|$)|(?:^|[-_\s(])[a-zA-Z]?\d+[bB](?:[-_\s)]|$)/i;
+
+const OPEN_WEIGHT_FAMILIES = [
+  'meta', 'llama', 'muse', 'allenai', 'openbmb', 'gemma', 'granite', 'nemotron', 'gpt-oss', 'exaone', 'deepseek', 'smaug',
+];
+
+const OPEN_LICENSE_RE = /apache|mit|gpl|open|creative_commons|llama|qwen|community/i;
+
+/**
+ * 判断模型是否属于开源或开放权重模型。
+ *
+ * 识别准则（契约 T1）：
+ * 1. 包含参数规模标记（如 7B, 20B, 27B, 30B, 70B, 120B, E4B, A4B, A23B 等）判定为开放权重；
+ * 2. 属于知名开放权重家族/厂商（meta/llama/muse, allenai, openbmb, gemma, granite, nemotron, gpt-oss, exaone 等）；
+ * 3. 契约受保护纯商业旗舰模型（GPT-4o, GPT-5.6, GPT-6 Astra, Claude Opus 5, Claude Sonnet 4.6, Gemini 3.5 Pro, Grok 4.6, GLM-5.3, Kimi K3, MiniMax M3, ERNIE 5.1 等）豁免开源误判；
+ * 4. model.open_source === true 判定为开源；
+ * 5. model.license 存在且非 Proprietary（包含 apache, mit, gpl, open, creative_commons, llama, qwen, community 等）判定为开源。
+ *
+ * @param {object} model
+ * @returns {boolean}
+ */
+function isOpenSourceOrOpenWeights(model) {
+  if (!model) return false;
+
+  const texts = [model.canonical, model.display, model.identity].filter(Boolean);
+  for (const text of texts) {
+    if (PARAM_SIZE_RE.test(text)) return true;
+  }
+
+  const vendor = (model.vendor || '').toLowerCase();
+  const canonical = (model.canonical || '').toLowerCase();
+  const family = (model.family || '').toLowerCase();
+  for (const fam of OPEN_WEIGHT_FAMILIES) {
+    if (vendor === fam || vendor.includes(fam) || canonical.includes(fam) || family.includes(fam)) {
+      return true;
+    }
+  }
+
+  if (isKnownCommercial(model)) return false;
+
+  if (model.open_source === true) return true;
+
+  if (model.license) {
+    const lic = String(model.license).trim().toLowerCase();
+    if (lic !== 'proprietary' && OPEN_LICENSE_RE.test(lic)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 /**
  * 重建 integrated（默认写文件；options.write=false 只返回结果供测试）。
  * @param {object} [options] { snapshots, aliasEntries, write, dataDir }
@@ -184,9 +237,14 @@ function rebuildIntegrated(options = {}) {
   const lmarenaEloBounds = computeLmarenaEloBounds(activeRecords);
   const builtModels = Object.values(activeRecords).map(record => buildModelRecord(record, lmarenaEloBounds));
   const commercialModels = builtModels.filter(model => {
-    if (!model.open_source) return true;
-    const avg = priceAvgPerM(model);
-    return Number.isFinite(avg) && avg > 0;
+    if (isOpenSourceOrOpenWeights(model)) return false;
+    if (isKnownCommercial(model)) {
+      model.open_source = false;
+      if (!model.license || model.license.toLowerCase() !== 'proprietary') {
+        model.license = 'Proprietary';
+      }
+    }
+    return true;
   });
   const displayCollisions = enforceUniqueDisplays(commercialModels);
   computeValues(commercialModels);
@@ -278,4 +336,5 @@ module.exports = {
   buildAliasMap,
   cleanModelDisplay,
   themeOfDimensions,
+  isOpenSourceOrOpenWeights,
 };
