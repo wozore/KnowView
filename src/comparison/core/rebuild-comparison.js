@@ -65,16 +65,17 @@ function loadInputs(options = {}) {
 }
 
 function priceAvgPerM(record) {
-  const or = record.pricing.openrouter;
-  if (or && (or.prompt || or.completion)) {
+  const or = record.pricing?.openrouter;
+  if (or) {
     const inPerM = Number(or.prompt) * 1e6;
     const outPerM = Number(or.completion) * 1e6;
-    return (inPerM + outPerM) / 2;
+    const nums = [inPerM, outPerM].filter(Number.isFinite);
+    if (nums.length) return nums.reduce((a, b) => a + b, 0) / nums.length;
   }
-  const ls = record.pricing.llm_stats;
-  if (ls && (ls.input_per_m != null || ls.output_per_m != null)) {
+  const ls = record.pricing?.llm_stats;
+  if (ls) {
     const nums = [ls.input_per_m, ls.output_per_m].filter(Number.isFinite);
-    return nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : null;
+    if (nums.length) return nums.reduce((a, b) => a + b, 0) / nums.length;
   }
   return null;
 }
@@ -82,9 +83,9 @@ function priceAvgPerM(record) {
 function computeValues(records) {
   const rawValues = [];
   for (const record of records) {
-    if (!record.composite) continue;
+    if (!record.composite || !Number.isFinite(record.composite.score) || record.composite.score <= 0) continue;
     const avg = priceAvgPerM(record);
-    if (avg == null || avg <= 0) continue;
+    if (!Number.isFinite(avg) || avg <= 0) continue;
     // 价格/性能比跨数量级，先 ln 压缩再 min-max
     record._valueRaw = Math.log(record.composite.score / avg);
     rawValues.push(record._valueRaw);
@@ -182,9 +183,14 @@ function rebuildIntegrated(options = {}) {
   const activeRecords = retentionResult.records;
   const lmarenaEloBounds = computeLmarenaEloBounds(activeRecords);
   const builtModels = Object.values(activeRecords).map(record => buildModelRecord(record, lmarenaEloBounds));
-  const displayCollisions = enforceUniqueDisplays(builtModels);
-  computeValues(builtModels);
-  const { kept: models, filtered: emptyFiltered } = filterEmptyModels(builtModels);
+  const commercialModels = builtModels.filter(model => {
+    if (!model.open_source) return true;
+    const avg = priceAvgPerM(model);
+    return Number.isFinite(avg) && avg > 0;
+  });
+  const displayCollisions = enforceUniqueDisplays(commercialModels);
+  computeValues(commercialModels);
+  const { kept: models, filtered: emptyFiltered } = filterEmptyModels(commercialModels);
   const seriesConfig = options.seriesConfig || readSeriesConfig(options.seriesConfigFile);
   const seriesProjection = attachSeriesMetadata(models, seriesConfig);
   const seriesErrors = validateSeriesProjection(seriesProjection.series, models);

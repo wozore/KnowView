@@ -4,7 +4,7 @@
  */
 
 import { state, switchView, getCurrentView, notifyCompareChange } from '../state.js';
-import { getToolCardItems, getToolLevel3Item, getVendorLevel2Item, getToolSearchText } from '../data/data-catalog.js';
+import { getToolCardItems, getVisibleToolCardItems, getToolLevel3Item, getVendorLevel2Item, getToolSearchText } from '../data/data-catalog.js';
 import { formatPrice, escapeHtml, renderState } from '../ui/ui-helpers.js';
 import { ICON_CLOSE } from '../ui/ui-icons.js';
 import { showModal, closeModal } from '../ui/modal.js';
@@ -327,7 +327,7 @@ function getAddCompareTargets(query = '') {
   const results = [];
   const existingKeys = new Set(state.compareList.map(compareKey));
 
-  for (const card of getToolCardItems()) {
+  for (const card of getVisibleToolCardItems()) {
     const detail = card.detail_ref ? getToolLevel3Item(card.vendor_key, card.detail_ref.id) : null;
     if (!detail || (targetKind && detail.detail_kind !== targetKind)) continue;
     const ref = { toolId: card.tool_key, itemId: detail.id };
@@ -383,7 +383,7 @@ export function removeCompare(refOrToolId, itemId = null) {
 
 export function quickCompare(ids) {
   state.compareList = ids.map(toolKey => {
-    const card = getToolCardItems().find(item => item.tool_key === toolKey);
+    const card = getVisibleToolCardItems().find(item => item.tool_key === toolKey);
     return card ? { toolId: card.detail_ref.id, itemId: card.detail_ref.id } : null;
   }).filter(Boolean).slice(0, 5);
   compareList = state.compareList;

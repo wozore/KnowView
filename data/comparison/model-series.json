@@ -157,7 +157,10 @@
       "order": 50,
       "match": {
         "vendor": "qwen",
-        "identity_prefix": "qwen3.8"
+        "identity_prefixes": [
+          "qwen3.8",
+          "qwen-3.8"
+        ]
       }
     },
     {

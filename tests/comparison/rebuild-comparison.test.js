@@ -325,6 +325,7 @@ test('rebuild：raw 源字段 null/空时不写维度（缺失不当 0/25 造假
         {
           model_id: 'null-fields-probe', name: 'Null Fields Probe', organization_id: 'probe', license: 'apache_2_0',
           index_general: 50, index_reasoning: 50,
+          input_price: 1, output_price: 2,
           aime_2025_score: null, mmmu_pro_score: null, swe_bench_pro_score: null, swe_bench_verified_score: null,
           gpqa_score: null, hle_score: null, index_math: null, index_vision: null, index_long_context: null,
         },
@@ -463,4 +464,158 @@ test('rebuild：按模型维度归类生成模型 theme，带 vision 维的通�
   assert.equal(byCanonical.get('openai--gpt-5.6-sol').theme, 'general', '有 vision 榜分的通用 LLM 不归纯视觉');
   assert.equal(byCanonical.get('anthropic--claude-opus-5').theme, 'general');
   assert.equal(byCanonical.get('openai--o3-mini').theme, 'general');
+});
+
+test('rebuild：丢弃无正向定价的开源模型，保留有商业定价的开源模型及闭源模型', () => {
+  const snapshots = {
+    openrouter: {
+      data: [
+        // 开源且有定价
+        { id: 'deepseek/deepseek-priced', name: 'DeepSeek Priced', created: 1, input_modalities: ['text'], output_modalities: ['text'], prompt: 1e-6, completion: 2e-6 },
+        // 闭源无定价
+        { id: 'openai/closed-proprietary', name: 'Closed Proprietary', created: 1, input_modalities: ['text'], output_modalities: ['text'] },
+      ],
+    },
+    lmarena: {
+      configs: {
+        agent: [
+          // 开源且无定价
+          { model_name: 'open-unpriced', organization: 'meta', license: 'apache-2.0', score: 0.1, rank: 1 },
+          // 闭源无定价但有评测数据
+          { model_name: 'closed-proprietary', organization: 'openai', license: 'proprietary', score: 0.12, rank: 2 },
+        ],
+      },
+    },
+    livebench: { groups: [] },
+    llm_stats: {
+      models: [
+        { model_id: 'deepseek-priced', name: 'DeepSeek Priced', organization_id: 'deepseek', license: 'mit', index_general: 50 },
+      ],
+    },
+  };
+  const result = rebuildIntegrated({
+    snapshots,
+    write: false,
+    identityRegistry: { schema_version: 2, entries: [] },
+    exclusionConfig: { schema_version: 1, rules: [] },
+  });
+  assert.equal(result.ok, true, result.errors.join('; '));
+  const canonicals = result.models.map(m => m.canonical);
+  assert.ok(!canonicals.includes('meta--open-unpriced'), '无正向定价的开源模型应被过滤');
+  assert.ok(canonicals.includes('deepseek--deepseek-priced'), '有正向定价的开源模型应保留');
+  assert.ok(canonicals.includes('openai--closed-proprietary'), '闭源模型不受开源零定价过滤影响');
+});
+
+test('rebuild：Qwen 3.8 27B 别名收拢至 qwen--qwen3.8-27b，消除主键分裂', () => {
+  const snapshots = {
+    openrouter: {
+      data: [
+        { id: 'qwen/qwen3.8-27b', name: 'Qwen 3.8 27B', created: 1, input_modalities: ['text'], output_modalities: ['text'], prompt: 1e-6, completion: 2e-6 },
+      ],
+    },
+    lmarena: {
+      configs: {
+        agent: [
+          { model_name: 'Qwen 3.8 27B', organization: 'qwen', license: 'apache-2.0', score: 0.08, rank: 2 },
+          { model_name: 'qwen3.8-27b', organization: 'qwen', license: 'apache-2.0', score: 0.09, rank: 1 },
+        ],
+      },
+    },
+    livebench: {
+      groups: [
+        { model: 'qwen3.8-27b', reasoning: 85, coding: 85, math: 85, language: 85, instruction_following: 85, data_analysis: 85, agentic_coding: 85 },
+      ],
+    },
+    llm_stats: {
+      models: [
+        { model_id: 'qwen3.8-27b', name: 'Qwen 3.8 27B', organization_id: 'qwen', license: 'apache_2_0', index_general: 60 },
+      ],
+    },
+  };
+  const aliasEntries = [
+    {
+      model_key: 'qwen--qwen3.8-27b',
+      display: 'Qwen3.8-27B',
+      aliases: {
+        lmarena: ['qwen 3.8 27b', 'qwen-3.8-27b'],
+      },
+    },
+  ];
+  const result = rebuildIntegrated({
+    snapshots,
+    write: false,
+    identityRegistry: { schema_version: 2, entries: aliasEntries },
+    exclusionConfig: { schema_version: 1, rules: [] },
+  });
+  assert.equal(result.ok, true, result.errors.join('; '));
+  const qwenModels = result.models.filter(m => m.canonical.startsWith('qwen--qwen'));
+  assert.equal(qwenModels.length, 1, 'Qwen 3.8 27B 别名收拢后不应有分裂记录');
+  assert.equal(qwenModels[0].canonical, 'qwen--qwen3.8-27b');
+  assert.ok(qwenModels[0].source_names.lmarena.includes('Qwen 3.8 27B'));
+  assert.ok(qwenModels[0].source_names.lmarena.includes('qwen3.8-27b'));
+});
+
+test('rebuild：解除 gpt-6 排除后，GPT-6 Astra 正常纳入 integrated 结果', () => {
+  const snapshots = {
+    openrouter: {
+      data: [
+        { id: 'openai/gpt-6-astra', name: 'GPT-6 Astra', created: 1, input_modalities: ['text'], output_modalities: ['text'], prompt: 1e-5, completion: 3e-5 },
+      ],
+    },
+    lmarena: {
+      configs: {
+        agent: [
+          { model_name: 'gpt-6-astra-max', organization: 'openai', license: 'proprietary', score: 0.15, rank: 1 },
+        ],
+      },
+    },
+    livebench: { groups: [] },
+    llm_stats: {
+      models: [
+        { model_id: 'gpt-6-astra', name: 'GPT-6 Astra', organization_id: 'openai', license: 'proprietary', index_general: 90 },
+      ],
+    },
+  };
+  const result = rebuildIntegrated({
+    snapshots,
+    write: false,
+    identityRegistry: { schema_version: 2, entries: [] },
+  });
+  assert.equal(result.ok, true, result.errors.join('; '));
+  const gpt6 = result.models.find(m => m.canonical === 'openai--gpt-6-astra');
+  assert.ok(gpt6, 'openai--gpt-6-astra 应正常纳入 integrated 结果');
+  assert.equal(gpt6.open_source, false);
+  assert.ok(gpt6.composite && gpt6.composite.score > 0);
+});
+
+test('rebuild：priceAvgPerM 与 computeValues 防御门禁杜绝 NaN 与非正综合分扩散', () => {
+  const snapshots = {
+    openrouter: {
+      data: [
+        { id: 'openai/bad-pricing', name: 'Bad Pricing', created: 1, input_modalities: ['text'], output_modalities: ['text'], prompt: 'invalid', completion: undefined },
+        { id: 'openai/good-pricing', name: 'Good Pricing', created: 1, input_modalities: ['text'], output_modalities: ['text'], prompt: 1e-6, completion: 2e-6 },
+      ],
+    },
+    lmarena: {
+      configs: {
+        agent: [
+          { model_name: 'bad-pricing', organization: 'openai', license: 'proprietary', score: 0.1, rank: 1 },
+          { model_name: 'good-pricing', organization: 'openai', license: 'proprietary', score: 0.2, rank: 2 },
+        ],
+      },
+    },
+    livebench: { groups: [] },
+    llm_stats: { models: [] },
+  };
+  const result = rebuildIntegrated({
+    snapshots,
+    write: false,
+    identityRegistry: { schema_version: 2, entries: [] },
+    exclusionConfig: { schema_version: 1, rules: [] },
+  });
+  assert.equal(result.ok, true);
+  const good = result.models.find(m => m.canonical === 'openai--good-pricing');
+  assert.ok(good && good.value && Number.isFinite(good.value.score), '正常模型性价比得分应为有限数');
+  const bad = result.models.find(m => m.canonical === 'openai--bad-pricing');
+  assert.equal(bad.value, null, '非法定价模型不应生成 value');
 });

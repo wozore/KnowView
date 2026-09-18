@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-07T05:08:00.663Z",
+  "generated_at": "2026-09-18T03:14:08.814Z",
   "entries": [
     {
       "model_key": "amazon--nova-2-lite",
@@ -40,6 +40,11 @@
     {
       "model_key": "anthropic--claude-haiku-4.5@2025-10-01",
       "release_date": "2025-10-15",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "anthropic--claude-mythos-5.1",
+      "release_date": "2026-09-01",
       "catalog_aliases": []
     },
     {
@@ -83,8 +88,18 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "anthropic--claude-sonnet-4.6",
+      "release_date": "2026-02-17",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "anthropic--claude-sonnet-5",
       "release_date": "2026-06-30",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "baidu--ernie-4.5",
+      "release_date": "2025-06-25",
       "catalog_aliases": []
     },
     {
@@ -93,8 +108,28 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "bfl--flux-2-flex",
+      "release_date": "2025-11-25",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "bfl--flux-2-pro",
+      "release_date": "2025-11-25",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "bytedance--seed-1.8",
+      "release_date": "2026-02-17",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "bytedance--seed-2.0-lite",
       "release_date": "2026-02-14",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "bytedance--seed-2.0-mini",
+      "release_date": "2026-02-17",
       "catalog_aliases": []
     },
     {
@@ -110,31 +145,6 @@
     {
       "model_key": "bytedance--seed-2.1-turbo",
       "release_date": "2026-06-24",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "cohere--command-a",
-      "release_date": "2026-05-20",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "cohere--command-a-plus@05",
-      "release_date": "2026-05-20",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "cohere--command-a@2025-03",
-      "release_date": "2026-05-20",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "cohere--north-micro-vision-instruct",
-      "release_date": "2026-08-12",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "cohere--north-mini-code-1.0",
-      "release_date": "2026-06-09",
       "catalog_aliases": []
     },
     {
@@ -183,8 +193,23 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "google--diffusiongemma-26b-a4b-it",
-      "release_date": "2026-06-10",
+      "model_key": "deepseek--deepseek-v4.1-flash",
+      "release_date": "2026-09-10",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "google--gemini-2.5-flash-lite",
+      "release_date": "2025-06-17",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "google--gemini-2.5-pro-preview",
+      "release_date": "2025-06-05",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "google--gemini-2.5-pro-preview@06-05",
+      "release_date": "2025-06-05",
       "catalog_aliases": []
     },
     {
@@ -249,8 +274,18 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemma-4-12b-it",
-      "release_date": "2026-05-23",
+      "model_key": "google--gemma-3n-e2b",
+      "release_date": "2025-06-26",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "google--gemma-3n-e2b-it",
+      "release_date": "2025-06-26",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "google--gemma-3n-e4b",
+      "release_date": "2025-06-26",
       "catalog_aliases": []
     },
     {
@@ -265,11 +300,6 @@
         "gemma-4",
         "Gemma 4"
       ]
-    },
-    {
-      "model_key": "google--gemma-4-e2b-it",
-      "release_date": "2026-04-02",
-      "catalog_aliases": []
     },
     {
       "model_key": "google--gemma-4-e4b-it",
@@ -297,6 +327,16 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "inclusionai--ling-3.0-flash",
+      "release_date": "2026-08-04",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "inclusionai--ling-3.0-flash-fin",
+      "release_date": "2026-09-03",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "kling--kling-2.6-pro",
       "release_date": "2025-12-03",
       "catalog_aliases": []
@@ -312,13 +352,8 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "liquid--lfm-2.5-2.6b",
-      "release_date": "2026-08-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "liquid--lfm-2.5-vl-3b",
-      "release_date": "2026-08-12",
+      "model_key": "luma-ai--uni-1.1",
+      "release_date": "2026-05-05",
       "catalog_aliases": []
     },
     {
@@ -365,8 +400,13 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "minimax--minimax-h3",
-      "release_date": "2026-07-31",
+      "model_key": "microsoft-ai--mai-image-2.5",
+      "release_date": "2026-05-20",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "minimax--minimax-m1",
+      "release_date": "2025-06-17",
       "catalog_aliases": []
     },
     {
@@ -375,9 +415,20 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "minimax--minimax-m2.1",
+      "release_date": "2025-12-23",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "minimax--minimax-m2.5",
+      "release_date": "2026-02-12",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "minimax--minimax-m2.7",
       "release_date": "2026-03-18",
       "catalog_aliases": [
+        "minimax-m2.7",
         "minimax-m2-7",
         "MiniMax M2.7"
       ]
@@ -396,133 +447,23 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "mistral--devstral-small@2025-07",
-      "release_date": "2025-07-11",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-14b",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-14b@2025-12",
-      "release_date": "2025-12-02",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3-14b-base@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3-14b-instruct@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3-3b-base@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3-3b-instruct@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3-8b-base@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3-8b-instruct@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3b",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-3b@2025-12",
-      "release_date": "2025-12-02",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-8b",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--ministral-8b@2025-12",
-      "release_date": "2025-12-02",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--mistral-large-3",
-      "release_date": "2025-12-02",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--mistral-large-3-675b-base@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--mistral-large-3-675b-instruct-eagle@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--mistral-large-3-675b-instruct-nvfp4@2025-12",
-      "release_date": "2025-12-04",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "mistral--mistral-large-3@2025-09",
-      "release_date": "2025-09-01",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "mistral--mistral-medium-3.5",
       "release_date": "2026-04-29",
       "catalog_aliases": []
     },
     {
-      "model_key": "mistral--shieldstral-1.0-3b",
-      "release_date": "2026-08-04",
+      "model_key": "mistral--mistral-small-3.2-24b-instruct",
+      "release_date": "2025-06-20",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "mistral--mistral-small-3.2-24b-instruct@2025-06",
+      "release_date": "2025-06-20",
       "catalog_aliases": []
     },
     {
       "model_key": "moonshotai--kimi-k2",
       "release_date": "2025-07-11",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "moonshotai--kimi-k2-base",
-      "release_date": "2025-07-11",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "moonshotai--kimi-k2-instruct",
-      "release_date": "2025-07-11",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "moonshotai--kimi-k2-instruct@09-05",
-      "release_date": "2025-09-05",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "moonshotai--kimi-k2-thinking",
-      "release_date": "2025-11-06",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "moonshotai--kimi-k2-thinking@09-05",
-      "release_date": "2025-09-05",
       "catalog_aliases": []
     },
     {
@@ -587,11 +528,6 @@
         "nemotron-3-5",
         "Nemotron 3.5"
       ]
-    },
-    {
-      "model_key": "nvidia--nvidia-nemotron-nano-9b-v2",
-      "release_date": "2025-08-18",
-      "catalog_aliases": []
     },
     {
       "model_key": "openai--gpt-5",
@@ -724,6 +660,11 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "openai--gpt-6-astra",
+      "release_date": "2026-09-04",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "openai--gpt-image-2",
       "release_date": "2026-04-21",
       "catalog_aliases": []
@@ -734,23 +675,8 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "openai--gpt-oss-120b-high",
-      "release_date": "2025-08-05",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "openai--gpt-oss-20b",
       "release_date": "2025-08-05",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "openai--gpt-oss-20b-high",
-      "release_date": "2025-08-05",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "openbmb--minicpm-sala",
-      "release_date": "2026-02-11",
       "catalog_aliases": []
     },
     {
@@ -761,6 +687,16 @@
     {
       "model_key": "poolside--laguna-xs-2.1",
       "release_date": "2026-07-02",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "qwen--qwen-image-2.0-pro@06-22",
+      "release_date": "2025-08-12",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "qwen--qwen-image-3.0-pro",
+      "release_date": "2026-04-18",
       "catalog_aliases": []
     },
     {
@@ -781,6 +717,11 @@
     {
       "model_key": "qwen--qwen3-30b-a3b-instruct@2025-07",
       "release_date": "2025-07-29",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "qwen--qwen3-max-thinking",
+      "release_date": "2026-02-13",
       "catalog_aliases": []
     },
     {
@@ -819,21 +760,6 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "qwen--qwen3-vl-32b-thinking",
-      "release_date": "2025-09-22",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "qwen--qwen3-vl-4b-instruct",
-      "release_date": "2025-09-22",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "qwen--qwen3-vl-4b-thinking",
-      "release_date": "2025-09-22",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "qwen--qwen3-vl-8b-instruct",
       "release_date": "2025-09-22",
       "catalog_aliases": []
@@ -841,11 +767,6 @@
     {
       "model_key": "qwen--qwen3-vl-8b-thinking",
       "release_date": "2025-09-22",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "qwen--qwen3.5-0.8b",
-      "release_date": "2026-03-02",
       "catalog_aliases": []
     },
     {
@@ -859,11 +780,6 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "qwen--qwen3.5-2b",
-      "release_date": "2026-03-02",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "qwen--qwen3.5-35b-a3b",
       "release_date": "2026-02-24",
       "catalog_aliases": []
@@ -871,11 +787,6 @@
     {
       "model_key": "qwen--qwen3.5-397b-a17b",
       "release_date": "2026-02-16",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "qwen--qwen3.5-4b",
-      "release_date": "2026-03-02",
       "catalog_aliases": []
     },
     {
@@ -934,11 +845,6 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "qwen--qwen3.8-flash-next",
-      "release_date": "2026-08-26",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "qwen--qwen3.8-max",
       "release_date": "2026-08-02",
       "catalog_aliases": [
@@ -952,6 +858,11 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "reve--reve-2.0",
+      "release_date": "2026-06-03",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "reve--reve-2.1",
       "release_date": "2026-07-09",
       "catalog_aliases": []
@@ -962,21 +873,19 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "sarvamai--sarvam-105b",
-      "release_date": "2026-03-06",
-      "catalog_aliases": []
-    },
-    {
-      "model_key": "sarvamai--sarvam-30b",
-      "release_date": "2026-03-06",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "stepfun--step-3.5-flash",
       "release_date": "2026-02-02",
       "catalog_aliases": [
         "step-3-5-flash",
         "Step-3.5-Flash"
+      ]
+    },
+    {
+      "model_key": "stepfun--step-3.7-flash",
+      "release_date": "2026-06-10",
+      "catalog_aliases": [
+        "step-3-7-flash",
+        "Step-3.7-Flash"
       ]
     },
     {
@@ -993,6 +902,11 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "thinking-machines--inkling",
+      "release_date": "2026-07-21",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "thinking-machines--inkling-small",
       "release_date": "2026-07-30",
       "catalog_aliases": []
@@ -1003,8 +917,18 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "unknown--inkling",
+      "release_date": "2026-04-15",
+      "catalog_aliases": []
+    },
+    {
       "model_key": "upstage--solar-pro4",
       "release_date": "2026-08-06",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "wan--wan2.7-t2v",
+      "release_date": "2026-05-10",
       "catalog_aliases": []
     },
     {
@@ -1056,6 +980,7 @@
       "model_key": "xai--grok-4.5",
       "release_date": "2026-07-16",
       "catalog_aliases": [
+        "grok-4.5",
         "grok-4-5",
         "Grok 4.5"
       ]
@@ -1067,12 +992,32 @@
     },
     {
       "model_key": "xai--grok-build-0.1",
-      "release_date": "2026-05-20",
+      "release_date": "2026-08-12",
       "catalog_aliases": []
     },
     {
       "model_key": "xai--grok-code-fast-1",
       "release_date": "2025-08-28",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "xai--grok-imagine-image",
+      "release_date": "2026-03-02",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "xai--grok-imagine-image-2.0",
+      "release_date": "2026-03-02",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "xai--grok-imagine-image-quality@05-19",
+      "release_date": "2026-03-02",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "xai--grok-imagine-video",
+      "release_date": "2026-03-02",
       "catalog_aliases": []
     },
     {
