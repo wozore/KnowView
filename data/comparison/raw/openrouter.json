@@ -1,6 +1,24 @@
 {
-  "fetched_at": "2026-09-15T23:31:20.880Z",
+  "fetched_at": "2026-09-17T23:32:51.553Z",
   "data": [
+    {
+      "id": "unbiased/pareto",
+      "name": "Pareto",
+      "created": 1789686178,
+      "hugging_face_id": null,
+      "context_length": 262144,
+      "modality": "text+image->text",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0.0000025,
+      "completion": 0.0000075,
+      "input_cache_read": 2.5e-7
+    },
     {
       "id": "~deepseek/deepseek-pro-latest",
       "name": "DeepSeek: DeepSeek Pro Latest",
@@ -32,9 +50,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.5e-7,
-      "completion": 6e-7,
-      "input_cache_read": 1.5e-8
+      "prompt": 1.35e-7,
+      "completion": 5.4e-7,
+      "input_cache_read": 4.05e-9
     },
     {
       "id": "inference-net/schematron-v2-turbo",
@@ -648,9 +666,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 7.5e-8,
-      "completion": 2.5e-7,
-      "input_cache_read": 1.5e-8
+      "prompt": 9e-8,
+      "completion": 3e-7,
+      "input_cache_read": 1.8e-8
     },
     {
       "id": "z-ai/glm-5.3-flash:batch",
@@ -850,6 +868,25 @@
       "input_cache_read": 1.5e-7
     },
     {
+      "id": "qwen/qwen3.8-27b:free",
+      "name": "Qwen: Qwen3.8 27B (free)",
+      "created": 1786722910,
+      "hugging_face_id": "Qwen/Qwen3.8-27B",
+      "context_length": 262144,
+      "modality": "text+image+video->text",
+      "input_modalities": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0,
+      "completion": 0,
+      "input_cache_read": null
+    },
+    {
       "id": "dots-studio/dots-3-note-preview:free",
       "name": "Dots Studio: Dots3-Note Preview (free)",
       "created": 1786680361,
@@ -994,9 +1031,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6.6e-7,
-      "completion": 0.00000198,
-      "input_cache_read": 2.2e-8
+      "prompt": 5.808e-7,
+      "completion": 0.0000017424,
+      "input_cache_read": 5.808e-8
     },
     {
       "id": "deepseek/deepseek-v4-pro-0813:batch",
@@ -1135,8 +1172,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3.5e-7,
-      "completion": 0.0000015,
+      "prompt": 3e-7,
+      "completion": 0.0000011,
       "input_cache_read": 4e-8
     },
     {
@@ -1208,9 +1245,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5.5e-8,
-      "completion": 1.1e-7,
-      "input_cache_read": 1.1e-8
+      "prompt": 6e-8,
+      "completion": 1.2e-7,
+      "input_cache_read": 1.2e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731:batch",
@@ -1570,9 +1607,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.000002648138063,
-      "completion": 0.00001328272425,
-      "input_cache_read": 3.0264435e-7
+      "prompt": 0.000003,
+      "completion": 0.000015,
+      "input_cache_read": 3e-7
     },
     {
       "id": "moonshotai/kimi-k3:batch",
@@ -2194,9 +2231,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 7.1e-7,
-      "completion": 0.0000035,
-      "input_cache_read": 1.5e-7
+      "prompt": 7.062e-7,
+      "completion": 0.00000321,
+      "input_cache_read": 1.8e-7
     },
     {
       "id": "~anthropic/claude-fable-latest",
@@ -2304,9 +2341,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6e-7,
-      "completion": 0.0000024,
-      "input_cache_read": 1.2e-7
+      "prompt": 6.25e-7,
+      "completion": 0.000003125,
+      "input_cache_read": 1.875e-7
     },
     {
       "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -3009,9 +3046,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 7.476e-8,
-      "completion": 1.4952e-7,
-      "input_cache_read": 1.4952e-8
+      "prompt": 7e-8,
+      "completion": 1.4e-7,
+      "input_cache_read": 1.4e-8
     },
     {
       "id": "tencent/hy3-preview",
@@ -4489,9 +4526,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5e-8,
-      "completion": 2e-7,
-      "input_cache_read": 3e-8
+      "prompt": 6e-8,
+      "completion": 2.4e-7,
+      "input_cache_read": null
     },
     {
       "id": "openai/gpt-5.2-chat",
@@ -5261,8 +5298,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.5e-7,
-      "completion": 6e-7,
+      "prompt": 1.3e-7,
+      "completion": 5.2e-7,
       "input_cache_read": null
     },
     {
@@ -6223,8 +6260,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 7.5e-8,
-      "completion": 2e-7,
+      "prompt": 9.375e-8,
+      "completion": 2.5e-7,
       "input_cache_read": null
     },
     {
@@ -6240,7 +6277,7 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5.5e-7,
+      "prompt": 4e-7,
       "completion": 0.0000022,
       "input_cache_read": null
     },
@@ -7242,8 +7279,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2.574e-7,
-      "completion": 0.0000010287,
+      "prompt": 3.2e-7,
+      "completion": 8.9e-7,
       "input_cache_read": null
     },
     {
@@ -8055,8 +8092,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6e-8,
-      "completion": 6e-8,
+      "prompt": 8e-8,
+      "completion": 1.1e-7,
       "input_cache_read": null
     },
     {
