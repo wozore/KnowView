@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-18T05:33:33.927Z",
-  "model_count": 253,
-  "series_count": 113,
+  "generated_at": "2026-09-18T23:16:46.947Z",
+  "model_count": 249,
+  "series_count": 111,
   "sources": {
     "openrouter": {
       "fetched_at": "2026-09-17T23:32:51.553Z",
@@ -2358,37 +2358,6 @@
       ]
     },
     {
-      "series_key": "baidu--ernie-4.5",
-      "display": "Ernie 4.5",
-      "vendor": "baidu",
-      "theme": "general",
-      "order": 9999,
-      "member_count": 1,
-      "model_count": 1,
-      "max_composite_score": null,
-      "members": [
-        {
-          "member_key": "baidu--ernie-4.5",
-          "display": "ERNIE 4.5",
-          "order": 9999,
-          "default_canonical": "baidu--ernie-4.5",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "baidu--ernie-4.5",
-              "display": "ERNIE 4.5",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        }
-      ]
-    },
-    {
       "series_key": "baidu--ernie-5.0",
       "display": "Ernie 5.0",
       "vendor": "baidu",
@@ -2602,66 +2571,6 @@
             }
           ],
           "theme": "video"
-        }
-      ]
-    },
-    {
-      "series_key": "google--gemini-2.5",
-      "display": "Gemini 2.5",
-      "vendor": "google",
-      "theme": "general",
-      "order": 9999,
-      "member_count": 2,
-      "model_count": 3,
-      "max_composite_score": null,
-      "members": [
-        {
-          "member_key": "google--gemini-2.5-flash-lite",
-          "display": "Gemini 2.5 Flash-Lite",
-          "order": 9999,
-          "default_canonical": "google--gemini-2.5-flash-lite",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "google--gemini-2.5-flash-lite",
-              "display": "Gemini 2.5 Flash-Lite",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "openrouter",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "google--gemini-2.5-pro-preview",
-          "display": "Gemini 2.5 Pro Preview",
-          "order": 9999,
-          "default_canonical": "google--gemini-2.5-pro-preview",
-          "variant_count": 2,
-          "variants": [
-            {
-              "canonical": "google--gemini-2.5-pro-preview",
-              "display": "Gemini 2.5 Pro Preview",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "openrouter"
-              ]
-            },
-            {
-              "canonical": "google--gemini-2.5-pro-preview@06-05",
-              "display": "Gemini 2.5 Pro Preview (06-05)",
-              "revision": "06-05",
-              "composite_score": null,
-              "sources": [
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
         }
       ]
     },
@@ -6968,30 +6877,6 @@
       "file": "data.json"
     },
     {
-      "canonical": "baidu--ernie-4.5",
-      "identity": "ernie-4.5",
-      "family": "ernie-4.5",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "ERNIE 4.5",
-      "vendor": "baidu",
-      "theme": "general",
-      "series_key": "baidu--ernie-4.5",
-      "series_display": "Ernie 4.5",
-      "member_key": "baidu--ernie-4.5",
-      "member_display": "ERNIE 4.5",
-      "member_order": 9999,
-      "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "llm_stats"
-      ],
-      "file": "data.json"
-    },
-    {
       "canonical": "baidu--ernie-5.0",
       "identity": "ernie-5.0",
       "family": "ernie-5.0",
@@ -7650,88 +7535,6 @@
       "degrees": {},
       "sources": [
         "lmarena"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "google--gemini-2.5-flash-lite",
-      "identity": "gemini-2.5-flash-lite",
-      "family": "gemini-2.5",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {
-        "openrouter": [
-          {
-            "kind": "batch",
-            "raw_name": "google/gemini-2.5-flash-lite:batch"
-          }
-        ]
-      },
-      "display": "Gemini 2.5 Flash-Lite",
-      "vendor": "google",
-      "theme": "general",
-      "series_key": "google--gemini-2.5",
-      "series_display": "Gemini 2.5",
-      "member_key": "google--gemini-2.5-flash-lite",
-      "member_display": "Gemini 2.5 Flash-Lite",
-      "member_order": 9999,
-      "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "openrouter",
-        "llm_stats"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "google--gemini-2.5-pro-preview",
-      "identity": "gemini-2.5-pro-preview",
-      "family": "gemini-2.5",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Gemini 2.5 Pro Preview",
-      "vendor": "google",
-      "theme": "general",
-      "series_key": "google--gemini-2.5",
-      "series_display": "Gemini 2.5",
-      "member_key": "google--gemini-2.5-pro-preview",
-      "member_display": "Gemini 2.5 Pro Preview",
-      "member_order": 9999,
-      "member_variant_count": 2,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "openrouter"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "google--gemini-2.5-pro-preview@06-05",
-      "identity": "gemini-2.5-pro-preview",
-      "family": "gemini-2.5",
-      "revisions": [
-        "06-05"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Gemini 2.5 Pro Preview (06-05)",
-      "vendor": "google",
-      "theme": "general",
-      "series_key": "google--gemini-2.5",
-      "series_display": "Gemini 2.5",
-      "member_key": "google--gemini-2.5-pro-preview",
-      "member_display": "Gemini 2.5 Pro Preview",
-      "member_order": 9999,
-      "member_variant_count": 2,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "llm_stats"
       ],
       "file": "data.json"
     },
