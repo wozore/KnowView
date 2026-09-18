@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-17T17:15:04.187Z",
+  "generated_at": "2026-09-18T05:06:35.885Z",
   "date": "20260918",
-  "total_pending": 97,
+  "total_pending": 141,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -684,6 +684,314 @@
       "summary": "边开车边Codex 在CarPlay 上启用了 Codex 边开车边通过语音和Codex交流，Codex 改设置、推代码、汇报发布进度。 https://t.c",
       "suggestion": "人工判断：是否值得收录",
       "review_status": "pending"
+    },
+    {
+      "id": "x-beed063fd5f6054b3166",
+      "score": 66.9,
+      "summary": "Zuck launched their Mac app today. We're about to launch ours. Crazy to think th",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-116c25652d83544c5eb3",
+      "score": 66.4,
+      "summary": "** New Book “Tech Leaders in the Age of AI” is now available at 17 Amazon stores",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-09aadc7c50ae934a1791",
+      "score": 65,
+      "summary": "Indy creators: beware of the efforts of some in the community to normalize that ",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-2df7dbe5f007263dbd95",
+      "score": 64.9,
+      "summary": "The space sector is facing one of the largest capex spendings in history: - Grou",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-74cdad7a9558ad7f4ba8",
+      "score": 63.6,
+      "summary": "https://t.co/Ymm0yrEc5G",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9a0f2d3736197f8bd27d",
+      "score": 63.6,
+      "summary": "🚀 How to create an AMA Agent in a few simple steps: 1️⃣ Define your agent’s pur",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-2271f6c31bd97f55a021",
+      "score": 63.5,
+      "summary": "Ember’s cut is correct. The screenshots are a media table, not four labs in a kn",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8ca910ba094abcc79d53",
+      "score": 62.3,
+      "summary": "An upstream can now teach our open-source LLM router one useful fact by rejectin",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ba6bfba134e7e8e1a384",
+      "score": 61,
+      "summary": "おはようございます。2026年9月18日のAI開発・自動化デイリーブリーフです。 今日はまずOpenAIです。 OpenAIは、AIモデルが開発者の想定から外れ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-2c42f25c0d55120d5303",
+      "score": 59.5,
+      "summary": "https://t.co/taiZ9CFh3h",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e68f67b54c24275587b2",
+      "score": 58,
+      "summary": "ANTHROPIC 🔥: Projects for Claude Code have been officially announced and will b",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8659dae35e80d56fa2e6",
+      "score": 56.5,
+      "summary": "🤖 AI Signal (SOL) $YEC CA: 8or2ciXNyUiYH86K7NMTejLrFEWiViH8DvGkQKW11YXZ Ycash, ",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-87ea561c55968e86ffcc",
+      "score": 56.2,
+      "summary": "🤖 AI Signal (RBH) $HOUND CA: 0xfe8e6cb7d484720bbc3118e04ad4cb9503961337 Ninth h",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-88444f645e151a09e996",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (SOL) $ZCHAN CA: ADeLJ5JHnoRBuazW1mNujjReFMPqrZ6ZidWHa6a4rsoK Fourt",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-989866487ecc07ffd056",
+      "score": 53.3,
+      "summary": "Looking forward to trying this! Dying to see this kind of compression on somethi",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f18079d1cb86624d0747",
+      "score": 52.8,
+      "summary": "Agents that collaborate don't just move faster: they catch each other. But that ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8a6066b99c7e66cff93c",
+      "score": 52.6,
+      "summary": "Huawei Pulls Ascend 960 Forward, Targets Million-Card Clusters At Huawei Connect",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a07dad9dce13a4e8282f",
+      "score": 52.5,
+      "summary": "Biologists use specialized open-source models for tasks like modeling the struct",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-550d7f6f79e40e2cbd09",
+      "score": 52.4,
+      "summary": "META 🔥: A standalone Muse app for macOS is now available (still US only). Muse ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-23ee20dacf59ab8e4939",
+      "score": 52.4,
+      "summary": "“Building a company in 3 days, launching today!” Sounds impressive. But what doe",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-fb6f7e8719f6ec7521b0",
+      "score": 52.3,
+      "summary": "A new chip needs a system that can power it, cool it, and support what comes nex",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-73690a3efbf7fd599396",
+      "score": 51.9,
+      "summary": "union alpha (unbiased pareto) vs deepseek v4.1 flash vs muse spark 1.3 – three p",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6837344a71e01396bcef",
+      "score": 51.7,
+      "summary": "AI systems are getting more powerful, and they're increasingly being used to bui",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-4a2268e83e48215ba0db",
+      "score": 51.5,
+      "summary": "https://t.co/6O7N6Oapoe",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-09d9e43bd2ed89127944",
+      "score": 51.5,
+      "summary": "The Find Investors Setup Files are here, open source edition. Four files you dro",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-55b22edace2054ddede6",
+      "score": 51.5,
+      "summary": "https://t.co/Sm838t8Juq",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-56604825703021d06ac5",
+      "score": 51.5,
+      "summary": "New quant drop: DavidAU's Qwen3.8-27B TWIN-TURBO Fable Cold Fusion 709 ULTRA HER",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-68e706116c37d890d24e",
+      "score": 49.3,
+      "summary": "When I talk to nonprofit leaders about AI they often report widespread resistanc",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e289350ad77eb7d788d6",
+      "score": 48.6,
+      "summary": "The big change with Grok Bot “voice” isn’t the microphone. It’s the feeling: you",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6d27e9f8dd75556e9f27",
+      "score": 47.6,
+      "summary": "Medicine is the only job where the expert with the most to say has the least tim",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-66cc95482011e8296f74",
+      "score": 47.3,
+      "summary": "deepseek v4.1 flash on together ai is leading on ttft for pre-warmed queries for",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-50dbafab94850b2421dd",
+      "score": 46.8,
+      "summary": "Astra for Law: Frontier intelligence built for your practice. A new offering pow",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5b112946ed35ff305d1f",
+      "score": 46.8,
+      "summary": "I overestimated the difficulty of orchestrating massive numbers of agents. I ass",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-73971b5087f5e51ecc9c",
+      "score": 46.6,
+      "summary": "We’re rolling out effort controls in Computer’s model selector. Effort presets c",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1719a1c25323daa1c522",
+      "score": 46.3,
+      "summary": "OPENAI 🔥: ChatGPT in Word has been announced to be available across all plans, ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ff8f1b9500f63911c69f",
+      "score": 46.2,
+      "summary": "What makes Claude Projects so interesting is that it handles teams of agents rea",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9438debf8ddad8f70407",
+      "score": 46.1,
+      "summary": "IT WORKS! For a year, anyone with DGX Sparks and Mac Studios has lived with the ",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-4ed0d252707bd6d1a1fe",
+      "score": 45.9,
+      "summary": "OpenRouter is now a supported provider in ZCode. Connect your OpenRouter key in ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-157e65ae898c04a7513a",
+      "score": 45.7,
+      "summary": "Bolt has published the first 48 hours of usage data from Bolt Forge. > Forge is ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-94ea565040cb2f27aea4",
+      "score": 43.9,
+      "summary": "SpaceXAI has too many subscriptions. X: Basic, Premium, Premium+ Grok: Lite, Sup",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f98d35ea2b28f5c218fa",
+      "score": 41.8,
+      "summary": "Generating high-quality images is cheaper and faster than ever. Muse Image, MAI-",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e900a28d9bd1cb017f86",
+      "score": 40.7,
+      "summary": "Projects now run from one conversation, starting in Claude Code. You describe wh",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-dcb2ac734a4893c63fe4",
+      "score": 40.4,
+      "summary": "SPACEXAI 🔥: Grok Bot is getting a voice mode on desktop and mobile apps. > The ",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-396b75011d36eced40c2",
+      "score": 40.4,
+      "summary": "I had access to the new Claude Projects and was able to do some very complex wor",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
@@ -783,6 +1091,50 @@
     "[45.9] SPACEXAI 🔥: Grok 4.7 has been spotted on the GCP quotas page and is potentially\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[45.7] DAILY AI BRIEF 🗞 — Sept 17 ANTHROPIC 🔥: - Claude Chat and Cowork merge into on\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[40.6] Its fitting that one of the tells of AI writing is over-assigning agency and act\n    建议：人工判断：是否值得收录",
-    "[40.4] 边开车边Codex 在CarPlay 上启用了 Codex 边开车边通过语音和Codex交流，Codex 改设置、推代码、汇报发布进度。 https://t.c\n    建议：人工判断：是否值得收录"
+    "[40.4] 边开车边Codex 在CarPlay 上启用了 Codex 边开车边通过语音和Codex交流，Codex 改设置、推代码、汇报发布进度。 https://t.c\n    建议：人工判断：是否值得收录",
+    "[66.9] Zuck launched their Mac app today. We're about to launch ours. Crazy to think th\n    建议：AI 产品/工具，建议 approved",
+    "[66.4] ** New Book “Tech Leaders in the Age of AI” is now available at 17 Amazon stores\n    建议：AI 产品/工具，建议 approved",
+    "[65] Indy creators: beware of the efforts of some in the community to normalize that \n    建议：AI 产品/工具，建议 approved",
+    "[64.9] The space sector is facing one of the largest capex spendings in history: - Grou\n    建议：个人使用/成本体验，建议 discarded",
+    "[63.6] https://t.co/Ymm0yrEc5G\n    建议：AI 产品/工具，建议 approved",
+    "[63.6] 🚀 How to create an AMA Agent in a few simple steps: 1️⃣ Define your agent’s pur\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] Ember’s cut is correct. The screenshots are a media table, not four labs in a kn\n    建议：AI 产品/工具，建议 approved",
+    "[62.3] An upstream can now teach our open-source LLM router one useful fact by rejectin\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[61] おはようございます。2026年9月18日のAI開発・自動化デイリーブリーフです。 今日はまずOpenAIです。 OpenAIは、AIモデルが開発者の想定から外れ\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[59.5] https://t.co/taiZ9CFh3h\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[58] ANTHROPIC 🔥: Projects for Claude Code have been officially announced and will b\n    建议：AI 产品/工具，建议 approved",
+    "[56.5] 🤖 AI Signal (SOL) $YEC CA: 8or2ciXNyUiYH86K7NMTejLrFEWiViH8DvGkQKW11YXZ Ycash, \n    建议：个人使用/成本体验，建议 discarded",
+    "[56.2] 🤖 AI Signal (RBH) $HOUND CA: 0xfe8e6cb7d484720bbc3118e04ad4cb9503961337 Ninth h\n    建议：个人使用/成本体验，建议 discarded",
+    "[56.1] 🤖 AI Signal (SOL) $ZCHAN CA: ADeLJ5JHnoRBuazW1mNujjReFMPqrZ6ZidWHa6a4rsoK Fourt\n    建议：个人使用/成本体验，建议 discarded",
+    "[53.3] Looking forward to trying this! Dying to see this kind of compression on somethi\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.8] Agents that collaborate don't just move faster: they catch each other. But that \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.6] Huawei Pulls Ascend 960 Forward, Targets Million-Card Clusters At Huawei Connect\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.5] Biologists use specialized open-source models for tasks like modeling the struct\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.4] META 🔥: A standalone Muse app for macOS is now available (still US only). Muse \n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[52.4] “Building a company in 3 days, launching today!” Sounds impressive. But what doe\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.3] A new chip needs a system that can power it, cool it, and support what comes nex\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.9] union alpha (unbiased pareto) vs deepseek v4.1 flash vs muse spark 1.3 – three p\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.7] AI systems are getting more powerful, and they're increasingly being used to bui\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] https://t.co/6O7N6Oapoe\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] The Find Investors Setup Files are here, open source edition. Four files you dro\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] https://t.co/Sm838t8Juq\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] New quant drop: DavidAU's Qwen3.8-27B TWIN-TURBO Fable Cold Fusion 709 ULTRA HER\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[49.3] When I talk to nonprofit leaders about AI they often report widespread resistanc\n    建议：AI 行业事件，建议 approved",
+    "[48.6] The big change with Grok Bot “voice” isn’t the microphone. It’s the feeling: you\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[47.6] Medicine is the only job where the expert with the most to say has the least tim\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[47.3] deepseek v4.1 flash on together ai is leading on ttft for pre-warmed queries for\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.8] Astra for Law: Frontier intelligence built for your practice. A new offering pow\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.8] I overestimated the difficulty of orchestrating massive numbers of agents. I ass\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.6] We’re rolling out effort controls in Computer’s model selector. Effort presets c\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.3] OPENAI 🔥: ChatGPT in Word has been announced to be available across all plans, \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.2] What makes Claude Projects so interesting is that it handles teams of agents rea\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.1] IT WORKS! For a year, anyone with DGX Sparks and Mac Studios has lived with the \n    建议：人工判断：是否值得收录",
+    "[45.9] OpenRouter is now a supported provider in ZCode. Connect your OpenRouter key in \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.7] Bolt has published the first 48 hours of usage data from Bolt Forge. > Forge is \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[43.9] SpaceXAI has too many subscriptions. X: Basic, Premium, Premium+ Grok: Lite, Sup\n    建议：人工判断：是否值得收录",
+    "[41.8] Generating high-quality images is cheaper and faster than ever. Muse Image, MAI-\n    建议：人工判断：是否值得收录",
+    "[40.7] Projects now run from one conversation, starting in Claude Code. You describe wh\n    建议：人工判断：是否值得收录",
+    "[40.4] SPACEXAI 🔥: Grok Bot is getting a voice mode on desktop and mobile apps. > The \n    建议：人工判断：是否值得收录",
+    "[40.4] I had access to the new Claude Projects and was able to do some very complex wor\n    建议：人工判断：是否值得收录"
   ]
 }
