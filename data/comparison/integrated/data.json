@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-19T23:01:11.359Z",
+  "generated_at": "2026-09-20T23:14:28.988Z",
   "models": [
     {
       "canonical": "amazon--nova-2-lite",
@@ -10899,9 +10899,9 @@
       },
       "pricing": {
         "openrouter": {
-          "prompt": 0.000003,
-          "completion": 0.000015,
-          "input_cache_read": 3e-7,
+          "prompt": 0.0000017,
+          "completion": 0.0000085,
+          "input_cache_read": 1.7e-7,
           "currency": "USD",
           "is_listed_price": true
         },
@@ -10913,8 +10913,8 @@
       "release_date": "2026-07-16",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 32.3,
-        "raw": 2.117593307644212,
+        "score": 48.3,
+        "raw": 2.6855773452501515,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "moonshotai--kimi-k3",
@@ -22154,9 +22154,9 @@
       },
       "pricing": {
         "openrouter": {
-          "prompt": 0.0000014,
-          "completion": 0.0000044,
-          "input_cache_read": 2.6e-7,
+          "prompt": 9.1e-7,
+          "completion": 0.00000286,
+          "input_cache_read": 1.69e-7,
           "currency": "USD",
           "is_listed_price": true
         },
@@ -22168,8 +22168,8 @@
       "release_date": "2026-08-14",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 62.2,
-        "raw": 3.1780538303479453,
+        "score": 74.3,
+        "raw": 3.6088367464403994,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "zhipu--glm-5.3",
