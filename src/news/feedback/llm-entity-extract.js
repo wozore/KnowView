@@ -134,10 +134,31 @@ function buildAdmissionReviewInstructions() {
     '注意：对别名或缺少前缀的名称（如 @openrouter -> OpenRouter，Cowork -> Claude Cowork），请使用 merge 并给出 final_name。';
 }
 
-/** validate：准入筛查输出校验。 */
+/** validate：准入筛查最小结构校验（original_name/decision 为字符串即可；逐项容错见 normalizeAdmissionDecisions，单项漂移不得让整批降级）。 */
 function validateAdmissionOutput(value) {
   if (!Array.isArray(value)) return false;
-  return value.every(item => item && typeof item === 'object' && typeof item.original_name === 'string' && ['accept', 'reject', 'merge'].includes(item.decision));
+  return value.every(item => item && typeof item === 'object'
+    && typeof item.original_name === 'string' && typeof item.decision === 'string');
+}
+
+/** 逐项归一化准入裁决：decision 容错大小写；缺 reason 补空；decision 非法的单项丢弃（不拖垮整批）。 */
+function normalizeAdmissionDecisions(value) {
+  const list = Array.isArray(value) ? value : [];
+  const decisions = [];
+  for (const item of list) {
+    if (!item || typeof item !== 'object' || typeof item.original_name !== 'string') continue;
+    const original = item.original_name.trim();
+    if (!original) continue;
+    const decision = String(item.decision || '').trim().toLowerCase();
+    if (!['accept', 'reject', 'merge'].includes(decision)) continue;
+    decisions.push({
+      original_name: original,
+      decision,
+      reason: typeof item.reason === 'string' ? item.reason : '',
+      final_name: typeof item.final_name === 'string' ? item.final_name.trim() : '',
+    });
+  }
+  return decisions;
 }
 
 /**
@@ -159,7 +180,8 @@ async function admissionReviewWithLlm(entities, options = {}) {
     kind: 'entity_admission_review',
     instructions: buildAdmissionReviewInstructions(),
     input: JSON.stringify({ entities: inputPayload }),
-    maxOutputTokens: options.maxOutputTokens || 1200,
+    // 每项裁决含中文 reason 约 40-60 token；15 项/批 × 2000 上限留足余量防 INCOMPLETE 截断
+    maxOutputTokens: options.maxOutputTokens || 2000,
     ledger,
     validate: validateAdmissionOutput,
   }, {
@@ -175,7 +197,7 @@ async function admissionReviewWithLlm(entities, options = {}) {
     error.code = result.code;
     throw error;
   }
-  return result.value;
+  return normalizeAdmissionDecisions(result.value);
 }
 
 module.exports = {
@@ -187,5 +209,6 @@ module.exports = {
   extractEntitiesWithLlm,
   buildAdmissionReviewInstructions,
   validateAdmissionOutput,
+  normalizeAdmissionDecisions,
   admissionReviewWithLlm,
 };

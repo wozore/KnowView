@@ -14,7 +14,7 @@
  *    Gemini 3.8 Live, Grok Voice Transcribe 2.0）时，保留完整实体。
  */
 
-const { extractEntitiesWithLlm } = require('./llm-entity-extract');
+const { extractEntitiesWithLlm, admissionReviewWithLlm } = require('./llm-entity-extract');
 
 const VAGUE_VENDOR_NAMES = new Set([
   'openai', 'anthropic', 'cerebras', 'runway', 'qwen', 'claude',
@@ -154,10 +154,90 @@ function createUnifiedExtractor(config = {}, options = {}, diagnostics = null) {
   };
 }
 
+/**
+ * 第 2 轮 AI：批量准入筛查与归一化。
+ *
+ * 显式注入 llmExtract 的调用方（单测替身/自控提取）不叠加密筛；
+ * 生产路径（CLI/工作台，未注入 llmExtract）经 catalogApi 成本记账走准入筛查。
+ * 筛查失败或依赖缺失时 fail-open 回退第一轮结果，但必须写入 diagnostics.warnings。
+ *
+ * @param {object} args { allEntities, texts, feedback, options, diagnostics }
+ * @returns {Map<string, {name, type, count}>} 筛查后的实体集（原 Map 直接复用或重建）
+ */
+async function applyAdmissionScreening({ allEntities, texts, feedback, options, diagnostics }) {
+  const shouldLlmExtract = feedback.llm_extract !== false;
+  const injectedExtractor = typeof options.llmExtract === 'function';
+  const admissionDeps = !injectedExtractor && (options.ledger
+    || (options.catalogApi && typeof options.catalogApi.createEntityLedger === 'function'));
+  const hasReviewFn = typeof options.admissionReview === 'function';
+  if (!shouldLlmExtract || allEntities.size === 0 || (!admissionDeps && !hasReviewFn)) {
+    if (shouldLlmExtract && allEntities.size > 0 && !injectedExtractor) {
+      diagnostics.warnings.push('LLM_ADMISSION_REVIEW_SKIPPED_MISSING_LEDGER_OR_CATALOG_API');
+    }
+    return allEntities;
+  }
+
+  try {
+    const entitiesArray = Array.from(allEntities.values()).map(e => ({
+      name: e.name,
+      type: e.type,
+      summaries: texts.filter(t => t.includes(e.name)).slice(0, 3), // 每个实体最多附 3 条来源摘要
+    }));
+
+    // 分批送审：批过大触发 max_output_tokens 截断（INCOMPLETE）；15 项/批 × 2000 token 上限
+    // 批级失败只回退该批实体（保留第一轮结果），其余批次照常裁决
+    const reviewFn = hasReviewFn ? options.admissionReview : admissionReviewWithLlm;
+    const BATCH_SIZE = 15;
+    const reviewOptions = {
+      catalogApi: options.catalogApi,
+      ledger: options.ledger,
+      model: options.model || feedback.llm_model,
+      endpoint: options.endpoint,
+      apiKey: options.apiKey,
+      fetchImpl: options.fetchImpl,
+      timeoutMs: options.timeoutMs,
+    };
+    const admissionResults = [];
+    const failedBatchEntities = [];
+    for (let i = 0; i < entitiesArray.length; i += BATCH_SIZE) {
+      const batch = entitiesArray.slice(i, i + BATCH_SIZE);
+      try {
+        const reviewed = await reviewFn(batch, reviewOptions);
+        admissionResults.push(...reviewed);
+      } catch (error) {
+        diagnostics.warnings.push(`准入筛查批次失败（${batch.length} 个实体保留第一轮结果）: ${error.message}`);
+        failedBatchEntities.push(...batch);
+      }
+    }
+
+    const screened = new Map();
+    for (const entity of failedBatchEntities) {
+      screened.set(entity.name, { name: entity.name, type: entity.type, count: allEntities.get(entity.name).count });
+    }
+    for (const res of admissionResults) {
+      if (res.decision === 'reject') {
+        diagnostics.vague_filtered.push({ name: res.original_name, type: 'rejected_by_admission', reason: res.reason });
+        continue;
+      }
+      const original = allEntities.get(res.original_name);
+      if (!original) continue;
+      const finalName = res.decision === 'merge' && res.final_name ? res.final_name : res.original_name;
+      const existing = screened.get(finalName);
+      if (existing) existing.count += original.count;
+      else screened.set(finalName, { name: finalName, type: original.type, count: original.count });
+    }
+    return screened;
+  } catch (error) {
+    diagnostics.warnings.push(`LLM 准入筛查失败，降级使用第一轮结果: ${error.message}`);
+    return allEntities;
+  }
+}
+
 module.exports = {
   VAGUE_VENDOR_NAMES,
   isVagueVendor,
   createExtractDiagnostics,
   normalizeExtractedEntities,
   createUnifiedExtractor,
+  applyAdmissionScreening,
 };

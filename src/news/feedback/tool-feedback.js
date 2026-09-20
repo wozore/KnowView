@@ -35,6 +35,7 @@ const {
   createExtractDiagnostics,
   createUnifiedExtractor,
   isVagueVendor,
+  applyAdmissionScreening,
 } = require('./extract-strategy');
 
 // ═══════════════════════════════════════════════════════════════
@@ -239,53 +240,8 @@ async function feedbackFromSummaries(store, config, options = {}) {
   const glossary = options.glossary ?? (typeof catalogApi.readGlossary === 'function' ? catalogApi.readGlossary() : []);
   const dateKey = dateKeyOf(options && options.now);
 
-  // === 第 2 轮 AI：批量准入筛查与归一化 ===
-  let screenedEntities = allEntities;
-  const shouldLlmExtract = feedback.llm_extract !== false;
-  if (shouldLlmExtract && allEntities.size > 0 && typeof extractEntitiesWithLlm === 'function') { // Check if we have LLM capability
-      try {
-        const entitiesArray = Array.from(allEntities.values()).map(e => ({
-          name: e.name,
-          type: e.type,
-          summaries: texts.filter(t => t.includes(e.name)).slice(0, 3) // Provide up to 3 context summaries per entity
-        }));
-
-        // Dynamic import to avoid circular dependency if any, though it's already required at top but just to be safe
-        const { admissionReviewWithLlm } = require('./llm-entity-extract');
-        const admissionResults = await admissionReviewWithLlm(entitiesArray, {
-            catalogApi: options.catalogApi,
-            ledger: options.ledger,
-            model: options.model || feedback.llm_model,
-            endpoint: options.endpoint,
-            apiKey: options.apiKey,
-            fetchImpl: options.fetchImpl,
-            timeoutMs: options.timeoutMs,
-        });
-
-        // 重新构建 screenedEntities
-        screenedEntities = new Map();
-        for (const res of admissionResults) {
-            if (res.decision === 'reject') {
-                diagnostics.vague_filtered.push({ name: res.original_name, type: 'rejected_by_admission', reason: res.reason });
-                continue;
-            }
-
-            const original = allEntities.get(res.original_name);
-            if (!original) continue;
-
-            const finalName = (res.decision === 'merge' && res.final_name) ? res.final_name : res.original_name;
-            const existing = screenedEntities.get(finalName);
-
-            if (existing) {
-                existing.count += original.count;
-            } else {
-                screenedEntities.set(finalName, { name: finalName, type: original.type, count: original.count });
-            }
-        }
-      } catch (error) {
-        diagnostics.warnings.push(`LLM 准入筛查失败，降级使用第一轮结果: ${error.message}`);
-      }
-  }
+  // === 第 2 轮 AI：批量准入筛查与归一化（装配见 extract-strategy） ===
+  const screenedEntities = await applyAdmissionScreening({ allEntities, texts, feedback, options, diagnostics });
 
   const toolsFound = [];
   const toolsPending = [];

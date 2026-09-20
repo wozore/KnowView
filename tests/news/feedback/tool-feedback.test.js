@@ -339,6 +339,102 @@ test('AC-06：feedbackFromSummaries 返回诊断与告警，区分各类过滤�
   }
 });
 
+// ── 第 2 轮准入筛查：注入 admissionReview 替身验证筛除与归并 ──
+test('准入筛查：admissionReview 拒收硬件/基础设施与集成对象，merge 归并别名并累加提及', async () => {
+  const temp = createTempPendingFiles();
+  try {
+    const store = {
+      candidates: [
+        { review_status: 'approved', summary: 'Grok Voice Transcribe 2.0 发布，OpenRouter 用户第一时间接入，iPhone 17 Pro 1x 拍摄演示视频。' },
+        { review_status: 'approved', summary: 'Union Alpha 部署在 @openrouter，流量激增扩容 AWS。' },
+      ],
+    };
+    const llmExtract = async text => {
+      const out = [];
+      if (text.includes('Grok Voice Transcribe 2.0')) out.push({ name: 'Grok Voice Transcribe 2.0', type: 'model' });
+      if (text.includes('iPhone')) out.push({ name: 'iPhone 17 Pro 1x', type: 'tool' });
+      if (text.includes('AWS')) out.push({ name: 'AWS', type: 'tool' });
+      if (text.includes('Union Alpha')) out.push({ name: 'Union Alpha', type: 'tool' });
+      if (text.includes('@openrouter')) out.push({ name: '@openrouter', type: 'tool' });
+      else if (text.includes('OpenRouter')) out.push({ name: 'OpenRouter', type: 'tool' });
+      return out;
+    };
+    const admissionReview = async entities => entities.map(e => {
+      if (e.name === 'iPhone 17 Pro 1x') return { original_name: e.name, decision: 'reject', reason: '硬件设备' };
+      if (e.name === 'AWS') return { original_name: e.name, decision: 'reject', reason: '云基础设施' };
+      if (e.name === '@openrouter') return { original_name: e.name, decision: 'merge', reason: '别名归并', final_name: 'OpenRouter' };
+      return { original_name: e.name, decision: 'accept', reason: '合格 AI 产品' };
+    });
+    const result = await feedbackFromSummaries(store, { feedback: { llm_extract: true } }, {
+      tools: [],
+      glossary: [],
+      llmExtract,
+      admissionReview,
+      pendingToolFile: temp.pendingToolFile,
+      pendingConceptFile: temp.pendingConceptFile,
+    });
+    assert.equal(result.toolsPending.some(c => c.name.includes('iPhone')), false, 'iPhone 不得进入待补卡');
+    assert.equal(result.toolsPending.some(c => c.name === 'AWS'), false, 'AWS 不得进入待补卡');
+    assert.equal(result.toolsPending.some(c => c.name === '@openrouter'), false, '别名残片不得单独成卡');
+    const grok = result.toolsPending.find(c => c.name === 'Grok Voice Transcribe 2.0');
+    assert.ok(grok, 'Grok Voice Transcribe 2.0 必须保留');
+    assert.equal(grok.entity_type, 'model');
+    const openRouter = result.toolsPending.find(c => c.name === 'OpenRouter');
+    assert.ok(openRouter, 'OpenRouter 归并后保留');
+    assert.equal(openRouter.mentioned_in_summaries, 2, '归并后提及次数累加');
+    const rejected = result.diagnostics.vague_filtered.filter(v => v.type === 'rejected_by_admission');
+    assert.equal(rejected.length, 2, '拒收项记入诊断');
+    assert.ok(rejected.every(v => v.reason));
+  } finally {
+    temp.cleanup();
+  }
+});
+
+// ── 准入筛查批级降级：单批失败只回退该批，其余批次照常裁决 ──
+test('准入筛查：批次失败仅回退该批实体并记录告警，其余批次裁决仍生效', async () => {
+  const temp = createTempPendingFiles();
+  try {
+    const candidates = [];
+    // 32 个实体触发三批（BATCH_SIZE=15）；第 31、32 个在第三批
+    for (let i = 1; i <= 30; i++) {
+      candidates.push({ review_status: 'approved', summary: `Noise Tool ${i} 与 Good Tool ${i} 发布。` });
+    }
+    candidates.push({ review_status: 'approved', summary: 'iPhone 17 Pro 1x 拍摄演示。' });
+    candidates.push({ review_status: 'approved', summary: 'Grok Voice Transcribe 2.0 正式发布。' });
+    const llmExtract = async text => {
+      const out = [];
+      for (let i = 1; i <= 30; i++) {
+        if (text.includes(`Good Tool ${i}`)) out.push({ name: `Good Tool ${i}`, type: 'tool' });
+      }
+      if (text.includes('iPhone')) out.push({ name: 'iPhone 17 Pro 1x', type: 'tool' });
+      if (text.includes('Grok Voice Transcribe 2.0')) out.push({ name: 'Grok Voice Transcribe 2.0', type: 'model' });
+      return out;
+    };
+    const admissionReview = async batch => {
+      if (batch.some(e => e.name.includes('iPhone')) || batch.some(e => e.name.includes('Grok'))) {
+        throw new Error('批次超时');
+      }
+      return batch.map(e => ({ original_name: e.name, decision: 'accept', reason: '合格' }));
+    };
+    const result = await feedbackFromSummaries({ candidates }, { feedback: { llm_extract: true } }, {
+      tools: [],
+      glossary: [],
+      llmExtract,
+      admissionReview,
+      pendingToolFile: temp.pendingToolFile,
+      pendingConceptFile: temp.pendingConceptFile,
+    });
+    // 第一批 30 个正常 accept
+    assert.equal(result.toolsPending.some(c => c.name === 'Good Tool 1'), true, '首批实体正常保留');
+    // 第二批失败：iPhone 与 Grok 均保留第一轮结果（fail-open，不静默丢）
+    assert.equal(result.toolsPending.some(c => c.name.includes('iPhone')), true, '失败批实体 fail-open 保留');
+    assert.equal(result.toolsPending.some(c => c.name === 'Grok Voice Transcribe 2.0'), true);
+    assert.ok(result.diagnostics.warnings.some(w => w.includes('准入筛查批次失败')), '批级失败记入告警');
+  } finally {
+    temp.cleanup();
+  }
+});
+
 // ── extractEntities：返回带类型实体 ───────────────────────────
 test('extractEntities 默认正则返回带类型实体（不再硬名单标 vague）', async () => {
   const entities = await extractEntities('可灵 发布了新模型。', {});

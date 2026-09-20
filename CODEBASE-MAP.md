@@ -291,7 +291,7 @@
 ### feedback/ — 收尾环节：工具库/概念库反哺（独立于主链，只写待补卡文件）
 - [tool-feedback.js](src/news/feedback/tool-feedback.js) — 从 approved summary 提取带类型实体并写入待补卡。
 - [llm-entity-extract.js](src/news/feedback/llm-entity-extract.js) — 摘要 AI 实体提取与结构化校验。
-- [extract-strategy.js](src/news/feedback/extract-strategy.js) — 实体提取统一策略装配（工作台/CLI 统一调用、泛称识别与降级诊断）。
+- [extract-strategy.js](src/news/feedback/extract-strategy.js) — 实体提取统一策略装配（工作台/CLI 统一调用、泛称识别与降级诊断、第 2 轮批量准入筛查 applyAdmissionScreening）。
 
 ### pending/ — 待补候选与 Catalog Seed
 - [index.js](src/pending/index.js) — Pending 域统一聚合门面。
