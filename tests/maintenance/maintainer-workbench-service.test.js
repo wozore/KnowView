@@ -268,3 +268,108 @@ test('service catalogCleanup enforces parameter allowlist and delegates to workb
     confirm: 'APPLY CATALOG DRAFTS b',
   });
 });
+
+test('全链路集成：createMaintainerWorkbenchService -> extractKnowledge -> feedbackFromSummaries -> pending store -> API 投影', async () => {
+  const os = require('os');
+  const fs = require('fs');
+  const path = require('path');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'wb-extract-integration-'));
+  const pendingToolFile = path.join(dir, 'tool-cards-pending.json');
+  const pendingConceptFile = path.join(dir, 'concept-cards-pending.json');
+  const topFile = path.join(dir, 'top.json');
+
+  const candidates = [
+    {
+      id: 'news-1',
+      review_status: 'approved',
+      summary: 'xAI 正式发布了 Grok Voice Transcribe 2.0 模型，OpenAI 与 Anthropic 也发布了更新。',
+    },
+    {
+      id: 'news-2',
+      review_status: 'approved',
+      summary: '测试表明 Grok Voice Transcribe 2.0 的识别准确率领先。',
+    },
+    {
+      id: 'news-3',
+      review_status: 'approved',
+      summary: '开发者在 API 中广泛集成了 Grok Voice Transcribe 2.0。',
+    },
+    {
+      id: 'news-4',
+      review_status: 'pending',
+      summary: '未初审的新闻摘要，不应参与提取。',
+    },
+  ];
+
+  const mockLlmExtract = async text => {
+    const out = [];
+    if (text.includes('Grok Voice Transcribe 2.0')) {
+      out.push({ name: 'Grok Voice Transcribe 2.0', type: 'model' });
+    }
+    if (text.includes('OpenAI')) {
+      out.push({ name: 'OpenAI', type: 'vague' });
+    }
+    if (text.includes('Anthropic')) {
+      out.push({ name: 'Anthropic', type: 'vague' });
+    }
+    return out;
+  };
+
+  const service = createMaintainerWorkbenchService({
+    pendingToolFile,
+    pendingConceptFile,
+    topFile,
+    newsApi: {
+      readStore: () => ({ candidates }),
+      revisionOfStore: () => 'news-rev-1',
+      readConfig: () => ({ feedback: { llm_extract: true } }),
+      readKeywords: () => ({ candidates: [] }),
+      commitKeywords: () => ({}),
+      commit: () => ({}),
+      reviewMutation: () => ({}),
+      topMutation: () => ({}),
+    },
+    feedbackOptions: {
+      llmExtract: mockLlmExtract,
+      pendingToolFile,
+      pendingConceptFile,
+    },
+  });
+
+  // 1. 调用 extractKnowledge 全链路
+  const extractResult = await service.extractKnowledge({ expected_revision: 'news-rev-1' });
+  assert.equal(extractResult.ok, true);
+  assert.equal(extractResult.tools_pending, 1);
+  assert.ok(extractResult.pending_revisions.tools);
+  assert.ok(extractResult.diagnostics);
+  assert.ok(extractResult.diagnostics.vague_filtered.some(e => e.name === 'OpenAI'));
+  assert.ok(extractResult.diagnostics.vague_filtered.some(e => e.name === 'Anthropic'));
+
+  // 2. 调用 API 投影 pendingTools()
+  const pendingProjection = service.pendingTools();
+  assert.equal(pendingProjection.items.length, 1, '仅包含真正待办');
+  assert.equal(pendingProjection.history_items.length, 0, '初始无历史卡');
+
+  const card = pendingProjection.items[0];
+  assert.equal(card.name, 'Grok Voice Transcribe 2.0');
+  assert.equal(card.entity_type, 'model');
+  assert.equal(card.detail_kind_hint, 'api_model');
+  assert.equal(card.mentioned_in_summaries, 3, '3 篇摘要合并为 1 张卡');
+  assert.equal(card.review_status, 'pending');
+  assert.equal(card.description, '', '空描述透传供前端显示待补全');
+
+  // 3. 审核待补卡：将 Grok Voice Transcribe 2.0 标记为 discarded
+  const reviewResult = await service.reviewPendingTool(card.candidate_key, {
+    decision: 'discarded',
+    expected_revision: extractResult.pending_revisions.tools,
+  });
+  assert.equal(reviewResult.ok, true);
+
+  // 4. 再次获取 pendingTools()，验证 active/history 分流
+  const afterReview = service.pendingTools();
+  assert.equal(afterReview.items.length, 0, '待办列表清空');
+  assert.equal(afterReview.history_items.length, 1, '已移入历史列表');
+  assert.equal(afterReview.history_items[0].review_status, 'discarded');
+
+  fs.rmSync(dir, { recursive: true, force: true });
+});

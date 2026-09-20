@@ -42,13 +42,13 @@ function buildEntityExtractInstructions() {
     '1.只找摘要里真实提到的具体名称，禁止编造、禁止硬凑。如果摘要里没有明确的 AI 工具/模型/概念名称，输出空数组 []。' +
     '2.判断每个名称的类型 type，只能是以下五种之一：' +
     '"tool"：具体工具/软件/服务，单一可直接使用的产品（如 Cursor、Suno、Claude Code）；' +
-    '"model"：官方以独立可调用型号发布的具体模型（如 Claude Opus 4.8、Kling 2.6 Pro）；无档位词不等于不是具体模型；无法确定是系列还是具体模型时标 "model" 交官方核验，不得自行降级；' +
+    '"model"：官方以独立可调用型号发布的具体模型（如 Claude Opus 4.8、Kling 2.6 Pro、Gemini 3.8 Live、Grok Voice Transcribe 2.0）；无档位词不等于不是具体模型；多词型号名（如 Grok Voice Transcribe 2.0）完整输出为单个 model，不得拆散；无法确定是系列还是具体模型时标 "model" 交官方核验，不得自行降级；' +
     '"series"：模型系列/版本代际/产品线，官方按代际发布的家族名（如 GPT-5.6、GLM-5.3），其下可有 Sol、Terra、Luna 等具体型号；' +
     '"concept"：AI 概念/技术/方法（如 RAG、vibe coding、MoE、AI Agent）；' +
-    '"vague"：产品/平台/品牌的笼统名，不是单一具体工具、具体模型或系列（如 通义千问、可灵、豆包、Kimi、腾讯混元、ChatGPT 品牌、API 服务、订阅套餐）。' +
+    '"vague"：厂商、机构、平台、品牌或系列泛称（如 OpenAI、Anthropic、Cerebras、Runway、Qwen、Claude、ChatGPT、GPT、DeepSeek、GLM、Mistral、Gemini、豆包、通义千问、可灵、Kimi、腾讯混元、API 服务、订阅套餐），不是单一具体工具、具体模型或系列；单独出现时必须标 "vague"；' +
     '3.排除泛称：AI、人工智能、AI 模型、AI 工具、AI 聊天机器人 这类泛指不算名称；' +
     '排除人名；排除机构/公司名（如字节跳动、Meta、三星，除非它的具体 AI 产品被点名）；排除与 AI 无关的普通词。' +
-    '4.输出完整名，多词名不拆散（"Claude Code" 是一个整体，不要拆成 "Claude" 和 "Code"）。' +
+    '4.输出完整名，多词名不拆散（"Claude Code" 是具体工具 tool；"GPT-5.6" 是系列 series；"Grok Voice Transcribe 2.0" 是具体模型 model；"Claude Opus 4.8" 是具体模型 model；"Gemini 3.8 Live" 是具体模型 model，不要拆散也不要降级为泛称）。如果同一摘要出现厂商泛称（如 OpenAI、Anthropic、Claude）以及具体产品/系列/型号，厂商泛称单独出现时标 vague；完整具体实体标 tool/model/series。' +
     '5.找完后把摘要再检查一遍：确认没有遗漏的具体名称，也没有把泛称或无关词误当名称。' +
     '6.输出格式：一个 JSON 数组，每个元素是 {name, type}。如 [{"name":"Cursor","type":"tool"},{"name":"GLM-5.3","type":"series"},{"name":"RAG","type":"concept"}]；没有则 []。' +
     '注意：分不清是系列还是具体模型时标 model，交官方核验，不得自行降级为 vague；确属笼统品牌/平台/家族名时才标 vague。';
@@ -119,6 +119,65 @@ async function extractEntitiesWithLlm(text, options = {}) {
   return toEntityList(result.value);
 }
 
+/** 准入筛查 prompt（批量判断第一轮提取的实体是否值得进入目录）。 */
+function buildAdmissionReviewInstructions() {
+  return '你是一个严格的 AI 目录收录审核员。下面是一批刚从新闻摘要中提取出的疑似 AI 实体及其来源摘要。' +
+    '你需要逐一判断它们是否具备进入【AI 产品与模型目录】候补池的资格。\n\n' +
+    '硬性拒收规则：\n' +
+    '1. 硬件/基础设施：如 iPhone, AWS, GCP, Cloudflare, 芯片架构，直接拒绝。\n' +
+    '2. 外部集成对象：新闻只是提到 AI 产品集成了某系统（如 1Password, Messages, Slack），这些系统本身不是新的 AI 产品，直接拒绝。\n' +
+    '3. 功能/模块残片：如 Docs, Slides, Design, Chat, Computer，如果它们只是某 AI 工具内部的普通功能或界面模块，直接拒绝；如果是残片（如 3.8 Live Extended Thinking），将其更正为完整名称。\n' +
+    '4. 非核心提及：只是在文章里顺带提了一句的背景名词。\n' +
+    '5. 明显非 AI 产品：如普通网页、前端库（Three.js）。\n\n' +
+    '通过规则：必须是明确、独立、官方发布的 AI 产品、模型、API、或系列。\n\n' +
+    '输出格式：返回一个 JSON 数组，每个元素为 { "original_name": "原名", "decision": "accept"|"reject"|"merge", "reason": "一句话理由", "final_name": "归并或修补后的标准名称（如果 accept 或 merge），reject 时可留空" }。' +
+    '注意：对别名或缺少前缀的名称（如 @openrouter -> OpenRouter，Cowork -> Claude Cowork），请使用 merge 并给出 final_name。';
+}
+
+/** validate：准入筛查输出校验。 */
+function validateAdmissionOutput(value) {
+  if (!Array.isArray(value)) return false;
+  return value.every(item => item && typeof item === 'object' && typeof item.original_name === 'string' && ['accept', 'reject', 'merge'].includes(item.decision));
+}
+
+/**
+ * 第二轮 LLM：批量筛查与归一化实体。
+ * @param {Array<{name: string, type: string, summaries: string[]}>} entities 待筛查的实体上下文
+ * @param {object} options
+ */
+async function admissionReviewWithLlm(entities, options = {}) {
+  if (!entities || entities.length === 0) return [];
+  const catalogApi = options.catalogApi || {};
+  if (!options.ledger && typeof catalogApi.createEntityLedger !== 'function') {
+    throw new Error('实体筛查需要注入 ledger 或 catalogApi.createEntityLedger（fail-closed 成本记账）');
+  }
+  const ledger = options.ledger || catalogApi.createEntityLedger();
+
+  const inputPayload = entities.map(e => ({ name: e.name, type: e.type, context: e.summaries }));
+
+  const result = await requestStructuredJson({
+    kind: 'entity_admission_review',
+    instructions: buildAdmissionReviewInstructions(),
+    input: JSON.stringify({ entities: inputPayload }),
+    maxOutputTokens: options.maxOutputTokens || 1200,
+    ledger,
+    validate: validateAdmissionOutput,
+  }, {
+    model: options.model || (typeof catalogApi.resolveEntityModel === 'function' ? catalogApi.resolveEntityModel() : undefined),
+    apiKey: options.apiKey,
+    fetchImpl: options.fetchImpl,
+    timeoutMs: options.timeoutMs,
+    endpoint: options.endpoint || LOCAL_API_BASE,
+  });
+
+  if (!result.ok) {
+    const error = new Error(result.error || result.code || 'ADMISSION_REVIEW_FAILED');
+    error.code = result.code;
+    throw error;
+  }
+  return result.value;
+}
+
 module.exports = {
   ENTITY_TYPES,
   buildEntityExtractInstructions,
@@ -126,4 +185,7 @@ module.exports = {
   toEntityList,
   toNameList,
   extractEntitiesWithLlm,
+  buildAdmissionReviewInstructions,
+  validateAdmissionOutput,
+  admissionReviewWithLlm,
 };

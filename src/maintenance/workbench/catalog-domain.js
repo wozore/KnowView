@@ -19,15 +19,29 @@ function hash(value) {
 function pendingProjection(kind, api, formal = { tools: [], glossary: [] }) {
   const payload = api.read(kind);
   const projected = pendingStore.projectPending(kind, payload);
+  const cardsByKey = new Map((payload.cards || []).map(card => [card.candidate_key, card]));
   const exists = kind === 'tools'
     ? (item) => toolExists(item.name, formal.tools)
     : (item) => conceptExists(item.term, formal.glossary);
+  const allItems = projected.items.map(item => {
+    const raw = cardsByKey.get(item.candidate_key);
+    const completed = item.review_status === 'approved' && exists(item);
+    const workflow_state = completed ? 'completed' : item.workflow_state;
+    return {
+      ...item,
+      description: raw?.description || raw?.definition || '',
+      workflow_state,
+    };
+  });
+  const isPending = item => item.review_status === 'pending' || (item.review_status === 'approved' && item.workflow_state !== 'completed');
+  const items = allItems.filter(isPending);
+  const history_items = allItems.filter(item => !isPending(item));
   return {
     ...projected,
-    items: projected.items.map(item => {
-      if (item.review_status === 'approved' && exists(item)) return { ...item, workflow_state: 'completed' };
-      return item;
-    }),
+    items,
+    history_items,
+    history_count: history_items.length,
+    active_count: items.length,
   };
 }
 
@@ -200,6 +214,15 @@ async function handleExtractKnowledge(body, store, news, feedback, pending, expe
     tools_pending: (result.toolsPending || []).length,
     concepts_pending: (result.conceptsPending || []).length,
     pending_revisions: { tools: toolPending.revision, concepts: conceptPending.revision },
+    diagnostics: result.diagnostics || {
+      no_entities: [],
+      llm_failed: [],
+      format_invalid: [],
+      fallback: [],
+      vague_filtered: [],
+      exact_match_filtered: [],
+    },
+    warnings: result.warnings || [],
   };
 }
 

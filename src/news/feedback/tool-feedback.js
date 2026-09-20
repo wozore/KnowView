@@ -31,6 +31,11 @@ const {
   findSimilarTools,
   conceptExists,
 } = require('../../pending');
+const {
+  createExtractDiagnostics,
+  createUnifiedExtractor,
+  isVagueVendor,
+} = require('./extract-strategy');
 
 // ═══════════════════════════════════════════════════════════════
 // 默认实体提取（正则）
@@ -47,7 +52,7 @@ const KNOWN_AI_NAMES = [
 
 // 默认实体提取（正则）
 // ═══════════════════════════════════════════════════════════════
-const AI_MODEL_PATTERN = /\b(?:GPT|Claude|Gemini|Qwen|Llama|Kling|GLM|Mistral|DeepSeek|MiniMax|Grok)[-\s]?[vV]?\d+(?:\.\d+)?(?:[-\s]?(?:Pro|Max|Ultra|Plus|Flash|Mini|Turbo|Preview|Instruct|Reasoning|Live|Thinking))?\b/gi;
+const AI_MODEL_PATTERN = /\b(?:GPT|Claude|Gemini|Qwen|Llama|Kling|GLM|Mistral|DeepSeek|MiniMax|Grok)(?:[-\s]+(?:Voice[-\s]+Transcribe|Thinking|Reasoning|[A-Za-z]+))?[-\s]+[vV]?\d+(?:\.\d+)?(?:[-\s]+(?:Pro|Max|Ultra|Plus|Flash|Mini|Turbo|Preview|Instruct|Reasoning|Live|Thinking))?\b/gi;
 
 function matchWordOrChinese(text, name) {
   const isAscii = /^[\x00-\x7F]+$/.test(name);
@@ -58,24 +63,29 @@ function matchWordOrChinese(text, name) {
   return String(text || '').toLowerCase().includes(name.toLowerCase());
 }
 
-/** 从一段文本提取疑似 AI 工具/概念名（默认正则实现，去重保序）。 */
-function extractEntitiesDefault(text) {
+/** 从一段文本提取疑似 AI 工具/概念名（带类型，供正则或兜底使用）。 */
+function extractEntitiesDefaultWithTypes(text) {
   const found = [];
-  // 1. 优先匹配明确带版本/系列号的 AI 模型名称
+  // 1. 优先匹配明确带版本/系列号的 AI 模型名称（标 model，避免退化普通 tool）
   const patternMatches = String(text || '').match(AI_MODEL_PATTERN) || [];
   for (const m of patternMatches) {
     const trimmed = m.trim();
-    if (trimmed && !found.some(name => name.toLowerCase() === trimmed.toLowerCase())) {
-      found.push(trimmed);
+    if (trimmed && !found.some(item => item.name.toLowerCase() === trimmed.toLowerCase())) {
+      found.push({ name: trimmed, type: 'model' });
     }
   }
   // 2. 匹配知名 AI 品牌/工具名单（英文词边界，中文包含）
   for (const name of KNOWN_AI_NAMES) {
-    if (matchWordOrChinese(text, name) && !found.some(n => n.toLowerCase() === name.toLowerCase())) {
-      found.push(name);
+    if (matchWordOrChinese(text, name) && !found.some(item => item.name.toLowerCase() === name.toLowerCase())) {
+      found.push({ name, type: 'tool' });
     }
   }
   return found;
+}
+
+/** 从一段文本提取疑似 AI 工具/概念名（默认正则实现，去重保序，返回名称字符串数组）。 */
+function extractEntitiesDefault(text) {
+  return extractEntitiesDefaultWithTypes(text).map(item => item.name);
 }
 
 // 常见英文词表（大写品牌正则误报过滤）
@@ -94,13 +104,22 @@ const COMMON_ENGLISH_WORDS = new Set([
  * 默认正则实现；调用方可注入 options.llmExtract(text) → [{name,type}]/string[] 覆盖。
  * 返回 [{name, type}]，type ∈ tool/model/concept/vague。
  */
-async function extractEntities(text, options) {
+async function extractEntities(text, options = {}) {
   if (typeof options.llmExtract === 'function') {
     const result = await options.llmExtract(text);
     return normalizeEntities(result);
   }
-  // 默认正则不做类型裁决（硬名单 vague 拦截已移除，宁多生成候补卡交人工确认）
-  return extractEntitiesDefault(text).map(name => ({ name, type: 'tool' }));
+  const extractor = createUnifiedExtractor(options.config || {}, {
+    catalogApi: options.catalogApi,
+    ledger: options.ledger,
+    defaultExtract: async t => extractEntitiesDefaultWithTypes(t),
+    endpoint: options.endpoint,
+    apiKey: options.apiKey,
+    fetchImpl: options.fetchImpl,
+    timeoutMs: options.timeoutMs,
+    model: options.model,
+  });
+  return extractor(text);
 }
 
 /** 归一化提取结果为 [{name,type}]；兼容 [{name,type}]、裸 string[]（兜底 tool）与 {names|entities}。 */
@@ -179,17 +198,30 @@ async function feedbackFromSummaries(store, config, options = {}) {
   const source = options.store ?? store ?? readMinStore();
   const feedback = (config && config.feedback) || {};
   const candidates = source && Array.isArray(source.candidates) ? source.candidates : [];
+  const diagnostics = options.diagnostics || createExtractDiagnostics();
 
   // 1. approved 且有 summary 的条目
   const approvedWithSummary = candidates.filter(
     item => item && item.review_status === 'approved' && item.summary
   );
 
+  const extractor = createUnifiedExtractor(config, {
+    catalogApi: options.catalogApi,
+    ledger: options.ledger,
+    llmExtract: options.llmExtract,
+    defaultExtract: async t => extractEntitiesDefaultWithTypes(t),
+    endpoint: options.endpoint,
+    apiKey: options.apiKey,
+    fetchImpl: options.fetchImpl,
+    timeoutMs: options.timeoutMs,
+    model: options.model,
+  }, diagnostics);
+
   // 2. 汇总所有总结文本（实体带类型，name -> {count, type}）
   const texts = approvedWithSummary.map(item => String(item.summary || '').trim()).filter(Boolean);
   const allEntities = new Map(); // name -> {count, type}
   for (const text of texts) {
-    const entities = await extractEntities(text, options);
+    const entities = await extractor(text);
     for (const entity of entities) {
       const key = entity.name;
       const existing = allEntities.get(key);
@@ -207,29 +239,84 @@ async function feedbackFromSummaries(store, config, options = {}) {
   const glossary = options.glossary ?? (typeof catalogApi.readGlossary === 'function' ? catalogApi.readGlossary() : []);
   const dateKey = dateKeyOf(options && options.now);
 
+  // === 第 2 轮 AI：批量准入筛查与归一化 ===
+  let screenedEntities = allEntities;
+  const shouldLlmExtract = feedback.llm_extract !== false;
+  if (shouldLlmExtract && allEntities.size > 0 && typeof extractEntitiesWithLlm === 'function') { // Check if we have LLM capability
+      try {
+        const entitiesArray = Array.from(allEntities.values()).map(e => ({
+          name: e.name,
+          type: e.type,
+          summaries: texts.filter(t => t.includes(e.name)).slice(0, 3) // Provide up to 3 context summaries per entity
+        }));
+
+        // Dynamic import to avoid circular dependency if any, though it's already required at top but just to be safe
+        const { admissionReviewWithLlm } = require('./llm-entity-extract');
+        const admissionResults = await admissionReviewWithLlm(entitiesArray, {
+            catalogApi: options.catalogApi,
+            ledger: options.ledger,
+            model: options.model || feedback.llm_model,
+            endpoint: options.endpoint,
+            apiKey: options.apiKey,
+            fetchImpl: options.fetchImpl,
+            timeoutMs: options.timeoutMs,
+        });
+
+        // 重新构建 screenedEntities
+        screenedEntities = new Map();
+        for (const res of admissionResults) {
+            if (res.decision === 'reject') {
+                diagnostics.vague_filtered.push({ name: res.original_name, type: 'rejected_by_admission', reason: res.reason });
+                continue;
+            }
+
+            const original = allEntities.get(res.original_name);
+            if (!original) continue;
+
+            const finalName = (res.decision === 'merge' && res.final_name) ? res.final_name : res.original_name;
+            const existing = screenedEntities.get(finalName);
+
+            if (existing) {
+                existing.count += original.count;
+            } else {
+                screenedEntities.set(finalName, { name: finalName, type: original.type, count: original.count });
+            }
+        }
+      } catch (error) {
+        diagnostics.warnings.push(`LLM 准入筛查失败，降级使用第一轮结果: ${error.message}`);
+      }
+  }
+
   const toolsFound = [];
   const toolsPending = [];
   const conceptsFound = [];
   const conceptsPending = [];
 
-  for (const [name, { count, type }] of allEntities) {
+  for (const [name, { count, type }] of screenedEntities) {
     const route = classifyEntityForPending({ name, type });
     // filtered 只由类型路由（LLM/类型层判 vague、未知类型）产生；
     // 不再做硬名单一票否决，宁可多生成候补卡交人工确认。
-    if (route.target === 'filtered') continue;
+    if (route.target === 'filtered') {
+      diagnostics.vague_filtered.push({ name, type });
+      continue;
+    }
     if (route.target === 'concepts') {
       if (feedback.concept_feedback !== false) {
-        if (conceptExists(name, glossary)) conceptsFound.push(name);
-        else conceptsPending.push({
-          term: name,
-          full_name: '',
-          definition: '', // 留空：待人工补全
-          category: '',
-          source_hotspot: true,
-          pending: true,
-          mentioned_in_summaries: count,
-          generated_at: new Date().toISOString(),
-        });
+        if (conceptExists(name, glossary)) {
+          conceptsFound.push(name);
+          diagnostics.exact_match_filtered.push({ name, kind: 'concepts' });
+        } else {
+          conceptsPending.push({
+            term: name,
+            full_name: '',
+            definition: '', // 留空：待人工补全
+            category: '',
+            source_hotspot: true,
+            pending: true,
+            mentioned_in_summaries: count,
+            generated_at: new Date().toISOString(),
+          });
+        }
       }
       continue;
     }
@@ -237,6 +324,7 @@ async function feedbackFromSummaries(store, config, options = {}) {
     if (feedback.tool_feedback !== false) {
       if (toolExists(name, tools)) {
         toolsFound.push(name);
+        diagnostics.exact_match_filtered.push({ name, kind: 'tools' });
       } else {
         // 收录判定降级为提示：目录有疑似近似卡时附 similar_in_catalog 供人工确认，
         // 不再静默判"已收录"；近似为空时字段缺席。
@@ -280,7 +368,14 @@ async function feedbackFromSummaries(store, config, options = {}) {
     conceptsPending.splice(0, conceptsPending.length, ...pending.cards.filter(card => keys.has(card.candidate_key)));
   }
 
-  return { toolsFound, toolsPending, conceptsFound, conceptsPending };
+  return {
+    toolsFound,
+    toolsPending,
+    conceptsFound,
+    conceptsPending,
+    diagnostics,
+    warnings: diagnostics.warnings || [],
+  };
 }
 
 module.exports = {
@@ -288,7 +383,9 @@ module.exports = {
   classifyEntityForPending,
   extractEntities,
   extractEntitiesDefault,
+  extractEntitiesDefaultWithTypes,
   normalizeEntities,
   toolExists,
   conceptExists,
+  AI_MODEL_PATTERN,
 };
