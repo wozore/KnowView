@@ -250,18 +250,6 @@ async function writeIntakeOutcome(card, outcome, options = {}) {
   return null;
 }
 
-/**
- * 逐卡解析 + 官方身份核验（fail-closed）：
- *   - tool 类候选：registry 命中零解析成本，未命中走 Web Search+DeepSeek；
- *   - model/series 候选：registry 命中仅注入 official_urls 域提示 → 全量核验 → 分流：
- *       verdict.model_key 已存在 → already_complete（不建卡）；
- *       entity_class=series 且成员清单非空 → series 候选（交 SeriesBundle，不建普通卡）；
- *       series 成员证据不足 → deferred_insufficient_evidence；
- *       其余核验失败（缺正文/未命中/冲突/低置信/预算/缺 AI）→ verification_blocked；
- *       通过 → 普通 api_model seed（带 model_key 程序重算值）。
- * @returns {Promise<{ seeds: [], unresolved: [], series_candidates: [], verification_blocked: [],
- *                     verdicts: [], intake_outcomes: [], resolve_cost: object }>}
- */
 async function resolveBatchCandidates(cards, options = {}) {
   const resolveFn = options.resolveOfficialSource || resolveOfficialSource;
   const verifyFn = options.verifyModelIdentity || verifyModelIdentity;
@@ -329,6 +317,10 @@ async function resolveBatchCandidates(cards, options = {}) {
           candidate_key: card.candidate_key || null,
           name,
           vendor_key: result.verdict.vendor_key,
+          family: result.verdict.family || result.verdict.canonical_family || null,
+          series_title: result.verdict.series_title || null,
+          modality: result.verdict.modality || card.modality || null,
+          series_kind: result.verdict.series_kind || null,
           verdict: result.verdict,
           members: members.members,
           receipt: result.receipt,

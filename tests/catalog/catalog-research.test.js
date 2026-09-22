@@ -9,7 +9,12 @@ const { createCostLedger, researchCatalog, scopeKindsOfFields } = require('../..
 function seed() {
   return {
     detail_kind: 'api_model', modality: 'video', name: 'Kling 2.6 Pro', vendor_name: '可灵', vendor_key: 'kuaishou', tool_key: 'kling-2-6-pro',
-    placement: { new_group_title: 'Kling' }, known_fields: { theme: 'media' },
+    placement: { new_group_title: 'Kling' },
+    placement_decision: {
+      vendor: 'kuaishou', family: 'kling-video', target_mode: 'create',
+      target_level2_id: 'vendor-level2:kuaishou:kling', target_level2_title: 'Kling 视频生成模型',
+    },
+    known_fields: { theme: 'media' },
     discovery_sources: [{ url: 'https://kling.ai/official', kind: 'official_hint' }],
   };
 }

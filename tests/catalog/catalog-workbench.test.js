@@ -296,7 +296,18 @@ test('Bundle 工作台隔离 v3 Draft、返回 snake_case review DTO 并收口 A
   assert.equal('currentRevision' in review, false);
   await assert.rejects(coordinator.bundleApply({ draft_id: 'draft-v4', expected_revision: 'catalog-r1', bundle_token: 'bt', confirm: review.confirmation, api_key: 'secret' }), error => error.code === 'BUNDLE_REQUEST_INVALID');
   const applied = await coordinator.bundleApply({ draft_id: 'draft-v4', expected_revision: 'catalog-r1', bundle_token: 'bt', confirm: review.confirmation });
-  assert.deepEqual(applied, { ok: true, status: 'committed', target_revision: 'catalog-r2', dist_built: true, cleanup_pending: false, cleanup_only: false, outcome_pending: true, outcome_warning: { code: 'INTAKE_OUTCOME_WRITE_FAILED' } });
+  assert.deepEqual(applied, {
+    ok: true,
+    status: 'committed',
+    target_revision: 'catalog-r2',
+    dist_requested: false,
+    dist_built: false,
+    dist_pending: false,
+    cleanup_pending: false,
+    cleanup_only: false,
+    outcome_pending: true,
+    outcome_warning: { code: 'INTAKE_OUTCOME_WRITE_FAILED' },
+  });
   assert.equal(calls[0].confirm, review.confirmation);
 });
 

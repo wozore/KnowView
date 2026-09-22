@@ -173,10 +173,6 @@
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
-          "name_patterns": [
-            "kling",
-            "可灵"
-          ],
           "series": [
             {
               "id": "vendor-level2:openai:gpt-6",
@@ -254,7 +250,9 @@
               "title": "GPT-Image",
               "generation_state": "newest",
               "expected_members": [
-                "gpt-image-2"
+                "gpt-image-2",
+                "gpt-img-2.5",
+                "gpt-images-2.5"
               ]
             }
           ],
@@ -900,6 +898,11 @@
           "usage_kind": "audio_realtime",
           "modality": "audio",
           "series_kind": "tool_series",
+          "name_patterns": [
+            "voice",
+            "transcribe",
+            "speech"
+          ],
           "series": [
             {
               "id": "vendor-level2:xai:grok-voice",
@@ -907,6 +910,7 @@
               "generation_state": "newest",
               "expected_members": [
                 "grok-voice-think-fast-2.0",
+                "grok-voice-transcribe-2.0",
                 "xai-speech-to-text",
                 "xai-text-to-speech"
               ]

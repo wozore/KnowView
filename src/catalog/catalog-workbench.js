@@ -55,7 +55,7 @@ function bundleApplyDto(result, applyOptions = {}) {
   if (!result || result.ok !== true) return result || { ok: false, code: 'OPERATION_FAILED' };
   const cleanupPending = result.cleanup_pending === true || (Array.isArray(result.cleanup_pending) && result.cleanup_pending.length > 0);
   const outcomeWarning = result.outcome_warning || null;
-  return { ok: true, status: result.status || 'committed', target_revision: result.target_revision || result.targetRevision || null, dist_built: result.dist_built === true || (result.dist_built === undefined && applyOptions.buildDist !== false), cleanup_pending: cleanupPending, cleanup_only: result.cleanup_only === true || result.cleanupOnly === true, outcome_pending: result.outcome_pending === true || Boolean(outcomeWarning), outcome_warning: outcomeWarning };
+  return { ok: true, status: result.status || 'committed', target_revision: result.target_revision || result.targetRevision || null, dist_requested: result.dist_requested === true, dist_built: result.dist_built === true, dist_pending: result.dist_pending === true, cleanup_pending: cleanupPending, cleanup_only: result.cleanup_only === true || result.cleanupOnly === true, outcome_pending: result.outcome_pending === true || Boolean(outcomeWarning), outcome_warning: outcomeWarning };
 }
 function isCatalogDraft(draft) {
   return draft && draft.schema_version === CATALOG_DRAFT_SCHEMA_VERSION && (draft.draft_kind || CATALOG_DRAFT_KIND) === CATALOG_DRAFT_KIND;
@@ -265,9 +265,9 @@ function createCatalogWorkbench(options = {}) {
     if (!expectedRevision || !batchToken) return { ok: false, code: 'DRAFT_BATCH_STALE' };
     if (String(input.confirm || '') !== `APPLY CATALOG DRAFTS ${batchToken}`) return { ok: false, code: 'CONFIRMATION_INVALID' };
     const { pending } = approvedCandidates(options);
-    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}), buildDist: false, sourcePendingRevision: pending.revision });
+    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}), sourcePendingRevision: pending.revision });
     if (!result || result.ok !== true) return { ok: false, code: result?.code || 'OPERATION_FAILED' };
-    return { ok: true, status: result.status || 'completed', target_revision: result.targetRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: result.cleanupOnly === true, dist_built: false };
+    return { ok: true, status: result.status || 'completed', target_revision: result.targetRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: result.cleanupOnly === true, dist_requested: result.dist_requested === true, dist_built: result.dist_built === true, dist_pending: result.dist_pending === true, outcome_pending: result.outcome_pending === true, ...(result.outcome_warning ? { outcome_warning: result.outcome_warning } : {}) };
   }
   function bundlePlan() {
     const result = bundlePlanFn(bundleOptions());
@@ -370,9 +370,9 @@ function createCatalogWorkbench(options = {}) {
     const drafts = listFn().filter(isCatalogDraft);
     const cleanupDrafts = draftIds.map(id => drafts.find(draft => draft.draft_id === id));
     if (cleanupDrafts.some(draft => !draft || draft.state !== 'cleanup_pending')) return { ok: false, code: 'DRAFTS_NOT_READY' };
-    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}), buildDist: false });
+    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}) });
     if (!result || result.ok !== true) return { ok: false, code: result?.code || 'OPERATION_FAILED' };
-    return { ok: true, status: result.status || 'cleanup_only', target_revision: result.targetRevision || expectedRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: true };
+    return { ok: true, status: result.status || 'cleanup_only', target_revision: result.targetRevision || expectedRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: true, dist_requested: result.dist_requested === true, dist_built: result.dist_built === true, dist_pending: result.dist_pending === true };
   }
   return Object.freeze({ plan: buildPlan, prepare, list, read, resume, recoveryPlan, review, discard, apply, batchPreview, applyBatch, cleanup, bundlePlan, bundlePrepare, bundleList, bundleRead, bundleReview, bundleApply, bundleDiscard });
 }

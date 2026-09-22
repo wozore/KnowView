@@ -76,7 +76,12 @@ function inferModality(seed) {
 
 function targetIds(seed, keys) {
   const level1Id = seed.placement?.existing_level1_ref?.id || `vendor-level1:${keys.vendorKey}`;
-  const level2Id = seed.placement?.existing_level2_ref?.id || `vendor-level2:${keys.vendorKey}:${keys.groupKey}`;
+  const placementLevel2Id = seed.placement?.existing_level2_ref?.id || seed.placement_decision?.target_level2_id || null;
+  const explicitNewGroup = Boolean(seed.placement?.new_group_title);
+  if (seed.detail_kind === 'api_model' && !placementLevel2Id && !explicitNewGroup) {
+    throw new Error('PLACEMENT_REQUIRED_FOR_API_MODEL');
+  }
+  const level2Id = placementLevel2Id || `vendor-level2:${keys.vendorKey}:${keys.groupKey}`;
   return {
     'vendor-card': `vendor-card:${keys.vendorKey}`,
     'vendor-level1': level1Id,

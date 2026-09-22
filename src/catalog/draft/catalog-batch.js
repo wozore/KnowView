@@ -175,7 +175,6 @@ function applyCatalogDrafts({ draftIds, expectedRevision, batchToken }, options 
   const firstDraft = checked.reviews[0].draft;
   const result = commitCatalogChange(firstDraft.seed, {
     ...options,
-    buildDist: false,
     draftId: checked.batchToken,
     expectedRevision: checked.currentRevision,
     layerPatches: checked.patches,
@@ -198,6 +197,8 @@ function applyCatalogDrafts({ draftIds, expectedRevision, batchToken }, options 
     targetRevision: result.targetRevision,
     appliedDraftIds: checked.draft_ids,
     cleanupPending,
+    ...Object.fromEntries(['catalog_committed', 'dist_requested', 'dist_built', 'dist_pending', 'outcome_pending', 'outcome_warning']
+      .filter(key => Object.prototype.hasOwnProperty.call(result, key)).map(key => [key, result[key]])),
   };
 }
 

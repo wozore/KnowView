@@ -14,6 +14,10 @@ function videoSeed(overrides = {}) {
     vendor_key: 'kuaishou',
     tool_key: 'kling-2-6-pro',
     placement: { new_group_title: 'Kling' },
+    placement_decision: {
+      vendor: 'kuaishou', family: 'kling-video', target_mode: 'create',
+      target_level2_id: 'vendor-level2:kuaishou:kling', target_level2_title: 'Kling 视频生成模型',
+    },
     known_fields: { theme: 'media' },
     ...overrides,
   };
@@ -43,6 +47,10 @@ test('group key removes a redundant -models suffix', () => {
     vendor_name: 'Google',
     vendor_key: 'google',
     placement: { new_group_title: 'Gemini Models' },
+    placement_decision: {
+      vendor: 'google', family: 'gemini', target_mode: 'create',
+      target_level2_id: 'vendor-level2:google:gemini', target_level2_title: 'Gemini Models',
+    },
   }), emptySnapshot());
   assert.equal(plan.keys.groupKey, 'gemini');
   assert.equal(plan.target_ids['vendor-level2'], 'vendor-level2:google:gemini');
@@ -113,6 +121,10 @@ test('profile matrix keeps modality-specific predicates and applicability separa
     assert.deepEqual([plan.applicability.one_m_context, plan.applicability.api_pricing, plan.applicability.plan], item.applicability);
     assert.equal(Boolean(plan.layer_plan['tool-card']), item.toolCard);
   }
+});
+
+test('api_model 缺少 canonical placement 时拒绝隐式创建 L2', () => {
+  assert.throws(() => planCatalogResearch(videoSeed({ placement: null, placement_decision: null }), emptySnapshot()), /PLACEMENT_REQUIRED_FOR_API_MODEL/);
 });
 
 test('profile planning rejects unsupported modality instead of falling back silently', () => {

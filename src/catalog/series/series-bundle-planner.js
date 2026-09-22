@@ -100,9 +100,12 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
   const placement = planSeriesPlacement(policy, snapshot, {
     name: verdict.series_title || candidate.name,
     detail_kind: 'api_model',
-    modality: candidate.modality,
+    modality: verdict.modality || candidate.modality,
     vendor_key: verdict.vendor_key,
-  }, null);
+  }, {
+    canonical_family: verdict.family || verdict.canonical_family || null,
+    release_cohort: verdict.release_cohort || null,
+  });
   if (placement.kind !== 'decision') {
     return { ok: false, code: `BUNDLE_PLACEMENT_${placement.kind.toUpperCase()}`, blockers: [placement.code || placement.reason || 'BUNDLE_PLACEMENT_NOT_DECIDED'] };
   }
