@@ -386,10 +386,6 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:xai:grok-bot"
-        },
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:xai:grok-voice-transcribe-2-0"
         }
       ]
     },
@@ -1331,59 +1327,6 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:microsoft-ai:mai-image-2-6"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level1:gpt-images-2-5",
-      "vendor_key": "gpt-images-2-5",
-      "title": "OpenAI",
-      "icon": "🧩",
-      "official_url": "https://openai.com/index/introducing-chatgpt-images-2-5",
-      "description": "ChatGPT Images 2.5 是 OpenAI 推出的新一代图像生成模型，在光照自然度、纹理丰富度、参考图主体保留和多轮编辑指令遵循方面均有提升，并将生成延迟较 Images 2.0 降低最多 50%；同时为 API 提供 GPT-Image-2.5 Flare 与 GPT-Image-2.5 Sunburst 两个模型。",
-      "status": "verified",
-      "features": [
-        {
-          "tone": "positive",
-          "text": "生成延迟较 Images 2.0 降低最多 50%"
-        },
-        {
-          "tone": "positive",
-          "text": "更好保留参考照片中的主体细节"
-        },
-        {
-          "tone": "positive",
-          "text": "支持多轮编辑指令的可靠遵循"
-        },
-        {
-          "tone": "positive",
-          "text": "Sketch 功能可直接在 ChatGPT 中绘制参考"
-        },
-        {
-          "tone": "positive",
-          "text": "模板支持海报、传单等热门图像格式"
-        },
-        {
-          "tone": "positive",
-          "text": "可直接在图像上添加评论进行精准编辑"
-        },
-        {
-          "tone": "positive",
-          "text": "支持透明背景等更复杂版式"
-        },
-        {
-          "tone": "positive",
-          "text": "通过 C2PA 与 SynthID 提供内容溯源"
-        },
-        {
-          "tone": "positive",
-          "text": "文本渲染能力提升，可处理更密集的小字"
-        }
-      ],
-      "level2_refs": [
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:gpt-images-2-5:gpt-images-2-5"
         }
       ]
     },
