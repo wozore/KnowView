@@ -14,7 +14,7 @@ const { loadCatalogSnapshot } = require('./core/index');
 const assistant = require('./draft/index');
 const draftStore = require('./draft/index');
 const bundleDraft = require('./draft/catalog-bundle');
-const { codeError, planHashOf, projectDraft, normalizeRecoveryOptions } = require('./catalog-workbench-view');
+const { codeError, planHashOf, projectDraft, normalizeRecoveryOptions, blockedEntriesOf } = require('./catalog-workbench-view');
 
 const REUSABLE_DRAFT_STATES = Object.freeze(['researching', 'preview_ready', 'preview_blocked', 'failed_retryable', 'rolled_back', 'resuming']);
 let prepareInFlight = false;
@@ -27,7 +27,8 @@ function pendingOf(options) {
 }
 function approvedCandidates(options) {
   const pending = pendingOf(options);
-  return { pending, cards: pending.cards.filter(card => card.review_status === 'approved' && card.entity_type !== 'series') };
+  const excludedOutcomes = new Set(['already_complete', 'bundled_for_review', 'committed']);
+  return { pending, cards: pending.cards.filter(card => card.review_status === 'approved' && card.entity_type !== 'series' && !excludedOutcomes.has(card.intake_outcome)) };
 }
 function candidateKey(card) { return card.candidate_key; }
 
@@ -157,13 +158,21 @@ function createCatalogWorkbench(options = {}) {
         catch (error) { return { ok: false, code: 'DRAFT_BLOCKED', blocking_reasons: ['官方来源解析失败'] }; }
       }
       const byName = new Map((resolved.seeds || []).map(seed => [String(seed.name).trim().toLowerCase(), seed]));
-      const blocked = [...(resolved.unresolved || []).map(item => ({ name: item.name, code: 'DRAFT_BLOCKED' })), ...(planned.blocked || [])];
+      const blocked = blockedEntriesOf(resolved, planned);
+      const seriesVerifiedNames = new Set((resolved.series_candidates || []).map(item => String(item.name || '').trim().toLowerCase()));
       for (const card of missingCards) {
         const key = candidateKey(card);
         const again = matchReusable(reusableOf(), key, card);
         if (again) { used.add(again.draft_id); drafts.push(projectDraft(again, { candidate_key: key, reused: true })); continue; }
         const resolvedSeed = byName.get(String(card.name).trim().toLowerCase());
-        if (!resolvedSeed) continue;
+        if (!resolvedSeed) {
+          const alreadyBlocked = seriesVerifiedNames.has(String(card.name).trim().toLowerCase())
+            || blocked.some(item => (item.candidate_key && item.candidate_key === key) || item.name === card.name);
+          if (!alreadyBlocked) {
+            blocked.push({ candidate_key: key, name: card.name, code: 'DRAFT_BLOCKED' });
+          }
+          continue;
+        }
         const seed = { ...resolvedSeed, candidate_key: key };
         try {
           const result = await prepareFn(seed, { ...generatorOptions, confirmCost: true, catalogAdapters: options.catalogAdapters });
@@ -246,7 +255,7 @@ function createCatalogWorkbench(options = {}) {
     if (!draftIds.length) return { ok: false, code: 'DRAFTS_NOT_READY', status: 'blocked', draft_count: 0, source_pending_revision: pending.revision, blockers };
     const checked = batchReviewFn(draftIds, { sourcePendingRevision: pending.revision });
     if (!checked.ok) return { ok: false, code: checked.code || 'DRAFT_BATCH_STALE', status: 'blocked', draft_count: draftIds.length, source_pending_revision: pending.revision, blockers: [...blockers, { code: checked.code || 'DRAFT_BATCH_STALE' }] };
-    return { ok: true, status: 'review_ready', expected_revision: checked.currentRevision, source_pending_revision: pending.revision, draft_count: checked.draft_ids.length, drafts: checked.reviews.map(review => projectDraft(review.draft, { change_preview: review.plan.changePreview })), change_preview: checked.plan.changePreview, batch_token: checked.batchToken, blockers };
+    return { ok: true, status: 'review_ready', expected_revision: checked.currentRevision, source_pending_revision: pending.revision, draft_count: checked.draft_ids.length, draft_ids: checked.draft_ids, drafts: checked.reviews.map(review => projectDraft(review.draft, { change_preview: review.plan.changePreview })), change_preview: checked.plan.changePreview, batch_token: checked.batchToken, blockers };
   }
   function applyBatch(input = {}) {
     const draftIds = input.draft_ids;
@@ -273,7 +282,9 @@ function createCatalogWorkbench(options = {}) {
     const listed = bundleListFn(bundleOptions());
     const listedIds = new Set((listed?.items || []).map(item => item.draft_id));
     const inFlight = listFn().filter(draft => draft.schema_version === 4 && draft.draft_kind === 'series_bundle' && !listedIds.has(draft.draft_id)).map(draft => bundleDraft.projectBundleDraft(draft));
-    const items = [...(listed?.items || []), ...inFlight].map(item => {
+    const unique = new Map();
+    for (const item of [...(listed?.items || []), ...inFlight]) { const key = item.candidate?.candidate_key || item.bundle_id || item.candidate?.name || item.draft_id; const previous = unique.get(key); const rank = value => value.state === 'preview_ready' ? 2 : value.state === 'preview_blocked' ? 1 : 0; if (!previous || rank(item) > rank(previous) || (rank(item) === rank(previous) && String(item.updated_at) > String(previous.updated_at))) unique.set(key, item); }
+    const items = [...unique.values()].map(item => {
       const isCleanup = item?.state === 'cleanup_pending';
       const isOutcome = item?.state === 'outcome_pending';
       return {
@@ -337,7 +348,16 @@ function createCatalogWorkbench(options = {}) {
     if (draft.state === 'cleanup_pending') return { ok: false, code: 'BUNDLE_DISCARD_FORBIDDEN', draft_id: draftId };
     if (input.confirm !== draft.discard_confirmation) return { ok: false, code: 'CONFIRMATION_INVALID', draft_id: draftId };
     const result = await bundleDiscardFn(draftId, { expected_revision: input.expected_revision, allowBundleDiscard: true, operation: 'catalog-bundle-discard' }, bundleOptions());
-    return result && result.ok === true ? { ok: true, draft_id: draftId, status: 'discarded', outcome: result.outcome || null } : result;
+    return result && result.ok === true
+      ? {
+        ok: true,
+        draft_id: draftId,
+        status: 'discarded',
+        outcome: result.outcome || null,
+        ...(result.candidate_missing === true ? { candidate_missing: true } : {}),
+        ...(result.outcome_warning ? { outcome_warning: result.outcome_warning } : {}),
+      }
+      : result;
   }
   function cleanup(input = {}) {
     const draftIds = input.draft_ids;
@@ -370,19 +390,4 @@ function applyCatalogDraft(input, options = {}) { return coordinator(options).ap
 function previewCatalogDraftBatch(options = {}) { return coordinator(options).batchPreview(); }
 function applyCatalogDraftBatch(input, options = {}) { return coordinator(options).applyBatch(input); }
 
-module.exports = {
-  createCatalogWorkbench,
-  planHashOf,
-  projectDraft,
-  planCatalogPending,
-  prepareCatalogPending,
-  listCatalogDrafts,
-  readCatalogDraft,
-  reviewCatalogDraft,
-  resumeCatalogDraft,
-  recoveryPlanCatalogDraft,
-  discardCatalogDraft,
-  applyCatalogDraft,
-  previewCatalogDraftBatch,
-  applyCatalogDraftBatch,
-};
+module.exports = { createCatalogWorkbench, planHashOf, projectDraft, planCatalogPending, prepareCatalogPending, listCatalogDrafts, readCatalogDraft, reviewCatalogDraft, resumeCatalogDraft, recoveryPlanCatalogDraft, discardCatalogDraft, applyCatalogDraft, previewCatalogDraftBatch, applyCatalogDraftBatch };

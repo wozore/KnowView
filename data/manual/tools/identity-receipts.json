@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "kind": "identity_receipts",
+  "count": 18,
+  "generated_at": "2026-09-22T08:28:23.083Z",
+  "receipts": [
+    {
+      "receipt_id": "receipt-02596f6e08d2",
+      "candidate_name": "Jev",
+      "identity_key": "jev",
+      "entity_class": "model",
+      "vendor_key": "typesafe",
+      "model_key": "typesafe-jev",
+      "series_title": "System One Models",
+      "family": null,
+      "confidence": 0.8,
+      "evidence": {
+        "official_url": "https://typesafe.ai/",
+        "official_urls": [
+          "https://typesafe.ai/"
+        ],
+        "content_hash": "sha256:99c992abb84f11778d862c3c92d41e8526e79e593610510043636a6921fc84b2",
+        "sources": [
+          {
+            "url": "https://typesafe.ai/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:99c992abb84f11778d862c3c92d41e8526e79e593610510043636a6921fc84b2"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:80381c41c741811279f885ce4849bd1fe28c18c6cc32b9301c32a94ff9bd657b",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-22T08:26:34.788Z"
+    },
+    {
+      "receipt_id": "receipt-1950159f81c4",
+      "candidate_name": "Jev",
+      "identity_key": "jev",
+      "entity_class": "model",
+      "vendor_key": "typesafe",
+      "model_key": "typesafe-jev",
+      "series_title": null,
+      "family": "system-one",
+      "confidence": 0.7,
+      "evidence": {
+        "official_url": "https://docs.typesafe.ai/models",
+        "content_hash": "sha256:fd3b726697928574806ca19ffbd826622082e230dee5494c29d94474e57ff635"
+      },
+      "catalog_revision": "sha256:a27a484f4d2b086e678f30649bf8754fb77644f5fbfb08f22efabebd6fba1c61",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T07:30:10.245Z"
+    },
+    {
+      "receipt_id": "receipt-1a2c00b90c97",
+      "candidate_name": "Vidu S2",
+      "identity_key": "vidu-s2",
+      "entity_class": "series",
+      "vendor_key": "vidu",
+      "model_key": "vidu-vidu-s2",
+      "series_title": "Vidu S2",
+      "family": "vidu-s",
+      "confidence": 0.7,
+      "evidence": {
+        "official_url": "https://platform.vidu.cn/docs/vidu-s2",
+        "official_urls": [
+          "https://platform.vidu.cn/docs/vidu-s2"
+        ],
+        "content_hash": "sha256:22e50c8103024de394a04f9f4bdc4eff502f32130c3b4c939e97e10084e1632b",
+        "sources": [
+          {
+            "url": "https://platform.vidu.cn/docs/vidu-s2",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:22e50c8103024de394a04f9f4bdc4eff502f32130c3b4c939e97e10084e1632b"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:f06aa35d0bc407ec9c139e7fc9e67bf8b4332a1a68133242371bdd7c60d4dad8",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:00ecbc1d20c9c1f86057d8f14d4c24dc06b2cff56456dedba8b5644e97524e6e",
+      "verified_at": "2026-09-22T07:34:35.858Z"
+    },
+    {
+      "receipt_id": "receipt-249bbb351ae6",
+      "candidate_name": "Qwen3.8-Omni-Flash",
+      "identity_key": "qwen3.8-omni-flash",
+      "entity_class": "model",
+      "vendor_key": "alibaba",
+      "model_key": "alibaba-qwen3.8-omni-flash",
+      "series_title": "Qwen-Omni",
+      "family": "qwen-omni",
+      "confidence": 0.9,
+      "evidence": {
+        "official_url": "https://help.aliyun.com/en/model-studio/newly-released-models",
+        "content_hash": "sha256:c869efc3b05527d9dd33cf2b4884943d1c9df058e3c17cdcdaf6ee480b4a652a"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T09:27:27.435Z"
+    },
+    {
+      "receipt_id": "receipt-259d4e92fb58",
+      "candidate_name": "Vidu S2",
+      "identity_key": "vidu-s2",
+      "entity_class": "series",
+      "vendor_key": "vidu",
+      "model_key": "vidu-vidu-s2",
+      "series_title": "Vidu S2",
+      "family": "Vidu S",
+      "confidence": 0.9,
+      "evidence": {
+        "official_url": "https://platform.vidu.cn/docs/vidu-s2",
+        "official_urls": [
+          "https://platform.vidu.cn/docs/vidu-s2"
+        ],
+        "content_hash": "sha256:22e50c8103024de394a04f9f4bdc4eff502f32130c3b4c939e97e10084e1632b"
+      },
+      "catalog_revision": "sha256:e82f1720931ca3d2db6d0c2304e8e955dc59b8911f7f168791dbec30b844c467",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-22T05:46:51.736Z"
+    },
+    {
+      "receipt_id": "receipt-2b28c617454b",
+      "candidate_name": "StepAudio 3",
+      "identity_key": "stepaudio-3",
+      "entity_class": "series",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-stepaudio-3",
+      "series_title": "StepAudio 3",
+      "family": "StepAudio",
+      "confidence": 0.8,
+      "evidence": {
+        "official_url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+        "official_urls": [
+          "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+          "https://x.com/StepFun_ai/status/2099916376274313630"
+        ],
+        "content_hash": "sha256:ac2e391dce538b69250ee116e2b9c6b321dc87e0346581c5610766b25e593714"
+      },
+      "catalog_revision": "sha256:e82f1720931ca3d2db6d0c2304e8e955dc59b8911f7f168791dbec30b844c467",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-22T05:47:04.178Z"
+    },
+    {
+      "receipt_id": "receipt-3c3441e26763",
+      "candidate_name": "Vidu S2",
+      "identity_key": "vidu-s2",
+      "entity_class": "series",
+      "vendor_key": "vidu",
+      "model_key": "vidu-vidu-s2",
+      "series_title": "Vidu S2",
+      "family": "Vidu S",
+      "confidence": 0.85,
+      "evidence": {
+        "official_url": "https://platform.vidu.cn/docs/vidu-s2",
+        "content_hash": "sha256:22e50c8103024de394a04f9f4bdc4eff502f32130c3b4c939e97e10084e1632b"
+      },
+      "catalog_revision": "sha256:a27a484f4d2b086e678f30649bf8754fb77644f5fbfb08f22efabebd6fba1c61",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T07:49:03.337Z"
+    },
+    {
+      "receipt_id": "receipt-56acb772c227",
+      "candidate_name": "Qwen3.8-Omni-Flash",
+      "identity_key": "qwen3.8-omni-flash",
+      "entity_class": "model",
+      "vendor_key": "alibaba",
+      "model_key": "alibaba-qwen3.8-omni-flash",
+      "series_title": "Qwen3.8-Omni-Flash",
+      "family": "Qwen-Omni",
+      "confidence": 0.9,
+      "evidence": {
+        "official_url": "https://help.aliyun.com/en/model-studio/newly-released-models",
+        "content_hash": "sha256:c869efc3b05527d9dd33cf2b4884943d1c9df058e3c17cdcdaf6ee480b4a652a"
+      },
+      "catalog_revision": "sha256:bd61f857e241516cfd138750a9c7d1045bbfba1695ecc2a5d07bc7ac3e6581bd",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T05:40:40.603Z"
+    },
+    {
+      "receipt_id": "receipt-59c61944f433",
+      "candidate_name": "StepAudio 3",
+      "identity_key": "stepaudio-3",
+      "entity_class": "series",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-stepaudio-3",
+      "series_title": "Audio 3",
+      "family": "stepaudio",
+      "confidence": 0.55,
+      "evidence": {
+        "official_url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+        "content_hash": "sha256:9bc7c0643bed42ccb262c00dfe7300255780a4cba73f71d3050d8cfa279ac44d"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T11:08:41.606Z"
+    },
+    {
+      "receipt_id": "receipt-7053fe209cce",
+      "candidate_name": "Qwen3.8-Omni-Flash",
+      "identity_key": "qwen3.8-omni-flash",
+      "entity_class": "model",
+      "vendor_key": "aliyun",
+      "model_key": "aliyun-qwen3.8-omni-flash",
+      "series_title": "千问（Qwen）系列",
+      "family": "qwen",
+      "confidence": 0.92,
+      "evidence": {
+        "official_url": "https://help.aliyun.com/zh/model-studio/models",
+        "content_hash": "sha256:4ed70a5ece2463aff839401a5b1e0a91262761e1e6514ee1a82aed497dd6848f"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T09:40:36.738Z"
+    },
+    {
+      "receipt_id": "receipt-719d31aa07b4",
+      "candidate_name": "Grok Voice Transcribe 2.0",
+      "identity_key": "grok-voice-transcribe-2.0",
+      "entity_class": "model",
+      "vendor_key": "x-ai",
+      "model_key": "x-ai-grok-voice-transcribe-2.0",
+      "series_title": null,
+      "family": null,
+      "confidence": 0.9,
+      "evidence": {
+        "official_url": "https://docs.x.ai/developers/release-notes",
+        "content_hash": "sha256:1e3c734a047531ca99bb9f4d5427ff770541cf4bc23eb88dc9e8bde95fb17c4a"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T15:47:03.774Z"
+    },
+    {
+      "receipt_id": "receipt-75bef01d9da7",
+      "candidate_name": "Vidu S2",
+      "identity_key": "vidu-s2",
+      "entity_class": "series",
+      "vendor_key": "vidu",
+      "model_key": "vidu-vidu-s2",
+      "series_title": "Vidu S2",
+      "family": "Vidu S2",
+      "confidence": 0.85,
+      "evidence": {
+        "official_url": "https://platform.vidu.cn/docs/model-map",
+        "content_hash": "sha256:5d8c36a508a77fc908168bca63b162ad1694bbe1c580ec2d051a9b31e5cf542d"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T10:20:32.291Z"
+    },
+    {
+      "receipt_id": "receipt-878b06c11a96",
+      "candidate_name": "Grok Voice Transcribe 2.0",
+      "identity_key": "grok-voice-transcribe-2.0",
+      "entity_class": "model",
+      "vendor_key": "xai",
+      "model_key": "xai-grok-voice-transcribe-2.0",
+      "series_title": "Grok Voice Transcribe",
+      "family": "grok-voice-transcribe",
+      "confidence": 0.98,
+      "evidence": {
+        "official_url": "https://x.ai/news/grok-voice-transcribe-2",
+        "content_hash": "sha256:1a96af1e17a0009f302d5d81167434ace60f81dfa5dd2bfab511c75f7e26b19a"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T09:27:39.162Z"
+    },
+    {
+      "receipt_id": "receipt-93d29b4dd233",
+      "candidate_name": "Grok Voice Transcribe 2.0",
+      "identity_key": "grok-voice-transcribe-2.0",
+      "entity_class": "model",
+      "vendor_key": "xai",
+      "model_key": "xai-grok-voice-transcribe-2.0",
+      "series_title": "Grok Voice Transcribe",
+      "family": "Grok Voice",
+      "confidence": 0.98,
+      "evidence": {
+        "official_url": "https://x.ai/news/grok-voice-transcribe-2",
+        "content_hash": "sha256:1a96af1e17a0009f302d5d81167434ace60f81dfa5dd2bfab511c75f7e26b19a"
+      },
+      "catalog_revision": "sha256:bd61f857e241516cfd138750a9c7d1045bbfba1695ecc2a5d07bc7ac3e6581bd",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T05:40:52.044Z"
+    },
+    {
+      "receipt_id": "receipt-b3d7e83d563d",
+      "candidate_name": "Jev",
+      "identity_key": "jev",
+      "entity_class": "model",
+      "vendor_key": "typesafe",
+      "model_key": "typesafe-jev",
+      "series_title": "System One Models",
+      "family": "system-one",
+      "confidence": 0.8,
+      "evidence": {
+        "official_url": "https://typesafe.ai/",
+        "content_hash": "sha256:594a66d865ed53233fac7b50531eca31fc20fee7334644fde091d4c09de87e4e"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T09:45:50.805Z"
+    },
+    {
+      "receipt_id": "receipt-c2301b0ff26a",
+      "candidate_name": "StepAudio 3",
+      "identity_key": "stepaudio-3",
+      "entity_class": "series",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-stepaudio-3",
+      "series_title": "StepAudio 3",
+      "family": "StepAudio",
+      "confidence": 0.85,
+      "evidence": {
+        "official_url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+        "official_urls": [
+          "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+          "https://x.com/StepFun_ai/status/2099916376274313630"
+        ],
+        "content_hash": "sha256:ac2e391dce538b69250ee116e2b9c6b321dc87e0346581c5610766b25e593714"
+      },
+      "catalog_revision": "sha256:ead1abfd2591f6800ee904785dfb2de9edbe45d58a10366a95131cc339ca8b63",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-22T03:35:39.846Z"
+    },
+    {
+      "receipt_id": "receipt-cdb2f125f77b",
+      "candidate_name": "Vidu S2",
+      "identity_key": "vidu-s2",
+      "entity_class": "model",
+      "vendor_key": "vidu",
+      "model_key": "vidu-vidu-s2",
+      "series_title": "Vidu S",
+      "family": "vidu",
+      "confidence": 0.6,
+      "evidence": {
+        "official_url": "https://platform.vidu.cn/vidu-stream/doc",
+        "content_hash": "sha256:a3155dc2b57bda8501a94d2a3cfcf982510971a994ddc371cb34518cc0c807eb"
+      },
+      "catalog_revision": "sha256:a27a484f4d2b086e678f30649bf8754fb77644f5fbfb08f22efabebd6fba1c61",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": null,
+      "verified_at": "2026-09-21T08:07:43.643Z"
+    },
+    {
+      "receipt_id": "receipt-eb19a6fe0da0",
+      "candidate_name": "StepAudio 3",
+      "identity_key": "stepaudio-3",
+      "entity_class": "series",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-stepaudio-3",
+      "series_title": "StepAudio 3",
+      "family": "StepAudio",
+      "confidence": 0.85,
+      "evidence": {
+        "official_url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+        "official_urls": [
+          "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+          "https://x.com/StepFun_ai/status/2099916376274313630"
+        ],
+        "content_hash": "sha256:ac2e391dce538b69250ee116e2b9c6b321dc87e0346581c5610766b25e593714",
+        "sources": [
+          {
+            "url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:ac2e391dce538b69250ee116e2b9c6b321dc87e0346581c5610766b25e593714"
+          },
+          {
+            "url": "https://x.com/StepFun_ai/status/2099916376274313630",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:82b9378680585ad2103329d22ccfcd585291a685e584d540ceebcb64fe0269b8"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:f06aa35d0bc407ec9c139e7fc9e67bf8b4332a1a68133242371bdd7c60d4dad8",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:00ecbc1d20c9c1f86057d8f14d4c24dc06b2cff56456dedba8b5644e97524e6e",
+      "verified_at": "2026-09-22T07:34:47.722Z"
+    }
+  ]
+}

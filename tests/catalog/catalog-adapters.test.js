@@ -46,7 +46,14 @@ test('catalog discovery propagates keyed Tavily mode without keyless headers', a
 test('catalog discovery fails closed before fetch when keyed Tavily key is missing', async () => {
   let calls = 0;
   const result = await discoverOfficialSources({
-    plan: plan(),
+    plan: {
+      seed: {
+        name: 'Kling 2.6',
+        vendor_name: '可灵',
+        official_url: '',
+        discovery_sources: [],
+      },
+    },
     scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-v2-6' } },
     missing_predicates: ['api_available'],
   }, {
@@ -106,9 +113,43 @@ test('catalog discovery returns seed official URLs for direct extraction in deta
   assert.equal(result.sources.every(source => source.discovered_for === 'detail:augment-code'), true);
 });
 
+test('catalog discovery includes identity_verified sources and excludes untrusted kinds', async () => {
+  const result = await discoverOfficialSources({
+    plan: {
+      seed: {
+        name: 'StepAudio 3 Gen',
+        vendor_name: 'stepfun',
+        official_url: 'https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen',
+        discovery_sources: [
+          { url: 'https://x.com/StepFun_ai/status/2099916376274313630', kind: 'identity_verified', content_hash: 'sha256:x' },
+          { url: 'https://example.com/discovered', kind: 'discovery' },
+        ],
+      },
+    },
+    scope: { kind: 'detail', subject: { kind: 'detail', key: 'stepaudio-3-gen' } },
+    missing_predicates: ['price_rate'],
+  }, {
+    searchApiKey: 'tavily-key',
+    accessMode: 'keyed',
+    fetchImpl: async () => response({ results: [] }),
+  });
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.sources.map(source => source.url), [
+    'https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen',
+    'https://x.com/StepFun_ai/status/2099916376274313630',
+  ]);
+});
+
 test('catalog discovery does not force detail hints into parent scopes', async () => {
   const result = await discoverOfficialSources({
-    plan: plan(),
+    plan: {
+      seed: {
+        name: 'Kling 2.6',
+        vendor_name: '可灵',
+        official_url: '',
+        discovery_sources: [{ url: 'https://kling.ai/document-api', kind: 'official_hint', hint_kind: 'detail_only' }],
+      },
+    },
     scope: { kind: 'vendor', subject: { kind: 'vendor', key: 'kling' } },
     missing_predicates: ['vendor_features'],
   }, {
@@ -117,7 +158,7 @@ test('catalog discovery does not force detail hints into parent scopes', async (
     fetchImpl: async () => response({ results: [] }),
   });
   assert.equal(result.ok, true);
-  assert.deepEqual(result.sources, []);
+  assert.deepEqual(result.sources.map(source => source.url), ['https://kling.ai/document-api']);
 });
 
 test('catalog acquire uses Tavily cleaned content and canonical URLs', async () => {

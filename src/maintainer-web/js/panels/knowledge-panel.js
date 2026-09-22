@@ -19,6 +19,7 @@ const PENDING_STATE_ZH = Object.freeze({
   discarded: '已丢弃',
   completed: '已完成',
   approved: '待生成',
+  bundle_review: 'Bundle 待 Apply',
 });
 
 const BLOCKING_ZH = Object.freeze({
@@ -142,7 +143,10 @@ export function renderPendingCards(kind, payload, onRefreshAll) {
 
     // 描述 / 简介（为空时明确显示“待补全”）
     const desc = String(item.description || item.definition || '').trim();
-    addText(content, 'p', desc ? `描述：${desc}` : '描述：待补全', 'item-description');
+    const pendingDescription = item.workflow_state === 'bundle_review'
+      ? '描述：已在 SeriesBundle 预览中补全'
+      : '描述：将在 Draft 预览中补全';
+    addText(content, 'p', desc ? `描述：${desc}` : pendingDescription, 'item-description');
 
     // 动作按钮
     const actions = document.createElement('div');

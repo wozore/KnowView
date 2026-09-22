@@ -42,11 +42,12 @@ function buildOfficialDiscoveryQuery({ plan, scope, missing_predicates: missingP
 }
 
 function explicitOfficialSourcesOf(plan, scope) {
-  if (scope?.kind !== 'detail') return [];
+  // 与 research 信任根同口径：official_url + 授权 kind（official_hint/identity_verified）全部进入，
+  // 已核验的官方 X 等多来源即使 Tavily 无结果也可直接抓取正文。
   const urls = [
     plan?.seed?.official_url,
     ...(plan?.seed?.discovery_sources || [])
-      .filter(source => source?.kind === 'official_hint')
+      .filter(source => source?.url && ['official_hint', 'identity_verified', 'verified_official'].includes(source?.kind))
       .map(source => source.url),
   ].map(canonicalizeUrl).filter(Boolean);
   return [...new Set(urls)].map(url => ({
@@ -64,6 +65,7 @@ function sourceScopeOf(scope) {
 }
 
 async function discoverOfficialSources(input, options = {}) {
+  const declaredSources = explicitOfficialSourcesOf(input.plan, input.scope);
   const result = await searchTavily({
     apiKey: options.searchApiKey,
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
@@ -75,7 +77,14 @@ async function discoverOfficialSources(input, options = {}) {
     searchDepth: options.searchDepth || 'advanced',
     maxResults: options.maxSearchResults ?? 5,
   });
-  if (!result.ok) return result;
+  if (!result.ok) {
+    // Tavily 失败（如配额用尽）时降级：以 seed 声明的官方提示页为信任根直接返回。
+    // 声明页经登记表人工核验，是比泛搜更强的信任根；无声明页时维持 fail 原样返回。
+    if (declaredSources.length) {
+      return { ok: true, sources: declaredSources, usage: null };
+    }
+    return result;
+  }
   const discoveredSources = result.sources.map(source => ({
     ...source,
     source_kind: 'official',
@@ -83,9 +92,35 @@ async function discoverOfficialSources(input, options = {}) {
   }));
   return {
     ok: true,
-    sources: [...explicitOfficialSourcesOf(input.plan, input.scope), ...discoveredSources],
+    sources: [...declaredSources, ...discoveredSources],
     usage: result.usage,
   };
+}
+
+/** 官方声明页直连抓取（研究层高可用降级）：sources 已含 url/title，正文以纯文本返回。 */
+async function directFetchFallback(sources, options = {}) {
+  const fetchFn = options.searchFetchImpl || options.fetchImpl || (typeof fetch === 'function' ? fetch : null);
+  if (!fetchFn || !sources.length) return { ok: false };
+  const contents = [];
+  const failed = [];
+  for (const source of sources) {
+    try {
+      const res = await fetchFn(source.url, { signal: AbortSignal.timeout(options.timeoutMs || 15000) });
+      if (!res.ok) { failed.push({ url: source.url, error: `HTTP ${res.status}` }); continue; }
+      const html = await res.text();
+      const text = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                       .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+                       .replace(/<[^>]+>/g, ' ')
+                       .replace(/\s+/g, ' ')
+                       .trim();
+      if (text) contents.push({ url: source.url, content: text.slice(0, 20000) });
+      else failed.push({ url: source.url, error: '空正文' });
+    } catch (error) {
+      failed.push({ url: source.url, error: String(error?.message || error) });
+    }
+  }
+  if (!contents.length) return { ok: false };
+  return { ok: true, contents, failed };
 }
 
 function queryForScope(input) {
@@ -112,7 +147,12 @@ async function acquireOfficialSources(input, options = {}) {
     format: options.extractFormat || 'markdown',
     chunksPerSource: options.chunksPerSource ?? 5,
   });
-  if (!result.ok) return result;
+  if (!result.ok) {
+    // Tavily extract 失败（如配额用尽）时降级直连抓取官方声明页正文
+    const fallback = await directFetchFallback(sources, options);
+    if (fallback.ok) return { ok: true, contents: fallback.contents, failed: fallback.failed, usage: null };
+    return result;
+  }
   return {
     ok: true,
     contents: result.contents,

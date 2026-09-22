@@ -100,6 +100,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
   const placement = planSeriesPlacement(policy, snapshot, {
     name: verdict.series_title || candidate.name,
     detail_kind: 'api_model',
+    modality: candidate.modality,
     vendor_key: verdict.vendor_key,
   }, null);
   if (placement.kind !== 'decision') {
@@ -299,7 +300,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
   const bundle = {
     schema_version: BUNDLE_SCHEMA_VERSION,
     bundle_id: `bundle-${hash12Of({ vendor: placement.vendor, series_id: target.id, members: members.map(member => member.model_key || member.name) })}`,
-    candidate: { candidate_key: candidate.candidate_key || null, name: candidate.name, entity_type: candidate.entity_type || 'series' },
+    candidate: { candidate_key: candidate.candidate_key || null, name: candidate.name, entity_type: candidate.entity_type || 'series', ...(candidate.modality ? { modality: candidate.modality } : {}) },
     vendor_key: placement.vendor,
     series: {
       level2_id: target.id,

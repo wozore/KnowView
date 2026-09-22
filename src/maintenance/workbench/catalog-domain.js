@@ -26,14 +26,15 @@ function pendingProjection(kind, api, formal = { tools: [], glossary: [] }) {
   const allItems = projected.items.map(item => {
     const raw = cardsByKey.get(item.candidate_key);
     const completed = item.review_status === 'approved' && exists(item);
-    const workflow_state = completed ? 'completed' : item.workflow_state;
+    const workflow_state = completed ? 'completed' : item.intake_outcome === 'bundled_for_review' ? 'bundle_review' : item.workflow_state;
     return {
       ...item,
       description: raw?.description || raw?.definition || '',
       workflow_state,
     };
   });
-  const isPending = item => item.review_status === 'pending' || (item.review_status === 'approved' && item.workflow_state !== 'completed');
+  const isPending = item => item.intake_outcome !== 'committed'
+    && (item.review_status === 'pending' || (item.review_status === 'approved' && item.workflow_state !== 'completed'));
   const items = allItems.filter(isPending);
   const history_items = allItems.filter(item => !isPending(item));
   return {

@@ -4,14 +4,16 @@ const { loadCatalogSnapshot } = require('../core');
 const { loadSeriesPolicy, planSeriesBundle, validateSeriesBundle, bundlePreviewHashOf, bundleTokenOf } = require('../series');
 const { finalizeSeriesBundles } = require('../series/series-bundle-finalizer');
 const { resolveBatchCandidates, estimateResolutionNeed } = require('../intake');
+const { seriesReceiptNames } = require('../intake/identity-receipts');
 const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { createDraft, readDraft, updateDraft, deleteDraft, listDrafts, acquireBundlePrepareLock, releaseBundlePrepareLock } = require('./catalog-draft-store');
 const { commitCatalogChange } = require('../transaction');
 const { planHashOf } = require('../catalog-workbench-view');
 const BUNDLE_SCHEMA_VERSION = 4;
 const BUNDLE_DRAFT_KIND = 'series_bundle';
-const REUSABLE_STATES = new Set(['preview_ready', 'preview_blocked', 'failed_retryable']);
-const LISTABLE_STATES = new Set([...REUSABLE_STATES, 'outcome_pending', 'cleanup_pending', 'enrichment_confirmation_required']);
+const REUSABLE_STATES = new Set(['preview_ready', 'preview_blocked']);
+const LISTABLE_STATES = new Set([...REUSABLE_STATES, 'failed_retryable', 'outcome_pending', 'cleanup_pending', 'enrichment_confirmation_required']);
+function reusableBundleDraft(draft) { if (!draft || !REUSABLE_STATES.has(draft.state)) return false; const memberEvidence = (draft.bundle?.members || []).flatMap(member => [member.evidence?.official_url, ...(member.evidence?.official_urls || [])].filter(Boolean)); const authorizedSocial = new Set(memberEvidence.map(url => String(url).trim())); const patchSources = (draft.bundle?.layer_patches || []).flatMap(patch => patch.record?.sources || []).map(source => String(source.url || '').trim()).filter(Boolean); const unauthorizedSocial = patchSources.some(url => { try { const host = new URL(url).hostname.toLowerCase(); return (host === 'x.com' || host === 'twitter.com') && !authorizedSocial.has(url); } catch { return false; } }); return !((draft.bundle?.enrichment_errors || draft.enrichment_errors || []).length || (draft.bundle?.blockers || []).includes('BUNDLE_MEMBER_ENRICHMENT_FAILED') || memberEvidence.some(url => /\/model-map(?:[/?#]|$)/i.test(url)) || unauthorizedSocial); }
 const activeBundlePrepares = new Map();
 function snapshotOf(options) {
   return typeof options.loadCatalog === 'function' ? options.loadCatalog() : loadCatalogSnapshot();
@@ -21,9 +23,13 @@ function pendingOf(options) {
 }
 function seriesCards(options) {
   const pending = pendingOf(options);
+  const seriesNames = seriesReceiptNames(options, snapshotOf(options).revision);
   return {
     pending,
-    cards: pending.cards.filter(card => card.review_status === 'approved' && card.entity_type === 'series'),
+    cards: pending.cards.filter(card => card.review_status === 'approved'
+      && (card.entity_type === 'series'
+        || (card.detail_kind_hint === 'api_model' && seriesNames.has(String(card.name || '').trim().toLowerCase()))
+        || (card.detail_kind_hint === 'api_model' && card.intake_outcome === 'bundled_for_review'))),
   };
 }
 function projectBundleDraft(draft, extra = {}) {
@@ -125,13 +131,13 @@ function createBundleDraft(bundle, card, stateOverride = null) {
     cost: bundle.cost,
     preview_hash: bundle.preview_hash,
     readiness,
-    last_error: readiness.status === 'ready' ? null : { code: readiness.blocking_reasons[0] || 'BUNDLE_BLOCKED' },
+    last_error: readiness.status === 'ready' ? null : (bundle.enrichment_errors?.[0] || { code: readiness.blocking_reasons[0] || 'BUNDLE_BLOCKED' }),
   });
 }
 function enrichmentLimitsFor(memberCount, options) { return options.enrichmentLimits || options.costPlan?.hard_limits || { search_queries: memberCount * 3, pages: memberCount * 8, responses_calls: memberCount * 8, synthesis_calls: memberCount }; }
 function bundledMembersOf(bundles) { return bundles.flatMap(bundle => (bundle.members || []).filter(member => member.classification === 'bundled')); }
 function directEnrichmentAvailable(member, options) { const values = options.memberEnrichment || options.enrichmentResults; return Boolean(values && Object.prototype.hasOwnProperty.call(values, member.model_key || member.name)); }
-function enrichmentConfirmationToken(plan, bundles, limits) { return `enrich-${planHashOf({ plan_hash: plan.plan_hash, limits, members: bundles.map(bundle => ({ candidate_key: bundle.candidate?.candidate_key, members: (bundle.members || []).filter(member => member.classification === 'bundled').map(member => member.model_key || member.name) })) }).slice(-24)}`; }
+function enrichmentConfirmationToken(plan) { return `enrich-${planHashOf({ plan_hash: plan.plan_hash }).slice(-24)}`; }
 function hasEnrichmentConfirmation(input, token) { return input.enrichment_confirmation_token === token || input.enrichment_confirmation === token || input.confirmation_token === token || input.confirm_enrichment === token || (input.confirm_enrichment === true && input.enrichment_confirmation_token === token) || (input.confirm_enrichment_cost === true && input.enrichment_confirmation_token === token); }
 
 async function prepareCatalogBundlesImpl(input = {}, options = {}, planned = null) {
@@ -142,7 +148,7 @@ async function prepareCatalogBundlesImpl(input = {}, options = {}, planned = nul
   // 不得把 {discover,acquire,synthesize} 形状的 catalogAdapters 转发为 identityAdapters（形状错配）。
   const resolveOptions = { ...(options.resolveOptions || {}) };
   const existing = new Map(listDrafts({ schema_version: BUNDLE_SCHEMA_VERSION, draft_kind: BUNDLE_DRAFT_KIND })
-    .filter(draft => REUSABLE_STATES.has(draft.state))
+    .filter(reusableBundleDraft)
     .filter(draft => draft.base_revision === plan.catalog_revision)
     .map(draft => [draft.seed?.candidate_key || draft.bundle?.candidate?.candidate_key, draft]));
   const drafts = [];
@@ -168,7 +174,7 @@ async function prepareCatalogBundlesImpl(input = {}, options = {}, planned = nul
   const plannedBundles = [];
   for (const item of resolved.series_candidates || []) {
     const card = byKey.get(item.candidate_key) || { candidate_key: item.candidate_key, name: item.name };
-    const plannedBundle = planSeriesBundle({ candidate: { candidate_key: item.candidate_key, name: item.name, entity_type: 'series' }, verdict: item.verdict, subModelVerdicts: item.members, policy, snapshot: snapshot.snapshot, receipts: item.receipt ? [item.receipt] : [], bridgeRevision: bridge.revision, now: options.now || new Date() });
+    const plannedBundle = planSeriesBundle({ candidate: { candidate_key: item.candidate_key, name: item.name, entity_type: 'series', modality: card.modality }, verdict: item.verdict, subModelVerdicts: item.members, policy, snapshot: snapshot.snapshot, receipts: item.receipt ? [item.receipt] : [], bridgeRevision: bridge.revision, now: options.now || new Date() });
     if (!plannedBundle.ok) { blocked.push({ candidate_key: item.candidate_key, name: item.name, code: plannedBundle.code, blocking_reasons: plannedBundle.blockers }); continue; }
     plannedBundles.push({ item, card, bundle: plannedBundle.bundle });
   }
@@ -356,6 +362,7 @@ async function discardCatalogBundle(draftId, input = {}, options = {}) {
   }
   const candidateKey = draft.bundle?.candidate?.candidate_key || draft.seed?.candidate_key;
   if (candidateKey && options.setIntakeOutcome !== null) {
+    const pendingCard = pendingOf(options).cards.find(card => card.candidate_key === candidateKey); if (pendingCard?.intake_outcome === 'committed') return { ok: deleteDraft(draftId), draft_id: draftId, outcome: 'committed' };
     const setFn = options.setIntakeOutcome || setIntakeOutcome;
     let outcome;
     for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -368,6 +375,15 @@ async function discardCatalogBundle(draftId, input = {}, options = {}) {
         });
         break;
       } catch (error) {
+        if (error?.code === 'PENDING_CANDIDATE_NOT_FOUND') {
+          return {
+            ok: deleteDraft(draftId),
+            draft_id: draftId,
+            outcome: 'pending',
+            candidate_missing: true,
+            outcome_warning: { code: 'PENDING_CANDIDATE_NOT_FOUND', error: error.message },
+          };
+        }
         if (error?.code !== 'REVISION_CONFLICT' || attempt === 2) {
           return { ok: false, code: error.code || 'INTAKE_OUTCOME_WRITE_FAILED', draft_id: draftId, error: error.message };
         }
@@ -377,15 +393,4 @@ async function discardCatalogBundle(draftId, input = {}, options = {}) {
   }
   return { ok: deleteDraft(draftId), draft_id: draftId, outcome: candidateKey ? 'pending' : null };
 }
-module.exports = {
-  BUNDLE_SCHEMA_VERSION,
-  BUNDLE_DRAFT_KIND,
-  projectBundleDraft,
-  planCatalogBundles,
-  prepareCatalogBundles,
-  listCatalogBundles,
-  readCatalogBundle,
-  reviewCatalogBundle,
-  applyCatalogBundle,
-  discardCatalogBundle,
-};
+module.exports = { BUNDLE_SCHEMA_VERSION, BUNDLE_DRAFT_KIND, projectBundleDraft, planCatalogBundles, prepareCatalogBundles, listCatalogBundles, readCatalogBundle, reviewCatalogBundle, applyCatalogBundle, discardCatalogBundle };

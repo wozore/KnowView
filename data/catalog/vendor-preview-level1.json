@@ -295,7 +295,7 @@
       "id": "vendor-level1:minimax",
       "vendor_key": "minimax",
       "title": "MiniMax",
-      "icon": "",
+      "icon": "🤖",
       "official_url": "https://platform.minimax.io/docs",
       "description": "MiniMax 是覆盖文本、视频、语音和音乐生成的多模态 AI 平台，提供商业 API、地区化 Token Plan 订阅与 MiniMax Code 官方 Coding Agent。",
       "status": "active",
@@ -344,7 +344,7 @@
       "id": "vendor-level1:xai",
       "vendor_key": "xai",
       "title": "xAI",
-      "icon": "",
+      "icon": "🤖",
       "official_url": "https://docs.x.ai/developers/models",
       "description": "xAI 以 Grok 通用模型为核心，并提供 SuperGrok 订阅、Imagine、Voice、Grok Build 和 Grok Bot 等商业产品。",
       "status": "active",
@@ -386,6 +386,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:xai:grok-bot"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:xai:grok-voice-transcribe-2-0"
         }
       ]
     },
@@ -679,6 +683,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:alibaba:bailian-coding-plan"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:alibaba:qwen3-8-omni-flash"
         }
       ]
     },
@@ -761,6 +769,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:meta:muse-code"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:meta:muse-image"
         }
       ]
     },
@@ -1262,6 +1274,153 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:vidu:subscription"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level1:microsoft-ai",
+      "vendor_key": "microsoft-ai",
+      "title": "Microsoft AI",
+      "icon": "🧩",
+      "official_url": "https://microsoft.ai/models/mai-image-2-6",
+      "description": "MAI-Image-2.6 是 Microsoft 开发的基于扩散架构的生成模型，支持高质量文生图与可控图生图编辑，通过 Microsoft Foundry（Azure AI Foundry）、MAI Playground 等渠道提供，致力于面向真实创意生产工作流持续提升图像生成质量与效率。",
+      "status": "verified",
+      "features": [
+        {
+          "tone": "positive",
+          "text": "Arena 文生图与图像编辑榜单均排名第 2"
+        },
+        {
+          "tone": "positive",
+          "text": "较 MAI-Image-2.5 整体提升 +79 Elo"
+        },
+        {
+          "tone": "positive",
+          "text": "文本渲染单项提升 +91 Elo"
+        },
+        {
+          "tone": "positive",
+          "text": "2.6-Flash 生成速度比 GPT-Image-2-Medium 快 2.8x"
+        },
+        {
+          "tone": "positive",
+          "text": "2.6-Flash 能效提升 72%"
+        },
+        {
+          "tone": "positive",
+          "text": "支持多图参考编辑与动态宽高比"
+        },
+        {
+          "tone": "positive",
+          "text": "支持网页 grounding 能力"
+        },
+        {
+          "tone": "positive",
+          "text": "擅长精准对象编辑与布局调整"
+        },
+        {
+          "tone": "positive",
+          "text": "支持文生图与图生图双重任务"
+        },
+        {
+          "tone": "neutral",
+          "text": "采用 diffusion 扩散生成架构与 flow-matching 损失"
+        }
+      ],
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:microsoft-ai:mai-image-2-6"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level1:gpt-images-2-5",
+      "vendor_key": "gpt-images-2-5",
+      "title": "OpenAI",
+      "icon": "🧩",
+      "official_url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+      "description": "ChatGPT Images 2.5 是 OpenAI 推出的新一代图像生成模型，在光照自然度、纹理丰富度、参考图主体保留和多轮编辑指令遵循方面均有提升，并将生成延迟较 Images 2.0 降低最多 50%；同时为 API 提供 GPT-Image-2.5 Flare 与 GPT-Image-2.5 Sunburst 两个模型。",
+      "status": "verified",
+      "features": [
+        {
+          "tone": "positive",
+          "text": "生成延迟较 Images 2.0 降低最多 50%"
+        },
+        {
+          "tone": "positive",
+          "text": "更好保留参考照片中的主体细节"
+        },
+        {
+          "tone": "positive",
+          "text": "支持多轮编辑指令的可靠遵循"
+        },
+        {
+          "tone": "positive",
+          "text": "Sketch 功能可直接在 ChatGPT 中绘制参考"
+        },
+        {
+          "tone": "positive",
+          "text": "模板支持海报、传单等热门图像格式"
+        },
+        {
+          "tone": "positive",
+          "text": "可直接在图像上添加评论进行精准编辑"
+        },
+        {
+          "tone": "positive",
+          "text": "支持透明背景等更复杂版式"
+        },
+        {
+          "tone": "positive",
+          "text": "通过 C2PA 与 SynthID 提供内容溯源"
+        },
+        {
+          "tone": "positive",
+          "text": "文本渲染能力提升，可处理更密集的小字"
+        }
+      ],
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:gpt-images-2-5:gpt-images-2-5"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level1:typesafe",
+      "vendor_key": "typesafe",
+      "title": "TypeSafe AI",
+      "icon": "🤖",
+      "official_url": "https://typesafe.ai/",
+      "description": "TypeSafe AI 提出 System One Models 这一新型模型类别，采用 RLCD（Reinforcement Learning for Calibrated Decisions）训练算法，面向机器原生使用，输出带置信度的类型化决策，而非面向人类对话的文本。其首个公开模型为 Jev，针对软件自动化场景优化。",
+      "status": "verified",
+      "features": [
+        {
+          "tone": "positive",
+          "text": "输出软件可直接执行的类型化决策"
+        },
+        {
+          "tone": "positive",
+          "text": "每个决策附带校准的置信度估计"
+        },
+        {
+          "tone": "positive",
+          "text": "号称零幻觉，低置信时自动升级人工"
+        },
+        {
+          "tone": "positive",
+          "text": "比 LLM 快 193.6 倍、便宜 444.6 倍"
+        },
+        {
+          "tone": "positive",
+          "text": "输入价格 $42/十亿 token，比 Claude Fable 5.1 低 238 倍"
+        }
+      ],
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:typesafe:jev"
         }
       ]
     }

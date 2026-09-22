@@ -67,6 +67,15 @@ function applyIntegratedReleaseDate(input, output) {
   };
 }
 
+function unwrapSynthesisValue(value) {
+  if (value && typeof value === 'object' && !Array.isArray(value) && value.layer_fields) return value;
+  for (const key of ['data', 'result', 'output']) {
+    const nested = value?.[key];
+    if (nested && typeof nested === 'object' && !Array.isArray(nested) && nested.layer_fields) return nested;
+  }
+  return null;
+}
+
 async function synthesizeLayerFields(input, options = {}) {
   if (!input.ledger?.reserve) return { ok: false, code: 'COST_LEDGER_REQUIRED', error: '目录合成缺少成本账本' };
   const synthesisReserved = input.ledger.reserve('synthesis_calls', 1);
@@ -77,14 +86,16 @@ async function synthesizeLayerFields(input, options = {}) {
     input: JSON.stringify(buildSynthesisInput(input)),
     maxOutputTokens: options.maxOutputTokens || 12000,
     ledger: input.ledger,
-    validate: value => Boolean(value && typeof value === 'object' && !Array.isArray(value) && value.layer_fields),
+    validate: value => Boolean(unwrapSynthesisValue(value)),
   }, options);
   if (!result.ok) return result;
-  return { ok: true, ...applyIntegratedReleaseDate(input, applyRepairEvidence(input, result.value)), usage: result.usage };
+  const value = unwrapSynthesisValue(result.value);
+  return { ok: true, ...applyIntegratedReleaseDate(input, applyRepairEvidence(input, value)), usage: result.usage };
 }
 
 module.exports = {
   synthesizeLayerFields,
+  unwrapSynthesisValue,
   applyIntegratedReleaseDate,
   applyRepairEvidence,
 };

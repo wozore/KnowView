@@ -104,7 +104,18 @@ function removeTerminalOfferings(identity) {
     offerings.unshift(match[1]);
     value = value.slice(0, match.index);
   }
-  return { identity: value, offerings };
+  let isPreview = false;
+  if (value.endsWith('-preview')) {
+    isPreview = true;
+    value = value.slice(0, -8);
+    while (true) {
+      const match = /-(batch|free|fast|latest)$/.exec(value);
+      if (!match) break;
+      offerings.unshift(match[1]);
+      value = value.slice(0, match.index);
+    }
+  }
+  return { identity: value, offerings, isPreview };
 }
 
 function removeTerminalDegree(identity) {
@@ -155,9 +166,11 @@ function parseModelNameMetadata(source, rawName) {
 
   if (source === 'lmarena' || source === 'livebench') {
     const normalized = slugify(modelName);
-    const degreeMatch = /-(high|low|medium|xhigh|auto|max)(?:-effort)?$/.exec(normalized);
+    const degreeMatch = /-(high|low|medium|xhigh|auto|max)(?:-effort)?(?:-preview)?$/.exec(normalized);
     if (degreeMatch) {
-      modelName = normalized.slice(0, degreeMatch.index);
+      const hasPreview = normalized.endsWith('-preview');
+      const base = normalized.slice(0, degreeMatch.index);
+      modelName = hasPreview ? `${base}-preview` : base;
       degree = degree || degreeMatch[1].toLowerCase();
     } else {
       modelName = normalized;
@@ -282,7 +295,7 @@ function resolveModelIdentity({ source, rawName, vendorHint = null, registry = {
     vendor,
     identity,
     family,
-    revision,
+    revision: revision || (offeringResult.isPreview ? 'Preview' : null),
     offerings: offeringResult.offerings,
     degree: metadata.degree,
     evaluation_profile: metadata.evaluation_profile,

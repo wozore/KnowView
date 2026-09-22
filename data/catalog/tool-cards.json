@@ -8253,6 +8253,326 @@
       },
       "detail_kind": "api_model",
       "model_key": "deepseek-deepseek-v4.1-flash"
+    },
+    {
+      "id": "tool-card:muse-image",
+      "tool_key": "muse-image",
+      "vendor_key": "meta",
+      "title": "Muse Image",
+      "vendor_label": "Meta",
+      "icon": "🧩",
+      "summary": "MuseImages 是围绕 Meta Muse Image 模型构建的独立浏览器工作区，支持代理式图像生成、多参考图合成、圈选局部编辑、可读文字渲染和原生 4K 导出，新账号免费赠送 8 个积分（可生成 32 个变体）并可每日签到补充。",
+      "theme": "general",
+      "scenes": [
+        "文生图与复杂提示词图像生成",
+        "上传参考图的图生图风格转换",
+        "电商产品图与目录批量重绘",
+        "人物角色一致性多场景生成",
+        "局部圈选式精准图像编辑"
+      ],
+      "best_for_preview": "需要复杂提示词一次到位、多参考图合成和可读文字渲染的创作者与电商卖家。",
+      "not_for_preview": "需要 Meta 官方应用内生成且无 Content Seal 溯源标记的用户，以及需要官方官方背书工具的场景。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "Muse Image",
+        "Meta",
+        "muse-image",
+        "文生图与复杂提示词图像生成",
+        "上传参考图的图生图风格转换",
+        "电商产品图与目录批量重绘",
+        "人物角色一致性多场景生成",
+        "局部圈选式精准图像编辑"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:muse-image"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:mai-image-2.6",
+      "tool_key": "mai-image-2.6",
+      "vendor_key": "microsoft-ai",
+      "title": "MAI-Image-2.6",
+      "vendor_label": "Microsoft AI",
+      "icon": "🧩",
+      "summary": "MAI-Image-2.6 是微软基于扩散架构的图像生成模型，支持高质量文生图和精准可控的图生图编辑，拥有 20B 非嵌入参数、32K token 上下文长度，已在 Microsoft Foundry 进入 Public Preview，并在 Arena 文生图与图像编辑榜单均排名第 2。",
+      "theme": "general",
+      "scenes": [
+        "根据自然语言提示生成高质量图像的创意设计场景",
+        "对现有视觉资产进行对象移除、替换、属性修改等精准编辑",
+        "通过文本更新与修复保持构图与布局一致性的生产编辑工作流",
+        "写实与电影感图像生成场景",
+        "面向延迟敏感、高吞吐生产负载的 2.6-Flash 应用场景"
+      ],
+      "best_for_preview": "需要高质量文生图与精准可控图像编辑、并保持视觉一致性的创意与生产设计工作流。",
+      "not_for_preview": "不得用于生成欺骗、误导或冒充真实个体的内容，以及违反适用法律或微软服务条款的有害内容。",
+      "price_badge": "paid",
+      "access_level": "受限",
+      "search_terms": [
+        "MAI-Image-2.6",
+        "Microsoft AI",
+        "mai-image-2.6",
+        "根据自然语言提示生成高质量图像的创意设计场景",
+        "对现有视觉资产进行对象移除、替换、属性修改等精准编辑",
+        "通过文本更新与修复保持构图与布局一致性的生产编辑工作流",
+        "写实与电影感图像生成场景",
+        "面向延迟敏感、高吞吐生产负载的 2.6-Flash 应用场景"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mai-image-2.6"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:qwen3.8-omni-flash",
+      "tool_key": "qwen3.8-omni-flash",
+      "vendor_key": "alibaba",
+      "title": "Qwen3.8-Omni-Flash",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🤖",
+      "summary": "千问文本生成模型（如 qwen3.8-max、qwen3.7-plus、qwen3.8-flash）通过阿里云百炼平台对外提供 API 推理服务，覆盖文本理解与生成、推理、编程等文本场景，新开通用户可享专属免费额度。",
+      "theme": "general",
+      "scenes": [
+        "企业提效工具中的文案创作",
+        "智能问答",
+        "编程开发辅助",
+        "智能终端对话"
+      ],
+      "best_for_preview": "适合文案创作、智能问答、编程开发等以文本理解与生成为核心的业务场景。",
+      "not_for_preview": "不适合图像视频生成、语音合成等非文本模态任务，这些由百炼平台上的专用模型承担。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Qwen3.8-Omni-Flash",
+        "阿里巴巴（通义千问）",
+        "qwen3.8-omni-flash",
+        "企业提效工具中的文案创作",
+        "智能问答",
+        "编程开发辅助",
+        "智能终端对话"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:qwen3.8-omni-flash"
+      },
+      "detail_kind": "api_model",
+      "model_key": "alibaba-qwen3.8-omni-flash"
+    },
+    {
+      "id": "tool-card:grok-voice-transcribe-2.0",
+      "tool_key": "grok-voice-transcribe-2.0",
+      "vendor_key": "xai",
+      "title": "Grok Voice Transcribe 2.0",
+      "vendor_label": "xAI",
+      "icon": "🤖",
+      "summary": "grok-voice-transcribe-2.0 是 SpaceXAI 的语音转文本 API 模型，支持批量与流式转录、词级时间戳、说话人分离、多通道、关键术语偏置和多语言自动检测，定价与 1.0 版相同。",
+      "theme": "general",
+      "scenes": [
+        "客服通话录音转录",
+        "视频旁白批量转录",
+        "语音助手实时流式转写"
+      ],
+      "best_for_preview": [
+        "多语言音频的自动语言检测与中途切换转写",
+        "嘈杂真实环境下的高准确度语音转文本"
+      ],
+      "not_for_preview": [
+        "纯文本对话生成场景",
+        "图像与视频生成任务"
+      ],
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Grok Voice Transcribe 2.0",
+        "xAI",
+        "grok-voice-transcribe-2.0",
+        "客服通话录音转录",
+        "视频旁白批量转录",
+        "语音助手实时流式转写"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:grok-voice-transcribe-2.0"
+      },
+      "detail_kind": "api_model",
+      "model_key": "xai-grok-voice-transcribe-2.0"
+    },
+    {
+      "id": "tool-card:gpt-images-2.5",
+      "tool_key": "gpt-images-2.5",
+      "vendor_key": "gpt-images-2-5",
+      "title": "GPT Images 2.5",
+      "vendor_label": "OpenAI",
+      "icon": "🧩",
+      "summary": "ChatGPT Images 2.5 是 OpenAI 最新的图像生成模型，提供更锐利的细节、更精准的多轮编辑、更快的生成速度，并新增 Sketch、模板、评论编辑与提示词分享功能。",
+      "theme": "general",
+      "scenes": [
+        "社交媒体与创作者内容制作",
+        "产品体验与商品图像生成",
+        "视觉搜索",
+        "快速图像原型设计",
+        "海报与周边商品等模板化设计",
+        "高质量广告素材与品牌图像制作"
+      ],
+      "best_for_preview": "需要在 ChatGPT 中快速生成、迭代并多轮精修图像的创作者与产品团队。",
+      "not_for_preview": "Work 模式下暂不支持 Templates 等部分新功能，相关团队需等待后续可用。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "GPT Images 2.5",
+        "OpenAI",
+        "gpt-images-2.5",
+        "社交媒体与创作者内容制作",
+        "产品体验与商品图像生成",
+        "视觉搜索",
+        "快速图像原型设计",
+        "海报与周边商品等模板化设计",
+        "高质量广告素材与品牌图像制作"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-images-2.5"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:jev",
+      "tool_key": "jev",
+      "vendor_key": "typesafe",
+      "title": "Jev",
+      "vendor_label": "TypeSafe AI",
+      "icon": "🤖",
+      "summary": "Jev 是 TypeSafe AI 的首个公开 System One Model，通过 RLCD 训练，接收结构化问题并返回带概率与置信度的类型化决策，面向自动化工作流，速度与成本显著优于传统 LLM。",
+      "theme": "general",
+      "scenes": [
+        "软件自动化工作流中的决策执行",
+        "按置信度阈值自动行动或请求人工审核",
+        "在代码中组合多个决策构建更大工作流",
+        "低成本高速度的大规模任务处理"
+      ],
+      "best_for_preview": "需要在软件中可靠执行类型化决策并控制不确定性的自动化工作流。",
+      "not_for_preview": "面向人类对话的聊天场景，官网明确其研究方向不是 chat，RLHF 类对话并非其定位。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Jev",
+        "TypeSafe AI",
+        "jev",
+        "软件自动化工作流中的决策执行",
+        "按置信度阈值自动行动或请求人工审核",
+        "在代码中组合多个决策构建更大工作流",
+        "低成本高速度的大规模任务处理"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:jev"
+      },
+      "detail_kind": "api_model",
+      "model_key": "typesafe-jev"
+    },
+    {
+      "id": "tool-card:vidu-s2-avatar",
+      "tool_key": "vidu-s2-avatar",
+      "vendor_key": "vidu",
+      "title": "Vidu S2-Avatar",
+      "vendor_label": "vidu",
+      "icon": "🎬",
+      "summary": "Vidu S 面向企业和开发者提供实时视频数字人与实时视频编辑能力，包括 S2-Avatar 实时交互模型与 S2-Editing 实时编辑模型，支持 720P+ 高清画质。",
+      "theme": "general",
+      "scenes": [
+        "企业实时数字人直播与交互",
+        "实时视频编辑",
+        "音色克隆与语音驱动数字人"
+      ],
+      "best_for_preview": "需要在直播或应用中搭建可实时交互的高清数字人的企业和开发者。",
+      "not_for_preview": "不需要实时音视频交互、仅需离线生成短视频的场景。",
+      "price_badge": "freemium",
+      "access_level": "受限",
+      "search_terms": [
+        "Vidu S2-Avatar",
+        "vidu",
+        "vidu-s2-avatar",
+        "企业实时数字人直播与交互",
+        "实时视频编辑",
+        "音色克隆与语音驱动数字人"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:vidu-s2-avatar"
+      },
+      "detail_kind": "api_model",
+      "model_key": "vidu-vidu-s2-avatar"
+    },
+    {
+      "id": "tool-card:vidu-s2-editing",
+      "tool_key": "vidu-s2-editing",
+      "vendor_key": "vidu",
+      "title": "Vidu S2-Editing",
+      "vendor_label": "vidu",
+      "icon": "🎬",
+      "summary": "Vidu S2 是生数科技 Vidu 开放平台面向企业和开发者提供的实时视频数字人与实时视频编辑能力，包含 S2-Avatar 实时交互模型与 S2-Editing 实时编辑模型，数字人支持 720P+ 高清画质。",
+      "theme": "general",
+      "scenes": [
+        "实时数字人交互",
+        "实时视频编辑",
+        "企业和开发者 API 集成"
+      ],
+      "best_for_preview": "面向企业和开发者的实时数字人交互与实时视频编辑场景，支持 720P+ 高清画质。",
+      "not_for_preview": "官方来源未给出明确的禁用场景说明，仅提示内容审核拒绝导致的生成失败不计积分消耗。",
+      "price_badge": "paid",
+      "access_level": "受限",
+      "search_terms": [
+        "Vidu S2-Editing",
+        "vidu",
+        "vidu-s2-editing",
+        "实时数字人交互",
+        "实时视频编辑",
+        "企业和开发者 API 集成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:vidu-s2-editing"
+      },
+      "detail_kind": "api_model",
+      "model_key": "vidu-vidu-s2-editing"
+    },
+    {
+      "id": "tool-card:stepaudio-3-gen-preview",
+      "tool_key": "stepaudio-3-gen-preview",
+      "vendor_key": "stepfun",
+      "title": "stepaudio-3-gen-preview",
+      "vendor_label": "stepfun",
+      "icon": "🎵",
+      "summary": "StepAudio 3 Gen 是阶跃星辰的统一音频生成模型，可通过自然语言描述角色、音色与情感，生成富有表现力的可控语音，并融合音效、环境声、背景音乐与歌声，编排为完整音频作品。",
+      "theme": "general",
+      "scenes": [
+        "影视游戏动画配音",
+        "有声书与广播剧制作",
+        "短视频自媒体配音",
+        "音效与背景音乐生成"
+      ],
+      "best_for_preview": "多角色对话配音与全要素音频内容制作",
+      "not_for_preview": "限时免费期结束后将按正式付费版本计费",
+      "price_badge": "free",
+      "access_level": "开放",
+      "search_terms": [
+        "stepaudio-3-gen-preview",
+        "stepfun",
+        "stepaudio-3-gen-preview",
+        "影视游戏动画配音",
+        "有声书与广播剧制作",
+        "短视频自媒体配音",
+        "音效与背景音乐生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:stepaudio-3-gen-preview"
+      },
+      "detail_kind": "api_model",
+      "model_key": "stepfun-stepaudio-3-gen-preview"
     }
   ]
 }

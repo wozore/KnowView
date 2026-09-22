@@ -38,7 +38,7 @@ function jsonResponse(data) {
 
 // ── discover：官方源发现（核验层契约）────────────────────────────
 
-test('discover：query 为 "<name> official"，official_urls 收敛 include_domains，白名单透传', async () => {
+test('discover：official_urls 已声明时直接采信为发现结果，不发起 Tavily 泛搜', async () => {
   const calls = [];
   const fetchImpl = async (endpoint, init) => {
     calls.push({ endpoint: String(endpoint), body: JSON.parse(init.body), headers: init.headers });
@@ -52,15 +52,8 @@ test('discover：query 为 "<name> official"，official_urls 收敛 include_doma
     entity_type: 'model',
     official_urls: ['https://platform.openai.com/docs', 'https://openai.com/blog/x', 'not-a-url'],
   });
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].endpoint, 'https://api.tavily.com/search');
-  assert.equal(calls[0].body.query, 'GPT-5.6 official');
-  assert.deepEqual(calls[0].body.include_domains, ['platform.openai.com', 'openai.com']);
-  assert.equal(calls[0].body.max_results, 3);
-  assert.equal(calls[0].body.search_depth, 'basic');
-  assert.equal(calls[0].headers.Authorization, 'Bearer search-key');
-  assert.equal(sources.length, 1);
-  assert.equal(sources[0].url, 'https://platform.openai.com/docs/gpt-5-6');
+  assert.equal(calls.length, 0, '声明官方 URL 后不再发起 Tavily 泛搜');
+  assert.deepEqual(sources.map(source => source.url), ['https://platform.openai.com/docs', 'https://openai.com/blog/x'], '非法 URL not-a-url 被过滤');
 });
 
 test('discover：official_urls 为空时不传 include_domains', async () => {
@@ -154,7 +147,7 @@ test('suggest：合法输出 → {ok,value}；input 按 candidate/pages(截断40
   assert.equal(calls.length, 1);
   assert.equal(calls[0].endpoint, 'https://open.bigmodel.cn/api/anthropic/v1/messages');
   assert.equal(calls[0].body.model, 'glm-test');
-  assert.equal(calls[0].body.max_tokens, 600);
+  assert.equal(calls[0].body.max_tokens, 2000);
   assert.equal(calls[0].body.system, '按规则判断');
   const input = JSON.parse(calls[0].body.messages[0].content);
   assert.deepEqual(input.candidate, { name: 'GPT-5.6', entity_type: 'model' });

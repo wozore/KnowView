@@ -8,6 +8,15 @@ const {
 } = require('../core');
 const { createCatalogAiAdapters } = require('../intake/catalog-adapters');
 const { bundlePreviewHashOf, bundleTokenOf } = require('./series-bundle-contract');
+const { loadSharedReleaseIndex, buildIntegratedLookup, lookupReleaseDateForSeed } = require('../catalog-integrated-lookup');
+
+let cachedLookup = null;
+function getIntegratedLookup() {
+  if (!cachedLookup) {
+    try { cachedLookup = buildIntegratedLookup(loadSharedReleaseIndex()); } catch { cachedLookup = new Map(); }
+  }
+  return cachedLookup;
+}
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -18,9 +27,28 @@ function memberSeed(bundle, member) {
   const cardId = member.tool_card_id.slice('tool-card:'.length);
   const evidence = member.evidence || {};
   const officialUrl = evidence.official_url || '';
+  // 已核验来源全量下传：identity receipt 的 sources[]/official_urls 都是身份核验通过的证据，
+  // 必须进入 member seed 让 research 信任根与 X 公告等来源一致，而不是只传首条。
+  const authorizedSources = (Array.isArray(evidence.sources) ? evidence.sources : [])
+    .filter(source => source?.url)
+    .map(source => ({
+      url: source.url,
+      kind: 'identity_verified',
+      ...(source.content_hash ? { content_hash: source.content_hash } : {}),
+    }));
+  const evidenceUrls = Array.isArray(evidence.official_urls) ? evidence.official_urls : [];
+  const urlOrder = [...new Set([officialUrl, ...evidenceUrls, ...authorizedSources.map(source => source.url)].filter(Boolean))];
+  const seenUrls = new Set(authorizedSources.map(source => source.url));
+  const hintSources = urlOrder
+    .filter(url => !seenUrls.has(url))
+    .map(url => ({ url, kind: 'official_hint' }));
+  const knownFields = { theme: 'general' };
+  const hit = lookupReleaseDateForSeed({ name: member.name, tool_key: cardId, detail_kind: 'api_model' }, getIntegratedLookup());
+  if (hit && hit.date) knownFields.integrated_release_date = hit.date;
+  const defaultModality = bundle.vendor_key === 'vidu' ? 'video' : 'text';
   return {
     detail_kind: 'api_model',
-    modality: bundle.series.modality || 'text',
+    modality: bundle.series.modality || bundle.candidate?.modality || defaultModality,
     repair_layers: ['tool-level3', 'tool-card'],
     name: member.name,
     vendor_name: bundle.vendor_key,
@@ -29,13 +57,13 @@ function memberSeed(bundle, member) {
     detail_key: detailId,
     model_key: member.model_key,
     series_kind: bundle.series.series_kind,
-    official_url: officialUrl,
+    official_url: officialUrl || urlOrder[0] || '',
     placement: {
       existing_level1_ref: { kind: 'vendor-level1', id: `vendor-level1:${bundle.vendor_key}` },
       existing_level2_ref: { kind: 'vendor-level2', id: bundle.series.level2_id },
     },
-    known_fields: { theme: 'general' },
-    discovery_sources: officialUrl ? [{ url: officialUrl, kind: 'official_hint' }] : [],
+    known_fields: knownFields,
+    discovery_sources: [...authorizedSources, ...hintSources],
   };
 }
 
@@ -75,8 +103,22 @@ async function enrichOne(bundle, member, input) {
   let synthesis;
   try { synthesis = await synthesizeCatalog(research, plan, effectiveAdapters); }
   catch (error) { return { ok: false, code: error?.code || 'BUNDLE_ENRICHMENT_SYNTHESIS_FAILED', error: error?.message || String(error) }; }
-  if (!synthesis?.ok) return { ok: false, code: synthesis?.code || 'BUNDLE_ENRICHMENT_SYNTHESIS_FAILED', error: synthesis?.error, synthesis, cost: synthesis?.cost || research?.cost || null };
+  if (!synthesis?.ok) return { ok: false, code: synthesis?.code || 'BUNDLE_ENRICHMENT_SYNTHESIS_FAILED', error: synthesis?.error, synthesis, research, cost: synthesis?.cost || research?.cost || null };
   return { ok: true, layer_patches: synthesis.layer_patches, research, synthesis, cost: synthesis.cost || research.cost || null };
+}
+
+function enrichmentDiagnostic(result) {
+  const synthesis = result?.synthesis || {};
+  const research = result?.research || {};
+  return {
+    code: result?.code || 'BUNDLE_ENRICHMENT_FAILED',
+    error: result?.error || null,
+    missing_fields: synthesis.missing_fields || [],
+    synthesis_errors: synthesis.errors || [],
+    research_code: research.code || null,
+    research_error: research.error || null,
+    official_source_count: Array.isArray(research.official_sources) ? research.official_sources.length : 0,
+  };
 }
 
 function accountMemberCost(ledger, cost) {
@@ -157,7 +199,7 @@ async function finalizeSeriesBundle(bundle, input = {}) {
     catch (error) { result = { ok: false, code: error?.code || 'BUNDLE_ENRICHMENT_FAILED', error: error?.message || String(error) }; }
     if (!result?.ok) {
       if (result?.cost) accountMemberCost(sharedLedger, result.cost);
-      errors.push({ model_key: member.model_key, name: member.name, code: result?.code || 'BUNDLE_ENRICHMENT_FAILED', error: result?.error || null });
+      errors.push({ model_key: member.model_key, name: member.name, ...enrichmentDiagnostic(result) });
       continue;
     }
     const detailPatch = patchFor(result, 'tool-level3');

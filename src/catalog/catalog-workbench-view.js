@@ -19,8 +19,10 @@ const assistant = require('./draft/index');
 
 const RETRYABLE_ERROR_CODES = new Set([
   'TIMEOUT', 'RATE_LIMITED', 'PROVIDER_ERROR', 'NETWORK_ERROR',
-  'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED',
-  'OUTPUT_INVALID', 'SCHEMA_INVALID',
+  'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED', 'SYNTHESIS_RESUME_FAILED',
+  'OUTPUT_INVALID', 'SCHEMA_INVALID', 'LAYER_PATCH_INVALID',
+  'TAVILY_SEARCH_FAILED', 'TAVILY_EXTRACT_FAILED', 'TAVILY_SEARCH_RATE_LIMITED', 'TAVILY_EXTRACT_RATE_LIMITED',
+  'RESEARCH_RESUME_FAILED',
 ]);
 
 const PROJECT_ROOT = DIRS.project;
@@ -137,9 +139,20 @@ function projectDraft(draft, extra = {}) {
   };
 }
 
+/** 汇总 prepare 的受阻清单：解析失败 / 核验受阻 / series 判定改道 Bundle / 计划期阻断。 */
+function blockedEntriesOf(resolved, planned) {
+  return [
+    ...(resolved?.unresolved || []).map(item => ({ name: item.name, code: 'DRAFT_BLOCKED', reason: item.reason })),
+    ...(resolved?.verification_blocked || []).map(item => ({ name: item.name, code: item.code || 'DRAFT_BLOCKED', reason: item.reason })),
+    ...(resolved?.series_candidates || []).map(item => ({ name: item.name, code: 'SERIES_VERIFIED_USE_BUNDLE', reason: '官方身份核验判定为 series，应走 Series Bundle 入口' })),
+    ...(planned?.blocked || []),
+  ];
+}
+
 module.exports = {
   normalizeRecoveryOptions,
   codeError,
   planHashOf,
   projectDraft,
+  blockedEntriesOf,
 };

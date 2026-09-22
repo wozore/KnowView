@@ -56,8 +56,12 @@ function pendingCandidateToSeed(candidate, resolution = {}) {
   if (!['tool', 'api_model', 'subscription_plan', 'product_variant'].includes(hint)) {
     throw new Error(`PENDING_DETAIL_KIND_INVALID:${name}:${hint}`);
   }
+  const defaultSeriesKind = hint === 'api_model'
+    ? 'model_series'
+    : (hint === 'subscription_plan' ? 'subscription_series' : 'tool_series');
   return {
     detail_kind: hint,
+    series_kind: candidate.series_kind || defaultSeriesKind,
     name,
     vendor_name: vendorName,
     vendor_key: resolution.vendor_key || resolution.matched_key || candidate.vendor_key || null,

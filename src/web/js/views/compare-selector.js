@@ -280,7 +280,7 @@ function renderMemberVariantSelect(member, selected, indexMap) {
     '<select class="cmp-tree-revision" data-cmp-revision="' + escapeHtml(member.member_key) + '" aria-label="' + escapeHtml(member.display + ' 版本') + '">' +
       member.variants.map(variant =>
         '<option value="' + escapeHtml(variant.canonical) + '"' + (variant.canonical === activeCanonical ? ' selected' : '') + '>' +
-          escapeHtml(variant.revision || variant.display) +
+          escapeHtml(variant.revision || (variant.canonical === member.default_canonical ? '正式版' : variant.display)) +
         '</option>'
       ).join('') +
     '</select>' +

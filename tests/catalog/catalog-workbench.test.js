@@ -215,6 +215,7 @@ test('catalog workbench batches drafts through one preview and one apply', () =>
   const preview = coordinator.batchPreview();
   assert.equal(preview.ok, true);
   assert.equal(preview.draft_count, 1);
+  assert.deepEqual(preview.draft_ids, ['draft-b']);
   assert.equal(coordinator.applyBatch({ draft_ids: ['draft-b'], expected_revision: 'catalog-r1', batch_token: 'batch-token', confirm: 'APPLY CATALOG DRAFTS batch-token' }).status, 'completed');
   assert.equal(calls.length, 1);
 });
@@ -298,6 +299,21 @@ test('Bundle 工作台隔离 v3 Draft、返回 snake_case review DTO 并收口 A
 });
 
 
+test('Bundle 列表按 candidate_key 去重，ready 覆盖同候选旧 blocked Draft', () => {
+  const coordinator = createCatalogWorkbench({
+    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    listCatalogBundles: () => ({
+      catalog_revision: 'catalog-r1',
+      items: [{ draft_id: 'draft-old', state: 'preview_blocked', bundle_id: 'bundle-old', candidate: { candidate_key: 'candidate-1', name: 'StepAudio 3' } }],
+      count: 1,
+    }),
+    listDrafts: () => [{ draft_id: 'draft-new', schema_version: 4, draft_kind: 'series_bundle', state: 'preview_ready', bundle_id: 'bundle-new', bundle: { candidate: { candidate_key: 'candidate-1', name: 'StepAudio 3' } }, updated_at: '2026-09-22T03:38:20.828Z' }],
+  });
+  const result = coordinator.bundleList();
+  assert.deepEqual(result.items.map(item => item.draft_id), ['draft-new']);
+  assert.equal(result.items[0].state, 'preview_ready');
+});
+
 test('blocked Bundle 可独立丢弃并由 coordinator 内部注入 allowBundleDiscard 与 operation', async () => {
   let discardInput;
   const coordinator = createCatalogWorkbench({
@@ -326,9 +342,11 @@ test('blocked Bundle 可独立丢弃并由 coordinator 内部注入 allowBundleD
 test('普通 Catalog plan 和 prepare 排除 series candidate，series 只能由 Bundle 入口处理', async () => {
   const normalCard = { name: 'Normal Tool', candidate_key: 'tools:normal-tool', review_status: 'approved', entity_type: 'tool' };
   const seriesCard = { name: 'Series Model', candidate_key: 'tools:series-model', review_status: 'approved', entity_type: 'series' };
+  const bundledCard = { name: 'Bundled Model', candidate_key: 'tools:bundled-model', review_status: 'approved', entity_type: 'model', intake_outcome: 'bundled_for_review' };
+  const completeCard = { name: 'Complete Model', candidate_key: 'tools:complete-model', review_status: 'approved', entity_type: 'model', intake_outcome: 'already_complete' };
   const plannedSeeds = [];
   const coordinator = createCatalogWorkbench({
-    readPending: () => ({ revision: 'pending-r1', cards: [normalCard, seriesCard] }),
+    readPending: () => ({ revision: 'pending-r1', cards: [normalCard, seriesCard, bundledCard, completeCard] }),
     loadCatalog: () => ({ revision: 'catalog-r1' }),
     planCatalogDraft: seed => { plannedSeeds.push(seed); return { ok: true, cost_plan: { hard_limits: {} } }; },
     planCatalogBundles: () => ({ ok: true, candidates: [seriesCard] }),

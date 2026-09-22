@@ -92,6 +92,33 @@ test('离线富化失败保持 blocked，不产生可 Apply 的部分结果', as
   assert.ok(result.bundle.blockers.includes('BUNDLE_MEMBER_ENRICHMENT_FAILED'));
 });
 
+test('富化失败保留合成缺口诊断，避免只显示通用 blocker', async () => {
+  const result = await finalizeSeriesBundle(bundle(), {
+    snapshot: { 'vendor-level2': [], 'tool-level3': [], 'tool-card': [] },
+    memberEnrichment: {
+      'zhipu-glm-5-3': {
+        ok: false,
+        code: 'PROFILE_MISMATCH_SUSPECTED',
+        error: '缺少必需目录字段: detail.api_pricing',
+        research: { ok: true, official_sources: [{ url: 'https://docs.z.ai/glm' }] },
+        synthesis: { missing_fields: ['detail.api_pricing'], errors: [{ code: 'SYNTHESIS_COVERAGE_INCOMPLETE' }] },
+      },
+    },
+  });
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.bundle.enrichment_errors[0], {
+    model_key: 'zhipu-glm-5-3',
+    name: 'GLM-5.3',
+    code: 'PROFILE_MISMATCH_SUSPECTED',
+    error: '缺少必需目录字段: detail.api_pricing',
+    missing_fields: ['detail.api_pricing'],
+    synthesis_errors: [{ code: 'SYNTHESIS_COVERAGE_INCOMPLETE' }],
+    research_code: null,
+    research_error: null,
+    official_source_count: 1,
+  });
+});
+
 test('Bundle v4 生命周期不读取、列出或删除 v3 Draft', async () => {
   const outcomes = [];
   const oldDraft = createDraft({ schema_version: 3, draft_kind: 'catalog', state: 'preview_ready', base_revision: 'r1' });
@@ -109,6 +136,27 @@ test('Bundle v4 生命周期不读取、列出或删除 v3 Draft', async () => {
   } finally {
     deleteDraft(oldDraft.draft_id);
     deleteDraft(bundleDraft.draft_id);
+  }
+});
+test('孤立 Bundle 在 pending 候选已不存在时可幂等 discard', async () => {
+  const input = bundle();
+  const draft = createDraft({ schema_version: 4, draft_kind: 'series_bundle', state: 'preview_blocked', base_revision: 'r1', bundle: input, bundle_id: input.bundle_id, bundle_token: 'btk-orphan' });
+  try {
+    const result = await discardCatalogBundle(draft.draft_id, { expected_revision: 'r1', allowBundleDiscard: true }, {
+      loadCatalog: () => ({ revision: 'r1', snapshot: {} }),
+      readPending: () => ({ revision: 'pending-r1', cards: [] }),
+      setIntakeOutcome: async () => { const error = new Error('PENDING_CANDIDATE_NOT_FOUND'); error.code = 'PENDING_CANDIDATE_NOT_FOUND'; throw error; },
+    });
+    assert.deepEqual(result, {
+      ok: true,
+      draft_id: draft.draft_id,
+      outcome: 'pending',
+      candidate_missing: true,
+      outcome_warning: { code: 'PENDING_CANDIDATE_NOT_FOUND', error: 'PENDING_CANDIDATE_NOT_FOUND' },
+    });
+    assert.throws(() => readCatalogBundle(draft.draft_id), /ENOENT/);
+  } finally {
+    try { deleteDraft(draft.draft_id); } catch {}
   }
 });
 
@@ -165,6 +213,36 @@ test('成员发现后先返回完整 enrichment hard-limit，未二次确认不�
   assert.ok(result.enrichment_confirmation_token);
   assert.deepEqual(result.enrichment_hard_limits, { search_queries: 3, pages: 8, responses_calls: 8, synthesis_calls: 1 });
   assert.equal(enrichCalls, 0);
+});
+
+test('Bundle 入口并入被身份核验判定为 series 的 api_model 待补卡（series 回执粗筛）', () => {
+  const snapshot = emptySnapshot();
+  const catalogRevision = revisionOf(snapshot);
+  const apiModelCard = { candidate_key: 'vidu-s2-model-hint', name: 'Vidu S2', entity_type: 'model', detail_kind_hint: 'api_model', review_status: 'approved' };
+  const options = {
+    readPending: () => ({ revision: 'pending-series-receipt-r1', cards: [apiModelCard] }),
+    loadCatalog: () => ({ revision: catalogRevision, snapshot }),
+    identityReceipts: [
+      { receipt_id: 'receipt-series00001', candidate_name: 'Vidu S2', entity_class: 'series', catalog_revision: catalogRevision },
+    ],
+  };
+  const planned = planCatalogBundles(options);
+  assert.equal(planned.ok, true, JSON.stringify(planned));
+  assert.deepEqual(planned.candidates, [{ candidate_key: apiModelCard.candidate_key, name: 'Vidu S2' }]);
+
+  // 回执过期（catalog revision 不匹配）→ 不并入，Bundle 无候选
+  const stale = planCatalogBundles({
+    ...options,
+    identityReceipts: [{ ...options.identityReceipts[0], catalog_revision: 'catalog-stale' }],
+  });
+  assert.equal(stale.code, 'SERIES_CANDIDATE_NOT_APPROVED');
+
+  // 回执为 model 类 → 不并入
+  const modelClass = planCatalogBundles({
+    ...options,
+    identityReceipts: [{ ...options.identityReceipts[0], entity_class: 'model' }],
+  });
+  assert.equal(modelClass.code, 'SERIES_CANDIDATE_NOT_APPROVED');
 });
 
 test('重复与并发 prepare 复用同一个可复用 Bundle Draft', async () => {

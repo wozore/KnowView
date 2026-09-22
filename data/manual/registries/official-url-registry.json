@@ -6,13 +6,15 @@
       "official_urls": [
         "https://platform.openai.com/docs",
         "https://platform.openai.com",
-        "https://chatgpt.com/pricing/"
+        "https://chatgpt.com/pricing/",
+        "https://openai.com/index/introducing-chatgpt-images-2-5"
       ],
       "model_prefixes": [
         "gpt",
         "tts",
         "daybreak",
-        "text-embedding"
+        "text-embedding",
+        "gpt images"
       ]
     },
     "anthropic": {
@@ -215,13 +217,11 @@
     "stepfun": {
       "vendor_name": "阶跃星辰",
       "official_urls": [
-        "https://platform.stepfun.com/docs/zh/step-plan/quick-start",
-        "https://platform.stepfun.com/docs/zh/api-reference/chat/chat-completion-create",
-        "https://platform.stepfun.com/docs/zh/guides/pricing/details",
-        "https://static.stepfun.com/blog/step-3.7-flash/"
+        "https://platform.stepfun.ai/"
       ],
       "model_prefixes": [
-        "step-"
+        "step-",
+        "stepaudio"
       ]
     },
     "xiaomi": {
@@ -527,6 +527,15 @@
       "official_urls": [
         "https://www.codebuddy.ai",
         "https://www.codebuddy.ai/docs/ide/Account/pricing"
+      ]
+    },
+    "typesafe-ai": {
+      "vendor_name": "TypeSafe AI",
+      "official_urls": [
+        "https://typesafe.ai/"
+      ],
+      "model_prefixes": [
+        "jev"
       ]
     }
   }

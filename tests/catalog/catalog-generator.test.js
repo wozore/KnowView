@@ -76,6 +76,20 @@ test('v3 synthesis adapter uses object JSON mode and reserves synthesis plus res
   assert.match(payloads[0].input, /"layers"/);
 });
 
+test('v3 synthesis adapter unwraps a strict data wrapper around valid JSON', async () => {
+  const result = await synthesizeLayerFields({
+    plan: { profile: { detail_kind: 'api_model', modality: 'audio' }, applicability: {}, research_scopes: [] },
+    expected_layer_fields: { detail: ['summary'] },
+    research: { official_sources: [{ source_id: 'source-1', url: 'https://stepfun.ai', title: 'StepFun', content: 'facts', discovered_for: ['detail:stepaudio-3-gen'] }] },
+    ledger: { reserve() { return { ok: true }; } },
+  }, {
+    provider: 'deepseek', apiKey: 'test-key',
+    fetchImpl: async () => fakeResponse({ output_text: JSON.stringify({ data: { layer_fields: { detail: { summary: 'StepAudio 3 Gen' } }, provenance: { 'detail.summary': ['source-1'] }, missing: [] } }) }),
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.layer_fields.detail.summary, 'StepAudio 3 Gen');
+});
+
 test('v3 synthesis repair prefers matching seed evidence for official date', async () => {
   const fetchImpl = async (_url, init) => {
     const payload = JSON.parse(init.body);

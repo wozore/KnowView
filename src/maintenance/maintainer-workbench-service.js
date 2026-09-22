@@ -1,5 +1,8 @@
 'use strict';
 
+const { loadDotEnv } = require('../shared/env');
+loadDotEnv();
+
 const {
   createCatalogWorkbench,
 } = require('../catalog/catalog-workbench');

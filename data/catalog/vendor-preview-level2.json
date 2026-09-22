@@ -611,6 +611,14 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:vidu-2-0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-s2-avatar"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-s2-editing"
         }
       ]
     },
@@ -2315,8 +2323,13 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:stepaudio-2.5-asr"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:stepaudio-3-gen-preview"
         }
-      ]
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:stepfun:step-developer-tools",
@@ -3356,6 +3369,120 @@
           "id": "tool-level3:bailing-api-plan"
         }
       ]
+    },
+    {
+      "id": "vendor-level2:meta:muse-image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:meta"
+      },
+      "vendor_key": "meta",
+      "title": "Muse Image",
+      "official_url": "https://museimages.io/",
+      "summary": "Meta Muse Image 是 Meta Superintelligence Labs 推出的首个图像生成模型（代号 Mango），具备代理式生成能力，已上线 Meta AI app、Instagram Stories 和 WhatsApp 等平台，并在 LMArena 排行榜上名列前茅。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:muse-image"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:microsoft-ai:mai-image-2-6",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:microsoft-ai"
+      },
+      "vendor_key": "microsoft-ai",
+      "title": "MAI-Image-2.6",
+      "official_url": "https://microsoft.ai/models/mai-image-2-6",
+      "summary": "微软 MAI-Image 图像生成模型系列，以高质量文生图与可控图像编辑为核心能力。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-image-2.6"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:alibaba:qwen3-8-omni-flash",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "Qwen3.8-Omni-Flash",
+      "official_url": "https://www.aliyun.com/product/bailian",
+      "summary": "阿里云百炼是阿里云旗下的一站式大模型服务平台，汇聚千问系列及第三方模型，提供模型推理服务、模型训练调优、知识库、Agent工作流与应用模板等全链路大模型开发能力，助力企业构建和落地大模型应用。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen3.8-omni-flash"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:xai:grok-voice-transcribe-2-0",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:xai"
+      },
+      "vendor_key": "xai",
+      "title": "Grok Voice Transcribe 2.0",
+      "official_url": "https://x.ai/news/grok-voice-transcribe-2",
+      "summary": "Grok Voice Transcribe 2.0 是 SpaceXAI 推出的最新语音转文本模型，在真实场景评测中准确率位居业界前列，是 Grok Voice Transcribe 1.0 的两倍准确度且价格不变，构建于 Grok Voice 背后的音频基础模型之上。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-voice-transcribe-2.0"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:gpt-images-2-5:gpt-images-2-5",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:gpt-images-2-5"
+      },
+      "vendor_key": "gpt-images-2-5",
+      "title": "GPT Images 2.5",
+      "official_url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+      "summary": "ChatGPT Images 系列是 OpenAI 的 AI 图像生成与编辑产品线，覆盖 ChatGPT 端与 API 端模型。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-images-2.5"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:typesafe:jev",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:typesafe"
+      },
+      "vendor_key": "typesafe",
+      "title": "Jev",
+      "official_url": "https://typesafe.ai/",
+      "summary": "System One Models 是面向软件内部决策的新型 AI 模型类别，Jev 是其首个公开模型。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:jev"
+        }
+      ],
+      "series_kind": "model_series"
     }
   ]
 }

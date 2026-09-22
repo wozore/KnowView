@@ -352,7 +352,7 @@ export async function applyCatalog(button, onRefreshAll) {
         draft_ids: batch.draft_ids,
         expected_revision: batch.expected_revision,
         batch_token: batch.batch_token,
-        confirm: `APPLY CATALOG BATCH ${batch.batch_token}`,
+        confirm: `APPLY CATALOG DRAFTS ${batch.batch_token}`,
       }),
     });
     if (!result?.ok) throw new Error(result?.code || 'Catalog Apply 被拒绝');

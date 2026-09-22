@@ -189,7 +189,11 @@ function buildPatches(plan, research, output) {
     records['vendor-card'] = buildVendorCard({ vendorKey: keys.vendorKey, title: plan.seed.vendor_name, icon, summary: vendor.vendor_summary, featurePreview: vendorFeatures, accessLevel: detailFields.access_level, priceBadge: detailFields.price_badge, searchTerms: [plan.seed.vendor_name, keys.vendorKey], level1Id: ids['vendor-level1'] });
     records['vendor-level1'] = buildLevel1({ vendorKey: keys.vendorKey, title: plan.seed.vendor_name, icon, officialUrl: vendor.vendor_official_url, description: vendor.vendor_description, status: vendor.vendor_status, features: vendorFeatures, level2Refs });
   }
-  if (hasActive(plan, ['vendor-level2'])) records['vendor-level2'] = buildLevel2({ vendorKey: keys.vendorKey, level1Id: ids['vendor-level1'], groupKey: keys.groupKey, title: plan.seed.placement?.new_group_title || plan.seed.name, officialUrl: group.group_official_url, summary: group.group_summary, status: group.group_status, detailRefs, seriesKind: plan.seed.series_kind, generationState: plan.seed.generation_state });
+  const defaultSeriesKind = plan.profile.detail_kind === 'api_model'
+    ? 'model_series'
+    : (plan.profile.detail_kind === 'subscription_plan' ? 'subscription_series' : 'tool_series');
+  const seriesKind = plan.seed.series_kind || defaultSeriesKind;
+  if (hasActive(plan, ['vendor-level2'])) records['vendor-level2'] = buildLevel2({ vendorKey: keys.vendorKey, level1Id: ids['vendor-level1'], groupKey: keys.groupKey, title: plan.seed.placement?.new_group_title || plan.seed.name, officialUrl: group.group_official_url, summary: group.group_summary, status: group.group_status, detailRefs, seriesKind, generationState: plan.seed.generation_state });
   if (hasActive(plan, ['tool-level3', 'tool-card'])) {
     const dateField = dateFieldFor(plan);
     const detail = buildDetail({ vendorKey: keys.vendorKey, detailKind: plan.profile.detail_kind, theme, title: plan.seed.name, vendorLabel: plan.seed.vendor_name, icon, officialUrl: detailFields.official_url, status: detailFields.detail_status, summary: detailFields.summary, oneMContext, apiPricing, plan: planValue, applicableScenarios: detailFields.applicable_scenarios, inapplicableScenarios: detailFields.inapplicable_scenarios, sources, releaseDate: dateField === 'release_date' ? detailFields.release_date : undefined, lastUpdatedDate: dateField === 'last_updated_date' ? detailFields.last_updated_date : undefined, modelKey: plan.seed.model_key, visibility: plan.seed.visibility, historicalSince: plan.seed.historical_since });
