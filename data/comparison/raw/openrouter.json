@@ -1,6 +1,43 @@
 {
-  "fetched_at": "2026-09-17T23:32:51.553Z",
+  "fetched_at": "2026-09-20T23:14:29.138Z",
   "data": [
+    {
+      "id": "prism-ml/ternary-bonsai-2-27b",
+      "name": "PrismML: Ternary Bonsai 2 27B",
+      "created": 1789754046,
+      "hugging_face_id": "prism-ml/Ternary-Bonsai-2-27B-gguf",
+      "context_length": 262144,
+      "modality": "text+image->text",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 7.5e-8,
+      "completion": 5e-7,
+      "input_cache_read": null
+    },
+    {
+      "id": "z-ai/glm-5.3-flashx",
+      "name": "Z.ai: GLM 5.3 FlashX",
+      "created": 1789744020,
+      "hugging_face_id": "",
+      "context_length": 1048576,
+      "modality": "text+image+video->text",
+      "input_modalities": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 3.7e-7,
+      "completion": 0.00000125,
+      "input_cache_read": 7.5e-8
+    },
     {
       "id": "unbiased/pareto",
       "name": "Pareto",
@@ -32,9 +69,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5.808e-7,
-      "completion": 0.0000017424,
-      "input_cache_read": 5.808e-8
+      "prompt": 5.2272e-7,
+      "completion": 0.00000156816,
+      "input_cache_read": 1.6632e-8
     },
     {
       "id": "~deepseek/deepseek-flash-latest",
@@ -50,9 +87,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.35e-7,
-      "completion": 5.4e-7,
-      "input_cache_read": 4.05e-9
+      "prompt": 1.3e-7,
+      "completion": 5.2e-7,
+      "input_cache_read": 2.6e-9
     },
     {
       "id": "inference-net/schematron-v2-turbo",
@@ -793,9 +830,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 8.775e-7,
-      "completion": 0.00000297,
-      "input_cache_read": 1.755e-7
+      "prompt": 7.728e-7,
+      "completion": 0.0000024288,
+      "input_cache_read": 1.4352e-7
     },
     {
       "id": "tencent/hy-mt2-7b",
@@ -827,9 +864,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000014,
-      "completion": 0.0000044,
-      "input_cache_read": 2.6e-7
+      "prompt": 9.1e-7,
+      "completion": 0.00000286,
+      "input_cache_read": 1.69e-7
     },
     {
       "id": "z-ai/glm-5.3:batch",
@@ -863,9 +900,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2.14e-7,
+      "prompt": 2e-7,
       "completion": 0.00000255,
-      "input_cache_read": 1.5e-7
+      "input_cache_read": 8.5e-8
     },
     {
       "id": "qwen/qwen3.8-27b:free",
@@ -1031,9 +1068,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5.808e-7,
-      "completion": 0.0000017424,
-      "input_cache_read": 5.808e-8
+      "prompt": 5.2272e-7,
+      "completion": 0.00000156816,
+      "input_cache_read": 1.6632e-8
     },
     {
       "id": "deepseek/deepseek-v4-pro-0813:batch",
@@ -1101,7 +1138,7 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 8e-8,
+      "prompt": 7e-8,
       "completion": 2e-7,
       "input_cache_read": 4e-8
     },
@@ -1173,7 +1210,7 @@
         "text"
       ],
       "prompt": 3e-7,
-      "completion": 0.0000011,
+      "completion": 0.0000012,
       "input_cache_read": 4e-8
     },
     {
@@ -1229,8 +1266,8 @@
         "text"
       ],
       "prompt": 4e-8,
-      "completion": 1e-7,
-      "input_cache_read": 1e-8
+      "completion": 1.6e-7,
+      "input_cache_read": 1.6e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731",
@@ -1245,9 +1282,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6e-8,
-      "completion": 1.2e-7,
-      "input_cache_read": 1.2e-8
+      "prompt": 4e-8,
+      "completion": 1.6e-7,
+      "input_cache_read": 1.6e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731:batch",
@@ -1607,9 +1644,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.000003,
-      "completion": 0.000015,
-      "input_cache_read": 3e-7
+      "prompt": 0.0000017,
+      "completion": 0.0000085,
+      "input_cache_read": 1.7e-7
     },
     {
       "id": "moonshotai/kimi-k3:batch",
@@ -2162,9 +2199,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000014,
-      "completion": 0.0000044,
-      "input_cache_read": 1.4e-7
+      "prompt": 6.496e-7,
+      "completion": 0.0000020416,
+      "input_cache_read": 1.2064e-7
     },
     {
       "id": "z-ai/glm-5.2:batch",
@@ -2341,9 +2378,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6.25e-7,
-      "completion": 0.000003125,
-      "input_cache_read": 1.875e-7
+      "prompt": 6e-7,
+      "completion": 0.0000024,
+      "input_cache_read": 1.2e-7
     },
     {
       "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -2803,9 +2840,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000021,
-      "completion": 0.00001095,
-      "input_cache_read": 2.3e-7
+      "prompt": 0.0000017,
+      "completion": 0.0000085,
+      "input_cache_read": 1.7e-7
     },
     {
       "id": "~google/gemini-flash-latest",
@@ -2900,8 +2937,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1e-7,
-      "completion": 9e-7,
+      "prompt": 1.5e-7,
+      "completion": 0.000001,
       "input_cache_read": 5e-8
     },
     {
@@ -3029,9 +3066,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000016,
-      "completion": 0.0000032,
-      "input_cache_read": 1.35e-7
+      "prompt": 4.22298e-7,
+      "completion": 8.44596e-7,
+      "input_cache_read": 3.51915e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash",
@@ -3046,9 +3083,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 7e-8,
-      "completion": 1.4e-7,
-      "input_cache_read": 1.4e-8
+      "prompt": 3.556e-8,
+      "completion": 7.112e-8,
+      "input_cache_read": 7.112e-9
     },
     {
       "id": "tencent/hy3-preview",
@@ -3880,9 +3917,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.625e-7,
-      "completion": 0.0000013,
-      "input_cache_read": null
+      "prompt": 3.125e-7,
+      "completion": 0.00000125,
+      "input_cache_read": 1.5625e-7
     },
     {
       "id": "qwen/qwen3.5-27b",
@@ -4805,25 +4842,6 @@
       "prompt": 1e-7,
       "completion": 1e-7,
       "input_cache_read": 1e-8
-    },
-    {
-      "id": "mistralai/mistral-large-2512",
-      "name": "Mistral: Mistral Large 3 2512",
-      "created": 1764624472,
-      "hugging_face_id": "",
-      "context_length": 262144,
-      "modality": "text+image+file->text",
-      "input_modalities": [
-        "text",
-        "image",
-        "file"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 5e-7,
-      "completion": 0.0000015,
-      "input_cache_read": 5e-8
     },
     {
       "id": "mistralai/mistral-large-2512:batch",
@@ -5852,9 +5870,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3.7e-8,
-      "completion": 1.7e-7,
-      "input_cache_read": null
+      "prompt": 1.5e-7,
+      "completion": 6e-7,
+      "input_cache_read": 7.5e-8
     },
     {
       "id": "openai/gpt-oss-120b:batch",
