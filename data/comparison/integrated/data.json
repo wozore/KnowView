@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-22T00:04:48.592Z",
+  "generated_at": "2026-09-22T23:35:41.198Z",
   "models": [
     {
       "canonical": "amazon--nova-2-lite",
@@ -41,13 +41,13 @@
         "reasoning": {
           "value": 58.7,
           "source": "llm_stats",
-          "raw": 26.95,
+          "raw": 26.94,
           "note": "index_reasoning"
         },
         "coding": {
           "value": 40.9,
           "source": "llm_stats",
-          "raw": 12.76,
+          "raw": 12.72,
           "note": "index_code"
         },
         "communication": {
@@ -57,9 +57,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 39.6,
+          "value": 39.2,
           "source": "llm_stats",
-          "raw": 11.71,
+          "raw": 11.36,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -161,7 +161,7 @@
         "reasoning": {
           "value": 60,
           "source": "llm_stats",
-          "raw": 27.98,
+          "raw": 27.97,
           "note": "index_reasoning"
         },
         "communication": {
@@ -171,9 +171,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 43.9,
+          "value": 43.5,
           "source": "llm_stats",
-          "raw": 15.09,
+          "raw": 14.78,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -251,7 +251,7 @@
         "reasoning": {
           "value": 63.4,
           "source": "llm_stats",
-          "raw": 30.72,
+          "raw": 30.71,
           "note": "index_reasoning"
         },
         "coding": {
@@ -267,9 +267,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 44.3,
+          "value": 43.9,
           "source": "llm_stats",
-          "raw": 15.47,
+          "raw": 15.14,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -357,15 +357,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 39.4,
+          "value": 39.3,
           "source": "llm_stats",
-          "raw": 11.48,
+          "raw": 11.47,
           "note": "index_reasoning"
         },
         "tool_calling": {
-          "value": 40.6,
+          "value": 40.5,
           "source": "llm_stats",
-          "raw": 12.47,
+          "raw": 12.43,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -457,7 +457,7 @@
         "available": {
           "lmarena": 77.6275563647832,
           "livebench": 82.97079761904762,
-          "llm_stats": 92.83750000000002
+          "llm_stats": 92.4375
         },
         "note": null
       },
@@ -513,9 +513,9 @@
           "raw": 90.68400000000001
         },
         "tool_calling": {
-          "value": 58.5,
+          "value": 54.5,
           "source": "llm_stats",
-          "raw": 26.8,
+          "raw": 23.56,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -525,15 +525,15 @@
           "note": "index_finance"
         },
         "legal": {
-          "value": 51.6,
+          "value": 52.3,
           "source": "llm_stats",
-          "raw": 21.27,
+          "raw": 21.8,
           "note": "index_legal"
         },
         "healthcare": {
-          "value": 60,
+          "value": 60.5,
           "source": "llm_stats",
-          "raw": 27.97,
+          "raw": 28.41,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -549,9 +549,9 @@
           "note": "HLE"
         },
         "multimodal": {
-          "value": 70.3,
+          "value": 69.9,
           "source": "llm_stats",
-          "raw": 36.21,
+          "raw": 35.95,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -730,7 +730,7 @@
         "available": {
           "lmarena": 87.41058537219105,
           "livebench": 83.41415476190477,
-          "llm_stats": 94.625
+          "llm_stats": 93.17499999999998
         },
         "note": null
       },
@@ -801,9 +801,9 @@
           "raw": 89.50099999999999
         },
         "tool_calling": {
-          "value": 62.7,
+          "value": 58.6,
           "source": "llm_stats",
-          "raw": 30.16,
+          "raw": 26.9,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -831,9 +831,9 @@
           "note": "HLE"
         },
         "multimodal": {
-          "value": 77.2,
+          "value": 75.2,
           "source": "llm_stats",
-          "raw": 41.76,
+          "raw": 40.16,
           "note": "index_vision"
         },
         "composite": {
@@ -1039,7 +1039,7 @@
         "reasoning": {
           "value": 56.6,
           "source": "llm_stats",
-          "raw": 25.29,
+          "raw": 25.28,
           "note": "index_reasoning"
         },
         "coding": {
@@ -1055,9 +1055,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 44.4,
+          "value": 44.1,
           "source": "llm_stats",
-          "raw": 15.53,
+          "raw": 15.26,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -1163,21 +1163,21 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 80.2,
+          "value": 79.3,
           "source": "llm_stats",
-          "raw": 44.17,
+          "raw": 43.4,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 72.4,
+          "value": 71.9,
           "source": "llm_stats",
-          "raw": 37.88,
+          "raw": 37.54,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 62.7,
+          "value": 59.6,
           "source": "llm_stats",
-          "raw": 30.12,
+          "raw": 27.65,
           "note": "index_tool_calling"
         }
       },
@@ -1195,10 +1195,12 @@
       "member_order": 9999
     },
     {
-      "canonical": "anthropic--claude-mythos-preview",
-      "identity": "claude-mythos-preview",
+      "canonical": "anthropic--claude-mythos@Preview",
+      "identity": "claude-mythos",
       "family": "claude-mythos",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -1206,7 +1208,7 @@
           "claude-mythos-preview"
         ]
       },
-      "display": "Claude Mythos Preview",
+      "display": "Claude Mythos Preview (Preview)",
       "vendor": "anthropic",
       "theme": "general",
       "license": "Proprietary",
@@ -1223,15 +1225,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 94.8,
+          "value": 94.1,
           "source": "llm_stats",
-          "raw": 55.81,
+          "raw": 55.24,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 80.7,
+          "value": 79.6,
           "source": "llm_stats",
-          "raw": 44.52,
+          "raw": 43.68,
           "note": "index_code"
         },
         "tool_calling": {
@@ -1265,9 +1267,9 @@
           "note": "GPQA"
         },
         "multimodal": {
-          "value": 74.2,
+          "value": 73.6,
           "source": "llm_stats",
-          "raw": 39.32,
+          "raw": 38.85,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -1286,7 +1288,7 @@
       "value": null,
       "series_key": "anthropic--claude-mythos",
       "series_display": "Claude Mythos",
-      "member_key": "anthropic--claude-mythos-preview",
+      "member_key": "anthropic--claude-mythos",
       "member_display": "Claude Mythos Preview",
       "member_order": 9999
     },
@@ -1497,7 +1499,7 @@
         "reasoning": {
           "value": 62.4,
           "source": "llm_stats",
-          "raw": 29.89,
+          "raw": 29.88,
           "note": "index_reasoning"
         },
         "coding": {
@@ -1513,9 +1515,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 48,
+          "value": 47.9,
           "source": "llm_stats",
-          "raw": 18.39,
+          "raw": 18.34,
           "note": "index_tool_calling"
         },
         "healthcare": {
@@ -1885,13 +1887,13 @@
         "reasoning": {
           "value": 74.9,
           "source": "llm_stats",
-          "raw": 39.95,
+          "raw": 39.91,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 60.4,
+          "value": 60.2,
           "source": "llm_stats",
-          "raw": 28.34,
+          "raw": 28.15,
           "note": "index_code"
         },
         "communication": {
@@ -1901,9 +1903,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 51.4,
+          "value": 50.8,
           "source": "llm_stats",
-          "raw": 21.09,
+          "raw": 20.67,
           "note": "index_tool_calling"
         },
         "healthcare": {
@@ -1927,7 +1929,7 @@
         "multimodal": {
           "value": 50.7,
           "source": "llm_stats",
-          "raw": 20.57,
+          "raw": 20.56,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -2028,7 +2030,7 @@
         "available": {
           "lmarena": 76.37701300146793,
           "livebench": 76.22398809523808,
-          "llm_stats": 88.47500000000001
+          "llm_stats": 87.8375
         },
         "note": null
       },
@@ -2099,9 +2101,9 @@
           "raw": 79.65933333333334
         },
         "tool_calling": {
-          "value": 63,
+          "value": 60.5,
           "source": "llm_stats",
-          "raw": 30.39,
+          "raw": 28.36,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -2117,9 +2119,9 @@
           "note": "index_finance"
         },
         "healthcare": {
-          "value": 49.1,
+          "value": 47.4,
           "source": "llm_stats",
-          "raw": 19.29,
+          "raw": 17.93,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -2135,9 +2137,9 @@
           "note": "GPQA"
         },
         "multimodal": {
-          "value": 70.4,
+          "value": 70.3,
           "source": "llm_stats",
-          "raw": 36.35,
+          "raw": 36.25,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -2331,7 +2333,7 @@
         "available": {
           "lmarena": 80.49631359619343,
           "livebench": 80.08497619047618,
-          "llm_stats": 93.30000000000001
+          "llm_stats": 93.4375
         },
         "note": null
       },
@@ -2402,21 +2404,21 @@
           "raw": 88.68799999999999
         },
         "tool_calling": {
-          "value": 59.5,
+          "value": 56.3,
           "source": "llm_stats",
-          "raw": 27.61,
+          "raw": 25.05,
           "note": "index_tool_calling"
         },
         "legal": {
-          "value": 49,
+          "value": 49.8,
           "source": "llm_stats",
-          "raw": 19.22,
+          "raw": 19.82,
           "note": "index_legal"
         },
         "healthcare": {
-          "value": 54.3,
+          "value": 53.7,
           "source": "llm_stats",
-          "raw": 23.44,
+          "raw": 22.92,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -2432,9 +2434,9 @@
           "note": "HLE"
         },
         "multimodal": {
-          "value": 72.3,
+          "value": 71.7,
           "source": "llm_stats",
-          "raw": 37.85,
+          "raw": 37.35,
           "note": "index_vision"
         },
         "composite": {
@@ -2567,6 +2569,119 @@
       "series_display": "Claude Opus",
       "member_key": "anthropic--claude-opus-5",
       "member_display": "Claude Opus 5",
+      "member_order": 9999
+    },
+    {
+      "canonical": "anthropic--claude-opus-5.5",
+      "identity": "claude-opus-5.5",
+      "family": "claude-opus",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "anthropic/claude-opus-5.5:batch"
+          }
+        ]
+      },
+      "source_names": {
+        "openrouter": [
+          "anthropic/claude-opus-5.5",
+          "anthropic/claude-opus-5.5:batch"
+        ],
+        "llm_stats": [
+          "claude-opus-5-5"
+        ]
+      },
+      "display": "Claude Opus 5.5",
+      "vendor": "anthropic",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": 1000000,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "single_source": false,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "reasoning": {
+          "value": 97.3,
+          "source": "llm_stats",
+          "raw": 57.83,
+          "note": "index_reasoning"
+        },
+        "coding": {
+          "value": 89.6,
+          "source": "llm_stats",
+          "raw": 51.7,
+          "note": "index_code"
+        },
+        "tool_calling": {
+          "value": 66.1,
+          "source": "llm_stats",
+          "raw": 32.85,
+          "note": "index_tool_calling"
+        },
+        "legal": {
+          "value": 47.5,
+          "source": "llm_stats",
+          "raw": 17.96,
+          "note": "index_legal"
+        },
+        "healthcare": {
+          "value": 67.2,
+          "source": "llm_stats",
+          "raw": 33.72,
+          "note": "index_healthcare"
+        },
+        "math_reasoning": {
+          "value": 78.2,
+          "source": "llm_stats",
+          "raw": 42.54,
+          "note": "index_math"
+        },
+        "multimodal": {
+          "value": 78.5,
+          "source": "llm_stats",
+          "raw": 42.79,
+          "note": "index_vision"
+        },
+        "swe_capability": {
+          "value": 89.9,
+          "source": "llm_stats",
+          "raw": 0.899,
+          "note": "swe-bench-pro"
+        }
+      },
+      "lmarena_scores": {},
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {
+        "openrouter": {
+          "prompt": 0.000004,
+          "completion": 0.00002,
+          "input_cache_read": 2e-7,
+          "currency": "USD",
+          "is_listed_price": true
+        },
+        "llm_stats": {
+          "input_per_m": 4,
+          "output_per_m": 20
+        }
+      },
+      "release_date": "2026-09-22",
+      "release_date_provenance": "llm_stats",
+      "value": null,
+      "series_key": "anthropic--claude-opus",
+      "series_display": "Claude Opus",
+      "member_key": "anthropic--claude-opus-5.5",
+      "member_display": "Claude Opus 5.5",
       "member_order": 9999
     },
     {
@@ -2793,7 +2908,7 @@
         "coding": {
           "value": 51.9,
           "source": "llm_stats",
-          "raw": 21.52,
+          "raw": 21.51,
           "note": "index_code"
         },
         "communication": {
@@ -2805,7 +2920,7 @@
         "tool_calling": {
           "value": 57.6,
           "source": "llm_stats",
-          "raw": 26.1,
+          "raw": 26.07,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -2833,9 +2948,9 @@
           "note": "GPQA"
         },
         "multimodal": {
-          "value": 38.4,
+          "value": 38.3,
           "source": "llm_stats",
-          "raw": 10.68,
+          "raw": 10.67,
           "note": "index_vision"
         }
       },
@@ -2919,7 +3034,7 @@
         "method": "proportional_redistribute",
         "available": {
           "lmarena": 56.96524667161522,
-          "llm_stats": 71.3
+          "llm_stats": 71.15
         },
         "note": "缺源，权重按比例重分配"
       },
@@ -2965,15 +3080,15 @@
           "raw": -0.05777696139071231
         },
         "reasoning": {
-          "value": 72.6,
+          "value": 72.5,
           "source": "llm_stats",
-          "raw": 38.05,
+          "raw": 38.01,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 57.7,
+          "value": 57,
           "source": "llm_stats",
-          "raw": 26.17,
+          "raw": 25.58,
           "note": "index_code"
         },
         "communication": {
@@ -2983,9 +3098,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 50.8,
+          "value": 50.3,
           "source": "llm_stats",
-          "raw": 20.65,
+          "raw": 20.24,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -3001,9 +3116,9 @@
           "note": "index_finance"
         },
         "legal": {
-          "value": 42.3,
+          "value": 41.4,
           "source": "llm_stats",
-          "raw": 13.82,
+          "raw": 13.09,
           "note": "index_legal"
         },
         "healthcare": {
@@ -3331,7 +3446,7 @@
         "available": {
           "lmarena": 71.93915043747036,
           "livebench": 76.03971428571428,
-          "llm_stats": 85.3875
+          "llm_stats": 84.87500000000001
         },
         "note": null
       },
@@ -3402,21 +3517,21 @@
           "raw": 74.97033333333333
         },
         "tool_calling": {
-          "value": 55,
+          "value": 52.7,
           "source": "llm_stats",
-          "raw": 24.03,
+          "raw": 22.16,
           "note": "index_tool_calling"
         },
         "legal": {
-          "value": 44.4,
+          "value": 43.3,
           "source": "llm_stats",
-          "raw": 15.52,
+          "raw": 14.66,
           "note": "index_legal"
         },
         "healthcare": {
-          "value": 52.6,
+          "value": 52.1,
           "source": "llm_stats",
-          "raw": 22.08,
+          "raw": 21.7,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -3432,9 +3547,9 @@
           "note": "HLE"
         },
         "multimodal": {
-          "value": 67.4,
+          "value": 66.8,
           "source": "llm_stats",
-          "raw": 33.91,
+          "raw": 33.44,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -3679,165 +3794,6 @@
       "member_order": 9999
     },
     {
-      "canonical": "baidu--ernie-5.0-preview@2025-10-22",
-      "identity": "ernie-5.0-preview",
-      "family": "ernie-5.0",
-      "revisions": [
-        "2025-10-22"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "source_names": {
-        "lmarena": [
-          "ernie-5.0-preview-1022"
-        ]
-      },
-      "display": "Ernie 5.0 Preview (2025-10-22)",
-      "vendor": "baidu",
-      "theme": "general",
-      "license": "Proprietary",
-      "open_source": false,
-      "is_moe": null,
-      "context_length": null,
-      "modalities": [],
-      "single_source": true,
-      "degrees": {},
-      "default_degree": {},
-      "composite": null,
-      "dimensions": {
-        "text": {
-          "value": 72.6,
-          "source": "lmarena",
-          "raw": 1430.4072331555146
-        }
-      },
-      "lmarena_scores": {
-        "text": {
-          "base": {
-            "score": 1430.4072331555146,
-            "rank": 84
-          }
-        }
-      },
-      "lmarena_profiles": {},
-      "livebench_scores": {},
-      "pricing": {},
-      "release_date": null,
-      "release_date_provenance": null,
-      "value": null,
-      "series_key": "baidu--ernie-5.0",
-      "series_display": "Ernie 5.0",
-      "member_key": "baidu--ernie-5.0-preview",
-      "member_display": "Ernie 5.0 Preview",
-      "member_order": 9999
-    },
-    {
-      "canonical": "baidu--ernie-5.0-preview@2025-12-03",
-      "identity": "ernie-5.0-preview",
-      "family": "ernie-5.0",
-      "revisions": [
-        "2025-12-03"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "source_names": {
-        "lmarena": [
-          "ernie-5.0-preview-1203"
-        ]
-      },
-      "display": "Ernie 5.0 Preview (2025-12-03)",
-      "vendor": "baidu",
-      "theme": "general",
-      "license": "Proprietary",
-      "open_source": false,
-      "is_moe": null,
-      "context_length": null,
-      "modalities": [],
-      "single_source": true,
-      "degrees": {},
-      "default_degree": {},
-      "composite": null,
-      "dimensions": {
-        "text": {
-          "value": 76.9,
-          "source": "lmarena",
-          "raw": 1442.5408821080998
-        }
-      },
-      "lmarena_scores": {
-        "text": {
-          "base": {
-            "score": 1442.5408821080998,
-            "rank": 60
-          }
-        }
-      },
-      "lmarena_profiles": {},
-      "livebench_scores": {},
-      "pricing": {},
-      "release_date": null,
-      "release_date_provenance": null,
-      "value": null,
-      "series_key": "baidu--ernie-5.0",
-      "series_display": "Ernie 5.0",
-      "member_key": "baidu--ernie-5.0-preview",
-      "member_display": "Ernie 5.0 Preview",
-      "member_order": 9999
-    },
-    {
-      "canonical": "baidu--ernie-5.0-preview@2025-12-20",
-      "identity": "ernie-5.0-preview",
-      "family": "ernie-5.0",
-      "revisions": [
-        "2025-12-20"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "source_names": {
-        "lmarena": [
-          "ernie-5.0-preview-1220"
-        ]
-      },
-      "display": "Ernie 5.0 Preview (2025-12-20)",
-      "vendor": "baidu",
-      "theme": "general",
-      "license": "Proprietary",
-      "open_source": false,
-      "is_moe": null,
-      "context_length": null,
-      "modalities": [],
-      "single_source": true,
-      "degrees": {},
-      "default_degree": {},
-      "composite": null,
-      "dimensions": {
-        "vision": {
-          "value": 80.5,
-          "source": "lmarena",
-          "raw": 1248.1740494549965
-        }
-      },
-      "lmarena_scores": {
-        "vision": {
-          "base": {
-            "score": 1248.1740494549965,
-            "rank": 54
-          }
-        }
-      },
-      "lmarena_profiles": {},
-      "livebench_scores": {},
-      "pricing": {},
-      "release_date": null,
-      "release_date_provenance": null,
-      "value": null,
-      "series_key": "baidu--ernie-5.0",
-      "series_display": "Ernie 5.0",
-      "member_key": "baidu--ernie-5.0-preview",
-      "member_display": "Ernie 5.0 Preview",
-      "member_order": 9999
-    },
-    {
       "canonical": "baidu--ernie-5.0@01-10",
       "identity": "ernie-5.0",
       "family": "ernie-5.0",
@@ -3875,6 +3831,165 @@
           "base": {
             "score": 1444.4941963433394,
             "rank": 56
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "baidu--ernie-5.0",
+      "series_display": "Ernie 5.0",
+      "member_key": "baidu--ernie-5.0",
+      "member_display": "Ernie 5.0",
+      "member_order": 9999
+    },
+    {
+      "canonical": "baidu--ernie-5.0@2025-10-22",
+      "identity": "ernie-5.0",
+      "family": "ernie-5.0",
+      "revisions": [
+        "2025-10-22"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "ernie-5.0-preview-1022"
+        ]
+      },
+      "display": "Ernie 5.0 (2025-10-22)",
+      "vendor": "baidu",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 72.6,
+          "source": "lmarena",
+          "raw": 1430.4072331555146
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "base": {
+            "score": 1430.4072331555146,
+            "rank": 84
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "baidu--ernie-5.0",
+      "series_display": "Ernie 5.0",
+      "member_key": "baidu--ernie-5.0",
+      "member_display": "Ernie 5.0",
+      "member_order": 9999
+    },
+    {
+      "canonical": "baidu--ernie-5.0@2025-12-03",
+      "identity": "ernie-5.0",
+      "family": "ernie-5.0",
+      "revisions": [
+        "2025-12-03"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "ernie-5.0-preview-1203"
+        ]
+      },
+      "display": "Ernie 5.0 (2025-12-03)",
+      "vendor": "baidu",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 76.9,
+          "source": "lmarena",
+          "raw": 1442.5408821080998
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "base": {
+            "score": 1442.5408821080998,
+            "rank": 60
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "baidu--ernie-5.0",
+      "series_display": "Ernie 5.0",
+      "member_key": "baidu--ernie-5.0",
+      "member_display": "Ernie 5.0",
+      "member_order": 9999
+    },
+    {
+      "canonical": "baidu--ernie-5.0@2025-12-20",
+      "identity": "ernie-5.0",
+      "family": "ernie-5.0",
+      "revisions": [
+        "2025-12-20"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "ernie-5.0-preview-1220"
+        ]
+      },
+      "display": "Ernie 5.0 (2025-12-20)",
+      "vendor": "baidu",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "vision": {
+          "value": 80.5,
+          "source": "lmarena",
+          "raw": 1248.1740494549965
+        }
+      },
+      "lmarena_scores": {
+        "vision": {
+          "base": {
+            "score": 1248.1740494549965,
+            "rank": 54
           }
         }
       },
@@ -4412,15 +4527,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 66.9,
+          "value": 66.8,
           "source": "llm_stats",
-          "raw": 33.48,
+          "raw": 33.45,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 49.7,
+          "value": 49.6,
           "source": "llm_stats",
-          "raw": 19.74,
+          "raw": 19.7,
           "note": "index_code"
         },
         "communication": {
@@ -4430,9 +4545,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 33.2,
+          "value": 33,
           "source": "llm_stats",
-          "raw": 6.59,
+          "raw": 6.37,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -4599,13 +4714,13 @@
         "reasoning": {
           "value": 60.9,
           "source": "llm_stats",
-          "raw": 28.7,
+          "raw": 28.68,
           "note": "index_reasoning"
         },
         "coding": {
           "value": 26.9,
           "source": "llm_stats",
-          "raw": 1.48,
+          "raw": 1.49,
           "note": "index_code"
         },
         "communication": {
@@ -4633,9 +4748,9 @@
           "note": "index_legal"
         },
         "healthcare": {
-          "value": 59.4,
+          "value": 59.2,
           "source": "llm_stats",
-          "raw": 27.49,
+          "raw": 27.37,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -4706,7 +4821,7 @@
         "reasoning": {
           "value": 73.7,
           "source": "llm_stats",
-          "raw": 38.99,
+          "raw": 38.98,
           "note": "index_reasoning"
         },
         "coding": {
@@ -4781,21 +4896,21 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 84.3,
+          "value": 84.1,
           "source": "llm_stats",
-          "raw": 47.45,
+          "raw": 47.28,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 66.8,
+          "value": 66.4,
           "source": "llm_stats",
-          "raw": 33.41,
+          "raw": 33.08,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 58.4,
+          "value": 55.3,
           "source": "llm_stats",
-          "raw": 26.69,
+          "raw": 24.24,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -4823,9 +4938,9 @@
           "note": "index_healthcare"
         },
         "math_reasoning": {
-          "value": 75.6,
+          "value": 75.5,
           "source": "llm_stats",
-          "raw": 40.48,
+          "raw": 40.37,
           "note": "index_math"
         },
         "expert_knowledge": {
@@ -4853,6 +4968,59 @@
       "pricing": {},
       "release_date": "2026-06-24",
       "release_date_provenance": "llm_stats",
+      "value": null,
+      "series_key": "bytedance--seed-2.1",
+      "series_display": "Seed 2.1",
+      "member_key": "bytedance--seed-2.1-pro",
+      "member_display": "Seed 2.1 Pro",
+      "member_order": 9999
+    },
+    {
+      "canonical": "bytedance--seed-2.1-pro@Preview",
+      "identity": "seed-2.1-pro",
+      "family": "seed-2.1",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "seed-2.1-pro-preview"
+        ]
+      },
+      "display": "Seed 2.1 Pro (Preview)",
+      "vendor": "bytedance",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "webdev": {
+          "value": 60.8,
+          "source": "lmarena",
+          "raw": 1518.722761108953
+        }
+      },
+      "lmarena_scores": {
+        "webdev": {
+          "base": {
+            "score": 1518.722761108953,
+            "rank": 38
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
       "value": null,
       "series_key": "bytedance--seed-2.1",
       "series_display": "Seed 2.1",
@@ -4889,21 +5057,21 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 80.6,
+          "value": 80.4,
           "source": "llm_stats",
-          "raw": 44.49,
+          "raw": 44.35,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 63.7,
+          "value": 63.4,
           "source": "llm_stats",
-          "raw": 31,
+          "raw": 30.75,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 51.8,
+          "value": 49.1,
           "source": "llm_stats",
-          "raw": 21.43,
+          "raw": 19.25,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -4931,9 +5099,9 @@
           "note": "index_healthcare"
         },
         "math_reasoning": {
-          "value": 74.7,
+          "value": 74.5,
           "source": "llm_stats",
-          "raw": 39.73,
+          "raw": 39.63,
           "note": "index_math"
         },
         "expert_knowledge": {
@@ -5454,6 +5622,134 @@
       "member_order": 9999
     },
     {
+      "canonical": "google--gemini-2.0-flash-lite@02-05",
+      "identity": "gemini-2.0-flash-lite",
+      "family": "gemini-2.0",
+      "revisions": [
+        "02-05"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "gemini-2.0-flash-lite-preview-02-05"
+        ]
+      },
+      "display": "Gemini 2.0 Flash Lite (02-05)",
+      "vendor": "google",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 36.8,
+          "source": "lmarena",
+          "raw": 1329.4879678126993
+        },
+        "vision": {
+          "value": 43.4,
+          "source": "lmarena",
+          "raw": 1100.3947947910035
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "base": {
+            "score": 1329.4879678126993,
+            "rank": 214
+          }
+        },
+        "vision": {
+          "base": {
+            "score": 1100.3947947910035,
+            "rank": 116
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "google--gemini-2.0",
+      "series_display": "Gemini 2.0",
+      "member_key": "google--gemini-2.0-flash-lite",
+      "member_display": "Gemini 2.0 Flash Lite",
+      "member_order": 9999
+    },
+    {
+      "canonical": "google--gemini-2.5-flash@2025-09",
+      "identity": "gemini-2.5-flash",
+      "family": "gemini-2.5",
+      "revisions": [
+        "2025-09"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "gemini-2.5-flash-preview-09-2025"
+        ]
+      },
+      "display": "Gemini 2.5 Flash (2025-09)",
+      "vendor": "google",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 64.3,
+          "source": "lmarena",
+          "raw": 1406.931509475791
+        },
+        "vision": {
+          "value": 81.8,
+          "source": "lmarena",
+          "raw": 1253.2666733959059
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "base": {
+            "score": 1406.931509475791,
+            "rank": 133
+          }
+        },
+        "vision": {
+          "base": {
+            "score": 1253.2666733959059,
+            "rank": 51
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "google--gemini-2.5",
+      "series_display": "Gemini 2.5",
+      "member_key": "google--gemini-2.5-flash",
+      "member_display": "Gemini 2.5 Flash",
+      "member_order": 9999
+    },
+    {
       "canonical": "google--gemini-3-flash",
       "identity": "gemini-3-flash",
       "family": "gemini-3",
@@ -5465,7 +5761,7 @@
           "gemini-3-flash"
         ]
       },
-      "display": "Gemini 3 Flash (gemini-3-flash)",
+      "display": "Gemini 3 Flash",
       "vendor": "google",
       "theme": "general",
       "license": "Proprietary",
@@ -5578,139 +5874,6 @@
       "member_order": 9999
     },
     {
-      "canonical": "google--gemini-3-flash-preview",
-      "identity": "gemini-3-flash-preview",
-      "family": "gemini-3",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {
-        "openrouter": [
-          {
-            "kind": "batch",
-            "raw_name": "google/gemini-3-flash-preview:batch"
-          }
-        ]
-      },
-      "source_names": {
-        "openrouter": [
-          "google/gemini-3-flash-preview",
-          "google/gemini-3-flash-preview:batch"
-        ],
-        "llm_stats": [
-          "gemini-3-flash-preview"
-        ]
-      },
-      "display": "Gemini 3 Flash (gemini-3-flash-preview)",
-      "vendor": "google",
-      "theme": "general",
-      "license": "Proprietary",
-      "open_source": false,
-      "is_moe": null,
-      "context_length": 1048576,
-      "modalities": [
-        "text",
-        "image",
-        "audio",
-        "video"
-      ],
-      "single_source": false,
-      "degrees": {},
-      "default_degree": {},
-      "composite": null,
-      "dimensions": {
-        "reasoning": {
-          "value": 72.1,
-          "source": "llm_stats",
-          "raw": 37.65,
-          "note": "index_reasoning"
-        },
-        "coding": {
-          "value": 53,
-          "source": "llm_stats",
-          "raw": 22.39,
-          "note": "index_code"
-        },
-        "tool_calling": {
-          "value": 44.8,
-          "source": "llm_stats",
-          "raw": 15.87,
-          "note": "index_tool_calling"
-        },
-        "long_context": {
-          "value": 35.1,
-          "source": "llm_stats",
-          "raw": 8.07,
-          "note": "index_long_context"
-        },
-        "finance": {
-          "value": 49.9,
-          "source": "llm_stats",
-          "raw": 19.93,
-          "note": "index_finance"
-        },
-        "legal": {
-          "value": 30.6,
-          "source": "llm_stats",
-          "raw": 4.5,
-          "note": "index_legal"
-        },
-        "healthcare": {
-          "value": 65,
-          "source": "llm_stats",
-          "raw": 32,
-          "note": "index_healthcare"
-        },
-        "math_reasoning": {
-          "value": 99.7,
-          "source": "llm_stats",
-          "raw": 0.997,
-          "note": "aime_2025"
-        },
-        "expert_knowledge": {
-          "value": 90.4,
-          "source": "llm_stats",
-          "raw": 0.904,
-          "note": "GPQA"
-        },
-        "multimodal": {
-          "value": 81.2,
-          "source": "llm_stats",
-          "raw": 0.812,
-          "note": "mmmu_pro"
-        },
-        "swe_capability": {
-          "value": 78,
-          "source": "llm_stats",
-          "raw": 0.78,
-          "note": "swe-bench-verified"
-        }
-      },
-      "lmarena_scores": {},
-      "lmarena_profiles": {},
-      "livebench_scores": {},
-      "pricing": {
-        "openrouter": {
-          "prompt": 5e-7,
-          "completion": 0.000003,
-          "input_cache_read": 5e-8,
-          "currency": "USD",
-          "is_listed_price": true
-        },
-        "llm_stats": {
-          "input_per_m": 0.5,
-          "output_per_m": 3
-        }
-      },
-      "release_date": "2025-12-17",
-      "release_date_provenance": "llm_stats",
-      "value": null,
-      "series_key": "google--gemini-3",
-      "series_display": "Gemini 3",
-      "member_key": "google--gemini-3-flash-preview",
-      "member_display": "Gemini 3 Flash",
-      "member_order": 9999
-    },
-    {
       "canonical": "google--gemini-3-flash-thinking-minimal",
       "identity": "gemini-3-flash-thinking-minimal",
       "family": "gemini-3",
@@ -5784,6 +5947,141 @@
       "member_order": 9999
     },
     {
+      "canonical": "google--gemini-3-flash@Preview",
+      "identity": "gemini-3-flash",
+      "family": "gemini-3",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "google/gemini-3-flash-preview:batch"
+          }
+        ]
+      },
+      "source_names": {
+        "openrouter": [
+          "google/gemini-3-flash-preview",
+          "google/gemini-3-flash-preview:batch"
+        ],
+        "llm_stats": [
+          "gemini-3-flash-preview"
+        ]
+      },
+      "display": "Gemini 3 Flash (Preview)",
+      "vendor": "google",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": 1048576,
+      "modalities": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "single_source": false,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "reasoning": {
+          "value": 72,
+          "source": "llm_stats",
+          "raw": 37.59,
+          "note": "index_reasoning"
+        },
+        "coding": {
+          "value": 52.8,
+          "source": "llm_stats",
+          "raw": 22.26,
+          "note": "index_code"
+        },
+        "tool_calling": {
+          "value": 44.1,
+          "source": "llm_stats",
+          "raw": 15.28,
+          "note": "index_tool_calling"
+        },
+        "long_context": {
+          "value": 35.1,
+          "source": "llm_stats",
+          "raw": 8.07,
+          "note": "index_long_context"
+        },
+        "finance": {
+          "value": 49.9,
+          "source": "llm_stats",
+          "raw": 19.93,
+          "note": "index_finance"
+        },
+        "legal": {
+          "value": 30.2,
+          "source": "llm_stats",
+          "raw": 4.19,
+          "note": "index_legal"
+        },
+        "healthcare": {
+          "value": 65,
+          "source": "llm_stats",
+          "raw": 32,
+          "note": "index_healthcare"
+        },
+        "math_reasoning": {
+          "value": 99.7,
+          "source": "llm_stats",
+          "raw": 0.997,
+          "note": "aime_2025"
+        },
+        "expert_knowledge": {
+          "value": 90.4,
+          "source": "llm_stats",
+          "raw": 0.904,
+          "note": "GPQA"
+        },
+        "multimodal": {
+          "value": 81.2,
+          "source": "llm_stats",
+          "raw": 0.812,
+          "note": "mmmu_pro"
+        },
+        "swe_capability": {
+          "value": 78,
+          "source": "llm_stats",
+          "raw": 0.78,
+          "note": "swe-bench-verified"
+        }
+      },
+      "lmarena_scores": {},
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {
+        "openrouter": {
+          "prompt": 5e-7,
+          "completion": 0.000003,
+          "input_cache_read": 5e-8,
+          "currency": "USD",
+          "is_listed_price": true
+        },
+        "llm_stats": {
+          "input_per_m": 0.5,
+          "output_per_m": 3
+        }
+      },
+      "release_date": "2025-12-17",
+      "release_date_provenance": "llm_stats",
+      "value": null,
+      "series_key": "google--gemini-3",
+      "series_display": "Gemini 3",
+      "member_key": "google--gemini-3-flash",
+      "member_display": "Gemini 3 Flash",
+      "member_order": 9999
+    },
+    {
       "canonical": "google--gemini-3-pro",
       "identity": "gemini-3-pro",
       "family": "gemini-3",
@@ -5795,7 +6093,7 @@
           "gemini-3-pro"
         ]
       },
-      "display": "Gemini 3 Pro (gemini-3-pro)",
+      "display": "Gemini 3 Pro",
       "vendor": "google",
       "theme": "general",
       "license": "Proprietary",
@@ -6032,10 +6330,12 @@
       "member_order": 9999
     },
     {
-      "canonical": "google--gemini-3-pro-preview",
-      "identity": "gemini-3-pro-preview",
+      "canonical": "google--gemini-3-pro@Preview",
+      "identity": "gemini-3-pro",
       "family": "gemini-3",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -6043,7 +6343,7 @@
           "gemini-3-pro-preview"
         ]
       },
-      "display": "Gemini 3 Pro (gemini-3-pro-preview)",
+      "display": "Gemini 3 Pro (Preview)",
       "vendor": "google",
       "theme": "general",
       "license": "Proprietary",
@@ -6062,19 +6362,19 @@
         "reasoning": {
           "value": 73.2,
           "source": "llm_stats",
-          "raw": 38.56,
+          "raw": 38.52,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 55.7,
+          "value": 55.6,
           "source": "llm_stats",
-          "raw": 24.53,
+          "raw": 24.47,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 42.4,
+          "value": 42.3,
           "source": "llm_stats",
-          "raw": 13.96,
+          "raw": 13.86,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -6123,7 +6423,7 @@
       "value": null,
       "series_key": "google--gemini-3",
       "series_display": "Gemini 3",
-      "member_key": "google--gemini-3-pro-preview",
+      "member_key": "google--gemini-3-pro",
       "member_display": "Gemini 3 Pro",
       "member_order": 9999
     },
@@ -6190,6 +6490,65 @@
       "member_order": 9999
     },
     {
+      "canonical": "google--gemini-3.1-flash-lite",
+      "identity": "gemini-3.1-flash-lite",
+      "family": "gemini-3.1",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "google/gemini-3.1-flash-lite:batch"
+          }
+        ]
+      },
+      "source_names": {
+        "openrouter": [
+          "google/gemini-3.1-flash-lite",
+          "google/gemini-3.1-flash-lite:batch"
+        ]
+      },
+      "display": "Gemini 3.1 Flash Lite",
+      "vendor": "google",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": 1048576,
+      "modalities": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {},
+      "lmarena_scores": {},
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {
+        "openrouter": {
+          "prompt": 2.5e-7,
+          "completion": 0.0000015,
+          "input_cache_read": 2.5e-8,
+          "currency": "USD",
+          "is_listed_price": true
+        }
+      },
+      "release_date": "2026-05-07",
+      "release_date_provenance": "openrouter",
+      "value": null,
+      "series_key": "google--gemini-3.1",
+      "series_display": "Gemini 3.1",
+      "member_key": "google--gemini-3.1-flash-lite",
+      "member_display": "Gemini 3.1 Flash Lite",
+      "member_order": 9999
+    },
+    {
       "canonical": "google--gemini-3.1-flash-lite-image-nano-banana-2-lite",
       "identity": "gemini-3.1-flash-lite-image-nano-banana-2-lite",
       "family": "gemini-3.1",
@@ -6252,10 +6611,12 @@
       "member_order": 9999
     },
     {
-      "canonical": "google--gemini-3.1-flash-lite-preview",
-      "identity": "gemini-3.1-flash-lite-preview",
+      "canonical": "google--gemini-3.1-flash-lite@Preview",
+      "identity": "gemini-3.1-flash-lite",
       "family": "gemini-3.1",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -6269,7 +6630,7 @@
           "gemini-3.1-flash-lite-preview"
         ]
       },
-      "display": "Gemini 3.1 Flash-Lite (gemini-3.1-flash-lite-preview)",
+      "display": "Gemini 3.1 Flash-Lite (Preview)",
       "vendor": "google",
       "theme": "general",
       "license": "Proprietary",
@@ -6305,7 +6666,7 @@
         "reasoning": {
           "value": 64.1,
           "source": "llm_stats",
-          "raw": 31.27,
+          "raw": 31.24,
           "note": "index_reasoning"
         },
         "long_context": {
@@ -6321,9 +6682,9 @@
           "note": "index_finance"
         },
         "legal": {
-          "value": 30.6,
+          "value": 30.2,
           "source": "llm_stats",
-          "raw": 4.51,
+          "raw": 4.19,
           "note": "index_legal"
         },
         "healthcare": {
@@ -6391,7 +6752,7 @@
       "value": null,
       "series_key": "google--gemini-3.1",
       "series_display": "Gemini 3.1",
-      "member_key": "google--gemini-3.1-flash-lite-preview",
+      "member_key": "google--gemini-3.1-flash-lite",
       "member_display": "Gemini 3.1 Flash-Lite",
       "member_order": 9999
     },
@@ -6447,10 +6808,12 @@
       "member_order": 9999
     },
     {
-      "canonical": "google--gemini-3.1-pro-preview",
-      "identity": "gemini-3.1-pro-preview",
+      "canonical": "google--gemini-3.1-pro@Preview",
+      "identity": "gemini-3.1-pro",
       "family": "gemini-3.1",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {
         "openrouter": [
@@ -6476,7 +6839,7 @@
           "gemini-3.1-pro-preview"
         ]
       },
-      "display": "Gemini 3.1 Pro",
+      "display": "Gemini 3.1 Pro (Preview)",
       "vendor": "google",
       "theme": "general",
       "license": "Proprietary",
@@ -6508,7 +6871,7 @@
         "available": {
           "lmarena": 48.388605293797134,
           "livebench": 76.95184523809523,
-          "llm_stats": 79.17500000000001
+          "llm_stats": 78.9875
         },
         "note": null
       },
@@ -6579,9 +6942,9 @@
           "raw": 85.37599999999999
         },
         "tool_calling": {
-          "value": 54.1,
+          "value": 53.5,
           "source": "llm_stats",
-          "raw": 23.31,
+          "raw": 22.83,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -6597,9 +6960,9 @@
           "note": "index_finance"
         },
         "legal": {
-          "value": 30.6,
+          "value": 30.3,
           "source": "llm_stats",
-          "raw": 4.51,
+          "raw": 4.2,
           "note": "index_legal"
         },
         "healthcare": {
@@ -6728,7 +7091,7 @@
       },
       "series_key": "google--gemini-3.1",
       "series_display": "Gemini 3.1",
-      "member_key": "google--gemini-3.1-pro-preview",
+      "member_key": "google--gemini-3.1-pro",
       "member_display": "Gemini 3.1 Pro",
       "member_order": 9999
     },
@@ -6797,7 +7160,7 @@
         "method": "proportional_redistribute",
         "available": {
           "livebench": 74.6377619047619,
-          "llm_stats": 78.25
+          "llm_stats": 78.01249999999999
         },
         "note": "缺源，权重按比例重分配"
       },
@@ -6843,9 +7206,9 @@
           "raw": 84.58433333333333
         },
         "tool_calling": {
-          "value": 63.2,
+          "value": 61.7,
           "source": "llm_stats",
-          "raw": 30.56,
+          "raw": 29.37,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -6861,9 +7224,9 @@
           "note": "index_finance"
         },
         "legal": {
-          "value": 35.9,
+          "value": 35.3,
           "source": "llm_stats",
-          "raw": 8.68,
+          "raw": 8.22,
           "note": "index_legal"
         },
         "math_reasoning": {
@@ -6994,9 +7357,9 @@
       "composite": null,
       "dimensions": {
         "coding": {
-          "value": 62.9,
+          "value": 61.9,
           "source": "llm_stats",
-          "raw": 30.35,
+          "raw": 29.54,
           "note": "index_code"
         }
       },
@@ -7075,7 +7438,7 @@
         "available": {
           "lmarena": 29.302320504851952,
           "livebench": 63.93698809523811,
-          "llm_stats": 62.3
+          "llm_stats": 62.11249999999999
         },
         "note": null
       },
@@ -7146,9 +7509,9 @@
           "raw": 71.82033333333334
         },
         "tool_calling": {
-          "value": 30.4,
+          "value": 27.1,
           "source": "llm_stats",
-          "raw": 4.29,
+          "raw": 1.64,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -7164,9 +7527,9 @@
           "note": "livebench math"
         },
         "multimodal": {
-          "value": 49.4,
+          "value": 49.2,
           "source": "llm_stats",
-          "raw": 19.48,
+          "raw": 19.33,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -7341,7 +7704,7 @@
         "available": {
           "lmarena": 48.12468222248411,
           "livebench": 73.5875119047619,
-          "llm_stats": 79.16250000000001
+          "llm_stats": 78.64999999999999
         },
         "note": null
       },
@@ -7412,9 +7775,9 @@
           "raw": 83.89766666666667
         },
         "tool_calling": {
-          "value": 45.2,
+          "value": 40,
           "source": "llm_stats",
-          "raw": 16.14,
+          "raw": 12,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -7430,9 +7793,9 @@
           "note": "livebench math"
         },
         "multimodal": {
-          "value": 64.8,
+          "value": 64.7,
           "source": "llm_stats",
-          "raw": 31.86,
+          "raw": 31.77,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -7607,7 +7970,7 @@
         "available": {
           "lmarena": 58.7905363702923,
           "livebench": 78.8260119047619,
-          "llm_stats": 85.8625
+          "llm_stats": 84.575
         },
         "note": null
       },
@@ -7673,9 +8036,9 @@
           "raw": 85.455
         },
         "tool_calling": {
-          "value": 58.1,
+          "value": 52.9,
           "source": "llm_stats",
-          "raw": 26.45,
+          "raw": 22.35,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -7703,9 +8066,9 @@
           "note": "livebench math"
         },
         "multimodal": {
-          "value": 66.1,
+          "value": 65.2,
           "source": "llm_stats",
-          "raw": 32.84,
+          "raw": 32.18,
           "note": "index_vision"
         },
         "composite": {
@@ -7868,7 +8231,7 @@
         "available": {
           "lmarena": 69.41780368338749,
           "livebench": 75.82852380952382,
-          "llm_stats": 88.11250000000001
+          "llm_stats": 87.14999999999999
         },
         "note": null
       },
@@ -7934,9 +8297,9 @@
           "raw": 87.79266666666666
         },
         "tool_calling": {
-          "value": 58.8,
+          "value": 53.8,
           "source": "llm_stats",
-          "raw": 27,
+          "raw": 23.04,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -7964,9 +8327,9 @@
           "note": "livebench math"
         },
         "multimodal": {
-          "value": 67.7,
+          "value": 67.1,
           "source": "llm_stats",
-          "raw": 34.14,
+          "raw": 33.64,
           "note": "index_vision"
         },
         "composite": {
@@ -8091,9 +8454,9 @@
       "composite": null,
       "dimensions": {
         "coding": {
-          "value": 66.4,
+          "value": 64.9,
           "source": "llm_stats",
-          "raw": 33.1,
+          "raw": 31.91,
           "note": "index_code"
         }
       },
@@ -8700,7 +9063,7 @@
       "member_order": 9999
     },
     {
-      "canonical": "inception-ai--mercury",
+      "canonical": "inceptionlabs--mercury",
       "identity": "mercury",
       "family": "mercury",
       "revisions": [],
@@ -8712,7 +9075,7 @@
         ]
       },
       "display": "Mercury",
-      "vendor": "inception-ai",
+      "vendor": "inceptionlabs",
       "theme": "general",
       "license": "Proprietary",
       "open_source": false,
@@ -8744,33 +9107,41 @@
       "release_date": null,
       "release_date_provenance": null,
       "value": null,
-      "series_key": "inception-ai--mercury",
+      "series_key": "inceptionlabs--mercury",
       "series_display": "Mercury",
-      "member_key": "inception-ai--mercury",
+      "member_key": "inceptionlabs--mercury",
       "member_display": "Mercury",
       "member_order": 9999
     },
     {
-      "canonical": "inception-ai--mercury-2",
+      "canonical": "inceptionlabs--mercury-2",
       "identity": "mercury-2",
       "family": "mercury-2",
       "revisions": [],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
+        "openrouter": [
+          "inception/mercury-2"
+        ],
         "lmarena": [
+          "mercury-2"
+        ],
+        "llm_stats": [
           "mercury-2"
         ]
       },
       "display": "Mercury 2",
-      "vendor": "inception-ai",
+      "vendor": "inceptionlabs",
       "theme": "general",
       "license": "Proprietary",
       "open_source": false,
       "is_moe": null,
-      "context_length": null,
-      "modalities": [],
-      "single_source": true,
+      "context_length": 128000,
+      "modalities": [
+        "text"
+      ],
+      "single_source": false,
       "degrees": {},
       "default_degree": {},
       "composite": null,
@@ -8784,6 +9155,42 @@
           "value": 11.9,
           "source": "lmarena",
           "raw": 1166.5930317649709
+        },
+        "reasoning": {
+          "value": 53.3,
+          "source": "llm_stats",
+          "raw": 22.64,
+          "note": "index_reasoning"
+        },
+        "coding": {
+          "value": 40.7,
+          "source": "llm_stats",
+          "raw": 12.53,
+          "note": "index_code"
+        },
+        "communication": {
+          "value": 31.2,
+          "source": "llm_stats",
+          "raw": 4.98,
+          "note": "index_communication"
+        },
+        "tool_calling": {
+          "value": 26.3,
+          "source": "llm_stats",
+          "raw": 1.07,
+          "note": "index_tool_calling"
+        },
+        "math_reasoning": {
+          "value": 91.1,
+          "source": "llm_stats",
+          "raw": 0.911,
+          "note": "aime_2025"
+        },
+        "expert_knowledge": {
+          "value": 74,
+          "source": "llm_stats",
+          "raw": 0.74,
+          "note": "GPQA"
         }
       },
       "lmarena_scores": {
@@ -8802,84 +9209,14 @@
       },
       "lmarena_profiles": {},
       "livebench_scores": {},
-      "pricing": {},
-      "release_date": null,
-      "release_date_provenance": null,
-      "value": null,
-      "series_key": "inception-ai--mercury-2",
-      "series_display": "Mercury 2",
-      "member_key": "inception-ai--mercury-2",
-      "member_display": "Mercury 2",
-      "member_order": 9999
-    },
-    {
-      "canonical": "inceptionlabs--mercury-2",
-      "identity": "mercury-2",
-      "family": "mercury-2",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "source_names": {
-        "llm_stats": [
-          "mercury-2"
-        ]
-      },
-      "display": "Mercury 2",
-      "vendor": "inceptionlabs",
-      "theme": "general",
-      "license": "Proprietary",
-      "open_source": false,
-      "is_moe": null,
-      "context_length": 128000,
-      "modalities": [
-        "text"
-      ],
-      "single_source": true,
-      "degrees": {},
-      "default_degree": {},
-      "composite": null,
-      "dimensions": {
-        "reasoning": {
-          "value": 53.3,
-          "source": "llm_stats",
-          "raw": 22.64,
-          "note": "index_reasoning"
-        },
-        "coding": {
-          "value": 40.7,
-          "source": "llm_stats",
-          "raw": 12.55,
-          "note": "index_code"
-        },
-        "communication": {
-          "value": 31.2,
-          "source": "llm_stats",
-          "raw": 4.98,
-          "note": "index_communication"
-        },
-        "tool_calling": {
-          "value": 26.5,
-          "source": "llm_stats",
-          "raw": 1.2,
-          "note": "index_tool_calling"
-        },
-        "math_reasoning": {
-          "value": 91.1,
-          "source": "llm_stats",
-          "raw": 0.911,
-          "note": "aime_2025"
-        },
-        "expert_knowledge": {
-          "value": 74,
-          "source": "llm_stats",
-          "raw": 0.74,
-          "note": "GPQA"
-        }
-      },
-      "lmarena_scores": {},
-      "lmarena_profiles": {},
-      "livebench_scores": {},
       "pricing": {
+        "openrouter": {
+          "prompt": 2.5e-7,
+          "completion": 7.5e-7,
+          "input_cache_read": 2.5e-8,
+          "currency": "USD",
+          "is_listed_price": true
+        },
         "llm_stats": {
           "input_per_m": 0.25,
           "output_per_m": 0.75
@@ -9672,15 +10009,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 60.8,
+          "value": 60.7,
           "source": "llm_stats",
-          "raw": 28.61,
+          "raw": 28.58,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 49.4,
+          "value": 49.3,
           "source": "llm_stats",
-          "raw": 19.49,
+          "raw": 19.44,
           "note": "index_code"
         },
         "communication": {
@@ -9690,9 +10027,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 38,
+          "value": 37.9,
           "source": "llm_stats",
-          "raw": 10.39,
+          "raw": 10.28,
           "note": "index_tool_calling"
         },
         "math_reasoning": {
@@ -9762,21 +10099,21 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 59.7,
+          "value": 59.4,
           "source": "llm_stats",
-          "raw": 27.78,
+          "raw": 27.54,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 48.8,
+          "value": 48.5,
           "source": "llm_stats",
-          "raw": 19,
+          "raw": 18.82,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 36.1,
+          "value": 31.9,
           "source": "llm_stats",
-          "raw": 8.89,
+          "raw": 5.54,
           "note": "index_tool_calling"
         },
         "swe_capability": {
@@ -9832,15 +10169,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 67.3,
+          "value": 67.2,
           "source": "llm_stats",
-          "raw": 33.82,
+          "raw": 33.78,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 49.2,
+          "value": 49.1,
           "source": "llm_stats",
-          "raw": 19.33,
+          "raw": 19.27,
           "note": "index_code"
         },
         "communication": {
@@ -9852,7 +10189,7 @@
         "tool_calling": {
           "value": 38.4,
           "source": "llm_stats",
-          "raw": 10.73,
+          "raw": 10.69,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -9874,9 +10211,9 @@
           "note": "index_legal"
         },
         "healthcare": {
-          "value": 52.4,
+          "value": 52,
           "source": "llm_stats",
-          "raw": 21.95,
+          "raw": 21.62,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -10211,18 +10548,10 @@
       "family": "minimax-m3",
       "revisions": [],
       "evaluation_profiles": [],
-      "offerings": {
-        "openrouter": [
-          {
-            "kind": "batch",
-            "raw_name": "minimax/minimax-m3:batch"
-          }
-        ]
-      },
+      "offerings": {},
       "source_names": {
         "openrouter": [
-          "minimax/minimax-m3",
-          "minimax/minimax-m3:batch"
+          "minimax/minimax-m3"
         ],
         "lmarena": [
           "Minimax M3",
@@ -10260,7 +10589,7 @@
         "available": {
           "lmarena": 48.47227425985791,
           "livebench": 67.2567619047619,
-          "llm_stats": 76.71249999999999
+          "llm_stats": 76.47500000000001
         },
         "note": null
       },
@@ -10331,9 +10660,9 @@
           "raw": 76.83566666666667
         },
         "tool_calling": {
-          "value": 51.7,
+          "value": 49,
           "source": "llm_stats",
-          "raw": 21.35,
+          "raw": 19.19,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -10740,7 +11069,7 @@
         "available": {
           "lmarena": 72.43716868239723,
           "livebench": 79.19304761904763,
-          "llm_stats": 91.225
+          "llm_stats": 90.61250000000001
         },
         "note": null
       },
@@ -10806,9 +11135,9 @@
           "raw": 85.528
         },
         "tool_calling": {
-          "value": 67.2,
+          "value": 63.5,
           "source": "llm_stats",
-          "raw": 33.77,
+          "raw": 30.76,
           "note": "index_tool_calling"
         },
         "math_reasoning": {
@@ -10899,9 +11228,9 @@
       },
       "pricing": {
         "openrouter": {
-          "prompt": 0.0000017,
-          "completion": 0.0000085,
-          "input_cache_read": 1.7e-7,
+          "prompt": 0.000003,
+          "completion": 0.000015,
+          "input_cache_read": 3e-7,
           "currency": "USD",
           "is_listed_price": true
         },
@@ -10913,8 +11242,8 @@
       "release_date": "2026-07-16",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 48.3,
-        "raw": 2.6855773452501515,
+        "score": 32.3,
+        "raw": 2.117593307644212,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "moonshotai--kimi-k3",
@@ -10974,6 +11303,70 @@
       "series_display": "Chatgpt Image",
       "member_key": "openai--chatgpt-image-latest-high-fidelity",
       "member_display": "Chatgpt Image Latest High Fidelity",
+      "member_order": 9999
+    },
+    {
+      "canonical": "openai--gpt-4.5@2025-02-27",
+      "identity": "gpt-4.5",
+      "family": "gpt-4.5",
+      "revisions": [
+        "2025-02-27"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "gpt-4.5-preview-2025-02-27"
+        ]
+      },
+      "display": "GPT 4.5 (2025-02-27)",
+      "vendor": "openai",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 68,
+          "source": "lmarena",
+          "raw": 1417.2977025280304
+        },
+        "vision": {
+          "value": 67.1,
+          "source": "lmarena",
+          "raw": 1194.9052357367389
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "base": {
+            "score": 1417.2977025280304,
+            "rank": 115
+          }
+        },
+        "vision": {
+          "base": {
+            "score": 1194.9052357367389,
+            "rank": 82
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "openai--gpt-4.5",
+      "series_display": "Gpt 4.5",
+      "member_key": "openai--gpt-4.5",
+      "member_display": "GPT 4.5",
       "member_order": 9999
     },
     {
@@ -11846,13 +12239,13 @@
         "reasoning": {
           "value": 62.1,
           "source": "llm_stats",
-          "raw": 29.68,
+          "raw": 29.66,
           "note": "index_reasoning"
         },
         "coding": {
           "value": 51.2,
           "source": "llm_stats",
-          "raw": 21,
+          "raw": 20.98,
           "note": "index_code"
         },
         "tool_calling": {
@@ -12063,7 +12456,7 @@
         "reasoning": {
           "value": 68.3,
           "source": "llm_stats",
-          "raw": 34.67,
+          "raw": 34.65,
           "note": "index_reasoning"
         },
         "math_reasoning": {
@@ -12123,9 +12516,9 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 70.3,
+          "value": 70.2,
           "source": "llm_stats",
-          "raw": 36.21,
+          "raw": 36.19,
           "note": "index_reasoning"
         },
         "coding": {
@@ -12141,9 +12534,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 46.3,
+          "value": 46,
           "source": "llm_stats",
-          "raw": 17.08,
+          "raw": 16.8,
           "note": "index_tool_calling"
         },
         "healthcare": {
@@ -12340,7 +12733,7 @@
         "reasoning": {
           "value": 70.4,
           "source": "llm_stats",
-          "raw": 36.3,
+          "raw": 36.29,
           "note": "index_reasoning"
         },
         "coding": {
@@ -12356,9 +12749,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 46.4,
+          "value": 46.1,
           "source": "llm_stats",
-          "raw": 17.13,
+          "raw": 16.85,
           "note": "index_tool_calling"
         },
         "healthcare": {
@@ -12438,7 +12831,7 @@
         "reasoning": {
           "value": 70.1,
           "source": "llm_stats",
-          "raw": 36.08,
+          "raw": 36.06,
           "note": "index_reasoning"
         },
         "coding": {
@@ -12454,9 +12847,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 46.3,
+          "value": 45.9,
           "source": "llm_stats",
-          "raw": 17.03,
+          "raw": 16.75,
           "note": "index_tool_calling"
         },
         "healthcare": {
@@ -12558,9 +12951,9 @@
           "raw": 1387.9561607181126
         },
         "healthcare": {
-          "value": 58.7,
+          "value": 57.8,
           "source": "llm_stats",
-          "raw": 26.94,
+          "raw": 26.24,
           "note": "index_healthcare"
         }
       },
@@ -12626,15 +13019,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 71.5,
+          "value": 71.4,
           "source": "llm_stats",
-          "raw": 37.19,
+          "raw": 37.08,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 62.4,
+          "value": 62.2,
           "source": "llm_stats",
-          "raw": 29.93,
+          "raw": 29.79,
           "note": "index_code"
         },
         "tool_calling": {
@@ -12650,9 +13043,9 @@
           "note": "index_math"
         },
         "multimodal": {
-          "value": 43.1,
+          "value": 43,
           "source": "llm_stats",
-          "raw": 14.46,
+          "raw": 14.38,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -12768,7 +13161,7 @@
         "available": {
           "lmarena": 70.05976922080683,
           "livebench": 80.18829761904762,
-          "llm_stats": 85.1375
+          "llm_stats": 84.72500000000001
         },
         "note": null
       },
@@ -12825,9 +13218,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 59.8,
+          "value": 58.7,
           "source": "llm_stats",
-          "raw": 27.84,
+          "raw": 26.94,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -12843,9 +13236,9 @@
           "note": "index_finance"
         },
         "legal": {
-          "value": 38.1,
+          "value": 37.4,
           "source": "llm_stats",
-          "raw": 10.46,
+          "raw": 9.92,
           "note": "index_legal"
         },
         "math_reasoning": {
@@ -13057,15 +13450,15 @@
           "raw": 1251.2169145391058
         },
         "reasoning": {
-          "value": 63.9,
+          "value": 63.8,
           "source": "llm_stats",
-          "raw": 31.11,
+          "raw": 31.06,
           "note": "index_reasoning"
         },
         "healthcare": {
-          "value": 54.8,
+          "value": 54.1,
           "source": "llm_stats",
-          "raw": 23.83,
+          "raw": 23.29,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -13158,9 +13551,9 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 80.8,
+          "value": 80.7,
           "source": "llm_stats",
-          "raw": 44.65,
+          "raw": 44.57,
           "note": "index_reasoning"
         },
         "finance": {
@@ -13327,7 +13720,7 @@
         "available": {
           "lmarena": 59.12408419209025,
           "livebench": 73.55938095238095,
-          "llm_stats": 81.35
+          "llm_stats": 81.075
         },
         "note": null
       },
@@ -13393,9 +13786,9 @@
           "raw": 72.567
         },
         "tool_calling": {
-          "value": 57.3,
+          "value": 53.2,
           "source": "llm_stats",
-          "raw": 25.81,
+          "raw": 22.52,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -13411,9 +13804,9 @@
           "note": "index_finance"
         },
         "healthcare": {
-          "value": 61.1,
+          "value": 60.1,
           "source": "llm_stats",
-          "raw": 28.86,
+          "raw": 28.04,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -13610,7 +14003,7 @@
         "available": {
           "lmarena": 74.20913749316115,
           "livebench": 81.05354761904763,
-          "llm_stats": 93.65
+          "llm_stats": 93.05
         },
         "note": null
       },
@@ -13681,9 +14074,9 @@
           "raw": 87.68366666666667
         },
         "tool_calling": {
-          "value": 65.3,
+          "value": 61.4,
           "source": "llm_stats",
-          "raw": 32.24,
+          "raw": 29.08,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -13699,9 +14092,9 @@
           "note": "index_finance"
         },
         "healthcare": {
-          "value": 70.1,
+          "value": 68.7,
           "source": "llm_stats",
-          "raw": 36.06,
+          "raw": 34.99,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -13904,7 +14297,7 @@
         "available": {
           "lmarena": 62.87997514556112,
           "livebench": 77.93625,
-          "llm_stats": 88.4625
+          "llm_stats": 87.92500000000001
         },
         "note": null
       },
@@ -13970,9 +14363,9 @@
           "raw": 82.89266666666667
         },
         "tool_calling": {
-          "value": 62.6,
+          "value": 58.3,
           "source": "llm_stats",
-          "raw": 30.09,
+          "raw": 26.6,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -13988,9 +14381,9 @@
           "note": "index_finance"
         },
         "healthcare": {
-          "value": 65.3,
+          "value": 64.4,
           "source": "llm_stats",
-          "raw": 32.23,
+          "raw": 31.48,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -14151,15 +14544,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 67.8,
+          "value": 67.7,
           "source": "llm_stats",
-          "raw": 34.2,
+          "raw": 34.17,
           "note": "index_reasoning"
         },
         "coding": {
           "value": 58,
           "source": "llm_stats",
-          "raw": 26.42,
+          "raw": 26.4,
           "note": "index_code"
         },
         "communication": {
@@ -14169,9 +14562,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 45.6,
+          "value": 45.2,
           "source": "llm_stats",
-          "raw": 16.47,
+          "raw": 16.19,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -14300,7 +14693,7 @@
         "available": {
           "lmarena": 83.07325854994029,
           "livebench": 82.16064285714286,
-          "llm_stats": 99.47500000000001
+          "llm_stats": 99.36250000000001
         },
         "note": null
       },
@@ -14371,15 +14764,15 @@
           "raw": 89.43066666666668
         },
         "tool_calling": {
-          "value": 69.6,
+          "value": 68.2,
           "source": "llm_stats",
-          "raw": 35.65,
+          "raw": 34.56,
           "note": "index_tool_calling"
         },
         "healthcare": {
-          "value": 65.5,
+          "value": 64.1,
           "source": "llm_stats",
-          "raw": 32.42,
+          "raw": 31.29,
           "note": "index_healthcare"
         },
         "math_reasoning": {
@@ -14395,9 +14788,9 @@
           "note": "GPQA"
         },
         "multimodal": {
-          "value": 77.2,
+          "value": 75.7,
           "source": "llm_stats",
-          "raw": 41.75,
+          "raw": 40.53,
           "note": "index_vision"
         },
         "composite": {
@@ -14498,6 +14891,184 @@
       "series_display": "Gpt 6",
       "member_key": "openai--gpt-6-astra",
       "member_display": "GPT-6 Astra",
+      "member_order": 9999
+    },
+    {
+      "canonical": "openai--gpt-6-luna",
+      "identity": "gpt-6-luna",
+      "family": "gpt-6",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "openai/gpt-6-luna:batch"
+          }
+        ]
+      },
+      "source_names": {
+        "openrouter": [
+          "openai/gpt-6-luna",
+          "openai/gpt-6-luna:batch"
+        ],
+        "llm_stats": [
+          "gpt-6-luna"
+        ]
+      },
+      "display": "GPT-6 Luna",
+      "vendor": "openai",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": 1050000,
+      "modalities": [
+        "image",
+        "text"
+      ],
+      "single_source": false,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "reasoning": {
+          "value": 75,
+          "source": "llm_stats",
+          "raw": 39.99,
+          "note": "index_reasoning"
+        },
+        "coding": {
+          "value": 64.2,
+          "source": "llm_stats",
+          "raw": 31.36,
+          "note": "index_code"
+        },
+        "tool_calling": {
+          "value": 52.7,
+          "source": "llm_stats",
+          "raw": 22.14,
+          "note": "index_tool_calling"
+        },
+        "multimodal": {
+          "value": 53,
+          "source": "llm_stats",
+          "raw": 22.42,
+          "note": "index_vision"
+        }
+      },
+      "lmarena_scores": {},
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {
+        "openrouter": {
+          "prompt": 1e-7,
+          "completion": 5e-7,
+          "input_cache_read": 1e-8,
+          "currency": "USD",
+          "is_listed_price": true
+        },
+        "llm_stats": {
+          "input_per_m": 0.1,
+          "output_per_m": 0.5
+        }
+      },
+      "release_date": "2026-09-22",
+      "release_date_provenance": "llm_stats",
+      "value": null,
+      "series_key": "openai--gpt-6",
+      "series_display": "Gpt 6",
+      "member_key": "openai--gpt-6-luna",
+      "member_display": "GPT-6 Luna",
+      "member_order": 9999
+    },
+    {
+      "canonical": "openai--gpt-6-sol",
+      "identity": "gpt-6-sol",
+      "family": "gpt-6",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "openai/gpt-6-sol:batch"
+          }
+        ]
+      },
+      "source_names": {
+        "openrouter": [
+          "openai/gpt-6-sol",
+          "openai/gpt-6-sol:batch"
+        ],
+        "llm_stats": [
+          "gpt-6-sol"
+        ]
+      },
+      "display": "GPT-6 Sol",
+      "vendor": "openai",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": 1050000,
+      "modalities": [
+        "image",
+        "text"
+      ],
+      "single_source": false,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "reasoning": {
+          "value": 82,
+          "source": "llm_stats",
+          "raw": 45.63,
+          "note": "index_reasoning"
+        },
+        "coding": {
+          "value": 69.8,
+          "source": "llm_stats",
+          "raw": 35.84,
+          "note": "index_code"
+        },
+        "tool_calling": {
+          "value": 58.3,
+          "source": "llm_stats",
+          "raw": 26.65,
+          "note": "index_tool_calling"
+        },
+        "multimodal": {
+          "value": 57.5,
+          "source": "llm_stats",
+          "raw": 25.99,
+          "note": "index_vision"
+        }
+      },
+      "lmarena_scores": {},
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {
+        "openrouter": {
+          "prompt": 0.000002,
+          "completion": 0.00001,
+          "input_cache_read": 2e-7,
+          "currency": "USD",
+          "is_listed_price": true
+        },
+        "llm_stats": {
+          "input_per_m": 2,
+          "output_per_m": 10
+        }
+      },
+      "release_date": "2026-09-22",
+      "release_date_provenance": "llm_stats",
+      "value": null,
+      "series_key": "openai--gpt-6",
+      "series_display": "Gpt 6",
+      "member_key": "openai--gpt-6-sol",
+      "member_display": "GPT-6 Sol",
       "member_order": 9999
     },
     {
@@ -15458,15 +16029,15 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 67.6,
+          "value": 67.5,
           "source": "llm_stats",
-          "raw": 34.04,
+          "raw": 34,
           "note": "index_reasoning"
         },
         "coding": {
           "value": 45.5,
           "source": "llm_stats",
-          "raw": 16.43,
+          "raw": 16.41,
           "note": "index_code"
         },
         "communication": {
@@ -15476,9 +16047,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 29.3,
+          "value": 28.9,
           "source": "llm_stats",
-          "raw": 3.47,
+          "raw": 3.13,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -15506,9 +16077,9 @@
           "note": "index_healthcare"
         },
         "math_reasoning": {
-          "value": 65,
+          "value": 64.9,
           "source": "llm_stats",
-          "raw": 32.02,
+          "raw": 31.93,
           "note": "index_math"
         },
         "expert_knowledge": {
@@ -15664,10 +16235,12 @@
       "member_order": 9999
     },
     {
-      "canonical": "qwen--qwen3.5-max-preview",
-      "identity": "qwen3.5-max-preview",
-      "family": "qwen3.5-max",
-      "revisions": [],
+      "canonical": "qwen--qwen3.5@Preview",
+      "identity": "qwen3.5",
+      "family": "qwen3.5",
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -15675,7 +16248,7 @@
           "qwen3.5-max-preview"
         ]
       },
-      "display": "Qwen3.5 Max Preview",
+      "display": "Qwen3.5 (Preview)",
       "vendor": "qwen",
       "theme": "general",
       "license": "Proprietary",
@@ -15684,8 +16257,14 @@
       "context_length": null,
       "modalities": [],
       "single_source": true,
-      "degrees": {},
-      "default_degree": {},
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "max"
+      },
       "composite": null,
       "dimensions": {
         "text": {
@@ -15696,7 +16275,7 @@
       },
       "lmarena_scores": {
         "text": {
-          "base": {
+          "max": {
             "score": 1470.9317068152347,
             "rank": 25
           }
@@ -15710,83 +16289,8 @@
       "value": null,
       "series_key": "qwen--qwen3.5",
       "series_display": "Qwen3.5",
-      "member_key": "qwen--qwen3.5-max-preview",
-      "member_display": "Qwen3.5 Max Preview",
-      "member_order": 9999
-    },
-    {
-      "canonical": "qwen--qwen3.6-max-preview",
-      "identity": "qwen3.6-max-preview",
-      "family": "qwen3.6-max",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "source_names": {
-        "openrouter": [
-          "qwen/qwen3.6-max-preview"
-        ],
-        "lmarena": [
-          "qwen3.6-max-preview"
-        ]
-      },
-      "display": "Qwen3.6 Max Preview",
-      "vendor": "qwen",
-      "theme": "general",
-      "license": "Proprietary",
-      "open_source": false,
-      "is_moe": null,
-      "context_length": 262144,
-      "modalities": [
-        "text"
-      ],
-      "single_source": false,
-      "degrees": {},
-      "default_degree": {},
-      "composite": null,
-      "dimensions": {
-        "text": {
-          "value": 78.3,
-          "source": "lmarena",
-          "raw": 1446.331797785251
-        },
-        "webdev": {
-          "value": 55.3,
-          "source": "lmarena",
-          "raw": 1479.0595857062222
-        }
-      },
-      "lmarena_scores": {
-        "text": {
-          "base": {
-            "score": 1446.331797785251,
-            "rank": 50
-          }
-        },
-        "webdev": {
-          "base": {
-            "score": 1479.0595857062222,
-            "rank": 49
-          }
-        }
-      },
-      "lmarena_profiles": {},
-      "livebench_scores": {},
-      "pricing": {
-        "openrouter": {
-          "prompt": 0.000001027,
-          "completion": 0.000006162,
-          "input_cache_read": null,
-          "currency": "USD",
-          "is_listed_price": true
-        }
-      },
-      "release_date": "2026-04-27",
-      "release_date_provenance": "openrouter",
-      "value": null,
-      "series_key": "qwen--qwen3.6",
-      "series_display": "Qwen3.6",
-      "member_key": "qwen--qwen3.6-max-preview",
-      "member_display": "Qwen3.6 Max Preview",
+      "member_key": "qwen--qwen3.5",
+      "member_display": "Qwen3.5",
       "member_order": 9999
     },
     {
@@ -15833,7 +16337,7 @@
         "method": "proportional_redistribute",
         "available": {
           "livebench": 68.90613095238096,
-          "llm_stats": 74.275
+          "llm_stats": 74.2
         },
         "note": "缺源，权重按比例重分配"
       },
@@ -15874,9 +16378,9 @@
           "raw": 74.98933333333333
         },
         "tool_calling": {
-          "value": 50.8,
+          "value": 50,
           "source": "llm_stats",
-          "raw": 20.66,
+          "raw": 20.03,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -15983,6 +16487,76 @@
       "series_display": "Qwen3.6",
       "member_key": "qwen--qwen3.6-plus",
       "member_display": "Qwen3.6 Plus",
+      "member_order": 9999
+    },
+    {
+      "canonical": "qwen--qwen3.6@Preview",
+      "identity": "qwen3.6",
+      "family": "qwen3.6",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "qwen3.6-max-preview"
+        ]
+      },
+      "display": "Qwen3.6 (Preview)",
+      "vendor": "qwen",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "max"
+      },
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 78.3,
+          "source": "lmarena",
+          "raw": 1446.331797785251
+        },
+        "webdev": {
+          "value": 55.3,
+          "source": "lmarena",
+          "raw": 1479.0595857062222
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "max": {
+            "score": 1446.331797785251,
+            "rank": 50
+          }
+        },
+        "webdev": {
+          "max": {
+            "score": 1479.0595857062222,
+            "rank": 49
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "qwen--qwen3.6",
+      "series_display": "Qwen3.6",
+      "member_key": "qwen--qwen3.6",
+      "member_display": "Qwen3.6",
       "member_order": 9999
     },
     {
@@ -16177,21 +16751,21 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 82.7,
+          "value": 82.6,
           "source": "llm_stats",
-          "raw": 46.17,
+          "raw": 46.07,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 70.1,
+          "value": 69.7,
           "source": "llm_stats",
-          "raw": 36.11,
+          "raw": 35.76,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 58.7,
+          "value": 57.5,
           "source": "llm_stats",
-          "raw": 26.93,
+          "raw": 25.98,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -16215,7 +16789,7 @@
         "math_reasoning": {
           "value": 78.8,
           "source": "llm_stats",
-          "raw": 43.05,
+          "raw": 43.04,
           "note": "index_math"
         },
         "expert_knowledge": {
@@ -16227,7 +16801,7 @@
         "multimodal": {
           "value": 56.6,
           "source": "llm_stats",
-          "raw": 25.29,
+          "raw": 25.28,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -16260,57 +16834,6 @@
       "series_display": "Qwen3.7",
       "member_key": "qwen--qwen3.7-max",
       "member_display": "Qwen3.7 Max",
-      "member_order": 9999
-    },
-    {
-      "canonical": "qwen--qwen3.7-max-preview",
-      "identity": "qwen3.7-max-preview",
-      "family": "qwen3.7-max",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "source_names": {
-        "lmarena": [
-          "qwen3.7-max-preview"
-        ]
-      },
-      "display": "Qwen3.7 Max Preview",
-      "vendor": "qwen",
-      "theme": "general",
-      "license": "Proprietary",
-      "open_source": false,
-      "is_moe": null,
-      "context_length": null,
-      "modalities": [],
-      "single_source": true,
-      "degrees": {},
-      "default_degree": {},
-      "composite": null,
-      "dimensions": {
-        "text": {
-          "value": 88.1,
-          "source": "lmarena",
-          "raw": 1473.9515440559937
-        }
-      },
-      "lmarena_scores": {
-        "text": {
-          "base": {
-            "score": 1473.9515440559937,
-            "rank": 21
-          }
-        }
-      },
-      "lmarena_profiles": {},
-      "livebench_scores": {},
-      "pricing": {},
-      "release_date": null,
-      "release_date_provenance": null,
-      "value": null,
-      "series_key": "qwen--qwen3.7",
-      "series_display": "Qwen3.7",
-      "member_key": "qwen--qwen3.7-max-preview",
-      "member_display": "Qwen3.7 Max Preview",
       "member_order": 9999
     },
     {
@@ -16407,7 +16930,7 @@
         "method": "proportional_redistribute",
         "available": {
           "lmarena": 47.83459222327028,
-          "llm_stats": 78.2625
+          "llm_stats": 78.13749999999999
         },
         "note": "缺源，权重按比例重分配"
       },
@@ -16448,21 +16971,21 @@
           "raw": -0.07149767899158632
         },
         "reasoning": {
-          "value": 78.9,
+          "value": 78.7,
           "source": "llm_stats",
-          "raw": 43.08,
+          "raw": 42.98,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 63.5,
+          "value": 63.1,
           "source": "llm_stats",
-          "raw": 30.76,
+          "raw": 30.47,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 53.7,
+          "value": 52.8,
           "source": "llm_stats",
-          "raw": 22.97,
+          "raw": 22.25,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -16591,6 +17114,65 @@
       "series_display": "Qwen3.7",
       "member_key": "qwen--qwen3.7-plus",
       "member_display": "Qwen3.7-Plus",
+      "member_order": 9999
+    },
+    {
+      "canonical": "qwen--qwen3.7@Preview",
+      "identity": "qwen3.7",
+      "family": "qwen3.7",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "qwen3.7-max-preview"
+        ]
+      },
+      "display": "Qwen3.7 (Preview)",
+      "vendor": "qwen",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "max"
+      },
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 88.1,
+          "source": "lmarena",
+          "raw": 1473.9515440559937
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "max": {
+            "score": 1473.9515440559937,
+            "rank": 21
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "qwen--qwen3.7",
+      "series_display": "Qwen3.7",
+      "member_key": "qwen--qwen3.7",
+      "member_display": "Qwen3.7",
       "member_order": 9999
     },
     {
@@ -16821,21 +17403,21 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 86,
+          "value": 85.7,
           "source": "llm_stats",
-          "raw": 48.81,
+          "raw": 48.57,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 70.1,
+          "value": 69.1,
           "source": "llm_stats",
-          "raw": 36.07,
+          "raw": 35.28,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 63.8,
+          "value": 61.4,
           "source": "llm_stats",
-          "raw": 31.07,
+          "raw": 29.08,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -16857,9 +17439,9 @@
           "note": "GPQA"
         },
         "multimodal": {
-          "value": 67.5,
+          "value": 67.3,
           "source": "llm_stats",
-          "raw": 34.03,
+          "raw": 33.86,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -16937,7 +17519,7 @@
         "available": {
           "lmarena": 59.850340659142745,
           "livebench": 76.19415476190476,
-          "llm_stats": 86.43750000000001
+          "llm_stats": 85.9625
         },
         "note": null
       },
@@ -16998,9 +17580,9 @@
           "raw": 74.643
         },
         "tool_calling": {
-          "value": 63.9,
+          "value": 61.4,
           "source": "llm_stats",
-          "raw": 31.12,
+          "raw": 29.14,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -17022,9 +17604,9 @@
           "note": "GPQA"
         },
         "multimodal": {
-          "value": 67.6,
+          "value": 67.4,
           "source": "llm_stats",
-          "raw": 34.06,
+          "raw": 33.89,
           "note": "index_vision"
         },
         "swe_capability": {
@@ -17134,21 +17716,21 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 88.2,
+          "value": 87.6,
           "source": "llm_stats",
-          "raw": 50.59,
+          "raw": 50.07,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 74.7,
+          "value": 73.5,
           "source": "llm_stats",
-          "raw": 39.77,
+          "raw": 38.77,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 64.7,
+          "value": 60.8,
           "source": "llm_stats",
-          "raw": 31.75,
+          "raw": 28.61,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -17158,15 +17740,15 @@
           "note": "index_long_context"
         },
         "healthcare": {
-          "value": 61,
+          "value": 59.1,
           "source": "llm_stats",
-          "raw": 28.77,
+          "raw": 27.28,
           "note": "index_healthcare"
         },
         "math_reasoning": {
-          "value": 67.3,
+          "value": 66.7,
           "source": "llm_stats",
-          "raw": 33.8,
+          "raw": 33.38,
           "note": "index_math"
         },
         "expert_knowledge": {
@@ -17275,10 +17857,71 @@
       "member_order": 9999
     },
     {
-      "canonical": "qwen--wan2.5-i2i-preview",
-      "identity": "wan2.5-i2i-preview",
+      "canonical": "qwen--qwen3@Preview",
+      "identity": "qwen3",
+      "family": "qwen3",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "qwen3-max-preview"
+        ]
+      },
+      "display": "Qwen3 (Preview)",
+      "vendor": "qwen",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "max"
+      },
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 75.7,
+          "source": "lmarena",
+          "raw": 1439.1655434251022
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "max": {
+            "score": 1439.1655434251022,
+            "rank": 69
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "qwen--qwen3",
+      "series_display": "Qwen3",
+      "member_key": "qwen--qwen3",
+      "member_display": "Qwen3",
+      "member_order": 9999
+    },
+    {
+      "canonical": "qwen--wan2.5-i2i@Preview",
+      "identity": "wan2.5-i2i",
       "family": "wan2.5-i2i",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -17286,7 +17929,7 @@
           "wan2.5-i2i-preview"
         ]
       },
-      "display": "Wan2.5 I2i Preview",
+      "display": "Wan2.5 I2i (Preview)",
       "vendor": "qwen",
       "theme": "image",
       "license": "Proprietary",
@@ -17321,15 +17964,17 @@
       "value": null,
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-i2i-preview",
-      "member_display": "Wan2.5 I2i Preview",
+      "member_key": "qwen--wan2.5-i2i",
+      "member_display": "Wan2.5 I2i",
       "member_order": 9999
     },
     {
-      "canonical": "qwen--wan2.5-i2v-preview",
-      "identity": "wan2.5-i2v-preview",
+      "canonical": "qwen--wan2.5-i2v@Preview",
+      "identity": "wan2.5-i2v",
       "family": "wan2.5-i2v",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -17337,7 +17982,7 @@
           "wan2.5-i2v-preview"
         ]
       },
-      "display": "Wan2.5 I2v Preview",
+      "display": "Wan2.5 I2v (Preview)",
       "vendor": "qwen",
       "theme": "video",
       "license": "Proprietary",
@@ -17372,15 +18017,17 @@
       "value": null,
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-i2v-preview",
-      "member_display": "Wan2.5 I2v Preview",
+      "member_key": "qwen--wan2.5-i2v",
+      "member_display": "Wan2.5 I2v",
       "member_order": 9999
     },
     {
-      "canonical": "qwen--wan2.5-t2i-preview",
-      "identity": "wan2.5-t2i-preview",
+      "canonical": "qwen--wan2.5-t2i@Preview",
+      "identity": "wan2.5-t2i",
       "family": "wan2.5-t2i",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -17388,7 +18035,7 @@
           "wan2.5-t2i-preview"
         ]
       },
-      "display": "Wan2.5 T2i Preview",
+      "display": "Wan2.5 T2i (Preview)",
       "vendor": "qwen",
       "theme": "image",
       "license": "Proprietary",
@@ -17423,15 +18070,17 @@
       "value": null,
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-t2i-preview",
-      "member_display": "Wan2.5 T2i Preview",
+      "member_key": "qwen--wan2.5-t2i",
+      "member_display": "Wan2.5 T2i",
       "member_order": 9999
     },
     {
-      "canonical": "qwen--wan2.5-t2v-preview",
-      "identity": "wan2.5-t2v-preview",
+      "canonical": "qwen--wan2.5-t2v@Preview",
+      "identity": "wan2.5-t2v",
       "family": "wan2.5-t2v",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
       "source_names": {
@@ -17439,7 +18088,7 @@
           "wan2.5-t2v-preview"
         ]
       },
-      "display": "Wan2.5 T2v Preview",
+      "display": "Wan2.5 T2v (Preview)",
       "vendor": "qwen",
       "theme": "video",
       "license": "Proprietary",
@@ -17474,8 +18123,8 @@
       "value": null,
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-t2v-preview",
-      "member_display": "Wan2.5 T2v Preview",
+      "member_key": "qwen--wan2.5-t2v",
+      "member_display": "Wan2.5 T2v",
       "member_order": 9999
     },
     {
@@ -18458,9 +19107,9 @@
       "composite": null,
       "dimensions": {
         "reasoning": {
-          "value": 77.4,
+          "value": 77.3,
           "source": "llm_stats",
-          "raw": 41.88,
+          "raw": 41.84,
           "note": "index_reasoning"
         },
         "finance": {
@@ -18594,13 +19243,13 @@
         "reasoning": {
           "value": 49.8,
           "source": "llm_stats",
-          "raw": 19.84,
+          "raw": 19.83,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 51,
+          "value": 50.9,
           "source": "llm_stats",
-          "raw": 20.76,
+          "raw": 20.74,
           "note": "index_code"
         },
         "tool_calling": {
@@ -18949,21 +19598,21 @@
           "raw": 1371.4775097721108
         },
         "reasoning": {
-          "value": 68.5,
+          "value": 68.4,
           "source": "llm_stats",
-          "raw": 34.83,
+          "raw": 34.75,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 51.4,
+          "value": 51.2,
           "source": "llm_stats",
-          "raw": 21.11,
+          "raw": 21,
           "note": "index_code"
         },
         "tool_calling": {
-          "value": 39.1,
+          "value": 35.9,
           "source": "llm_stats",
-          "raw": 11.28,
+          "raw": 8.7,
           "note": "index_tool_calling"
         },
         "long_context": {
@@ -19147,6 +19796,59 @@
       "series_display": "Wan2.7 T2v",
       "member_key": "wan--wan2.7-t2v",
       "member_display": "Wan2.7 T2v",
+      "member_order": 9999
+    },
+    {
+      "canonical": "xai--grok-3@02-24",
+      "identity": "grok-3",
+      "family": "grok-3",
+      "revisions": [
+        "02-24"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "grok-3-preview-02-24"
+        ]
+      },
+      "display": "Grok 3 (02-24)",
+      "vendor": "xai",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "text": {
+          "value": 70.9,
+          "source": "lmarena",
+          "raw": 1425.4839227590574
+        }
+      },
+      "lmarena_scores": {
+        "text": {
+          "base": {
+            "score": 1425.4839227590574,
+            "rank": 93
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "xai--grok-3",
+      "series_display": "Grok 3",
+      "member_key": "xai--grok-3",
+      "member_display": "Grok 3",
       "member_order": 9999
     },
     {
@@ -19864,7 +20566,7 @@
         "reasoning": {
           "value": 50.5,
           "source": "llm_stats",
-          "raw": 20.41,
+          "raw": 20.39,
           "note": "index_reasoning"
         }
       },
@@ -19982,7 +20684,7 @@
         "reasoning": {
           "value": 44.2,
           "source": "llm_stats",
-          "raw": 15.38,
+          "raw": 15.33,
           "note": "index_reasoning"
         },
         "long_context": {
@@ -20224,7 +20926,7 @@
         "method": "proportional_redistribute",
         "available": {
           "livebench": 62.24735714285714,
-          "llm_stats": 52.83749999999999
+          "llm_stats": 52.7625
         },
         "note": "缺源，权重按比例重分配"
       },
@@ -20402,7 +21104,7 @@
         "available": {
           "lmarena": 65.84136203249447,
           "livebench": 75.77284523809523,
-          "llm_stats": 81.69999999999999
+          "llm_stats": 80.71249999999999
         },
         "note": null
       },
@@ -20478,9 +21180,9 @@
           "raw": 82.79533333333333
         },
         "tool_calling": {
-          "value": 52.4,
+          "value": 48.1,
           "source": "llm_stats",
-          "raw": 21.93,
+          "raw": 18.47,
           "note": "index_tool_calling"
         },
         "math_reasoning": {
@@ -20660,7 +21362,7 @@
         "available": {
           "lmarena": 64.01423997103144,
           "livebench": 78.042,
-          "llm_stats": 83.42500000000001
+          "llm_stats": 82.25
         },
         "note": null
       },
@@ -20716,9 +21418,9 @@
           "raw": 83.697
         },
         "tool_calling": {
-          "value": 52.8,
+          "value": 48.5,
           "source": "llm_stats",
-          "raw": 22.23,
+          "raw": 18.81,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -20837,6 +21539,87 @@
       "series_display": "Grok 4.6",
       "member_key": "xai--grok-4.6",
       "member_display": "Grok 4.6",
+      "member_order": 9999
+    },
+    {
+      "canonical": "xai--grok-4.7",
+      "identity": "grok-4.7",
+      "family": "grok-4.7",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "openrouter": [
+          "x-ai/grok-4.7"
+        ],
+        "llm_stats": [
+          "grok-4.7"
+        ]
+      },
+      "display": "Grok 4.7",
+      "vendor": "xai",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": 500000,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "single_source": false,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "reasoning": {
+          "value": 71.4,
+          "source": "llm_stats",
+          "raw": 37.08,
+          "note": "index_reasoning"
+        },
+        "coding": {
+          "value": 74.5,
+          "source": "llm_stats",
+          "raw": 39.6,
+          "note": "index_code"
+        },
+        "tool_calling": {
+          "value": 52.2,
+          "source": "llm_stats",
+          "raw": 21.78,
+          "note": "index_tool_calling"
+        },
+        "healthcare": {
+          "value": 49,
+          "source": "llm_stats",
+          "raw": 19.2,
+          "note": "index_healthcare"
+        }
+      },
+      "lmarena_scores": {},
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {
+        "openrouter": {
+          "prompt": 0.0000016,
+          "completion": 0.0000048,
+          "input_cache_read": 4e-7,
+          "currency": "USD",
+          "is_listed_price": true
+        },
+        "llm_stats": {
+          "input_per_m": 2,
+          "output_per_m": 6
+        }
+      },
+      "release_date": "2026-09-21",
+      "release_date_provenance": "llm_stats",
+      "value": null,
+      "series_key": "xai--grok-4.7",
+      "series_display": "Grok 4.7",
+      "member_key": "xai--grok-4.7",
+      "member_display": "Grok 4.7",
       "member_order": 9999
     },
     {
@@ -21632,9 +22415,9 @@
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 50.5,
+          "value": 50.4,
           "source": "llm_stats",
-          "raw": 20.4,
+          "raw": 20.33,
           "note": "index_code"
         },
         "swe_capability": {
@@ -21713,13 +22496,13 @@
         "reasoning": {
           "value": 71.8,
           "source": "llm_stats",
-          "raw": 37.46,
+          "raw": 37.4,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 57.3,
+          "value": 57.2,
           "source": "llm_stats",
-          "raw": 25.86,
+          "raw": 25.78,
           "note": "index_code"
         },
         "communication": {
@@ -21729,9 +22512,9 @@
           "note": "index_communication"
         },
         "tool_calling": {
-          "value": 48.1,
+          "value": 47.9,
           "source": "llm_stats",
-          "raw": 18.52,
+          "raw": 18.34,
           "note": "index_tool_calling"
         },
         "swe_capability": {
@@ -21983,7 +22766,7 @@
         "available": {
           "lmarena": 66.10253328372012,
           "livebench": 76.13780952380952,
-          "llm_stats": 90.88750000000002
+          "llm_stats": 90.11250000000001
         },
         "note": null
       },
@@ -22049,9 +22832,9 @@
           "raw": 79.85633333333332
         },
         "tool_calling": {
-          "value": 66.8,
+          "value": 63,
           "source": "llm_stats",
-          "raw": 33.4,
+          "raw": 30.42,
           "note": "index_tool_calling"
         },
         "finance": {
@@ -22154,9 +22937,9 @@
       },
       "pricing": {
         "openrouter": {
-          "prompt": 9.1e-7,
-          "completion": 0.00000286,
-          "input_cache_read": 1.69e-7,
+          "prompt": 5.614e-7,
+          "completion": 0.0000017644,
+          "input_cache_read": 1.0426e-7,
           "currency": "USD",
           "is_listed_price": true
         },
@@ -22168,8 +22951,8 @@
       "release_date": "2026-08-14",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 74.3,
-        "raw": 3.6088367464403994,
+        "score": 88,
+        "raw": 4.091847682023514,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "zhipu--glm-5.3",
@@ -22231,19 +23014,19 @@
         "reasoning": {
           "value": 35,
           "source": "llm_stats",
-          "raw": 8,
+          "raw": 7.98,
           "note": "index_reasoning"
         },
         "coding": {
-          "value": 55.1,
+          "value": 54.9,
           "source": "llm_stats",
-          "raw": 24.06,
+          "raw": 23.94,
           "note": "index_code"
         },
         "multimodal": {
           "value": 50.9,
           "source": "llm_stats",
-          "raw": 20.74,
+          "raw": 20.73,
           "note": "index_vision"
         }
       },
