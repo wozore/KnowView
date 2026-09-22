@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-21T18:18:40.391Z",
+  "generated_at": "2026-09-22T05:18:51.273Z",
   "date": "20260922",
-  "total_pending": 1161,
+  "total_pending": 1216,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -8132,6 +8132,391 @@
       "summary": "Thanks @sgl_project for the day-0 support! 🙌 SGLang-Diffusion now serves Qwen-I",
       "suggestion": "人工判断：是否值得收录",
       "review_status": "pending"
+    },
+    {
+      "id": "x-df5e2f045dd8d1670d21",
+      "score": 64.7,
+      "summary": "I had Codex explore the Omarchy system and explain to me how it is so malleable ",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-513ab7daf68b102775bc",
+      "score": 64.4,
+      "summary": "The Advisory Group for Math and AI calls opinions how OpenAI should release thei",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c854a9ec6bd198aa6d87",
+      "score": 60.3,
+      "summary": "The way each chain and launchpad drives activity by leveraging memecoins is quit",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-703205e310aca5d57667",
+      "score": 59,
+      "summary": "Introducing Studio 4.0 in @ElevenCreative. Our AI-native video editor just got a",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f38b8b388f8fff2aa609",
+      "score": 58.9,
+      "summary": "Vidu S2｜Spin & Switch in Real-Time S2-Editing lets you switch styles, outfits, s",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f8af6244f54747ba3d5a",
+      "score": 58,
+      "summary": "One of the reasons AI will change things less quickly than many think is illustr",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f0a10c40aca44507a11c",
+      "score": 57.6,
+      "summary": "$SPCX 🚀 STARFALL — SpaceX는 이제 ‘올려주는 회사’에서 ‘가져오는 회사’로 간다. ✔️ 9월 21일 독일의 우주 물류·위성",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-482d0bbae60fac4ad253",
+      "score": 57.4,
+      "summary": "Codos has launched a virtual Chief AI Officer, a software that can plan and run ",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-bd9d640ab499aa8ef05e",
+      "score": 56.7,
+      "summary": "Perplexity Computer can now create videos using MiniMax H3 and ByteDance Seedanc",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-eb810a4e06dbe087f30e",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (SOL) $BOB CA: F7KaxaCKMmUk92aVDo94iMBJDSRdQNq57MXcnuNMrJP Sixth ba",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5b88374465a23154e0cd",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (SOL) $Meat CA: C84Nmw8BAWxgju9bgzDLtcXxjfeBzeh92SdC6ZXmdMoR Meat, ",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-15cf4d9bc00f20fb3e06",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (SOL) $BPCHAN CA: A4VErWKUsxod98ps9nK1EoT5iGVUSDfity6Rhw7GSTNK Back",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a3e40f142414f2c76523",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (RBH) $Jollybot CA: 0xfa076cd264346a6f9b93139e97cd9dfd1fc90ba3 Seco",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5b0b737991442806a9cf",
+      "score": 55.6,
+      "summary": "AI SAFETY OR REGULATORY CAPTURE? THE INCIDENTS BIG TECH WANTS YOU TO FEAR OpenAI",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-3bba9237a1ff3db77fab",
+      "score": 55.1,
+      "summary": "Grok 4.7 is now available in Devin. On FrontierCode 1.1, Grok 4.7 scores 59.4% o",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-fe671e00529079e7c580",
+      "score": 54.6,
+      "summary": "Update (I have been quiet): I am currently doing an overnight 4 GPU run to verif",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f468761cd48a5be33e17",
+      "score": 54.5,
+      "summary": "AI Layoffs vs. AI Augmentation: The Shareholder Value Question Wall Street rewar",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c1efdaeafac8db537725",
+      "score": 52.7,
+      "summary": "🚀New blog: Accelerating Long-Context and Agentic Inference with NVFP4 KV Cache ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-bceef7793497cf807d9e",
+      "score": 52.5,
+      "summary": "I do think benchmarks are good indicators, but here's my one hour experience wit",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6cdda00b48370efb1b8b",
+      "score": 52.1,
+      "summary": "Grok 4.7 is now available in Devin Desktop and Devin CLI!",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-d8573a390402e806abdf",
+      "score": 52,
+      "summary": "Grok 4.7 is now available in v0. 40% off until September 27th. Try it at https:/",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-846bf479e3760105ab73",
+      "score": 52,
+      "summary": "After seeing the live RL trainings for the MiMo model, it officially comes out w",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5b563b1c645a909ef177",
+      "score": 52,
+      "summary": "Plot twist on the AI race track. Xiaomi's MiMo V2.6 Pro passes Grok 4.7 for fres",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cf13f60eaea13f284529",
+      "score": 51.9,
+      "summary": "I think Meta's Muse is an impressive implementation of the OpenClaw idea of AI a",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-58063a0ce3034c53dd84",
+      "score": 51.8,
+      "summary": "I benchmarked TypeSafe AI's JEV against Claude Sonnet 5, GPT-5-mini, a fine-tune",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8ef8644439aa5e1bab96",
+      "score": 51.7,
+      "summary": "Meta ❤️ Shopify Muse agent can now use Shop Pay on Shopify stores, enabling agen",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-bd83c987dc31c65c2433",
+      "score": 51.6,
+      "summary": "$NVDA真正的下一场战争已经开始：AI正在从“训练军备竞赛”进入“推理芯片大战” 过去几年，AI半导体最重要的问题是：谁能训练出更大的模型？ 接下来几年，问题",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a4eebd21255220a8c68e",
+      "score": 51.5,
+      "summary": "Big AI launch day: Grok 4.7 landed, and Xiaomi open-sourced MiMo-V2.6 Pro + Flas",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-60aacea9daac435f5b4d",
+      "score": 51.5,
+      "summary": "How I trade the markets in the AGI era https://t.co/j7uF4JNCs0",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8d606e326bdec243ffbf",
+      "score": 51.5,
+      "summary": "open-weights System One model Laya beat Grok 4.7 at Tetris by deciding 11x faste",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a7fa5bbedb0f037b3c4e",
+      "score": 51.5,
+      "summary": "pirateface turns model weights into magnet links no huggingface. no registry. ju",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1fa1d3d499df4f0e44be",
+      "score": 49.7,
+      "summary": "https://t.co/t5xjjdEozp",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e64013118811e50f49ea",
+      "score": 48.7,
+      "summary": "BREAKING: GROK 4.7 IS OUT!! Same price as 4.6. Bigger base model. Longer trainin",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6b0f47bc6a61082aac86",
+      "score": 48,
+      "summary": "Cyberattacks are growing more sophisticated and moving faster—effective defense ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a7b94aef2f9047edd04e",
+      "score": 48,
+      "summary": "NVIDIA hosted a trilateral meeting together with the Korean Government, through ",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ff8cbec7386424c6855a",
+      "score": 47.8,
+      "summary": "coding agents are moving fast from prototype to production. the infrastructure q",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-176ab6fd79dd1c590d36",
+      "score": 47.6,
+      "summary": "Join us in San Francisco on September 30th for an in-person hackathon to build t",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c357ee5b6893e7b0e3aa",
+      "score": 47,
+      "summary": "🎉 Congrats to @XiaomiMiMo on MiMo-V2.6: day-0 support in vLLM for both sizes. T",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-fce5708247a8f168f46a",
+      "score": 46.9,
+      "summary": "AI can be a really wonderful tool for exploring topics far from coding. I had Cl",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-92defad8edcd8faeab4a",
+      "score": 46.8,
+      "summary": "Grok 4.7 from @SpaceXAI is live on OpenRouter! Their most capable model for codi",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-3adf0ace032f45b2e592",
+      "score": 46.7,
+      "summary": "Xiaomi MiMo-V2.6 from @XiaomiMiMo is live on OpenRouter. Three new models. A 1T+",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-80c31f2d7eb1fc92b9d8",
+      "score": 46.5,
+      "summary": "We’re working with an independent advisory group of mathematicians to help OpenA",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0bb69b71c8500e53987e",
+      "score": 46.5,
+      "summary": "Grok 4.7 is here. It's a notable improvement over Grok 4.6 at the same price and",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-08b4af0406dc438ce207",
+      "score": 46.4,
+      "summary": "XIAOMI 🔥: MiMo-V2.6-Pro and Flash open-source models have been released! MiMo-V",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ae081a71d602a8303460",
+      "score": 46,
+      "summary": "SpaceXAI 🔥: Grok 4.7 has been released on Grok Build, Cursor and APIs, offering",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0fe771b56fa2ea38f2de",
+      "score": 45.9,
+      "summary": "1/ Last week, Jev - @typesafeai's System One model, was launched on OpenRouter. ",
+      "suggestion": "推文线程（内容可能截断），建议展开正文核验后定",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-46e5f664b990b54c3d14",
+      "score": 45.5,
+      "summary": "Costa Rica’s AI campus fight just hit the municipal steps. Tico Times, Sep 21: B",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-08dd7cb4b5ec50d23513",
+      "score": 45.5,
+      "summary": "I have been trying to work out the exact moment I became a hypocrite about this,",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8caeeb695a2c5a4c1b15",
+      "score": 45.3,
+      "summary": "Hyper3D 推出 Agent-Ready AI Agent现在可以自己完成3D工作流 Agentic Mode自主决策模式，AI会理解多视图、工业图纸、电商",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-253f7ee2d7119f0c33d3",
+      "score": 45.1,
+      "summary": "MiMo-V2.6-Pro debuts as the top open weights model on the Artificial Analysis In",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-3c212771e67b435b5a11",
+      "score": 44.7,
+      "summary": "Grok 4.7 is behind only Anthropic models on AA-Briefcase, ranking just behind Op",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6a648c3e712ae62632eb",
+      "score": 44.3,
+      "summary": "Grok 4.7 scores 46 on the Artificial Analysis Intelligence Index to bring SpaceX",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9d7f99dfccaeac1407de",
+      "score": 42.6,
+      "summary": "I ONLY TRUST GROK!!!",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ba473c4240e1ea10ff6a",
+      "score": 41.5,
+      "summary": "Join us for a live demo of how you can use Gemini to shop. Whether you're trying",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6f27fea7ab53e731a92f",
+      "score": 39.1,
+      "summary": "New expanded Workflows are available in Runway. Now with Compositing, Alpha, HDR",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
@@ -9295,6 +9680,61 @@
     "[45.8] Jev 使用指南： 只做判断、不写字的 AI 模型怎么用、用在哪 https://t.co/31ruUCrbUQ\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[45.4] Anthropic is gearing up to compete with OpenAI at the forefront of model release\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[39.2] Qwen-Image-2.1 × @HuggingApps: live demo on Spaces! 🖼 One single checkpoint for\n    建议：人工判断：是否值得收录",
-    "[39.1] Thanks @sgl_project for the day-0 support! 🙌 SGLang-Diffusion now serves Qwen-I\n    建议：人工判断：是否值得收录"
+    "[39.1] Thanks @sgl_project for the day-0 support! 🙌 SGLang-Diffusion now serves Qwen-I\n    建议：人工判断：是否值得收录",
+    "[64.7] I had Codex explore the Omarchy system and explain to me how it is so malleable \n    建议：AI 产品/工具，建议 approved",
+    "[64.4] The Advisory Group for Math and AI calls opinions how OpenAI should release thei\n    建议：AI 产品/工具，建议 approved",
+    "[60.3] The way each chain and launchpad drives activity by leveraging memecoins is quit\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[59] Introducing Studio 4.0 in @ElevenCreative. Our AI-native video editor just got a\n    建议：AI 产品/工具，建议 approved",
+    "[58.9] Vidu S2｜Spin & Switch in Real-Time S2-Editing lets you switch styles, outfits, s\n    建议：AI 产品/工具，建议 approved",
+    "[58] One of the reasons AI will change things less quickly than many think is illustr\n    建议：AI 产品/工具，建议 approved",
+    "[57.6] $SPCX 🚀 STARFALL — SpaceX는 이제 ‘올려주는 회사’에서 ‘가져오는 회사’로 간다. ✔️ 9월 21일 독일의 우주 물류·위성\n    建议：个人使用/成本体验，建议 discarded",
+    "[57.4] Codos has launched a virtual Chief AI Officer, a software that can plan and run \n    建议：AI 产品/工具，建议 approved",
+    "[56.7] Perplexity Computer can now create videos using MiniMax H3 and ByteDance Seedanc\n    建议：AI 产品/工具，建议 approved",
+    "[56.1] 🤖 AI Signal (SOL) $BOB CA: F7KaxaCKMmUk92aVDo94iMBJDSRdQNq57MXcnuNMrJP Sixth ba\n    建议：个人使用/成本体验，建议 discarded",
+    "[56.1] 🤖 AI Signal (SOL) $Meat CA: C84Nmw8BAWxgju9bgzDLtcXxjfeBzeh92SdC6ZXmdMoR Meat, \n    建议：个人使用/成本体验，建议 discarded",
+    "[56.1] 🤖 AI Signal (SOL) $BPCHAN CA: A4VErWKUsxod98ps9nK1EoT5iGVUSDfity6Rhw7GSTNK Back\n    建议：个人使用/成本体验，建议 discarded",
+    "[56.1] 🤖 AI Signal (RBH) $Jollybot CA: 0xfa076cd264346a6f9b93139e97cd9dfd1fc90ba3 Seco\n    建议：个人使用/成本体验，建议 discarded",
+    "[55.6] AI SAFETY OR REGULATORY CAPTURE? THE INCIDENTS BIG TECH WANTS YOU TO FEAR OpenAI\n    建议：AI 行业事件，建议 approved",
+    "[55.1] Grok 4.7 is now available in Devin. On FrontierCode 1.1, Grok 4.7 scores 59.4% o\n    建议：AI 行业事件，建议 approved",
+    "[54.6] Update (I have been quiet): I am currently doing an overnight 4 GPU run to verif\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[54.5] AI Layoffs vs. AI Augmentation: The Shareholder Value Question Wall Street rewar\n    建议：AI 行业事件，建议 approved",
+    "[52.7] 🚀New blog: Accelerating Long-Context and Agentic Inference with NVFP4 KV Cache \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.5] I do think benchmarks are good indicators, but here's my one hour experience wit\n    建议：个人使用/成本体验，建议 discarded",
+    "[52.1] Grok 4.7 is now available in Devin Desktop and Devin CLI!\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52] Grok 4.7 is now available in v0. 40% off until September 27th. Try it at https:/\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52] After seeing the live RL trainings for the MiMo model, it officially comes out w\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52] Plot twist on the AI race track. Xiaomi's MiMo V2.6 Pro passes Grok 4.7 for fres\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.9] I think Meta's Muse is an impressive implementation of the OpenClaw idea of AI a\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[51.8] I benchmarked TypeSafe AI's JEV against Claude Sonnet 5, GPT-5-mini, a fine-tune\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.7] Meta ❤️ Shopify Muse agent can now use Shop Pay on Shopify stores, enabling agen\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[51.6] $NVDA真正的下一场战争已经开始：AI正在从“训练军备竞赛”进入“推理芯片大战” 过去几年，AI半导体最重要的问题是：谁能训练出更大的模型？ 接下来几年，问题\n    建议：个人使用/成本体验，建议 discarded",
+    "[51.5] Big AI launch day: Grok 4.7 landed, and Xiaomi open-sourced MiMo-V2.6 Pro + Flas\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] How I trade the markets in the AGI era https://t.co/j7uF4JNCs0\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] open-weights System One model Laya beat Grok 4.7 at Tetris by deciding 11x faste\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] pirateface turns model weights into magnet links no huggingface. no registry. ju\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[49.7] https://t.co/t5xjjdEozp\n    建议：AI 行业事件，建议 approved",
+    "[48.7] BREAKING: GROK 4.7 IS OUT!! Same price as 4.6. Bigger base model. Longer trainin\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[48] Cyberattacks are growing more sophisticated and moving faster—effective defense \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[48] NVIDIA hosted a trilateral meeting together with the Korean Government, through \n    建议：AI 行业事件，建议 approved",
+    "[47.8] coding agents are moving fast from prototype to production. the infrastructure q\n    建议：AI 行业事件，建议 approved",
+    "[47.6] Join us in San Francisco on September 30th for an in-person hackathon to build t\n    建议：AI 行业事件，建议 approved",
+    "[47] 🎉 Congrats to @XiaomiMiMo on MiMo-V2.6: day-0 support in vLLM for both sizes. T\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.9] AI can be a really wonderful tool for exploring topics far from coding. I had Cl\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.8] Grok 4.7 from @SpaceXAI is live on OpenRouter! Their most capable model for codi\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.7] Xiaomi MiMo-V2.6 from @XiaomiMiMo is live on OpenRouter. Three new models. A 1T+\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.5] We’re working with an independent advisory group of mathematicians to help OpenA\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.5] Grok 4.7 is here. It's a notable improvement over Grok 4.6 at the same price and\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[46.4] XIAOMI 🔥: MiMo-V2.6-Pro and Flash open-source models have been released! MiMo-V\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46] SpaceXAI 🔥: Grok 4.7 has been released on Grok Build, Cursor and APIs, offering\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[45.9] 1/ Last week, Jev - @typesafeai's System One model, was launched on OpenRouter. \n    建议：推文线程（内容可能截断），建议展开正文核验后定",
+    "[45.5] Costa Rica’s AI campus fight just hit the municipal steps. Tico Times, Sep 21: B\n    建议：人工判断：是否值得收录",
+    "[45.5] I have been trying to work out the exact moment I became a hypocrite about this,\n    建议：人工判断：是否值得收录",
+    "[45.3] Hyper3D 推出 Agent-Ready AI Agent现在可以自己完成3D工作流 Agentic Mode自主决策模式，AI会理解多视图、工业图纸、电商\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.1] MiMo-V2.6-Pro debuts as the top open weights model on the Artificial Analysis In\n    建议：个人使用/成本体验，建议 discarded",
+    "[44.7] Grok 4.7 is behind only Anthropic models on AA-Briefcase, ranking just behind Op\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.3] Grok 4.7 scores 46 on the Artificial Analysis Intelligence Index to bring SpaceX\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[42.6] I ONLY TRUST GROK!!!\n    建议：人工判断：是否值得收录",
+    "[41.5] Join us for a live demo of how you can use Gemini to shop. Whether you're trying\n    建议：人工判断：是否值得收录",
+    "[39.1] New expanded Workflows are available in Runway. Now with Compositing, Alpha, HDR\n    建议：人工判断：是否值得收录"
   ]
 }
