@@ -62,7 +62,7 @@ function synthesis(missing = []) {
 
 test('draft envelope is ready only when field coverage and layer patches are valid', () => {
   const envelope = buildCatalogDraftEnvelope({ seed: plan().seed, baseRevision: 'rev-1', researchPlan: plan(), research: research(), synthesis: synthesis() });
-  assert.equal(envelope.schema_version, 3);
+  assert.equal(envelope.schema_version, 4);
   assert.equal(envelope.state, 'preview_ready');
   assert.equal(envelope.readiness.status, 'ready');
   assert.equal(envelope.coverage.missing.length, 0);

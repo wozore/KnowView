@@ -21,7 +21,9 @@ test('catalog recovery projects safe defaults and rejects sensitive or empty ove
   });
   assert.equal(result.ok, true);
   assert.equal(calls[0].input.generatorOptions.model, 'deepseek-v4-flash');
-  assert.equal(calls[0].input.generatorOptions.retrievalProvider, 'tavily');
+  assert.equal(calls[0].input.generatorOptions.searchProvider, 'tavily');
+  assert.equal(calls[0].input.generatorOptions.extractProvider, 'tavily');
+  assert.equal(calls[0].input.generatorOptions.searchEngine, 'search_std');
   assert.throws(() => coordinator.recoveryPlan('draft-blocked', {
     expected_revision: 'catalog-r1',
     generator_options: { model: '' },
@@ -137,7 +139,7 @@ test('catalog workbench reuses resuming draft instead of creating a duplicate', 
     prepareCatalogDraft: async () => { calls.push('prepare'); return { ok: true, draft: {} }; },
     listDrafts: () => [{
       draft_id: 'draft-resuming',
-      schema_version: 3,
+      schema_version: 4,
       state: 'resuming',
       base_revision: 'catalog-r1',
       seed: { name: card.name, candidate_key: card.candidate_key },
@@ -159,7 +161,7 @@ test('catalog draft projection exposes stable diagnostics without raw failure pa
     loadCatalog: () => ({ revision: 'catalog-r1' }),
     listDrafts: () => [{
       draft_id: 'draft-blocked',
-      schema_version: 3,
+      schema_version: 4,
       state: 'preview_blocked',
       base_revision: 'catalog-r1',
       seed: { name: 'Blocked Tool' },
@@ -184,8 +186,8 @@ test('catalog workbench batches drafts from same vendor by merging relation patc
   const sharedVendor = { area: 'vendor-card', id: 'vendor-card:v1', operation: 'noop', record: null, provenance: {} };
   const level1PatchA = { area: 'vendor-level1', id: 'vendor-level1:v1', operation: 'replace', record: { id: 'vendor-level1:v1', level2_refs: [{ id: 'ref-1' }] }, provenance: {} };
   const level1PatchB = { area: 'vendor-level1', id: 'vendor-level1:v1', operation: 'replace', record: { id: 'vendor-level1:v1', level2_refs: [{ id: 'ref-2' }] }, provenance: {} };
-  const d1 = { draft_id: 'draft-1', schema_version: 3, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchA] };
-  const d2 = { draft_id: 'draft-2', schema_version: 3, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchB] };
+  const d1 = { draft_id: 'draft-1', schema_version: 4, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchA] };
+  const d2 = { draft_id: 'draft-2', schema_version: 4, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchB] };
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'p-r1', cards: [card1, card2] }),
     loadCatalog: () => ({ revision: 'c-r1', snapshot: { 'vendor-card': [{ id: 'vendor-card:v1' }], 'vendor-level1': [{ id: 'vendor-level1:v1', level2_refs: [] }] } }),
@@ -204,7 +206,7 @@ test('catalog workbench batches drafts from same vendor by merging relation patc
 test('catalog workbench batches drafts through one preview and one apply', () => {
   const card = { name: 'Batch Tool', candidate_key: candidateKeyOf('tools', 'Batch Tool'), review_status: 'approved' };
   const calls = [];
-  const drafts = [{ draft_id: 'draft-b', schema_version: 3, state: 'preview_ready', base_revision: 'catalog-r1', seed: { name: 'Batch Tool', candidate_key: card.candidate_key }, readiness: { status: 'ready' } }];
+  const drafts = [{ draft_id: 'draft-b', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', seed: { name: 'Batch Tool', candidate_key: card.candidate_key }, readiness: { status: 'ready' } }];
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'pending-r1', cards: [card] }),
     loadCatalog: () => ({ revision: 'catalog-r1' }),
@@ -222,8 +224,8 @@ test('catalog workbench batches drafts through one preview and one apply', () =>
 
 
 test('catalog batch preview keeps ready drafts usable when other drafts are blocked', () => {
-  const ready = { draft_id: 'draft-ready', schema_version: 3, state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' }, seed: { name: 'Ready', candidate_key: 'ready-key' } };
-  const blocked = { draft_id: 'draft-blocked', schema_version: 3, state: 'preview_blocked', base_revision: 'catalog-r1', readiness: { status: 'blocked', blocking_reasons: ['missing source'] }, seed: { name: 'Blocked', candidate_key: 'blocked-key' } };
+  const ready = { draft_id: 'draft-ready', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' }, seed: { name: 'Ready', candidate_key: 'ready-key' } };
+  const blocked = { draft_id: 'draft-blocked', schema_version: 4, state: 'preview_blocked', base_revision: 'catalog-r1', readiness: { status: 'blocked', blocking_reasons: ['missing source'] }, seed: { name: 'Blocked', candidate_key: 'blocked-key' } };
   let reviewed;
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'pending-r1', cards: [] }),
@@ -248,7 +250,7 @@ test('catalog prepare reuses a matching ready draft without resolving or prepari
     readPending: () => ({ revision: 'pending-r1', cards: [card] }),
     loadCatalog: () => ({ revision: 'catalog-r1' }),
     planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
-    listDrafts: () => [{ draft_id: 'draft-reused', schema_version: 3, state: 'preview_ready', base_revision: 'catalog-r1', seed: { name: card.name, candidate_key: card.candidate_key }, readiness: { status: 'ready' } }],
+    listDrafts: () => [{ draft_id: 'draft-reused', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', seed: { name: card.name, candidate_key: card.candidate_key }, readiness: { status: 'ready' } }],
     resolveBatchCandidates: async () => { calls += 1; return { seeds: [] }; },
     prepareCatalogDraft: async () => { calls += 1; return {}; },
   });
@@ -285,7 +287,7 @@ test('Bundle 工作台隔离 v3 Draft、返回 snake_case review DTO 并收口 A
     reviewCatalogBundle: () => ({ ok: true, currentRevision: 'catalog-r1', previewHash: 'ph', bundleToken: 'bt', draft: { draft_id: 'draft-v4', base_revision: 'catalog-r1', preview_hash: 'ph', bundle_token: 'bt', members: [] } }),
     applyCatalogBundle: input => { calls.push(input); return Promise.resolve({ ok: true, status: 'committed', targetRevision: 'catalog-r2', outcome_pending: true, outcome_warning: { code: 'INTAKE_OUTCOME_WRITE_FAILED' } }); },
   });
-  assert.deepEqual(coordinator.list().items.map(item => item.draft_id), ['draft-v3']);
+  assert.deepEqual(coordinator.list().items.map(item => item.draft_id), []);
   const review = coordinator.bundleReview('draft-v4');
   assert.equal(review.current_revision, 'catalog-r1');
   assert.equal(review.preview_hash, 'ph');
@@ -376,7 +378,7 @@ test('cleanup_pending 与 outcome_pending 在 coordinator 中支持 cleanup-only
   let deleteDraftCalls = [];
   const cleanupDraft = {
     draft_id: 'draft-v3-clean',
-    schema_version: 3,
+    schema_version: 4,
     draft_kind: 'catalog',
     state: 'cleanup_pending',
     apply_checkpoint: {

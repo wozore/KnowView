@@ -192,8 +192,9 @@ test('identityAdapterOptionsOf 只透传白名单键', () => {
     ledger: { evil: true }, registry: { evil: true }, identityLedger: { evil: true },
   });
   assert.deepEqual(Object.keys(picked).sort(), [
-    'accessMode', 'apiKey', 'chunksPerSource', 'extractDepth', 'fallbackToKey', 'fetchImpl',
-    'maxSearchResults', 'model', 'provider', 'searchApiKey', 'searchDepth', 'timeoutMs',
+    'accessMode', 'apiKey', 'chunksPerSource', 'extractDepth', 'extractProvider', 'fallbackToKey', 'fetchImpl',
+    'maxSearchResults', 'model', 'provider', 'searchApiKey', 'searchDepth', 'searchEngine', 'searchProvider',
+    'timeoutMs', 'webSearchApiKey',
   ]);
 });
 

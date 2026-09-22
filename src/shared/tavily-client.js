@@ -18,12 +18,12 @@
  */
 
 const { envValue } = require('./env');
+const { canonicalizeUrl } = require('./web-source-contract');
 
 const SEARCH_ENDPOINT = 'https://api.tavily.com/search';
 const EXTRACT_ENDPOINT = 'https://api.tavily.com/extract';
 const DEFAULT_TIMEOUT_MS = 60000;
 const MAX_EXCERPT = 1200;
-const TRAILING_URL_PUNCTUATION = /[`'"“”‘’.,;:!?\)\]}>，。；：！？、）】》」』…]+$/u;
 
 // ═══════════════════════════════════════════════════════════════
 // keyless / keyed 混用认证
@@ -57,22 +57,6 @@ let keylessChain = Promise.resolve();
 
 function apiKeyOf(explicitApiKey) {
   return explicitApiKey ?? envValue('TAVILY_API_KEY');
-}
-
-function canonicalizeUrl(value) {
-  if (typeof value !== 'string') return '';
-  let candidate = value.trim();
-  candidate = candidate.replace(/^<+|>+$/g, '');
-  while (TRAILING_URL_PUNCTUATION.test(candidate)) candidate = candidate.replace(TRAILING_URL_PUNCTUATION, '');
-  if (!/^https?:\/\//i.test(candidate)) return '';
-  try {
-    const parsed = new URL(candidate);
-    if (!['http:', 'https:'].includes(parsed.protocol) || !parsed.hostname) return '';
-    parsed.hash = '';
-    return parsed.toString();
-  } catch {
-    return '';
-  }
 }
 
 function errorResult(code, error, extra = {}) {

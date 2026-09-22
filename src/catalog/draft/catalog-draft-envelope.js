@@ -8,11 +8,13 @@ const RETRYABLE_CODES = new Set([
   'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED', 'SYNTHESIS_RESUME_FAILED',
   'OUTPUT_INVALID', 'SCHEMA_INVALID', 'COST_BUDGET_EXHAUSTED', 'LAYER_PATCH_INVALID',
   'TAVILY_SEARCH_FAILED', 'TAVILY_EXTRACT_FAILED', 'TAVILY_SEARCH_RATE_LIMITED', 'TAVILY_EXTRACT_RATE_LIMITED',
+  'ZHIPU_WEB_SEARCH_FAILED', 'ZHIPU_WEB_SEARCH_RATE_LIMITED', 'ZHIPU_WEB_SEARCH_TIMEOUT', 'ZHIPU_WEB_SEARCH_NETWORK_ERROR',
   'RESEARCH_RESUME_FAILED',
 ]);
 const CONFIG_CODES = new Set([
   'MODEL_REQUIRED', 'AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED',
   'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'TAVILY_AUTH_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED',
+  'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_ENGINE_INVALID', 'ZHIPU_WEB_SEARCH_QUERY_REQUIRED',
 ]);
 const PROFILE_CODES = new Set(['PROFILE_MISMATCH_SUSPECTED', 'PLACEMENT_MANUAL_REQUIRED', 'PLACEMENT_AI_FAILED', 'SEED_INVALID']);
 const EVIDENCE_CODES = new Set(['SYNTHESIS_COVERAGE_INCOMPLETE', 'SOURCE_ID_INVALID', 'PATCH_PROVENANCE_MISSING', 'OFFICIAL_SOURCE_REQUIRED']);
@@ -61,7 +63,9 @@ function missingFieldsOf(research, synthesis) {
 function missingConfigFieldsOf(failure, errorCode) {
   if (errorCode === 'MODEL_REQUIRED') return ['model'];
   if (errorCode === 'AI_PROTOCOL_MISMATCH') return ['protocol'];
-  if (errorCode === 'RETRIEVAL_PROVIDER_UNSUPPORTED') return ['retrieval_provider'];
+  if (['RETRIEVAL_PROVIDER_UNSUPPORTED', 'SEARCH_PROVIDER_UNSUPPORTED'].includes(errorCode)) return ['search_provider'];
+  if (errorCode === 'EXTRACT_PROVIDER_UNSUPPORTED') return ['extract_provider'];
+  if (errorCode === 'SEARCH_ENGINE_UNSUPPORTED') return ['search_engine'];
   if (errorCode === 'TAVILY_ACCESS_MODE_REQUIRED') return ['access_mode'];
   return Array.isArray(failure?.missing_config_fields) ? failure.missing_config_fields.filter(field => typeof field === 'string') : [];
 }
@@ -110,7 +114,7 @@ function buildCatalogDraftEnvelope({ seed, baseRevision, researchPlan, research,
   const blockingReasons = envelopeBlockingReasons(research, synthesis);
   const ready = blockingReasons.length === 0 && synthesis?.ok === true;
   return {
-    schema_version: 3,
+    schema_version: 4,
     state: ready ? 'preview_ready' : research?.ok ? 'preview_blocked' : 'failed_retryable',
     base_revision: baseRevision,
     seed,
@@ -132,7 +136,7 @@ function buildCatalogDraftEnvelope({ seed, baseRevision, researchPlan, research,
 
 function validateCatalogDraftEnvelope(draft) {
   const errors = [];
-  if (draft?.schema_version !== 3) return { ok: false, errors: [{ code: 'DRAFT_SCHEMA_UNSUPPORTED', path: 'schema_version', message: '只允许 schema_version=3 的 CatalogDraft Apply' }] };
+  if (draft?.schema_version !== 4) return { ok: false, errors: [{ code: 'DRAFT_SCHEMA_UNSUPPORTED', path: 'schema_version', message: '只允许 schema_version=4 的 CatalogDraft Apply' }] };
   if (!draft.research_plan || !Array.isArray(draft.research_plan.research_scopes)) errors.push({ code: 'RESEARCH_PLAN_MISSING', path: 'research_plan', message: '缺少 ResearchPlan' });
   const sources = draft.research?.official_sources || [];
   const sourceIds = new Set();

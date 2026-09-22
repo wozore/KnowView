@@ -43,6 +43,25 @@ test('catalog discovery propagates keyed Tavily mode without keyless headers', a
   assert.equal(request.headers['X-Tavily-Access-Mode'], undefined);
 });
 
+test('zhipu search uses only the dedicated Web Search key', async () => {
+  let authorization;
+  const result = await discoverOfficialSources({
+    plan: plan(),
+    scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-v2-6' } },
+    missing_predicates: ['api_available'],
+  }, {
+    searchProvider: 'zhipu_web_search',
+    apiKey: 'deepseek-secret',
+    webSearchApiKey: 'zhipu-search-key',
+    fetchImpl: async (url, init) => {
+      authorization = init.headers.Authorization;
+      return response({ search_result: [{ link: 'https://kling.ai/docs', title: 'Docs', content: 'Kling official' }] });
+    },
+  });
+  assert.equal(result.ok, true);
+  assert.equal(authorization, 'Bearer zhipu-search-key');
+});
+
 test('catalog discovery fails closed before fetch when keyed Tavily key is missing', async () => {
   let calls = 0;
   const result = await discoverOfficialSources({
@@ -189,7 +208,9 @@ test('catalog capability probe checks Tavily without invoking the extraction LLM
     fetchImpl: async () => { calls += 1; return response({ results: [{ url: 'https://docs.tavily.com', title: 'Docs', content: 'Tavily' }] }); },
   });
   assert.equal(result.ok, true);
-  assert.equal(result.retrieval_provider, 'tavily');
+  assert.equal(result.search_provider, 'tavily');
+  assert.equal(result.extract_provider, 'tavily');
+  assert.equal(result.search_engine, 'search_std');
   assert.equal(result.access_mode, 'keyed');
   assert.equal(result.extraction_provider, 'zhipu');
   assert.equal(calls, 1);

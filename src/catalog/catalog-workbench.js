@@ -32,7 +32,7 @@ function approvedCandidates(options) {
 }
 function candidateKey(card) { return card.candidate_key; }
 
-const CATALOG_DRAFT_SCHEMA_VERSION = 3;
+const CATALOG_DRAFT_SCHEMA_VERSION = 4;
 const CATALOG_DRAFT_KIND = 'catalog';
 const BUNDLE_PREPARE_FIELDS = new Set(['pending_revision', 'catalog_revision', 'plan_hash', 'confirm_cost', 'enrichment_confirmation_token']);
 const BUNDLE_REVIEW_FIELDS = new Set();
@@ -211,7 +211,7 @@ function createCatalogWorkbench(options = {}) {
     const merged = normalizeRecoveryOptions(rawOptions, generatorOptions);
     const result = recoveryPlanFn(draftId, { expectedRevision, generatorOptions: merged });
     if (!result?.ok) return result;
-    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, retrieval_provider: merged.retrievalProvider, ...(merged.accessMode ? { access_mode: merged.accessMode } : {}) } };
+    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, search_provider: merged.searchProvider, extract_provider: merged.extractProvider, search_engine: merged.searchEngine, ...(merged.accessMode ? { access_mode: merged.accessMode } : {}) } };
   }
   async function resume(draftId, input = {}) {
     if (input.confirm_cost !== true) return { ok: false, code: 'COST_CONFIRMATION_REQUIRED' };

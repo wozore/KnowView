@@ -26,6 +26,7 @@ const {
   guardedWriteStore,
   nonNegativeInteger,
 } = require('./enrichment-core');
+const { createWebSearchBudget } = require('../classify/web-verifier');
 
 const DEFAULT_REPAIR_LIMIT = 100;
 
@@ -159,6 +160,9 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   const l2Enabled = config?.review?.l2_enabled !== false;
   // config.review.web_verify 显式 false 关闭联网核验（缺省启用）
   const webVerifyEnabled = config?.review?.web_verify !== false;
+  const searchBudget = options.searchBudget || (config?.review?.web_search_provider === 'zhipu_web_search'
+    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+    : null);
   const repairLimit = nonNegativeInteger(options.limit, DEFAULT_REPAIR_LIMIT, 'options.limit');
   // 双通道请求期间的基准 revision，用于并发安全落盘
   const baseRevision = revisionOfMinStore(store);
@@ -216,6 +220,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     reviewCandidate: options.reviewCandidateA || options.reviewCandidate,
     locale,
     config,
+    searchBudget,
   };
 
   const externalApiKey = options.apiKeyB || options.apiKey || apiKeyForProvider(externalProviderInfo);
@@ -234,6 +239,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     reviewCandidate: options.reviewCandidateB || options.reviewCandidate,
     locale,
     config,
+    searchBudget,
   };
 
   // 4. 双通道并行独立执行

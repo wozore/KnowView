@@ -32,7 +32,7 @@
 'use strict';
 
 const { reviewCandidate, runPool } = require('../classify/content-reviewer');
-const { verifyAdviceWithWeb } = require('../classify/web-verifier');
+const { verifyAdviceWithWeb, createWebSearchBudget } = require('../classify/web-verifier');
 
 // ═══════════════════════════════════════════════════════════════
 // 常量与默认值
@@ -310,11 +310,15 @@ async function applyL1Verdicts(items, config, options = {}) {
   const l2Enabled = !(config && config.review && config.review.l2_enabled === false);
   const concurrency = Number(config && config.collection && config.collection.concurrency) || 5;
   const thresholds = { autoApproveConfidence, autoDiscardConfidence, l2Enabled };
+  const searchBudget = options.searchBudget || (config?.review?.web_search_provider === 'zhipu_web_search'
+    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+    : null);
+  const reviewOptions = { ...options, searchBudget };
 
   const result = new Array(source.length); // result[index] = { kept } | { discarded } | null
 
   await runPool(source, concurrency, async (item, index) => {
-    const outcome = await evaluateReviewItem(item, config, options, thresholds);
+    const outcome = await evaluateReviewItem(item, config, reviewOptions, thresholds);
     if (outcome) {
       result[index] = outcome;
     }

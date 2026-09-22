@@ -22,13 +22,15 @@ const RETRYABLE_ERROR_CODES = new Set([
   'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED', 'SYNTHESIS_RESUME_FAILED',
   'OUTPUT_INVALID', 'SCHEMA_INVALID', 'LAYER_PATCH_INVALID',
   'TAVILY_SEARCH_FAILED', 'TAVILY_EXTRACT_FAILED', 'TAVILY_SEARCH_RATE_LIMITED', 'TAVILY_EXTRACT_RATE_LIMITED',
+  'ZHIPU_WEB_SEARCH_FAILED', 'ZHIPU_WEB_SEARCH_RATE_LIMITED', 'ZHIPU_WEB_SEARCH_NETWORK_ERROR',
+  'ZHIPU_WEB_SEARCH_TIMEOUT', 'ZHIPU_WEB_SEARCH_OUTPUT_INVALID',
   'RESEARCH_RESUME_FAILED',
 ]);
 
 const PROJECT_ROOT = DIRS.project;
 
 const RECOVERY_OPTION_KEYS = Object.freeze([
-  'provider', 'model', 'protocol', 'retrieval_provider', 'access_mode', 'timeout_ms',
+  'provider', 'model', 'protocol', 'search_provider', 'extract_provider', 'search_engine', 'access_mode', 'timeout_ms',
   'max_search_queries', 'max_pages', 'max_responses_calls', 'max_synthesis_calls',
   'search_depth', 'max_search_results', 'extract_depth', 'chunks_per_source',
 ]);
@@ -42,7 +44,7 @@ function normalizeRecoveryOptions(input, defaults) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw codeError('RECOVERY_OPTIONS_INVALID');
   const unknown = Object.keys(input).filter(key => !RECOVERY_OPTION_KEYS.includes(key));
   if (unknown.length) throw codeError('RECOVERY_OPTIONS_INVALID');
-  for (const field of ['model', 'provider', 'protocol', 'retrieval_provider', 'access_mode']) {
+  for (const field of ['model', 'provider', 'protocol', 'search_provider', 'extract_provider', 'search_engine', 'access_mode']) {
     if (input[field] !== undefined && (typeof input[field] !== 'string' || !input[field].trim())) throw codeError(field === 'model' ? 'MODEL_REQUIRED' : 'RECOVERY_OPTIONS_INVALID');
   }
   for (const [key, range] of Object.entries(RECOVERY_OPTION_LIMITS)) {
@@ -54,7 +56,10 @@ function normalizeRecoveryOptions(input, defaults) {
   const merged = assistant.normalizeGeneratorOptions({ ...defaults, ...input });
   if (!merged.model || typeof merged.model !== 'string') throw codeError('MODEL_REQUIRED');
   const provider = getProvider(merged.provider);
-  if (!provider || provider.protocol !== merged.protocol || merged.retrievalProvider !== 'tavily') throw codeError('RECOVERY_OPTIONS_INVALID');
+  if (!provider || provider.protocol !== merged.protocol
+    || !['tavily', 'zhipu_web_search'].includes(merged.searchProvider)
+    || merged.extractProvider !== 'tavily'
+    || !['search_std', 'search_pro', 'search_pro_sogou', 'search_pro_quark'].includes(merged.searchEngine)) throw codeError('RECOVERY_OPTIONS_INVALID');
   return merged;
 }
 
@@ -95,7 +100,7 @@ function recoveryDiagnostic(draft) {
   // manual_required），已知 retryable 码强制覆盖，否则该 Draft 在面板上永久丢失恢复入口。
   let recoveryKind = RETRYABLE_ERROR_CODES.has(errorCode) ? 'retryable' : (failure.recovery_kind || null);
   if (!recoveryKind) {
-    if (errorCode === 'MODEL_REQUIRED' || ['AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED', 'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'TAVILY_ACCESS_MODE_REQUIRED'].includes(errorCode)) recoveryKind = 'config_required';
+    if (errorCode === 'MODEL_REQUIRED' || ['AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED', 'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'SEARCH_PROVIDER_UNSUPPORTED', 'EXTRACT_PROVIDER_UNSUPPORTED', 'SEARCH_ENGINE_UNSUPPORTED', 'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_ENGINE_INVALID', 'ZHIPU_WEB_SEARCH_QUERY_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED'].includes(errorCode)) recoveryKind = 'config_required';
     else if (RETRYABLE_ERROR_CODES.has(errorCode)) recoveryKind = 'retryable';
     else if (errorCode === 'PROFILE_MISMATCH_SUSPECTED' || errorCode.startsWith('PLACEMENT_') || errorCode === 'SEED_INVALID') recoveryKind = 'seed_or_profile_required';
     else if (missingFields.length || errorCode === 'SYNTHESIS_COVERAGE_INCOMPLETE') recoveryKind = 'evidence_required';
@@ -104,7 +109,8 @@ function recoveryDiagnostic(draft) {
   const suggestedDetailKind = typeof failure.suggested_detail_kind === 'string' ? failure.suggested_detail_kind : null;
   const researchComplete = draft?.research?.ok === true
     || (draft?.research?.ok !== false && Array.isArray(draft?.research?.official_sources) && draft.research.official_sources.length > 0 && !draft.research_progress?.failed_scope);
-  const recoveryMode = researchComplete && ['config_required', 'retryable'].includes(recoveryKind) && !errorCode.startsWith('TAVILY_') ? 'synthesis_only' : 'research_resume';
+  const recoveryMode = researchComplete && ['config_required', 'retryable'].includes(recoveryKind)
+    && !errorCode.startsWith('TAVILY_') && !errorCode.startsWith('ZHIPU_WEB_SEARCH_') ? 'synthesis_only' : 'research_resume';
   const reason = {
     MODEL_REQUIRED: '缺少 model 配置，请填写模型名后重试。',
     AUTH_REQUIRED: '缺少 AI provider 凭据，请在仓库根目录 .env 配置对应 key。',

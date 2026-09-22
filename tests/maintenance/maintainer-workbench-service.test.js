@@ -331,6 +331,8 @@ test('全链路集成：createMaintainerWorkbenchService -> extractKnowledge -> 
     },
     feedbackOptions: {
       llmExtract: mockLlmExtract,
+      // 该集成测试验证“发现新待补卡”，不应随正式 Catalog 的新增记录改变结果。
+      catalogApi: { listToolCards: () => [], readGlossary: () => [] },
       pendingToolFile,
       pendingConceptFile,
     },

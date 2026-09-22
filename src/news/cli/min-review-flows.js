@@ -13,6 +13,7 @@ const { buildReviewList } = require('../min/review-list');
 const { enrichMinCandidates, countEnrichmentWork } = require('../min/local-enrichment');
 const { repairIncompleteCandidates } = require('../min/min-repair');
 const { nonNegativeInteger, countRepairWork } = require('../min/enrichment-core');
+const { createWebSearchBudget } = require('../classify/web-verifier');
 
 /** 把 flags 解析为 enrich/repair 共用的加工参数。 */
 function parseWorkFlags(flags) {
@@ -43,6 +44,9 @@ function refreshReviewListSafe(store, config, work) {
  */
 async function runEnrichFlow(store, config, flags) {
   const work = parseWorkFlags(flags);
+  const searchBudget = config?.review?.web_search_provider === 'zhipu_web_search'
+    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+    : null;
   const stats = countEnrichmentWork(store.candidates, {
     l2Enabled: config?.review?.l2_enabled !== false,
     webVerifyEnabled: config?.review?.web_verify !== false,
@@ -72,6 +76,7 @@ async function runEnrichFlow(store, config, flags) {
     skipLocalize: work.skipLocalize,
     force: work.force,
     dryRun: work.dryRun,
+    searchBudget,
     onBatchDone,
   });
 
@@ -93,6 +98,7 @@ async function runEnrichFlow(store, config, flags) {
         skipReview: work.skipReview,
         skipSummary: work.skipSummary,
         skipLocalize: work.skipLocalize,
+        searchBudget,
       });
     }
   }
@@ -104,6 +110,9 @@ async function runEnrichFlow(store, config, flags) {
 /** repair 流：双通道自愈修复残缺数据；无残缺项时短路返回 repaired:null。 */
 async function runRepairFlow(store, config, flags) {
   const work = parseWorkFlags(flags);
+  const searchBudget = config?.review?.web_search_provider === 'zhipu_web_search'
+    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+    : null;
   const stats = countRepairWork(store.candidates, {
     l2Enabled: config?.review?.l2_enabled !== false,
     webVerifyEnabled: config?.review?.web_verify !== false,
@@ -116,6 +125,7 @@ async function runRepairFlow(store, config, flags) {
     limit: work.limit,
     externalEnabled: work.externalEnabled,
     dryRun: work.dryRun,
+    searchBudget,
   });
 
   const { result: reviewListResult, skipped: reviewListSkipped } = refreshReviewListSafe(store, config, work);

@@ -24,7 +24,6 @@ const {
   identityAdapterOptionsOf,
   identityContextOf,
 } = require('./identity-adapters');
-
 const MODEL_NAME_PATTERN = /(?:GPT|Claude|Gemini|Qwen|Llama|GLM|Mistral|DeepSeek|MiniMax|Grok|Kling)[\s-]?[A-Za-z]*\d/i;
 
 function lookupRegistryForCard(card, options = {}) {
@@ -253,7 +252,7 @@ async function writeIntakeOutcome(card, outcome, options = {}) {
 
 /**
  * 逐卡解析 + 官方身份核验（fail-closed）：
- *   - tool 类候选：registry 命中零解析成本，未命中走 Tavily+DeepSeek（既有路径）；
+ *   - tool 类候选：registry 命中零解析成本，未命中走 Web Search+DeepSeek；
  *   - model/series 候选：registry 命中仅注入 official_urls 域提示 → 全量核验 → 分流：
  *       verdict.model_key 已存在 → already_complete（不建卡）；
  *       entity_class=series 且成员清单非空 → series 候选（交 SeriesBundle，不建普通卡）；
@@ -268,7 +267,7 @@ async function resolveBatchCandidates(cards, options = {}) {
   const verifyFn = options.verifyModelIdentity || verifyModelIdentity;
   const membersFn = options.discoverSeriesMembers || discoverSeriesMembers;
   const indexFn = options.catalogModelKeyIndex || catalogModelKeyIndex;
-  const ledger = options.resolveLedger || createCostLedger({ responses_calls: Math.max(1, (cards || []).length) });
+  const ledger = options.resolveLedger || createCostLedger({ search_queries: Math.max(1, (cards || []).length), responses_calls: Math.max(1, (cards || []).length) });
   // 核验预算按本批模型轴卡数下限放大（调用方显式 identityBudgetSize 取两者较大值）
   const modelAxisCount = (cards || []).filter(card => card.entity_type === 'series'
     || card.entity_type === 'model' || card.detail_kind_hint === 'api_model').length;
@@ -364,6 +363,11 @@ async function resolveBatchCandidates(cards, options = {}) {
       continue;
     }
     try {
+      const ledgerLimits = typeof ledger.snapshot === 'function' ? ledger.snapshot().limits : null;
+      if (ledgerLimits && Object.prototype.hasOwnProperty.call(ledgerLimits, 'search_queries') && !ledger.reserve('search_queries', 1).ok) {
+        unresolved.push({ name, reason: 'COST_BUDGET_EXHAUSTED' });
+        continue;
+      }
       const resolved = await resolveFn(name, { ...options, ledger });
       if (resolved && resolved.ok) {
         seeds.push(pendingCandidateToSeed(card, resolved));

@@ -10,7 +10,7 @@
 - 在项目根目录执行命令；
 - 目录模块配置的合成 provider 对应 API Key 环境变量（默认 provider 为 ZhipuAI，使用 `ZHIPU_API_KEY`）；
 - 官方资料搜索和正文提取使用 Tavily。目录生成器的联网命令必须显式传入 `--tavily-access-mode keyed`，使用 `TAVILY_API_KEY`；本轮工具卡生成不使用 keyless 模式。缺少 Key 时会在发出请求前 fail-closed；不要把真实 Key 写入 Seed、配置文件、BAT 或目录 JSON。
-- Tavily Search 负责发现官方来源，Tavily Extract 负责返回清洗后的正文，合成模型（默认 ZhipuAI `glm-5.3-flash`）单段式基于官方来源正文合成五层字段与来源 provenance。
+- 配置的 Search provider（Tavily 或 Zhipu Web Search）负责发现官方来源，Tavily Extract 负责返回清洗后的正文，合成模型（默认 ZhipuAI `glm-5.3-flash`）单段式基于官方来源正文合成五层字段与来源 provenance。
 
 API Key 只通过环境变量读取，不要写入 Seed、配置文件、BAT、草案或目录 JSON。
 
@@ -40,7 +40,9 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
     "catalog": {
       "enabled": true,
       "provider": "zhipu",
-      "retrieval_provider": "tavily",
+      "search_provider": "tavily",
+      "extract_provider": "tavily",
+      "search_engine": "search_std",
       "model": "glm-5.3-flash",
       "protocol": "messages",
       "timeout_ms": 180000,
@@ -61,7 +63,7 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 ```
 
 - `provider` 选择字段合成的模型厂商；当前目录生成器默认使用 ZhipuAI（默认模型 `glm-5.3-flash`）。
-- `retrieval_provider` 固定为 `tavily`；Tavily Search 发现来源，Tavily Extract 获取清洗后的正文。
+- `search_provider` 支持 `tavily` 与 `zhipu_web_search`；`extract_provider` 当前固定为 `tavily`，由 Tavily Extract 获取清洗后的正文。`search_engine` 在智谱搜索时可选 `search_std`、`search_pro`、`search_pro_sogou`、`search_pro_quark`。
 - `model` 选择合成 provider 的模型；OpenAI 等没有默认模型的 provider 必须显式填写。
 - `protocol` 必须与 provider 匹配；zhipu 使用 Anthropic 兼容的 `messages` 端点，协议不匹配会 fail-closed，不会发请求。
 - API Key 只按职责从环境变量读取：ZhipuAI 使用 `ZHIPU_API_KEY`，Tavily 使用 `TAVILY_API_KEY`；Key 不进入配置文件。
@@ -79,8 +81,8 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 |---|---|---|---|
 | `plan --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
 | `prepare --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
-| `probe --confirm-cost --tavily-access-mode keyed` | 检查 Tavily 检索和合成 provider 配置 | 会调用一次 Tavily | 否 |
-| `new --seed <file> --confirm-cost --tavily-access-mode keyed` | 按计划联网研究并生成 schema v3 Preview Draft | 会联网并可能产生费用 | 否 |
+| `probe --confirm-cost --tavily-access-mode keyed` | 检查配置的 Search/Extract provider 和合成 provider（正文 Extract 当前仍需 Tavily access mode） | 会调用一次配置的 Search | 否 |
+| `new --seed <file> --confirm-cost --tavily-access-mode keyed` | 按计划联网研究并生成 schema v4 Preview Draft；Search 可在配置中选择 Tavily 或 Zhipu Web Search | 会联网并可能产生费用 | 否 |
 | `resume <draft-id> --confirm-cost --tavily-access-mode keyed` | 只补 FieldCoverage 中仍缺失字段对应的层来源并重新合成 | 会联网并可能产生费用 | 否 |
 | `list` | 列出草案及状态 | 否 | 否 |
 | `review <draft-id>` | 重算字段覆盖、LayerPatch、Preview hash 和目录版本 | 否 | 否 |

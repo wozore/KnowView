@@ -158,7 +158,9 @@ function cleanGeneratorOptionsForToken(options = {}) {
     provider: norm.provider,
     model: norm.model,
     protocol: norm.protocol,
-    retrieval_provider: norm.retrievalProvider,
+    search_provider: norm.searchProvider,
+    extract_provider: norm.extractProvider,
+    search_engine: norm.searchEngine,
     ...(norm.accessMode ? { access_mode: norm.accessMode } : {}),
     max_search_queries: limits.search_queries,
     max_pages: limits.pages,
@@ -179,7 +181,7 @@ function recoveryEntryBlocked(draftId, state) {
 
 function recoveryPlanForDraft(draftId, input = {}) {
   const draft = readDraft(draftId);
-  if (draft.schema_version !== 3) return { ok: false, code: 'DRAFT_SCHEMA_UNSUPPORTED' };
+  if (draft.schema_version !== 4) return { ok: false, code: 'DRAFT_SCHEMA_UNSUPPORTED' };
   const current = loadCatalogSnapshot();
   if (String(input.expectedRevision || '') !== current.revision) return { ok: false, code: 'REVISION_CONFLICT', currentRevision: current.revision };
   if (draft.base_revision !== current.revision) return { ok: false, code: 'REVISION_CONFLICT', currentRevision: current.revision, baseRevision: draft.base_revision };
@@ -224,7 +226,7 @@ async function resumeCatalogDraftImpl(draftId, options = {}) {
   const runtimeOptions = options;
   const normalized = normalizeGeneratorOptions(options);
   const previous = readDraft(draftId);
-  if (previous.schema_version !== 3) return { ok: false, code: 'DRAFT_SCHEMA_UNSUPPORTED', error: '旧 schema Draft 不能 resume' };
+  if (previous.schema_version !== 4) return { ok: false, code: 'DRAFT_SCHEMA_UNSUPPORTED', error: '旧 schema Draft 不能 resume' };
   // 经由 resumeCatalogDraft 进入时 activeDraftResumes 已排除本进程在途恢复，
   // 此处 resuming 只可能是进程重启后留下的孤儿状态，允许再次恢复。
   if (!['preview_blocked', 'failed_retryable', 'resuming'].includes(previous.state)) return { ok: false, code: 'DRAFT_RECOVERY_FORBIDDEN', state: previous.state };

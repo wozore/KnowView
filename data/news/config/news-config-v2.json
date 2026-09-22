@@ -57,7 +57,10 @@
     "l1_confidence_auto_approve": 0.85,
     "l1_confidence_auto_discard": 0.9,
     "l2_enabled": true,
-    "web_verify": true
+    "web_verify": true,
+    "web_search_provider": "tavily",
+    "web_search_engine": "search_std",
+    "web_verify_max_searches_per_run": 10
   },
   "keywords": {
     "content_keywords": [

@@ -3,7 +3,9 @@
     "catalog": {
       "enabled": true,
       "provider": "zhipu",
-      "retrieval_provider": "tavily",
+      "search_provider": "tavily",
+      "extract_provider": "tavily",
+      "search_engine": "search_std",
       "model": "glm-5.3-flash",
       "protocol": "messages",
       "timeout_ms": 180000,

@@ -62,7 +62,7 @@ const COMMUNITY_HOST_BLOCKLIST = new Set([
 ]);
 
 // 身份核验/登记表生成的授权 kind：与普通 official_hint 同等作为信任根。
-// Tavily 搜索返回的 source_kind=official 只是候选标记，绝不能据此建立信任根。
+// 搜索 provider 返回的 source_kind=official 只是候选标记，绝不能据此建立信任根。
 const AUTHORIZED_SOURCE_KINDS = new Set(['official_hint', 'identity_verified', 'verified_official']);
 const OFFICIAL_SOCIAL_HOSTS = new Set(['x.com', 'twitter.com']);
 

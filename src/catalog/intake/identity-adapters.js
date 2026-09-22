@@ -13,7 +13,9 @@
  * 身份建议走 requestStructuredJson（AI 只建议，最终归属由核验层程序重算）。
  */
 
-const { searchTavily, extractTavily, canonicalizeUrl } = require('../../shared/tavily-client');
+const { searchWeb } = require('../../shared/web-search');
+const { extractTavily } = require('../../shared/tavily-client');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
 const { requestStructuredJson } = require('../../shared/llm-gateway');
 const { resolveProvider, apiKeyForProvider, DEFAULT_PROVIDER_NAME } = require('../../shared/providers');
 const { createCostLedger, loadCatalogSnapshot } = require('../core');
@@ -27,12 +29,16 @@ const { readIdentityReceipts } = require('./identity-receipts');
 function identityAdapterOptionsOf(options = {}) {
   return {
     searchApiKey: options.searchApiKey,
+    webSearchApiKey: options.webSearchApiKey,
     fetchImpl: options.fetchImpl,
     timeoutMs: options.timeoutMs,
     accessMode: options.accessMode,
     fallbackToKey: options.fallbackToKey,
     maxSearchResults: options.maxSearchResults,
     searchDepth: options.searchDepth,
+    searchProvider: options.searchProvider,
+    searchEngine: options.searchEngine,
+    extractProvider: options.extractProvider,
     extractDepth: options.extractDepth,
     chunksPerSource: options.chunksPerSource,
     provider: options.provider,
@@ -63,8 +69,9 @@ async function discoverOfficialSources(input, options = {}) {
     return declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
   }
   const includeDomains = officialDomainsOf(input.official_urls);
-  const result = await searchTavily({
-    apiKey: options.searchApiKey,
+  const result = await searchWeb({
+    provider: options.searchProvider || 'tavily',
+    apiKey: options.searchProvider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
     fetchImpl: options.fetchImpl,
     timeoutMs: options.timeoutMs,
     accessMode: options.accessMode,
@@ -73,6 +80,7 @@ async function discoverOfficialSources(input, options = {}) {
     ...(includeDomains.length ? { includeDomains } : {}),
     searchDepth: options.searchDepth || 'advanced',
     maxResults: options.maxSearchResults ?? 5,
+    providerOptions: { engine: options.searchEngine || 'search_std' },
   });
   if (!result.ok) throw new Error(`${result.code || 'TAVILY_SEARCH_FAILED'}: ${result.error || '官方源发现失败'}`);
   return result.sources;

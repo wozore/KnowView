@@ -9,6 +9,7 @@ const zhipu = Object.freeze({
   apiKeyEnv: 'ZHIPU_API_KEY',
   messagesEndpoint: 'https://open.bigmodel.cn/api/anthropic/v1/messages',
   chatEndpoint: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+  webSearchEndpoint: 'https://open.bigmodel.cn/api/paas/v4/web_search',
   defaultModel: 'glm-5.3-flash',
 });
 

@@ -1,7 +1,9 @@
 'use strict';
 
 const { getProvider, resolveProvider, apiKeyForProvider, DEFAULT_PROVIDER_NAME } = require('../../shared/providers');
-const { canonicalizeUrl, searchTavily, extractTavily, probeTavily } = require('../../shared/tavily-client');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
+const { searchWeb, plannedWebSearchRequests, probeWebSearch } = require('../../shared/web-search');
+const { extractTavily } = require('../../shared/tavily-client');
 const { LOCAL_API_BASE } = require('../../shared/llm-endpoints');
 const { registrableHostOf, synthesizeLayerFields } = require('../core');
 const { requestStructuredJson } = require('../../shared/llm-gateway');
@@ -66,16 +68,26 @@ function sourceScopeOf(scope) {
 
 async function discoverOfficialSources(input, options = {}) {
   const declaredSources = explicitOfficialSourcesOf(input.plan, input.scope);
-  const result = await searchTavily({
-    apiKey: options.searchApiKey,
+  const provider = options.searchProvider || 'tavily';
+  const includeDomains = officialDomainsOf(input.plan, input.domain_scope);
+  const plannedRequests = plannedWebSearchRequests({ provider, includeDomains });
+  if (plannedRequests > 1 && input.ledger?.reserve) {
+    const reservation = input.ledger.reserve('search_queries', plannedRequests - 1);
+    if (!reservation.ok) return { ok: false, code: 'COST_BUDGET_EXHAUSTED', error: 'search_queries 成本预算不足以覆盖多域搜索' };
+  }
+  const result = await searchWeb({
+    provider,
+    apiKey: provider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
     accessMode: options.accessMode,
     fallbackToKey: options.fallbackToKey,
     query: buildOfficialDiscoveryQuery(input),
-    includeDomains: officialDomainsOf(input.plan, input.domain_scope),
+    includeDomains,
     searchDepth: options.searchDepth || 'advanced',
     maxResults: options.maxSearchResults ?? 5,
+    providerOptions: { engine: options.searchEngine || 'search_std' },
+    maxRequests: plannedRequests,
   });
   if (!result.ok) {
     // Tavily 失败（如配额用尽）时降级：以 seed 声明的官方提示页为信任根直接返回。
@@ -167,17 +179,21 @@ async function probeCatalogCapabilities(options = {}) {
   const provider = resolved.provider;
   const extractionKey = apiKeyForProvider(provider, options.apiKey);
   if (!extractionKey) return { ok: false, code: `${provider.name.toUpperCase()}_AUTH_REQUIRED`, error: `缺少 ${provider.apiKeyEnv}` };
-  const retrieval = await probeTavily({
-    apiKey: options.searchApiKey,
+  const retrieval = await probeWebSearch({
+    provider: options.searchProvider || 'tavily',
+    apiKey: options.searchProvider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
     accessMode: options.accessMode,
     fallbackToKey: options.fallbackToKey,
+    providerOptions: { engine: options.searchEngine || 'search_std' },
   });
   if (!retrieval.ok) return retrieval;
   return {
     ok: true,
-    retrieval_provider: 'tavily',
+    search_provider: options.searchProvider || 'tavily',
+    extract_provider: options.extractProvider || 'tavily',
+    search_engine: options.searchEngine || 'search_std',
     extraction_provider: provider.name,
     protocol: provider.protocol,
     model: options.model || provider.defaultModel,
@@ -215,7 +231,7 @@ function buildVendorResolutionInstructions() {
 }
 
 /**
- * 用 Tavily 搜索 + DeepSeek 结构化提取，从工具名解析官方厂商与官方域名。
+ * 用统一 Web Search + DeepSeek 结构化提取，从工具名解析官方厂商与官方域名。
  * @param {string} name 工具名
  * @param {object} [options] { searchApiKey, searchFetchImpl, fetchImpl, searchTimeoutMs, timeoutMs,
  *                            searchDepth, maxSearchResults, provider, apiKey, model, ledger }
@@ -226,8 +242,9 @@ async function resolveOfficialSource(name, options = {}) {
   const toolName = String(name || '').trim();
   if (!toolName) return { ok: false, code: 'VENDOR_RESOLUTION_NAME_REQUIRED', error: '缺少工具名' };
 
-  const search = await searchTavily({
-    apiKey: options.searchApiKey,
+  const search = await searchWeb({
+    provider: options.searchProvider || 'tavily',
+    apiKey: options.searchProvider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
     accessMode: options.accessMode,
@@ -235,6 +252,7 @@ async function resolveOfficialSource(name, options = {}) {
     query: `${toolName} official site`,
     maxResults: options.maxSearchResults ?? 5,
     searchDepth: options.searchDepth || 'advanced',
+    providerOptions: { engine: options.searchEngine || 'search_std' },
   });
   if (!search.ok) return search;
   if (!search.sources || !search.sources.length) {
