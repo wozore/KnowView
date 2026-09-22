@@ -244,7 +244,7 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:openai:gpt-6', ['gpt-6', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna']);
   expect('vendor-level2:openai:gpt-5-5', ['gpt-5-5', 'gpt-5-5-pro']);
   expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2', 'gpt-realtime-2-1', 'gpt-realtime-2-1-mini', 'gpt-realtime-translate', 'gpt-live-transcribe', 'gpt-realtime-whisper']);
-  expect('vendor-level2:openai:gpt-image', ['gpt-image-2']);
+  expect('vendor-level2:openai:gpt-image', ['gpt-image-2', 'gpt-images-2.5']);
   expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
   expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6']);
   expect('vendor-level2:google:gemini-flash', ['gemini-3-8-flash', 'gemini-3-7-flash', 'gemini-3-6-flash', 'gemini-3.5-flash']);
