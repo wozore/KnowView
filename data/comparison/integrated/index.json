@@ -1,15 +1,15 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-22T00:04:48.592Z",
-  "model_count": 249,
-  "series_count": 111,
+  "generated_at": "2026-09-22T23:35:41.198Z",
+  "model_count": 259,
+  "series_count": 115,
   "sources": {
     "openrouter": {
-      "fetched_at": "2026-09-20T23:14:29.138Z",
-      "count": 446
+      "fetched_at": "2026-09-22T23:35:41.355Z",
+      "count": 454
     },
     "lmarena": {
-      "fetched_at": "2026-09-20T23:14:44.684Z",
+      "fetched_at": "2026-09-22T23:35:56.993Z",
       "count": 1129
     },
     "livebench": {
@@ -17,8 +17,8 @@
       "count": 58
     },
     "llm_stats": {
-      "fetched_at": "2026-09-20T23:14:44.937Z",
-      "count": 392
+      "fetched_at": "2026-09-22T23:35:57.319Z",
+      "count": 398
     }
   },
   "series": [
@@ -84,8 +84,8 @@
       "vendor": "openai",
       "theme": "general",
       "order": 9999,
-      "member_count": 1,
-      "model_count": 1,
+      "member_count": 3,
+      "model_count": 3,
       "max_composite_score": 82.8,
       "members": [
         {
@@ -109,6 +109,46 @@
             }
           ],
           "theme": "general"
+        },
+        {
+          "member_key": "openai--gpt-6-luna",
+          "display": "GPT-6 Luna",
+          "order": 9999,
+          "default_canonical": "openai--gpt-6-luna",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "openai--gpt-6-luna",
+              "display": "GPT-6 Luna",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "openrouter",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
+        {
+          "member_key": "openai--gpt-6-sol",
+          "display": "GPT-6 Sol",
+          "order": 9999,
+          "default_canonical": "openai--gpt-6-sol",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "openai--gpt-6-sol",
+              "display": "GPT-6 Sol",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "openrouter",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
         }
       ]
     },
@@ -118,8 +158,8 @@
       "vendor": "anthropic",
       "theme": "general",
       "order": 9999,
-      "member_count": 1,
-      "model_count": 1,
+      "member_count": 2,
+      "model_count": 2,
       "max_composite_score": 80.4,
       "members": [
         {
@@ -138,6 +178,26 @@
                 "openrouter",
                 "lmarena",
                 "livebench",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
+        {
+          "member_key": "anthropic--claude-opus-5.5",
+          "display": "Claude Opus 5.5",
+          "order": 9999,
+          "default_canonical": "anthropic--claude-opus-5.5",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "anthropic--claude-opus-5.5",
+              "display": "Claude Opus 5.5",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "openrouter",
                 "llm_stats"
               ]
             }
@@ -1040,19 +1100,18 @@
       "max_composite_score": 68.9,
       "members": [
         {
-          "member_key": "qwen--qwen3.6-max-preview",
-          "display": "Qwen3.6 Max Preview",
+          "member_key": "qwen--qwen3.6",
+          "display": "Qwen3.6",
           "order": 9999,
-          "default_canonical": "qwen--qwen3.6-max-preview",
+          "default_canonical": "qwen--qwen3.6@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "qwen--qwen3.6-max-preview",
-              "display": "Qwen3.6 Max Preview",
-              "revision": null,
+              "canonical": "qwen--qwen3.6@Preview",
+              "display": "Qwen3.6 (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
-                "openrouter",
                 "lmarena"
               ]
             }
@@ -1223,7 +1282,7 @@
       "vendor": "qwen",
       "theme": "general",
       "order": 51,
-      "member_count": 4,
+      "member_count": 3,
       "model_count": 5,
       "max_composite_score": 59.9,
       "members": [
@@ -1232,7 +1291,7 @@
           "display": "Qwen3.7",
           "order": 9999,
           "default_canonical": "qwen--qwen3.7",
-          "variant_count": 1,
+          "variant_count": 2,
           "variants": [
             {
               "canonical": "qwen--qwen3.7",
@@ -1242,6 +1301,15 @@
               "sources": [
                 "lmarena",
                 "livebench"
+              ]
+            },
+            {
+              "canonical": "qwen--qwen3.7@Preview",
+              "display": "Qwen3.7 (Preview)",
+              "revision": "Preview",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
               ]
             }
           ],
@@ -1268,25 +1336,6 @@
               "canonical": "qwen--qwen3.7-max@05-17",
               "display": "Qwen3.7 Max (05-17)",
               "revision": "05-17",
-              "composite_score": null,
-              "sources": [
-                "lmarena"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "qwen--qwen3.7-max-preview",
-          "display": "Qwen3.7 Max Preview",
-          "order": 9999,
-          "default_canonical": "qwen--qwen3.7-max-preview",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "qwen--qwen3.7-max-preview",
-              "display": "Qwen3.7 Max Preview",
-              "revision": null,
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -1325,7 +1374,7 @@
       "theme": "general",
       "order": 9999,
       "member_count": 5,
-      "model_count": 5,
+      "model_count": 6,
       "max_composite_score": 58.4,
       "members": [
         {
@@ -1348,6 +1397,36 @@
           "theme": "image"
         },
         {
+          "member_key": "google--gemini-3.1-flash-lite",
+          "display": "Gemini 3.1 Flash Lite",
+          "order": 9999,
+          "default_canonical": "google--gemini-3.1-flash-lite",
+          "variant_count": 2,
+          "variants": [
+            {
+              "canonical": "google--gemini-3.1-flash-lite",
+              "display": "Gemini 3.1 Flash Lite",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "openrouter"
+              ]
+            },
+            {
+              "canonical": "google--gemini-3.1-flash-lite@Preview",
+              "display": "Gemini 3.1 Flash-Lite (Preview)",
+              "revision": "Preview",
+              "composite_score": null,
+              "sources": [
+                "openrouter",
+                "lmarena",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
+        {
           "member_key": "google--gemini-3.1-flash-lite-image-nano-banana-2-lite",
           "display": "Gemini 3.1 Flash Lite Image Nano Banana 2 Lite",
           "order": 9999,
@@ -1367,37 +1446,16 @@
           "theme": "image"
         },
         {
-          "member_key": "google--gemini-3.1-flash-lite-preview",
-          "display": "Gemini 3.1 Flash-Lite",
-          "order": 9999,
-          "default_canonical": "google--gemini-3.1-flash-lite-preview",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "google--gemini-3.1-flash-lite-preview",
-              "display": "Gemini 3.1 Flash-Lite (gemini-3.1-flash-lite-preview)",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "openrouter",
-                "lmarena",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "google--gemini-3.1-pro-preview",
+          "member_key": "google--gemini-3.1-pro",
           "display": "Gemini 3.1 Pro",
           "order": 9999,
-          "default_canonical": "google--gemini-3.1-pro-preview",
+          "default_canonical": "google--gemini-3.1-pro@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "google--gemini-3.1-pro-preview",
-              "display": "Gemini 3.1 Pro",
-              "revision": null,
+              "canonical": "google--gemini-3.1-pro@Preview",
+              "display": "Gemini 3.1 Pro (Preview)",
+              "revision": "Preview",
               "composite_score": 58.4,
               "sources": [
                 "openrouter",
@@ -1667,16 +1725,16 @@
       "max_composite_score": null,
       "members": [
         {
-          "member_key": "qwen--qwen3.5-max-preview",
-          "display": "Qwen3.5 Max Preview",
+          "member_key": "qwen--qwen3.5",
+          "display": "Qwen3.5",
           "order": 9999,
-          "default_canonical": "qwen--qwen3.5-max-preview",
+          "default_canonical": "qwen--qwen3.5@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "qwen--qwen3.5-max-preview",
-              "display": "Qwen3.5 Max Preview",
-              "revision": null,
+              "canonical": "qwen--qwen3.5@Preview",
+              "display": "Qwen3.5 (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -1721,10 +1779,29 @@
       "vendor": "qwen",
       "theme": "general",
       "order": 57,
-      "member_count": 1,
-      "model_count": 1,
+      "member_count": 2,
+      "model_count": 2,
       "max_composite_score": null,
       "members": [
+        {
+          "member_key": "qwen--qwen3",
+          "display": "Qwen3",
+          "order": 9999,
+          "default_canonical": "qwen--qwen3@Preview",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "qwen--qwen3@Preview",
+              "display": "Qwen3 (Preview)",
+              "revision": "Preview",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
         {
           "member_key": "qwen--qwen3-max-thinking",
           "display": "Qwen3 Max Thinking",
@@ -1867,16 +1944,16 @@
       "max_composite_score": null,
       "members": [
         {
-          "member_key": "qwen--wan2.5-i2i-preview",
-          "display": "Wan2.5 I2i Preview",
+          "member_key": "qwen--wan2.5-i2i",
+          "display": "Wan2.5 I2i",
           "order": 9999,
-          "default_canonical": "qwen--wan2.5-i2i-preview",
+          "default_canonical": "qwen--wan2.5-i2i@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "qwen--wan2.5-i2i-preview",
-              "display": "Wan2.5 I2i Preview",
-              "revision": null,
+              "canonical": "qwen--wan2.5-i2i@Preview",
+              "display": "Wan2.5 I2i (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -1886,16 +1963,16 @@
           "theme": "image"
         },
         {
-          "member_key": "qwen--wan2.5-i2v-preview",
-          "display": "Wan2.5 I2v Preview",
+          "member_key": "qwen--wan2.5-i2v",
+          "display": "Wan2.5 I2v",
           "order": 9999,
-          "default_canonical": "qwen--wan2.5-i2v-preview",
+          "default_canonical": "qwen--wan2.5-i2v@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "qwen--wan2.5-i2v-preview",
-              "display": "Wan2.5 I2v Preview",
-              "revision": null,
+              "canonical": "qwen--wan2.5-i2v@Preview",
+              "display": "Wan2.5 I2v (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -1905,16 +1982,16 @@
           "theme": "video"
         },
         {
-          "member_key": "qwen--wan2.5-t2i-preview",
-          "display": "Wan2.5 T2i Preview",
+          "member_key": "qwen--wan2.5-t2i",
+          "display": "Wan2.5 T2i",
           "order": 9999,
-          "default_canonical": "qwen--wan2.5-t2i-preview",
+          "default_canonical": "qwen--wan2.5-t2i@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "qwen--wan2.5-t2i-preview",
-              "display": "Wan2.5 T2i Preview",
-              "revision": null,
+              "canonical": "qwen--wan2.5-t2i@Preview",
+              "display": "Wan2.5 T2i (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -1924,16 +2001,16 @@
           "theme": "image"
         },
         {
-          "member_key": "qwen--wan2.5-t2v-preview",
-          "display": "Wan2.5 T2v Preview",
+          "member_key": "qwen--wan2.5-t2v",
+          "display": "Wan2.5 T2v",
           "order": 9999,
-          "default_canonical": "qwen--wan2.5-t2v-preview",
+          "default_canonical": "qwen--wan2.5-t2v@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "qwen--wan2.5-t2v-preview",
-              "display": "Wan2.5 T2v Preview",
-              "revision": null,
+              "canonical": "qwen--wan2.5-t2v@Preview",
+              "display": "Wan2.5 T2v (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -2275,16 +2352,16 @@
           "theme": "general"
         },
         {
-          "member_key": "anthropic--claude-mythos-preview",
+          "member_key": "anthropic--claude-mythos",
           "display": "Claude Mythos Preview",
           "order": 9999,
-          "default_canonical": "anthropic--claude-mythos-preview",
+          "default_canonical": "anthropic--claude-mythos@Preview",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "anthropic--claude-mythos-preview",
-              "display": "Claude Mythos Preview",
-              "revision": null,
+              "canonical": "anthropic--claude-mythos@Preview",
+              "display": "Claude Mythos Preview (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
                 "llm_stats"
@@ -2363,7 +2440,7 @@
       "vendor": "baidu",
       "theme": "general",
       "order": 9999,
-      "member_count": 2,
+      "member_count": 1,
       "model_count": 5,
       "max_composite_score": null,
       "members": [
@@ -2372,7 +2449,7 @@
           "display": "Ernie 5.0",
           "order": 9999,
           "default_canonical": "baidu--ernie-5.0",
-          "variant_count": 2,
+          "variant_count": 5,
           "variants": [
             {
               "canonical": "baidu--ernie-5.0",
@@ -2384,27 +2461,8 @@
               ]
             },
             {
-              "canonical": "baidu--ernie-5.0@01-10",
-              "display": "Ernie 5.0 (01-10)",
-              "revision": "01-10",
-              "composite_score": null,
-              "sources": [
-                "lmarena"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "baidu--ernie-5.0-preview",
-          "display": "Ernie 5.0 Preview",
-          "order": 9999,
-          "default_canonical": "baidu--ernie-5.0-preview@2025-12-20",
-          "variant_count": 3,
-          "variants": [
-            {
-              "canonical": "baidu--ernie-5.0-preview@2025-12-20",
-              "display": "Ernie 5.0 Preview (2025-12-20)",
+              "canonical": "baidu--ernie-5.0@2025-12-20",
+              "display": "Ernie 5.0 (2025-12-20)",
               "revision": "2025-12-20",
               "composite_score": null,
               "sources": [
@@ -2412,8 +2470,8 @@
               ]
             },
             {
-              "canonical": "baidu--ernie-5.0-preview@2025-12-03",
-              "display": "Ernie 5.0 Preview (2025-12-03)",
+              "canonical": "baidu--ernie-5.0@2025-12-03",
+              "display": "Ernie 5.0 (2025-12-03)",
               "revision": "2025-12-03",
               "composite_score": null,
               "sources": [
@@ -2421,9 +2479,18 @@
               ]
             },
             {
-              "canonical": "baidu--ernie-5.0-preview@2025-10-22",
-              "display": "Ernie 5.0 Preview (2025-10-22)",
+              "canonical": "baidu--ernie-5.0@2025-10-22",
+              "display": "Ernie 5.0 (2025-10-22)",
               "revision": "2025-10-22",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
+              ]
+            },
+            {
+              "canonical": "baidu--ernie-5.0@01-10",
+              "display": "Ernie 5.0 (01-10)",
+              "revision": "01-10",
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -2575,49 +2642,101 @@
       ]
     },
     {
+      "series_key": "google--gemini-2.0",
+      "display": "Gemini 2.0",
+      "vendor": "google",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": null,
+      "members": [
+        {
+          "member_key": "google--gemini-2.0-flash-lite",
+          "display": "Gemini 2.0 Flash Lite",
+          "order": 9999,
+          "default_canonical": "google--gemini-2.0-flash-lite@02-05",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "google--gemini-2.0-flash-lite@02-05",
+              "display": "Gemini 2.0 Flash Lite (02-05)",
+              "revision": "02-05",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
+      "series_key": "google--gemini-2.5",
+      "display": "Gemini 2.5",
+      "vendor": "google",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": null,
+      "members": [
+        {
+          "member_key": "google--gemini-2.5-flash",
+          "display": "Gemini 2.5 Flash",
+          "order": 9999,
+          "default_canonical": "google--gemini-2.5-flash@2025-09",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "google--gemini-2.5-flash@2025-09",
+              "display": "Gemini 2.5 Flash (2025-09)",
+              "revision": "2025-09",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
       "series_key": "google--gemini-3",
       "display": "Gemini 3",
       "vendor": "google",
       "theme": "general",
       "order": 9999,
-      "member_count": 9,
+      "member_count": 7,
       "model_count": 9,
       "max_composite_score": null,
       "members": [
-        {
-          "member_key": "google--gemini-3-flash-preview",
-          "display": "Gemini 3 Flash",
-          "order": 9999,
-          "default_canonical": "google--gemini-3-flash-preview",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "google--gemini-3-flash-preview",
-              "display": "Gemini 3 Flash (gemini-3-flash-preview)",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "openrouter",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
         {
           "member_key": "google--gemini-3-flash",
           "display": "Gemini 3 Flash",
           "order": 9999,
           "default_canonical": "google--gemini-3-flash",
-          "variant_count": 1,
+          "variant_count": 2,
           "variants": [
             {
               "canonical": "google--gemini-3-flash",
-              "display": "Gemini 3 Flash (gemini-3-flash)",
+              "display": "Gemini 3 Flash",
               "revision": null,
               "composite_score": null,
               "sources": [
                 "lmarena"
+              ]
+            },
+            {
+              "canonical": "google--gemini-3-flash@Preview",
+              "display": "Gemini 3 Flash (Preview)",
+              "revision": "Preview",
+              "composite_score": null,
+              "sources": [
+                "openrouter",
+                "llm_stats"
               ]
             }
           ],
@@ -2666,31 +2785,21 @@
           "display": "Gemini 3 Pro",
           "order": 9999,
           "default_canonical": "google--gemini-3-pro",
-          "variant_count": 1,
+          "variant_count": 2,
           "variants": [
             {
               "canonical": "google--gemini-3-pro",
-              "display": "Gemini 3 Pro (gemini-3-pro)",
+              "display": "Gemini 3 Pro",
               "revision": null,
               "composite_score": null,
               "sources": [
                 "lmarena"
               ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "google--gemini-3-pro-preview",
-          "display": "Gemini 3 Pro",
-          "order": 9999,
-          "default_canonical": "google--gemini-3-pro-preview",
-          "variant_count": 1,
-          "variants": [
+            },
             {
-              "canonical": "google--gemini-3-pro-preview",
-              "display": "Gemini 3 Pro (gemini-3-pro-preview)",
-              "revision": null,
+              "canonical": "google--gemini-3-pro@Preview",
+              "display": "Gemini 3 Pro (Preview)",
+              "revision": "Preview",
               "composite_score": null,
               "sources": [
                 "llm_stats"
@@ -2888,6 +2997,37 @@
               "canonical": "zhipu--glm-4-plus@01-11",
               "display": "GLM 4 Plus (01-11)",
               "revision": "01-11",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
+      "series_key": "openai--gpt-4.5",
+      "display": "Gpt 4.5",
+      "vendor": "openai",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": null,
+      "members": [
+        {
+          "member_key": "openai--gpt-4.5",
+          "display": "GPT 4.5",
+          "order": 9999,
+          "default_canonical": "openai--gpt-4.5@2025-02-27",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "openai--gpt-4.5@2025-02-27",
+              "display": "GPT 4.5 (2025-02-27)",
+              "revision": "2025-02-27",
               "composite_score": null,
               "sources": [
                 "lmarena"
@@ -3469,6 +3609,37 @@
       ]
     },
     {
+      "series_key": "xai--grok-3",
+      "display": "Grok 3",
+      "vendor": "xai",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": null,
+      "members": [
+        {
+          "member_key": "xai--grok-3",
+          "display": "Grok 3",
+          "order": 9999,
+          "default_canonical": "xai--grok-3@02-24",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "xai--grok-3@02-24",
+              "display": "Grok 3 (02-24)",
+              "revision": "02-24",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
       "series_key": "xai--grok-4",
       "display": "Grok 4",
       "vendor": "xai",
@@ -3793,6 +3964,38 @@
               "composite_score": null,
               "sources": [
                 "lmarena",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
+      "series_key": "xai--grok-4.7",
+      "display": "Grok 4.7",
+      "vendor": "xai",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": null,
+      "members": [
+        {
+          "member_key": "xai--grok-4.7",
+          "display": "Grok 4.7",
+          "order": 9999,
+          "default_canonical": "xai--grok-4.7",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "xai--grok-4.7",
+              "display": "Grok 4.7",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "openrouter",
                 "llm_stats"
               ]
             }
@@ -4577,9 +4780,9 @@
       ]
     },
     {
-      "series_key": "inception-ai--mercury",
+      "series_key": "inceptionlabs--mercury",
       "display": "Mercury",
-      "vendor": "inception-ai",
+      "vendor": "inceptionlabs",
       "theme": "general",
       "order": 9999,
       "member_count": 1,
@@ -4587,46 +4790,15 @@
       "max_composite_score": null,
       "members": [
         {
-          "member_key": "inception-ai--mercury",
+          "member_key": "inceptionlabs--mercury",
           "display": "Mercury",
           "order": 9999,
-          "default_canonical": "inception-ai--mercury",
+          "default_canonical": "inceptionlabs--mercury",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "inception-ai--mercury",
+              "canonical": "inceptionlabs--mercury",
               "display": "Mercury",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "lmarena"
-              ]
-            }
-          ],
-          "theme": "general"
-        }
-      ]
-    },
-    {
-      "series_key": "inception-ai--mercury-2",
-      "display": "Mercury 2",
-      "vendor": "inception-ai",
-      "theme": "general",
-      "order": 9999,
-      "member_count": 1,
-      "model_count": 1,
-      "max_composite_score": null,
-      "members": [
-        {
-          "member_key": "inception-ai--mercury-2",
-          "display": "Mercury 2",
-          "order": 9999,
-          "default_canonical": "inception-ai--mercury-2",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "inception-ai--mercury-2",
-              "display": "Mercury 2",
               "revision": null,
               "composite_score": null,
               "sources": [
@@ -4661,6 +4833,8 @@
               "revision": null,
               "composite_score": null,
               "sources": [
+                "openrouter",
+                "lmarena",
                 "llm_stats"
               ]
             }
@@ -5421,7 +5595,7 @@
       "theme": "general",
       "order": 9999,
       "member_count": 2,
-      "model_count": 2,
+      "model_count": 3,
       "max_composite_score": null,
       "members": [
         {
@@ -5429,7 +5603,7 @@
           "display": "Seed 2.1 Pro",
           "order": 9999,
           "default_canonical": "bytedance--seed-2.1-pro",
-          "variant_count": 1,
+          "variant_count": 2,
           "variants": [
             {
               "canonical": "bytedance--seed-2.1-pro",
@@ -5438,6 +5612,15 @@
               "composite_score": null,
               "sources": [
                 "llm_stats"
+              ]
+            },
+            {
+              "canonical": "bytedance--seed-2.1-pro@Preview",
+              "display": "Seed 2.1 Pro (Preview)",
+              "revision": "Preview",
+              "composite_score": null,
+              "sources": [
+                "lmarena"
               ]
             }
           ],
@@ -6266,18 +6449,20 @@
       "file": "data.json"
     },
     {
-      "canonical": "anthropic--claude-mythos-preview",
-      "identity": "claude-mythos-preview",
+      "canonical": "anthropic--claude-mythos@Preview",
+      "identity": "claude-mythos",
       "family": "claude-mythos",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Claude Mythos Preview",
+      "display": "Claude Mythos Preview (Preview)",
       "vendor": "anthropic",
       "theme": "general",
       "series_key": "anthropic--claude-mythos",
       "series_display": "Claude Mythos",
-      "member_key": "anthropic--claude-mythos-preview",
+      "member_key": "anthropic--claude-mythos",
       "member_display": "Claude Mythos Preview",
       "member_order": 9999,
       "member_variant_count": 1,
@@ -6619,6 +6804,38 @@
       "file": "data.json"
     },
     {
+      "canonical": "anthropic--claude-opus-5.5",
+      "identity": "claude-opus-5.5",
+      "family": "claude-opus",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "anthropic/claude-opus-5.5:batch"
+          }
+        ]
+      },
+      "display": "Claude Opus 5.5",
+      "vendor": "anthropic",
+      "theme": "general",
+      "series_key": "anthropic--claude-opus",
+      "series_display": "Claude Opus",
+      "member_key": "anthropic--claude-opus-5.5",
+      "member_display": "Claude Opus 5.5",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter",
+        "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
       "canonical": "anthropic--claude-sonnet-4.5",
       "identity": "claude-sonnet-4.5",
       "family": "claude-sonnet",
@@ -6891,90 +7108,12 @@
       "member_key": "baidu--ernie-5.0",
       "member_display": "ERNIE 5.0",
       "member_order": 9999,
-      "member_variant_count": 2,
+      "member_variant_count": 5,
       "has_composite": false,
       "composite_score": null,
       "degrees": {},
       "sources": [
         "llm_stats"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "baidu--ernie-5.0-preview@2025-10-22",
-      "identity": "ernie-5.0-preview",
-      "family": "ernie-5.0",
-      "revisions": [
-        "2025-10-22"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Ernie 5.0 Preview (2025-10-22)",
-      "vendor": "baidu",
-      "theme": "general",
-      "series_key": "baidu--ernie-5.0",
-      "series_display": "Ernie 5.0",
-      "member_key": "baidu--ernie-5.0-preview",
-      "member_display": "Ernie 5.0 Preview",
-      "member_order": 9999,
-      "member_variant_count": 3,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "lmarena"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "baidu--ernie-5.0-preview@2025-12-03",
-      "identity": "ernie-5.0-preview",
-      "family": "ernie-5.0",
-      "revisions": [
-        "2025-12-03"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Ernie 5.0 Preview (2025-12-03)",
-      "vendor": "baidu",
-      "theme": "general",
-      "series_key": "baidu--ernie-5.0",
-      "series_display": "Ernie 5.0",
-      "member_key": "baidu--ernie-5.0-preview",
-      "member_display": "Ernie 5.0 Preview",
-      "member_order": 9999,
-      "member_variant_count": 3,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "lmarena"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "baidu--ernie-5.0-preview@2025-12-20",
-      "identity": "ernie-5.0-preview",
-      "family": "ernie-5.0",
-      "revisions": [
-        "2025-12-20"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Ernie 5.0 Preview (2025-12-20)",
-      "vendor": "baidu",
-      "theme": "general",
-      "series_key": "baidu--ernie-5.0",
-      "series_display": "Ernie 5.0",
-      "member_key": "baidu--ernie-5.0-preview",
-      "member_display": "Ernie 5.0 Preview",
-      "member_order": 9999,
-      "member_variant_count": 3,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "lmarena"
       ],
       "file": "data.json"
     },
@@ -6995,7 +7134,85 @@
       "member_key": "baidu--ernie-5.0",
       "member_display": "Ernie 5.0",
       "member_order": 9999,
-      "member_variant_count": 2,
+      "member_variant_count": 5,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "baidu--ernie-5.0@2025-10-22",
+      "identity": "ernie-5.0",
+      "family": "ernie-5.0",
+      "revisions": [
+        "2025-10-22"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Ernie 5.0 (2025-10-22)",
+      "vendor": "baidu",
+      "theme": "general",
+      "series_key": "baidu--ernie-5.0",
+      "series_display": "Ernie 5.0",
+      "member_key": "baidu--ernie-5.0",
+      "member_display": "Ernie 5.0",
+      "member_order": 9999,
+      "member_variant_count": 5,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "baidu--ernie-5.0@2025-12-03",
+      "identity": "ernie-5.0",
+      "family": "ernie-5.0",
+      "revisions": [
+        "2025-12-03"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Ernie 5.0 (2025-12-03)",
+      "vendor": "baidu",
+      "theme": "general",
+      "series_key": "baidu--ernie-5.0",
+      "series_display": "Ernie 5.0",
+      "member_key": "baidu--ernie-5.0",
+      "member_display": "Ernie 5.0",
+      "member_order": 9999,
+      "member_variant_count": 5,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "baidu--ernie-5.0@2025-12-20",
+      "identity": "ernie-5.0",
+      "family": "ernie-5.0",
+      "revisions": [
+        "2025-12-20"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Ernie 5.0 (2025-12-20)",
+      "vendor": "baidu",
+      "theme": "general",
+      "series_key": "baidu--ernie-5.0",
+      "series_display": "Ernie 5.0",
+      "member_key": "baidu--ernie-5.0",
+      "member_display": "Ernie 5.0",
+      "member_order": 9999,
+      "member_variant_count": 5,
       "has_composite": false,
       "composite_score": null,
       "degrees": {},
@@ -7313,12 +7530,38 @@
       "member_key": "bytedance--seed-2.1-pro",
       "member_display": "Seed 2.1 Pro",
       "member_order": 9999,
-      "member_variant_count": 1,
+      "member_variant_count": 2,
       "has_composite": false,
       "composite_score": null,
       "degrees": {},
       "sources": [
         "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "bytedance--seed-2.1-pro@Preview",
+      "identity": "seed-2.1-pro",
+      "family": "seed-2.1",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Seed 2.1 Pro (Preview)",
+      "vendor": "bytedance",
+      "theme": "general",
+      "series_key": "bytedance--seed-2.1",
+      "series_display": "Seed 2.1",
+      "member_key": "bytedance--seed-2.1-pro",
+      "member_display": "Seed 2.1 Pro",
+      "member_order": 9999,
+      "member_variant_count": 2,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
       ],
       "file": "data.json"
     },
@@ -7539,13 +7782,65 @@
       "file": "data.json"
     },
     {
+      "canonical": "google--gemini-2.0-flash-lite@02-05",
+      "identity": "gemini-2.0-flash-lite",
+      "family": "gemini-2.0",
+      "revisions": [
+        "02-05"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Gemini 2.0 Flash Lite (02-05)",
+      "vendor": "google",
+      "theme": "general",
+      "series_key": "google--gemini-2.0",
+      "series_display": "Gemini 2.0",
+      "member_key": "google--gemini-2.0-flash-lite",
+      "member_display": "Gemini 2.0 Flash Lite",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "google--gemini-2.5-flash@2025-09",
+      "identity": "gemini-2.5-flash",
+      "family": "gemini-2.5",
+      "revisions": [
+        "2025-09"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Gemini 2.5 Flash (2025-09)",
+      "vendor": "google",
+      "theme": "general",
+      "series_key": "google--gemini-2.5",
+      "series_display": "Gemini 2.5",
+      "member_key": "google--gemini-2.5-flash",
+      "member_display": "Gemini 2.5 Flash",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
       "canonical": "google--gemini-3-flash",
       "identity": "gemini-3-flash",
       "family": "gemini-3",
       "revisions": [],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Gemini 3 Flash (gemini-3-flash)",
+      "display": "Gemini 3 Flash",
       "vendor": "google",
       "theme": "general",
       "series_key": "google--gemini-3",
@@ -7553,7 +7848,7 @@
       "member_key": "google--gemini-3-flash",
       "member_display": "Gemini 3 Flash",
       "member_order": 9999,
-      "member_variant_count": 1,
+      "member_variant_count": 2,
       "has_composite": false,
       "composite_score": null,
       "degrees": {},
@@ -7587,38 +7882,6 @@
       "file": "data.json"
     },
     {
-      "canonical": "google--gemini-3-flash-preview",
-      "identity": "gemini-3-flash-preview",
-      "family": "gemini-3",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {
-        "openrouter": [
-          {
-            "kind": "batch",
-            "raw_name": "google/gemini-3-flash-preview:batch"
-          }
-        ]
-      },
-      "display": "Gemini 3 Flash (gemini-3-flash-preview)",
-      "vendor": "google",
-      "theme": "general",
-      "series_key": "google--gemini-3",
-      "series_display": "Gemini 3",
-      "member_key": "google--gemini-3-flash-preview",
-      "member_display": "Gemini 3 Flash",
-      "member_order": 9999,
-      "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "openrouter",
-        "llm_stats"
-      ],
-      "file": "data.json"
-    },
-    {
       "canonical": "google--gemini-3-flash-thinking-minimal",
       "identity": "gemini-3-flash-thinking-minimal",
       "family": "gemini-3",
@@ -7643,13 +7906,47 @@
       "file": "data.json"
     },
     {
+      "canonical": "google--gemini-3-flash@Preview",
+      "identity": "gemini-3-flash",
+      "family": "gemini-3",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "google/gemini-3-flash-preview:batch"
+          }
+        ]
+      },
+      "display": "Gemini 3 Flash (Preview)",
+      "vendor": "google",
+      "theme": "general",
+      "series_key": "google--gemini-3",
+      "series_display": "Gemini 3",
+      "member_key": "google--gemini-3-flash",
+      "member_display": "Gemini 3 Flash",
+      "member_order": 9999,
+      "member_variant_count": 2,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter",
+        "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
       "canonical": "google--gemini-3-pro",
       "identity": "gemini-3-pro",
       "family": "gemini-3",
       "revisions": [],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Gemini 3 Pro (gemini-3-pro)",
+      "display": "Gemini 3 Pro",
       "vendor": "google",
       "theme": "general",
       "series_key": "google--gemini-3",
@@ -7657,7 +7954,7 @@
       "member_key": "google--gemini-3-pro",
       "member_display": "Gemini 3 Pro",
       "member_order": 9999,
-      "member_variant_count": 1,
+      "member_variant_count": 2,
       "has_composite": false,
       "composite_score": null,
       "degrees": {},
@@ -7739,21 +8036,23 @@
       "file": "data.json"
     },
     {
-      "canonical": "google--gemini-3-pro-preview",
-      "identity": "gemini-3-pro-preview",
+      "canonical": "google--gemini-3-pro@Preview",
+      "identity": "gemini-3-pro",
       "family": "gemini-3",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Gemini 3 Pro (gemini-3-pro-preview)",
+      "display": "Gemini 3 Pro (Preview)",
       "vendor": "google",
       "theme": "general",
       "series_key": "google--gemini-3",
       "series_display": "Gemini 3",
-      "member_key": "google--gemini-3-pro-preview",
+      "member_key": "google--gemini-3-pro",
       "member_display": "Gemini 3 Pro",
       "member_order": 9999,
-      "member_variant_count": 1,
+      "member_variant_count": 2,
       "has_composite": false,
       "composite_score": null,
       "degrees": {},
@@ -7787,6 +8086,37 @@
       "file": "data.json"
     },
     {
+      "canonical": "google--gemini-3.1-flash-lite",
+      "identity": "gemini-3.1-flash-lite",
+      "family": "gemini-3.1",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "google/gemini-3.1-flash-lite:batch"
+          }
+        ]
+      },
+      "display": "Gemini 3.1 Flash Lite",
+      "vendor": "google",
+      "theme": "general",
+      "series_key": "google--gemini-3.1",
+      "series_display": "Gemini 3.1",
+      "member_key": "google--gemini-3.1-flash-lite",
+      "member_display": "Gemini 3.1 Flash Lite",
+      "member_order": 9999,
+      "member_variant_count": 2,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter"
+      ],
+      "file": "data.json"
+    },
+    {
       "canonical": "google--gemini-3.1-flash-lite-image-nano-banana-2-lite",
       "identity": "gemini-3.1-flash-lite-image-nano-banana-2-lite",
       "family": "gemini-3.1",
@@ -7811,21 +8141,23 @@
       "file": "data.json"
     },
     {
-      "canonical": "google--gemini-3.1-flash-lite-preview",
-      "identity": "gemini-3.1-flash-lite-preview",
+      "canonical": "google--gemini-3.1-flash-lite@Preview",
+      "identity": "gemini-3.1-flash-lite",
       "family": "gemini-3.1",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Gemini 3.1 Flash-Lite (gemini-3.1-flash-lite-preview)",
+      "display": "Gemini 3.1 Flash-Lite (Preview)",
       "vendor": "google",
       "theme": "general",
       "series_key": "google--gemini-3.1",
       "series_display": "Gemini 3.1",
-      "member_key": "google--gemini-3.1-flash-lite-preview",
+      "member_key": "google--gemini-3.1-flash-lite",
       "member_display": "Gemini 3.1 Flash-Lite",
       "member_order": 9999,
-      "member_variant_count": 1,
+      "member_variant_count": 2,
       "has_composite": false,
       "composite_score": null,
       "degrees": {},
@@ -7861,10 +8193,12 @@
       "file": "data.json"
     },
     {
-      "canonical": "google--gemini-3.1-pro-preview",
-      "identity": "gemini-3.1-pro-preview",
+      "canonical": "google--gemini-3.1-pro@Preview",
+      "identity": "gemini-3.1-pro",
       "family": "gemini-3.1",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {
         "openrouter": [
@@ -7874,12 +8208,12 @@
           }
         ]
       },
-      "display": "Gemini 3.1 Pro",
+      "display": "Gemini 3.1 Pro (Preview)",
       "vendor": "google",
       "theme": "general",
       "series_key": "google--gemini-3.1",
       "series_display": "Gemini 3.1",
-      "member_key": "google--gemini-3.1-pro-preview",
+      "member_key": "google--gemini-3.1-pro",
       "member_display": "Gemini 3.1 Pro",
       "member_order": 9999,
       "member_variant_count": 1,
@@ -8392,43 +8726,19 @@
       "file": "data.json"
     },
     {
-      "canonical": "inception-ai--mercury",
+      "canonical": "inceptionlabs--mercury",
       "identity": "mercury",
       "family": "mercury",
       "revisions": [],
       "evaluation_profiles": [],
       "offerings": {},
       "display": "Mercury",
-      "vendor": "inception-ai",
+      "vendor": "inceptionlabs",
       "theme": "general",
-      "series_key": "inception-ai--mercury",
+      "series_key": "inceptionlabs--mercury",
       "series_display": "Mercury",
-      "member_key": "inception-ai--mercury",
+      "member_key": "inceptionlabs--mercury",
       "member_display": "Mercury",
-      "member_order": 9999,
-      "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "lmarena"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "inception-ai--mercury-2",
-      "identity": "mercury-2",
-      "family": "mercury-2",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Mercury 2",
-      "vendor": "inception-ai",
-      "theme": "general",
-      "series_key": "inception-ai--mercury-2",
-      "series_display": "Mercury 2",
-      "member_key": "inception-ai--mercury-2",
-      "member_display": "Mercury 2",
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": false,
@@ -8459,6 +8769,8 @@
       "composite_score": null,
       "degrees": {},
       "sources": [
+        "openrouter",
+        "lmarena",
         "llm_stats"
       ],
       "file": "data.json"
@@ -8981,14 +9293,7 @@
       "family": "minimax-m3",
       "revisions": [],
       "evaluation_profiles": [],
-      "offerings": {
-        "openrouter": [
-          {
-            "kind": "batch",
-            "raw_name": "minimax/minimax-m3:batch"
-          }
-        ]
-      },
+      "offerings": {},
       "display": "MiniMax M3",
       "vendor": "minimax",
       "theme": "general",
@@ -9140,6 +9445,32 @@
       "series_display": "Chatgpt Image",
       "member_key": "openai--chatgpt-image-latest-high-fidelity",
       "member_display": "Chatgpt Image Latest High Fidelity",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "openai--gpt-4.5@2025-02-27",
+      "identity": "gpt-4.5",
+      "family": "gpt-4.5",
+      "revisions": [
+        "2025-02-27"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "GPT 4.5 (2025-02-27)",
+      "vendor": "openai",
+      "theme": "general",
+      "series_key": "openai--gpt-4.5",
+      "series_display": "Gpt 4.5",
+      "member_key": "openai--gpt-4.5",
+      "member_display": "GPT 4.5",
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": false,
@@ -10091,6 +10422,70 @@
       "file": "data.json"
     },
     {
+      "canonical": "openai--gpt-6-luna",
+      "identity": "gpt-6-luna",
+      "family": "gpt-6",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "openai/gpt-6-luna:batch"
+          }
+        ]
+      },
+      "display": "GPT-6 Luna",
+      "vendor": "openai",
+      "theme": "general",
+      "series_key": "openai--gpt-6",
+      "series_display": "Gpt 6",
+      "member_key": "openai--gpt-6-luna",
+      "member_display": "GPT-6 Luna",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter",
+        "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "openai--gpt-6-sol",
+      "identity": "gpt-6-sol",
+      "family": "gpt-6",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "openai/gpt-6-sol:batch"
+          }
+        ]
+      },
+      "display": "GPT-6 Sol",
+      "vendor": "openai",
+      "theme": "general",
+      "series_key": "openai--gpt-6",
+      "series_display": "Gpt 6",
+      "member_key": "openai--gpt-6-sol",
+      "member_display": "GPT-6 Sol",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter",
+        "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
       "canonical": "openai--gpt-image-1",
       "identity": "gpt-image-1",
       "family": "gpt-image",
@@ -10570,50 +10965,31 @@
       "file": "data.json"
     },
     {
-      "canonical": "qwen--qwen3.5-max-preview",
-      "identity": "qwen3.5-max-preview",
-      "family": "qwen3.5-max",
-      "revisions": [],
+      "canonical": "qwen--qwen3.5@Preview",
+      "identity": "qwen3.5",
+      "family": "qwen3.5",
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Qwen3.5 Max Preview",
+      "display": "Qwen3.5 (Preview)",
       "vendor": "qwen",
       "theme": "general",
       "series_key": "qwen--qwen3.5",
       "series_display": "Qwen3.5",
-      "member_key": "qwen--qwen3.5-max-preview",
-      "member_display": "Qwen3.5 Max Preview",
+      "member_key": "qwen--qwen3.5",
+      "member_display": "Qwen3.5",
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": false,
       "composite_score": null,
-      "degrees": {},
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
       "sources": [
-        "lmarena"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "qwen--qwen3.6-max-preview",
-      "identity": "qwen3.6-max-preview",
-      "family": "qwen3.6-max",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Qwen3.6 Max Preview",
-      "vendor": "qwen",
-      "theme": "general",
-      "series_key": "qwen--qwen3.6",
-      "series_display": "Qwen3.6",
-      "member_key": "qwen--qwen3.6-max-preview",
-      "member_display": "Qwen3.6 Max Preview",
-      "member_order": 9999,
-      "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "openrouter",
         "lmarena"
       ],
       "file": "data.json"
@@ -10646,6 +11022,36 @@
       "file": "data.json"
     },
     {
+      "canonical": "qwen--qwen3.6@Preview",
+      "identity": "qwen3.6",
+      "family": "qwen3.6",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Qwen3.6 (Preview)",
+      "vendor": "qwen",
+      "theme": "general",
+      "series_key": "qwen--qwen3.6",
+      "series_display": "Qwen3.6",
+      "member_key": "qwen--qwen3.6",
+      "member_display": "Qwen3.6",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
       "canonical": "qwen--qwen3.7",
       "identity": "qwen3.7",
       "family": "qwen3.7",
@@ -10660,7 +11066,7 @@
       "member_key": "qwen--qwen3.7",
       "member_display": "Qwen3.7",
       "member_order": 9999,
-      "member_variant_count": 1,
+      "member_variant_count": 2,
       "has_composite": true,
       "composite_score": 59.9,
       "degrees": {
@@ -10699,30 +11105,6 @@
       "sources": [
         "openrouter",
         "llm_stats"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "qwen--qwen3.7-max-preview",
-      "identity": "qwen3.7-max-preview",
-      "family": "qwen3.7-max",
-      "revisions": [],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Qwen3.7 Max Preview",
-      "vendor": "qwen",
-      "theme": "general",
-      "series_key": "qwen--qwen3.7",
-      "series_display": "Qwen3.7",
-      "member_key": "qwen--qwen3.7-max-preview",
-      "member_display": "Qwen3.7 Max Preview",
-      "member_order": 9999,
-      "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "lmarena"
       ],
       "file": "data.json"
     },
@@ -10775,6 +11157,36 @@
         "openrouter",
         "lmarena",
         "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "qwen--qwen3.7@Preview",
+      "identity": "qwen3.7",
+      "family": "qwen3.7",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Qwen3.7 (Preview)",
+      "vendor": "qwen",
+      "theme": "general",
+      "series_key": "qwen--qwen3.7",
+      "series_display": "Qwen3.7",
+      "member_key": "qwen--qwen3.7",
+      "member_display": "Qwen3.7",
+      "member_order": 9999,
+      "member_variant_count": 2,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "sources": [
+        "lmarena"
       ],
       "file": "data.json"
     },
@@ -10913,19 +11325,51 @@
       "file": "data.json"
     },
     {
-      "canonical": "qwen--wan2.5-i2i-preview",
-      "identity": "wan2.5-i2i-preview",
+      "canonical": "qwen--qwen3@Preview",
+      "identity": "qwen3",
+      "family": "qwen3",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Qwen3 (Preview)",
+      "vendor": "qwen",
+      "theme": "general",
+      "series_key": "qwen--qwen3",
+      "series_display": "Qwen3",
+      "member_key": "qwen--qwen3",
+      "member_display": "Qwen3",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "qwen--wan2.5-i2i@Preview",
+      "identity": "wan2.5-i2i",
       "family": "wan2.5-i2i",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Wan2.5 I2i Preview",
+      "display": "Wan2.5 I2i (Preview)",
       "vendor": "qwen",
       "theme": "image",
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-i2i-preview",
-      "member_display": "Wan2.5 I2i Preview",
+      "member_key": "qwen--wan2.5-i2i",
+      "member_display": "Wan2.5 I2i",
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": false,
@@ -10937,19 +11381,21 @@
       "file": "data.json"
     },
     {
-      "canonical": "qwen--wan2.5-i2v-preview",
-      "identity": "wan2.5-i2v-preview",
+      "canonical": "qwen--wan2.5-i2v@Preview",
+      "identity": "wan2.5-i2v",
       "family": "wan2.5-i2v",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Wan2.5 I2v Preview",
+      "display": "Wan2.5 I2v (Preview)",
       "vendor": "qwen",
       "theme": "video",
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-i2v-preview",
-      "member_display": "Wan2.5 I2v Preview",
+      "member_key": "qwen--wan2.5-i2v",
+      "member_display": "Wan2.5 I2v",
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": false,
@@ -10961,19 +11407,21 @@
       "file": "data.json"
     },
     {
-      "canonical": "qwen--wan2.5-t2i-preview",
-      "identity": "wan2.5-t2i-preview",
+      "canonical": "qwen--wan2.5-t2i@Preview",
+      "identity": "wan2.5-t2i",
       "family": "wan2.5-t2i",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Wan2.5 T2i Preview",
+      "display": "Wan2.5 T2i (Preview)",
       "vendor": "qwen",
       "theme": "image",
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-t2i-preview",
-      "member_display": "Wan2.5 T2i Preview",
+      "member_key": "qwen--wan2.5-t2i",
+      "member_display": "Wan2.5 T2i",
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": false,
@@ -10985,19 +11433,21 @@
       "file": "data.json"
     },
     {
-      "canonical": "qwen--wan2.5-t2v-preview",
-      "identity": "wan2.5-t2v-preview",
+      "canonical": "qwen--wan2.5-t2v@Preview",
+      "identity": "wan2.5-t2v",
       "family": "wan2.5-t2v",
-      "revisions": [],
+      "revisions": [
+        "Preview"
+      ],
       "evaluation_profiles": [],
       "offerings": {},
-      "display": "Wan2.5 T2v Preview",
+      "display": "Wan2.5 T2v (Preview)",
       "vendor": "qwen",
       "theme": "video",
       "series_key": "qwen--wan",
       "series_display": "Wan",
-      "member_key": "qwen--wan2.5-t2v-preview",
-      "member_display": "Wan2.5 T2v Preview",
+      "member_key": "qwen--wan2.5-t2v",
+      "member_display": "Wan2.5 T2v",
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": false,
@@ -11658,6 +12108,32 @@
       "file": "data.json"
     },
     {
+      "canonical": "xai--grok-3@02-24",
+      "identity": "grok-3",
+      "family": "grok-3",
+      "revisions": [
+        "02-24"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Grok 3 (02-24)",
+      "vendor": "xai",
+      "theme": "general",
+      "series_key": "xai--grok-3",
+      "series_display": "Grok 3",
+      "member_key": "xai--grok-3",
+      "member_display": "Grok 3",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
       "canonical": "xai--grok-4",
       "identity": "grok-4",
       "family": "grok-4",
@@ -12150,6 +12626,31 @@
         "openrouter",
         "lmarena",
         "livebench",
+        "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "xai--grok-4.7",
+      "identity": "grok-4.7",
+      "family": "grok-4.7",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "display": "Grok 4.7",
+      "vendor": "xai",
+      "theme": "general",
+      "series_key": "xai--grok-4.7",
+      "series_display": "Grok 4.7",
+      "member_key": "xai--grok-4.7",
+      "member_display": "Grok 4.7",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter",
         "llm_stats"
       ],
       "file": "data.json"
