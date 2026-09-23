@@ -106,15 +106,15 @@
         },
         {
           "kind": "tool-level3",
+          "id": "tool-level3:deepseek-v4.1-flash"
+        },
+        {
+          "kind": "tool-level3",
           "id": "tool-level3:deepseek-v4-pro"
         },
         {
           "kind": "tool-level3",
           "id": "tool-level3:deepseek-v4-flash-vision-exp"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:deepseek-v4.1-flash"
         }
       ]
     },
@@ -504,39 +504,15 @@
       ]
     },
     {
-      "id": "vendor-level2:nvidia:nemotron-3",
+      "id": "vendor-level2:nvidia:nemotron",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:nvidia"
       },
       "vendor_key": "nvidia",
-      "title": "Nemotron 3",
+      "title": "Nemotron 模型",
       "official_url": "https://developer.nvidia.com/topics/ai/nemotron",
-      "summary": "NVIDIA Mamba2-Transformer 混合架构推理旗舰系列，包含 550B MoE 的 Nemotron 3 Ultra 与 120B FP8 的 Nemotron 3 Super。",
-      "status": "active",
-      "series_kind": "model_series",
-      "generation_state": "previous",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:nemotron-3-ultra"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:nemotron-3-super"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level2:nvidia:nemotron-3-5",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:nvidia"
-      },
-      "vendor_key": "nvidia",
-      "title": "Nemotron 3.5",
-      "official_url": "https://developer.nvidia.com/topics/ai/nemotron",
-      "summary": "NVIDIA 当前活跃的最新一代开源语言大模型，面向高效推理与长文本复杂任务优化。",
+      "summary": "NVIDIA Nemotron 系列模型，包含 Nemotron 3.5、Nemotron 3 Ultra 与 Nemotron 3 Super。",
       "status": "active",
       "series_kind": "model_series",
       "generation_state": "newest",
@@ -544,6 +520,14 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:nemotron-3-5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:nemotron-3-ultra"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:nemotron-3-super"
         }
       ]
     },
@@ -579,6 +563,10 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-8-flash"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen3.8-omni-flash"
         }
       ]
     },
@@ -3410,32 +3398,13 @@
       "series_kind": "tool_series"
     },
     {
-      "id": "vendor-level2:alibaba:qwen3-8-omni-flash",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:alibaba"
-      },
-      "vendor_key": "alibaba",
-      "title": "Qwen3.8-Omni-Flash",
-      "official_url": "https://www.aliyun.com/product/bailian",
-      "summary": "阿里云百炼是阿里云旗下的一站式大模型服务平台，汇聚千问系列及第三方模型，提供模型推理服务、模型训练调优、知识库、Agent工作流与应用模板等全链路大模型开发能力，助力企业构建和落地大模型应用。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:qwen3.8-omni-flash"
-        }
-      ],
-      "series_kind": "model_series"
-    },
-    {
-      "id": "vendor-level2:typesafe:jev",
+      "id": "vendor-level2:typesafe:system-one",
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:typesafe"
       },
       "vendor_key": "typesafe",
-      "title": "Jev",
+      "title": "System One Models",
       "official_url": "https://typesafe.ai/",
       "summary": "System One Models 是面向软件内部决策的新型 AI 模型类别，Jev 是其首个公开模型。",
       "status": "active",

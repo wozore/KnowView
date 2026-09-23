@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "kind": "identity_receipts",
-  "count": 18,
-  "generated_at": "2026-09-22T08:28:23.083Z",
+  "count": 19,
+  "generated_at": "2026-09-23T11:09:26.870Z",
   "receipts": [
     {
       "receipt_id": "receipt-02596f6e08d2",
@@ -317,6 +317,37 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": null,
       "verified_at": "2026-09-21T09:45:50.805Z"
+    },
+    {
+      "receipt_id": "receipt-b7abb33b6b47",
+      "candidate_name": "StepAudio 3 ASR",
+      "identity_key": "stepaudio-3-asr",
+      "entity_class": "model",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-stepaudio-3-asr",
+      "series_title": "StepAudio 3",
+      "family": "StepAudio 3",
+      "confidence": 0.65,
+      "evidence": {
+        "official_url": "https://platform.stepfun.ai/",
+        "official_urls": [
+          "https://platform.stepfun.ai/",
+          "https://platform.stepfun.ai/"
+        ],
+        "content_hash": "sha256:c705f388c93a3a614e883bf45e3ac4edb2225cc0c8ef5ad5fe8973ff9be6f4fb",
+        "sources": [
+          {
+            "url": "https://platform.stepfun.ai/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:c705f388c93a3a614e883bf45e3ac4edb2225cc0c8ef5ad5fe8973ff9be6f4fb"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:becc0d73d1e2bb7ccca04cc00e1831e831d9143d28630640bcaa68c96e5ab226",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-23T11:09:19.664Z"
     },
     {
       "receipt_id": "receipt-c2301b0ff26a",

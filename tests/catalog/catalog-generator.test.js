@@ -346,7 +346,7 @@ test('snapshot validator enforces visibility and series enums plus history rules
   assert.equal(valid.ok, true, JSON.stringify(valid.errors));
 });
 
-test('same-name level2 and level3 records are both legal', () => {
+test('same-name tool groups remain legal and a model cannot be its own level2 card', () => {
   const { detail, card } = legacyPair();
   const level2 = {
     id: 'vendor-level2:legacy-vendor:legacy-tool',
@@ -361,4 +361,11 @@ test('same-name level2 and level3 records are both legal', () => {
   const result = validateCatalogSnapshot(minimalSnapshot({ detail, card, level2 }));
   assert.equal(result.ok, true, JSON.stringify(result.errors));
   assert.equal(result.errors.some(error => error.message.includes('同名') || error.code === 'TITLE_DUPLICATE'), false);
+
+  const modelPair = legacyPair({
+    detail: { detail_kind: 'api_model', model_key: 'legacy-vendor-legacy-tool' },
+    card: { detail_kind: 'api_model', model_key: 'legacy-vendor-legacy-tool' },
+  });
+  const modelResult = validateCatalogSnapshot(minimalSnapshot({ detail: modelPair.detail, card: modelPair.card, level2 }));
+  assert.ok(modelResult.errors.some(error => error.code === 'MODEL_CANNOT_BE_LEVEL2'));
 });

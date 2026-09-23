@@ -13,7 +13,7 @@ const {
   isHttpUrl,
   normalizeSnapshot,
 } = require('./catalog-contract');
-const { isModelKey, findModelKeyCollisions } = require('../../shared/model-key-contract');
+const { isModelKey, normalizeModelIdentity, findModelKeyCollisions } = require('../../shared/model-key-contract');
 
 function error(code, path, message) {
   return { code, path, message };
@@ -70,10 +70,24 @@ function isIsoDate(value) {
 }
 
 // 系列/模型键条件字段校验：全部"存在才校验"，存量记录缺失新字段零新报错。
+function checkSingleModelLevel2(level2, detailById, errors) {
+  level2.forEach((item, index) => {
+    const refs = Array.isArray(item?.detail_refs) ? item.detail_refs : [];
+    if (item?.series_kind !== 'model_series' || refs.length !== 1) return;
+    const member = detailById.get(refs[0]?.id);
+    if (member?.detail_kind !== 'api_model' || member.vendor_key !== item.vendor_key
+      || typeof item.title !== 'string' || !item.title.trim()
+      || typeof member.title !== 'string' || !member.title.trim()
+      || normalizeModelIdentity(item.title) !== normalizeModelIdentity(member.title)) return;
+    errors.push(error('MODEL_CANNOT_BE_LEVEL2', `vendor-level2[${index}].title`, `单个模型不能作为二级系列卡片: ${member.id}`));
+  });
+}
+
 function checkSeriesFields(normalized, errors) {
   const level2 = normalized['vendor-level2'];
   const level3 = normalized['tool-level3'];
   const cards = normalized['tool-card'];
+  const detailById = new Map(level3.map(item => [item?.id, item]));
 
   level2.forEach((item, index) => {
     const path = `vendor-level2[${index}]`;
@@ -84,6 +98,7 @@ function checkSeriesFields(normalized, errors) {
       errors.push(error('GENERATION_STATE_INVALID', `${path}.generation_state`, `无效 generation_state: ${item.generation_state}`));
     }
   });
+  checkSingleModelLevel2(level2, detailById, errors);
 
   level3.forEach((item, index) => {
     const path = `tool-level3[${index}]`;
@@ -102,7 +117,6 @@ function checkSeriesFields(normalized, errors) {
     errors.push(error('MODEL_KEY_DUPLICATE', `tool-level3.${collision.model_key}`, `model_key 跨三级详情重复: ${collision.model_key} (${collision.members.join(', ')})`));
   }
 
-  const detailById = new Map(level3.map(item => [item?.id, item]));
   cards.forEach((item, index) => {
     const path = `tool-card[${index}]`;
     if (item.model_key !== undefined && item.model_key !== null && (typeof item.model_key !== 'string' || !isModelKey(item.model_key))) {

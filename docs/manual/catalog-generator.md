@@ -605,11 +605,12 @@ node scripts/catalog-generator.js batch --file data/manual/tools/tool-cards-pend
 
 通用 LLM 模型（`detail_kind=api_model` 且属于政策中的 `general_llm` 家族）在批量 prepare 前由「LLM 二级系列分类政策」决定归属，不再默认以模型名建组：
 
-1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v2）声明 28 个厂商的模型家族、用途、版本轴、允许的目标二级系列、容量（同系列可见成员上限 `visible_members` 为 6，第 7 个起按 `release_date` 最旧转入 `hidden_history`，由 SeriesBundle planner 与迁移 CLI 执行）与证据状态。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
+1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v2）声明 29 个厂商的模型家族、用途、版本轴、允许的目标二级系列、容量（同系列可见成员上限 `visible_members` 为 6，第 7 个起按 `release_date` 最旧转入 `hidden_history`，由 SeriesBundle planner 与迁移 CLI 执行）与证据状态。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
 2. **确定性判定**：`src/catalog/series/catalog-series-policy.js` 的 `planSeriesPlacement` 用品牌提示/家族 pattern 识别已知 LLM，直接产出 `existing`（加入已有系列）或 `create`（用政策稳定 id/标题新建）。已知模型不需要 AI，零成本。
 3. **AI 只作 hint**：仅当候选用途/家族无法确定性判定（`needs_ai`，如无任何品牌命中的新模型）且显式放行 `allowAiPlacement` 时，才调用 `catalog-series-placement-ai` 输出 `usage_kind/family/cohort/confidence` 建议，再由政策重算最终归属。AI 低置信、未知家族、与政策冲突一律 fail-closed；缺账本、未放行时直接 `PLACEMENT_MANUAL_REQUIRED`，绝不静默建组。
 4. **名册满员触发迁移**：目标系列 `expected_members` 名册成员已全部在快照且候选不在名册时，新候选返回 `PLACEMENT_MIGRATION_REQUIRED` 并阻断该 seed，**不自动重排既有成员**。需要扩容时由维护者更新政策（声明 newest/previous 代际与名册）后执行系列迁移（见下）。
 5. **人工 placement 仍最高优先**：Seed/待补卡显式指定 `existing_level2_ref` 时直接采用，但必须通过引用 kind/存在性/厂商归属校验，非法即 fail-closed。
+6. **单模型不得充当二级系列卡片**：`model_series` 只有一个 API 模型成员且二级标题与该模型同名时，Catalog 快照校验拒绝落盘；模型应并入更广系列，或使用有来源依据的家族/用途标题。
 
 ### 二级系列迁移（合并/拆分当前目录）
 
