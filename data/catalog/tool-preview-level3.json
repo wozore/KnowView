@@ -21398,7 +21398,7 @@
     },
     {
       "vendor_key": "microsoft",
-      "detail_kind": "tool",
+      "detail_kind": "api_model",
       "title": "MAI-Image-2.6",
       "vendor_label": "Microsoft",
       "icon": "🧩",
@@ -21410,8 +21410,32 @@
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
-        "status": "not_applicable",
-        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "OpenRouter API 渠道",
+            "pricing_basis": "按 token 用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "图像输入",
+                "amount": 8,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "图像输出",
+                "amount": 38,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "文本输入",
+                "amount": 5,
+                "unit": "百万 tokens"
+              }
+            ],
+            "conditions": "仅适用于 OpenRouter API 渠道；Microsoft Foundry 公开定价表尚未列出此模型，Azure 费用以实际报价为准。"
+          }
+        ]
       },
       "plan": {
         "status": "not_applicable",
@@ -21463,16 +21487,9 @@
           "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft/"
         }
       ],
-      "theme": "general",
-      "pricing_disclosure": {
-        "status": "external_usage_cost",
-        "text": "OpenRouter API 渠道按每 100 万 tokens 计费：文本输入 $5、图像输入 $8、图像输出 $38。Microsoft Foundry 公开定价表尚未列出 MAI-Image-2.6，Azure 实际费用需按部署区域与账户报价核实；以上不是 Foundry 报价。",
-        "source_urls": [
-          "https://openrouter.ai/microsoft/mai-image-2.6?output_modalities=image",
-          "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft/"
-        ]
-      },
-      "last_updated_date": "2026-09-23",
+      "theme": "vision",
+      "release_date": "2026-08-10",
+      "model_key": "microsoft-mai-image-2.6",
       "id": "tool-level3:mai-image-2.6"
     },
     {
@@ -21720,7 +21737,7 @@
     },
     {
       "vendor_key": "openai",
-      "detail_kind": "tool",
+      "detail_kind": "api_model",
       "title": "GPT Images 2.5",
       "vendor_label": "OpenAI",
       "icon": "🧩",
@@ -21732,8 +21749,42 @@
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
-        "status": "not_applicable",
-        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "GPT-Image-2.5 Flare / Sunburst API",
+            "pricing_basis": "按 token 用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "图像输入",
+                "amount": 8,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "图像输出",
+                "amount": 30,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "图像输入（缓存）",
+                "amount": 2,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "文本输入",
+                "amount": 5,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "文本输入（缓存）",
+                "amount": 1.25,
+                "unit": "百万 tokens"
+              }
+            ],
+            "conditions": "Flare 与 Sunburst 使用相同 API 单价；ChatGPT 各套餐的图像使用额度与 API 独立，单张费用随实际 token 用量变化。"
+          }
+        ]
       },
       "plan": {
         "status": "not_applicable",
@@ -21769,16 +21820,9 @@
           "url": "https://developers.openai.com/api/docs/pricing"
         }
       ],
-      "theme": "general",
-      "pricing_disclosure": {
-        "status": "external_usage_cost",
-        "text": "GPT-Image-2.5 Flare 与 Sunburst 的 API 均按每 100 万 tokens 计费：文本输入 $5、缓存文本输入 $1.25、图像输入 $8、缓存图像输入 $2、图像输出 $30。ChatGPT Images 2.5 向所有套餐开放，API 用量独立计费；单张图像费用随 token 用量、尺寸和质量变化。",
-        "source_urls": [
-          "https://openai.com/index/introducing-chatgpt-images-2-5",
-          "https://developers.openai.com/api/docs/pricing"
-        ]
-      },
-      "last_updated_date": "2026-09-23",
+      "theme": "vision",
+      "release_date": "2026-09-08",
+      "model_key": "openai-gpt-images-2.5",
       "id": "tool-level3:gpt-images-2.5"
     },
     {

@@ -8299,7 +8299,7 @@
       "vendor_label": "Microsoft AI",
       "icon": "🧩",
       "summary": "MAI-Image-2.6 是微软基于扩散架构的图像生成模型，支持高质量文生图和精准可控的图生图编辑，拥有 20B 非嵌入参数、32K token 上下文长度，已在 Microsoft Foundry 进入 Public Preview，并在 Arena 文生图与图像编辑榜单均排名第 2。",
-      "theme": "general",
+      "theme": "vision",
       "scenes": [
         "根据自然语言提示生成高质量图像的创意设计场景",
         "对现有视觉资产进行对象移除、替换、属性修改等精准编辑",
@@ -8325,7 +8325,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:mai-image-2.6"
       },
-      "detail_kind": "tool"
+      "detail_kind": "api_model",
+      "model_key": "microsoft-mai-image-2.6"
     },
     {
       "id": "tool-card:qwen3.8-omni-flash",
@@ -8409,7 +8410,7 @@
       "vendor_label": "OpenAI",
       "icon": "🧩",
       "summary": "ChatGPT Images 2.5 是 OpenAI 最新的图像生成模型，提供更锐利的细节、更精准的多轮编辑、更快的生成速度，并新增 Sketch、模板、评论编辑与提示词分享功能。",
-      "theme": "general",
+      "theme": "vision",
       "scenes": [
         "社交媒体与创作者内容制作",
         "产品体验与商品图像生成",
@@ -8437,7 +8438,8 @@
         "kind": "tool-level3",
         "id": "tool-level3:gpt-images-2.5"
       },
-      "detail_kind": "tool"
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-images-2.5"
     },
     {
       "id": "tool-card:jev",

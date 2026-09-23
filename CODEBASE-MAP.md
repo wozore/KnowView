@@ -340,7 +340,7 @@
 - [static-site.test.js](tests/build/static-site.test.js) — 静态站点复制构建与历史产物清理测试。
 - [web-date-display.test.js](tests/web/web-date-display.test.js) — 前端 typed 日期、无日期/套餐及场景类型标签纯函数回归。
 - [brand-icons.test.js](tests/web/brand-icons.test.js) — 品牌图标继承与本地资产登记回归。
-- [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳和价格披露回归；核对 GPT Images 2.5 与 MAI-Image-2.6 的渠道计价展示。
+- [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳和价格披露回归；核对 GPT Images 2.5 与 MAI-Image-2.6 的结构化 API 费率及卡片摘要。
 - [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引与对比选择器回归：hidden_history、系列回退、最长词匹配、全角归一化及 Microsoft AI 对比展示名保留。
 - [catalog-interface.test.js](tests/catalog/catalog-interface.test.js) — 五模块目录 Interface、字段所有权、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
 - [catalog-date-audit.test.js](tests/catalog/catalog-date-audit.test.js) — 日期语义审计保守分类、目标字段和输入不变回归。

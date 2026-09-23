@@ -118,24 +118,36 @@ test('tool detail renders an explicit disclosure when a public unit price is una
 test('GPT Images 2.5 shows API token rates instead of ChatGPT subscription prices', () => {
   const items = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/catalog/tool-preview-level3.json'), 'utf8')).items;
   const item = items.find(entry => entry.id === 'tool-level3:gpt-images-2.5');
-  assert.deepEqual(item.subscription_plan_refs, undefined);
-  assert.equal(toolCards.renderPriceSummary({ vendor_key: 'openai', detail_ref: { id: item.id } }, item, items), '');
+  assert.equal(item.detail_kind, 'api_model');
+  assert.equal(item.api_pricing.status, 'available');
+  const summary = toolCards.renderPriceSummary({ vendor_key: 'openai', detail_ref: { id: item.id } }, item, items);
+  assert.match(summary, /图像输入 \$8 \/ 百万 tokens/);
+  assert.match(summary, /图像输出 \$30 \/ 百万 tokens/);
   const html = renderToolLevel3({ detail: item, subscriptionPlans: items });
-  assert.match(html, /Flare 与 Sunburst/);
-  assert.match(html, /文本输入 \$5/);
-  assert.match(html, /图像输入 \$8/);
-  assert.match(html, /图像输出 \$30/);
+  assert.match(html, /<h5>API 价格<\/h5>/);
+  assert.match(html, /GPT-Image-2\.5 Flare \/ Sunburst API/);
+  assert.match(html, /图像输入<strong>\$8<\/strong><small> \/ 百万 tokens/);
+  assert.match(html, /图像输出<strong>\$30<\/strong><small> \/ 百万 tokens/);
+  assert.match(html, /文本输入<strong>\$5<\/strong><small> \/ 百万 tokens/);
   assert.doesNotMatch(html, /ChatGPT Go/);
+  assert.doesNotMatch(html, /额外使用费用/);
 });
 
 test('MAI-Image-2.6 shows a channel-specific API price with source', () => {
   const items = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/catalog/tool-preview-level3.json'), 'utf8')).items;
   const item = items.find(entry => entry.id === 'tool-level3:mai-image-2.6');
+  assert.equal(item.detail_kind, 'api_model');
+  assert.equal(item.api_pricing.status, 'available');
+  const summary = toolCards.renderPriceSummary({ vendor_key: 'microsoft', detail_ref: { id: item.id } }, item, items);
+  assert.match(summary, /图像输入 \$8 \/ 百万 tokens/);
+  assert.match(summary, /图像输出 \$38 \/ 百万 tokens/);
   const html = renderToolLevel3({ detail: item });
+  assert.match(html, /<h5>API 价格<\/h5>/);
   assert.match(html, /OpenRouter API 渠道/);
-  assert.match(html, /文本输入 \$5/);
-  assert.match(html, /图像输入 \$8/);
-  assert.match(html, /图像输出 \$38/);
-  assert.match(html, /不是 Foundry 报价/);
+  assert.match(html, /图像输入<strong>\$8<\/strong><small> \/ 百万 tokens/);
+  assert.match(html, /图像输出<strong>\$38<\/strong><small> \/ 百万 tokens/);
+  assert.match(html, /文本输入<strong>\$5<\/strong><small> \/ 百万 tokens/);
+  assert.match(html, /Azure 费用以实际报价为准/);
   assert.match(html, /openrouter\.ai\/microsoft\/mai-image-2\.6/);
+  assert.doesNotMatch(html, /额外使用费用/);
 });
