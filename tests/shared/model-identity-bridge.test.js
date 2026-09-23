@@ -120,8 +120,10 @@ test('readModelIdentityBridge 合法内容校验后冻结返回', (t) => {
   assert.ok(Object.isFrozen(result.entries[0]));
 });
 
-test('readModelIdentityBridge 默认读取仓库初始空结构', () => {
-  const result = readModelIdentityBridge();
+test('readModelIdentityBridge 空 fixture 回退空结构', t => {
+  const file = tempBridgeFile(t);
+  fs.writeFileSync(file, JSON.stringify({ schema_version: 1, revision: null, entries: [] }), 'utf8');
+  const result = readModelIdentityBridge(file);
   assert.deepEqual(result.entries, []);
   assert.equal(result.revision, null);
 });

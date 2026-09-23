@@ -6,10 +6,7 @@ const DATA_FILES = {
   'tool-level3': 'data/catalog/tool-preview-level3.json',
 };
 
-// Static JSON is served by GitHub Pages/CDN with a short positive cache lifetime.
-// Bump this value when catalog data changes so an already-open site cannot keep
-// rendering an older catalog snapshot.
-const CATALOG_DATA_VERSION = '2026-09-08-2';
+// Static JSON is fetched with no-store; reload explicitly drops the previous snapshot.
 
 const state = {
   loaded: false,
@@ -30,11 +27,17 @@ function buildIndex(items) {
   return new Map((Array.isArray(items) ? items : []).map(item => [item.id, item]));
 }
 
-async function loadCatalog() {
-  if (state.loaded) return success(true);
+async function loadCatalog({ force = false } = {}) {
+  if (force) {
+    state.loaded = false;
+    state.data.clear();
+    state.indexes.clear();
+  }
+  if (state.loaded) return success(true, { loaded: true });
   if (state.loading) return state.loading;
   state.loading = Promise.all(Object.entries(DATA_FILES).map(async ([area, file]) => {
-    const response = await fetch(`${file}?v=${CATALOG_DATA_VERSION}`, { cache: 'no-store' });
+    const version = force ? `?v=${Date.now()}` : '';
+    const response = await fetch(`${file}${version}`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
     const payload = await response.json();
     const items = Array.isArray(payload) ? payload : payload.items;
@@ -43,8 +46,9 @@ async function loadCatalog() {
     state.indexes.set(area, buildIndex(items));
   })).then(() => {
     state.loaded = true;
-    return success(true);
+    return success(true, { loaded: true });
   }).catch(error => {
+    state.loaded = false;
     state.data.clear();
     state.indexes.clear();
     return failure('LOAD_FAILED', error.message);
@@ -90,7 +94,7 @@ function queryArea(area, operation, id, ids, filters) {
 
 function catalog(request = {}) {
   const { area, operation = 'list', id, ids, filters } = request;
-  if (operation === 'load') return loadCatalog();
+  if (operation === 'load' || operation === 'reload') return loadCatalog({ force: operation === 'reload' });
   if (operation === 'status') return success({ loaded: state.loaded, areas: [...state.data.keys()] });
   return queryArea(area, operation, id, ids, filters);
 }

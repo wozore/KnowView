@@ -39,7 +39,6 @@ const TOOL_GROUPS = [
   { type: 'vision', title: '图像与视觉生成' }, { type: 'media', title: '视频、音乐与音频生成' },
 ];
 
-// EXTENSION POINT: 新增工具类型展示模式在此配置
 const TOOLS_COPY = {
   vendor: {
     eyebrow: '厂商全景',
@@ -140,11 +139,12 @@ class VendorDirectoryView {
     if (this.grid) {
       this.grid.innerHTML = items.map(item => {
         const level2Items = getVendorLevel2Items(item.vendor_key);
+        const visibleDetailIds = new Set(getCatalogItems('tool-level3').filter(detail => detail.vendor_key === item.vendor_key && detail.visibility !== 'hidden_history').map(detail => detail.id));
         const quickItems = level2Items.slice(0, 5).map(level2 => ({
           id: level2.id,
           title: hasSameNameLeaf({ vendor_key: item.vendor_key, title: level2.title }) ? level2.title + '（系列）' : level2.title,
         }));
-        const leafCount = level2Items.reduce((count, level2) => count + level2.detail_refs.length, 0);
+        const leafCount = level2Items.reduce((count, level2) => count + level2.detail_refs.filter(ref => visibleDetailIds.has(ref.id)).length, 0);
         return vendorCards({ card: item, quickItems, leafCount });
       }).join('');
     }

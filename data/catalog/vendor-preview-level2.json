@@ -611,6 +611,14 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:vidu-2-0"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-s2-avatar"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:vidu-s2-editing"
         }
       ]
     },
@@ -972,6 +980,10 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:gpt-image-2"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:gpt-images-2.5"
         }
       ],
       "series_kind": "model_series",
@@ -1019,6 +1031,14 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:chatgpt-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-pro-100"
         }
       ],
       "series_kind": "subscription_series"
@@ -1444,6 +1464,10 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:xai-text-to-speech"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:grok-voice-transcribe-2.0"
         }
       ],
       "series_kind": "tool_series"
@@ -2315,8 +2339,13 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:stepaudio-2.5-asr"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:stepaudio-3-gen-preview"
         }
-      ]
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:stepfun:step-developer-tools",
@@ -2865,7 +2894,7 @@
       "vendor_key": "microsoft",
       "title": "MAI 视觉、语音与推理大模型",
       "official_url": "https://azure.microsoft.com/en-us/products/ai-foundry",
-      "summary": "微软自研全新商业多模态模型家族 MAI，涵盖 35B 强推理模型 MAI-Thinking 1、写实生图模型 MAI-Image 2.5 与高拟真语音生成 MAI-Voice 2。",
+      "summary": "微软自研商业多模态模型家族 MAI，涵盖推理模型 MAI-Thinking 1、图像生成模型 MAI-Image 2.5 与 2.6，以及语音生成模型 MAI-Voice 2。",
       "status": "active",
       "series_kind": "model_series",
       "detail_refs": [
@@ -2876,6 +2905,10 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:mai-image-2-5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-image-2.6"
         },
         {
           "kind": "tool-level3",
@@ -3356,6 +3389,90 @@
           "id": "tool-level3:bailing-api-plan"
         }
       ]
+    },
+    {
+      "id": "vendor-level2:meta:muse-image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:meta"
+      },
+      "vendor_key": "meta",
+      "title": "Muse Image",
+      "official_url": "https://museimages.io/",
+      "summary": "Meta Muse Image 是 Meta Superintelligence Labs 推出的首个图像生成模型（代号 Mango），具备代理式生成能力，已上线 Meta AI app、Instagram Stories 和 WhatsApp 等平台，并在 LMArena 排行榜上名列前茅。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:muse-image"
+        }
+      ],
+      "series_kind": "tool_series"
+    },
+    {
+      "id": "vendor-level2:alibaba:qwen3-8-omni-flash",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:alibaba"
+      },
+      "vendor_key": "alibaba",
+      "title": "Qwen3.8-Omni-Flash",
+      "official_url": "https://www.aliyun.com/product/bailian",
+      "summary": "阿里云百炼是阿里云旗下的一站式大模型服务平台，汇聚千问系列及第三方模型，提供模型推理服务、模型训练调优、知识库、Agent工作流与应用模板等全链路大模型开发能力，助力企业构建和落地大模型应用。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:qwen3.8-omni-flash"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:typesafe:jev",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:typesafe"
+      },
+      "vendor_key": "typesafe",
+      "title": "Jev",
+      "official_url": "https://typesafe.ai/",
+      "summary": "System One Models 是面向软件内部决策的新型 AI 模型类别，Jev 是其首个公开模型。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:jev"
+        }
+      ],
+      "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:tencent:workbuddy-plans",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:tencent"
+      },
+      "vendor_key": "tencent",
+      "title": "WorkBuddy 套餐",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "summary": "WorkBuddy 官方订阅计划，提供 Free、Pro 与 Team 档位。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-team"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-pro"
+        }
+      ],
+      "series_kind": "subscription_series"
     }
   ]
 }

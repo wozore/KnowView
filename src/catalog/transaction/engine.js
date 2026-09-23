@@ -155,9 +155,14 @@ function builderOf(options) {
 }
 
 function publishAfterCommit(options) {
-  if (options.publishCatalogReleaseDates === false) return;
+  if (options.publishCatalogReleaseDates === false) return null;
   const publish = options.publishCatalogReleaseDatesAfterCommit || publishCatalogReleaseDatesAfterCommit;
-  publish();
+  try {
+    const result = publish();
+    return result?.ok === true ? null : result || null;
+  } catch (error) {
+    return { code: 'CATALOG_RELEASE_DATES_PUBLISH_FAILED', error: error.message };
+  }
 }
 
 function runTransaction({ target, options, operation, prepare, result, includeDraftId = false, includeLockOperation = true }) {
@@ -269,9 +274,19 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
     }
     journal.phase = 'committed';
     journalWrite(paths, journal, runId);
-    publishAfterCommit(options);
+    const outcomeWarning = publishAfterCommit(options);
     finalizeTransaction(staging, backup, paths, fsImpl);
-    return { ok: true, ...(result ? result(prepared, before, targetRevision) : {}), beforeRevision: before.revision, targetRevision };
+    return {
+      ok: true,
+      catalog_committed: true,
+      dist_requested: options.buildDist !== false,
+      dist_built: options.buildDist !== false,
+      ...(options.buildDist === false ? { dist_pending: true } : {}),
+      ...(outcomeWarning ? { outcome_warning: outcomeWarning, outcome_pending: true } : {}),
+      ...(result ? result(prepared, before, targetRevision) : {}),
+      beforeRevision: before.revision,
+      targetRevision,
+    };
   } catch (error) {
     const journal = journalRead(paths);
     try {

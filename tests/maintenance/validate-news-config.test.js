@@ -22,6 +22,11 @@ const BASE_VALID_CONFIG = {
     x_credits_per_article: 100,
     x_tweets_per_request_max: 20,
   },
+  review: {
+    web_search_provider: 'tavily',
+    web_search_engine: 'search_std',
+    web_verify_max_searches_per_run: 10,
+  },
   x_accounts: [
     'OpenAI', 'deepseek_ai', 'ChatGPTapp', 'midjourney', 'GroqLLC', 'lmsysorg',
     'xiaohu', 'testingcatalog', 'emollick', 'nima_owji', 'NVIDIAAI',

@@ -12,7 +12,7 @@ function fixtures() {
       schema_version: 1,
       schedule: { youtube_cron: '0 0 * * *', x_cron_hot: '30 0 * * *' },
       collection: { enabled: true, concurrency: 5, request_timeout_ms: 15000, twitter_api_base_url: 'https://private.invalid' },
-      review: { l2_enabled: true, web_verify: true },
+      review: { l2_enabled: true, web_verify: true, web_search_provider: 'tavily', web_search_engine: 'search_std', web_verify_max_searches_per_run: 10 },
       keywords: { content_keywords: ['ai'], youtube_queries: ['AI news'], x_discovery_queries: [{ id: 'release', query: 'launch', max_pages: 1 }], excluded_content_keywords: ['spam'] },
       x_accounts: ['OpenAI'], account_groups: [{ id: 'g1', label: 'group', handles: ['OpenAI'], priority: 1, max_pages: 1, high_frequency: false }],
       feedback: { tool_feedback: true, llm_model: 'model-a' }, transcripts: { notify_count: '3to5' },
@@ -36,7 +36,7 @@ function domainWith(overrides = {}) {
       if (source[file] instanceof Error) throw source[file];
       return source[file];
     },
-    loadCatalogConfig: () => source.catalog || { enabled: true, provider: 'zhipu', model: 'glm-test', protocol: 'messages', retrieval_provider: 'tavily', timeout_ms: 1000, max_search_queries: 2, max_pages: 3, max_responses_calls: 4, max_synthesis_calls: 1, max_repair_calls: 1 },
+    loadCatalogConfig: () => source.catalog || { enabled: true, provider: 'zhipu', model: 'glm-test', protocol: 'messages', search_provider: 'tavily', extract_provider: 'tavily', search_engine: 'search_std', timeout_ms: 1000, max_search_queries: 2, max_pages: 3, max_responses_calls: 4, max_synthesis_calls: 1, max_repair_calls: 1 },
     providers: { test: { name: 'test', label: 'Test', protocol: 'chat', defaultModel: 'test-model', implemented: true, chatEndpoint: 'https://private.invalid' } },
     env: { ZHIPU_API_KEY: 'secret', DEEPSEEK_API_KEY: '', TAVILY_API_KEY: 'secret', YOUTUBE_API_KEY: undefined, X_API_KEY: 'secret', OPENAI_API_KEY: null, ANTHROPIC_API_KEY: 'secret' },
   });
@@ -80,7 +80,7 @@ test('Catalog 缺失 local override 使用注入的有效默认值，覆盖值�
   const defaulted = domainWith({ catalog: undefined }).read();
   const defaultSection = defaulted.groups[2].sections.find(section => section.id === 'effective');
   assert.equal(defaultSection.values.find(item => item.key === 'model').value, 'glm-test');
-  const overridden = domainWith({ catalog: { enabled: false, provider: 'test', model: 'override', protocol: 'chat', retrieval_provider: 'tavily', max_pages: 9 } }).read();
+  const overridden = domainWith({ catalog: { enabled: false, provider: 'test', model: 'override', protocol: 'chat', search_provider: 'tavily', extract_provider: 'tavily', search_engine: 'search_std', max_pages: 9 } }).read();
   const overrideSections = Object.fromEntries(overridden.groups[2].sections.map(section => [section.id, section]));
   assert.equal(overrideSections.effective.values.find(item => item.key === 'model').value, 'override');
   assert.equal(overrideSections.limits.values.find(item => item.key === 'max_pages').value, 9);
@@ -103,7 +103,7 @@ test('嵌套白名单字段出现对象注入时 fail-closed 且错误不含敏�
     },
     {
       label: 'catalog limits scalar',
-      overrides: { catalog: { enabled: true, provider: 'test', model: 'model', protocol: 'chat', retrieval_provider: 'tavily', max_pages: { endpoint: 'https://secret.invalid' } } },
+      overrides: { catalog: { enabled: true, provider: 'test', model: 'model', protocol: 'chat', search_provider: 'tavily', extract_provider: 'tavily', search_engine: 'search_std', max_pages: { endpoint: 'https://secret.invalid' } } },
     },
     {
       label: 'comparison policy nested endpoint',
@@ -137,7 +137,7 @@ test('环境状态读取异常只投影 unknown，且不做网络探测', () => 
   const result = createConfigDomain({
     files,
     readJson: file => source[file],
-    loadCatalogConfig: () => ({ provider: 'local', model: 'bonsai', protocol: 'chat', retrieval_provider: 'tavily' }),
+    loadCatalogConfig: () => ({ provider: 'local', model: 'bonsai', protocol: 'chat', search_provider: 'tavily', extract_provider: 'tavily', search_engine: 'search_std' }),
     providers: {},
     env: name => { if (name === 'X_API_KEY') throw new Error('unavailable'); return undefined; },
   }).read();

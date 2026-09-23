@@ -174,7 +174,7 @@
       "id": "vendor-card:minimax",
       "vendor_key": "minimax",
       "title": "MiniMax",
-      "icon": "",
+      "icon": "🤖",
       "summary": "MiniMax 提供文本、视频、语音和音乐等多模态 API、Token Plan 订阅与 MiniMax Code 官方 Coding Agent。",
       "feature_preview": [
         {
@@ -209,7 +209,7 @@
       "id": "vendor-card:xai",
       "vendor_key": "xai",
       "title": "xAI",
-      "icon": "",
+      "icon": "🤖",
       "summary": "xAI 提供 Grok 通用模型、SuperGrok 订阅、Grok Build 编程 Agent、Imagine 媒体生成、Voice API 和 Grok Bot 智能体产品。",
       "feature_preview": [
         {
@@ -700,7 +700,7 @@
       "vendor_key": "microsoft",
       "title": "Microsoft（Azure AI Foundry）",
       "icon": "🤖",
-      "summary": "Microsoft 通过 Azure AI Foundry 及官方模型生态提供模型目录、部署和 AI 应用服务入口。",
+      "summary": "Microsoft 通过 Azure AI Foundry 及 Microsoft AI 模型生态提供模型目录、部署和 AI 产品服务入口。",
       "feature_preview": [
         {
           "tone": "positive",
@@ -709,6 +709,10 @@
         {
           "tone": "negative",
           "text": "模型授权、区域部署与实际价格需以 Azure 官方条件为准"
+        },
+        {
+          "tone": "positive",
+          "text": "Microsoft AI 提供 MAI-Image 系列图像生成模型"
         }
       ],
       "access_level": "区域限制",
@@ -718,7 +722,11 @@
         "microsoft",
         "Azure AI Foundry",
         "Phi",
-        "Fara"
+        "Fara",
+        "Microsoft AI",
+        "microsoft-ai",
+        "MAI-Image",
+        "MAI-Image-2.6"
       ],
       "level1_ref": {
         "kind": "vendor-level1",
@@ -865,6 +873,45 @@
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:vidu"
+      }
+    },
+    {
+      "id": "vendor-card:typesafe",
+      "vendor_key": "typesafe",
+      "title": "TypeSafe AI",
+      "icon": "🤖",
+      "summary": "TypeSafe AI 是一家研发 System One Models 的公司，推出面向自动化决策的模型 Jev。",
+      "feature_preview": [
+        {
+          "tone": "positive",
+          "text": "输出软件可直接执行的类型化决策"
+        },
+        {
+          "tone": "positive",
+          "text": "每个决策附带校准的置信度估计"
+        },
+        {
+          "tone": "positive",
+          "text": "号称零幻觉，低置信时自动升级人工"
+        },
+        {
+          "tone": "positive",
+          "text": "比 LLM 快 193.6 倍、便宜 444.6 倍"
+        },
+        {
+          "tone": "positive",
+          "text": "输入价格 $42/十亿 token，比 Claude Fable 5.1 低 238 倍"
+        }
+      ],
+      "access_level": "开放",
+      "price_badge": "usage_based",
+      "search_terms": [
+        "TypeSafe AI",
+        "typesafe"
+      ],
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:typesafe"
       }
     }
   ]

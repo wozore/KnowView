@@ -225,11 +225,52 @@ function createFixtureWorkbenchService() {
     },
 
     pendingTools() {
-      return envelope({ items: state.pendingTools });
+      const isPending = item => item.review_status === 'pending' || (item.review_status === 'approved' && item.workflow_state !== 'completed');
+      const items = state.pendingTools.filter(isPending);
+      const history_items = state.pendingTools.filter(item => !isPending(item));
+      return envelope({
+        items,
+        history_items,
+        history_count: history_items.length,
+        active_count: items.length,
+      });
     },
 
     pendingConcepts() {
-      return envelope({ items: [] });
+      return envelope({ items: [], history_items: [], history_count: 0, active_count: 0 });
+    },
+
+    extractKnowledge(body = {}) {
+      const conflict = checkRevision(body.expected_revision);
+      if (conflict) return conflict;
+      // 模拟从 approved 摘要提取知识：产出 Grok Voice Transcribe 2.0 model 卡，过滤 OpenAI/Anthropic
+      const existing = state.pendingTools.find(t => t.candidate_key === 'grok-voice-transcribe-2-0');
+      if (!existing) {
+        state.pendingTools.push({
+          candidate_key: 'grok-voice-transcribe-2-0',
+          name: 'Grok Voice Transcribe 2.0',
+          entity_type: 'model',
+          detail_kind_hint: 'api_model',
+          review_status: 'pending',
+          workflow_state: 'pending_review',
+          mentioned_in_summaries: 1,
+          description: '',
+        });
+      }
+      return {
+        ok: true,
+        tools_found: 0,
+        concepts_found: 0,
+        tools_pending: 1,
+        concepts_pending: 0,
+        pending_revisions: {
+          tools: bumpRevision(),
+          concepts: revision(),
+        },
+        diagnostics: {
+          vague_filtered: [{ name: 'OpenAI', type: 'vague' }, { name: 'Anthropic', type: 'vague' }],
+        },
+      };
     },
 
     reviewPendingTool(candidateKey, body = {}) {
@@ -243,6 +284,7 @@ function createFixtureWorkbenchService() {
         return { ok: false, code: 'PENDING_REVIEW_DECISION_INVALID', message: `fixture：非法待补卡决定 ${body.decision}` };
       }
       item.review_status = body.decision;
+      item.workflow_state = body.decision === 'approved' ? 'approved_pending' : 'discarded';
       return { ok: true, revision: bumpRevision(), candidate_key: candidateKey, decision: body.decision };
     },
 

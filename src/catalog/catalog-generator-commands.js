@@ -59,8 +59,13 @@ function tavilyAccessModeFromFlags(flags = {}) {
 
 function generatorOptionsFromFlags(flags = {}) {
   const accessMode = tavilyAccessModeFromFlags(flags);
+  const configured = loadGeneratorConfig();
   return {
-    ...normalizeGeneratorOptions(loadGeneratorConfig()),
+    ...normalizeGeneratorOptions({
+      ...configured,
+      ...(flags.search_provider ? { search_provider: flags.search_provider } : {}),
+      ...(flags.search_engine ? { search_engine: flags.search_engine } : {}),
+    }),
     accessMode,
   };
 }
@@ -71,7 +76,7 @@ function readSeed(flags) {
 }
 
 function catalogDraftOnly(draft) {
-  return draft?.schema_version === 3 && (draft.draft_kind || 'catalog') === 'catalog';
+  return draft?.schema_version === 4 && (draft.draft_kind || 'catalog') === 'catalog';
 }
 
 function listCatalogDraftsOnly() {

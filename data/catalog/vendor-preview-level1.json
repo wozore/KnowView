@@ -295,7 +295,7 @@
       "id": "vendor-level1:minimax",
       "vendor_key": "minimax",
       "title": "MiniMax",
-      "icon": "",
+      "icon": "🤖",
       "official_url": "https://platform.minimax.io/docs",
       "description": "MiniMax 是覆盖文本、视频、语音和音乐生成的多模态 AI 平台，提供商业 API、地区化 Token Plan 订阅与 MiniMax Code 官方 Coding Agent。",
       "status": "active",
@@ -344,7 +344,7 @@
       "id": "vendor-level1:xai",
       "vendor_key": "xai",
       "title": "xAI",
-      "icon": "",
+      "icon": "🤖",
       "official_url": "https://docs.x.ai/developers/models",
       "description": "xAI 以 Grok 通用模型为核心，并提供 SuperGrok 订阅、Imagine、Voice、Grok Build 和 Grok Bot 等商业产品。",
       "status": "active",
@@ -679,6 +679,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:alibaba:bailian-coding-plan"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:alibaba:qwen3-8-omni-flash"
         }
       ]
     },
@@ -720,6 +724,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:tencent:codebuddy-subscription"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:tencent:workbuddy-plans"
         }
       ]
     },
@@ -761,6 +769,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:meta:muse-code"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:meta:muse-image"
         }
       ]
     },
@@ -1053,7 +1065,7 @@
       "title": "Microsoft（Azure AI Foundry）",
       "icon": "🤖",
       "official_url": "https://huggingface.co/microsoft/collections",
-      "description": "Microsoft 通过 Azure AI Foundry 及官方模型生态提供模型目录、部署和 AI 应用服务入口。",
+      "description": "Microsoft 通过 Azure AI Foundry、官方模型生态与 Microsoft AI 提供模型部署及 AI 产品服务。",
       "status": "partial",
       "features": [
         {
@@ -1063,6 +1075,10 @@
         {
           "tone": "negative",
           "text": "限制：模型授权、区域部署与实际价格需以 Azure 官方条件为准。"
+        },
+        {
+          "tone": "positive",
+          "text": "Microsoft AI 提供 MAI-Image 系列图像生成模型。"
         }
       ],
       "level2_refs": [
@@ -1262,6 +1278,43 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:vidu:subscription"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level1:typesafe",
+      "vendor_key": "typesafe",
+      "title": "TypeSafe AI",
+      "icon": "🤖",
+      "official_url": "https://typesafe.ai/",
+      "description": "TypeSafe AI 提出 System One Models 这一新型模型类别，采用 RLCD（Reinforcement Learning for Calibrated Decisions）训练算法，面向机器原生使用，输出带置信度的类型化决策，而非面向人类对话的文本。其首个公开模型为 Jev，针对软件自动化场景优化。",
+      "status": "verified",
+      "features": [
+        {
+          "tone": "positive",
+          "text": "输出软件可直接执行的类型化决策"
+        },
+        {
+          "tone": "positive",
+          "text": "每个决策附带校准的置信度估计"
+        },
+        {
+          "tone": "positive",
+          "text": "号称零幻觉，低置信时自动升级人工"
+        },
+        {
+          "tone": "positive",
+          "text": "比 LLM 快 193.6 倍、便宜 444.6 倍"
+        },
+        {
+          "tone": "positive",
+          "text": "输入价格 $42/十亿 token，比 Claude Fable 5.1 低 238 倍"
+        }
+      ],
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:typesafe:jev"
         }
       ]
     }

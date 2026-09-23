@@ -10,7 +10,7 @@
 - 在项目根目录执行命令；
 - 目录模块配置的合成 provider 对应 API Key 环境变量（默认 provider 为 ZhipuAI，使用 `ZHIPU_API_KEY`）；
 - 官方资料搜索和正文提取使用 Tavily。目录生成器的联网命令必须显式传入 `--tavily-access-mode keyed`，使用 `TAVILY_API_KEY`；本轮工具卡生成不使用 keyless 模式。缺少 Key 时会在发出请求前 fail-closed；不要把真实 Key 写入 Seed、配置文件、BAT 或目录 JSON。
-- Tavily Search 负责发现官方来源，Tavily Extract 负责返回清洗后的正文，合成模型（默认 ZhipuAI `glm-5.3-flash`）单段式基于官方来源正文合成五层字段与来源 provenance。
+- 配置的 Search provider（Tavily 或 Zhipu Web Search）负责发现官方来源，Tavily Extract 负责返回清洗后的正文，合成模型（默认 ZhipuAI `glm-5.3-flash`）单段式基于官方来源正文合成五层字段与来源 provenance。
 
 API Key 只通过环境变量读取，不要写入 Seed、配置文件、BAT、草案或目录 JSON。
 
@@ -40,7 +40,9 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
     "catalog": {
       "enabled": true,
       "provider": "zhipu",
-      "retrieval_provider": "tavily",
+      "search_provider": "tavily",
+      "extract_provider": "tavily",
+      "search_engine": "search_std",
       "model": "glm-5.3-flash",
       "protocol": "messages",
       "timeout_ms": 180000,
@@ -61,7 +63,7 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 ```
 
 - `provider` 选择字段合成的模型厂商；当前目录生成器默认使用 ZhipuAI（默认模型 `glm-5.3-flash`）。
-- `retrieval_provider` 固定为 `tavily`；Tavily Search 发现来源，Tavily Extract 获取清洗后的正文。
+- `search_provider` 支持 `tavily` 与 `zhipu_web_search`；`extract_provider` 当前固定为 `tavily`，由 Tavily Extract 获取清洗后的正文。`search_engine` 在智谱搜索时可选 `search_std`、`search_pro`、`search_pro_sogou`、`search_pro_quark`。
 - `model` 选择合成 provider 的模型；OpenAI 等没有默认模型的 provider 必须显式填写。
 - `protocol` 必须与 provider 匹配；zhipu 使用 Anthropic 兼容的 `messages` 端点，协议不匹配会 fail-closed，不会发请求。
 - API Key 只按职责从环境变量读取：ZhipuAI 使用 `ZHIPU_API_KEY`，Tavily 使用 `TAVILY_API_KEY`；Key 不进入配置文件。
@@ -79,8 +81,8 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 |---|---|---|---|
 | `plan --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
 | `prepare --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
-| `probe --confirm-cost --tavily-access-mode keyed` | 检查 Tavily 检索和合成 provider 配置 | 会调用一次 Tavily | 否 |
-| `new --seed <file> --confirm-cost --tavily-access-mode keyed` | 按计划联网研究并生成 schema v3 Preview Draft | 会联网并可能产生费用 | 否 |
+| `probe --confirm-cost --tavily-access-mode keyed` | 检查配置的 Search/Extract provider 和合成 provider（正文 Extract 当前仍需 Tavily access mode） | 会调用一次配置的 Search | 否 |
+| `new --seed <file> --confirm-cost --tavily-access-mode keyed` | 按计划联网研究并生成 schema v4 Preview Draft；Search 可在配置中选择 Tavily 或 Zhipu Web Search | 会联网并可能产生费用 | 否 |
 | `resume <draft-id> --confirm-cost --tavily-access-mode keyed` | 只补 FieldCoverage 中仍缺失字段对应的层来源并重新合成 | 会联网并可能产生费用 | 否 |
 | `list` | 列出草案及状态 | 否 | 否 |
 | `review <draft-id>` | 重算字段覆盖、LayerPatch、Preview hash 和目录版本 | 否 | 否 |
@@ -144,7 +146,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 - 如果 `name` 无法稳定转成 ASCII 业务键，需要手工填写 `tool_key`；如果 `vendor_name` 无法稳定转成 ASCII 业务键，需要手工填写 `vendor_key`。
 - `modality` 与 `detail_kind` 共同决定 CatalogProfile。API 模型必须明确 `text`、`video`、`image` 或 `audio`，不能让视频模型落入文本 token/context 假设。
 - `model_key`：`api_model` 类 detail 必填，格式为 `<vendor_key>-<identity>` 的单横线小写键（如 `deepseek-deepseek-v4.1-flash`）；缺失时报 `MODEL_KEY_REQUIRED`，非 `api_model` 携带时报 `MODEL_KEY_NOT_APPLICABLE`。
-- `known_fields` 只放维护者已经确定的结构提示；当前稳定支持 `theme`、`icon` 和 `integrated_release_date`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），合成时仅在模型未给出 `release_date` 且记录不是 `tool` 时作为确定性兜底填入。摘要、价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
+- `known_fields` 只放维护者已经确定的结构提示；支持 `theme`、`icon`、`integrated_release_date`、`subscription_plan_refs` 和 `pricing_disclosure`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），合成时仅在模型未给出 `release_date` 且记录不是 `tool` 时作为确定性兜底填入。`subscription_plan_refs` 是显式的同厂商 `subscription_plan` 三级详情引用；`pricing_disclosure` 使用 `{status, text, source_urls}`，状态为 `not_published` 或 `external_usage_cost`，每个 URL 必须与 ResearchResult 中的官方来源匹配。套餐关系不能推断，价格说明不能缺少官方证据；摘要、直接价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
 - `repair_layers` 用于声明本次确实需要替换的污染层；未列入且已存在的健康层为 `noop`，不会因新增一个模型而重写厂商资料。
 
 生成器对本次新建或替换的记录执行严格完整性校验：每个适用契约字段都必须是非空、类型正确的明确值，禁止 `null`、空字符串、空数组、`unknown/未知` 等占位值。`one_m_context`、`api_pricing` 或 `plan` 确实不适用时，必须使用：

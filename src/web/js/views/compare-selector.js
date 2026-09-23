@@ -23,6 +23,7 @@ const VENDOR_ICONS = {
   openai: '🤖', anthropic: '✦', google: '✨', meta: '🦙', deepseek: '🐋',
   qwen: '🐉', mistral: '🌀', moonshot: '🌙', midjourney: '🎨', xai: '🕳️', glm: '🧊',
 };
+const COMPARISON_VENDOR_LABELS = { 'microsoft-ai': 'Microsoft AI' };
 
 function themeLabel(theme) {
   return THEME_LABELS[theme] || theme || '通用';
@@ -46,7 +47,7 @@ function humanizeVendorKey(vendorKey) {
 }
 
 function vendorLabel(vendorKey) {
-  return getVendorCardItem(vendorKey)?.title || humanizeVendorKey(vendorKey);
+  return getVendorCardItem(vendorKey)?.title || COMPARISON_VENDOR_LABELS[vendorKey] || humanizeVendorKey(vendorKey);
 }
 
 function vendorIconHtml(vendorKey) {
@@ -280,7 +281,7 @@ function renderMemberVariantSelect(member, selected, indexMap) {
     '<select class="cmp-tree-revision" data-cmp-revision="' + escapeHtml(member.member_key) + '" aria-label="' + escapeHtml(member.display + ' 版本') + '">' +
       member.variants.map(variant =>
         '<option value="' + escapeHtml(variant.canonical) + '"' + (variant.canonical === activeCanonical ? ' selected' : '') + '>' +
-          escapeHtml(variant.revision || variant.display) +
+          escapeHtml(variant.revision || (variant.canonical === member.default_canonical ? '正式版' : variant.display)) +
         '</option>'
       ).join('') +
     '</select>' +

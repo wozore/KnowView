@@ -3,9 +3,10 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-let isHiddenHistory, buildSeriesIndex, matchSeries, deriveWordForms;
+let isHiddenHistory, buildSeriesIndex, matchSeries, deriveWordForms, visibleMembersForSeries, renderModelList;
 test.before(async () => {
   ({ isHiddenHistory, buildSeriesIndex, matchSeries, deriveWordForms } = await import('../../src/web/js/data/model-series-index.mjs'));
+  ({ visibleMembersForSeries, renderModelList } = await import('../../src/web/js/views/compare-selector.js'));
 });
 
 function card(id, overrides = {}) {
@@ -148,6 +149,38 @@ test('matchSeries 系列词与成员词等长时系列优先', () => {
 
 test('matchSeries 非系列成员的一般工具不进入系列层（交由 content 平铺层）', () => {
   assert.equal(matchSeries(sampleIndex(), '写作助手好吗'), null);
+});
+
+test('comparison selector keeps the Microsoft AI label without a separate vendor card', () => {
+  const previousDocument = global.document;
+  const list = { innerHTML: '' };
+  global.document = {
+    getElementById(id) { return id === 'cmpModelList' ? list : null; },
+    createElement() {
+      let text = '';
+      return {
+        set textContent(value) { text = String(value); },
+        get innerHTML() {
+          return text.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+        },
+      };
+    },
+  };
+  renderModelList({
+    selected: [],
+    indexSeries: [{
+      vendor: 'microsoft-ai', display: 'MAI Image', series_key: 'microsoft-ai--mai-image', member_count: 1,
+      members: [{ member_key: 'mai-image-2.6', display: 'MAI-Image-2.6', theme: 'image', variants: [], default_canonical: 'mai-image-2.6' }],
+    }],
+    indexMap: new Map(),
+    filterTheme: 'image',
+    searchQuery: '',
+    expandedVendors: new Set(),
+    expandedSeries: new Set(),
+  });
+  if (previousDocument === undefined) delete global.document;
+  else global.document = previousDocument;
+  assert.match(list.innerHTML, /Microsoft AI/);
 });
 
 test('matchSeries 无命中与空输入返回 null', () => {

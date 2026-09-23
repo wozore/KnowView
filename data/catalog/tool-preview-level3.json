@@ -1001,15 +1001,14 @@
       ]
     },
     {
-      "id": "tool-level3:chatgpt-pro",
       "vendor_key": "openai",
       "detail_kind": "subscription_plan",
-      "title": "ChatGPT Pro",
+      "title": "ChatGPT Pro $200",
       "vendor_label": "OpenAI",
-      "icon": "🤖",
+      "icon": "🧩",
       "official_url": "https://chatgpt.com/pricing",
-      "status": "active",
-      "summary": "面向研究、编程和高使用量需求的个人订阅。",
+      "status": "partial",
+      "summary": "ChatGPT Pro $200 月度计划，官方称使用量约为 Plus 的 20 倍。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -1022,30 +1021,19 @@
         "amount": 200,
         "currency": "USD",
         "billing_period": "month",
-        "conditions": "美国显示价格；合理使用限制和具体模型权益以官方计划页为准。",
-        "included_models": [
-          "GPT-5.6 Sol Pro"
-        ],
-        "included_models_status": "partial"
+        "conditions": "美国显示价 $200/月；官方称使用量约为 Plus 的 20 倍。自 2026-09-10 暂停新注册与升级；现有订阅不受影响。",
+        "included_models_status": "not_listed"
       },
       "applicable_scenarios": [
         {
-          "title": "研究工作者",
-          "description": "面向研究场景提供更高的使用上限。"
-        },
-        {
-          "title": "高使用量程序员",
-          "description": "包含 GPT-5.6 Sol Pro 等高阶模型，适合高强度编程使用。"
+          "title": "ChatGPT 个人计划",
+          "description": "ChatGPT Pro $200 月度计划，官方称使用量约为 Plus 的 20 倍。"
         }
       ],
       "inapplicable_scenarios": [
         {
-          "title": "轻度使用者",
-          "description": "每月 $200 的成本远超轻度用户需求。"
-        },
-        {
-          "title": "需要严格预算控制的团队",
-          "description": "个人订阅维度，团队规模使用需评估商业方案。"
+          "title": "独立 API 调用",
+          "description": "ChatGPT 订阅不替代 OpenAI API 按量计费。"
         }
       ],
       "sources": [
@@ -1056,8 +1044,14 @@
         {
           "title": "Introducing ChatGPT Go",
           "url": "https://openai.com/index/introducing-chatgpt-go"
+        },
+        {
+          "title": "About ChatGPT Pro tiers",
+          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
         }
-      ]
+      ],
+      "theme": "general",
+      "id": "tool-level3:chatgpt-pro"
     },
     {
       "id": "tool-level3:claude-fable-5",
@@ -3838,7 +3832,7 @@
       "detail_kind": "tool",
       "title": "Kimi Code",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "🧑‍💻",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/code/en",
       "status": "active",
       "summary": "Kimi 官方 CLI 编程 Agent，支持代码阅读、文件编辑、命令执行和多步骤开发任务，并可接入 VS Code 与第三方开发工具。",
@@ -3884,24 +3878,54 @@
           "url": "https://www.kimi.com/code/en"
         },
         {
-          "title": "Kimi Code 官方文档",
+          "title": "Kimi Code documentation",
           "url": "https://www.kimi.com/code/docs/en/"
         },
         {
-          "title": "Kimi Code 会员权益",
+          "title": "Kimi Code membership guide",
           "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
+        },
+        {
+          "title": "Kimi membership pricing",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code CLI release notes",
+          "url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html"
         }
       ],
       "theme": "dev",
-      "id": "tool-level3:kimi-code",
-      "last_updated_date": "2026-09-08"
+      "subscription_plan_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-andante"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-moderato"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegretto"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegro"
+        }
+      ],
+      "last_updated_date": "2026-09-17",
+      "id": "tool-level3:kimi-code"
     },
     {
       "vendor_key": "moonshot",
       "detail_kind": "tool",
       "title": "Kimi Work",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "🗂️",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/kimi-work/overview",
       "status": "active",
       "summary": "Kimi 面向知识工作者的官方 Agent 工具，在 Mac/Windows 桌面端处理本地文件、浏览器操作、数据分析和长任务交付。",
@@ -3943,43 +3967,73 @@
       ],
       "sources": [
         {
-          "title": "Kimi Work 官方说明",
+          "title": "Kimi Work overview",
           "url": "https://www.kimi.com/en/help/kimi-work/overview"
         },
         {
-          "title": "Kimi Work 常见问题",
+          "title": "Kimi Work FAQ",
           "url": "https://www.kimi.com/en/help/kimi-work/kimi-work-faq"
+        },
+        {
+          "title": "Kimi membership pricing",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Work release notes",
+          "url": "https://www.kimi.com/en/help/kimi-work/release-notes"
         }
       ],
       "theme": "dev",
-      "id": "tool-level3:kimi-work",
-      "last_updated_date": "2026-09-08"
+      "subscription_plan_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-andante"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-moderato"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegretto"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegro"
+        }
+      ],
+      "last_updated_date": "2026-09-22",
+      "id": "tool-level3:kimi-work"
     },
     {
-      "id": "tool-level3:kimi-membership-andante",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Andante",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Andante 计划，定位为日常使用，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 49,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥49/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard"
         ],
         "included_models_status": "partial"
       },
@@ -4005,41 +4059,46 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-andante"
     },
     {
-      "id": "tool-level3:kimi-membership-moderato",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Moderato",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Moderato 计划，定位为效率升级，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 99,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥99/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard"
         ],
         "included_models_status": "partial"
       },
@@ -4065,41 +4124,47 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-moderato"
     },
     {
-      "id": "tool-level3:kimi-membership-allegretto",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Allegretto",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Allegretto 计划，定位为专业优选，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 199,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥199/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard",
+          "Kimi Code HighSpeed"
         ],
         "included_models_status": "partial"
       },
@@ -4125,41 +4190,47 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-allegretto"
     },
     {
-      "id": "tool-level3:kimi-membership-allegro",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Allegro",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Allegro 计划，定位为全能尊享，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 699,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥699/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard",
+          "Kimi Code HighSpeed"
         ],
         "included_models_status": "partial"
       },
@@ -4185,15 +4256,20 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-allegro"
     },
     {
       "vendor_key": "alibaba",
@@ -9294,13 +9370,11 @@
       "last_updated_date": "2026-06-18"
     },
     {
-      "id": "tool-level3:deepseek-harness",
       "vendor_key": "deepseek",
       "detail_kind": "tool",
-      "theme": "dev",
       "title": "DeepSeek Harness",
       "vendor_label": "深度求索",
-      "icon": "🧰",
+      "icon": "🧩",
       "official_url": "https://www.deepseek.com/harness/en/",
       "status": "partial",
       "summary": "DeepSeek 官方开源 Agent Harness，以插件化方式组合模型、工具、技能、会话、沙箱、存储、循环和界面。",
@@ -9346,15 +9420,34 @@
           "url": "https://www.deepseek.com/harness/en/"
         },
         {
-          "title": "DeepSeek Harness repository",
-          "url": "https://github.com/deepseek-ai/deepseek-harness"
+          "title": "DeepSeek Harness license",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/LICENSE"
         },
         {
-          "title": "DeepSeek Harness architecture",
-          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md"
+          "title": "DeepSeek Harness provider guide",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md"
+        },
+        {
+          "title": "DeepSeek Harness token meter",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/token-meter.md"
+        },
+        {
+          "title": "DeepSeek Harness release commit",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/commit/10ea83bcc3cf97151710cc96dee3a58d54956a40"
         }
       ],
-      "last_updated_date": "2026-09-07"
+      "theme": "dev",
+      "pricing_disclosure": {
+        "status": "external_usage_cost",
+        "text": "DeepSeek Harness 按 MIT 开源许可提供；官方资料未列统一模型/API 单价。连接第三方 provider 或自定义模型 API 时，模型调用可能按相应服务商规则另行计费，具体费用需核对实际 provider 的官方价格。",
+        "source_urls": [
+          "https://github.com/deepseek-ai/deepseek-harness/blob/master/LICENSE",
+          "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md",
+          "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/token-meter.md"
+        ]
+      },
+      "last_updated_date": "2026-09-22",
+      "id": "tool-level3:deepseek-harness"
     },
     {
       "vendor_key": "minimax",
@@ -15766,15 +15859,14 @@
       "theme": "media"
     },
     {
-      "id": "tool-level3:workbuddy",
       "vendor_key": "tencent",
       "detail_kind": "tool",
       "title": "WorkBuddy",
       "vendor_label": "腾讯（混元）",
-      "icon": "💼",
+      "icon": "🧩",
       "official_url": "https://www.codebuddy.ai",
       "status": "active",
-      "summary": "WorkBuddy 是腾讯与 CodeBuddy 团队推出的全能 AI Agent 桌面工作平台，面向全场景办公与智能体协同，支持 Windows、macOS、鸿蒙、银河麒麟与统信系统。",
+      "summary": "WorkBuddy 是腾讯提供的桌面 AI Agent；用户可用自然语言描述任务，由 Agent 规划并执行多步办公工作，处理获授权目录中的文件。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -15789,18 +15881,47 @@
       },
       "applicable_scenarios": [
         {
-          "title": "桌面 Agent 智能协作",
-          "description": "日常办公自动化、多格式文档深度解析与智能体基座开放生态。"
+          "title": "桌面办公自动化",
+          "description": "通过自然语言安排多步办公任务并处理获授权目录中的文件。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "开发者直连 API",
+          "description": "需要程序直接调用模型 API 时，应核对实际模型服务商的接入方式和计费。"
         }
       ],
       "sources": [
         {
-          "title": "腾讯 WorkBuddy 开放平台上线 - IT之家",
-          "url": "https://www.ithome.com/0/999/369.htm"
+          "title": "WorkBuddy overview",
+          "url": "https://www.codebuddy.ai/docs/zh/workbuddy/Overview"
+        },
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
         }
       ],
-      "last_updated_date": "2026-09-07",
-      "theme": "general"
+      "theme": "general",
+      "subscription_plan_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-team"
+        }
+      ],
+      "last_updated_date": "2026-08-07",
+      "id": "tool-level3:workbuddy"
     },
     {
       "id": "tool-level3:codebuddy-pro",
@@ -21203,6 +21324,1094 @@
       "release_date": "2026-09-10",
       "model_key": "deepseek-deepseek-v4.1-flash",
       "id": "tool-level3:deepseek-v4.1-flash"
+    },
+    {
+      "vendor_key": "meta",
+      "detail_kind": "tool",
+      "title": "Muse Image",
+      "vendor_label": "Meta",
+      "icon": "🧩",
+      "official_url": "https://museimages.io/",
+      "status": "active",
+      "summary": "MuseImages 是围绕 Meta Muse Image 模型构建的独立浏览器工作区，支持代理式图像生成、多参考图合成、圈选局部编辑、可读文字渲染和原生 4K 导出，新账号免费赠送 8 个积分（可生成 32 个变体）并可每日签到补充。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "电商目录重绘",
+          "description": "一次载入整个产品目录，以统一光线和背景风格重绘每个 SKU，保持品牌调性一致。"
+        },
+        {
+          "title": "角色一致性创作",
+          "description": "上传单张人脸后生成多个场景，锁定面部结构与肤色，使角色在不同画面中保持一致。"
+        },
+        {
+          "title": "品牌多版本延展",
+          "description": "以一张主视觉图生成多个符合品牌规范的广告变体，布局保持稳定。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "无参考图的纯官方应用体验",
+          "description": "在 Meta 自家应用内生成的图像会附带 Content Seal 溯源标记，不适合需要无水印且无溯源信号交付的场景。"
+        },
+        {
+          "title": "需要官方支持的企业采购",
+          "description": "MuseImages 为独立工作区，与 Meta 无隶属或背书关系，不适合要求厂商官方工具链支持的场景。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Meta Muse Image AI Image Generator — Try Online Free",
+          "url": "https://museimages.io/"
+        },
+        {
+          "title": "Muse Image AI Image to Image Generator — Free 4K Editor",
+          "url": "https://museimages.io/image/ai-image-to-image"
+        },
+        {
+          "title": "Meta Muse Image AI — Free AI Image Generator & Editor",
+          "url": "https://museimages.io/ai-image-generator"
+        },
+        {
+          "title": "Privacy Policy | Best MuseImages Video & Image Generator 2026",
+          "url": "https://museimages.io/privacy-policy"
+        },
+        {
+          "title": "MuseImages Showcases 2026: Nano Banana 2 & Veo 3.1 Examples",
+          "url": "https://museimages.io/showcases"
+        }
+      ],
+      "theme": "general",
+      "last_updated_date": "2025-10-24",
+      "id": "tool-level3:muse-image"
+    },
+    {
+      "vendor_key": "microsoft",
+      "detail_kind": "api_model",
+      "title": "MAI-Image-2.6",
+      "vendor_label": "Microsoft",
+      "icon": "🧩",
+      "official_url": "https://microsoft.ai/models/mai-image-2-6",
+      "status": "active",
+      "summary": "MAI-Image-2.6 是微软基于扩散架构的图像生成模型，支持高质量文生图和精准可控的图生图编辑，拥有 20B 非嵌入参数、32K token 上下文长度，已在 Microsoft Foundry 进入 Public Preview，并在 Arena 文生图与图像编辑榜单均排名第 2。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "OpenRouter API 渠道",
+            "pricing_basis": "按 token 用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "图像输入",
+                "amount": 8,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "图像输出",
+                "amount": 38,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "文本输入",
+                "amount": 5,
+                "unit": "百万 tokens"
+              }
+            ],
+            "conditions": "仅适用于 OpenRouter API 渠道；Microsoft Foundry 公开定价表尚未列出此模型，Azure 费用以实际报价为准。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "创意生成与设计",
+          "description": "从自然语言提示生成视觉连贯的高质量图像，适用于广泛的创意与设计用例。"
+        },
+        {
+          "title": "精准图像编辑",
+          "description": "对已有视觉资产执行对象移除、替换、属性更改、inpainting、文本更新与伪影清理，同时保留构图与布局。"
+        },
+        {
+          "title": "生产级高吞吐工作流",
+          "description": "使用 MAI-Image-2.6-Flash 在延迟敏感、高吞吐的生产负载中获得相当质量的生成能力。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "欺骗与冒充内容",
+          "description": "不得生成旨在欺骗、误导或冒充真实个人的内容。"
+        },
+        {
+          "title": "违规内容生成",
+          "description": "不得生成违反适用法律、微软服务条款或政策的有害、滥用内容。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MAI-Image-2.6 | Microsoft AI",
+          "url": "https://microsoft.ai/models/mai-image-2-6"
+        },
+        {
+          "title": "MAI-Image-2.6 launch | Microsoft AI",
+          "url": "https://microsoft.ai/news/mai-image-2-6-launches-at-no-2-on-arena-ahead-of-google-meta-and-xai"
+        },
+        {
+          "title": "MAI-Image-2.6 model card",
+          "url": "https://microsoft.ai/pdf/MAI-Image-2.6-Model-Card.pdf"
+        },
+        {
+          "title": "MAI-Image-2.6 API pricing | OpenRouter",
+          "url": "https://openrouter.ai/microsoft/mai-image-2.6?output_modalities=image"
+        },
+        {
+          "title": "Foundry Models pricing | Microsoft Azure",
+          "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft/"
+        }
+      ],
+      "theme": "vision",
+      "release_date": "2026-08-10",
+      "model_key": "microsoft-mai-image-2.6",
+      "id": "tool-level3:mai-image-2.6"
+    },
+    {
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Qwen3.8-Omni-Flash",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🤖",
+      "official_url": "https://help.aliyun.com/zh/model-studio/models",
+      "status": "active",
+      "summary": "千问文本生成模型（如 qwen3.8-max、qwen3.7-plus、qwen3.8-flash）通过阿里云百炼平台对外提供 API 推理服务，覆盖文本理解与生成、推理、编程等文本场景，新开通用户可享专属免费额度。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "给定官方来源未提及该文本模型原生支持 1M 上下文，无法确认其具备 1M 上下文能力。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "qwen3-omni-flash 中国大陆按量后付费",
+            "pricing_basis": "按 token 用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "纯文本输入",
+                "amount": 1.8,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "多模态文本输入",
+                "amount": 6.9,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "文本输出",
+                "amount": 12.7,
+                "unit": "CNY/百万token"
+              }
+            ],
+            "conditions": "部署范围为中国大陆，支持 Non-Thinking 与 Thinking 模式，新开通百炼服务的用户可享 90 天有效的 100 万 token 免费额度。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "智能问答与文案创作",
+          "description": "基于文本理解与生成能力，为企业提效工具、智能问答等场景提供文本输出。"
+        },
+        {
+          "title": "编程开发辅助",
+          "description": "文本推理模型在 Coding 等编程任务中提供代码理解与生成支持。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "图像与视频生成",
+          "description": "文本模型不覆盖图像视频生成，需改用百炼平台上的专用生成模型。"
+        },
+        {
+          "title": "语音合成与识别",
+          "description": "语音类任务由 qwen-audio 系列等音频模型承担，文本模型不适用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "大模型服务平台百炼- 大模型应用构建- 阿里云",
+          "url": "https://www.aliyun.com/product/bailian"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio",
+          "url": "https://help.aliyun.com/zh/model-studio"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/models",
+          "url": "https://help.aliyun.com/zh/model-studio/models"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/coding-plan",
+          "url": "https://help.aliyun.com/zh/model-studio/coding-plan"
+        },
+        {
+          "title": "Model inference pricing - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/model-pricing"
+        },
+        {
+          "title": "Qwen-Omni-Alibaba Cloud Model Studio(Model Studio) - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-omni"
+        },
+        {
+          "title": "模型调用价格 - 阿里云文档",
+          "url": "https://help.aliyun.com/zh/model-studio/model-pricing"
+        },
+        {
+          "title": "Qwen-Omni-Realtime - 阿里云帮助文档",
+          "url": "https://help.aliyun.com/en/model-studio/realtime"
+        },
+        {
+          "title": "Qwen omni voice cloning API reference-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-omni-voice-cloning"
+        },
+        {
+          "title": "qwen3-omni-flash Model Info-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/qwen3-omni-flash"
+        },
+        {
+          "title": "qwen3.8-flash - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen3-8-flash"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-18",
+      "model_key": "alibaba-qwen3.8-omni-flash",
+      "id": "tool-level3:qwen3.8-omni-flash"
+    },
+    {
+      "vendor_key": "xai",
+      "detail_kind": "api_model",
+      "title": "Grok Voice Transcribe 2.0",
+      "vendor_label": "xAI",
+      "icon": "🤖",
+      "official_url": "https://docs.x.ai/developers/release-notes",
+      "status": "active",
+      "summary": "grok-voice-transcribe-2.0 是 SpaceXAI 的语音转文本 API 模型，支持批量与流式转录、词级时间戳、说话人分离、多通道、关键术语偏置和多语言自动检测，定价与 1.0 版相同。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "该模型为语音转文本 API，官方来源未提供基于 token 的上下文窗口规格，1M 上下文概念不适用。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Speech to Text (Batch)",
+            "pricing_basis": "per_hour",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "转录价格",
+                "amount": 0.1,
+                "unit": "USD/小时"
+              }
+            ],
+            "conditions": "通过 REST 批量转录已录制文件或 URL 的计费档位。"
+          },
+          {
+            "label": "Speech to Text (Streaming)",
+            "pricing_basis": "per_hour",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "转录价格",
+                "amount": 0.2,
+                "unit": "USD/小时"
+              }
+            ],
+            "conditions": "对音频流进行实时转录的计费档位。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "客服通话转录",
+          "description": "Grok Voice 每天为数十万通客服通话提供转录，支持说话人分离与智能轮次检测。"
+        },
+        {
+          "title": "屏幕录制视频转写",
+          "description": "Atlassian Loom 使用该模型转录录屏视频，准确度优于原有方案。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "文本生成任务",
+          "description": "该模型仅面向音频转文本，不适用于代码或文本生成等任务。"
+        },
+        {
+          "title": "短语音语言识别",
+          "description": "极短短语缺乏上下文，语言识别难度显著提升，短词错误率明显高于长音频。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing Grok Voice Transcribe 2.0",
+          "url": "https://x.ai/news/grok-voice-transcribe-2"
+        },
+        {
+          "title": "https://docs.x.ai/",
+          "url": "https://docs.x.ai/"
+        },
+        {
+          "title": "Grok Models & Pricing | SpaceXAI Docs",
+          "url": "https://docs.x.ai/developers/models"
+        },
+        {
+          "title": "API Pricing | SpaceXAI Docs",
+          "url": "https://docs.x.ai/developers/pricing"
+        },
+        {
+          "title": "Release Notes | SpaceXAI Docs - Grok API Documentation",
+          "url": "https://docs.x.ai/developers/release-notes"
+        },
+        {
+          "title": "https://x.ai/pricing",
+          "url": "https://x.ai/pricing"
+        },
+        {
+          "title": "https://x.ai/bot",
+          "url": "https://x.ai/bot"
+        },
+        {
+          "title": "Grok Models, API Keys & Pricing - SpaceXAI",
+          "url": "https://x.ai/api"
+        },
+        {
+          "title": "Grok Voice Agent API | SpaceXAI",
+          "url": "https://x.ai/news/grok-voice-agent-api"
+        },
+        {
+          "title": "docs.x.ai",
+          "url": "https://docs.x.ai/developers/pricing.md"
+        },
+        {
+          "title": "Grok Speech to Text and Text to Speech APIs - SpaceXAI",
+          "url": "https://x.ai/news/grok-stt-and-tts-apis"
+        },
+        {
+          "title": "Voice Overview | SpaceXAI Docs - Grok API Documentation",
+          "url": "https://docs.x.ai/developers/model-capabilities/audio/voice"
+        },
+        {
+          "title": "Voice | Inference API - REST API Reference | SpaceXAI Docs",
+          "url": "https://docs.x.ai/developers/rest-api-reference/inference/voice"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-17",
+      "model_key": "xai-grok-voice-transcribe-2.0",
+      "id": "tool-level3:grok-voice-transcribe-2.0"
+    },
+    {
+      "vendor_key": "openai",
+      "detail_kind": "api_model",
+      "title": "GPT Images 2.5",
+      "vendor_label": "OpenAI",
+      "icon": "🧩",
+      "official_url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+      "status": "active",
+      "summary": "ChatGPT Images 2.5 是 OpenAI 最新的图像生成模型，提供更锐利的细节、更精准的多轮编辑、更快的生成速度，并新增 Sketch、模板、评论编辑与提示词分享功能。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "GPT-Image-2.5 Flare / Sunburst API",
+            "pricing_basis": "按 token 用量计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "图像输入",
+                "amount": 8,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "图像输出",
+                "amount": 30,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "图像输入（缓存）",
+                "amount": 2,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "文本输入",
+                "amount": 5,
+                "unit": "百万 tokens"
+              },
+              {
+                "label": "文本输入（缓存）",
+                "amount": 1.25,
+                "unit": "百万 tokens"
+              }
+            ],
+            "conditions": "Flare 与 Sunburst 使用相同 API 单价；ChatGPT 各套餐的图像使用额度与 API 独立，单张费用随实际 token 用量变化。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "创作者与社交内容",
+          "description": "GPT-Image-2.5 Flare 适合创作者与社交内容、产品体验、视觉搜索及高产量生成场景。"
+        },
+        {
+          "title": "高端创意与精修工作流",
+          "description": "GPT-Image-2.5 Sunburst 为需要更精细编辑控制的广告级创意与商品图像工作流而设计。"
+        },
+        {
+          "title": "模板化快速设计",
+          "description": "通过 Templates 快速制作海报、传单、产品照片等常见格式图像。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "Work 模式模板功能",
+          "description": "Templates 尚未在 Work 模式中提供，依赖模板的团队场景暂不适用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing ChatGPT Images 2.5 | OpenAI",
+          "url": "https://openai.com/index/introducing-chatgpt-images-2-5"
+        },
+        {
+          "title": "OpenAI API pricing",
+          "url": "https://developers.openai.com/api/docs/pricing"
+        }
+      ],
+      "theme": "vision",
+      "release_date": "2026-09-08",
+      "model_key": "openai-gpt-images-2.5",
+      "id": "tool-level3:gpt-images-2.5"
+    },
+    {
+      "vendor_key": "typesafe",
+      "detail_kind": "api_model",
+      "title": "Jev",
+      "vendor_label": "TypeSafe AI",
+      "icon": "🤖",
+      "official_url": "https://typesafe.ai/",
+      "status": "active",
+      "summary": "Jev 是 TypeSafe AI 的首个公开 System One Model，通过 RLCD 训练，接收结构化问题并返回带概率与置信度的类型化决策，面向自动化工作流，速度与成本显著优于传统 LLM。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "官方来源未提及 1M 上下文支持；Jev 面向结构化决策而非长上下文对话。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Jev 输入 token 计费",
+            "pricing_basis": "按输入 token 计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入价格",
+                "amount": 42,
+                "unit": "USD / 每十亿（billion）输入 token"
+              }
+            ],
+            "conditions": "按 Jev 模型输入 token 用量计费，官网标注输入价格比 Claude Fable 5.1 低 238 倍。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "自动化决策流水线",
+          "description": "Jev 返回带校准概率的类型化决策，软件可据此自动执行并按阈值决定是否需人工复核。"
+        },
+        {
+          "title": "大规模低成本任务处理",
+          "description": "官网标注比 LLM 快 193.6 倍、便宜 444.6 倍，适合 System One 类任务的批量处理。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "人类对话与聊天助手",
+          "description": "Jev 为机器原生决策模型，不针对人类偏好优化的聊天交互场景。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://typesafe.ai/",
+          "url": "https://typesafe.ai/"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-16",
+      "model_key": "typesafe-jev",
+      "id": "tool-level3:jev"
+    },
+    {
+      "vendor_key": "vidu",
+      "detail_kind": "api_model",
+      "title": "Vidu S2-Avatar",
+      "vendor_label": "vidu",
+      "icon": "🎬",
+      "official_url": "https://platform.vidu.cn/docs/vidu-s2",
+      "status": "active",
+      "summary": "Vidu S 面向企业和开发者提供实时视频数字人与实时视频编辑能力，包括 S2-Avatar 实时交互模型与 S2-Editing 实时编辑模型，支持 720P+ 高清画质。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "新用户体验积分",
+            "pricing_basis": "按积分额度赠送",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "赠送积分",
+                "amount": 5000,
+                "unit": "积分"
+              }
+            ],
+            "conditions": "限量 2000 个名额，通过控制台账号总览使用邀请码 RG4JO9HIAQ 兑换"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "实时数字人直播",
+          "description": "通过 /live/v1/lives 创建 Live 会话，结合 AliRTC 拉取音视频流，进行实时数字人互动直播。"
+        },
+        {
+          "title": "音色克隆与个性化形象",
+          "description": "上传单人形象图片并克隆自定义音色，快速生成符合人设的专属数字人。"
+        },
+        {
+          "title": "外部知识增强对话",
+          "description": "启用 knowledge_retrieval 接入外部知识库，让数字人在交互中引用企业自有知识。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "纯离线视频剪辑",
+          "description": "S 系列聚焦实时数字人与实时编辑，不适合以离线成片交付为主的剪辑流程。"
+        },
+        {
+          "title": "多人同框形象",
+          "description": "数字人形象仅支持一张单人图片，不支持多人同框形象。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://platform.vidu.cn/docs/vidu-s2",
+          "url": "https://platform.vidu.cn/docs/vidu-s2"
+        },
+        {
+          "title": "实时交互数字人-标准版 | Vidu API",
+          "url": "https://platform.vidu.cn/docs/vidu-s1"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-17",
+      "model_key": "vidu-vidu-s2-avatar",
+      "id": "tool-level3:vidu-s2-avatar"
+    },
+    {
+      "vendor_key": "vidu",
+      "detail_kind": "api_model",
+      "title": "Vidu S2-Editing",
+      "vendor_label": "vidu",
+      "icon": "🎬",
+      "official_url": "https://platform.vidu.cn/docs/vidu-s2",
+      "status": "active",
+      "summary": "Vidu S2 是生数科技 Vidu 开放平台面向企业和开发者提供的实时视频数字人与实时视频编辑能力，包含 S2-Avatar 实时交互模型与 S2-Editing 实时编辑模型，数字人支持 720P+ 高清画质。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "积分单价",
+            "pricing_basis": "按积分计价，1 积分 = 0.03125 元人民币",
+            "currency": "RMB",
+            "metrics": [
+              {
+                "label": "积分单价",
+                "amount": 0.03125,
+                "unit": "元/积分"
+              }
+            ],
+            "conditions": "Vidu 开放平台 API 调用统一采用积分计价方式，生成失败的视频不计积分消耗。"
+          },
+          {
+            "label": "充值套餐",
+            "pricing_basis": "按充值套餐购买积分",
+            "currency": "RMB",
+            "metrics": [
+              {
+                "label": "500 元套餐",
+                "amount": 16000,
+                "unit": "积分"
+              },
+              {
+                "label": "1000 元套餐",
+                "amount": 32000,
+                "unit": "积分"
+              },
+              {
+                "label": "2000 元套餐",
+                "amount": 64000,
+                "unit": "积分"
+              },
+              {
+                "label": "5000 元套餐",
+                "amount": 160000,
+                "unit": "积分"
+              },
+              {
+                "label": "20000 元套餐",
+                "amount": 640000,
+                "unit": "积分"
+              }
+            ],
+            "conditions": "各套餐可用并发数均 ≤ 5，有效期 1 年，可用并发与请求频率（QPS）无关。"
+          },
+          {
+            "label": "Vidu S1 实时数字人",
+            "pricing_basis": "按时长计积分并可折算人民币",
+            "currency": "RMB",
+            "metrics": [
+              {
+                "label": "Vidu S1",
+                "amount": 3,
+                "unit": "积分/2秒（每 2 秒 0.09375 元）"
+              },
+              {
+                "label": "超额并发",
+                "amount": 416000,
+                "unit": "积分/个/月（1.3 万元/月）"
+              }
+            ],
+            "conditions": "每个账号含 5 个免费并发，超额并发按 416000 积分（1.3 万元/月）计费；音色克隆前 10 个免费，超额每个 899 积分（28 元/个）。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "实时数字人交互",
+          "description": "通过 Vidu S2-Avatar 实时交互模型为企业和开发者提供实时视频数字人能力。"
+        },
+        {
+          "title": "实时视频编辑",
+          "description": "通过 Vidu S2-Editing 实时编辑模型提供实时视频编辑能力。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "内容违规用途",
+          "description": "生成失败的视频（包含内容审核拒绝导致的失败）不计积分消耗，说明违规内容不受支持。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Vidu S2 数字人 | Vidu API",
+          "url": "https://platform.vidu.cn/docs/vidu-s2"
+        },
+        {
+          "title": "产品定价 | Vidu API",
+          "url": "https://platform.vidu.cn/docs/pricing"
+        },
+        {
+          "title": "Vidu API 平台",
+          "url": "https://platform.vidu.cn/"
+        },
+        {
+          "title": "文生音频 | Vidu API",
+          "url": "https://platform.vidu.cn/docs/text-to-audio"
+        },
+        {
+          "title": "Vidu API",
+          "url": "https://platform.vidu.cn/docs/image-to-video"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-17",
+      "model_key": "vidu-vidu-s2-editing",
+      "id": "tool-level3:vidu-s2-editing"
+    },
+    {
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "stepaudio-3-gen-preview",
+      "vendor_label": "stepfun",
+      "icon": "🎵",
+      "official_url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
+      "status": "active",
+      "summary": "StepAudio 3 Gen 是阶跃星辰的统一音频生成模型，可通过自然语言描述角色、音色与情感，生成富有表现力的可控语音，并融合音效、环境声、背景音乐与歌声，编排为完整音频作品。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "限时免费",
+            "pricing_basis": "免费试用期内免费调用",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "费用",
+                "amount": 0,
+                "unit": "元/次"
+              }
+            ],
+            "conditions": "试用期内模型名为 stepaudio-3-gen-preview，免费额度内调用；免费期结束后该 preview 版本将退役，新增正式付费版本"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "专业内容制作",
+          "description": "面向影视、游戏、动画、广播剧和有声书，设计每个角色的音色与语气，快速产出角色配音和多角色对话，并加入所需的环境声、音效与背景音乐。"
+        },
+        {
+          "title": "短视频与自媒体",
+          "description": "面向创作者的短视频配音，无需专业软件或音频经验，一句自然语言描述即可生成与视频匹配、风格可控的旁白，并按需添加背景音乐和音效。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "正式付费计费场景",
+          "description": "当前为限时免费试用，免费期结束后该 preview 版本将退役并推出正式付费版本，不适合依赖当前免费计费的长期生产安排。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "StepAudio 3 Gen - StepFun Documentation",
+          "url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen"
+        },
+        {
+          "title": "StepFun on X: \"Introducing StepAudio 3, our new family of 5 audio models for real-time voice, speech recognition, speech generation, audio generation and music. Realtime ranks #1 on Artificial Analysis for both Conversational Dynamics (98.9",
+          "url": "https://x.com/StepFun_ai/status/2099916376274313630"
+        },
+        {
+          "title": "StepFun Open Platform",
+          "url": "https://platform.stepfun.ai/"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-15",
+      "model_key": "stepfun-stepaudio-3-gen-preview",
+      "id": "tool-level3:stepaudio-3-gen-preview"
+    },
+    {
+      "vendor_key": "openai",
+      "detail_kind": "subscription_plan",
+      "title": "ChatGPT Free",
+      "vendor_label": "OpenAI",
+      "icon": "🧩",
+      "official_url": "https://chatgpt.com/pricing",
+      "status": "active",
+      "summary": "ChatGPT 免费个人计划。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 0,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "美国显示价 $0/月；免费层的模型和使用额度受限制，地区和权益以官方账户页面为准。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "ChatGPT 个人计划",
+          "description": "ChatGPT 免费个人计划。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 调用",
+          "description": "ChatGPT 订阅不替代 OpenAI API 按量计费。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ChatGPT pricing",
+          "url": "https://chatgpt.com/pricing"
+        },
+        {
+          "title": "Introducing ChatGPT Go",
+          "url": "https://openai.com/index/introducing-chatgpt-go"
+        },
+        {
+          "title": "About ChatGPT Pro tiers",
+          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:chatgpt-free"
+    },
+    {
+      "vendor_key": "openai",
+      "detail_kind": "subscription_plan",
+      "title": "ChatGPT Pro $100",
+      "vendor_label": "OpenAI",
+      "icon": "🧩",
+      "official_url": "https://chatgpt.com/pricing",
+      "status": "active",
+      "summary": "ChatGPT Pro $100 月度计划，官方称使用量约为 Plus 的 5 倍。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 100,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "美国显示价 $100/月；官方称使用量约为 Plus 的 5 倍。地区和权益以官方账户页面为准。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "ChatGPT 个人计划",
+          "description": "ChatGPT Pro $100 月度计划，官方称使用量约为 Plus 的 5 倍。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 调用",
+          "description": "ChatGPT 订阅不替代 OpenAI API 按量计费。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ChatGPT pricing",
+          "url": "https://chatgpt.com/pricing"
+        },
+        {
+          "title": "Introducing ChatGPT Go",
+          "url": "https://openai.com/index/introducing-chatgpt-go"
+        },
+        {
+          "title": "About ChatGPT Pro tiers",
+          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:chatgpt-pro-100"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "WorkBuddy Free",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🧩",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "status": "active",
+      "summary": "WorkBuddy Free 免费方案，每月提供 100 基础 credits。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 0,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "免费；每月 100 基础 credits。限时活动：活跃日可额外获 30 credits、开放所有模型、代码补全不限量、自动任务上限 99（常态为 3）；需当天发起有效会话，活动结束后恢复标准配额，结束日期未公布。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "轻量办公自动化",
+          "description": "适合先体验桌面 Agent 与每月基础额度。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "稳定高额度使用",
+          "description": "需要持续更多月度额度或团队共享额度时应评估付费档。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:workbuddy-free"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "WorkBuddy Team",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🧩",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "status": "active",
+      "summary": "WorkBuddy Team：$40/席位/月或 $480/席位/年。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 40,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "$40/席位/月；年付 $480/席位/年。每席位每月 1,000 credits，进入团队共享额度池。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "团队统一管理",
+          "description": "适合需要席位管理、共享额度池与团队协作的组织。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "个人轻量使用",
+          "description": "个人用户可先评估 Free 或 Pro 计划。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:workbuddy-team"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "WorkBuddy Pro",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🧩",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "status": "active",
+      "summary": "WorkBuddy Pro：$10/月或 $96/年，月度共 2,000 credits。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 10,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "$10/月；年付 $96/年（折合 $8/月）。每月 1,000 基础 + 1,000 奖励 credits；奖励额度有效一个月、不结转。符合 2026-08-07 前已开通且持续自动续订条件的旧 Pro 订阅可能享 $9.95/月价格保护，取消自动续订会失去保护，资格以官方政策为准。限时活动：活跃日另获 50 credits，自动任务上限 99（常态为 15）；需当天发起有效会话，活动结束日期未公布。Pro 订阅或 7 天试用用户不另领 Free 的 100 credits。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "个人高频办公 Agent",
+          "description": "需要更多月度额度、全模型可用和更高自动任务上限的个人用户。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "多人共享与统一账单",
+          "description": "团队席位、共享额度池和管理员控制应评估 Team。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:workbuddy-pro"
     }
   ]
 }

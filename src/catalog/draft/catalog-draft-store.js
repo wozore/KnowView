@@ -92,7 +92,7 @@ function writeDraft(draft, runId = 'catalog-draft') {
 
 function createDraft(input) {
   const draft = {
-    schema_version: input?.schema_version || 3,
+    schema_version: input?.schema_version || 4,
     draft_id: input?.draft_id || newDraftId(),
     state: input?.state || 'researching',
     created_at: input?.created_at || new Date().toISOString(),
@@ -138,7 +138,7 @@ function deleteDraft(draftId) {
 
 function listDrafts(options = {}) {
   ensureDraftDir();
-  const schemaVersion = options.include_all === true ? null : (options.schema_version ?? 3);
+  const schemaVersion = options.include_all === true ? null : (options.schema_version ?? 4);
   const draftKind = options.include_all === true ? null : (options.draft_kind || 'catalog');
   return fs.readdirSync(CATALOG_GENERATOR_FILES.draftsDir)
     .filter(file => file.endsWith('.json'))

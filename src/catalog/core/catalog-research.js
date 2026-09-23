@@ -61,11 +61,23 @@ const COMMUNITY_HOST_BLOCKLIST = new Set([
   'gitee.com',
 ]);
 
+// 身份核验/登记表生成的授权 kind：与普通 official_hint 同等作为信任根。
+// 搜索 provider 返回的 source_kind=official 只是候选标记，绝不能据此建立信任根。
+const AUTHORIZED_SOURCE_KINDS = new Set(['official_hint', 'identity_verified', 'verified_official']);
+const OFFICIAL_SOCIAL_HOSTS = new Set(['x.com', 'twitter.com']);
+
+function authorizedSourcesOf(seed) {
+  return (seed.discovery_sources || []).filter(source => source?.url && AUTHORIZED_SOURCE_KINDS.has(source?.kind));
+}
+
+function authorizedUrlsOf(seed) {
+  return new Set([seed.official_url, ...authorizedSourcesOf(seed).map(source => source.url)]
+    .map(canonicalizeUrl).filter(Boolean));
+}
+
 function officialRootsOf(seed) {
   const explicit = canonicalizeUrl(seed.official_url);
-  const hinted = (seed.discovery_sources || [])
-    .filter(source => source?.kind === 'official_hint')
-    .map(source => canonicalizeUrl(source.url));
+  const hinted = authorizedSourcesOf(seed).map(source => canonicalizeUrl(source.url));
   const hosts = [...new Set([explicit, ...hinted]
     .filter(Boolean)
     .map((url, index) => ({ host: hostOf(url), explicit: index === 0 && Boolean(explicit) }))
@@ -115,9 +127,11 @@ function scopeRefsOf(source) {
   return [];
 }
 
-function normalizeSource(source, roots) {
+function normalizeSource(source, roots, authorizedUrls = new Set()) {
   const url = canonicalizeUrl(source?.url);
   if (!url || !isTrustedOfficialUrl(url, roots)) return null;
+  const host = hostOf(url);
+  if (OFFICIAL_SOCIAL_HOSTS.has(host) && !authorizedUrls.has(url)) return null;
   const normalized = {
     ...source,
     source_id: source.source_id || sourceIdOf(url),
@@ -130,10 +144,10 @@ function normalizeSource(source, roots) {
   return normalized;
 }
 
-function addSources(sources, candidates, scope, roots, warnings) {
+function addSources(sources, candidates, scope, roots, warnings, authorizedUrls = new Set()) {
   const ref = scopeKey(scope);
   for (const candidate of candidates) {
-    const normalized = normalizeSource(candidate, roots);
+    const normalized = normalizeSource(candidate, roots, authorizedUrls);
     if (!normalized) {
       warnings.push(`${scope.kind}: 已忽略无效或非官方来源 URL`);
       continue;
@@ -177,7 +191,8 @@ async function researchCatalog(plan, adapters, options = {}) {
   const existing = options.existingResearch || {};
   const ledger = createCostLedger(options.limits, existing.cost?.spent);
   const roots = officialRootsOf(plan.seed || {});
-  let sources = dedupeBy([...(existing.official_sources || [])].map(source => normalizeSource(source, roots)).filter(Boolean), source => source.url);
+  const authorizedUrls = authorizedUrlsOf(plan.seed || {});
+  let sources = dedupeBy([...(existing.official_sources || [])].map(source => normalizeSource(source, roots, authorizedUrls)).filter(Boolean), source => source.url);
   const warnings = [...(existing.warnings || [])];
   const missingFields = options.missingFields || existing.missing_fields || [];
   const neededKinds = missingFields.length
@@ -193,6 +208,19 @@ async function researchCatalog(plan, adapters, options = {}) {
     research_progress: { completed_scopes: [...completedScopes], failed_scope: failure.failed_scope || null },
   });
 
+  // seed 声明的授权来源（official_hint/identity_verified）无条件预置：它们已过身份核验或人工登记，
+  // 不依赖搜索引擎是否返回，保证后续 scope 至少抓取这些正文。
+  const declaredScopes = plan.research_scopes.filter(scope => neededKinds.includes(scope.kind));
+  for (const scope of declaredScopes) {
+    addSources(sources, authorizedSourcesOf(plan.seed || {}).map(source => ({
+      url: source.url,
+      title: source.url,
+      excerpt: '',
+      kind: source.kind,
+      ...(source.content_hash ? { content_hash: source.content_hash } : {}),
+    })), scope, roots, warnings, authorizedUrls);
+  }
+
   const pendingScopes = plan.research_scopes.filter(scope => {
     const key = scopeKey(scope);
     return neededKinds.includes(scope.kind) && !(completedScopes.has(key) && !missingFields.length);
@@ -204,19 +232,27 @@ async function researchCatalog(plan, adapters, options = {}) {
     if (!reservation.ok) return failWithProgress(costFailure(reservation));
     const discovered = await callResearchAdapter(adapters.discover, { plan, scope, missing_predicates: scope.predicates, ledger }, 'RESEARCH_DISCOVER_FAILED');
     if (discovered?.ok === false) return failWithProgress({ ...discovered, failed_scope: key });
-    const sourceCountBefore = sources.length;
-    addSources(sources, Array.isArray(discovered?.sources) ? discovered.sources : [], scope, roots, warnings);
+    const discoveredSources = Array.isArray(discovered?.sources) ? discovered.sources : [];
+    // 窄域命中判定：本轮 discover 至少带到一个信任根内的新 URL，或命中 seed 已声明的官方来源。
+    // 只有窄域完全落空（无可信命中）才触发扩域，避免预置提示与发现重合时白耗预算。
+    const knownUrls = new Set(sources.map(source => source.url));
+    const declaredUrls = new Set(authorizedSourcesOf(plan.seed || {}).map(source => canonicalizeUrl(source.url)).filter(Boolean));
+    const narrowedHit = discoveredSources.some(source => {
+      const canonical = canonicalizeUrl(source?.url);
+      return canonical && (declaredUrls.has(canonical) || !knownUrls.has(canonical) && isTrustedOfficialUrl(canonical, roots));
+    });
+    addSources(sources, discoveredSources, scope, roots, warnings, authorizedUrls);
 
     // 窄域（种子自带官方域名）没搜到任何新来源，或这是定向补字段的重跑（上一轮窄域已被
     // 证明拿不到该字段）→ 扩宽到同厂商注册域根再搜一次；扩宽轮失败只记警告，不中断本轮。
     // 但剩余预算必须先保住后续 scope 的窄域搜索，不允许扩宽把后续 scope 挤成 COST_BUDGET_EXHAUSTED。
-    if (missingFields.length || sources.length === sourceCountBefore) {
+    if (missingFields.length || !narrowedHit) {
       const remainingNarrow = pendingScopes.length - scopeIndex - 1;
       if (ledger.snapshot().remaining.search_queries >= 1 + remainingNarrow) {
         reservation = ledger.reserve('search_queries', 1);
         const widened = await callResearchAdapter(adapters.discover, { plan, scope, missing_predicates: scope.predicates, ledger, domain_scope: 'registrant' }, 'RESEARCH_DISCOVER_FAILED');
         if (widened?.ok === false) warnings.push(`${scope.kind}: 扩域搜索失败已忽略（${widened.code || 'RESEARCH_DISCOVER_FAILED'}）`);
-        else addSources(sources, Array.isArray(widened?.sources) ? widened.sources : [], scope, roots, warnings);
+        else addSources(sources, Array.isArray(widened?.sources) ? widened.sources : [], scope, roots, warnings, authorizedUrls);
       } else {
         warnings.push(`${scope.kind}: 搜索预算不足以安全扩域，跳过扩域搜索`);
       }
@@ -263,6 +299,8 @@ module.exports = {
   createCostLedger,
   canonicalizeUrl,
   registrableHostOf,
+  authorizedSourcesOf,
+  authorizedUrlsOf,
   officialRootsOf,
   isTrustedOfficialUrl,
   sourceIdOf,

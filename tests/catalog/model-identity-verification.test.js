@@ -114,6 +114,7 @@ test('verifyModelIdentity 成功：model_key 程序重算、正文命中、recei
   assert.equal(result.verdict.vendor_key, 'openai');
   assert.equal(result.verdict.model_key, 'openai-gpt-5.6-sol', 'model_key 必须经 modelKeyOf 程序重算');
   assert.equal(result.verdict.evidence.official_url, 'https://docs.vendor.example/models/gpt-5-6');
+  assert.deepEqual(result.verdict.evidence.official_urls, ['https://docs.vendor.example/models']);
   assert.match(result.verdict.evidence.content_hash, /^sha256:/);
   assert.equal(result.receipt.identity_key, 'gpt-5.6-sol');
   assert.equal(result.receipt.policy_revision, 'policy-rev-1');
@@ -206,6 +207,7 @@ test('findReusableReceipt 五条件缺一不可', () => {
     catalogRevision: 'c1', policyRevision: 'p1', bridgeRevision: 'b1',
   };
   assert.equal(findReusableReceipt([base], expected, Date.parse('2026-09-01T12:00:00Z')), base);
+  assert.equal(findReusableReceipt([base], { ...expected, officialUrls: [...expected.officialUrls, 'https://x.com/vendor/status/1'] }, Date.parse('2026-09-01T12:00:00Z')), null, '新增官方 X 来源后不得复用旧回执');
   assert.equal(findReusableReceipt([{ ...base, identity_key: 'other' }], expected), null, '候选名不等');
   assert.equal(findReusableReceipt([{ ...base, catalog_revision: 'c2' }], expected), null, 'catalog revision 漂移');
   assert.equal(findReusableReceipt([{ ...base, policy_revision: 'p2' }], expected), null, 'policy revision 漂移');
@@ -271,7 +273,24 @@ test('verifyModelIdentity：多域正文同时命中 → IDENTITY_EVIDENCE_CONFL
   assert.equal(result.code, 'IDENTITY_EVIDENCE_CONFLICT');
 });
 
-test('verifyModelIdentity：低置信 / 厂商非法 → IDENTITY_LOW_CONFIDENCE', async () => {
+test('verifyModelIdentity：声明的官方 X 来源与厂商官方域联合命中不构成冲突', async () => {
+  const officialUrls = ['https://docs.vendor.example/m', 'https://x.com/vendor/status/1'];
+  const result = await verifyModelIdentity(
+    { name: 'Contested Model', entity_type: 'model', official_urls: officialUrls },
+    {
+      snapshot: emptySnapshot(), policyRevision: 'p', bridgeRevision: 'b', ledger: ledger(),
+      suggestIdentity: async () => goodSuggestion({ identity: 'contested-model', vendor_key: 'openai' }),
+    },
+    adaptersFor([
+      { url: officialUrls[0], body_text: 'contested model 在官方文档中' },
+      { url: officialUrls[1], body_text: 'contested model 在官方 X 公告中' },
+    ], officialUrls.map(url => ({ url }))),
+  );
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.verdict.evidence.official_urls, officialUrls);
+});
+
+ test('verifyModelIdentity：低置信 / 厂商非法 → IDENTITY_LOW_CONFIDENCE', async () => {
   const low = await verifyModelIdentity(
     { name: 'GPT-5.6 Sol', entity_type: 'model' },
     {
@@ -380,6 +399,25 @@ test('discoverSeriesMembers：只有官方正文命中的成员才收，model_ke
 
   const noAi = await discoverSeriesMembers(verdict, seriesAdapters, { ledger: ledger() });
   assert.equal(noAi.code, 'IDENTITY_AI_UNAVAILABLE');
+});
+
+test('discoverSeriesMembers 透传全部官方来源以保留 X 公告证据', async () => {
+  const officialUrls = ['https://docs.vendor.example/gpt-5-6', 'https://x.com/vendor/status/1'];
+  let acquired;
+  const result = await discoverSeriesMembers({
+    entity_class: 'series', vendor_key: 'openai', model_key: 'openai-gpt-5.6',
+    series_title: 'GPT-5.6', family: 'gpt', confidence: 0.9,
+    evidence: { official_url: officialUrls[0], official_urls: officialUrls, content_hash: 'sha256:x' },
+  }, {
+    discoverOfficialSources: async () => { throw new Error('已核验来源不得重新 discover'); },
+    acquireOfficialSources: async sources => { acquired = sources; return [{ url: officialUrls[0], body_text: 'GPT-5.6 Sol' }]; },
+  }, {
+    ledger: ledger(),
+    suggestSeriesMembers: async () => ({ members: [{ name: 'GPT-5.6 Sol' }] }),
+  });
+  assert.equal(result.ok, true);
+  assert.deepEqual(acquired.map(source => source.url), officialUrls);
+  assert.deepEqual(result.members[0].evidence.official_urls, officialUrls);
 });
 
 // ── receipts 文件读写（临时目录） ─────────────────────────────

@@ -43,10 +43,6 @@ function ordinaryPlacementGate(policy, snapshot, candidate, planned) {
   if (planned?.kind !== 'decision') return planned;
   const vendorKey = normalizeVendorKey(policy, candidate?.vendor_key || candidate?.vendor_name);
   const vendorPolicy = vendorKey ? policyForVendor(policy, vendorKey) : null;
-  const matched = vendorPolicy ? matchFamily(policy, vendorPolicy, candidate?.name) : null;
-  if (matched && matched.usage_kind !== 'general_llm') {
-    return { kind: 'not_applicable', reason: 'SPECIALIZED_MODEL_NOT_SERIES' };
-  }
   const family = vendorPolicy?.families?.find(item => item.family === planned.family);
   const target = family?.series?.find(item => item.id === planned.target_level2_id);
   const expected = (target?.expected_members || []).map(normalizedMemberKey).filter(Boolean);
@@ -175,6 +171,20 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
   // 0. 已持久化的 placement decision 短路（from-preview/resume 复用，不重复调 AI/重算）
   const cached = candidate?.placement_decision;
   if (cached && cached.target_level2_id) {
+    const cachedVendor = normalizeVendorKey(policy, cached.vendor);
+    const candidateVendor = normalizeVendorKey(policy, candidate?.vendor_key || candidate?.vendor_name);
+    const cachedVendorPolicy = cachedVendor ? policyForVendor(policy, cachedVendor) : null;
+    const cachedFamily = cachedVendorPolicy?.families?.find(item => item.family === cached.family);
+    const cachedTarget = cachedFamily?.series?.find(item => item.id === cached.target_level2_id);
+    const targetInSnapshot = (snapshot?.['vendor-level2'] || []).some(item => item.id === cached.target_level2_id);
+    const targetIdMatchesGroup = !cached.group_key || cached.target_level2_id.endsWith(`:${cached.group_key}`);
+    const cacheTargetIsValid = Boolean(cachedVendorPolicy && cachedFamily && cachedTarget
+      && ['existing', 'create'].includes(cached.target_mode)
+      && cachedVendor === candidateVendor
+      && targetIdMatchesGroup
+      && (cached.target_mode !== 'existing' || targetInSnapshot)
+      && (!cached.target_level2_title || cached.target_level2_title === cachedTarget.title));
+    if (!cacheTargetIsValid) return { kind: 'fail_closed', code: 'PLACEMENT_CACHED_DECISION_INVALID' };
     const reflectsExisting = candidate.placement?.existing_level2_ref?.id === cached.target_level2_id;
     const reflectsCreate = cached.target_mode === 'create'
       && candidate.placement?.new_group_title === cached.target_level2_title;

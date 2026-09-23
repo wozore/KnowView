@@ -88,7 +88,8 @@ test('模型身份：厂商别名统一，但仅模型 key 相同才合并', () 
   assert.equal(normalizeVendor('alibaba'), 'qwen');
   assert.equal(normalizeVendor('zai-org'), 'zhipu');
   assert.equal(normalizeVersionSeparators('claude-opus-4-8'), 'claude-opus-4.8');
-  assert.deepEqual(removeTerminalOfferings('gpt-5.6-sol-batch-free'), { identity: 'gpt-5.6-sol', offerings: ['batch', 'free'] });
+  assert.deepEqual(removeTerminalOfferings('gpt-5.6-sol-batch-free'), { identity: 'gpt-5.6-sol', offerings: ['batch', 'free'], isPreview: false });
+  assert.deepEqual(removeTerminalOfferings('gemini-3-flash-preview'), { identity: 'gemini-3-flash', offerings: [], isPreview: true });
 });
 
 test('模型身份：人工精确 alias 优先于自动规则', () => {
@@ -103,4 +104,41 @@ test('模型身份：人工精确 alias 优先于自动规则', () => {
   const resolved = resolveModelIdentity({ source: 'lmarena', rawName: 'Claude Opus 4.8 (High)', registry });
   assert.equal(resolved.model_key, 'anthropic--claude-opus-4.8');
   assert.equal(resolved.matched_alias, true);
+});
+
+test('模型身份：-preview 剥离并作为 Preview revision 保留，与正式版共享 model_key', () => {
+  const formal = resolveModelIdentity({ source: 'lmarena', rawName: 'gemini-3-flash', vendorHint: 'google' });
+  const preview = resolveModelIdentity({ source: 'openrouter', rawName: 'google/gemini-3-flash-preview' });
+
+  assert.equal(formal.model_key, 'google--gemini-3-flash');
+  assert.equal(preview.model_key, 'google--gemini-3-flash');
+  assert.equal(formal.revision, null);
+  assert.equal(preview.revision, 'Preview');
+});
+
+test('模型身份：degree 提取支持可选 -preview 后缀，正确识别 degree 并保留 preview', () => {
+  const parsed = parseModelNameMetadata('lmarena', 'deepseek-v4-pro-high-preview');
+  assert.equal(parsed.degree, 'high');
+  assert.equal(parsed.model_name, 'deepseek-v4-pro-preview');
+
+  const resolved = resolveModelIdentity({ source: 'lmarena', rawName: 'deepseek-v4-pro-high-preview', vendorHint: 'deepseek' });
+  assert.equal(resolved.model_key, 'deepseek--deepseek-v4-pro');
+  assert.equal(resolved.degree, 'high');
+  assert.equal(resolved.revision, 'Preview');
+});
+
+test('模型身份：Inception 厂商别名配置使各源 Mercury 2 实体归并', () => {
+  const registry = {
+    schema_version: 2,
+    vendor_aliases: {
+      inceptionlabs: ['inception', 'inception-ai'],
+    },
+  };
+  const fromOpenRouter = resolveModelIdentity({ source: 'openrouter', rawName: 'inception/mercury-2', registry });
+  const fromLmArena = resolveModelIdentity({ source: 'lmarena', rawName: 'mercury-2', vendorHint: 'inception-ai', registry });
+
+  assert.equal(fromOpenRouter.vendor, 'inceptionlabs');
+  assert.equal(fromLmArena.vendor, 'inceptionlabs');
+  assert.equal(fromOpenRouter.model_key, 'inceptionlabs--mercury-2');
+  assert.equal(fromLmArena.model_key, 'inceptionlabs--mercury-2');
 });

@@ -87,8 +87,17 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
     // 无既有成员且无基座的目标：不创建空系列（无论通用/专用）
     if (members.length === 0 && !base) continue;
     // 有基座但政策成员未匹配（空）：保留基座现有成员，避免误清空旧系列
+    const preservedMembers = (base?.detail_refs || [])
+      .map(ref => memberRef(ref.id))
+      .filter(ref => ref && !hidden.has(ref.id) && detailIdToVendor.get(ref.id) === vendor.vendor_key);
+    const preservedMemberIds = new Set(preservedMembers.map(ref => ref.id));
     const effectiveMembers = members.length
-      ? members
+      ? (general
+          ? members
+          : [
+              ...preservedMembers,
+              ...members.filter(ref => !preservedMemberIds.has(ref.id)),
+            ])
       : (base ? (base.detail_refs || []).map(ref => ({ kind: 'tool-level3', id: ref.id })) : []);
 
     const record = base

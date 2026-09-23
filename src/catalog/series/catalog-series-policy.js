@@ -174,7 +174,7 @@ function matchFamily(policy, vendorPolicy, modelName) {
     const patterns = family.name_patterns;
     if (!Array.isArray(patterns) || !patterns.length) continue;
     if (patterns.some(p => name.includes(String(p).toLowerCase()))) {
-      return { family: family.family, source: 'pattern', usage_kind: family.usage_kind };
+      return { family: family.family, source: 'pattern', usage_kind: family.usage_kind, modality: family.modality, series_kind: family.series_kind };
     }
   }
   return null;
@@ -204,11 +204,7 @@ function usageKindOf(policy, vendorPolicy, seed) {
     if (usage) return usage;
   }
 
-  if (vendorPolicy) {
-    const defaultFamily = vendorPolicy.families.find(f => f.usage_kind === 'general_llm');
-    if (defaultFamily) return 'general_llm';
-    return 'uncovered';
-  }
+  if (vendorPolicy) return 'uncovered';
   return 'uncovered';
 }
 
@@ -276,18 +272,32 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
   // 2. 用途/家族判定：pattern 命中（任意家族）/ 显式 modality / AI hint 均视为高置信；
   //    无任何品牌命中的“默认通用”属歧义，交由 AI 或人工确认。
   const lowerName = String(candidate.name || '').toLowerCase();
+  if (candidate.modality !== undefined && !FAMILY_MODALITIES.includes(candidate.modality)) {
+    return {
+      kind: 'fail_closed',
+      code: 'PLACEMENT_MODALITY_INVALID',
+      vendor: vendorKey,
+      modality: candidate.modality,
+    };
+  }
   const matched = matchFamily(policy, vendorPolicy, candidate.name);
   const modalityUsage = candidate.modality ? usageFromModality(candidate.modality) : null;
+  if (matched && candidate.modality && matched.modality !== candidate.modality) {
+    return {
+      kind: 'fail_closed',
+      code: 'PLACEMENT_MODALITY_FAMILY_MISMATCH',
+      vendor: vendorKey,
+      family: matched.family,
+      modality: candidate.modality,
+    };
+  }
   const brandFamily = generalFamilies.find(gf => brandHintsOfFamily(gf).some(h => lowerName.includes(h)))?.family || null;
   const hintUsage = hint && VALID_USAGE_KIND_FOR_PLACEMENT.includes(hint.usage_kind) ? hint.usage_kind : null;
 
   let usage = matched?.usage_kind || modalityUsage || hintUsage || (brandFamily ? 'general_llm' : null);
   const confident = Boolean(matched || modalityUsage || hintUsage || brandFamily);
 
-  if (!usage) {
-    if (generalFamilies.length) { usage = 'general_llm'; } // 默认通用（歧义，见下）
-    else return { kind: 'needs_ai', reason: 'USAGE_UNCOVERED' };
-  }
+  if (!usage) return { kind: 'needs_ai', reason: 'USAGE_AMBIGUOUS_DEFAULT' };
   if (usage === 'uncovered' || usage === 'unknown') return { kind: 'needs_ai', reason: `USAGE_UNKNOWN:${usage}` };
   if (!confident) return { kind: 'needs_ai', reason: 'USAGE_AMBIGUOUS_DEFAULT' };
 
@@ -299,6 +309,14 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
   }
   if (!family && candidate.modality) {
     family = vendorPolicy.families.find(f => f.modality === candidate.modality)?.family || null;
+    if (!family) {
+      return {
+        kind: 'fail_closed',
+        code: 'PLACEMENT_MODALITY_UNSUPPORTED',
+        vendor: vendorKey,
+        modality: candidate.modality,
+      };
+    }
   }
   if (!family) family = brandFamily;
   if (!family) {
@@ -379,4 +397,3 @@ module.exports = {
   detailKeyOf,
   detailRefIdOf,
 };
-

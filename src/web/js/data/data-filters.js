@@ -4,7 +4,7 @@
  */
 
 import { state } from '../state.js';
-import { getVendorCardItems, getToolCardItems, getToolSearchText } from './data-catalog.js';
+import { getVendorCardItems, getToolCardItems, getToolSearchText, getCatalogItems } from './data-catalog.js';
 
 export const searchAliases = {
   '免费': t => t.price_badge === 'free',
@@ -73,11 +73,33 @@ export function collectSceneOptions(items, limit = 12) {
     .slice(0, limit);
 }
 
+export function vendorSearchTextOf(vendor, level1Items = [], level2Items = [], level3Items = []) {
+  const level1 = level1Items.find(item => item.vendor_key === vendor?.vendor_key);
+  const groups = level2Items.filter(item => item.vendor_key === vendor?.vendor_key);
+  const details = level3Items.filter(item => item.vendor_key === vendor?.vendor_key
+    && groups.some(group => (group.detail_refs || []).some(ref => ref.id === item.id))
+    && item.visibility !== 'hidden_history');
+  return [
+    vendor?.title,
+    vendor?.vendor_key,
+    vendor?.summary,
+    ...(vendor?.search_terms || []),
+    level1?.title,
+    level1?.description,
+    ...groups.flatMap(item => [item.title, item.summary]),
+    ...details.flatMap(item => [item.title, item.summary, ...(item.search_terms || [])]),
+  ].filter(Boolean).join(' ').toLocaleLowerCase('zh-CN');
+}
+
 export function getFilteredVendorCardItems() {
   const query = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-  let filtered = getVendorCardItems();
-  if (query) filtered = filtered.filter(item => (item.search_terms || []).some(term => String(term).toLowerCase().includes(query)));
-  return filtered.filter(item => matchesVendorActiveFilters(item, state.activeFilters));
+  const vendors = getVendorCardItems();
+  if (!query) return vendors.filter(item => matchesVendorActiveFilters(item, state.activeFilters));
+  const level1Items = getCatalogItems('vendor-level1');
+  const level2Items = getCatalogItems('vendor-level2');
+  const level3Items = getCatalogItems('tool-level3');
+  return vendors.filter(item => vendorSearchTextOf(item, level1Items, level2Items, level3Items).includes(query))
+    .filter(item => matchesVendorActiveFilters(item, state.activeFilters));
 }
 
 export function getFilteredToolCardItems() {

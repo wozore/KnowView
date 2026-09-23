@@ -55,7 +55,7 @@ test('level1 and level3 records expose only owned fields', () => {
     'id', 'vendor_key', 'detail_kind', 'theme', 'title', 'vendor_label', 'icon', 'official_url',
     'status', 'summary', 'one_m_context', 'api_pricing', 'plan',
     'applicable_scenarios', 'inapplicable_scenarios', 'sources', 'release_date', 'last_updated_date',
-    'free_tier', 'chinese_support',
+    'free_tier', 'chinese_support', 'subscription_plan_refs', 'pricing_disclosure',
     'model_key', 'visibility', 'historical_since',
   ]);
   const level1 = catalog({ area: 'vendor-level1', operation: 'list' }).data;
@@ -226,6 +226,77 @@ test('free tier and chinese support are conditional fields with fail-closed shap
   const badChineseStatus = validateCatalogSnapshot(snapshotOf({ ...base, chinese_support: { status: 'maybe' } }));
   assert.equal(badChineseStatus.ok, false);
   assert.ok(badChineseStatus.errors.some(item => item.code === 'CHINESE_SUPPORT_INVALID' && item.message.includes('tool-level3:profile-contract')));
+});
+
+test('tool detail subscription references and price disclosures are validated', () => {
+  const priceUrl = 'https://example.com/pricing';
+  const detail = {
+    id: 'tool-level3:product',
+    vendor_key: 'openai',
+    detail_kind: 'tool',
+    theme: 'vision',
+    title: 'Image Product',
+    official_url: 'https://example.com/product',
+    sources: [{ title: 'Official pricing', url: priceUrl }],
+    subscription_plan_refs: [{ kind: 'tool-level3', id: 'tool-level3:plus' }],
+    pricing_disclosure: {
+      status: 'not_published',
+      text: '官方页面未列出独立单价。',
+      source_urls: [priceUrl],
+    },
+  };
+  const card = {
+    id: 'tool-card:product',
+    tool_key: 'product',
+    vendor_key: 'openai',
+    title: 'Image Product',
+    theme: 'vision',
+    detail_kind: 'tool',
+    detail_ref: { kind: 'tool-level3', id: detail.id },
+  };
+  const plus = {
+    id: 'tool-level3:plus',
+    vendor_key: 'openai',
+    detail_kind: 'subscription_plan',
+    title: 'Plus',
+    official_url: 'https://example.com/plus',
+    plan: { amount: 20, currency: 'USD', billing_period: 'month' },
+  };
+  const snapshotOf = (target = plus, targetCard = null, overrides = {}) => ({
+    'vendor-card': [],
+    'tool-card': [card, ...(targetCard ? [targetCard] : [])],
+    'vendor-level1': [],
+    'vendor-level2': [],
+    'tool-level3': [{ ...detail, ...overrides }, target],
+  });
+
+  const valid = validateCatalogSnapshot(snapshotOf());
+  assert.equal(valid.ok, true, JSON.stringify(valid.errors));
+
+  const wrongVendor = validateCatalogSnapshot(snapshotOf({ ...plus, vendor_key: 'other' }));
+  assert.ok(wrongVendor.errors.some(error => error.code === 'SUBSCRIPTION_PLAN_VENDOR_MISMATCH'));
+
+  const wrongKind = { ...plus, detail_kind: 'tool' };
+  const wrongKindCard = {
+    id: 'tool-card:plus',
+    tool_key: 'plus',
+    vendor_key: 'openai',
+    title: 'Plus',
+    theme: 'general',
+    detail_kind: 'tool',
+    detail_ref: { kind: 'tool-level3', id: plus.id },
+  };
+  const invalidTarget = validateCatalogSnapshot(snapshotOf(wrongKind, wrongKindCard));
+  assert.ok(invalidTarget.errors.some(error => error.code === 'SUBSCRIPTION_PLAN_REF_TARGET_INVALID'));
+
+  const unknownSource = validateCatalogSnapshot(snapshotOf(plus, null, {
+    pricing_disclosure: {
+      status: 'not_published',
+      text: '官方页面未列出独立单价。',
+      source_urls: ['https://example.com/other'],
+    },
+  }));
+  assert.ok(unknownSource.errors.some(error => error.code === 'PRICING_DISCLOSURE_SOURCE_INVALID'));
 });
 
 test('scene and featured recommendations use stable tool and detail references', () => {

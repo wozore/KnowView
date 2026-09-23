@@ -12,7 +12,9 @@ const DEFAULT_MODULE_CONFIGS = Object.freeze({
   catalog: Object.freeze({
     enabled: true,
     provider: DEFAULT_PROVIDER_NAME,
-    retrieval_provider: 'tavily',
+    search_provider: 'tavily',
+    extract_provider: 'tavily',
+    search_engine: 'search_std',
     model: DEFAULT_PROVIDER.defaultModel,
     protocol: DEFAULT_PROVIDER.protocol,
     timeout_ms: 180000,
@@ -49,10 +51,21 @@ function validateModuleConfig(moduleName, config) {
       code: 'AI_PROTOCOL_MISMATCH',
     });
   }
-  if (moduleName === 'catalog' && config.retrieval_provider !== 'tavily') {
-    throw Object.assign(new Error(`模块 ${moduleName} 的 retrieval_provider 只支持 tavily`), {
-      code: 'RETRIEVAL_PROVIDER_UNSUPPORTED',
-    });
+  if (moduleName === 'catalog') {
+    if (Object.prototype.hasOwnProperty.call(config, 'retrieval_provider')) {
+      throw Object.assign(new Error(`模块 ${moduleName} 不再支持 retrieval_provider，请改用 search_provider/extract_provider`), {
+        code: 'RETRIEVAL_PROVIDER_UNSUPPORTED',
+      });
+    }
+    if (!['tavily', 'zhipu_web_search'].includes(config.search_provider)) {
+      throw Object.assign(new Error(`模块 ${moduleName} 的 search_provider 不受支持: ${config.search_provider}`), { code: 'SEARCH_PROVIDER_UNSUPPORTED' });
+    }
+    if (config.extract_provider !== 'tavily') {
+      throw Object.assign(new Error(`模块 ${moduleName} 的 extract_provider 目前只支持 tavily`), { code: 'EXTRACT_PROVIDER_UNSUPPORTED' });
+    }
+    if (!['search_std', 'search_pro', 'search_pro_sogou', 'search_pro_quark'].includes(config.search_engine)) {
+      throw Object.assign(new Error(`模块 ${moduleName} 的 search_engine 不受支持: ${config.search_engine}`), { code: 'SEARCH_ENGINE_UNSUPPORTED' });
+    }
   }
   return config;
 }

@@ -1,6 +1,6 @@
 import { escapeHtml, formatPrice } from '../ui/ui-helpers.js';
 import { brandIconHtml } from '../ui/brand-icons.js';
-import { getToolLevel3Item } from '../data/data-catalog.js';
+import { getCatalogItems, getToolLevel3Item } from '../data/data-catalog.js';
 
 function renderPriceTag(value) {
   const labels = {
@@ -23,8 +23,27 @@ function renderAccessTag(value) {
   return '<span class="tag ' + tone + '">' + label + '</span>';
 }
 
-function renderPriceSummary(card) {
-  const detail = card?.detail_ref?.id ? getToolLevel3Item(card.vendor_key, card.detail_ref.id) : null;
+function renderLinkedPlanSummary(plan) {
+  const details = plan?.plan || {};
+  const region = details.regional_prices?.[0];
+  const amount = region?.amount ?? details.amount;
+  const currency = region?.currency || details.currency;
+  const period = { month: '月', year: '年', usage: '按量', custom: '定制' }[details.billing_period] || '';
+  if (amount === undefined || !currency) return '';
+  return escapeHtml(plan.title) + ' ' + formatPrice(amount, currency) + (period ? '/' + period : '');
+}
+
+function renderPriceSummary(card, detailOverride = null, plansOverride = null) {
+  const detail = detailOverride || (card?.detail_ref?.id ? getToolLevel3Item(card.vendor_key, card.detail_ref.id) : null);
+  const plans = plansOverride || getCatalogItems('tool-level3');
+  const linkedPlans = (detail?.subscription_plan_refs || [])
+    .map(ref => plans.find(item => item.id === ref.id))
+    .filter(item => item?.detail_kind === 'subscription_plan')
+    .slice(0, 2)
+    .map(renderLinkedPlanSummary)
+    .filter(Boolean);
+  if (linkedPlans.length) return '<span class="tag price-detail">' + linkedPlans.join(' · ') + '</span>';
+
   const rate = detail?.api_pricing?.rate_cards?.[0];
   if (!rate) return '';
   if (Array.isArray(rate.metrics) && rate.metrics.length) {

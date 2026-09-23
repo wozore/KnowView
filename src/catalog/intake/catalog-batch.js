@@ -4,7 +4,7 @@
  * 在 ②→③ 链路中的位置：把 `min-review feedback` 产出的 tool-cards-pending.json
  * 自动转成正式目录卡片的唯一入口。串联：
  *   待补卡 → 查重（正式 tool-card / 进行中 draft / 同批）→ 厂商/官方源解析
- *   （人工登记表命中 | Tavily+DeepSeek 解析）→ 逐 seed 跑 v3 生成器
+ *   （人工登记表命中 | Web Search+DeepSeek 解析）→ 逐 seed 跑 v3 生成器
  *   （plan → prepare → review → apply，自动 apply）→ 批量报告。
  *
  * 设计决策（用户已拍板）：

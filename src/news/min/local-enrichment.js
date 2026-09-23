@@ -30,6 +30,7 @@ const {
   guardedWriteStore,
   nonNegativeInteger,
 } = require('./enrichment-core');
+const { createWebSearchBudget } = require('../classify/web-verifier');
 
 /**
  * 统计候选集在当前选项下的待处理工作量。
@@ -134,6 +135,9 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
   const l2Enabled = config?.review?.l2_enabled !== false && options.l2Enabled !== false;
   // config.review.web_verify 显式 false 关闭联网核验（缺省启用）
   const webVerifyEnabled = config?.review?.web_verify !== false;
+  const searchBudget = options.searchBudget || (config?.review?.web_search_provider === 'zhipu_web_search'
+    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+    : null);
   const apiKey = options.apiKeyLocal || options.apiKey || 'local-bonsai';
   // 本轮开始时的候选层 revision，用于逐批并发安全落盘（每批写回后滚动更新）
   let baseRevision = revisionOfMinStore(store);
@@ -145,6 +149,7 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
     concurrency,
     locale,
     l2Enabled,
+    searchBudget,
   };
 
   // 1. 收集所有需要执行任何一项工作的条目

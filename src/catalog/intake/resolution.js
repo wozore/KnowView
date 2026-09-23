@@ -10,7 +10,6 @@ const { resolveOfficialSource } = require('./catalog-adapters');
 const { resolveSeriesPlacement, applyPlacementToSeed, loadSeriesPolicy } = require('../series');
 const { loadSharedReleaseIndex, buildIntegratedLookup, lookupReleaseDateForSeed } = require('../catalog-integrated-lookup');
 const { loadCatalogSnapshot, createCostLedger, slugify } = require('../core');
-const { revisionOf } = require('../core/catalog-revision');
 const { lookupOfficialUrl } = require('../url-registry');
 const {
   verifyModelIdentity,
@@ -18,13 +17,13 @@ const {
   catalogModelKeyIndex,
   readIdentityReceipts,
 } = require('./model-identity-verification');
+const { appendIdentityReceipts } = require('./identity-receipts');
 const {
   createIdentityVerificationAdapters,
-  createIdentitySuggestAdapter,
+  createSeriesMembersSuggestAdapter,
   identityAdapterOptionsOf,
+  identityContextOf,
 } = require('./identity-adapters');
-const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
-
 const MODEL_NAME_PATTERN = /(?:GPT|Claude|Gemini|Qwen|Llama|GLM|Mistral|DeepSeek|MiniMax|Grok|Kling)[\s-]?[A-Za-z]*\d/i;
 
 function lookupRegistryForCard(card, options = {}) {
@@ -231,23 +230,6 @@ function dedupeBatchCandidates(cards, options = {}) {
 // 2. 厂商/官方源解析 + 官方身份核验分流
 // ═══════════════════════════════════════════════════════════════
 
-/** 工具链路核验上下文（全部可注入；缺省读真实快照/政策/桥接/pending）。 */
-function identityContextOf(options) {
-  const snapshot = options.identitySnapshotOf ? options.identitySnapshotOf() : loadCatalogSnapshot().snapshot;
-  const policy = options.identityPolicy || loadSeriesPolicy();
-  const bridge = readModelIdentityBridge();
-  return {
-    snapshot,
-    policy,
-    policyRevision: options.policyRevision || revisionOf(policy),
-    bridgeRevision: options.bridgeRevision ?? bridge.revision,
-    receipts: options.identityReceipts,
-    ledger: options.identityLedger || createCostLedger({ responses_calls: Math.max(1, options.identityBudgetSize || 8) }),
-    suggestIdentity: options.suggestIdentity || createIdentitySuggestAdapter(identityAdapterOptionsOf(options)),
-    normalizeVendorKey: options.normalizeVendorKey,
-  };
-}
-
 /** 按 verdict 分流写 intake_outcome（CAS 短重试；仅系统管线调用）。 */
 async function writeIntakeOutcome(card, outcome, options = {}) {
   if (!card?.candidate_key || options.setIntakeOutcome === null) return null;
@@ -268,25 +250,19 @@ async function writeIntakeOutcome(card, outcome, options = {}) {
   return null;
 }
 
-/**
- * 逐卡解析 + 官方身份核验（fail-closed）：
- *   - tool 类候选：registry 命中零解析成本，未命中走 Tavily+DeepSeek（既有路径）；
- *   - model/series 候选：registry 命中仅注入 official_urls 域提示 → 全量核验 → 分流：
- *       verdict.model_key 已存在 → already_complete（不建卡）；
- *       entity_class=series 且成员清单非空 → series 候选（交 SeriesBundle，不建普通卡）；
- *       series 成员证据不足 → deferred_insufficient_evidence；
- *       其余核验失败（缺正文/未命中/冲突/低置信/预算/缺 AI）→ verification_blocked；
- *       通过 → 普通 api_model seed（带 model_key 程序重算值）。
- * @returns {Promise<{ seeds: [], unresolved: [], series_candidates: [], verification_blocked: [],
- *                     verdicts: [], intake_outcomes: [], resolve_cost: object }>}
- */
 async function resolveBatchCandidates(cards, options = {}) {
   const resolveFn = options.resolveOfficialSource || resolveOfficialSource;
   const verifyFn = options.verifyModelIdentity || verifyModelIdentity;
   const membersFn = options.discoverSeriesMembers || discoverSeriesMembers;
   const indexFn = options.catalogModelKeyIndex || catalogModelKeyIndex;
-  const ledger = options.resolveLedger || createCostLedger({ responses_calls: Math.max(1, (cards || []).length) });
-  const context = options.identityContext || identityContextOf(options);
+  const ledger = options.resolveLedger || createCostLedger({ search_queries: Math.max(1, (cards || []).length), responses_calls: Math.max(1, (cards || []).length) });
+  // 核验预算按本批模型轴卡数下限放大（调用方显式 identityBudgetSize 取两者较大值）
+  const modelAxisCount = (cards || []).filter(card => card.entity_type === 'series'
+    || card.entity_type === 'model' || card.detail_kind_hint === 'api_model').length;
+  const identityOptions = modelAxisCount
+    ? { ...options, identityBudgetSize: Math.max(modelAxisCount, Number(options.identityBudgetSize) || 0) }
+    : options;
+  const context = options.identityContext || identityContextOf(identityOptions);
   // 核验适配器默认按白名单 options 构造真实 Tavily 适配器；options.identityAdapters 注入优先（测试/显式覆盖）。
   const identityAdapters = options.identityAdapters || createIdentityVerificationAdapters(identityAdapterOptionsOf(options));
   const modelKeyIndex = indexFn(context.snapshot);
@@ -296,6 +272,7 @@ async function resolveBatchCandidates(cards, options = {}) {
   const blocked = [];
   const verdicts = [];
   const intakeOutcomes = [];
+  const freshReceipts = [];
   for (const card of cards || []) {
     const name = String(card.name || card.title || '').trim();
     if (!name) continue;
@@ -303,10 +280,10 @@ async function resolveBatchCandidates(cards, options = {}) {
     const isModelAxis = card.entity_type === 'series' || card.entity_type === 'model'
       || card.detail_kind_hint === 'api_model';
     if (isModelAxis) {
-      const officialUrls = [
+      const cardOfficialUrls = (Array.isArray(card.official_urls) ? card.official_urls : []).filter(Boolean);
+      const officialUrls = cardOfficialUrls.length ? cardOfficialUrls : [
         ...(Array.isArray(registryHit?.official_urls) ? registryHit.official_urls : []),
         ...(registryHit?.ok && registryHit.official_url ? [registryHit.official_url] : []),
-        ...(Array.isArray(card.official_urls) ? card.official_urls : []),
       ].filter(Boolean);
       const result = await verifyFn(
         { name, entity_type: card.entity_type || 'model', vendor_hint: card.vendor_key || card.vendor_hint, official_urls: officialUrls },
@@ -319,10 +296,17 @@ async function resolveBatchCandidates(cards, options = {}) {
         continue;
       }
       verdicts.push({ name, verdict: result.verdict, receipt: result.receipt, reused: result.reused === true });
+      // 新鲜核验回执落盘（receipt 复用的唯一写点）；持久化失败不阻断主流程，只损失后续 24h 复用
+      if (result.receipt && result.reused !== true) freshReceipts.push(result.receipt);
       if (result.verdict.entity_class === 'series') {
         let members = { ok: true, members: [] };
         if (options.discoverSeriesMembers !== null) {
           members = await membersFn(result.verdict, identityAdapters, context);
+          // 成员清单的 AI 建议存在后端波动（同一正文偶发返回空清单）；空清单重试一次，
+          // 仍以官方正文命中为收录闸门（fail-closed 语义不变）
+          if (members.ok && !members.members.length) {
+            members = await membersFn(result.verdict, identityAdapters, context);
+          }
         }
         if (!members.ok || !members.members.length) {
           blocked.push({ name, code: members.code || 'IDENTITY_MEMBERS_INSUFFICIENT', reason: '系列成员证据不足' });
@@ -333,6 +317,10 @@ async function resolveBatchCandidates(cards, options = {}) {
           candidate_key: card.candidate_key || null,
           name,
           vendor_key: result.verdict.vendor_key,
+          family: result.verdict.family || result.verdict.canonical_family || null,
+          series_title: result.verdict.series_title || null,
+          modality: result.verdict.modality || card.modality || null,
+          series_kind: result.verdict.series_kind || null,
           verdict: result.verdict,
           members: members.members,
           receipt: result.receipt,
@@ -367,6 +355,11 @@ async function resolveBatchCandidates(cards, options = {}) {
       continue;
     }
     try {
+      const ledgerLimits = typeof ledger.snapshot === 'function' ? ledger.snapshot().limits : null;
+      if (ledgerLimits && Object.prototype.hasOwnProperty.call(ledgerLimits, 'search_queries') && !ledger.reserve('search_queries', 1).ok) {
+        unresolved.push({ name, reason: 'COST_BUDGET_EXHAUSTED' });
+        continue;
+      }
       const resolved = await resolveFn(name, { ...options, ledger });
       if (resolved && resolved.ok) {
         seeds.push(pendingCandidateToSeed(card, resolved));
@@ -376,6 +369,12 @@ async function resolveBatchCandidates(cards, options = {}) {
     } catch (error) {
       unresolved.push({ name, reason: error?.message || String(error) });
     }
+  }
+  // 新鲜核验回执落盘（receipt 复用的唯一写点）；注入 identityContext（测试接缝）时不自动持久化，
+  // 防止 mock 回执污染真实文件；持久化失败不阻断主流程，只损失后续 24h 复用
+  if (freshReceipts.length && !options.identityContext) {
+    try { appendIdentityReceipts(freshReceipts, options.identityReceiptsFile ? { file: options.identityReceiptsFile } : {}); }
+    catch { /* 回执是复用缓存，写失败只损失下次 24h 复用，不阻断采集主流程 */ }
   }
   return {
     seeds,

@@ -32,7 +32,7 @@ const TOOL_LEVEL3_FIELDS = Object.freeze([
   'status', 'summary', 'one_m_context', 'api_pricing', 'plan',
   'applicable_scenarios', 'inapplicable_scenarios', 'sources',
   'release_date', 'last_updated_date',
-  'free_tier', 'chinese_support',
+  'free_tier', 'chinese_support', 'subscription_plan_refs', 'pricing_disclosure',
   'model_key', 'visibility', 'historical_since',
 ]);
 
@@ -47,7 +47,7 @@ const VISIBILITIES = Object.freeze(['visible', 'hidden_history']);
 
 // 各层级条件字段：不做无条件必填检查，存在才校验（存量兼容）。
 const CONDITIONAL_FIELDS = Object.freeze({
-  'tool-level3': Object.freeze(['model_key', 'visibility', 'historical_since', 'free_tier', 'chinese_support']),
+  'tool-level3': Object.freeze(['model_key', 'visibility', 'historical_since', 'free_tier', 'chinese_support', 'subscription_plan_refs', 'pricing_disclosure']),
   'tool-card': Object.freeze(['model_key', 'visibility', 'historical_since']),
   'vendor-level2': Object.freeze(['series_kind', 'generation_state']),
 });
@@ -68,6 +68,7 @@ const REF_TARGETS = Object.freeze({
   'vendor-card.level1_ref': 'vendor-level1',
   'vendor-level1.level2_refs': 'vendor-level2',
   'vendor-level2.detail_refs': 'tool-level3',
+  'tool-level3.subscription_plan_refs': 'tool-level3',
   'tool-card.detail_ref': 'tool-level3',
 });
 

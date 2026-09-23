@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-18T05:33:34.016Z",
+  "generated_at": "2026-09-19T10:23:47.461Z",
   "entries": [
     {
       "model_key": "amazon--nova-2-lite",
@@ -153,32 +153,37 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemini-2.5-pro-preview",
+      "model_key": "google--gemini-2.5-pro@06-05",
       "release_date": "2025-06-05",
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemini-2.5-pro-preview@06-05",
+      "model_key": "google--gemini-2.5-pro@Preview",
       "release_date": "2025-06-05",
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemini-3-flash-preview",
+      "model_key": "google--gemini-3-flash@Preview",
       "release_date": "2025-12-17",
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemini-3-pro-preview",
+      "model_key": "google--gemini-3-pro@Preview",
       "release_date": "2025-11-18",
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemini-3.1-flash-lite-preview",
+      "model_key": "google--gemini-3.1-flash-lite",
+      "release_date": "2026-05-07",
+      "catalog_aliases": []
+    },
+    {
+      "model_key": "google--gemini-3.1-flash-lite@Preview",
       "release_date": "2026-03-03",
       "catalog_aliases": []
     },
     {
-      "model_key": "google--gemini-3.1-pro-preview",
+      "model_key": "google--gemini-3.1-pro@Preview",
       "release_date": "2026-02-19",
       "catalog_aliases": []
     },
@@ -445,11 +450,6 @@
       "catalog_aliases": []
     },
     {
-      "model_key": "qwen--qwen3.6-max-preview",
-      "release_date": "2026-04-27",
-      "catalog_aliases": []
-    },
-    {
       "model_key": "qwen--qwen3.6-plus",
       "release_date": "2026-03-31",
       "catalog_aliases": []
@@ -493,6 +493,14 @@
       "catalog_aliases": []
     },
     {
+      "model_key": "qwen--qwen3.8-omni-flash",
+      "release_date": "2026-09-18",
+      "catalog_aliases": [
+        "qwen3.8-omni-flash",
+        "Qwen3.8-Omni-Flash"
+      ]
+    },
+    {
       "model_key": "reve--reve-2.0",
       "release_date": "2026-06-03",
       "catalog_aliases": []
@@ -506,6 +514,43 @@
       "model_key": "sakana--sakana-namazu",
       "release_date": "2026-08-03",
       "catalog_aliases": []
+    },
+    {
+      "model_key": "shengshu--vidu-s2-avatar",
+      "release_date": "2026-09-17",
+      "catalog_aliases": [
+        "vidu-vidu-s2-avatar",
+        "vidu-s2-avatar",
+        "Vidu S2-Avatar"
+      ]
+    },
+    {
+      "model_key": "shengshu--vidu-s2-editing",
+      "release_date": "2026-09-17",
+      "catalog_aliases": [
+        "vidu-vidu-s2-editing",
+        "vidu-s2-editing",
+        "Vidu S2-Editing"
+      ]
+    },
+    {
+      "model_key": "stepfun--stepaudio-3",
+      "release_date": "2026-09-16",
+      "catalog_aliases": [
+        "stepaudio-3",
+        "StepAudio 3",
+        "StepAudio-3"
+      ]
+    },
+    {
+      "model_key": "typesafe--jev",
+      "release_date": "2026-09-16",
+      "catalog_aliases": [
+        "typesafe-jev",
+        "jev",
+        "Jev",
+        "typesafe-ai-jev"
+      ]
     },
     {
       "model_key": "unisound--u2",
@@ -615,6 +660,14 @@
       "model_key": "xai--grok-imagine-video",
       "release_date": "2026-03-02",
       "catalog_aliases": []
+    },
+    {
+      "model_key": "xai--grok-voice-transcribe-2.0",
+      "release_date": "2026-09-18",
+      "catalog_aliases": [
+        "grok-voice-transcribe-2.0",
+        "Grok Voice Transcribe 2.0"
+      ]
     },
     {
       "model_key": "xiaomi--mimo-v2-omni",

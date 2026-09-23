@@ -88,7 +88,12 @@ test('fixture 待补卡批准/丢弃可逆流转，未知 key 拒绝', () => {
   assert.equal(service.reviewPendingTool(key, { decision: 'approved', expected_revision: tools.revision }).ok, true);
   assert.equal(service.pendingTools().items[0].review_status, 'approved');
   assert.equal(service.reviewPendingTool(key, { decision: 'discarded', expected_revision: service.pendingTools().revision }).ok, true);
-  assert.equal(service.pendingTools().items[0].review_status, 'discarded');
+  assert.equal(service.pendingTools().items.length, 0);
+  assert.equal(service.pendingTools().history_items[0].review_status, 'discarded');
+  assert.equal(service.reviewPendingTool(key, { decision: 'approved', expected_revision: service.pendingTools().revision }).ok, true);
+  assert.equal(service.pendingTools().items.length, 1);
+  assert.equal(service.pendingTools().items[0].review_status, 'approved');
+  assert.equal(service.pendingTools().history_items.length, 0);
   const missing = service.reviewPendingTool('no-such-key', { decision: 'approved', expected_revision: service.pendingTools().revision });
   assert.equal(missing.ok, false);
   assert.equal(missing.code, 'PENDING_CANDIDATE_NOT_FOUND');

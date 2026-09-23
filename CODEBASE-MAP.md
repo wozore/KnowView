@@ -49,7 +49,7 @@
 - [paths.js](src/shared/paths.js) — 目录、catalog 文件、登记表与生成器事务路径常量，以及统一 AI 配置文件路径（全仓唯一数据登记点；`data/manual/registries/` 为官方登记表与政策，`data/manual/tools/` 为工具链路工作目录，`data/manual/concepts/` 为概念链路工作目录）。导出: `DIRS, CATALOG_FILES, CATALOG_GENERATOR_FILES, CONCEPT_FILES, AI_CONFIG_FILES, NEWS_FILES, COMPARISON_FILES, SHARED_FILES, REGISTRIES_FILES, DATA_FILES, RSS_FEED_PATH`
 - [providers/](src/shared/providers/) — 外部 AI 提供商独立目录，各厂商独立拥有自身元数据、端点与默认模型（开闭原则），由 `index.js` 统一汇聚导出。
   - [protocols.js](src/shared/providers/protocols.js) — 传输协议常量定义（RESPONSES / MESSAGES / CHAT）。导出: `AI_PROTOCOLS`
-  - [zhipu.js](src/shared/providers/zhipu.js) — 智谱 ZhipuAI 提供方独立配置（Anthropic Messages 兼容端点，glm-5.3-flash）。
+  - [zhipu.js](src/shared/providers/zhipu.js) — 智谱 ZhipuAI 提供方独立配置（Anthropic Messages、Chat Completions 与 Web Search 端点，glm-5.3-flash）。
   - [deepseek.js](src/shared/providers/deepseek.js) — DeepSeek 提供方独立配置（Responses / Chat 双端点，deepseek-v4-flash）。
   - [local.js](src/shared/providers/local.js) — 本地 Bonsai 提供方独立配置（llama-server 8080，bonsai）。
   - [openai.js](src/shared/providers/openai.js) — OpenAI 提供方独立配置。
@@ -61,6 +61,9 @@
 - [llm-endpoints.js](src/shared/llm-endpoints.js) — 本地 Bonsai 模型 OpenAI 兼容端点与模型名常量（news 侧 5 个 + catalog 侧 3 个本地化任务统一引用）。导出: `LOCAL_API_BASE, LOCAL_MODEL`
 - [local-model.js](src/shared/local-model.js) — 本地 Bonsai 自动启动：调用本地 LLM 前确保服务在线——探测离线自动 spawn 启动脚本并轮询就绪（幂等 TTL 缓存、超时后 TTL 内不重复拉起）；注入自定义 fetchImpl（测试 mock）一律放行不探测不启动。导出: `LOCAL_MODEL_SCRIPT, buildProbePayload, probeLocal, startLocalServer, ensureLocalModel, resetLocalModelState, autostartEnabled`
 - [tavily-client.js](src/shared/tavily-client.js) — Tavily Search/Extract 原生 fetch transport；keyless/keyed 按端点混用认证（search/extract 默认 keyless 免费、缺 key 可用，任意 keyless 429 都自动切 keyed 并进入冷却，冷却后恢复 keyless；cap code/detail 用于诊断，本地节流/冷却可注入）、Key/HTTP/超时错误归一化和 URL canonicalization。导出: `SEARCH_ENDPOINT, EXTRACT_ENDPOINT, canonicalizeUrl, resolveAccessMode, isKeylessCapResult, searchTavily, extractTavily, probeTavily`
+- [web-source-contract.js](src/shared/web-source-contract.js) — 厂商无关的 URL canonicalization、域名/子域匹配、来源 DTO 归一化、去重与本地过滤。导出: `canonicalizeUrl, normalizeDomain, hostnameOf, hostMatchesDomain, urlMatchesDomains, normalizeSource, normalizeSources, filterSourcesByDomains`
+- [zhipu-web-search-client.js](src/shared/zhipu-web-search-client.js) — 智谱 Web Search API 原生 fetch transport；Bearer 认证、四种搜索引擎、超时/错误归一化、来源 DTO 和请求次数。导出: `SEARCH_ENDPOINT, SEARCH_ENGINES, buildSearchPayload, searchZhipu`
+- [web-search.js](src/shared/web-search.js) — Tavily/Zhipu Web Search 统一门面；provider 路由、多域 fan-out、预算预检、host 二次过滤和能力探针。导出: `searchWeb, probeWebSearch, plannedWebSearchRequests`
 - [retention.js](src/shared/retention.js) — 共享段 retention 校验接口（纯逻辑 + 文件 IO 分离）：cutoff = 当前年月 − 14 个月，`advanceRetentionCutoff` 幂等跨自然月推进、漏跑自愈 snap；`readRetentionState` 读端唯一入口（校验后冻结）、`advanceRetentionToNow` 写端唯一入口（推进 + 校验 + 原子写，失败降级沿用旧 cutoff）；`writeRetention` 形状校验 fail-closed 防误篡改。comparison 写、catalog 只读。导出: `DEFAULT_MONTHS, currentCutoffYearMonth, cutoffDateOf, advanceRetentionCutoff, readRetentionFromPayload, validateRetentionPayload, readRetentionState, advanceRetentionToNow, readRetention, writeRetention, ensureSharedDir`
 - [release-index.js](src/shared/release-index.js) — 共享段 `model-release-dates.json` 校验接口（comparison 写 / catalog 只读）：`readReleaseIndex` 校验后冻结读取（缺失/损坏回退空）、`writeReleaseIndex` 逐条形状校验 fail-closed 原子写。导出: `isIsoDate, validateReleaseIndexEntries, readReleaseIndex, writeReleaseIndex`
 - [catalog-release-dates.js](src/shared/catalog-release-dates.js) — 共享段 `catalog-release-dates.json` 校验接口（catalog 写 / comparison 只读）：`readCatalogReleaseDates` 校验后冻结读取、`writeCatalogReleaseDates` 逐条形状校验 fail-closed 原子写。导出: `isIsoDate, validateCatalogReleaseDatesEntries, readCatalogReleaseDates, writeCatalogReleaseDates`
@@ -263,7 +266,7 @@
 - [content-classifier.js](src/news/classify/content-classifier.js) — L0 规则 + L1 AI 分类编排（L0 不按娱乐/二创关键词硬排除；普通关键词仅用于分类，AIGC 披露硬排除由 review-v2 负责）。导出: `classifyRuleBased, classifyCandidate, classifyCandidates, confirmContentType`
 - [content-summarizer.js](src/news/classify/content-summarizer.js) — 候选内容总结（标题+描述+字幕 → summary/key_points；空白 summary 视为缺失可重试）。导出: `summarizeCandidate, summarizeCandidates, enrichCandidateSummaries`
 - [content-reviewer.js](src/news/classify/content-reviewer.js) — AI 审核建议（标题+描述+字幕+总结 → ai_review verdict/reasons/confidence；runPool 为分类/审核并发池，供 pipeline-min 复用）。导出: `reviewCandidate, reviewCandidates, runPool`
-- [web-verifier.js](src/news/classify/web-verifier.js) — 审核建议联网查证（hold/discard 建议用 Tavily 按标题搜索、前 5 条结果拼 webEvidence 经 reviewCandidate 复判一次；全程 fail-open 不阻断审核流程，web_verification 痕迹随 ai_advice 持久化；enrichment-core 的 L1/L2 建议处接入，searchTavily/reviewFn 可注入）。导出: `verifyAdviceWithWeb`
+- [web-verifier.js](src/news/classify/web-verifier.js) — 审核建议联网查证（hold/discard 建议经统一 Web Search 按标题搜索、前 5 条结果拼 webEvidence 经 reviewCandidate 复判一次；智谱 provider 受单运行预算约束，全程 fail-open 不阻断审核流程，web_verification 痕迹随 ai_advice 持久化；enrichment-core 的 L1/L2 建议处接入，searchWeb/reviewFn 可注入）。导出: `createWebSearchBudget, verifyAdviceWithWeb`
 - [content-localizer.js](src/news/classify/content-localizer.js) — 候选内容本地化（标题+描述 → localizations[locale]，按原文实际字段判定完整性，原文保留顶层）。导出: `collectLocalizeSource, hasLocalizedContent, localizeCandidate, localizeCandidates, enrichCandidateLocalizations`
 - [llm-provider.js](src/news/classify/llm-provider.js) — 内容加工模型提供方封装。
 - [llm-prompts.js](src/news/classify/llm-prompts.js) — 内容分类、审核、总结与本地化 LLM prompt 模板。
@@ -291,6 +294,7 @@
 ### feedback/ — 收尾环节：工具库/概念库反哺（独立于主链，只写待补卡文件）
 - [tool-feedback.js](src/news/feedback/tool-feedback.js) — 从 approved summary 提取带类型实体并写入待补卡。
 - [llm-entity-extract.js](src/news/feedback/llm-entity-extract.js) — 摘要 AI 实体提取与结构化校验。
+- [extract-strategy.js](src/news/feedback/extract-strategy.js) — 实体提取统一策略装配（工作台/CLI 统一调用、泛称识别与降级诊断、第 2 轮批量准入筛查 applyAdmissionScreening）。
 
 ### pending/ — 待补候选与 Catalog Seed
 - [index.js](src/pending/index.js) — Pending 域统一聚合门面。
@@ -335,13 +339,15 @@
 - [index.js](tests/index.js) — 跨平台全量测试目录入口；递归加载所有 `*.test.js`，使 `node --test tests/` 可用。
 - [static-site.test.js](tests/build/static-site.test.js) — 静态站点复制构建与历史产物清理测试。
 - [web-date-display.test.js](tests/web/web-date-display.test.js) — 前端 typed 日期、无日期/套餐及场景类型标签纯函数回归。
-- [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引纯逻辑回归：hidden_history 可见性、存量系列回退判定、最长词匹配角色（成员/系列/并列系列优先）、全角归一化。
+- [brand-icons.test.js](tests/web/brand-icons.test.js) — 品牌图标继承与本地资产登记回归。
+- [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳和价格披露回归；核对 GPT Images 2.5 与 MAI-Image-2.6 的结构化 API 费率及卡片摘要。
+- [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引与对比选择器回归：hidden_history、系列回退、最长词匹配、全角归一化及 Microsoft AI 对比展示名保留。
 - [catalog-interface.test.js](tests/catalog/catalog-interface.test.js) — 五模块目录 Interface、字段所有权、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
 - [catalog-date-audit.test.js](tests/catalog/catalog-date-audit.test.js) — 日期语义审计保守分类、目标字段和输入不变回归。
 - [catalog-date-repair.test.js](tests/catalog/catalog-date-repair.test.js) — 日期字段级修补与 `advance_update` 回归：目标类型、官方 metadata/正文/根域门禁、向前日期、批量 preview、approved queue、revision/preview 冲突、字段零漂移和 atomic commit。
 - [catalog-generator.test.js](tests/catalog/catalog-generator.test.js) — v3 官方查询、单段 Synthesis Adapter、LayerPatch planner 和 revision 回归；含统一模型键/系列字段契约（builders 门禁、条件字段豁免、snapshot 校验器存在才校验与同名 L2/L3 合法锁定）。
 - [catalog-synthesis-prompt.test.js](tests/catalog/catalog-synthesis-prompt.test.js) — 合成 prompt 按层分组、来源截断限量、跳过无正文来源与指令规则回归。
-- [catalog-adapters.test.js](tests/catalog/catalog-adapters.test.js) — Tavily 官方域名发现、清洗正文、能力探针与 DeepSeek 组合 Adapter 回归。
+- [catalog-adapters.test.js](tests/catalog/catalog-adapters.test.js) — Search provider 官方域名发现、Tavily 清洗正文、能力探针与 DeepSeek 组合 Adapter 回归。
 - [catalog-batch.test.js](tests/catalog/catalog-batch.test.js) — 批量生成编排回归：读卡、三层查重、双表登记/解析/detail_kind_hint、`update_sources` 严格契约与 batch 兼容性、dry-run 预览、全局成本门禁、批量循环失败隔离、登记表增删。
 - [catalog-bundle.test.js](tests/catalog/catalog-bundle.test.js) — SeriesBundle v4 全链离线回归：prepare 锁与超时回收、成员富化 hard-limit 二次确认与共享 ledger、finalize 内存收口、富化失败保持 blocked、cleanup_pending 只收敛不重复提交、v4 不读取 v3 Draft。
 - [catalog-workbench.test.js](tests/catalog/catalog-workbench.test.js) — 工作台 Catalog 协调器回归：成本/计划/Apply 门禁、不自动 Apply、discard 绑定当前 catalog revision。
@@ -358,7 +364,7 @@
 - [vibe-hub-evidence.test.js](tests/catalog/vibe-hub-evidence.test.js) — vibe-hub 提取回归：term→slug（中文 null）、JSON-LD/正文结构化提取、缓存命中零网络、未命中 GET+写缓存、TTL 过期重抓、404/网络失败 null、串行节流、过期刷新与失败保留。
 - [catalog-profile-contract.test.js](tests/catalog/catalog-profile-contract.test.js) — CatalogProfile 适用性、video API 必需谓词、稳定目标与逐层 create/replace/noop 规划回归。
 - [catalog-series-policy.test.js](tests/catalog/catalog-series-policy.test.js) — LLM 二级系列政策契约回归：16 厂商矩阵、validator fail-closed、usageKindOf general/专用/uncovered 分类、vendor 别名、人工 placement ref（kind/存在性/vendor 归属）、稳定 ID 与 slugify 点号冲突。
-- [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、全新创建、专用改名、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、孤儿为空、既有浮空详情入 warnings、非政策厂商零漂移；集成真实快照迁移后校验通过且关键终态符合政策。
+- [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、全新创建、专用改名、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、孤儿为空、既有浮空详情入 warnings、非政策厂商零漂移；集成真实快照迁移后校验通过，MAI-Image-2.6 归入 MAI 系列。
 - [catalog-series-placement-ai.test.js](tests/catalog/catalog-series-placement-ai.test.js) — 二级系列 AI 分类 Adapter 回归：prompt 白名单无密钥、结构校验、缺 ledger fail-closed、resolveSeriesPlacement 人工优先/非法拒绝、确定性 decision existing/create、专用与无政策厂商 not_applicable、GLM 第 4 个成员 migration_required、needs_ai 未放行/放行+AI hint/冲突/失败各分支、applyPlacementToSeed 写入 seed。
 - [series-data-audit.test.js](tests/catalog/series-data-audit.test.js) — 系列/模型键数据纯只读审计回归：12 类 finding 与 5 类建议动作枚举、干净快照零 finding、全注入输入零改动、空输入鲁棒。
 - [model-identity-verification.test.js](tests/catalog/model-identity-verification.test.js) — 模型/系列官方身份核验全离线回归：AI 建议值校验与正文出现判定、回执复用与 24 小时 TTL、成员发现与 catalog model_key 索引、receipts 临时目录注入。
@@ -372,9 +378,12 @@
 - [kling-video-dossier.js](tests/catalog/fixtures/kling-video-dossier.js) — 完全离线的 Kling video API 官方 dossier 与受约束单段合成 Adapter fixture。导出: `OFFICIAL_URL, EXACT_QUOTE, klingVideoSeed, createKlingDossierAdapters`
 - [catalog-cli.test.js](tests/catalog/catalog-cli.test.js) — CLI 参数、vendor/product 官方 URL 登记增删、纯本地 freshness audit、热点 Seed、catalog Tavily/DeepSeek 模块配置、Tavily 能力 fail-closed 和共享 DeepSeek transport 回归。
 - [tavily-client.test.js](tests/shared/tavily-client.test.js) — Tavily Search/Extract 请求、Key、URL canonicalization、失败响应和正文映射回归。
+- [web-source-contract.test.js](tests/shared/web-source-contract.test.js) — 厂商无关来源 URL/域名匹配、归一化、去重和过滤回归。
+- [zhipu-web-search-client.test.js](tests/shared/zhipu-web-search-client.test.js) — 智谱 Web Search 请求体、Bearer、结果映射、错误与脱敏回归。
+- [web-search.test.js](tests/shared/web-search.test.js) — Tavily/Zhipu provider 路由、多域 fan-out、请求预算和统一 probe 回归。
 - [providers.test.js](tests/shared/providers.test.js) — provider 协议、Key 环境变量映射和 Messages API fail-closed 回归。
 - [llm-gateway.test.js](tests/shared/llm-gateway.test.js) — 统一 AI 调用网关多协议路由（MESSAGES / RESPONSES / CHAT / local）、文本与结构化 JSON 提取及错误透传回归；含经真实 catalog 合成 Adapter 协作验证 `requestStructuredJson` 成本账本 fail-closed 的集成用例。
-- [ai-config.test.js](tests/catalog/ai-config.test.js) — 业务模块配置合并、Tavily retrieval 配置和 protocol 校验回归。
+- [ai-config.test.js](tests/catalog/ai-config.test.js) — 业务模块 Search/Extract provider 配置合并、搜索引擎和 protocol 校验回归。
 - [collector-x-v2.test.js](tests/news/collector-x-v2.test.js) — X 请求级 credits 硬预算回归：窗外/空长文/重试/零预算/低配置/超量响应/直接门禁。
 - [collector-x-normalize.test.js](tests/news/collector-x-normalize.test.js) — X 推文归一化与五态互动类型（reply/repost/quote/original/unknown）、Article 正文 contents 优先与 blocks 数组离线回归。
 - [x-search-window.test.js](tests/news/x-search-window.test.js) — X 采集时间窗（hot/cold/manual）、半开区间 [since, until) 边界排除、尾部重查与 delayed 判定回归。

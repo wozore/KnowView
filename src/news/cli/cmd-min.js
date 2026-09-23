@@ -120,10 +120,6 @@ function expectedConfigRevision(flags, config) {
   return flags.expected_revision || revisionOfConfig(config);
 }
 
-/** 反哺 LLM 提取的启用判定：配置开关放行且 zhipu/deepseek 任一 provider 配置了密钥。 */
-function hasExternalProviderKey() {
-  return ['zhipu', 'deepseek'].some(name => Boolean(apiKeyForProvider(getProvider(name))));
-}
 
 async function minReviewCommand(action, flags = {}, deps = {}) {
   assertStoreFlag(flags);
@@ -234,19 +230,9 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
   }
 
   if (action === 'feedback') {
-    // LLM 提取：feedback.llm_extract !== false 且配置了外部 provider key（ZHIPU/DEEPSEEK）
-    // 时接入（提取默认走本地 Bonsai，LLM 失败降级正则，宁多勿漏，不阻断反哺）。
-    const feedback = (config && config.feedback) || {};
+    // 统一提取策略：当 feedback.llm_extract !== false 时自动调用 extractEntitiesWithLlm；
+    // 本地端点可用时不以缺失外部 Key 为由降级，失败安全降级正则并记录诊断。
     const options = { catalogApi: deps.catalogApi };
-    if (feedback.llm_extract !== false && hasExternalProviderKey()) {
-      options.llmExtract = async text => {
-        try {
-          return await extractEntitiesWithLlm(text, { catalogApi: deps.catalogApi, model: feedback.llm_model });
-        } catch {
-          return extractEntitiesDefault(text);
-        }
-      };
-    }
     return feedbackFromSummaries(undefined, config, options);
   }
 

@@ -9,7 +9,12 @@ const { createCostLedger, researchCatalog, scopeKindsOfFields } = require('../..
 function seed() {
   return {
     detail_kind: 'api_model', modality: 'video', name: 'Kling 2.6 Pro', vendor_name: '可灵', vendor_key: 'kuaishou', tool_key: 'kling-2-6-pro',
-    placement: { new_group_title: 'Kling' }, known_fields: { theme: 'media' },
+    placement: { new_group_title: 'Kling' },
+    placement_decision: {
+      vendor: 'kuaishou', family: 'kling-video', target_mode: 'create',
+      target_level2_id: 'vendor-level2:kuaishou:kling', target_level2_title: 'Kling 视频生成模型',
+    },
+    known_fields: { theme: 'media' },
     discovery_sources: [{ url: 'https://kling.ai/official', kind: 'official_hint' }],
   };
 }
@@ -37,11 +42,80 @@ test('research keeps trusted official hosts, gathers sources, and tracks Tavily-
   const plan = detailOnlyPlan();
   const result = await researchCatalog(plan, adapters(), { limits: { search_queries: 2, pages: 4 } });
   assert.equal(result.ok, true);
-  assert.equal(result.official_sources.length, 1);
-  assert.equal(result.official_sources[0].url, 'https://kling.ai/official');
+  // seed 声明的 official_hint 无条件预置，discover 重复返回同 URL 时合并不重复。
+  assert.deepEqual(result.official_sources.map(source => source.url), ['https://kling.ai/official']);
   assert.equal(result.cost.spent.search_queries, 1);
   assert.equal(result.cost.spent.pages, 1);
   assert.equal(result.cost.spent.extraction_calls, undefined);
+});
+
+test('identity_verified sources become trust roots and keep authorization metadata', async () => {
+  const snapshot = emptySnapshot();
+  snapshot['vendor-card'].push({ id: 'vendor-card:stepfun', vendor_key: 'stepfun' });
+  snapshot['vendor-level1'].push({ id: 'vendor-level1:stepfun', vendor_key: 'stepfun' });
+  snapshot['vendor-level2'].push({ id: 'vendor-level2:stepfun:step-audio', vendor_key: 'stepfun' });
+  const seed = {
+    detail_kind: 'api_model', modality: 'audio', name: 'StepAudio 3 Gen Preview', vendor_name: 'stepfun', vendor_key: 'stepfun',
+    tool_key: 'stepaudio-3-gen-preview', placement: { existing_level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:stepfun' }, existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:stepfun:step-audio' } },
+    official_url: 'https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen',
+    known_fields: { theme: 'general' },
+    discovery_sources: [
+      { url: 'https://x.com/StepFun_ai/status/2099916376274313630', kind: 'identity_verified', content_hash: 'sha256:x' },
+      { url: 'https://example.com/discovered', kind: 'discovery' },
+    ],
+  };
+  const plan = planCatalogResearch(seed, snapshot);
+  const result = await researchCatalog(plan, {
+    discover: async () => ({ sources: [] }),
+    acquire: async ({ sources }) => ({ contents: sources.map(source => ({ url: source.url, content: `StepAudio 3 Gen official page. Free during launch. ${source.url}` })) }),
+  }, { limits: { search_queries: 2, pages: 4 } });
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.official_sources.map(source => source.url), [
+    'https://x.com/StepFun_ai/status/2099916376274313630',
+  ]);
+  const xSource = result.official_sources.find(source => source.url.startsWith('https://x.com/'));
+  assert.equal(xSource.kind, 'identity_verified');
+  assert.equal(xSource.content_hash, 'sha256:x');
+});
+
+test('social trusted roots only accept exact identity-verified URLs', async () => {
+  const plan = planCatalogResearch({
+    ...seed(),
+    official_url: 'https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen',
+    discovery_sources: [{ url: 'https://x.com/StepFun_ai/status/2099916376274313630', kind: 'identity_verified' }],
+  }, emptySnapshot());
+  const result = await researchCatalog(plan, {
+    discover: async () => ({ sources: [
+      { url: 'https://x.com/StepFun_ai/status/2099916376274313630', title: 'Official', source_kind: 'official' },
+      { url: 'https://x.com/Chinazhidx/all', title: 'Third party', source_kind: 'official' },
+    ] }),
+    acquire: async ({ sources }) => ({ contents: sources.map(source => ({ url: source.url, content: 'Official evidence' })) }),
+  }, { limits: { search_queries: 4, pages: 4 } });
+  assert.equal(result.ok, true);
+  assert.ok(result.official_sources.some(source => source.url === 'https://x.com/StepFun_ai/status/2099916376274313630'));
+  assert.equal(result.official_sources.some(source => source.url === 'https://x.com/Chinazhidx/all'), false);
+});
+
+test('plain search candidates never become trust roots on their own', async () => {
+  const snapshot = emptySnapshot();
+  snapshot['vendor-card'].push({ id: 'vendor-card:stepfun', vendor_key: 'stepfun' });
+  snapshot['vendor-level1'].push({ id: 'vendor-level1:stepfun', vendor_key: 'stepfun' });
+  snapshot['vendor-level2'].push({ id: 'vendor-level2:stepfun:step-audio', vendor_key: 'stepfun' });
+  const seed = {
+    detail_kind: 'api_model', modality: 'audio', name: 'StepAudio 3 Gen Preview', vendor_name: 'stepfun', vendor_key: 'stepfun',
+    tool_key: 'stepaudio-3-gen-preview', placement: { existing_level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:stepfun' }, existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:stepfun:step-audio' } },
+    official_url: 'https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen',
+    known_fields: { theme: 'general' },
+    discovery_sources: [{ url: 'https://rival-audio.example/stepaudio', kind: 'discovery' }],
+  };
+  const plan = planCatalogResearch(seed, snapshot);
+  const result = await researchCatalog(plan, {
+    discover: async () => ({ sources: [{ url: 'https://rival-audio.example/stepaudio', title: 'Looks official', excerpt: 'Price free', source_kind: 'official' }] }),
+    acquire: async () => ({ contents: [] }),
+  }, { limits: { search_queries: 2, pages: 4 } });
+  assert.equal(result.ok, true);
+  assert.equal(result.official_sources.length, 0);
+  assert.ok(result.warnings.some(warning => warning.includes('已忽略')));
 });
 
 test('canonicalizes discovered URLs before trust and page budgeting', async () => {
@@ -58,9 +132,9 @@ test('canonicalizes discovered URLs before trust and page budgeting', async () =
     },
   }), { limits: { search_queries: 2, pages: 2 } });
   assert.equal(result.ok, true);
-  assert.equal(result.official_sources.length, 1);
-  assert.equal(result.official_sources[0].url, 'https://kling.ai/document-api/apiReference/model/imageToVideo');
-  assert.equal(result.cost.spent.pages, 1);
+  assert.equal(result.official_sources.length, 2);
+  assert.ok(result.official_sources.some(source => source.url === 'https://kling.ai/document-api/apiReference/model/imageToVideo'));
+  assert.equal(result.cost.spent.pages, 2);
   assert.equal(acquireCalls, 1);
 });
 
@@ -83,7 +157,7 @@ test('research without missingFields studies every active scope once', async () 
   }), { limits: { search_queries: 4, pages: 8 } });
   assert.equal(result.ok, true);
   assert.deepEqual(requested, ['vendor', 'group', 'detail']);
-  assert.equal(result.official_sources.length, 3);
+  assert.equal(result.official_sources.length, 4);
 });
 
 test('resume researches only scopes whose fields are still missing', async () => {
@@ -116,7 +190,7 @@ test('budget exhaustion preserves partial sources for a missing-field resume', a
   const failed = await researchCatalog(plan, localAdapters, { limits: { search_queries: 2, pages: 1 } });
   assert.equal(failed.ok, false);
   assert.equal(failed.code, 'COST_BUDGET_EXHAUSTED');
-  assert.equal(failed.official_sources.length, 2);
+  assert.equal(failed.official_sources.length, 3);
   assert.deepEqual(requested, ['vendor', 'group']);
 
   requested.length = 0;

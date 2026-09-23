@@ -264,6 +264,39 @@ test('resolveBatchCandidates 核验分流：already_complete / verification_bloc
   assert.equal(deferred.series_candidates.length, 0);
   assert.deepEqual(outcomes, [{ key: 'k4', outcome: 'deferred_insufficient_evidence' }]);
 });
+
+test('resolveBatchCandidates 新鲜核验回执落盘，注入 identityContext 接缝不落盘', async () => {
+  const receiptsFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'cb-receipt-')), 'receipts.json');
+  const common = {
+    registry: { schema_version: 1, entries: {} },
+    catalogModelKeyIndex: () => new Map(),
+    setIntakeOutcome: null,
+    discoverSeriesMembers: null,
+    identityReceiptsFile: receiptsFile,
+  };
+
+  // 注入 identityContext（测试接缝）：mock 回执绝不写入文件
+  await resolveBatchCandidates(
+    [{ name: 'Ctx Model', vendor_key: 'alibaba', entity_type: 'model', candidate_key: 'k-ctx' }],
+    { ...common, identityContext: mockIdentityContext(), verifyModelIdentity: verifiedModelIdentity() },
+  );
+  assert.equal(fs.existsSync(receiptsFile), false, '注入 identityContext 时不写回执文件');
+
+  // 默认接缝（真实 identityContextOf）：新鲜 receipt 落盘供 24h 五条件复用
+  const result = await resolveBatchCandidates(
+    [{ name: 'Fresh Model', vendor_key: 'alibaba', entity_type: 'model', candidate_key: 'k-fresh' }],
+    {
+      ...common,
+      verifyModelIdentity: verifiedModelIdentity({
+        receipt: { receipt_id: 'receipt-fresh000001', candidate_name: 'Fresh Model', entity_class: 'model', verified_at: new Date().toISOString() },
+      }),
+    },
+  );
+  assert.equal(result.verdicts.length, 1);
+  const saved = JSON.parse(fs.readFileSync(receiptsFile, 'utf8'));
+  assert.equal(saved.count, 1);
+  assert.equal(saved.receipts[0].receipt_id, 'receipt-fresh000001');
+});
 test('resolveBatchCandidates 多候选 outcome 写入逐次 fresh-read，不复用旧 pending revision', async () => {
   const toolFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'cb-outcome-')), 'pending.json');
   const initial = await pendingStore.mergePending('tools', [

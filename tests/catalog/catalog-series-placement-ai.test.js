@@ -132,6 +132,20 @@ test('suggestSeriesPlacement 自适应当前 provider 的默认模型', async ()
   assert.equal(calls[0].body.model, 'glm-5.3-flash');
 });
 
+test('resolve：缓存 placement 目标不再符合当前 policy 时 fail_closed', async () => {
+  const policy = loadSeriesPolicy();
+  const stale = candidate({
+    placement: { existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:openai:gpt-image' } },
+    placement_decision: {
+      vendor: 'openai', family: 'removed-family', target_mode: 'existing',
+      target_level2_id: 'vendor-level2:openai:gpt-image', target_level2_title: 'GPT-Image',
+    },
+  });
+  const result = await resolveSeriesPlacement(policy, emptySnapshot(), stale, {});
+  assert.equal(result.kind, 'fail_closed');
+  assert.equal(result.code, 'PLACEMENT_CACHED_DECISION_INVALID');
+});
+
 // ── 3. resolveSeriesPlacement 各分支 ────────────────────────────
 
 test('resolve：人工 placement 合法 → manual（最高优先，不触发 AI）', async () => {
@@ -150,6 +164,17 @@ test('resolve：人工 placement 非法（vendor 不匹配）→ fail_closed', a
   const result = await resolveSeriesPlacement(policy, snap, c, { allowAi: true });
   assert.equal(result.kind, 'fail_closed');
   assert.equal(result.code, 'PLACEMENT_REF_INVALID');
+});
+
+test('resolve：显式非法 modality 直接 fail_closed，不允许 AI 覆盖', async () => {
+  const policy = loadSeriesPolicy();
+  const result = await resolveSeriesPlacement(policy, emptySnapshot(),
+    candidate({ vendor_key: 'openai', name: 'GPT-5.6 Sol', modality: 'hologram' }), {
+      allowAi: true, ledger: { reserve: () => ({ ok: true }) },
+      suggestPlacement: async () => ({ ok: true, hint: { usage_kind: 'general_llm', canonical_family: 'gpt', release_cohort: 'newest', confidence: 1 } }),
+    });
+  assert.equal(result.kind, 'fail_closed');
+  assert.equal(result.code, 'PLACEMENT_MODALITY_INVALID');
 });
 
 test('resolve：政策覆盖的通用 LLM 确定性判定（零 AI）→ decision', async () => {
@@ -180,19 +205,38 @@ test('resolve：目标系列未建 → decision create（组 key 取政策稳定
   assert.equal(result.target_mode, 'existing');
 });
 
-test('resolve：专用模型（policy pattern 命中）→ not_applicable，不改 seed', async () => {
+test('resolve：政策专用系列（OpenAI image）→ decision，复用政策目标系列', async () => {
   const policy = loadSeriesPolicy();
   const result = await resolveSeriesPlacement(policy, emptySnapshot(),
-    candidate({ vendor_key: 'openai', name: 'GPT-Realtime-3' }), { allowAi: true });
-  assert.equal(result.kind, 'not_applicable');
+    candidate({ vendor_key: 'openai', name: 'GPT Images 2.5', modality: 'image' }), { allowAi: true });
+  assert.equal(result.kind, 'decision');
+  assert.equal(result.vendor, 'openai');
+  assert.equal(result.family, 'image');
+  assert.equal(result.target_level2_id, 'vendor-level2:openai:gpt-image');
 });
 
-test('resolve：无政策厂商（可灵 Kling）→ not_applicable', async () => {
+test('resolve：政策专用系列（xAI Grok Voice）→ decision，复用 Grok Voice', async () => {
   const policy = loadSeriesPolicy();
   const result = await resolveSeriesPlacement(policy, emptySnapshot(),
-    candidate({ vendor_key: 'kuaishou', name: 'Kling 4.0' }), { allowAi: true });
-  assert.equal(result.kind, 'not_applicable');
+    candidate({ vendor_key: 'xai', name: 'Grok Voice Transcribe 2.0', modality: 'audio' }), { allowAi: true });
+  assert.equal(result.kind, 'decision');
+  assert.equal(result.vendor, 'xai');
+  assert.equal(result.family, 'voice');
+  assert.equal(result.target_level2_id, 'vendor-level2:xai:grok-voice');
 });
+
+test('resolve：OpenAI 不匹配 Kling，Kuaishou Kling 进入自身系列', async () => {
+  const policy = loadSeriesPolicy();
+  const openai = await resolveSeriesPlacement(policy, emptySnapshot(),
+    candidate({ vendor_key: 'openai', name: 'Kling 4.0', modality: 'video' }), { allowAi: true });
+  const kuaishou = await resolveSeriesPlacement(policy, emptySnapshot(),
+    candidate({ vendor_key: 'kuaishou', vendor_name: '快手可灵', name: 'Kling 4.0', modality: 'video' }), { allowAi: true });
+  assert.equal(openai.kind, 'fail_closed');
+  assert.equal(openai.code, 'PLACEMENT_MODALITY_UNSUPPORTED');
+  assert.equal(kuaishou.kind, 'decision');
+  assert.equal(kuaishou.target_level2_id, 'vendor-level2:kuaishou:kling');
+});
+
 
 test('resolve：GLM 第 4 个成员 → migration_required（阻断普通 Draft）', async () => {
   const policy = loadSeriesPolicy();

@@ -2,7 +2,7 @@
  * catalog-series-policy.test.js — LLM 二级系列政策契约回归（阶段 1）
  *
  * 覆盖面：
- *   - 28 厂商政策矩阵完整：每家有方向与系列，LLM 厂商有 general_llm 家族、evidence 状态合法；
+ *   - 厂商政策矩阵完整：每家有方向与系列，LLM 厂商有 general_llm 家族、evidence 状态合法；
  *   - validateSeriesPolicy 对缺 top 字段 / 重复 vendor / 重复 series id / 非法 usage /
  *     capacity 区间 / evidence 非法等 fail-closed；
  *   - usageKindOf 正确区分 general_llm / 专用 / 未覆盖（含无 modality 的 pending）；
@@ -40,10 +40,11 @@ test('政策文件加载合法，无校验错误', () => {
   assert.equal(validateSeriesPolicy(p).length, 0);
 });
 
-test('厂商矩阵：28 个厂商，每家有方向与目标系列', () => {
+test('厂商矩阵：每个厂商有方向与目标系列，不依赖固定厂商数量', () => {
   const p = policy();
   const vendors = p.vendors.map(v => v.vendor_key);
-  assert.deepEqual(vendors, ['openai', 'anthropic', 'google', 'deepseek', 'zhipu', 'baidu', 'minimax', 'xai', 'mistral', 'cohere', 'moonshot', 'alibaba', 'tencent', 'meta', 'stepfun', 'xiaomi', 'bytedance', 'upstage', 'microsoft', 'antgroup', 'kuaishou', 'luma', 'vidu', 'black-forest-labs', 'reve', 'perplexity', 'nvidia', 'thinking-machines']);
+  assert.ok(vendors.length > 0);
+  assert.equal(new Set(vendors).size, vendors.length);
   for (const vendor of p.vendors) {
     assert.ok(['llm', 'video', 'image', 'search_platform', 'infrastructure'].includes(vendor.direction), `${vendor.vendor_key} direction 非法`);
     assert.ok(Array.isArray(vendor.families), `${vendor.vendor_key} families 非法`);
@@ -161,10 +162,10 @@ test('usageKindOf：按 family pattern 识别无 modality 的专用模型', () =
   assert.equal(usageKindOf(p, policyForVendor(p, 'minimax'), seed({ vendor_key: 'minimax', name: 'MiniMax H3' })), 'video');
 });
 
-test('usageKindOf：无 pattern 命中的通用缺省 → general_llm', () => {
+test('usageKindOf：无 pattern 命中且无 modality → uncovered，禁止默认 general_llm', () => {
   const p = policy();
-  assert.equal(usageKindOf(p, policyForVendor(p, 'openai'), seed({ name: 'GPT-5.6 Sol' })), 'general_llm');
-  assert.equal(usageKindOf(p, policyForVendor(p, 'cohere'), seed({ vendor_key: 'cohere', name: 'Command A+' })), 'general_llm');
+  assert.equal(usageKindOf(p, policyForVendor(p, 'openai'), seed({ name: 'GPT-5.6 Sol' })), 'uncovered');
+  assert.equal(usageKindOf(p, policyForVendor(p, 'cohere'), seed({ vendor_key: 'cohere', name: 'Command A+' })), 'uncovered');
 });
 
 test('usageKindOf：厂商政策中的视频家族 → video', () => {

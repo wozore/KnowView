@@ -134,14 +134,14 @@ test('assistant refuses new before invoking adapters without explicit cost confi
   assert.equal(calls, 0);
 });
 
-test('assistant creates and reviews a schema v3 ready Draft through offline adapters', async () => {
+test('assistant creates and reviews a schema v4 ready Draft through offline adapters', async () => {
   const adapters = createKlingDossierAdapters();
   let draftId;
   try {
     const prepared = await prepareCatalogDraft(klingVideoSeed(), { ...ASSISTANT_OPTIONS, catalogAdapters: adapters });
     draftId = prepared.draft_id;
     assert.equal(prepared.ok, true, JSON.stringify(prepared));
-    assert.equal(prepared.draft.schema_version, 3);
+    assert.equal(prepared.draft.schema_version, 4);
     assert.equal(prepared.draft.layer_patches.filter(patch => patch.operation === 'replace').length, 5);
     assert.equal(prepared.draft.cost.spent.synthesis_calls, 1);
     assert.equal(prepared.draft.cost.spent.extraction_calls, undefined);
@@ -411,4 +411,3 @@ test('reviewCatalogDraftBatch merges duplicate vendor patches across drafts with
     discardCatalogDraft(prep2.draft_id);
   }
 });
-

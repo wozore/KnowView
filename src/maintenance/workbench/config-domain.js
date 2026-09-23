@@ -14,7 +14,7 @@ const SOURCE_NAMES = Object.freeze(['openrouter', 'lmarena', 'livebench', 'llm_s
 const NEWS_FIELDS = Object.freeze({
   schedule: ['youtube_cron', 'youtube_tz', 'youtube_interval_hours', 'youtube_window_days', 'x_cron_hot', 'x_cron_cold', 'x_tz', 'tool_update_review_hour_utc', 'tool_update_review_minute_utc'],
   collection: ['enabled', 'youtube_search_max_per_run', 'youtube_search_cost_units', 'youtube_daily_quota_units', 'youtube_videos_batch_size', 'youtube_comments_top_n', 'x_credits_per_hot_run', 'x_credits_per_cold_run', 'x_credits_per_tweet', 'x_credits_per_article', 'x_tweets_per_request_max', 'max_output_items_daily', 'min_output_items_daily', 'max_output_with_youtube', 'review_top_pure_x', 'review_top_with_youtube', 'ai_top_input_max', 'concurrency', 'request_timeout_ms', 'max_retries', 'retry_base_ms'],
-  review: ['l1_input_include_comments', 'l1_comments_top_n', 'l1_confidence_auto_approve', 'l1_confidence_auto_discard', 'l2_enabled', 'web_verify'],
+  review: ['l1_input_include_comments', 'l1_comments_top_n', 'l1_confidence_auto_approve', 'l1_confidence_auto_discard', 'l2_enabled', 'web_verify', 'web_search_provider', 'web_search_engine', 'web_verify_max_searches_per_run'],
   feedback: ['tool_feedback', 'concept_feedback', 'llm_extract', 'llm_model'],
   transcripts: ['notify_count'],
 });
@@ -288,13 +288,13 @@ function projectProviders(providers) {
   if (!isObject(providers)) throw failure();
   return Object.entries(providers).map(([name, provider]) => {
     if (!isObject(provider)) throw failure();
-    assertKeys(provider, ['name', 'label', 'protocol', 'apiKeyEnv', 'messagesEndpoint', 'chatEndpoint', 'responsesEndpoint', 'defaultModel', 'implemented']);
+    assertKeys(provider, ['name', 'label', 'protocol', 'apiKeyEnv', 'messagesEndpoint', 'chatEndpoint', 'responsesEndpoint', 'webSearchEndpoint', 'defaultModel', 'implemented']);
     const providerName = provider.name === undefined ? name : provider.name;
     const label = provider.label === undefined ? name : provider.label;
     assertType(providerName, value => typeof value === 'string');
     assertType(label, value => typeof value === 'string');
     assertType(provider.protocol, value => typeof value === 'string');
-    for (const key of ['apiKeyEnv', 'messagesEndpoint', 'chatEndpoint', 'responsesEndpoint']) if (provider[key] !== undefined && provider[key] !== null) assertType(provider[key], value => typeof value === 'string');
+    for (const key of ['apiKeyEnv', 'messagesEndpoint', 'chatEndpoint', 'responsesEndpoint', 'webSearchEndpoint']) if (provider[key] !== undefined && provider[key] !== null) assertType(provider[key], value => typeof provider[key] === 'string');
     if (provider.defaultModel !== undefined && provider.defaultModel !== null) assertType(provider.defaultModel, value => typeof value === 'string');
     if (provider.implemented !== undefined) assertType(provider.implemented, value => typeof value === 'boolean');
     return { name: providerName, label, protocol: provider.protocol, default_model: provider.defaultModel ?? null, implemented: provider.implemented !== false };
@@ -303,11 +303,11 @@ function projectProviders(providers) {
 
 function projectCatalog(config, providers) {
   const source = 'source_default';
-  if (!isObject(config) || ['provider', 'model', 'protocol', 'retrieval_provider'].some(key => typeof config[key] !== 'string' || !config[key].trim())) throw failure();
+  if (!isObject(config) || ['provider', 'model', 'protocol', 'search_provider', 'extract_provider', 'search_engine'].some(key => typeof config[key] !== 'string' || !config[key].trim())) throw failure();
   if (config.enabled !== undefined) assertType(config.enabled, value => typeof value === 'boolean');
   const limits = ['timeout_ms', 'max_search_queries', 'max_pages', 'max_responses_calls', 'max_synthesis_calls', 'max_repair_calls'];
   return group('catalog_ai', 'Catalog AI', [
-    section('effective', 'Effective configuration', valueItems(config, ['enabled', 'provider', 'model', 'protocol', 'retrieval_provider'], source), []),
+    section('effective', 'Effective configuration', valueItems(config, ['enabled', 'provider', 'model', 'protocol', 'search_provider', 'extract_provider', 'search_engine'], source), []),
     section('limits', 'Limits', valueItems(config, limits, source), []),
     section('providers', 'Provider registry', [], [collection('providers', 'Providers', projectProviders(providers), 'source_default')]),
   ]);

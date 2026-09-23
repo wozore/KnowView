@@ -19,9 +19,9 @@ export function recoveryControlsFor(draft, content, onRefreshAll) {
   controls.className = 'recovery-controls';
   const configFields = Array.isArray(draft.missing_config_fields) ? draft.missing_config_fields : [];
   const inputs = new Map();
-  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', retrieval_provider: 'tavily', access_mode: 'keyless' };
+  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', search_provider: 'tavily', extract_provider: 'tavily', search_engine: 'search_std', access_mode: 'keyless' };
   for (const field of configFields) {
-    if (!['model', 'provider', 'protocol', 'retrieval_provider', 'access_mode'].includes(field)) continue;
+    if (!['model', 'provider', 'protocol', 'search_provider', 'extract_provider', 'search_engine', 'access_mode'].includes(field)) continue;
     const label = document.createElement('label');
     label.className = 'recovery-field';
     label.textContent = field;
@@ -352,7 +352,7 @@ export async function applyCatalog(button, onRefreshAll) {
         draft_ids: batch.draft_ids,
         expected_revision: batch.expected_revision,
         batch_token: batch.batch_token,
-        confirm: `APPLY CATALOG BATCH ${batch.batch_token}`,
+        confirm: `APPLY CATALOG DRAFTS ${batch.batch_token}`,
       }),
     });
     if (!result?.ok) throw new Error(result?.code || 'Catalog Apply 被拒绝');

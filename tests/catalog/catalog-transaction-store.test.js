@@ -355,32 +355,51 @@ test('bridge replace failure rolls back catalog and preserves prior bridge', () 
 });
 
 
-test('dist replacement 后失败会恢复 catalog、bridge 与 dist', () => {
+test('提交后共享日期发布失败不回滚已提交 catalog、bridge 与 dist', () => {
   const context = makeTransactionFixture();
   try {
     const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
     const beforeCatalog = fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8');
-    const beforeBridge = fs.readFileSync(context.bridgeFile, 'utf8');
     const result = commitSnapshotChange(context.snapshot, { ...context.options, expectedRevision: revisionOf(context.snapshot), expectedBridgeRevision: initial.revision, bridgeEntries: [bridgeEntry({ title: 'dist rollback' })], runId: 'fixture-dist-rollback', buildStaticSite: builderFor('new-dist-before-publish-failure', []), publishCatalogReleaseDates: true, publishCatalogReleaseDatesAfterCommit() { throw new Error('fixture publish failed after dist replacement'); } });
-    assert.equal(result.ok, false);
-    assert.equal(result.code, 'BUILD_FAILED');
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.catalog_committed, true);
+    assert.equal(result.dist_built, true);
+    assert.deepEqual(result.outcome_warning, { code: 'CATALOG_RELEASE_DATES_PUBLISH_FAILED', error: 'fixture publish failed after dist replacement' });
     assert.equal(fs.readFileSync(path.join(context.catalogDir, 'tool-cards.json'), 'utf8'), beforeCatalog);
-    assert.equal(fs.readFileSync(context.bridgeFile, 'utf8'), beforeBridge);
-    assert.equal(fs.readFileSync(path.join(context.projectDir, 'dist', 'old.txt'), 'utf8'), 'old-dist');
-    assert.equal(fs.existsSync(path.join(context.projectDir, 'dist', 'built.txt')), false);
+    assert.equal(readModelIdentityBridge(context.bridgeFile).entries[0].title, 'dist rollback');
+    assert.equal(fs.readFileSync(path.join(context.projectDir, 'dist', 'built.txt'), 'utf8'), 'new-dist-before-publish-failure');
     assert.equal(fs.existsSync(path.join(context.catalogDir, '.transactions', 'journal.json')), false);
   } finally { clean(context.root); }
 });
 
 
-test('提交前不存在 dist 时失败会删除新建 dist', () => {
+test('提交后发布共享日期失败仍保留已提交 catalog 与 dist', () => {
   const context = makeTransactionFixture();
   try {
     fs.rmSync(path.join(context.projectDir, 'dist'), { recursive: true, force: true });
     const initial = writeModelIdentityBridge([bridgeEntry()], context.bridgeFile);
     const result = commitSnapshotChange(context.snapshot, { ...context.options, expectedRevision: revisionOf(context.snapshot), expectedBridgeRevision: initial.revision, bridgeEntries: [bridgeEntry({ title: 'no old dist' })], runId: 'fixture-no-old-dist-rollback', buildStaticSite: builderFor('new-dist', []), publishCatalogReleaseDates: true, publishCatalogReleaseDatesAfterCommit() { throw new Error('fixture publish failed'); } });
-    assert.equal(result.ok, false);
-    assert.equal(result.code, 'BUILD_FAILED');
-    assert.equal(fs.existsSync(path.join(context.projectDir, 'dist')), false);
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.catalog_committed, true);
+    assert.equal(result.dist_built, true);
+    assert.equal(result.outcome_pending, true);
+    assert.equal(fs.existsSync(path.join(context.projectDir, 'dist')), true);
+  } finally { clean(context.root); }
+});
+
+test('successful shared date publication does not set outcome_pending', () => {
+  const context = makeTransactionFixture();
+  try {
+    const result = commitSnapshotChange(context.snapshot, {
+      ...context.options,
+      expectedRevision: revisionOf(context.snapshot),
+      runId: 'fixture-publish-success',
+      buildDist: false,
+      publishCatalogReleaseDates: true,
+      publishCatalogReleaseDatesAfterCommit() { return { ok: true, count: 158 }; },
+    });
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.outcome_pending, undefined);
+    assert.equal(result.outcome_warning, undefined);
   } finally { clean(context.root); }
 });

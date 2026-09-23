@@ -23,7 +23,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function waitHttp(url, timeout = 15000) {
   const end = Date.now() + timeout;
   while (Date.now() < end) {
-    try { const response = await fetch(url); if (response.ok) return response; } catch {}
+    try { const res = await fetch(url); if (res.ok) return res; } catch {}
     await wait(100);
   }
   fail(`TIMEOUT:${url}`);
@@ -46,16 +46,15 @@ function cdp(wsUrl) {
     socket.addEventListener('error', reject, { once: true });
   });
   return {
-    socket,
-    open,
-    command(method, params = {}) {
+    socket, open,
+    command: (method, params = {}) => {
       const id = ++nextId;
       return open.then(() => new Promise((resolve, reject) => {
         pending.set(id, { resolve, reject });
         socket.send(JSON.stringify({ id, method, params }));
       }));
     },
-    close() { try { socket.close(); } catch {} },
+    close: () => { try { socket.close(); } catch {} },
   };
 }
 
@@ -70,16 +69,13 @@ async function assertBrowser(client, name, expression, timeoutMs = 8000) {
   let lastVal = null;
   while (Date.now() < end) {
     lastVal = await evaluate(client, expression);
-    if (lastVal) {
-      console.log(`  PASS ${name}`);
-      return;
-    }
+    if (lastVal) { console.log(`  PASS ${name}`); return; }
     await wait(120);
   }
   fail(`ASSERTION_FAILED:${name} (lastValue: ${JSON.stringify(lastVal)})`);
 }
 
-// 新闻列表状态化等待：并发响应乱序时旧响应可能后到覆盖渲染；收敛判据 = 激活 Tab + 加载成功 + 条数=该状态计数；加载完成后仍不匹配则经另一 Tab 往返重触发权威加载，杜绝固定 sleep 竞态。
+// 新闻列表状态化等待：并发响应乱序时旧响应可能后到覆盖渲染；收敛判据 = 激活 Tab + 加载成功 + 条数=该状态计数
 async function waitNewsTabConverged(client, tabId, countId, altTabId, timeoutMs = 20000) {
   await evaluate(client, `document.querySelector('${tabId}').click()`);
   for (const end = Date.now() + timeoutMs; Date.now() < end; await wait(200)) {
@@ -92,15 +88,13 @@ async function waitNewsTabConverged(client, tabId, countId, altTabId, timeoutMs 
 
 async function waitDevToolsPort(profileDir, timeout = 15000) {
   const portFile = path.join(profileDir, 'DevToolsActivePort');
-  const end = Date.now() + timeout;
-  while (Date.now() < end) {
+  for (const end = Date.now() + timeout; Date.now() < end; await wait(100)) {
     if (fs.existsSync(portFile)) {
       try {
         const port = parseInt(fs.readFileSync(portFile, 'utf8').trim().split(/\r?\n/)[0], 10);
         if (Number.isFinite(port) && port > 0) return port;
       } catch {}
     }
-    await wait(100);
   }
   fail(`TIMEOUT:DevToolsActivePort in ${profileDir}`);
 }
@@ -108,7 +102,6 @@ async function waitDevToolsPort(profileDir, timeout = 15000) {
 async function runWorkbenchBrowserAcceptance() {
   const browserConfig = readBrowserConfig();
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'knowview-wb-edge-'));
-  // 注入内存 fixture 服务：真实 server（鉴权/静态前端）+ 零 fs 写仓库路径、零网络的内存数据。
   const server = createMaintainerWorkbenchServer({ service: createFixtureWorkbenchService() });
   const started = await server.start();
   console.log(`[Browser Test] 维护者工作台启动（内存 fixture 服务）：${started.url}`);
@@ -143,16 +136,14 @@ async function runWorkbenchBrowserAcceptance() {
     await assertBrowser(client, '工作台加载完成', `document.title.includes('知览') && document.querySelectorAll('#overviewCards .overview-card').length >= 4`);
     await assertBrowser(client, '新闻状态 Tab 渲染完整', `Boolean(document.querySelector('#newsStatusTabs')) && Boolean(document.querySelector('#newsTabApproved'))`);
 
-    // 2. 验证状态 Tab 切换与条目加载（等待列表与激活 Tab 计数收敛，防并发响应乱序渲染）
+    // 2. 验证状态 Tab 切换与条目加载
     await waitNewsTabConverged(client, '#newsTabApproved', '#newsApprovedCount', '#newsTabPending');
     await assertBrowser(client, '切换到已批准 Tab 并显示条目', `document.querySelectorAll('#newsList .queue-item').length > 0`);
 
-    // 3. 验证待首审队列全选批准清空；全程状态化等待，无固定 sleep。
-    // 注：前端 #newsRevertButton 从未被启用（updateSelectionControls 不管理其 disabled），点击为无效操作，不做回退假动作。
+    // 3. 验证待首审队列全选批准清空
     await waitNewsTabConverged(client, '#newsTabPending', '#newsPendingCount', '#newsTabApproved');
     await assertBrowser(client, '待首审队列包含待审条目', `document.querySelectorAll('#newsList .queue-item').length >= 2`);
 
-    // 全选并批准，清空待首审队列
     console.log('[Browser Test] 全选待首审并批准...');
     await evaluate(client, `(()=>{const all=document.querySelector('#newsSelectAll');all.checked=true;all.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
     await assertBrowser(client, '全选生效且批准按钮可点', `(()=>{const boxes=[...document.querySelectorAll('#newsList .queue-item input[type=checkbox]')];return boxes.length>0&&boxes.every(box=>box.checked)&&!document.querySelector('#newsApproveButton').disabled})()`);
@@ -161,42 +152,59 @@ async function runWorkbenchBrowserAcceptance() {
     await waitNewsTabConverged(client, '#newsTabPending', '#newsPendingCount', '#newsTabApproved');
     await assertBrowser(client, '待审全量批准完成', `document.querySelector('#newsList').innerText.includes('当前没有待首审新闻')`);
 
-    // 4. 验证工具待补卡丢弃/批准可逆性（解除 blocked 卡死）
-    await assertBrowser(client, '工具待补卡列表中存在条目', `document.querySelectorAll('#pendingToolsList .queue-item').length > 0`);
+    // 3.8 验证知识提取（AC-11）：从 approved 摘要提取，Grok Voice Transcribe 2.0 出现、厂商泛称被过滤
+    console.log('[Browser Test] 点击从 approved 摘要提取知识...');
+    await evaluate(client, `document.querySelector('#knowledgeExtractButton').click()`);
+    await assertBrowser(client, '提取知识后页面出现 Grok Voice Transcribe 2.0 model 卡', `(()=>{
+      const text = document.querySelector('#pendingToolsList')?.innerText || '';
+      return text.includes('Grok Voice Transcribe 2.0') && text.includes('api_model');
+    })()`, 15000);
+    await assertBrowser(client, '提取结果中不出现 OpenAI / Anthropic 泛称卡', `(()=>{
+      const text = document.querySelector('#pendingToolsList')?.innerText || '';
+      return !text.includes('OpenAI') && !text.includes('Anthropic');
+    })()`);
+
+    // 4. 验证工具待补卡丢弃/批准可逆性（解除 blocked 卡死，AC-07/08/11）
+    await assertBrowser(client, '工具待补卡列表中存在条目', `document.querySelectorAll('#pendingToolsList .queue-item').length >= 2`);
     await evaluate(client, `(()=>{
-      const approveBtn = document.querySelector('#pendingToolsList button.button-primary');
+      const approveBtn = document.querySelectorAll('#pendingToolsList .queue-item')[0]?.querySelector('button.button-primary');
       if (approveBtn) approveBtn.click();
       return true;
     })()`);
-    await wait(800);
-    await assertBrowser(client, '已批准待补卡具备丢弃按钮', `Boolean(document.querySelector('#pendingToolsList button.button-danger'))`);
+    await assertBrowser(client, '首张待补卡完成批准（无批准按钮且具备丢弃按钮）', `(()=>{
+      const first = document.querySelectorAll('#pendingToolsList .queue-item')[0];
+      return first && !first.querySelector('button.button-primary') && Boolean(first.querySelector('button.button-danger'));
+    })()`, 15000);
+
     await evaluate(client, `(()=>{
-      const btn = document.querySelector('#pendingToolsList button.button-danger');
+      const btn = document.querySelectorAll('#pendingToolsList .queue-item')[0]?.querySelector('button.button-danger');
       if (btn) btn.click();
       return true;
     })()`);
-    await wait(800);
+    await assertBrowser(client, '丢弃请求完成且被丢弃卡移出待办列表', `!document.querySelector('#pendingToolsList')?.innerText.includes('Fixture 工具 Alpha')`, 15000);
     console.log('  PASS 工具待补卡丢弃操作成功执行无阻断');
+
+    // 验证默认待办列表不显示已丢弃卡，且可在历史视图中找到并具备重新批准按钮
+    await assertBrowser(client, '默认待办列表不显示已丢弃的历史卡', `!document.querySelector('#pendingToolsList')?.innerText.includes('已丢弃')`);
+    await evaluate(client, `document.querySelector('#pendingToolsHistoryTab').click()`);
+    await assertBrowser(client, '切换到历史视图能看到已丢弃卡并具备重新批准按钮', `(()=>{
+      const text = document.querySelector('#pendingToolsList')?.innerText || '';
+      const btn = document.querySelector('#pendingToolsList button.button-primary');
+      return text.includes('Fixture 工具 Alpha') && text.includes('已丢弃') && Boolean(btn) && btn.textContent.includes('重新批准');
+    })()`);
+    await evaluate(client, `document.querySelector('#pendingToolsActiveTab').click()`);
+    await assertBrowser(client, '切回待办视图生效', `!document.querySelector('#pendingToolsList')?.innerText.includes('已丢弃')`);
 
     // 4.5 验证关键词候选面板：用途切换与交互
     await evaluate(client, `document.querySelector('#kwTabContent').click()`);
     await wait(300);
     await assertBrowser(client, '关键词面板加载完成', `Boolean(document.querySelector('#keywordList'))`);
-    await evaluate(client, `(()=>{
-      const cb = document.querySelector('#keywordList .queue-item input[type=checkbox]');
-      if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change', {bubbles:true})); }
-      const btn = document.querySelector('#keywordAdoptButton');
-      if (btn && !btn.disabled) btn.click();
-      return true;
-    })()`);
+    await evaluate(client, `(()=>{ const cb = document.querySelector('#keywordList .queue-item input[type=checkbox]'); if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change', {bubbles:true})); } const btn = document.querySelector('#keywordAdoptButton'); if (btn && !btn.disabled) btn.click(); return true; })()`);
     await wait(600);
     console.log('  PASS 关键词面板操作成功执行无阻断');
 
     // 5. 验证 Top 待选池：重置、重新生成、选择保存与重建公开投影
-    await evaluate(client, `(()=>{
-      const r = document.querySelector('#topResetButton'); if (r) r.click();
-      return true;
-    })()`);
+    await evaluate(client, `(()=>{ const r = document.querySelector('#topResetButton'); if (r) r.click(); return true; })()`);
     await wait(600);
     await evaluate(client, `document.querySelector('#topDiscardPoolButton').click()`);
     await wait(600);
@@ -206,13 +214,7 @@ async function runWorkbenchBrowserAcceptance() {
     await assertBrowser(client, 'Top 待选池成功生成且包含候选', `document.querySelectorAll('#topList .queue-item').length > 0`, 25000);
 
     console.log('[Browser Test] 勾选候选并保存 Top 选择...');
-    await evaluate(client, `(()=>{
-      const cbs = document.querySelectorAll('#topList .queue-item input[type=checkbox]');
-      for (let i = 0; i < Math.min(4, cbs.length); i++) {
-        cbs[i].checked = true; cbs[i].dispatchEvent(new Event('change', {bubbles:true}));
-      }
-      return true;
-    })()`);
+    await evaluate(client, `(()=>{ const cbs = document.querySelectorAll('#topList .queue-item input[type=checkbox]'); for (let i = 0; i < Math.min(4, cbs.length); i++) { cbs[i].checked = true; cbs[i].dispatchEvent(new Event('change', {bubbles:true})); } return true; })()`);
     await wait(200);
     await evaluate(client, `document.querySelector('#topSaveButton').click()`);
     await wait(1000);

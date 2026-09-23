@@ -91,7 +91,7 @@ function buildLevel2({ vendorKey, level1Id, groupKey, title, officialUrl, summar
   return level2;
 }
 
-function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, officialUrl, status, summary, oneMContext, apiPricing, plan, applicableScenarios, inapplicableScenarios, sources, releaseDate, lastUpdatedDate, modelKey, visibility, historicalSince }) {
+function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, officialUrl, status, summary, oneMContext, apiPricing, plan, applicableScenarios, inapplicableScenarios, sources, releaseDate, lastUpdatedDate, modelKey, visibility, historicalSince, subscriptionPlanRefs, pricingDisclosure }) {
   const detail = {
     vendor_key: vendorKey,
     detail_kind: detailKind,
@@ -109,6 +109,8 @@ function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, o
     sources: sources || [],
     theme: theme || 'general',
   };
+  if (subscriptionPlanRefs !== undefined && subscriptionPlanRefs !== null) detail.subscription_plan_refs = subscriptionPlanRefs;
+  if (pricingDisclosure !== undefined && pricingDisclosure !== null) detail.pricing_disclosure = pricingDisclosure;
   if (detailKind === 'tool') detail.last_updated_date = lastUpdatedDate;
   if (detailKind === 'api_model' || detailKind === 'product_variant') detail.release_date = releaseDate;
   applyModelFields(detail, { modelKey, visibility, historicalSince, detailKind, name: title });

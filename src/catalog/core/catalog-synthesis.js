@@ -131,6 +131,17 @@ function fromSources(sourceIds) {
   return { kind: 'derived', source_ids: [...new Set((sourceIds || []).filter(Boolean))] };
 }
 
+function knownPricingEvidenceErrors(plan, research) {
+  const disclosure = plan.seed?.known_fields?.pricing_disclosure;
+  if (disclosure === undefined || disclosure === null) return [];
+  const urls = Array.isArray(disclosure.source_urls) ? disclosure.source_urls : [];
+  const available = new Set((research.official_sources || []).map(source => source.url));
+  if (!urls.length || urls.some(url => !available.has(url))) {
+    return [{ code: 'KNOWN_FIELD_EVIDENCE_INVALID', path: 'tool-level3.pricing_disclosure.source_urls', message: '价格说明来源必须匹配 ResearchResult 官方来源' }];
+  }
+  return [];
+}
+
 function notApplicable(reason) {
   return { value: { status: 'not_applicable', reason }, provenance: { kind: 'not_applicable', basis: 'CatalogProfile', source_ids: [] } };
 }
@@ -166,6 +177,11 @@ function buildPatches(plan, research, output) {
   const icon = plan.seed.known_fields?.icon || ({ video: '🎬', image: '🖼️', audio: '🎵', text: '🤖' }[plan.profile.modality] || '🧩');
   const theme = plan.seed.known_fields?.theme || ({ video: 'media', audio: 'media', image: 'vision', text: 'general' }[plan.profile.modality] || 'general');
   const sources = sourcesForCatalog(research);
+  const knownFields = plan.seed.known_fields || {};
+  const disclosureSourceIds = (knownFields.pricing_disclosure?.source_urls || [])
+    .flatMap(url => (research.official_sources || [])
+      .filter(source => source.url === url)
+      .map(source => source.source_id));
 
   const applicability = {};
   for (const [field, status] of Object.entries(plan.applicability || {})) {
@@ -189,10 +205,14 @@ function buildPatches(plan, research, output) {
     records['vendor-card'] = buildVendorCard({ vendorKey: keys.vendorKey, title: plan.seed.vendor_name, icon, summary: vendor.vendor_summary, featurePreview: vendorFeatures, accessLevel: detailFields.access_level, priceBadge: detailFields.price_badge, searchTerms: [plan.seed.vendor_name, keys.vendorKey], level1Id: ids['vendor-level1'] });
     records['vendor-level1'] = buildLevel1({ vendorKey: keys.vendorKey, title: plan.seed.vendor_name, icon, officialUrl: vendor.vendor_official_url, description: vendor.vendor_description, status: vendor.vendor_status, features: vendorFeatures, level2Refs });
   }
-  if (hasActive(plan, ['vendor-level2'])) records['vendor-level2'] = buildLevel2({ vendorKey: keys.vendorKey, level1Id: ids['vendor-level1'], groupKey: keys.groupKey, title: plan.seed.placement?.new_group_title || plan.seed.name, officialUrl: group.group_official_url, summary: group.group_summary, status: group.group_status, detailRefs, seriesKind: plan.seed.series_kind, generationState: plan.seed.generation_state });
+  const defaultSeriesKind = plan.profile.detail_kind === 'api_model'
+    ? 'model_series'
+    : (plan.profile.detail_kind === 'subscription_plan' ? 'subscription_series' : 'tool_series');
+  const seriesKind = plan.seed.series_kind || defaultSeriesKind;
+  if (hasActive(plan, ['vendor-level2'])) records['vendor-level2'] = buildLevel2({ vendorKey: keys.vendorKey, level1Id: ids['vendor-level1'], groupKey: keys.groupKey, title: plan.seed.placement?.new_group_title || plan.seed.name, officialUrl: group.group_official_url, summary: group.group_summary, status: group.group_status, detailRefs, seriesKind, generationState: plan.seed.generation_state });
   if (hasActive(plan, ['tool-level3', 'tool-card'])) {
     const dateField = dateFieldFor(plan);
-    const detail = buildDetail({ vendorKey: keys.vendorKey, detailKind: plan.profile.detail_kind, theme, title: plan.seed.name, vendorLabel: plan.seed.vendor_name, icon, officialUrl: detailFields.official_url, status: detailFields.detail_status, summary: detailFields.summary, oneMContext, apiPricing, plan: planValue, applicableScenarios: detailFields.applicable_scenarios, inapplicableScenarios: detailFields.inapplicable_scenarios, sources, releaseDate: dateField === 'release_date' ? detailFields.release_date : undefined, lastUpdatedDate: dateField === 'last_updated_date' ? detailFields.last_updated_date : undefined, modelKey: plan.seed.model_key, visibility: plan.seed.visibility, historicalSince: plan.seed.historical_since });
+    const detail = buildDetail({ vendorKey: keys.vendorKey, detailKind: plan.profile.detail_kind, theme, title: plan.seed.name, vendorLabel: plan.seed.vendor_name, icon, officialUrl: detailFields.official_url, status: detailFields.detail_status, summary: detailFields.summary, oneMContext, apiPricing, plan: planValue, applicableScenarios: detailFields.applicable_scenarios, inapplicableScenarios: detailFields.inapplicable_scenarios, sources, releaseDate: dateField === 'release_date' ? detailFields.release_date : undefined, lastUpdatedDate: dateField === 'last_updated_date' ? detailFields.last_updated_date : undefined, modelKey: plan.seed.model_key, visibility: plan.seed.visibility, historicalSince: plan.seed.historical_since, subscriptionPlanRefs: knownFields.subscription_plan_refs, pricingDisclosure: knownFields.pricing_disclosure });
     detail.id = detailId;
     records['tool-level3'] = detail;
     if (plan.layer_plan['tool-card']) records['tool-card'] = buildToolCard({ toolKey: keys.toolKey, vendorKey: keys.vendorKey, title: plan.seed.name, vendorLabel: plan.seed.vendor_name, icon, summary: detailFields.summary, theme, scenes: detailFields.scenes, bestForPreview: detailFields.best_for_preview, notForPreview: detailFields.not_for_preview, priceBadge: detailFields.price_badge, accessLevel: detailFields.access_level, searchTerms: [plan.seed.name, plan.seed.vendor_name, keys.toolKey, ...detailFields.scenes], detailId, detailKind: plan.profile.detail_kind, modelKey: plan.seed.model_key, visibility: plan.seed.visibility, historicalSince: plan.seed.historical_since });
@@ -215,6 +235,8 @@ function buildPatches(plan, research, output) {
       one_m_context: applicability.one_m_context?.provenance || fromSources(fieldSourceIds(output, 'detail', 'one_m_context')),
       api_pricing: applicability.api_pricing?.provenance || fromSources(fieldSourceIds(output, 'detail', 'api_pricing')),
       plan: applicability.plan?.provenance || fromSources(fieldSourceIds(output, 'detail', 'plan')),
+      subscription_plan_refs: knownFields.subscription_plan_refs ? deterministic('explicit CatalogSeed references') : undefined,
+      pricing_disclosure: disclosureSourceIds.length ? fromSources(disclosureSourceIds) : undefined,
       applicable_scenarios: fromSources(fieldSourceIds(output, 'detail', 'applicable_scenarios')), inapplicable_scenarios: fromSources(fieldSourceIds(output, 'detail', 'inapplicable_scenarios')),
       sources: { kind: 'official_sources', source_ids: research.official_sources.map(source => source.source_id) }, release_date: fromSources(fieldSourceIds(output, 'detail', 'release_date')), last_updated_date: fromSources(fieldSourceIds(output, 'detail', 'last_updated_date')),
     },
@@ -251,6 +273,8 @@ function validateLayerPatches(patches) {
 
 async function synthesizeCatalog(research, plan, adapter) {
   if (!research?.ok) return research || { ok: false, code: 'RESEARCH_REQUIRED', error: '缺少 ResearchResult' };
+  const evidenceErrors = knownPricingEvidenceErrors(plan, research);
+  if (evidenceErrors.length) return { ok: false, code: 'SYNTHESIS_INVALID', errors: evidenceErrors };
   const expected = expectedLayerFields(plan);
   const hasSynthesisFields = Object.values(expected).some(fields => fields.length > 0);
   if (!hasSynthesisFields) {

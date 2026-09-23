@@ -14,7 +14,7 @@ const { loadCatalogSnapshot } = require('./core/index');
 const assistant = require('./draft/index');
 const draftStore = require('./draft/index');
 const bundleDraft = require('./draft/catalog-bundle');
-const { codeError, planHashOf, projectDraft, normalizeRecoveryOptions } = require('./catalog-workbench-view');
+const { codeError, planHashOf, projectDraft, normalizeRecoveryOptions, blockedEntriesOf } = require('./catalog-workbench-view');
 
 const REUSABLE_DRAFT_STATES = Object.freeze(['researching', 'preview_ready', 'preview_blocked', 'failed_retryable', 'rolled_back', 'resuming']);
 let prepareInFlight = false;
@@ -27,11 +27,12 @@ function pendingOf(options) {
 }
 function approvedCandidates(options) {
   const pending = pendingOf(options);
-  return { pending, cards: pending.cards.filter(card => card.review_status === 'approved' && card.entity_type !== 'series') };
+  const excludedOutcomes = new Set(['already_complete', 'bundled_for_review', 'committed']);
+  return { pending, cards: pending.cards.filter(card => card.review_status === 'approved' && card.entity_type !== 'series' && !excludedOutcomes.has(card.intake_outcome)) };
 }
 function candidateKey(card) { return card.candidate_key; }
 
-const CATALOG_DRAFT_SCHEMA_VERSION = 3;
+const CATALOG_DRAFT_SCHEMA_VERSION = 4;
 const CATALOG_DRAFT_KIND = 'catalog';
 const BUNDLE_PREPARE_FIELDS = new Set(['pending_revision', 'catalog_revision', 'plan_hash', 'confirm_cost', 'enrichment_confirmation_token']);
 const BUNDLE_REVIEW_FIELDS = new Set();
@@ -54,7 +55,7 @@ function bundleApplyDto(result, applyOptions = {}) {
   if (!result || result.ok !== true) return result || { ok: false, code: 'OPERATION_FAILED' };
   const cleanupPending = result.cleanup_pending === true || (Array.isArray(result.cleanup_pending) && result.cleanup_pending.length > 0);
   const outcomeWarning = result.outcome_warning || null;
-  return { ok: true, status: result.status || 'committed', target_revision: result.target_revision || result.targetRevision || null, dist_built: result.dist_built === true || (result.dist_built === undefined && applyOptions.buildDist !== false), cleanup_pending: cleanupPending, cleanup_only: result.cleanup_only === true || result.cleanupOnly === true, outcome_pending: result.outcome_pending === true || Boolean(outcomeWarning), outcome_warning: outcomeWarning };
+  return { ok: true, status: result.status || 'committed', target_revision: result.target_revision || result.targetRevision || null, dist_requested: result.dist_requested === true, dist_built: result.dist_built === true, dist_pending: result.dist_pending === true, cleanup_pending: cleanupPending, cleanup_only: result.cleanup_only === true || result.cleanupOnly === true, outcome_pending: result.outcome_pending === true || Boolean(outcomeWarning), outcome_warning: outcomeWarning };
 }
 function isCatalogDraft(draft) {
   return draft && draft.schema_version === CATALOG_DRAFT_SCHEMA_VERSION && (draft.draft_kind || CATALOG_DRAFT_KIND) === CATALOG_DRAFT_KIND;
@@ -157,13 +158,21 @@ function createCatalogWorkbench(options = {}) {
         catch (error) { return { ok: false, code: 'DRAFT_BLOCKED', blocking_reasons: ['官方来源解析失败'] }; }
       }
       const byName = new Map((resolved.seeds || []).map(seed => [String(seed.name).trim().toLowerCase(), seed]));
-      const blocked = [...(resolved.unresolved || []).map(item => ({ name: item.name, code: 'DRAFT_BLOCKED' })), ...(planned.blocked || [])];
+      const blocked = blockedEntriesOf(resolved, planned);
+      const seriesVerifiedNames = new Set((resolved.series_candidates || []).map(item => String(item.name || '').trim().toLowerCase()));
       for (const card of missingCards) {
         const key = candidateKey(card);
         const again = matchReusable(reusableOf(), key, card);
         if (again) { used.add(again.draft_id); drafts.push(projectDraft(again, { candidate_key: key, reused: true })); continue; }
         const resolvedSeed = byName.get(String(card.name).trim().toLowerCase());
-        if (!resolvedSeed) continue;
+        if (!resolvedSeed) {
+          const alreadyBlocked = seriesVerifiedNames.has(String(card.name).trim().toLowerCase())
+            || blocked.some(item => (item.candidate_key && item.candidate_key === key) || item.name === card.name);
+          if (!alreadyBlocked) {
+            blocked.push({ candidate_key: key, name: card.name, code: 'DRAFT_BLOCKED' });
+          }
+          continue;
+        }
         const seed = { ...resolvedSeed, candidate_key: key };
         try {
           const result = await prepareFn(seed, { ...generatorOptions, confirmCost: true, catalogAdapters: options.catalogAdapters });
@@ -202,7 +211,7 @@ function createCatalogWorkbench(options = {}) {
     const merged = normalizeRecoveryOptions(rawOptions, generatorOptions);
     const result = recoveryPlanFn(draftId, { expectedRevision, generatorOptions: merged });
     if (!result?.ok) return result;
-    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, retrieval_provider: merged.retrievalProvider, ...(merged.accessMode ? { access_mode: merged.accessMode } : {}) } };
+    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, search_provider: merged.searchProvider, extract_provider: merged.extractProvider, search_engine: merged.searchEngine, ...(merged.accessMode ? { access_mode: merged.accessMode } : {}) } };
   }
   async function resume(draftId, input = {}) {
     if (input.confirm_cost !== true) return { ok: false, code: 'COST_CONFIRMATION_REQUIRED' };
@@ -246,7 +255,7 @@ function createCatalogWorkbench(options = {}) {
     if (!draftIds.length) return { ok: false, code: 'DRAFTS_NOT_READY', status: 'blocked', draft_count: 0, source_pending_revision: pending.revision, blockers };
     const checked = batchReviewFn(draftIds, { sourcePendingRevision: pending.revision });
     if (!checked.ok) return { ok: false, code: checked.code || 'DRAFT_BATCH_STALE', status: 'blocked', draft_count: draftIds.length, source_pending_revision: pending.revision, blockers: [...blockers, { code: checked.code || 'DRAFT_BATCH_STALE' }] };
-    return { ok: true, status: 'review_ready', expected_revision: checked.currentRevision, source_pending_revision: pending.revision, draft_count: checked.draft_ids.length, drafts: checked.reviews.map(review => projectDraft(review.draft, { change_preview: review.plan.changePreview })), change_preview: checked.plan.changePreview, batch_token: checked.batchToken, blockers };
+    return { ok: true, status: 'review_ready', expected_revision: checked.currentRevision, source_pending_revision: pending.revision, draft_count: checked.draft_ids.length, draft_ids: checked.draft_ids, drafts: checked.reviews.map(review => projectDraft(review.draft, { change_preview: review.plan.changePreview })), change_preview: checked.plan.changePreview, batch_token: checked.batchToken, blockers };
   }
   function applyBatch(input = {}) {
     const draftIds = input.draft_ids;
@@ -256,9 +265,9 @@ function createCatalogWorkbench(options = {}) {
     if (!expectedRevision || !batchToken) return { ok: false, code: 'DRAFT_BATCH_STALE' };
     if (String(input.confirm || '') !== `APPLY CATALOG DRAFTS ${batchToken}`) return { ok: false, code: 'CONFIRMATION_INVALID' };
     const { pending } = approvedCandidates(options);
-    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}), buildDist: false, sourcePendingRevision: pending.revision });
+    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}), sourcePendingRevision: pending.revision });
     if (!result || result.ok !== true) return { ok: false, code: result?.code || 'OPERATION_FAILED' };
-    return { ok: true, status: result.status || 'completed', target_revision: result.targetRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: result.cleanupOnly === true, dist_built: false };
+    return { ok: true, status: result.status || 'completed', target_revision: result.targetRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: result.cleanupOnly === true, dist_requested: result.dist_requested === true, dist_built: result.dist_built === true, dist_pending: result.dist_pending === true, outcome_pending: result.outcome_pending === true, ...(result.outcome_warning ? { outcome_warning: result.outcome_warning } : {}) };
   }
   function bundlePlan() {
     const result = bundlePlanFn(bundleOptions());
@@ -273,7 +282,9 @@ function createCatalogWorkbench(options = {}) {
     const listed = bundleListFn(bundleOptions());
     const listedIds = new Set((listed?.items || []).map(item => item.draft_id));
     const inFlight = listFn().filter(draft => draft.schema_version === 4 && draft.draft_kind === 'series_bundle' && !listedIds.has(draft.draft_id)).map(draft => bundleDraft.projectBundleDraft(draft));
-    const items = [...(listed?.items || []), ...inFlight].map(item => {
+    const unique = new Map();
+    for (const item of [...(listed?.items || []), ...inFlight]) { const key = item.candidate?.candidate_key || item.bundle_id || item.candidate?.name || item.draft_id; const previous = unique.get(key); const rank = value => value.state === 'preview_ready' ? 2 : value.state === 'preview_blocked' ? 1 : 0; if (!previous || rank(item) > rank(previous) || (rank(item) === rank(previous) && String(item.updated_at) > String(previous.updated_at))) unique.set(key, item); }
+    const items = [...unique.values()].map(item => {
       const isCleanup = item?.state === 'cleanup_pending';
       const isOutcome = item?.state === 'outcome_pending';
       return {
@@ -337,7 +348,16 @@ function createCatalogWorkbench(options = {}) {
     if (draft.state === 'cleanup_pending') return { ok: false, code: 'BUNDLE_DISCARD_FORBIDDEN', draft_id: draftId };
     if (input.confirm !== draft.discard_confirmation) return { ok: false, code: 'CONFIRMATION_INVALID', draft_id: draftId };
     const result = await bundleDiscardFn(draftId, { expected_revision: input.expected_revision, allowBundleDiscard: true, operation: 'catalog-bundle-discard' }, bundleOptions());
-    return result && result.ok === true ? { ok: true, draft_id: draftId, status: 'discarded', outcome: result.outcome || null } : result;
+    return result && result.ok === true
+      ? {
+        ok: true,
+        draft_id: draftId,
+        status: 'discarded',
+        outcome: result.outcome || null,
+        ...(result.candidate_missing === true ? { candidate_missing: true } : {}),
+        ...(result.outcome_warning ? { outcome_warning: result.outcome_warning } : {}),
+      }
+      : result;
   }
   function cleanup(input = {}) {
     const draftIds = input.draft_ids;
@@ -350,9 +370,9 @@ function createCatalogWorkbench(options = {}) {
     const drafts = listFn().filter(isCatalogDraft);
     const cleanupDrafts = draftIds.map(id => drafts.find(draft => draft.draft_id === id));
     if (cleanupDrafts.some(draft => !draft || draft.state !== 'cleanup_pending')) return { ok: false, code: 'DRAFTS_NOT_READY' };
-    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}), buildDist: false });
+    const result = batchApplyFn({ draftIds, expectedRevision, batchToken }, { ...(options.applyOptions || {}) });
     if (!result || result.ok !== true) return { ok: false, code: result?.code || 'OPERATION_FAILED' };
-    return { ok: true, status: result.status || 'cleanup_only', target_revision: result.targetRevision || expectedRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: true };
+    return { ok: true, status: result.status || 'cleanup_only', target_revision: result.targetRevision || expectedRevision, applied_draft_ids: result.appliedDraftIds || draftIds, cleanup_pending: result.cleanupPending || [], cleanup_only: true, dist_requested: result.dist_requested === true, dist_built: result.dist_built === true, dist_pending: result.dist_pending === true };
   }
   return Object.freeze({ plan: buildPlan, prepare, list, read, resume, recoveryPlan, review, discard, apply, batchPreview, applyBatch, cleanup, bundlePlan, bundlePrepare, bundleList, bundleRead, bundleReview, bundleApply, bundleDiscard });
 }
@@ -370,19 +390,4 @@ function applyCatalogDraft(input, options = {}) { return coordinator(options).ap
 function previewCatalogDraftBatch(options = {}) { return coordinator(options).batchPreview(); }
 function applyCatalogDraftBatch(input, options = {}) { return coordinator(options).applyBatch(input); }
 
-module.exports = {
-  createCatalogWorkbench,
-  planHashOf,
-  projectDraft,
-  planCatalogPending,
-  prepareCatalogPending,
-  listCatalogDrafts,
-  readCatalogDraft,
-  reviewCatalogDraft,
-  resumeCatalogDraft,
-  recoveryPlanCatalogDraft,
-  discardCatalogDraft,
-  applyCatalogDraft,
-  previewCatalogDraftBatch,
-  applyCatalogDraftBatch,
-};
+module.exports = { createCatalogWorkbench, planHashOf, projectDraft, planCatalogPending, prepareCatalogPending, listCatalogDrafts, readCatalogDraft, reviewCatalogDraft, resumeCatalogDraft, recoveryPlanCatalogDraft, discardCatalogDraft, applyCatalogDraft, previewCatalogDraftBatch, applyCatalogDraftBatch };

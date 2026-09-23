@@ -155,6 +155,60 @@ test('every active layer becomes a complete non-default patch with source proven
   assert.equal(detailPatch.record.api_pricing.rate_cards[0].pricing_basis, 'generation');
 });
 
+test('seed pricing refs and disclosures retain deterministic and source provenance', async () => {
+  const planRefs = [{ kind: 'tool-level3', id: 'tool-level3:kimi-andante' }];
+  const disclosure = {
+    status: 'not_published',
+    text: '官方页面未列出统一单价。',
+    source_urls: ['https://kling.ai/pricing'],
+  };
+  const plan = planCatalogResearch(seed({
+    detail_kind: 'tool',
+    modality: 'general',
+    model_key: undefined,
+    known_fields: { theme: 'dev', subscription_plan_refs: planRefs, pricing_disclosure: disclosure },
+  }), emptySnapshot());
+  const research = researchFor(plan);
+  research.official_sources.push({
+    source_id: 'source-pricing',
+    url: 'https://kling.ai/pricing',
+    title: 'Official pricing',
+    content: 'No unified public price is listed.',
+  });
+
+  const result = await synthesizeCatalog(research, plan, adapter());
+  assert.equal(result.ok, true, JSON.stringify(result.errors));
+  const detailPatch = result.layer_patches.find(patch => patch.area === 'tool-level3');
+  assert.deepEqual(detailPatch.record.subscription_plan_refs, planRefs);
+  assert.deepEqual(detailPatch.record.pricing_disclosure, disclosure);
+  assert.deepEqual(detailPatch.provenance.subscription_plan_refs, {
+    kind: 'deterministic', basis: 'explicit CatalogSeed references', source_ids: [],
+  });
+  assert.deepEqual(detailPatch.provenance.pricing_disclosure, {
+    kind: 'derived', source_ids: ['source-pricing'],
+  });
+});
+
+test('pricing disclosure seed fails closed when no matching official source was researched', async () => {
+  const plan = planCatalogResearch(seed({
+    detail_kind: 'tool',
+    modality: 'general',
+    model_key: undefined,
+    known_fields: {
+      theme: 'dev',
+      pricing_disclosure: {
+        status: 'not_published',
+        text: '官方页面未列出统一单价。',
+        source_urls: ['https://kling.ai/pricing'],
+      },
+    },
+  }), emptySnapshot());
+  const result = await synthesizeCatalog(researchFor(plan), plan, adapter());
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'SYNTHESIS_INVALID');
+  assert.equal(result.errors[0].code, 'KNOWN_FIELD_EVIDENCE_INVALID');
+});
+
 test('missing API pricing/access coverage blocks synthesis and suggests product_variant', async () => {
   const plan = planCatalogResearch(seed(), emptySnapshot());
   const research = researchFor(plan);
