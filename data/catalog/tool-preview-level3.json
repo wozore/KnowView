@@ -21453,17 +21453,26 @@
         {
           "title": "MAI-Image-2.6 model card",
           "url": "https://microsoft.ai/pdf/MAI-Image-2.6-Model-Card.pdf"
+        },
+        {
+          "title": "MAI-Image-2.6 API pricing | OpenRouter",
+          "url": "https://openrouter.ai/microsoft/mai-image-2.6?output_modalities=image"
+        },
+        {
+          "title": "Foundry Models pricing | Microsoft Azure",
+          "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft/"
         }
       ],
       "theme": "general",
       "pricing_disclosure": {
-        "status": "not_published",
-        "text": "微软官方页面未公布 MAI-Image-2.6 的统一价格或 API 单价，并引导查看 Microsoft Foundry 的具体定价；实际价格需按区域、部署方式和配置核实。",
+        "status": "external_usage_cost",
+        "text": "OpenRouter API 渠道按每 100 万 tokens 计费：文本输入 $5、图像输入 $8、图像输出 $38。Microsoft Foundry 公开定价表尚未列出 MAI-Image-2.6，Azure 实际费用需按部署区域与账户报价核实；以上不是 Foundry 报价。",
         "source_urls": [
-          "https://microsoft.ai/models/mai-image-2-6"
+          "https://openrouter.ai/microsoft/mai-image-2.6?output_modalities=image",
+          "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft/"
         ]
       },
-      "last_updated_date": "2026-09-04",
+      "last_updated_date": "2026-09-23",
       "id": "tool-level3:mai-image-2.6"
     },
     {
@@ -21748,10 +21757,6 @@
         {
           "title": "Work 模式模板功能",
           "description": "Templates 尚未在 Work 模式中提供，依赖模板的团队场景暂不适用。"
-        },
-        {
-          "title": "API 计费对比参考",
-          "description": "官方定价页未见新图像模型的具体价格信息，基于成本对比的选型暂缺官方依据。"
         }
       ],
       "sources": [
@@ -21760,38 +21765,20 @@
           "url": "https://openai.com/index/introducing-chatgpt-images-2-5"
         },
         {
-          "title": "ChatGPT pricing",
-          "url": "https://chatgpt.com/pricing"
-        },
-        {
-          "title": "About ChatGPT Pro tiers",
-          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
+          "title": "OpenAI API pricing",
+          "url": "https://developers.openai.com/api/docs/pricing"
         }
       ],
       "theme": "general",
-      "subscription_plan_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-free"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-go"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-plus"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-pro-100"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:chatgpt-pro"
-        }
-      ],
-      "last_updated_date": "2026-09-08",
+      "pricing_disclosure": {
+        "status": "external_usage_cost",
+        "text": "GPT-Image-2.5 Flare 与 Sunburst 的 API 均按每 100 万 tokens 计费：文本输入 $5、缓存文本输入 $1.25、图像输入 $8、缓存图像输入 $2、图像输出 $30。ChatGPT Images 2.5 向所有套餐开放，API 用量独立计费；单张图像费用随 token 用量、尺寸和质量变化。",
+        "source_urls": [
+          "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "https://developers.openai.com/api/docs/pricing"
+        ]
+      },
+      "last_updated_date": "2026-09-23",
       "id": "tool-level3:gpt-images-2.5"
     },
     {

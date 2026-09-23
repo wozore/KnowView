@@ -2894,7 +2894,7 @@
       "vendor_key": "microsoft",
       "title": "MAI 视觉、语音与推理大模型",
       "official_url": "https://azure.microsoft.com/en-us/products/ai-foundry",
-      "summary": "微软自研全新商业多模态模型家族 MAI，涵盖 35B 强推理模型 MAI-Thinking 1、写实生图模型 MAI-Image 2.5 与高拟真语音生成 MAI-Voice 2。",
+      "summary": "微软自研商业多模态模型家族 MAI，涵盖推理模型 MAI-Thinking 1、图像生成模型 MAI-Image 2.5 与 2.6，以及语音生成模型 MAI-Voice 2。",
       "status": "active",
       "series_kind": "model_series",
       "detail_refs": [
@@ -2905,6 +2905,10 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:mai-image-2-5"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-image-2.6"
         },
         {
           "kind": "tool-level3",
@@ -3401,25 +3405,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:muse-image"
-        }
-      ],
-      "series_kind": "tool_series"
-    },
-    {
-      "id": "vendor-level2:microsoft:mai-image-2-6",
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:microsoft"
-      },
-      "vendor_key": "microsoft",
-      "title": "MAI-Image-2.6",
-      "official_url": "https://microsoft.ai/models/mai-image-2-6",
-      "summary": "微软 MAI-Image 图像生成模型系列，以高质量文生图与可控图像编辑为核心能力。",
-      "status": "active",
-      "detail_refs": [
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:mai-image-2.6"
         }
       ],
       "series_kind": "tool_series"

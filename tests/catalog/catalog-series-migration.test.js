@@ -282,12 +282,12 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:nvidia:nemotron-3-5', ['nemotron-3-5']);
 });
 
-test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且保留 MAI 工具系列', () => {
+test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归入 MAI 系列', () => {
   const snapshot = realSnapshot();
   const vendor = snapshot['vendor-card'].find(item => item.vendor_key === 'microsoft');
   const microsoftAiCards = snapshot['vendor-card'].filter(item => item.vendor_key === 'microsoft-ai');
   const level1 = snapshot['vendor-level1'].find(item => item.id === 'vendor-level1:microsoft');
-  const maiSeries = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:microsoft:mai-image-2-6');
+  const maiSeries = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:microsoft:mai');
   const detail = snapshot['tool-level3'].find(item => item.id === 'tool-level3:mai-image-2.6');
   const card = snapshot['tool-card'].find(item => item.id === 'tool-card:mai-image-2.6');
 
@@ -295,9 +295,11 @@ test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且保留 MAI 工具系�
   assert.deepEqual(microsoftAiCards, []);
   assert.equal(snapshot['vendor-level1'].some(item => item.id === 'vendor-level1:microsoft-ai'), false);
   assert.ok(level1.level2_refs.some(ref => ref.id === maiSeries.id));
+  assert.equal(level1.level2_refs.some(ref => ref.id === 'vendor-level2:microsoft:mai-image-2-6'), false);
+  assert.equal(snapshot['vendor-level2'].some(item => item.id === 'vendor-level2:microsoft:mai-image-2-6'), false);
   assert.equal(maiSeries.level1_ref.id, level1.id);
   assert.equal(maiSeries.vendor_key, 'microsoft');
-  assert.deepEqual(maiSeries.detail_refs.map(ref => ref.id), [detail.id]);
+  assert.ok(maiSeries.detail_refs.some(ref => ref.id === detail.id));
   assert.equal(detail.vendor_key, 'microsoft');
   assert.equal(card.vendor_key, 'microsoft');
   assert.ok(vendor.search_terms.some(term => /microsoft ai/i.test(term)));
