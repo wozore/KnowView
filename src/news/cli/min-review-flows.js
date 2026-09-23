@@ -1,9 +1,9 @@
 /**
  * min-review-flows.js —— min-review enrich / repair 两个本地加工流的编排。
  *
- * enrich：本地 Bonsai 初审/摘要/本地化分批编排（断点续跑），完成后默认衔接
- * 双通道自愈修复与待审清单刷新。
- * repair：双通道自愈修复残缺数据（本地 + 外部，可 --no-external 关外部）。
+ * enrich：GLM 初审/摘要/本地化分批编排（断点续跑），完成后默认衔接
+ * GLM 残缺修复与待审清单刷新。
+ * repair：使用 GLM 修复残缺数据；--no-external 被拒绝。
  * 两个流都返回结构化结果；人类可读输出由 scripts/news-cli.js 壳打印。
  */
 
@@ -17,6 +17,7 @@ const { createWebSearchBudget } = require('../classify/web-verifier');
 
 /** 把 flags 解析为 enrich/repair 共用的加工参数。 */
 function parseWorkFlags(flags) {
+  if (flags.no_external === true) throw new Error('当前初审只使用 GLM，不能使用 --no-external');
   return {
     batchSize: flags.batch_size ? Number(flags.batch_size) : 30,
     concurrency: flags.concurrency ? Number(flags.concurrency) : undefined,
@@ -39,7 +40,7 @@ function refreshReviewListSafe(store, config, work) {
 }
 
 /**
- * enrich 流：本地 Bonsai 初审/摘要/本地化，衔接双通道自愈修复。
+ * enrich 流：GLM 初审/摘要/本地化，衔接残缺修复。
  * 无待处理项且未 --force 时短路返回 enriched:null。
  */
 async function runEnrichFlow(store, config, flags) {
@@ -107,7 +108,7 @@ async function runEnrichFlow(store, config, flags) {
   return { stats, concurrency, batchLog, enriched, repaired, repair_total: repairTotal, review_list: reviewListResult, review_list_skipped: reviewListSkipped };
 }
 
-/** repair 流：双通道自愈修复残缺数据；无残缺项时短路返回 repaired:null。 */
+/** repair 流：GLM 修复残缺数据；无残缺项时短路返回 repaired:null。 */
 async function runRepairFlow(store, config, flags) {
   const work = parseWorkFlags(flags);
   const searchBudget = config?.review?.web_search_provider === 'zhipu_web_search'
@@ -116,6 +117,9 @@ async function runRepairFlow(store, config, flags) {
   const stats = countRepairWork(store.candidates, {
     l2Enabled: config?.review?.l2_enabled !== false,
     webVerifyEnabled: config?.review?.web_verify !== false,
+    skipReview: work.skipReview,
+    skipSummary: work.skipSummary,
+    skipLocalize: work.skipLocalize,
   });
   if (!stats.hasWork) {
     return { stats, repaired: null };
@@ -123,8 +127,12 @@ async function runRepairFlow(store, config, flags) {
 
   const repaired = await repairIncompleteCandidates(store, config, {
     limit: work.limit,
+    concurrency: work.concurrency,
     externalEnabled: work.externalEnabled,
     dryRun: work.dryRun,
+    skipReview: work.skipReview,
+    skipSummary: work.skipSummary,
+    skipLocalize: work.skipLocalize,
     searchBudget,
   });
 

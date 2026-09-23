@@ -56,7 +56,7 @@
   - [anthropic.js](src/shared/providers/anthropic.js) — Anthropic 原生提供方独立配置。
   - [index.js](src/shared/providers/index.js) — 统一汇总注册与提供方解析出口。导出: `AI_PROTOCOLS, AI_PROVIDERS, DEFAULT_PROVIDER_NAME, getProvider, resolveProvider, apiKeyForProvider`
 - [ai-transport.js](src/shared/ai-transport.js) — provider-aware Responses/Chat transport、认证/HTTP/超时错误归一化；endpoint 校验放行本地 localhost HTTP（本地 Bonsai 接入点）。导出: `DEFAULT_BASE_URL, DEFAULT_RESPONSES_ENDPOINT, classifyHttpError, redact, requestResponses, requestChatCompletions, requestMessages, textFromResponse`
-- [llm-gateway.js](src/shared/llm-gateway.js) — 统一 AI 调用网关：实现 requestStructuredJson 与 requestLlmText，统一多协议（RESPONSES / MESSAGES / CHAT / local）路由分发、负载格式自适应折叠与错误码映射。导出: `requestStructuredJson, requestLlmText, resolveTransportRoute, extractJsonValues, diagnosticsOf, toChatCompletionsPayload, toMessagesPayload, toExternalChatPayload`
+- [llm-gateway.js](src/shared/llm-gateway.js) — 统一 AI 调用网关：实现 requestStructuredJson 与 requestLlmText，统一多协议路由分发、本地请求统一改走智谱 GLM、负载格式自适应折叠与错误码映射。导出: `requestStructuredJson, requestLlmText, resolveTransportRoute, extractJsonValues, diagnosticsOf, toChatCompletionsPayload, toMessagesPayload, toExternalChatPayload`
 - [llm-protocol-payload.js](src/shared/llm-protocol-payload.js) — 协议负载构造与自适应格式转换。导出: `toChatCompletionsPayload, toMessagesPayload, toExternalChatPayload`
 - [llm-endpoints.js](src/shared/llm-endpoints.js) — 本地 Bonsai 模型 OpenAI 兼容端点与模型名常量（news 侧 5 个 + catalog 侧 3 个本地化任务统一引用）。导出: `LOCAL_API_BASE, LOCAL_MODEL`
 - [local-model.js](src/shared/local-model.js) — 本地 Bonsai 自动启动：调用本地 LLM 前确保服务在线——探测离线自动 spawn 启动脚本并轮询就绪（幂等 TTL 缓存、超时后 TTL 内不重复拉起）；注入自定义 fetchImpl（测试 mock）一律放行不探测不启动。导出: `LOCAL_MODEL_SCRIPT, buildProbePayload, probeLocal, startLocalServer, ensureLocalModel, resetLocalModelState, autostartEnabled`
@@ -240,9 +240,9 @@
 - [pipeline-schedule.js](src/news/min/pipeline-schedule.js) — 热点管线到期判定、时间窗计算与调度状态持久化。
 - [min-review-actions.js](src/news/min/min-review-actions.js) — min-candidates 维护者 mutation 动作集：审核状态批量流转（pending→approved/discarded）、仅 approved 的 Top 选择门禁、字幕写入（transcript/transcript_file）与字幕总结写回（summary/key_points），以及公开/展示资格判定与公开投影内部字段剔除。导出: `MAX_TRANSCRIPT_STORED_CHARS, assertValidReviewStatusMin, reviewPendingCandidates, setReviewStatusMin, setBatchReviewStatusMin, setTopSelectedMin, setApprovedTopSelectedMin, setCandidateTranscriptMin, setCandidateTranscriptSummaryMin, isMinPublicEligible, isMinDisplayEligible, toPublicItemMin`
 - [review-list.js](src/news/min/review-list.js) — 人工审核清单：自动生成待审清单 review.json（文件名固定去掉日期后缀，date 为北京时间；带 id、只含 pending、评分倒序；已存在时追加新 pending、保留人工结论、--force 强制重建）+ 应用人工结论批量写回候选层（apply；pending 跳过、无 id 旧格式拒绝）。维护者入口：bat/after-first-review.bat、bat/archive-min.bat（归档时重置当日人工清单）。导出: `scoreOf, suggestReview, buildReviewList, mergeReviewCandidates, loadReviewList, applyReviewList`
-- [local-enrichment.js](src/news/min/local-enrichment.js) — 本地 Bonsai 批量增量加工编排：按批调用 enrichment-core，维护断点恢复与人工/字幕保护；自愈修复流程由 min-repair.js 独立拥有。导出: `enrichMinCandidates`
+- [local-enrichment.js](src/news/min/local-enrichment.js) — GLM 批量增量加工编排：按批调用 enrichment-core，维护断点恢复与人工/字幕保护；自愈修复流程由 min-repair.js 独立拥有。导出: `enrichMinCandidates`
 - [enrichment-core.js](src/news/min/enrichment-core.js) — 候选加工共享机制层：残缺判定、L1/L2 单条审核、并发安全落盘与摘要/本地化加工；供 enrich 与 repair 共用。导出: `nonNegativeInteger, needsL1Review, needsL2Advice, needsReviewWork, needsSummary, needsLocalize, needsRepair, countEnrichmentWork, countRepairWork, enrichCandidate, repairCandidate...`
-- [min-repair.js](src/news/min/min-repair.js) — 双通道自愈修复编排：按残缺判定对候选批量补齐审核、摘要与本地化，支持本地+外部通道。导出: `repairIncompleteCandidates`
+- [min-repair.js](src/news/min/min-repair.js) — GLM 残缺修复编排：按残缺判定补齐审核、摘要与本地化，固定外部提供方型号以避免旧任务配置覆盖，并对 429/5xx/网络错误及原样复述/缺字段翻译至多退避重试两次、记录失败诊断，注入替身时验证双通道合并门禁。导出: `repairIncompleteCandidates`
 - [ai-top.js](src/news/min/ai-top.js) — approved 候选的 AI top 结果确定性收敛：按当前北京时间自然日的 approved 候选是否含 YouTube 决定 Top N，再按 AI 选择顺序取值并按评分补齐。导出: `selectTopCandidates`
 
 ### collectors/ — 各平台采集（会发网络请求）
@@ -267,7 +267,7 @@
 - [content-summarizer.js](src/news/classify/content-summarizer.js) — 候选内容总结（标题+描述+字幕 → summary/key_points；空白 summary 视为缺失可重试）。导出: `summarizeCandidate, summarizeCandidates, enrichCandidateSummaries`
 - [content-reviewer.js](src/news/classify/content-reviewer.js) — AI 审核建议（标题+描述+字幕+总结 → ai_review verdict/reasons/confidence；runPool 为分类/审核并发池，供 pipeline-min 复用）。导出: `reviewCandidate, reviewCandidates, runPool`
 - [web-verifier.js](src/news/classify/web-verifier.js) — 审核建议联网查证（hold/discard 建议经统一 Web Search 按标题搜索、前 5 条结果拼 webEvidence 经 reviewCandidate 复判一次；智谱 provider 受单运行预算约束，全程 fail-open 不阻断审核流程，web_verification 痕迹随 ai_advice 持久化；enrichment-core 的 L1/L2 建议处接入，searchWeb/reviewFn 可注入）。导出: `createWebSearchBudget, verifyAdviceWithWeb`
-- [content-localizer.js](src/news/classify/content-localizer.js) — 候选内容本地化（标题+描述 → localizations[locale]，按原文实际字段判定完整性，原文保留顶层）。导出: `collectLocalizeSource, hasLocalizedContent, localizeCandidate, localizeCandidates, enrichCandidateLocalizations`
+- [content-localizer.js](src/news/classify/content-localizer.js) — 候选内容本地化（标题+描述 → localizations[locale]，拒绝英文复述与缺字段翻译并记录诊断，原文保留顶层）。导出: `collectLocalizeSource, hasLocalizedContent, hasUsableLocalizedContent, localizeCandidate, localizeCandidates, enrichCandidateLocalizations`
 - [llm-provider.js](src/news/classify/llm-provider.js) — 内容加工模型提供方封装。
 - [llm-prompts.js](src/news/classify/llm-prompts.js) — 内容分类、审核、总结与本地化 LLM prompt 模板。
 - [llm-selection.js](src/news/classify/llm-selection.js) — AI Top 候选选择与关键词提纯 payload 构造。
@@ -281,7 +281,7 @@
 ### cli/ — 命令行
 - [news-cli.js](src/news/cli/news-cli.js) — **CLI 分发器 + 入口**（仅保留 v2 命令组）。导出: `parseArgs, main, minReviewCommand`
 - [cmd-content.js](src/news/cli/cmd-content.js) — `classify/localize preview` 子命令（纯函数预览；批量分类/本地化已由 v2 管线内建）。导出: `classifyCommand, localizeCommand`
-- [cmd-min.js](src/news/cli/cmd-min.js) — **v2 `min-review` 命令组**（操作 min-candidates.json；`enrich` 本地批量初审分流/摘要/本地化，支持分批与断点续跑，默认自动衔接双通道自愈修复；`repair` 双通道自愈修复残缺数据；`feedback` 默认接入 LLM 实体提取，feedback.llm_extract=false 关 / LLM 失败降级正则；`refine` 分批覆盖全部 approved，按 content/youtube/x_discovery 生成三份候选清单；`refine-apply` 按 purpose 与 candidate_id 校验并原子幂等追加对应配置段；`ai-top` 按当前自然日 approved 候选判定 Top N；`top-apply` 应用 top_selected=true；`apply` 写回首审结论；`archive` 由维护者确认后把当前候选压缩为轻量历史、清空候选层，并重置 data/manual 当日人工清单）。维护者入口：维护者工作台、bat/after-first-review.bat、bat/archive-min.bat。导出: `minReviewCommand, resolveAiTopConfig, topCandidatesForAi, MAX_AI_TOP_INPUT, applyRefineKeywords, applyTopSelectedList, removeManualLists, MANUAL_LIST_FILES`
+- [cmd-min.js](src/news/cli/cmd-min.js) — **v2 `min-review` 命令组**（操作 min-candidates.json；`enrich` GLM 批量初审分流/摘要/本地化，支持分批与断点续跑，默认自动衔接 GLM 残缺修复；`repair` 使用 GLM 修复残缺数据；`feedback` 默认接入 LLM 实体提取，feedback.llm_extract=false 关 / LLM 失败降级正则；`refine` 分批覆盖全部 approved，按 content/youtube/x_discovery 生成三份候选清单；`refine-apply` 按 purpose 与 candidate_id 校验并原子幂等追加对应配置段；`ai-top` 按当前自然日 approved 候选判定 Top N；`top-apply` 应用 top_selected=true；`apply` 写回首审结论；`archive` 由维护者确认后把当前候选压缩为轻量历史、清空候选层，并重置 data/manual 当日人工清单）。维护者入口：维护者工作台、bat/after-first-review.bat、bat/archive-min.bat。导出: `minReviewCommand, resolveAiTopConfig, topCandidatesForAi, MAX_AI_TOP_INPUT, applyRefineKeywords, applyTopSelectedList, removeManualLists, MANUAL_LIST_FILES`
 - [min-review-flows.js](src/news/cli/min-review-flows.js) — min-review 命令组执行流编排（enrich、repair、feedback、refine 等）。
 
 ### transcripts/ — 收尾环节：字幕人工获取通知（独立于主链，只写清单文件）
@@ -357,8 +357,8 @@
 - [model-key-contract.test.js](tests/shared/model-key-contract.test.js) — 统一模型键算法契约回归：identity 归一化样例（'GPT-5.6 Sol'/'ＧＰＴ－５.６'/'a.b'）、fail-closed 错误码、最长前缀切分、语法判定与碰撞检测。
 - [model-identity-bridge.test.js](tests/shared/model-identity-bridge.test.js) — 模型身份桥接共享段读写回归：十字段必填校验 fail-closed、revision 确定性键序无关、缺失/损坏回退空、冻结、原子写、忽略调用方 revision。
 - [tool-update-collector.test.js](tests/catalog/tool-update-collector.test.js) — 专用更新网页 collector 全离线回归：GitHub REST/raw 请求构造、来源仓库/路径校验、release 过滤、限流重试、tag-only discovery、Tavily Extract-only 和统一证据。
-- [tool-update-review.test.js](tests/catalog/tool-update-review.test.js) — 工具更新 AI/planner/store 全离线回归：五字段结构化输出、本地/DeepSeek 成本门禁、实体/组件/日期阻断、队列幂等、人工结论保留和 evidence hash 重开。
-- [tool-update-review-cli.test.js](tests/catalog/tool-update-review-cli.test.js) — 工具更新 CLI 离线回归：参数解析、Tavily/DeepSeek 门禁、本地模型汉化与失败重试、外部摘要成本门禁、scan 不 Apply、localize 回填/list 只读和 Apply 三重确认门禁。
+- [tool-update-review.test.js](tests/catalog/tool-update-review.test.js) — 工具更新 AI/planner/store 全离线回归：五字段结构化输出、GLM 成本门禁、实体/组件/日期阻断、队列幂等、人工结论保留和 evidence hash 重开。
+- [tool-update-review-cli.test.js](tests/catalog/tool-update-review-cli.test.js) — 工具更新 CLI 离线回归：参数解析、Tavily/GLM 门禁、GLM 汉化与失败重试、外部摘要成本门禁、scan 不 Apply、localize 回填/list 只读和 Apply 三重确认门禁。
 - [tool-update-review-workbench.test.js](tests/catalog/tool-update-review-workbench.test.js) — 工具更新审核队列工作台动作回归：只读投影与 revision、单条审核状态原子写、blocked 候选仅可显式拒绝、陈旧 revision/未知候选/非法状态 fail-closed 不写盘。
 - [concept-batch.test.js](tests/catalog/concept-batch.test.js) — 概念批量编排回归：读卡、双层查重、approved 摘要证据匹配与 K 上限、vibe-hub 补充/失败静默、成本估算、dry-run 零网络零写入、成本门禁、合成失败隔离、预览文件、apply 必填校验/去重/合并保序/terms 子集。
 - [vibe-hub-evidence.test.js](tests/catalog/vibe-hub-evidence.test.js) — vibe-hub 提取回归：term→slug（中文 null）、JSON-LD/正文结构化提取、缓存命中零网络、未命中 GET+写缓存、TTL 过期重抓、404/网络失败 null、串行节流、过期刷新与失败保留。
@@ -425,7 +425,7 @@
 - [news-workbench-domain.test.js](tests/news/news-workbench-domain.test.js) — 新闻工作台领域 mutation 离线回归：revision 防陈旧写、approved/pending 门禁、Top set/unset 不触碰公开投影、关键词仅从固定清单采纳子集并原子写。
 - [news-localizer.test.js](tests/news/news-localizer.test.js) — 候选标题/描述本地化输入、输出与降级回归。
 - [news-public-gate.test.js](tests/news/news-public-gate.test.js) — 公开字段完整性、时间窗与投影过滤回归。
-- [local-enrichment.test.js](tests/news/local-enrichment.test.js) — 本地 Bonsai 增量加工与双通道自愈修复回归：分批落盘、跳过阶段、人工/字幕保护、失败回退与审核统计边界。
+- [local-enrichment.test.js](tests/news/local-enrichment.test.js) — GLM 增量加工与修复合并门禁回归：分批落盘、跳过阶段、人工/字幕保护、失败回退与审核统计边界。
 - [news-review-list.test.js](tests/news/news-review-list.test.js) — 人工审核清单生成、合并、保留结论与批量应用回归。
 - [news-reviewer.test.js](tests/news/news-reviewer.test.js) — AI 审核建议输入、结构化输出与并发池回归。
 - [news-rss.test.js](tests/news/news-rss.test.js) — RSS 项目筛选、字段投影与生成回归。
@@ -449,7 +449,7 @@
 - [catalog-generator.js](scripts/catalog-generator.js) — schema v3 五模块目录生成器 CLI；`plan/prepare` 零网络，`new/resume/probe/batch` 要求显式 `--tavily-access-mode` 并透传到 Tavily，Apply 要求维护者输入完整确认；支持 `remove --targets` 精确 ID 删除（revision/确认值/事务回滚）、`batch`（`--confirm-cost` 全局确认自动 apply / `--dry-run` 预览 / `--from-preview` 复用解析）以及双表 `url-registry vendor/product` 维护和纯本地 product freshness audit。导出: `parseArgs, main, readSeed, tavilyAccessModeFromFlags, generatorOptionsFromFlags`
 - [concept-generator.js](scripts/concept-generator.js) — **AI 概念库生成器 CLI（与五模块目录生成器分离）**：`batch --file <待补概念卡> --dry-run/--confirm-cost` 合成预览 → `preview` → `apply [--terms]` 人工写 glossary。导出: `parseArgs, main`
 - [catalog-series-migration.js](scripts/catalog-series-migration.js) — LLM 二级系列迁移 CLI：预览（人类可读 / `--json`）加载政策 + 当前快照输出变更；`--apply <targetRevision>` 阶段 3 原子 Apply——按当前快照重算目标 revision 校验防漂移，经 commitSnapshotChange 五文件事务 + dist 重建提交，expectedRevision 绑定防并发冲突。导出: `currentPlan, humanReport, applyMigration, main`
-- [tool-update-review.js](scripts/tool-update-review.js) — 编程工具专用更新审核 CLI：`preflight` 只读环境检查，`scan` 采集/AI/planner 后写 review queue 并通过新闻链路本地模型生成中文展示摘要，`localize` 只回填已有队列且失败可重试，日期不晚于当前记录的证据作为 no-op，`list/preview` 只读，`apply` 仅消费 approved 并复用日期批量事务。外部摘要回退受显式成本确认与账本门禁约束。导出: `PRODUCT_KEYS, parseArgs, accessModeOf, runPreflight, runScan, runLocalize, localizeToolCandidate, runList, runPreview, runApply, main`
+- [tool-update-review.js](scripts/tool-update-review.js) — 编程工具专用更新审核 CLI：`preflight` 只读环境检查，`scan` 采集/AI/planner 后写 review queue 并通过新闻链路 GLM 生成中文展示摘要，`localize` 只回填已有队列且失败可重试，日期不晚于当前记录的证据作为 no-op，`list/preview` 只读，`apply` 仅消费 approved 并复用日期批量事务。外部摘要回退受显式成本确认与账本门禁约束。导出: `PRODUCT_KEYS, parseArgs, accessModeOf, runPreflight, runScan, runLocalize, localizeToolCandidate, runList, runPreview, runApply, main`
 - [refresh-vibe-hub-cache.js](scripts/refresh-vibe-hub-cache.js) — 定时刷新 vibe-hub 概念缓存（CI 入口，由 refresh-vibe-hub-cache.yml 每 3 天北京 19:00 调用）；只刷 `fetched_at` 距今 > 3 天 TTL 的条目，空缓存/全新鲜零网络，纯 HTTP 不读任何 Key。导出: `main`
 - [news-cli.js](scripts/news-cli.js) — CLI 分发入口（透传 src/news/cli/news-cli，含 **`min-review` 命令组**）
 - [fetch-comparison.js](scripts/fetch-comparison.js) — 模型对比数据管线 CLI（run 定时抓取+全绿重建 / fetch <source> 手动单跑 / rebuild / review 输出零网络零写入的待人工名称歧义清单 / status）；`.github/workflows/refresh-comparison.yml` 每日 cron 调用。
@@ -482,7 +482,7 @@
 
 ## R5-R9 新增实现文件
 - [check-secrets.js](src/maintenance/check-secrets.js) — 核心密钥与高熵模式扫描守卫。
-- [news-domain.js](src/maintenance/workbench/news-domain.js) — 维护者工作台新闻首审与处理领域服务。
+- [news-domain.js](src/maintenance/workbench/news-domain.js) — 维护者工作台新闻首审与处理领域服务，按候选 revision 去重自动 GLM 修复。
 - [tool-update-domain.js](src/maintenance/workbench/tool-update-domain.js) — 维护者工作台工具更新审核领域服务。
 - [catalog-domain.js](src/maintenance/workbench/catalog-domain.js) — 维护者工作台目录草稿与待补卡领域服务。
 - [workspace-domain.js](src/maintenance/workbench/workspace-domain.js) — 维护者工作台工作区清理与完成度检查。

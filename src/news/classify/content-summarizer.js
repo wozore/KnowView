@@ -90,7 +90,7 @@ function collectSummarySource(item) {
 const SUMMARY_PROVIDERS = new Set(['deepseek', 'zhipu']);
 
 async function summarizeCandidate(item, options = {}) {
-  const provider = providerOf('SUMMARIZE', options, 'deepseek');
+  const provider = providerOf('SUMMARIZE', options, 'zhipu');
   const model = modelOf('SUMMARIZE', options);
   const source = collectSummarySource(item);
   const inputChars = source.title.length + source.description.length + (source.transcript ? source.transcript.length : 0);

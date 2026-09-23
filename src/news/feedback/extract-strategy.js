@@ -6,7 +6,7 @@
  * 统一 CLI（cmd-min）与工作台（catalog-domain / maintainer-workbench-service）
  * 的实体提取策略：
  * 1. 当 config.feedback.llm_extract !== false 时，统一调用类型化提取器（extractEntitiesWithLlm）。
- * 2. 本地模型端点（LOCAL_API_BASE）可用时，不得以缺失外部 key 为由降级正则。
+ * 2. 统一网关改走 GLM；缺少外部 key 时记录失败并降级正则。
  * 3. 提取失败由外层安全降级至默认正则，并记录 diagnostics 与 warnings。
  * 4. 识别单独出现的厂商/平台/系列泛称（OpenAI, Anthropic, Cerebras, Runway, Qwen,
  *    Claude, ChatGPT, GPT, DeepSeek, GLM, Mistral, Gemini, 豆包等），标记为 vague/filtered；

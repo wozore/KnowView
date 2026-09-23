@@ -3,7 +3,7 @@
  * 中文摘要与标题/描述本地化。
  *
  * 在热点管线中的位置：
- *   供 CLI（min-review enrich）与自动化任务在后台按批次运行本地 Bonsai 模型，
+ *   供 CLI（min-review enrich）与自动化任务在后台按批次调用 GLM，
  *   对候选层（min-candidates.json）中尚未处理或处理失败的内容补全加工。
  *   残缺判定、单条审核执行与并发安全落盘共用 enrichment-core.js。
  *
@@ -144,6 +144,7 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
 
   const enrichOptions = {
     ...options,
+    timeoutMs: options.timeoutMs ?? 60000,
     apiKey,
     config,
     concurrency,

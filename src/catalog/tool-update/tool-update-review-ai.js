@@ -2,7 +2,6 @@
 
 const { requestStructuredJson } = require('../../shared/llm-gateway');
 const { resolveProvider } = require('../../shared/providers');
-const { LOCAL_API_BASE, LOCAL_MODEL } = require('../../shared/llm-endpoints');
 const {
   REVIEW_VERDICTS,
   REVIEW_SURFACES,
@@ -70,18 +69,9 @@ function buildToolUpdateReviewInstructions() {
 }
 
 function providerOptions(options = {}) {
-  const provider = options.provider || 'local';
-  if (provider === 'local') {
-    return {
-      ...options,
-      provider: 'deepseek',
-      endpoint: options.endpoint || LOCAL_API_BASE,
-      model: options.model || LOCAL_MODEL,
-      ...(options.apiKey ? {} : { apiKey: 'local' }),
-    };
-  }
+  const provider = options.provider || 'zhipu';
   const resolved = resolveProvider(provider);
-  const fallbackModel = resolved.ok ? resolved.provider.defaultModel : 'deepseek-v4-flash';
+  const fallbackModel = resolved.ok ? resolved.provider.defaultModel : 'glm-5.3-flash';
   return {
     ...options,
     provider,
@@ -90,11 +80,11 @@ function providerOptions(options = {}) {
 }
 
 async function suggestToolUpdateReview(input = {}, options = {}) {
-  const provider = options.provider || 'local';
-  if (!['local', 'deepseek', 'zhipu'].includes(provider)) {
+  const provider = options.provider || 'zhipu';
+  if (!['deepseek', 'zhipu'].includes(provider)) {
     return { ok: false, code: 'TOOL_UPDATE_REVIEW_PROVIDER_UNSUPPORTED', error: `不支持的工具更新审核 provider: ${provider}` };
   }
-  if (provider !== 'local' && options.confirmCost !== true) {
+  if (options.confirmCost !== true) {
     return { ok: false, code: 'TOOL_UPDATE_REVIEW_COST_CONFIRM_REQUIRED', error: `外部 provider=${provider} 的工具更新审核必须显式确认成本` };
   }
   if (!options.ledger?.reserve) {

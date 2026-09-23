@@ -23,7 +23,7 @@
  * 翻译痕迹，不进公开投影（MIN_INTERNAL_FIELDS 剔除）。
  *
  * 成本控制：默认关闭（localize_enabled）、每轮上限（localize_max_items_per_run）、
- * 只翻译没有 localizations[locale] 的候选（不重复花钱）、并发池限流（复用采集 concurrency）。
+ * 只翻译没有可用 localizations[locale] 的候选（不重复花钱）、并发池限流（复用采集 concurrency）。
  */
 
 'use strict';
@@ -76,7 +76,7 @@ function hasLocalizedContent(item, locale = 'zh') {
   );
 }
 
-// 假翻译：原文含拉丁字母而 zh 译文不含任何 CJK 字符 → 模型原样复述原文（本地小模型偶发行为）。
+// 假翻译：原文含拉丁字母而 zh 译文不含任何 CJK 字符 → 模型原样复述原文。
 // 判定前剥离 URL（https?://、www. 链接按翻译规则保留原文，纯 URL 描述不应被判假翻译）。
 // 描述侧另设可译文本量阈值：剥离 URL 后拉丁字母 ≤ DESC_ECHO_MIN_LATIN 视为"链接/品牌词清单"
 // （品牌名按规则不译），不判假翻译；整段英文复述（远超阈值）依然会被判出。
@@ -128,7 +128,7 @@ function hasUsableLocalizedContent(item, locale = 'zh') {
 const LOCALIZE_PROVIDERS = new Set(['deepseek', 'zhipu']);
 
 async function localizeCandidate(item, options = {}) {
-  const provider = providerOf('LOCALIZE', options, 'deepseek');
+  const provider = providerOf('LOCALIZE', options, 'zhipu');
   const model = modelOf('LOCALIZE', options);
   const locale = options.locale || 'zh';
   const source = collectLocalizeSource(item);
@@ -206,12 +206,19 @@ async function localizeCandidates(items, options = {}) {
     const suggestion = await localizeCandidate(item, options);
     // 只写建议，不覆盖已有 localizations[locale]（上方已跳过，双保险）；失败不写翻译（回退原文）
     if (suggestion.title || suggestion.description) {
-      item.localizations ||= {};
-      item.localizations[suggestion.locale] = {
+      const localization = {
         title: suggestion.title || '',
         description: suggestion.description || '',
       };
-      if (hasLocalizedContent(item, suggestion.locale)) localized++;
+      const trial = { ...item, localizations: { ...item.localizations, [suggestion.locale]: localization } };
+      if (hasUsableLocalizedContent(trial, suggestion.locale)) {
+        item.localizations ||= {};
+        item.localizations[suggestion.locale] = localization;
+        localized++;
+      } else {
+        suggestion.llm_error ||= hasLocalizedContent(trial, suggestion.locale)
+          ? 'LOCALIZATION_ECHO_UNTRANSLATED' : 'LOCALIZATION_PARTIAL_OUTPUT';
+      }
     }
     item.localizations_meta ||= {};
     item.localizations_meta[suggestion.locale] = {

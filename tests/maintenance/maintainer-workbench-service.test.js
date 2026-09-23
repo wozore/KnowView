@@ -11,6 +11,7 @@ function serviceWith(state) {
     topFile: path.join(os.tmpdir(), 'knowview-wb-no-top.json'),
     newsApi: {
       readStore: () => state.store, revisionOfStore: () => 'news-r1',
+      repairNews: state.repairNews,
       commit: (mutation, options) => { state.commits.push(options); const result = mutation(state.store); state.store = result.store; return { ...result, revision: 'news-r2' }; },
       reviewMutation: (store, ids, decision) => ({ store, updated: ids.length, missing: [], not_pending: [], changed: ids.length, decision }),
       topMutation: (store, ids, selected) => ({ store, updated: ids.length, missing: [], not_approved: [], changed: ids.length, selected }),
@@ -42,7 +43,7 @@ test('newsReview() 在有未完成初审条目时返回 enriching 锁定状态�
   assert.equal(res.status, 'enriching');
   assert.equal(res.unreviewed_count, 1);
   assert.equal(res.items.length, 0);
-  assert.match(res.message, /本地 Bonsai 正在进行 AI 初审分流与汉化/);
+  assert.match(res.message, /GLM 正在进行 AI 初审分流与汉化/);
 });
 
 test('newsReview() 不因失败的 ai_advice 外壳解除门禁', () => {
@@ -60,6 +61,21 @@ test('newsReview() 不因失败的 ai_advice 外壳解除门禁', () => {
   assert.equal(res.status, 'enriching');
   assert.equal(res.unreviewed_count, 1);
   assert.equal(res.items.length, 0);
+});
+
+test('newsReview() 重复读取同一 revision 只启动一次自动修复', async () => {
+  let calls = 0;
+  const state = {
+    store: { candidates: [{ id: 'raw', review_status: 'pending' }] },
+    commits: [],
+    repairNews: async () => { calls += 1; },
+  };
+  const service = serviceWith(state);
+  service.newsReview();
+  service.newsReview();
+  await new Promise(resolve => setImmediate(resolve));
+  service.newsReview();
+  assert.equal(calls, 1);
 });
 
 test('top() 只返回 top.json 池内且已 approved 的项', () => {

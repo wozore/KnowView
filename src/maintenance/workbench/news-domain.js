@@ -108,6 +108,7 @@ function unresolvedKeywordCount(news) {
 
 function createDefaultNewsApi(options = {}) {
   const catalogApi = options.catalogApi || createNewsCatalogApi();
+  let repairPromise = null;
   return {
     readStore: () => minStore.readMinStore(),
     revisionOfStore: store => requireMutation('revisionOfMinStore', minStore.revisionOfMinStore)(store),
@@ -135,12 +136,19 @@ function createDefaultNewsApi(options = {}) {
       return minReviewCommand('ai-top', {});
     },
     repairNews: async (flags = {}) => {
+      if (repairPromise) return repairPromise;
       loadDotEnv();
-      return minReviewCommand('repair', flags);
+      repairPromise = minReviewCommand('repair', flags);
+      try { return await repairPromise; }
+      finally { repairPromise = null; }
     },
     publish: () => publishNewsProjectionDirect(catalogApi),
   };
 }
+
+let repairInFlight = null;
+let lastAutoRepairRevision = null;
+let lastAutoRepairError = null;
 
 function handleNewsReview({ store, news, options, newsProjection }, filter = null) {
   const currentStore = store();
@@ -158,13 +166,21 @@ function handleNewsReview({ store, news, options, newsProjection }, filter = nul
     return !hasL1 && !hasAdvice;
   });
   if ((!filter || filter === 'pending') && unreviewed.length > 0) {
-    if (options.autoRepair !== false && typeof news.repairNews === 'function') {
-      Promise.resolve().then(() => news.repairNews({ limit: unreviewed.length })).catch(() => {});
+    const revision = news.revisionOfStore(currentStore);
+    if (options.autoRepair !== false && typeof news.repairNews === 'function'
+      && !repairInFlight && lastAutoRepairRevision !== revision) {
+      lastAutoRepairRevision = revision;
+      lastAutoRepairError = null;
+      repairInFlight = Promise.resolve().then(() => news.repairNews({ limit: unreviewed.length }));
+      repairInFlight.catch(error => { lastAutoRepairError = error?.message || String(error); })
+        .finally(() => { repairInFlight = null; });
     }
     const enrichingResult = {
-      revision: news.revisionOfStore(currentStore),
+      revision,
       status: 'enriching',
-      message: `本地 Bonsai 正在进行 AI 初审分流与汉化（已链接外部 API 双通道自愈兜底，请稍候... 待初审: ${unreviewed.length} / 待审总数: ${allPending.length}）`,
+      message: lastAutoRepairError
+        ? `GLM 初审失败：${lastAutoRepairError}。请点击下方按钮重试。`
+        : `GLM 正在进行 AI 初审分流与汉化（待初审: ${unreviewed.length} / 待审总数: ${allPending.length}）`,
       unreviewed_count: unreviewed.length,
       items: [],
     };

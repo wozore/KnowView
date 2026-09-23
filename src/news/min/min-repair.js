@@ -1,9 +1,7 @@
 /**
- * min-repair.js —— 热点初审残缺数据双通道自愈修复。
+ * min-repair.js —— 热点初审残缺数据 GLM 修复。
  *
- * 通道 A（本地 Bonsai 调优）：timeoutMs 30000 / maxDescChars 1000 / concurrency 3 / external false。
- * 通道 B（外部 provider，默认跟随注册表开关）：timeoutMs 15000 / concurrency 5 / external true。
- * 两通道各自运行互不干扰，合并时优先采用本地成功结果（零成本），本地失败回退外部结果。
+ * 正常运行只启用通道 B（智谱 GLM）；注入替身请求的离线测试仍覆盖通道 A 的合并门禁。
  * 残缺判定、单条审核执行与并发安全落盘共用 enrichment-core.js。
  */
 
@@ -34,17 +32,37 @@ function sleepMs(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function transientAiFailure(error) {
+  return /\bHTTP (?:429|5\d\d)\b|network failure|network error|LOCALIZATION_(?:ECHO_UNTRANSLATED|PARTIAL_OUTPUT)/i.test(String(error || ''));
+}
+
+async function repairContentStage(items, options, needs, errorOf, run, countKey) {
+  const targets = items.filter(c => c.review_status !== 'discarded' && needs(c));
+  const concurrency = options.concurrency || 3;
+  const retryDelayMs = options.retryDelayMs ?? 5000;
+  let completed = 0;
+  for (let attempt = 0; attempt <= 2; attempt++) {
+    if (attempt > 0 && (options.external !== true || retryDelayMs <= 0)) break;
+    const work = attempt === 0 ? targets : targets.filter(c => needs(c) && transientAiFailure(errorOf(c)));
+    if (!work.length) break;
+    if (attempt > 0) await sleepMs(retryDelayMs * (attempt === 1 ? 1 : 3));
+    try {
+      const result = await run(work, { ...options, concurrency: Math.max(1, Math.floor(concurrency / (attempt + 1))) });
+      completed += result?.[countKey] || 0;
+    } catch { break; }
+  }
+  return completed;
+}
+
 /**
  * 运行单个通道的初审、摘要与翻译处理。
- * 摘要/翻译首轮后如仍有残缺，延迟 retryDelayMs（默认 5s）后以减半并发自动补做一轮，
- * 吸收限流、网络抖动等瞬时失败（持久失败交由上层合并语义保持诚实不写）。
+ * 摘要/翻译对 429/5xx/网络故障及翻译原样复述/缺字段最多补做两轮，退避 5s/15s 并逐轮降低并发。
  * @returns {Promise<{ reviewed: number, summarized: number, localized: number }>}
  */
 async function runRepairChannel(items, config, channelOpts) {
   const stats = { reviewed: 0, summarized: 0, localized: 0 };
   const conc = channelOpts.concurrency || 3;
   const locale = channelOpts.locale || 'zh';
-  const retryDelayMs = channelOpts.retryDelayMs ?? 5000;
 
   // 1. 审核：缺 L1 的走完整流程；仅缺 L2 建议的只补建议（不重跑 L1、不改状态）
   if (!channelOpts.skipReview) {
@@ -80,72 +98,20 @@ async function runRepairChannel(items, config, channelOpts) {
     }
   }
 
-  // 2. 摘要（仅非 discarded 项；保护只对有效摘要生效，空摘要允许重试）
-  //    仅外部通道（external）在首轮后仍有残缺时延迟重试一轮（减半并发，吸收限流/网络抖动）；
-  //    本地通道失败多为确定性（模型复述/离线），重试无收益只拖时长。
   if (!channelOpts.skipSummary) {
-    const summaryTargets = items.filter(c => c.review_status !== 'discarded' && needsSummary(c));
-    if (summaryTargets.length > 0) {
-      try {
-        const res = await summarizeCandidates(summaryTargets, channelOpts);
-        stats.summarized = res?.summarized || 0;
-      } catch {
-        /* 隔离异常 */
-      }
-      if (channelOpts.external === true && retryDelayMs > 0) {
-        const summaryRetryTargets = summaryTargets.filter(c => needsSummary(c));
-        if (summaryRetryTargets.length > 0) {
-          await sleepMs(retryDelayMs);
-          try {
-            const retryRes = await summarizeCandidates(summaryRetryTargets, {
-              ...channelOpts,
-              concurrency: Math.max(1, Math.floor(conc / 2)),
-            });
-            stats.summarized += retryRes?.summarized || 0;
-          } catch {
-            /* 隔离异常 */
-          }
-        }
-      }
-    }
+    stats.summarized = await repairContentStage(items, channelOpts, needsSummary,
+      c => c.summary_llm_error, summarizeCandidates, 'summarized');
   }
-
-  // 3. 翻译（仅非 discarded 项）；重试策略同摘要（仅外部通道）
   if (!channelOpts.skipLocalize) {
-    const localizeTargets = items.filter(c => {
-      if (c.review_status === 'discarded') return false;
-      return needsLocalize(c, locale);
-    });
-    if (localizeTargets.length > 0) {
-      try {
-        const res = await localizeCandidates(localizeTargets, channelOpts);
-        stats.localized = res?.localized || 0;
-      } catch {
-        /* 隔离异常 */
-      }
-      if (channelOpts.external === true && retryDelayMs > 0) {
-        const localizeRetryTargets = localizeTargets.filter(c => needsLocalize(c, locale));
-        if (localizeRetryTargets.length > 0) {
-          await sleepMs(retryDelayMs);
-          try {
-            const retryRes = await localizeCandidates(localizeRetryTargets, {
-              ...channelOpts,
-              concurrency: Math.max(1, Math.floor(conc / 2)),
-            });
-            stats.localized += retryRes?.localized || 0;
-          } catch {
-            /* 隔离异常 */
-          }
-        }
-      }
-    }
+    stats.localized = await repairContentStage(items, channelOpts, c => needsLocalize(c, locale),
+      c => c.localizations_meta?.[locale]?.llm_error, localizeCandidates, 'localized');
   }
 
   return stats;
 }
 
 /**
- * 热点初审残缺数据双通道自愈修复机制。
+ * 热点初审残缺数据 GLM 修复机制。
  * - 原子落盘，遵守不变式：受保护的字幕总结与已有人工审核标记绝不被覆盖；discarded 绝不进入摘要/翻译修复。
  *
  * @param {object} store - min store 对象 ({ candidates: [] })
@@ -164,7 +130,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
     : null);
   const repairLimit = nonNegativeInteger(options.limit, DEFAULT_REPAIR_LIMIT, 'options.limit');
-  // 双通道请求期间的基准 revision，用于并发安全落盘
+  // 请求期间的基准 revision，用于并发安全落盘
   const baseRevision = revisionOfMinStore(store);
 
   // 1. 筛选出残缺条目
@@ -226,12 +192,13 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   const externalApiKey = options.apiKeyB || options.apiKey || apiKeyForProvider(externalProviderInfo);
   const channelBOpts = {
     ...options,
-    timeoutMs: options.channelB?.timeoutMs ?? 15000,
-    concurrency: options.channelB?.concurrency ?? 5,
+    timeoutMs: options.channelB?.timeoutMs ?? 60000,
+    concurrency: options.channelB?.concurrency ?? options.concurrency ?? 5,
     l2Enabled,
     webVerifyEnabled,
     external: true,
     provider: externalProvider,
+    model: options.channelB?.model || options.modelB || options.model || externalProviderInfo.defaultModel,
     apiKey: externalApiKey,
     // 缺密钥时外部调用必然失败（missing_api_key 非瞬时错误），关闭重试避免无谓延迟
     retryDelayMs: externalApiKey ? (options.retryDelayMs ?? 5000) : 0,
@@ -242,9 +209,12 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     searchBudget,
   };
 
-  // 4. 双通道并行独立执行
+  // 4. 正常运行只请求 GLM；注入替身请求时验证双通道合并门禁
+  const injectedLocalChannel = Boolean(options.fetchImplA || options.reviewCandidateA || options.fetchImpl || options.reviewCandidate);
   const [statsA, statsB] = await Promise.all([
-    runRepairChannel(targetsA, config, channelAOpts).catch(() => ({ reviewed: 0, summarized: 0, localized: 0 })),
+    injectedLocalChannel
+      ? runRepairChannel(targetsA, config, channelAOpts).catch(() => ({ reviewed: 0, summarized: 0, localized: 0 }))
+      : Promise.resolve({ reviewed: 0, summarized: 0, localized: 0 }),
     options.externalEnabled === false
       ? Promise.resolve({ reviewed: 0, summarized: 0, localized: 0 })
       : runRepairChannel(targetsB, config, channelBOpts).catch(() => ({ reviewed: 0, summarized: 0, localized: 0 })),
@@ -253,7 +223,7 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   resultStats.channelASuccesses = statsA;
   resultStats.channelBSuccesses = statsB;
 
-  // 5. 结果合并：优先采用本地零成本成功结果，本地失败则回退外部结果
+  // 5. 将 GLM 结果合并回候选；注入替身时沿用双通道合并门禁
   for (let i = 0; i < targets.length; i++) {
     const target = targets[i];
     const a = targetsA[i];
@@ -318,6 +288,9 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
         target.summary_input_chars = b.summary_input_chars;
         target.summary_llm_error = null;
         resultStats.repairedSummary += 1;
+      } else if (options.skipSummary !== true && b.summary_llm_error) {
+        target.summarizer = 'llm_failed';
+        target.summary_llm_error = b.summary_llm_error;
       }
     }
 
@@ -351,11 +324,14 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
           llm_error: null,
         };
         resultStats.repairedLocalize += 1;
+      } else if (options.skipLocalize !== true && b.localizations_meta?.[locale]?.llm_error) {
+        target.localizations_meta ||= {};
+        target.localizations_meta[locale] = b.localizations_meta[locale];
       }
     }
   }
 
-  // 6. 并发安全原子落盘：双通道请求期间若候选层被并发修改（如工作台人工审核），
+  // 6. 并发安全原子落盘：请求期间若候选层被并发修改（如工作台人工审核），
   //    只把修复结果合并进最新状态，绝不覆盖人工结论
   if (!dryRun) {
     if (store) {

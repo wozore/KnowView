@@ -10,11 +10,11 @@ cls
 echo 工具更新审核维护入口
 echo.
 echo 1. 环境检查（GitHub / Tavily；AI fallback 可选）
-echo 2. 确定性扫描并生成待审核队列
+echo 2. 确定性扫描并生成待审核队列（GLM 汉化，产生 API 费用）
 echo 3. 打开审核 JSON
 echo 4. 预览 approved 日期变更
 echo 5. Apply approved 日期变更
-echo 6. 混合扫描（歧义项使用 AI fallback）
+echo 6. 混合扫描（歧义项使用 GLM，产生 API 费用）
 echo 0. 退出
 echo.
 set /p "CHOICE=请选择："
@@ -33,12 +33,12 @@ pause
 goto :menu
 
 :scan
-node scripts\tool-update-review.js scan --mode deterministic --tavily-access-mode keyless
+node scripts\tool-update-review.js scan --mode deterministic --tavily-access-mode keyless --confirm-cost
 pause
 goto :menu
 
 :hybrid
-node scripts\tool-update-review.js scan --mode hybrid --tavily-access-mode keyless
+node scripts\tool-update-review.js scan --mode hybrid --tavily-access-mode keyless --confirm-cost
 pause
 goto :menu
 

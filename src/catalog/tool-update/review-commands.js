@@ -25,6 +25,9 @@ const { csvFlag } = require('./review-scan');
 const { externalSummaryEnabled, usableToolLocalization } = require('./review-localize');
 
 async function runLocalize(flags = {}, deps = {}) {
+  if (flags.confirm_cost !== true) {
+    return { ok: false, command: 'localize', code: 'TOOL_UPDATE_REVIEW_COST_CONFIRM_REQUIRED', error: 'GLM 汉化需要 --confirm-cost' };
+  }
   const file = deps.reviewFile || CATALOG_GENERATOR_FILES.toolUpdateReview;
   const queue = (deps.readQueue || readReviewQueue)(file);
   const localize = deps.localizeToolCandidate;

@@ -3,7 +3,7 @@
 /**
  * identity-review-ai.js — 名称歧义 AI 建议 Adapter
  *
- * 本地 Bonsai 是默认路径；DeepSeek 仅由 identity-review.js 的升级策略调用。
+ * 智谱 GLM 是默认路径；DeepSeek 仅由 identity-review.js 的升级策略调用。
  * 两者都返回建议，绝不写人工登记表。
  */
 
@@ -38,7 +38,7 @@ function buildInput(candidate) {
  * @param {object} options { provider:'local'|'deepseek'|'zhipu', ledger, model, endpoint, apiKey, fetchImpl }
  */
 async function suggestIdentityReview(candidate, options = {}) {
-  const provider = options.provider || 'local';
+  const provider = options.provider || 'zhipu';
   if (!['local', 'deepseek', 'zhipu'].includes(provider)) {
     return { ok: false, code: 'IDENTITY_REVIEW_PROVIDER_UNSUPPORTED', error: `不支持的 identity review provider: ${provider}` };
   }

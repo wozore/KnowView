@@ -113,7 +113,7 @@ test('tool update CLI parses positional command and kebab-case flags', () => {
 test('scan requires explicit Tavily access mode and never calls Apply', async () => {
   const deps = scanDeps();
   await assert.rejects(() => runScan({ products: 'sample' }, deps), /TAVILY_ACCESS_MODE_REQUIRED/);
-  const result = await runScan({ products: 'sample', tavily_access_mode: 'keyless', as_of: '2026-08-25' }, deps);
+  const result = await runScan({ products: 'sample', tavily_access_mode: 'keyless', confirm_cost: true, as_of: '2026-08-25' }, deps);
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(result.catalog_apply, false);
   assert.equal(deps.applyCalled, false);
@@ -128,7 +128,7 @@ test('deterministic scan 不调用 AI 且写入确定性 decision', async () => 
       throw new Error('deterministic scan must not call AI');
     },
   });
-  const result = await runScan({ products: 'sample', mode: 'deterministic', tavily_access_mode: 'keyless', as_of: '2026-08-25' }, deps);
+  const result = await runScan({ products: 'sample', mode: 'deterministic', tavily_access_mode: 'keyless', confirm_cost: true, as_of: '2026-08-25' }, deps);
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(aiCalls, 0);
   assert.equal(result.deterministic_count, 1);
@@ -147,7 +147,7 @@ test('scan 通过本地模型汉化工具审核内容后写入候选', async () 
     },
     mergeQueue: candidates => ({ file: 'test', appended: candidates.length, refreshed: 0, reopened: 0, queue: { items: candidates } }),
   });
-  const result = await runScan({ products: 'sample', tavily_access_mode: 'keyless', as_of: '2026-08-25' }, deps);
+  const result = await runScan({ products: 'sample', tavily_access_mode: 'keyless', confirm_cost: true, as_of: '2026-08-25' }, deps);
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(localized, 1);
   assert.equal(result.queue.item_count, 1);
@@ -168,7 +168,7 @@ test('localizeToolCandidate 先走外部摘要再交给本地模型翻译', asyn
     ledger: { reserve: () => ({ ok: true }) },
     fetchImpl: async url => {
       localCalls += 1;
-      return { ok: true, status: 200, json: async () => ({ choices: [{ message: { content: localCalls === 1 ? 'bad output' : '{"title":"Replit Agent 更新审核","description":"中文摘要"}' } }] }) };
+      return { ok: true, status: 200, json: async () => ({ content: [{ type: 'text', text: localCalls === 1 ? 'bad output' : '{"title":"Replit Agent 更新审核","description":"中文摘要"}' }] }) };
     },
     externalFetchImpl: async () => {
       externalCalls += 1;
@@ -191,7 +191,7 @@ test('DeepSeek scan requires explicit cost confirmation', async () => {
 test('localize 仅汉化已有审核队列，不采集或 Apply', async () => {
   const queue = { items: [{ product_name: 'Sample Tool', product_key: 'sample', evidence: { title: 'Changelog', excerpt: 'Released a stable update.' }, ai_suggestion: null }] };
   let writes = 0;
-  const result = await runLocalize({ as_of: '2026-08-25' }, {
+  const result = await runLocalize({ as_of: '2026-08-25', confirm_cost: true }, {
     readQueue: () => queue,
     localizeToolCandidate: async item => {
       item.localizations = { zh: { title: '示例工具更新审核', description: '已发布稳定更新。' } };
@@ -217,7 +217,7 @@ test('localize 全部已有有效汉化时不产生无意义写回', async () =>
   };
   let writes = 0;
   let localizerCalls = 0;
-  const result = await runLocalize({}, {
+  const result = await runLocalize({ confirm_cost: true }, {
     readQueue: () => queue,
     localizeToolCandidate: async item => {
       localizerCalls += 1;
@@ -249,18 +249,20 @@ test('localizeToolCandidate 使用本地链路并覆盖完整审核输入，保�
   const requestBodies = [];
   const result = await localizeToolCandidate(candidate, {
     externalSummary: false,
+    confirmCost: true,
+    externalApiKey: 'test-key',
     fetchImpl: async (_url, options) => {
-      authHeaders.push(options.headers.Authorization);
+      authHeaders.push(options.headers['x-api-key']);
       requestBodies.push(JSON.parse(options.body));
       return {
         ok: true,
         status: 200,
-        json: async () => ({ choices: [{ message: { content: '{"title":"Replit Agent 更新审核","description":"官方证据显示该工具发布了稳定更新，审核理由仍需人工核验。"}' } }] }),
+        json: async () => ({ content: [{ type: 'text', text: '{"title":"Replit Agent 更新审核","description":"官方证据显示该工具发布了稳定更新，审核理由仍需人工核验。"}' }] }),
       };
     },
   });
-  assert.deepEqual(authHeaders, ['Bearer local']);
-  const prompt = requestBodies[0].messages[1].content;
+  assert.deepEqual(authHeaders, ['test-key']);
+  const prompt = requestBodies[0].messages[0].content;
   assert.match(prompt, /AI 支持摘录：A stable update was released\./);
   assert.deepEqual(result.evidence, originalEvidence);
   assert.deepEqual(result.ai_suggestion, originalSuggestion);
@@ -278,14 +280,16 @@ test('localizeToolCandidate 会重试旧失败并清除不合格旧汉化', asyn
   let calls = 0;
   const result = await localizeToolCandidate(candidate, {
     externalSummary: false,
+    confirmCost: true,
+    externalApiKey: 'test-key',
     fetchImpl: async () => {
       calls += 1;
       return {
         ok: true,
         status: 200,
-        json: async () => ({ choices: [{ message: { content: calls === 1
+        json: async () => ({ content: [{ type: 'text', text: calls === 1
           ? '{"title":"Sample Tool 更新审核","description":"已发布稳定更新。"}'
-          : '{"title":"Sample Tool","description":"Released a stable update."}' } }] }),
+          : '{"title":"Sample Tool","description":"Released a stable update."}' }] }),
       };
     },
   });
@@ -299,10 +303,12 @@ test('localizeToolCandidate 会重试旧失败并清除不合格旧汉化', asyn
     localizations: { zh: { title: '旧标题', description: 'Old English text.' } },
   }, {
     externalSummary: false,
+    confirmCost: true,
+    externalApiKey: 'test-key',
     fetchImpl: async () => ({
       ok: true,
       status: 200,
-      json: async () => ({ choices: [{ message: { content: '{"title":"Sample Tool","description":"Old English text."}' } }] }),
+      json: async () => ({ content: [{ type: 'text', text: '{"title":"Sample Tool","description":"Old English text."}' }] }),
     }),
   });
   assert.equal(Object.hasOwn(invalid, 'localizations'), false);

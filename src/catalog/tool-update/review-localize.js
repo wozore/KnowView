@@ -3,11 +3,11 @@
 /**
  * review-localize.js — 工具更新审核候选的中文本地化管线
  *
- * 职责：把审核候选的官方证据与 AI 审核理由组装为本地模型汉化输入，先本地链路
- * 翻译、不合格时按显式成本确认走外部 provider 摘要回退，再二次翻译；
+ * 职责：把审核候选的官方证据与 AI 审核理由组装为 GLM 汉化输入，翻译
+ * 不合格时按显式成本确认走外部 provider 摘要回退，再二次翻译；
  * 全程只消费账本预算，不写目录、不 Apply。
  *
- * 依赖注入：`localizeCandidate`（news 域本地模型汉化器）经 deps 注入——catalog 域
+ * 依赖注入：`localizeCandidate`（news 域汉化器）经 deps 注入——catalog 域
  * 不得直接 require news 域模块（依赖方向规范），由脚本壳（service-facade）绑定实现。
  */
 
@@ -90,6 +90,9 @@ async function summarizeToolEvidenceExternally(candidate, options = {}) {
  * localizations_meta.zh；不合格旧汉化被清除并以 llm_error 记录原因。
  */
 async function localizeToolCandidate(candidate, options = {}, deps = {}) {
+  if (options.confirmCost !== true) {
+    throw new Error('TOOL_UPDATE_REVIEW_COST_CONFIRM_REQUIRED: GLM 汉化必须显式确认成本');
+  }
   const localizeCandidate = deps.localizeCandidate;
   if (typeof localizeCandidate !== 'function') {
     throw new Error('TOOL_LOCALIZE_NOT_INJECTED: localizeToolCandidate 需要经 deps 注入 news 域 localizeCandidate（catalog 域禁止直依赖 news 域）');
@@ -109,9 +112,10 @@ async function localizeToolCandidate(candidate, options = {}, deps = {}) {
     ].filter(Boolean).join('\n\n').slice(0, TOOL_LOCALIZE_MAX_SOURCE_CHARS),
   };
   let localized = await localizeCandidate(source, {
-    apiKey: 'local',
-    provider: 'deepseek',
-    model: options.model,
+    apiKey: options.externalApiKey,
+    provider: 'zhipu',
+    external: true,
+    model: options.model || getProvider(DEFAULT_PROVIDER_NAME).defaultModel,
     fetchImpl: options.fetchImpl,
     timeoutMs: options.timeoutMs,
     now: options.now,
@@ -126,9 +130,10 @@ async function localizeToolCandidate(candidate, options = {}, deps = {}) {
     if (summarized.ok) {
       fallbackSummary = summarized.summary;
       localized = await localizeCandidate({ title: source.title, description: fallbackSummary }, {
-        apiKey: 'local',
-        provider: 'deepseek',
-        model: options.model,
+        apiKey: options.externalApiKey,
+        provider: 'zhipu',
+        external: true,
+        model: options.model || getProvider(DEFAULT_PROVIDER_NAME).defaultModel,
         fetchImpl: options.fetchImpl,
         timeoutMs: options.timeoutMs,
         now: options.now,

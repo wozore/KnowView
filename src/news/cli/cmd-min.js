@@ -10,11 +10,11 @@
  * 命令与语义（维护者入口：维护者工作台、bat/after-first-review.bat、bat/archive-min.bat）：
  *   list        候选列表（--json 机器可读；--manual 生成待审清单；--top N 评分截取）
  *   set/batch   按明确 id 把 pending 候选置 approved/discarded（expected revision 门禁）
- *   enrich      本地 Bonsai 初审/摘要/本地化分批编排，完成后默认衔接双通道自愈修复
- *   repair      双通道自愈修复残缺数据
+ *   enrich      GLM 初审/摘要/本地化分批编排，完成后默认衔接残缺修复
+ *   repair      GLM 修复残缺数据
  *   transcripts 生成"待人工获取字幕"清单
  *   feedback    approved 摘要实体反哺待补卡（默认 LLM 提取，失败降级正则）
- *   refine      分批覆盖全部 approved 生成本地模型关键词提纯清单
+ *   refine      分批覆盖全部 approved 生成 GLM 关键词提纯清单
  *   refine-apply 校验 adopted_keywords 后原子幂等追加配置
  *   ai-top      AI 从 approved 候选挑 top 待选项（last-run 判定 YouTube；失败一律抛错）
  *   top-selected/top-apply  维护者确认显示条目（仅更新候选层，不发布）
@@ -276,7 +276,7 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
     const aiInput = topCandidatesForAi(approved, aiTopInputMax);
     let aiSelectedIds = [];
     let aiNoteSuffix = '';
-    const timeoutMs = Number(flags.timeout_ms) || 6000;
+    const timeoutMs = Number(flags.timeout_ms) || 30000;
     try {
       const result = await selectTopItems(aiInput, { min: Math.min(topN, approved.length), max: Math.min(topN, approved.length), timeoutMs });
       if (result && result.ok && Array.isArray(result.ids)) {

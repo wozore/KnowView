@@ -52,18 +52,19 @@ test('identity review：本地低置信或会变更 canonical 时升级，结果
   assert.equal(rows[0].suggestion.model_key, 'vendor--model');
 });
 
-test('identity review AI：本地 Bonsai 是默认 Adapter，输出仍须通过结构契约', async () => {
+test('identity review AI：GLM 是默认 Adapter，输出仍须通过结构契约', async () => {
   const ledger = { reserve: () => ({ ok: true }) };
   const result = await suggestIdentityReview({
     source: 'lmarena', raw_name: 'model (future-harness)',
     deterministic_parse: { model_key: 'vendor--model-future-harness', ambiguous_tokens: ['future-harness'] },
   }, {
     ledger,
+    apiKey: 'test-key',
     fetchImpl: async () => ({
       ok: true,
-      json: async () => ({ choices: [{ message: { content: JSON.stringify({
+      json: async () => ({ content: [{ type: 'text', text: JSON.stringify({
         model_key: 'vendor--model', degree: 'high', evaluation_profile: 'future-harness', confidence: 0.95, reason: '测试建议',
-      }) } }] }),
+      }) }] }),
     }),
   });
   assert.equal(result.ok, true, result.error);

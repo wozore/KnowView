@@ -65,7 +65,7 @@ async function main(argv = process.argv.slice(2), deps = {}) {
   else if (command === 'list') result = reviewCommands.runList(flags, io);
   else if (command === 'preview') result = reviewCommands.runPreview(flags, io);
   else if (command === 'apply') result = await reviewCommands.runApply(flags, io);
-  else throw new Error('用法: tool-update-review preflight|scan|localize|list|preview|apply [--products a,b] [--tavily-access-mode keyed|keyless] [--provider local|zhipu|deepseek]');
+  else throw new Error('用法: tool-update-review preflight|scan|localize|list|preview|apply [--products a,b] [--tavily-access-mode keyed|keyless] [--provider zhipu|deepseek]');
   if (deps.print !== false) console.log(JSON.stringify(result, null, 2));
   return result;
 }

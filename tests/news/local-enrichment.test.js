@@ -1,5 +1,5 @@
 /**
- * local-enrichment.test.js — 本地 Bonsai 初审、摘要与翻译编排测试
+ * local-enrichment.test.js — GLM 初审、摘要与翻译编排测试
  *
  * 运行方式：node --test tests/news/local-enrichment.test.js
  */
@@ -706,6 +706,79 @@ test('repairIncompleteCandidates：瞬时失败自动延迟重试（限流自愈
   assert.equal(result.repairedLocalize, 1);
 });
 
+test('GLM HTTP 500 只在预算内退避重试，第三次成功后写入翻译', async () => {
+  const candidate = { id: 'retry-500', review_status: 'pending', title: 'AI news', summary: '已有摘要' };
+  let calls = 0;
+  const result = await repairIncompleteCandidates({ candidates: [candidate] }, {}, {
+    dryRun: true, skipReview: true, skipSummary: true, retryDelayMs: 1,
+    apiKeyB: 'test-key', channelB: { concurrency: 1 },
+    fetchImplB: async () => {
+      calls += 1;
+      return calls < 3
+        ? { ok: false, status: 500, text: async () => 'Internal Network Failure' }
+        : { ok: true, json: async () => ({ content: [{ type: 'text', text: '{"title":"人工智能新闻","description":"人工智能最新动态。"}' }] }) };
+    },
+  });
+  assert.equal(calls, 3);
+  assert.equal(result.repairedLocalize, 1);
+  assert.equal(candidate.localizations.zh.title, '人工智能新闻');
+});
+
+test('GLM 英文描述原样复述后退避重试并采纳中文翻译', async () => {
+  const description = 'The model adds a reliable rollout and detailed monitoring for every deployment.';
+  const candidate = { id: 'retry-echo', review_status: 'pending', title: 'Model update', description, summary: '已有摘要' };
+  let calls = 0;
+  const result = await repairIncompleteCandidates({ candidates: [candidate] }, {}, {
+    dryRun: true, skipReview: true, skipSummary: true, retryDelayMs: 1,
+    apiKeyB: 'test-key', channelB: { concurrency: 1 },
+    fetchImplB: async () => {
+      calls += 1;
+      const translated = calls === 1
+        ? { title: '模型更新', description }
+        : { title: '模型更新', description: '该模型为每次部署增加可靠的渐进发布与详细监控。' };
+      return { ok: true, json: async () => ({ content: [{ type: 'text', text: JSON.stringify(translated) }] }) };
+    },
+  });
+  assert.equal(calls, 2);
+  assert.equal(result.repairedLocalize, 1);
+  assert.match(candidate.localizations.zh.description, /监控/);
+});
+
+test('GLM 修复使用外部提供方型号，不受本地化旧任务型号覆盖', async () => {
+  const candidate = { id: 'repair-model', review_status: 'pending', title: 'Model update', summary: '已有摘要' };
+  const oldModel = process.env.KNOWVIEW_LOCALIZE_MODEL;
+  let sentModel;
+  process.env.KNOWVIEW_LOCALIZE_MODEL = 'glm-4-flash';
+  try {
+    const result = await repairIncompleteCandidates({ candidates: [candidate] }, {}, {
+      dryRun: true, skipReview: true, skipSummary: true, retryDelayMs: 0,
+      apiKeyB: 'test-key',
+      fetchImplB: async (_url, init) => {
+        sentModel = JSON.parse(init.body).model;
+        return { ok: true, json: async () => ({ content: [{ type: 'text', text: '{"title":"模型更新","description":""}' }] }) };
+      },
+    });
+    assert.equal(result.repairedLocalize, 1);
+    assert.equal(sentModel, 'glm-5.3-flash');
+  } finally {
+    if (oldModel === undefined) delete process.env.KNOWVIEW_LOCALIZE_MODEL;
+    else process.env.KNOWVIEW_LOCALIZE_MODEL = oldModel;
+  }
+});
+
+test('GLM 非暂时性 HTTP 400 不重试并保留错误', async () => {
+  const candidate = { id: 'no-retry-400', review_status: 'pending', title: 'AI news', summary: '已有摘要' };
+  let calls = 0;
+  const result = await repairIncompleteCandidates({ candidates: [candidate] }, {}, {
+    dryRun: true, skipReview: true, skipSummary: true, retryDelayMs: 1,
+    apiKeyB: 'test-key', channelB: { concurrency: 1 },
+    fetchImplB: async () => { calls += 1; return { ok: false, status: 400, text: async () => 'Bad request' }; },
+  });
+  assert.equal(calls, 1);
+  assert.equal(result.repairedLocalize, 0);
+  assert.match(candidate.localizations_meta.zh.llm_error, /HTTP 400/);
+});
+
 test('repairIncompleteCandidates：显式跳过阶段时不重新纳入对应残缺项', async () => {
   const candidate = {
     id: 'skip-1',
@@ -1281,4 +1354,19 @@ test('repairIncompleteCandidates：无残缺项时快速返回', async () => {
   assert.equal(result.totalTargets, 0);
   assert.equal(result.repairedReview, 0);
   assert.equal(result.remainingIncomplete, 0);
+});
+
+test('GLM 翻译失败时写入最新诊断，不保留旧本地模型错误', async () => {
+  const candidate = {
+    id: 'failed-localize', review_status: 'pending', title: 'News', summary: '已有摘要',
+    l1_review: { verdict: 'hold' }, ai_advice: { verdict: 'approve' },
+    localizations_meta: { zh: { llm_error: '本地模型离线' } },
+  };
+  const result = await repairIncompleteCandidates({ candidates: [candidate] }, {}, {
+    dryRun: true, skipReview: true, skipSummary: true, retryDelayMs: 0,
+    apiKeyB: 'test-key',
+    fetchImplB: async () => ({ ok: false, status: 500, text: async () => 'Internal Network Failure' }),
+  });
+  assert.equal(result.repairedLocalize, 0);
+  assert.match(candidate.localizations_meta.zh.llm_error, /HTTP 500/);
 });

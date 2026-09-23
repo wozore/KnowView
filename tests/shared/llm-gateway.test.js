@@ -143,6 +143,21 @@ test('resolveTransportRoute: localhost endpoint 自动识别为 local 路由', a
   assert.deepEqual(route.payload.chat_template_kwargs, { enable_thinking: false });
 });
 
+test('默认运行时将本地请求改走 GLM，丢弃本地端点和占位密钥', async () => {
+  const route = await resolveTransportRoute({ messages: [{ role: 'user', content: 'ping' }], model: 'bonsai' }, {
+    provider: 'local',
+    endpoint: 'http://127.0.0.1:8080/v1/chat/completions',
+    model: 'bonsai',
+    apiKey: 'local-bonsai',
+  });
+  assert.equal(route.ok, true);
+  assert.equal(route.isLocal, false);
+  assert.equal(route.options.provider, 'zhipu');
+  assert.equal(route.options.endpoint, 'https://open.bigmodel.cn/api/anthropic/v1/messages');
+  assert.equal(route.options.apiKey, undefined);
+  assert.equal(route.payload.model, 'glm-5.3-flash');
+});
+
 test('resolveTransportRoute: 未知 provider fail-closed', async () => {
   const route = await resolveTransportRoute({}, { provider: 'unknown_provider' });
   assert.equal(route.ok, false);

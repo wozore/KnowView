@@ -296,7 +296,7 @@ collectSourceRecords → exclusions filter → Elo bounds → buildModelRecord
 
 ### 歧义命名 AI 审计
 
-AI 审计不参与 `rebuild`，也不得直接写入 `models-alias.json`。确定性解析 Module 先输出无法分类的 token；离线审计再使用本地 Bonsai API 生成受 JSON schema 约束的建议，只有本地结果低置信、输出不合法、跨源冲突、或建议会触及既有合并/`never_merge` 时才升级到 DeepSeek。所有建议均须人工确认，确认后的规则才可写入人工登记表；因此正式 `integrated` 始终可复现。
+AI 审计不参与 `rebuild`，也不得直接写入 `models-alias.json`。确定性解析 Module 先输出无法分类的 token；离线审计先使用智谱 GLM API 生成受 JSON schema 约束的建议，只有结果低置信、输出不合法、跨源冲突、或建议会触及既有合并/`never_merge` 时才升级到 DeepSeek。所有建议均须人工确认，确认后的规则才可写入人工登记表；因此正式 `integrated` 始终可复现。
 
 ## 7. raw/ 快照形状（管线写）
 

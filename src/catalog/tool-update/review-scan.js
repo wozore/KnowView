@@ -3,7 +3,7 @@
 /**
  * review-scan.js — 工具更新审核的 preflight 环境检查与 scan 采集命令实现
  *
- * 职责：preflight 只读探测（GitHub / Tavily / 本地模型 / 外部 provider 成本提示）；
+ * 职责：preflight 只读探测（GitHub / Tavily / 外部 provider 成本提示）；
  * scan 按产品登记表采集官方更新证据 → 确定性规划 → 歧义项按 hybrid 模式请求
  * AI 建议 → 汉化 → 合并写入独立审核队列。任何路径都不写五模块目录、不 Apply。
  *
@@ -26,7 +26,6 @@ const {
   planToolUpdateCandidate,
   mergeAndWriteReviewQueue,
 } = require('./index');
-const { probeLocal } = require('../../shared/local-model');
 const { probeTavily } = require('../../shared/tavily-client');
 const { localizeEnabled, externalSummaryEnabled } = require('./review-localize');
 
@@ -43,8 +42,8 @@ function csvFlag(value) {
 }
 
 function providerOf(flags) {
-  const provider = String(flags.provider || 'local').trim().toLowerCase();
-  if (!['local', 'deepseek', 'zhipu'].includes(provider)) throw new Error(`TOOL_UPDATE_REVIEW_PROVIDER_INVALID: ${provider}`);
+  const provider = String(flags.provider || 'zhipu').trim().toLowerCase();
+  if (!['deepseek', 'zhipu'].includes(provider)) throw new Error(`TOOL_UPDATE_REVIEW_PROVIDER_INVALID: ${provider}`);
   return provider;
 }
 
@@ -146,16 +145,9 @@ async function runPreflight(flags = {}, deps = {}) {
       fetchImpl: deps.fetchImpl,
     });
   } else checks.tavily = { ok: true, skipped: true };
-  if (localizationsEnabled || (mode === 'hybrid' && aiFallbackSources && provider === 'local')) {
-    const localProbe = deps.probeLocal || probeLocal;
-    checks.local = await localProbe(deps.fetchImpl);
-    checks.local = typeof checks.local === 'boolean' ? { ok: checks.local } : checks.local;
-  } else {
-    checks.local = { ok: true, skipped: true };
-  }
-  if (mode === 'hybrid' && aiFallbackSources && provider !== 'local') {
-    checks.deepseek = deps.deepseekProbe ? await deps.deepseekProbe() : { ok: true, requires_confirm_cost: true };
-  } else checks.deepseek = { ok: true, skipped: true };
+  if (localizationsEnabled || (mode === 'hybrid' && aiFallbackSources)) {
+    checks.ai = deps.aiProbe ? await deps.aiProbe() : { ok: true, requires_confirm_cost: true };
+  } else checks.ai = { ok: true, skipped: true };
 
   const ok = Object.values(checks).every(check => check?.ok !== false);
   return {
@@ -181,7 +173,7 @@ async function runScan(flags = {}, deps = {}) {
   const mode = modeOf(flags);
   const provider = providerOf(flags);
   const mayUseAi = mode === 'hybrid' && sources.some(source => source.review_mode !== 'deterministic');
-  if (mayUseAi && provider !== 'local' && flags.confirm_cost !== true) {
+  if ((mayUseAi || localizeEnabled(flags)) && flags.confirm_cost !== true) {
     return { ok: false, command: 'scan', code: 'TOOL_UPDATE_REVIEW_COST_CONFIRM_REQUIRED', error: `外部 provider=${provider} 的 scan 必须显式提供 --confirm-cost` };
   }
   const localize = deps.localizeToolCandidate;

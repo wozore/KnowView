@@ -100,7 +100,7 @@ async function reviewCandidates(candidates, { localSuggest, deepseekSuggest, nev
       : local;
     results.push(Object.freeze({
       ...candidate,
-      adapter: useDeepSeek && typeof deepseekSuggest === 'function' ? 'deepseek' : 'local',
+      adapter: useDeepSeek && typeof deepseekSuggest === 'function' ? 'deepseek' : 'zhipu',
       suggestion: upstream?.ok && validateSuggestion(upstream.value) ? normalizeSuggestion(upstream.value) : null,
       status: upstream?.ok && validateSuggestion(upstream.value) ? 'pending_human_review' : 'unresolved',
       requires_human_approval: true,

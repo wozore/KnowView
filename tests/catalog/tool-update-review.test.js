@@ -120,27 +120,29 @@ test('AI 输入只包含证据/登记元数据/当前工具摘要，输出契约
   assert.match(buildToolUpdateReviewInstructions(), /不得创建、修改或纠正这些事实/);
 });
 
-test('本地 Bonsai 默认路径使用结构化输出和成本账本', async () => {
+test('GLM 默认路径使用结构化输出和成本账本', async () => {
   const calls = [];
   const ledger = createCostLedger({ responses_calls: 1 });
   const result = await suggestToolUpdateReview({
     product_key: 'acme-tool', evidence: evidence(), product: REGISTRY.products['acme-tool'], source: SOURCE, detail: detail(),
   }, {
     ledger,
+    confirmCost: true,
+    apiKey: 'test-key',
     fetchImpl: async (url, init) => {
       calls.push({ url, init, body: JSON.parse(init.body) });
-      return localResponse(suggestion());
+      return { ok: true, json: async () => ({ content: [{ type: 'text', text: JSON.stringify(suggestion()) }] }) };
     },
   });
   assert.equal(result.ok, true);
-  assert.equal(result.provider, 'local');
-  assert.equal(calls[0].url, 'http://127.0.0.1:8080/v1/chat/completions');
-  assert.equal(calls[0].body.chat_template_kwargs.enable_thinking, false);
+  assert.equal(result.provider, 'zhipu');
+  assert.equal(calls[0].url, 'https://open.bigmodel.cn/api/anthropic/v1/messages');
+  assert.equal(calls[0].body.model, 'glm-5.3-flash');
   assert.equal(ledger.snapshot().spent.responses_calls, 1);
 });
 
 test('缺 ledger 和 DeepSeek 未显式成本确认均 fail-closed', async () => {
-  const noLedger = await suggestToolUpdateReview({ evidence: evidence() }, { fetchImpl: async () => { throw new Error('unexpected'); } });
+  const noLedger = await suggestToolUpdateReview({ evidence: evidence() }, { confirmCost: true, fetchImpl: async () => { throw new Error('unexpected'); } });
   assert.equal(noLedger.code, 'COST_LEDGER_REQUIRED');
   const noConfirm = await suggestToolUpdateReview({ evidence: evidence() }, {
     provider: 'deepseek', ledger: createCostLedger({ responses_calls: 1 }), fetchImpl: async () => { throw new Error('unexpected'); },
@@ -151,7 +153,9 @@ test('缺 ledger 和 DeepSeek 未显式成本确认均 fail-closed', async () =>
 test('结构化输出无效时不生成 AI 建议', async () => {
   const result = await suggestToolUpdateReview({ evidence: evidence() }, {
     ledger: createCostLedger({ responses_calls: 1 }),
-    fetchImpl: async () => localResponse({ verdict: 'approve' }),
+    confirmCost: true,
+    apiKey: 'test-key',
+    fetchImpl: async () => ({ ok: true, json: async () => ({ content: [{ type: 'text', text: JSON.stringify({ verdict: 'approve' }) }] }) }),
   });
   assert.equal(result.ok, false);
   assert.match(result.code, /SCHEMA_INVALID/);

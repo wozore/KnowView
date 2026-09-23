@@ -107,7 +107,7 @@
 7. **候选落地**：`mergeCandidatesMin(store, [...kept, ...discarded, ...l0Failed])` → `writeMinStore`。已存在候选保留既有 `review_status` / `top_selected` / `reviewed_at`（人工结论不因重新采集被重置）。
 8/9. **总结 + 本地化**：只处理 kept 中仍 `pending` 的候选（`summarizeCandidates` / `localizeCandidates`，自动 approved/discarded 不进入，避免为确定性结果消费 token）。随后按顺序落盘：`writeHistoryStore`（source-history.json）→ `writeMinStore`（min-candidates.json）→ 有 X 断点补丁时原子写 `x-checkpoints.json`。LLM 失败降级（summary/localizations 不写，前端回退原文）。
 10. **每日公开投影**：`buildDailyProjection(merged, config)` → `enrichHotspotProjection(projection.items)`（经 `buildProjectionInputs` 注入 catalog 工具链接/关联词典，补 hot_score/evidence_excerpt/related_resources）→ 组装 `{ schema_version, generated_at, items, coverage }` → `filterProjectionByWindow`（近期窗口 + 公开字段完整，剔除悬空引用）→ 写 `hotspots.json`。**空投影保护**：无 approved 内容时不覆盖旧文件，保留上一版公开数据。
-10.5. **可选自愈 + 人工清单 + 运行记录**：`options.autoRepair=true` 时对残缺候选双通道自愈修复；`buildReviewList` 自动生成/追加 `data/manual/review.json` 待审清单（文件已存在时追加新 pending、不覆盖人工结论）；收尾写 `data/news/runtime/last-run.json`（"最后一次采集记录"唯一权威来源，`ai-top` 判定 hasYouTube 用）。
+10.5. **可选自愈 + 人工清单 + 运行记录**：`options.autoRepair=true` 时使用 GLM 对残缺候选修复；`buildReviewList` 自动生成/追加 `data/manual/review.json` 待审清单（文件已存在时追加新 pending、不覆盖人工结论）；收尾写 `data/news/runtime/last-run.json`（"最后一次采集记录"唯一权威来源，`ai-top` 判定 hasYouTube 用）。
 
 **覆盖状态汇总**：`coverage.status` = 启用平台全部采集失败 → `failed`；任一步降级 → `partial`；否则 `complete`。`coverage.collectors.{youtube,x}` 带 `status/items/reason`，供前端状态条消费。
 
@@ -224,7 +224,7 @@ final_score = clamp(Σ weight_i × score_i, 0, 100)   （config.scoring.weights�
 
 ### 7.2 LLM 网关与任务执行层（llm-gateway.js + llm-provider.js）
 
-- 传输统一经 [src/shared/llm-gateway.js](../src/shared/llm-gateway.js)：provider 路由、端点与模型解析、协议适配、错误分类都由 gateway 与 providers 注册表负责（导出 `requestStructuredJson` / `requestLlmText` / `resolveTransportRoute`）。厂商注册表 [src/shared/providers/](../src/shared/providers)（zhipu / deepseek / local / openai / anthropic），外部默认 `DEFAULT_PROVIDER_NAME='zhipu'`；本地默认 Bonsai 模型（llama-server，provider `local`，`local-model.js` 可自动启动）。
+- 传输统一经 [src/shared/llm-gateway.js](../src/shared/llm-gateway.js)：provider 路由、端点与模型解析、协议适配、错误分类都由 gateway 与 providers 注册表负责（导出 `requestStructuredJson` / `requestLlmText` / `resolveTransportRoute`）。厂商注册表 [src/shared/providers/](../src/shared/providers)（zhipu / deepseek / local / openai / anthropic），外部默认 `DEFAULT_PROVIDER_NAME='zhipu'`；原本指向本地 Bonsai 的请求在统一网关改走智谱 GLM，且不自动启动本地模型。
 - news 域任务执行层 [llm-provider.js](../src/news/classify/llm-provider.js) 导出：`classifyContent` / `summarizeContent`（外部档 `summarizeWithExternal`）/ `reviewContent`（`reviewWithExternal`）/ `localizeContent`（`localizeWithExternal`）/ **`selectTopItems`**（`min-review ai-top` 用，从 approved 候选语义挑选 top 待选项）/ `refineKeywords`（关键词提纯用）；prompt/payload 构造在 `llm-prompts.js` 与 `llm-selection.js`。
 - 失败语义：任何错误 resolve `{ ok: false }` 降级对象，绝不 reject。
 
@@ -248,6 +248,7 @@ final_score = clamp(Σ weight_i × score_i, 0, 100)   （config.scoring.weights�
 - 输出公开字段 `localizations[locale] = { title, description }`（当前唯一 locale `zh`）。输入 = 原文标题 + 描述；**原文顶层 `title`/`description` 保留作溯源核验基线**。
 - **prompt 契约**：翻译成简体中文；品牌名/产品名/专有名词（DeepSeek、Ollama、Claude 等）、URL、代码、数字、版本号保持原文不译；忠实翻译不增删信息；原文已是中文时做精炼（去 # 标签/emoji/情绪化开场），非逐字翻译。
 - **公开语义**：`localizations` 是公开字段进公开投影（中文以数据文件形式存储，前端按语言读取）；`localizations_meta`（localizer/generated_at/input_chars/llm_error）是内部字段，经 `MIN_INTERNAL_FIELDS` 剔除。
+- **质量门禁**：中文标题或描述原样复述英文、输出缺字段时不写公开翻译，`localizations_meta.zh.llm_error` 记录原因；修复命令只对这类输出和暂时性网络错误做有上限的重试。
 - `enrichCandidateLocalizations` 仍在，v2 由 `runMin` 第 9 步经 `localizeCandidates` 批量调用（只处理无 `localizations[locale]` 的候选，不重复花钱）。
 - **执行时机**：放总结/审核之后、投影之前——只消费原文 title/desc，与总结/审核无依赖，放最后避免影响审核用原文素材。
 
@@ -332,9 +333,9 @@ node scripts/news-cli.js min-review set    --id <id> --status pending|approved|d
 node scripts/news-cli.js min-review batch  --ids <id1,id2,...> --status approved
 node scripts/news-cli.js min-review apply  --file data/manual/review.json   # 应用清单结论写回候选层
 
-# 本地模型加工流（初审/摘要/本地化分批编排 + 双通道自愈修复）
-node scripts/news-cli.js min-review enrich   [--batch-size N] [--limit N] [--no-external]
-node scripts/news-cli.js min-review repair   [--no-external]
+# GLM 加工流（初审/摘要/本地化分批编排 + 残缺修复）
+node scripts/news-cli.js min-review enrich   [--batch-size N] [--limit N]
+node scripts/news-cli.js min-review repair   [--concurrency N]
 
 # 阶段 2：AI 挑 top 待选项 + 人工确认显示
 node scripts/news-cli.js min-review ai-top
@@ -358,7 +359,7 @@ node scripts/news-cli.js localize preview  --title <t> [--description <d>] [--lo
 - `list`：列出候选（含 `review_status / final_score / content_type`）。`--top N` 按评分倒序取前 N 供人工审，缺省读 `config.collection.review_top_pure_x`（10）/ `review_top_with_youtube`（15，有 YouTube 候选时用后者）；`--json` 输出机器可读分布；`--manual` 生成待审清单到 `data/manual/review.json`。
 - `set / batch`：把 **pending** 候选置 approved/discarded，写 `reviewed_at`；非 pending 条目拒绝（汇入 `not_pending`），已审状态不可改写。状态轴只允许 pending/approved/discarded。
 - `apply`：读 `data/manual/review.json` 的人工结论（approved/discarded）批量写回候选层（pending 跳过；目标状态与当前相同幂等跳过）。`top-apply`：读 `top.json` 中 `top_selected=true` 条目批量置候选层。
-- `enrich`：本地 Bonsai 初审/摘要/本地化分批编排（断点续跑），完成后默认衔接双通道自愈修复（外部 API 兜底，`--no-external` 关闭）与待审清单刷新。`repair`：双通道自愈修复残缺数据。
+- `enrich`：GLM 初审/摘要/本地化分批编排（断点续跑），完成后默认修复残缺数据并刷新待审清单。`repair`：使用外部提供方当前默认型号修复残缺数据；429/5xx/网络故障、翻译原样复述或缺字段最多退避重试两次（默认等待 5 秒、15 秒），其余错误不重复请求；`--no-external` 被拒绝。
 - `archive`：先写轻量历史（min-candidates-history.json，最近 30 批）→ 清空候选层 → 重置 `data/manual/` 当日人工清单。
 - `--store min`：显式标注 v2 数据通道（缺省即 min；其它值报错）。
 

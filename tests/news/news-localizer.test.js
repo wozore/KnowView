@@ -189,7 +189,7 @@ test('localizeCandidate 成功：含 localizer/input_chars', async () => {
   });
   assert.equal(result.title, '翻译标题');
   assert.equal(result.description, '翻译描述');
-  assert.equal(result.localizer, 'llm_deepseek');
+  assert.equal(result.localizer, 'llm_zhipu');
   assert.ok(result.generated_at);
   assert.equal(result.input_chars, '标题'.length + '描述'.length);
   assert.equal(result.llm_error, null);
@@ -249,6 +249,18 @@ test('localizeCandidates：LLM 全失败时 localized=0 且不写 localizations�
   assert.equal(result.localized, 0);
   assert.equal(items[0].localizations, undefined);              // 不写翻译
   assert.ok(items[0].localizations_meta.zh.llm_error);          // 留错误痕迹便于排查
+});
+
+test('localizeCandidates：英文描述原样复述不计成功且留下可重试诊断', async () => {
+  const description = 'The model adds a reliable rollout and detailed monitoring for every deployment.';
+  const item = { id: 'echo', title: 'Model update', description };
+  const result = await localizeCandidates([item], {
+    apiKey: 'test-key',
+    fetchImpl: mockFetch(() => deepSeekOk(JSON.stringify({ title: '模型更新', description }))),
+  });
+  assert.equal(result.localized, 0);
+  assert.equal(item.localizations, undefined);
+  assert.equal(item.localizations_meta.zh.llm_error, 'LOCALIZATION_ECHO_UNTRANSLATED');
 });
 
 // ── 第 6 组：enrichCandidateLocalizations 管线钩子 ───
@@ -317,8 +329,8 @@ test('localizeCandidates：部分本地化结果不计为完成并可重试', as
 
   const result = await localizeCandidates([item], { fetchImpl, apiKey: 'test-key' });
   assert.equal(result.localized, 0);
-  assert.equal(item.localizations.zh.title, '中文标题');
-  assert.equal(item.localizations.zh.description, '');
+  assert.equal(item.localizations, undefined);
+  assert.equal(item.localizations_meta.zh.llm_error, 'LOCALIZATION_PARTIAL_OUTPUT');
 });
 
 

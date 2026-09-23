@@ -182,7 +182,7 @@ test('summarizeCandidate 成功：含字幕输入，记录 summarizer/input_char
   });
   assert.equal(result.summary, '摘要');
   assert.deepEqual(result.key_points, ['要点']);
-  assert.equal(result.summarizer, 'llm_deepseek');
+  assert.equal(result.summarizer, 'llm_zhipu');
   assert.ok(result.generated_at);
   assert.equal(result.input_chars, '标题'.length + '描述'.length + '这是视频字幕内容'.length);
   assert.equal(result.llm_error, null);
@@ -213,7 +213,7 @@ test('summarizeCandidates：批量成功写入建议字段', async () => {
   assert.equal(result.skipped, 0);
   assert.equal(items[0].summary, '摘要');
   assert.equal(items[1].summary, '摘要');
-  assert.equal(items[0].summarizer, 'llm_deepseek');
+  assert.equal(items[0].summarizer, 'llm_zhipu');
 });
 
 test('summarizeCandidates：跳过已有 summary 与无素材条目', async () => {

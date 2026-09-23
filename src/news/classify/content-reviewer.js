@@ -96,7 +96,7 @@ function collectReviewSource(item) {
 const REVIEW_PROVIDERS = new Set(['deepseek', 'zhipu']);
 
 async function reviewCandidate(item, options = {}) {
-  const provider = providerOf('REVIEW', options, 'deepseek');
+  const provider = providerOf('REVIEW', options, 'zhipu');
   const model = modelOf('REVIEW', options);
   const source = collectReviewSource(item);
   const inputChars = source.title.length + source.description.length

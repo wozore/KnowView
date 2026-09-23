@@ -41,11 +41,25 @@ function failure(kind, code, error, diagnostics = {}) {
   return { ok: false, code: `${kind.toUpperCase()}_${code}`, error, ...diagnostics };
 }
 
+function useGlmForLocal(options = {}) {
+  // 注入替身 fetch 的离线测试仍验证原有协议适配；实际请求统一使用 GLM。
+  if (options.fetchImpl && options.fetchImpl !== globalThis.fetch) return options;
+  const localEndpoint = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/.test(options.endpoint || '');
+  if (options.provider !== 'local' && !localEndpoint) return options;
+  const { endpoint, model, protocol, apiKey, ...rest } = options;
+  return {
+    ...rest,
+    provider: 'zhipu',
+    model: getProvider('zhipu').defaultModel,
+  };
+}
+
 /**
  * 协议路由分发：按 provider 协议映射 transport 并自适应折叠 payload。
- * 对 local provider 或 localhost 端点自动调用 ensureLocalModel 并在 payload 中携带 chat_template_kwargs。
+ * 实际运行时把 local provider 或 localhost 端点改走 GLM；注入替身 fetch 时保留协议适配测试入口。
  */
 async function resolveTransportRoute(payload, options = {}) {
+  options = useGlmForLocal(options);
   const isLocal = options.provider === 'local' || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/.test(options.endpoint || '');
   if (isLocal) {
     const localReady = await ensureLocalModel({
@@ -152,6 +166,7 @@ async function requestLlmText(payload, options = {}) {
  * 统一结构化 JSON 提取网关：多协议分流、成本预占、JSON 提取、截断诊断与 schema 校验。
  */
 async function requestStructuredJson({ kind, instructions, input, maxOutputTokens, ledger, validate }, options = {}) {
+  options = useGlmForLocal(options);
   const isLocal = options.provider === 'local' || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/.test(options.endpoint || '');
   if (isLocal) {
     const localReady = await ensureLocalModel({

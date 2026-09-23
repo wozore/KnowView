@@ -74,23 +74,23 @@ export function loadNewsReview(onRefreshAll) {
     if (value.status === 'enriching') {
       const root = $('#newsList');
       clearChildren(root);
-      addText(root, 'p', `🤖 ${value.message || '本地 Bonsai 正在进行 AI 初审分流与汉化，请稍候...'}`, 'panel-note');
+      addText(root, 'p', `🤖 ${value.message || 'GLM 正在进行 AI 初审分流与汉化，请稍候...'}`, 'panel-note');
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'secondary-button';
       btn.style.marginTop = '8px';
-      btn.textContent = '立即运行双通道自愈修复';
+      btn.textContent = '立即运行 GLM 修复';
       btn.addEventListener('click', async () => {
         btn.disabled = true;
-        btn.textContent = '正在双通道修复…';
+        btn.textContent = '正在 GLM 修复…';
         try {
           await request('news/repair', { method: 'POST', body: JSON.stringify({}) });
-          showNotice('双通道自愈修复已完成，正在刷新…', 'success');
+          showNotice('GLM 修复已完成，正在刷新…', 'success');
           if (typeof onRefreshAll === 'function') onRefreshAll();
         } catch (err) {
           showNotice(`自愈修复失败：${err.message || err}`, 'error');
           btn.disabled = false;
-          btn.textContent = '重试双通道自愈修复';
+          btn.textContent = '重试 GLM 修复';
         }
       });
       root.appendChild(btn);

@@ -195,7 +195,7 @@ test('reviewCandidate 成功：含字幕/总结输入，记录 reviewer/input_ch
   });
   assert.equal(result.verdict, 'approve');
   assert.deepEqual(result.reasons, ['有实质信息']);
-  assert.equal(result.reviewer, 'llm_deepseek');
+  assert.equal(result.reviewer, 'llm_zhipu');
   assert.ok(result.generated_at);
   assert.equal(result.input_chars, '标题'.length + '描述'.length + '字幕'.length + '总结'.length);
   assert.equal(result.llm_error, null);

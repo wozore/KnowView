@@ -71,7 +71,7 @@ function printMinReview(action, flags, result) {
       return;
     }
     const stats = result.stats;
-    console.log('🤖 本地 Bonsai 初审与翻译 (enrich)：');
+    console.log('🤖 GLM 初审与翻译 (enrich)：');
     console.log(`   候选总数: ${stats.total} 条 | 待初审: ${stats.review} | 待摘要: ${stats.summary} | 待翻译: ${stats.localize}`);
     const flagNotes = `${flags.limit != null ? ` | 限制条数: ${Number(flags.limit)}` : ''}`;
     console.log(`   批次大小: ${flags.batch_size ? Number(flags.batch_size) : 30} | 并发: ${result.concurrency}${flagNotes}${flags.force ? ' | [强制重做]' : ''}${flags.dry_run ? ' | [dry-run 模拟]' : ''}`);
@@ -91,8 +91,8 @@ function printMinReview(action, flags, result) {
     }
     const repaired = result.repaired;
     if (repaired) {
-      console.log(`🔧 检测到 ${result.repair_total} 条残缺项（待审/建议: ${result.stats.review}, 摘要: ${result.stats.summary}, 翻译: ${result.stats.localize}），自动衔接双通道自愈修复...`);
-      console.log(`✅ 双通道自愈修复完成：修复审核 ${repaired.repairedReview} 条，摘要 ${repaired.repairedSummary} 条，翻译 ${repaired.repairedLocalize} 条，剩余残缺: ${repaired.remainingIncomplete}`);
+      console.log(`🔧 检测到 ${result.repair_total} 条残缺项（待审/建议: ${result.stats.review}, 摘要: ${result.stats.summary}, 翻译: ${result.stats.localize}），自动衔接 GLM 修复...`);
+      console.log(`✅ GLM 修复完成：修复审核 ${repaired.repairedReview} 条，摘要 ${repaired.repairedSummary} 条，翻译 ${repaired.repairedLocalize} 条，剩余残缺: ${repaired.remainingIncomplete}`);
     }
     if (result.review_list) {
       console.log(`✅ 已同步安全更新待审清单：${result.review_list.file}（待人工审核: ${result.review_list.total_pending} 条，保留人工已审状态）`);
@@ -102,14 +102,14 @@ function printMinReview(action, flags, result) {
     return;
   }
   if (action === 'repair') {
-    console.log('🔧 热点候选双通道自愈修复 (repair)：');
+    console.log('🔧 热点候选 GLM 修复 (repair)：');
     console.log(`   残缺总数: ${result.stats.total} 条 | 待修复审核: ${result.stats.review} | 待修复摘要: ${result.stats.summary} | 待修复翻译: ${result.stats.localize}`);
     if (result.repaired === null) {
       console.log('✅ 所有候选数据完整，无需修复。');
       return;
     }
     const repaired = result.repaired;
-    console.log(`✅ 双通道自愈修复完成：修复审核 ${repaired.repairedReview} 条，摘要 ${repaired.repairedSummary} 条，翻译 ${repaired.repairedLocalize} 条，剩余残缺: ${repaired.remainingIncomplete}`);
+    console.log(`✅ GLM 修复完成：修复审核 ${repaired.repairedReview} 条，摘要 ${repaired.repairedSummary} 条，翻译 ${repaired.repairedLocalize} 条，剩余残缺: ${repaired.remainingIncomplete}`);
     if (result.review_list) {
       console.log(`✅ 已同步安全更新待审清单：${result.review_list.file}（待人工审核: ${result.review_list.total_pending} 条，保留人工已审状态）`);
     } else if (result.review_list_skipped) {
