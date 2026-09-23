@@ -23,6 +23,7 @@ const VENDOR_ICONS = {
   openai: '🤖', anthropic: '✦', google: '✨', meta: '🦙', deepseek: '🐋',
   qwen: '🐉', mistral: '🌀', moonshot: '🌙', midjourney: '🎨', xai: '🕳️', glm: '🧊',
 };
+const COMPARISON_VENDOR_LABELS = { 'microsoft-ai': 'Microsoft AI' };
 
 function themeLabel(theme) {
   return THEME_LABELS[theme] || theme || '通用';
@@ -46,7 +47,7 @@ function humanizeVendorKey(vendorKey) {
 }
 
 function vendorLabel(vendorKey) {
-  return getVendorCardItem(vendorKey)?.title || humanizeVendorKey(vendorKey);
+  return getVendorCardItem(vendorKey)?.title || COMPARISON_VENDOR_LABELS[vendorKey] || humanizeVendorKey(vendorKey);
 }
 
 function vendorIconHtml(vendorKey) {

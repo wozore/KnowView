@@ -724,6 +724,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:tencent:codebuddy-subscription"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:tencent:workbuddy-plans"
         }
       ]
     },
@@ -1061,7 +1065,7 @@
       "title": "Microsoft（Azure AI Foundry）",
       "icon": "🤖",
       "official_url": "https://huggingface.co/microsoft/collections",
-      "description": "Microsoft 通过 Azure AI Foundry 及官方模型生态提供模型目录、部署和 AI 应用服务入口。",
+      "description": "Microsoft 通过 Azure AI Foundry、官方模型生态与 Microsoft AI 提供模型部署及 AI 产品服务。",
       "status": "partial",
       "features": [
         {
@@ -1071,6 +1075,10 @@
         {
           "tone": "negative",
           "text": "限制：模型授权、区域部署与实际价格需以 Azure 官方条件为准。"
+        },
+        {
+          "tone": "positive",
+          "text": "Microsoft AI 提供 MAI-Image 系列图像生成模型。"
         }
       ],
       "level2_refs": [
@@ -1089,6 +1097,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:microsoft:copilot-subscription"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:microsoft:mai-image-2-6"
         }
       ]
     },
@@ -1270,63 +1282,6 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:vidu:subscription"
-        }
-      ]
-    },
-    {
-      "id": "vendor-level1:microsoft-ai",
-      "vendor_key": "microsoft-ai",
-      "title": "Microsoft AI",
-      "icon": "🧩",
-      "official_url": "https://microsoft.ai/models/mai-image-2-6",
-      "description": "MAI-Image-2.6 是 Microsoft 开发的基于扩散架构的生成模型，支持高质量文生图与可控图生图编辑，通过 Microsoft Foundry（Azure AI Foundry）、MAI Playground 等渠道提供，致力于面向真实创意生产工作流持续提升图像生成质量与效率。",
-      "status": "verified",
-      "features": [
-        {
-          "tone": "positive",
-          "text": "Arena 文生图与图像编辑榜单均排名第 2"
-        },
-        {
-          "tone": "positive",
-          "text": "较 MAI-Image-2.5 整体提升 +79 Elo"
-        },
-        {
-          "tone": "positive",
-          "text": "文本渲染单项提升 +91 Elo"
-        },
-        {
-          "tone": "positive",
-          "text": "2.6-Flash 生成速度比 GPT-Image-2-Medium 快 2.8x"
-        },
-        {
-          "tone": "positive",
-          "text": "2.6-Flash 能效提升 72%"
-        },
-        {
-          "tone": "positive",
-          "text": "支持多图参考编辑与动态宽高比"
-        },
-        {
-          "tone": "positive",
-          "text": "支持网页 grounding 能力"
-        },
-        {
-          "tone": "positive",
-          "text": "擅长精准对象编辑与布局调整"
-        },
-        {
-          "tone": "positive",
-          "text": "支持文生图与图生图双重任务"
-        },
-        {
-          "tone": "neutral",
-          "text": "采用 diffusion 扩散生成架构与 flow-matching 损失"
-        }
-      ],
-      "level2_refs": [
-        {
-          "kind": "vendor-level2",
-          "id": "vendor-level2:microsoft-ai:mai-image-2-6"
         }
       ]
     },

@@ -99,6 +99,7 @@ Simple Icons 通常只有单色 path。如果希望使用十六进制颜色给�
 ```text
 model[单个模型 slug]
   → series[父级模型系列 slug]
+  → tool[独立工具 tool_key]
   → vendor[厂商 vendor_key]
   → catalog 原有 emoji
 ```

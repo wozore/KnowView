@@ -700,7 +700,7 @@
       "vendor_key": "microsoft",
       "title": "Microsoft（Azure AI Foundry）",
       "icon": "🤖",
-      "summary": "Microsoft 通过 Azure AI Foundry 及官方模型生态提供模型目录、部署和 AI 应用服务入口。",
+      "summary": "Microsoft 通过 Azure AI Foundry 及 Microsoft AI 模型生态提供模型目录、部署和 AI 产品服务入口。",
       "feature_preview": [
         {
           "tone": "positive",
@@ -709,6 +709,10 @@
         {
           "tone": "negative",
           "text": "模型授权、区域部署与实际价格需以 Azure 官方条件为准"
+        },
+        {
+          "tone": "positive",
+          "text": "Microsoft AI 提供 MAI-Image 系列图像生成模型"
         }
       ],
       "access_level": "区域限制",
@@ -718,7 +722,11 @@
         "microsoft",
         "Azure AI Foundry",
         "Phi",
-        "Fara"
+        "Fara",
+        "Microsoft AI",
+        "microsoft-ai",
+        "MAI-Image",
+        "MAI-Image-2.6"
       ],
       "level1_ref": {
         "kind": "vendor-level1",
@@ -865,65 +873,6 @@
       "level1_ref": {
         "kind": "vendor-level1",
         "id": "vendor-level1:vidu"
-      }
-    },
-    {
-      "id": "vendor-card:microsoft-ai",
-      "vendor_key": "microsoft-ai",
-      "title": "Microsoft AI",
-      "icon": "🧩",
-      "summary": "微软（Microsoft Corporation）推出的 MAI-Image 系列图像生成模型家族，包含 MAI-Image-2.6 与优化版 MAI-Image-2.6-Flash。",
-      "feature_preview": [
-        {
-          "tone": "positive",
-          "text": "Arena 文生图与图像编辑榜单均排名第 2"
-        },
-        {
-          "tone": "positive",
-          "text": "较 MAI-Image-2.5 整体提升 +79 Elo"
-        },
-        {
-          "tone": "positive",
-          "text": "文本渲染单项提升 +91 Elo"
-        },
-        {
-          "tone": "positive",
-          "text": "2.6-Flash 生成速度比 GPT-Image-2-Medium 快 2.8x"
-        },
-        {
-          "tone": "positive",
-          "text": "2.6-Flash 能效提升 72%"
-        },
-        {
-          "tone": "positive",
-          "text": "支持多图参考编辑与动态宽高比"
-        },
-        {
-          "tone": "positive",
-          "text": "支持网页 grounding 能力"
-        },
-        {
-          "tone": "positive",
-          "text": "擅长精准对象编辑与布局调整"
-        },
-        {
-          "tone": "positive",
-          "text": "支持文生图与图生图双重任务"
-        },
-        {
-          "tone": "neutral",
-          "text": "采用 diffusion 扩散生成架构与 flow-matching 损失"
-        }
-      ],
-      "access_level": "受限",
-      "price_badge": "paid",
-      "search_terms": [
-        "Microsoft AI",
-        "microsoft-ai"
-      ],
-      "level1_ref": {
-        "kind": "vendor-level1",
-        "id": "vendor-level1:microsoft-ai"
       }
     },
     {

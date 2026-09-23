@@ -209,6 +209,24 @@ test('迁移：OpenAI 订阅套餐孤儿被统一 coding plan 收养，既有浮
   assert.ok(!plan.warnings.some(w => w.code === 'PRE_EXISTING_UNPARENTED'), 'chatgpt 系列应被收养，不应再有浮空警告');
 });
 
+test('迁移：已有订阅系列保留未列入政策的套餐成员', () => {
+  const snap = syntheticSnapshot();
+  const planIds = ['chatgpt-go', 'chatgpt-plus', 'chatgpt-pro', 'chatgpt-free', 'chatgpt-pro-100'];
+  for (const id of planIds) snap['tool-level3'].push(detail(`tool-level3:${id}`, 'openai', 'subscription_plan'));
+  const group = l2('vendor-level2:openai:openai-coding-plan', 'openai', '套餐（Coding Plan）', planIds, {
+    series_kind: 'subscription_series',
+  });
+  snap['vendor-level2'].push(group);
+  snap['vendor-level1'].find(item => item.id === 'vendor-level1:openai').level2_refs.push({
+    kind: 'vendor-level2', id: group.id,
+  });
+
+  const plan = planSeriesMigration(loadSeriesPolicy(), snap);
+  const migrated = plan.snapshot['vendor-level2'].find(item => item.id === group.id);
+  assert.deepEqual(migrated.detail_refs.map(ref => ref.id), planIds.map(id => `tool-level3:${id}`));
+  assert.deepEqual(plan.orphaned, []);
+});
+
 test('迁移：政策厂商真正未覆盖的既有浮空详情写入 warnings 而非孤儿', () => {
   const snap = syntheticSnapshot();
   snap['tool-level3'].push(detail('tool-level3:openai-floating-tool', 'openai', 'tool', 'general'));
@@ -262,6 +280,27 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:xiaomi:mimo', ['mimo-v2-5-pro', 'mimo-v2-5', 'mimo-v2-flash']);
   expect('vendor-level2:nvidia:nemotron-3', ['nemotron-3-ultra', 'nemotron-3-super']);
   expect('vendor-level2:nvidia:nemotron-3-5', ['nemotron-3-5']);
+});
+
+test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且保留 MAI 工具系列', () => {
+  const snapshot = realSnapshot();
+  const vendor = snapshot['vendor-card'].find(item => item.vendor_key === 'microsoft');
+  const microsoftAiCards = snapshot['vendor-card'].filter(item => item.vendor_key === 'microsoft-ai');
+  const level1 = snapshot['vendor-level1'].find(item => item.id === 'vendor-level1:microsoft');
+  const maiSeries = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:microsoft:mai-image-2-6');
+  const detail = snapshot['tool-level3'].find(item => item.id === 'tool-level3:mai-image-2.6');
+  const card = snapshot['tool-card'].find(item => item.id === 'tool-card:mai-image-2.6');
+
+  assert.ok(vendor);
+  assert.deepEqual(microsoftAiCards, []);
+  assert.equal(snapshot['vendor-level1'].some(item => item.id === 'vendor-level1:microsoft-ai'), false);
+  assert.ok(level1.level2_refs.some(ref => ref.id === maiSeries.id));
+  assert.equal(maiSeries.level1_ref.id, level1.id);
+  assert.equal(maiSeries.vendor_key, 'microsoft');
+  assert.deepEqual(maiSeries.detail_refs.map(ref => ref.id), [detail.id]);
+  assert.equal(detail.vendor_key, 'microsoft');
+  assert.equal(card.vendor_key, 'microsoft');
+  assert.ok(vendor.search_terms.some(term => /microsoft ai/i.test(term)));
 });
 
 test('集成：迁移后 tool-level3 与 tool-card 完全不变（只改二级关系）', () => {

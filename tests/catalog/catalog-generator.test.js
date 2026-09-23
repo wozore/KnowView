@@ -180,6 +180,26 @@ test('buildDetail requires model_key for api_model and rejects it elsewhere', ()
   assert.equal('model_key' in plain, false);
 });
 
+test('buildDetail preserves optional subscription references and source-backed pricing disclosures', () => {
+  const subscriptionPlanRefs = [{ kind: 'tool-level3', id: 'tool-level3:kimi-andante' }];
+  const pricingDisclosure = {
+    status: 'not_published',
+    text: '官方页面未列出统一单价。',
+    source_urls: ['https://microsoft.ai/models/mai-image-2-6'],
+  };
+  const detail = buildDetail({
+    ...baseDetailFields('tool'),
+    subscriptionPlanRefs,
+    pricingDisclosure,
+  });
+  assert.deepEqual(detail.subscription_plan_refs, subscriptionPlanRefs);
+  assert.deepEqual(detail.pricing_disclosure, pricingDisclosure);
+
+  const plain = buildDetail(baseDetailFields('tool'));
+  assert.equal('subscription_plan_refs' in plain, false);
+  assert.equal('pricing_disclosure' in plain, false);
+});
+
 test('buildDetail accepts hidden_history marking without rewriting existing fields', () => {
   const detail = buildDetail({ ...baseDetailFields('api_model'), modelKey: 'kuaishou-kling-2.6-pro', visibility: 'hidden_history', historicalSince: '2026-09-01' });
   assert.equal(detail.visibility, 'hidden_history');

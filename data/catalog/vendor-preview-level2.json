@@ -1031,6 +1031,14 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:chatgpt-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-pro-100"
         }
       ],
       "series_kind": "subscription_series"
@@ -3398,12 +3406,12 @@
       "series_kind": "tool_series"
     },
     {
-      "id": "vendor-level2:microsoft-ai:mai-image-2-6",
+      "id": "vendor-level2:microsoft:mai-image-2-6",
       "level1_ref": {
         "kind": "vendor-level1",
-        "id": "vendor-level1:microsoft-ai"
+        "id": "vendor-level1:microsoft"
       },
-      "vendor_key": "microsoft-ai",
+      "vendor_key": "microsoft",
       "title": "MAI-Image-2.6",
       "official_url": "https://microsoft.ai/models/mai-image-2-6",
       "summary": "微软 MAI-Image 图像生成模型系列，以高质量文生图与可控图像编辑为核心能力。",
@@ -3453,6 +3461,33 @@
         }
       ],
       "series_kind": "model_series"
+    },
+    {
+      "id": "vendor-level2:tencent:workbuddy-plans",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:tencent"
+      },
+      "vendor_key": "tencent",
+      "title": "WorkBuddy 套餐",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "summary": "WorkBuddy 官方订阅计划，提供 Free、Pro 与 Team 档位。",
+      "status": "active",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-team"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-pro"
+        }
+      ],
+      "series_kind": "subscription_series"
     }
   ]
 }

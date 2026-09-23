@@ -230,6 +230,51 @@ function checkLevel3ProfileFields(level3, errors) {
   });
 }
 
+const PRICING_DISCLOSURE_STATUSES = ['not_published', 'external_usage_cost'];
+
+function checkProductPricingDetails(level3, errors) {
+  const detailById = new Map(level3.map(item => [item?.id, item]));
+  level3.forEach((item, index) => {
+    const path = `tool-level3[${index}]`;
+    if (Array.isArray(item?.subscription_plan_refs)) {
+      if (item.subscription_plan_refs.length === 0) {
+        errors.push(error('SUBSCRIPTION_PLAN_REFS_EMPTY', `${path}.subscription_plan_refs`, '引用列表不得为空'));
+      }
+      const seen = new Set();
+      item.subscription_plan_refs.forEach((ref, refIndex) => {
+        const target = detailById.get(ref?.id);
+        if (seen.has(ref?.id)) {
+          errors.push(error('SUBSCRIPTION_PLAN_REF_DUPLICATE', `${path}.subscription_plan_refs[${refIndex}]`, `重复套餐引用: ${ref.id}`));
+        }
+        seen.add(ref?.id);
+        if (ref?.kind === 'tool-level3' && target?.detail_kind !== 'subscription_plan') {
+          errors.push(error('SUBSCRIPTION_PLAN_REF_TARGET_INVALID', `${path}.subscription_plan_refs[${refIndex}]`, `目标不是 subscription_plan: ${ref.id}`));
+        }
+        if (target?.detail_kind === 'subscription_plan' && target.vendor_key !== item.vendor_key) {
+          errors.push(error('SUBSCRIPTION_PLAN_VENDOR_MISMATCH', `${path}.subscription_plan_refs[${refIndex}]`, `套餐与工具厂商不一致: ${target.vendor_key} != ${item.vendor_key}`));
+        }
+      });
+    }
+
+    const disclosure = item?.pricing_disclosure;
+    if (disclosure === undefined || disclosure === null) return;
+    if (!disclosure || typeof disclosure !== 'object' || Array.isArray(disclosure)) {
+      errors.push(error('PRICING_DISCLOSURE_INVALID', `${path}.pricing_disclosure`, '价格说明必须是对象'));
+      return;
+    }
+    if (!PRICING_DISCLOSURE_STATUSES.includes(disclosure.status)) {
+      errors.push(error('PRICING_DISCLOSURE_STATUS_INVALID', `${path}.pricing_disclosure.status`, `无效价格说明状态: ${disclosure.status}`));
+    }
+    if (typeof disclosure.text !== 'string' || !disclosure.text.trim()) {
+      errors.push(error('PRICING_DISCLOSURE_TEXT_REQUIRED', `${path}.pricing_disclosure.text`, '价格说明必须有非空正文'));
+    }
+    const urls = Array.isArray(disclosure.source_urls) ? disclosure.source_urls : [];
+    if (!urls.length || urls.some(url => !isHttpUrl(url) || !item.sources?.some(source => source.url === url))) {
+      errors.push(error('PRICING_DISCLOSURE_SOURCE_INVALID', `${path}.pricing_disclosure.source_urls`, '价格说明必须引用记录中的官方来源 URL'));
+    }
+  });
+}
+
 function validateCatalogSnapshot(snapshot) {
   const normalized = normalizeSnapshot(snapshot);
   const errors = [];
@@ -244,11 +289,13 @@ function validateCatalogSnapshot(snapshot) {
   checkRef('vendor-level1', normalized['vendor-level1'], 'vendor-level2', ids['vendor-level2'], 'level2_refs', errors);
   checkRef('vendor-level2', normalized['vendor-level2'], 'tool-level3', ids['tool-level3'], 'detail_refs', errors);
   checkRef('tool-card', normalized['tool-card'], 'tool-level3', ids['tool-level3'], 'detail_ref', errors);
+  checkRef('tool-level3', normalized['tool-level3'], 'tool-level3', ids['tool-level3'], 'subscription_plan_refs', errors);
 
   const cardsByDetail = new Map(normalized['tool-card'].map(item => [item?.detail_ref?.id, item]));
   checkLevel3(normalized['tool-level3'], cardsByDetail, errors);
   checkSeriesFields(normalized, errors);
   checkLevel3ProfileFields(normalized['tool-level3'], errors);
+  checkProductPricingDetails(normalized['tool-level3'], errors);
 
   normalized['vendor-card'].forEach((item, index) => {
     if (!item?.title || !item.vendor_key || !item.summary) errors.push(error('REQUIRED_FIELD_MISSING', `vendor-card[${index}]`, '缺少 title/vendor_key/summary'));

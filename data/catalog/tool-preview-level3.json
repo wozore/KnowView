@@ -1001,15 +1001,14 @@
       ]
     },
     {
-      "id": "tool-level3:chatgpt-pro",
       "vendor_key": "openai",
       "detail_kind": "subscription_plan",
-      "title": "ChatGPT Pro",
+      "title": "ChatGPT Pro $200",
       "vendor_label": "OpenAI",
-      "icon": "🤖",
+      "icon": "🧩",
       "official_url": "https://chatgpt.com/pricing",
-      "status": "active",
-      "summary": "面向研究、编程和高使用量需求的个人订阅。",
+      "status": "partial",
+      "summary": "ChatGPT Pro $200 月度计划，官方称使用量约为 Plus 的 20 倍。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -1022,30 +1021,19 @@
         "amount": 200,
         "currency": "USD",
         "billing_period": "month",
-        "conditions": "美国显示价格；合理使用限制和具体模型权益以官方计划页为准。",
-        "included_models": [
-          "GPT-5.6 Sol Pro"
-        ],
-        "included_models_status": "partial"
+        "conditions": "美国显示价 $200/月；官方称使用量约为 Plus 的 20 倍。自 2026-09-10 暂停新注册与升级；现有订阅不受影响。",
+        "included_models_status": "not_listed"
       },
       "applicable_scenarios": [
         {
-          "title": "研究工作者",
-          "description": "面向研究场景提供更高的使用上限。"
-        },
-        {
-          "title": "高使用量程序员",
-          "description": "包含 GPT-5.6 Sol Pro 等高阶模型，适合高强度编程使用。"
+          "title": "ChatGPT 个人计划",
+          "description": "ChatGPT Pro $200 月度计划，官方称使用量约为 Plus 的 20 倍。"
         }
       ],
       "inapplicable_scenarios": [
         {
-          "title": "轻度使用者",
-          "description": "每月 $200 的成本远超轻度用户需求。"
-        },
-        {
-          "title": "需要严格预算控制的团队",
-          "description": "个人订阅维度，团队规模使用需评估商业方案。"
+          "title": "独立 API 调用",
+          "description": "ChatGPT 订阅不替代 OpenAI API 按量计费。"
         }
       ],
       "sources": [
@@ -1056,8 +1044,14 @@
         {
           "title": "Introducing ChatGPT Go",
           "url": "https://openai.com/index/introducing-chatgpt-go"
+        },
+        {
+          "title": "About ChatGPT Pro tiers",
+          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
         }
-      ]
+      ],
+      "theme": "general",
+      "id": "tool-level3:chatgpt-pro"
     },
     {
       "id": "tool-level3:claude-fable-5",
@@ -3838,7 +3832,7 @@
       "detail_kind": "tool",
       "title": "Kimi Code",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "🧑‍💻",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/code/en",
       "status": "active",
       "summary": "Kimi 官方 CLI 编程 Agent，支持代码阅读、文件编辑、命令执行和多步骤开发任务，并可接入 VS Code 与第三方开发工具。",
@@ -3884,24 +3878,54 @@
           "url": "https://www.kimi.com/code/en"
         },
         {
-          "title": "Kimi Code 官方文档",
+          "title": "Kimi Code documentation",
           "url": "https://www.kimi.com/code/docs/en/"
         },
         {
-          "title": "Kimi Code 会员权益",
+          "title": "Kimi Code membership guide",
           "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
+        },
+        {
+          "title": "Kimi membership pricing",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code CLI release notes",
+          "url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html"
         }
       ],
       "theme": "dev",
-      "id": "tool-level3:kimi-code",
-      "last_updated_date": "2026-09-08"
+      "subscription_plan_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-andante"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-moderato"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegretto"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegro"
+        }
+      ],
+      "last_updated_date": "2026-09-17",
+      "id": "tool-level3:kimi-code"
     },
     {
       "vendor_key": "moonshot",
       "detail_kind": "tool",
       "title": "Kimi Work",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "🗂️",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/kimi-work/overview",
       "status": "active",
       "summary": "Kimi 面向知识工作者的官方 Agent 工具，在 Mac/Windows 桌面端处理本地文件、浏览器操作、数据分析和长任务交付。",
@@ -3943,43 +3967,73 @@
       ],
       "sources": [
         {
-          "title": "Kimi Work 官方说明",
+          "title": "Kimi Work overview",
           "url": "https://www.kimi.com/en/help/kimi-work/overview"
         },
         {
-          "title": "Kimi Work 常见问题",
+          "title": "Kimi Work FAQ",
           "url": "https://www.kimi.com/en/help/kimi-work/kimi-work-faq"
+        },
+        {
+          "title": "Kimi membership pricing",
+          "url": "https://www.kimi.com/en/help/membership/membership-pricing"
+        },
+        {
+          "title": "Kimi plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Work release notes",
+          "url": "https://www.kimi.com/en/help/kimi-work/release-notes"
         }
       ],
       "theme": "dev",
-      "id": "tool-level3:kimi-work",
-      "last_updated_date": "2026-09-08"
+      "subscription_plan_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-andante"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-moderato"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegretto"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:kimi-membership-allegro"
+        }
+      ],
+      "last_updated_date": "2026-09-22",
+      "id": "tool-level3:kimi-work"
     },
     {
-      "id": "tool-level3:kimi-membership-andante",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Andante",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Andante 计划，定位为日常使用，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 49,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥49/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard"
         ],
         "included_models_status": "partial"
       },
@@ -4005,41 +4059,46 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-andante"
     },
     {
-      "id": "tool-level3:kimi-membership-moderato",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Moderato",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Moderato 计划，定位为效率升级，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 99,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥99/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard"
         ],
         "included_models_status": "partial"
       },
@@ -4065,41 +4124,47 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-moderato"
     },
     {
-      "id": "tool-level3:kimi-membership-allegretto",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Allegretto",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Allegretto 计划，定位为专业优选，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 199,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥199/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard",
+          "Kimi Code HighSpeed"
         ],
         "included_models_status": "partial"
       },
@@ -4125,41 +4190,47 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-allegretto"
     },
     {
-      "id": "tool-level3:kimi-membership-allegro",
       "vendor_key": "moonshot",
       "detail_kind": "subscription_plan",
       "title": "Kimi Allegro",
       "vendor_label": "月之暗面（Kimi）",
-      "icon": "💳",
+      "icon": "🧩",
       "official_url": "https://www.kimi.com/en/help/membership/membership-pricing",
-      "status": "active",
+      "status": "partial",
       "summary": "Kimi 会员 Allegro 计划，定位为全能尊享，Kimi Work 可作为会员产品权益使用。",
       "one_m_context": {
         "status": "not_applicable",
-        "reason": "订阅套餐不适用模型上下文窗口字段。"
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
       },
       "api_pricing": {
         "status": "not_applicable",
-        "reason": "订阅套餐不是独立 API 计价项。"
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
       },
       "plan": {
         "amount": 699,
         "currency": "CNY",
         "billing_period": "month",
-        "conditions": "连续包月价格；年付价格、额度和权益以官方套餐页面及账户实际展示为准。",
+        "conditions": "连续包月 ¥699/月；自动续费年订阅有折扣但未列具体金额。2026-07-20 公告称新套餐暂未开放购买，未说明新用户能否购买旧套餐；已订阅旧套餐者可继续使用并按周期续订。Kimi Code Standard 对会员开放；HighSpeed 需 Allegretto 或更高档。",
         "included_models": [
-          "Kimi Work"
+          "Kimi Work",
+          "Kimi Code Standard",
+          "Kimi Code HighSpeed"
         ],
         "included_models_status": "partial"
       },
@@ -4185,15 +4256,20 @@
       ],
       "sources": [
         {
-          "title": "Kimi 会员套餐价格与权益",
+          "title": "Kimi membership pricing",
           "url": "https://www.kimi.com/en/help/membership/membership-pricing"
         },
         {
-          "title": "Kimi 会员权益说明",
-          "url": "https://www.kimi.com/en/help/membership/membership-overview"
+          "title": "Kimi membership plan adjustment notice",
+          "url": "https://www.kimi.com/en/help/kimi-blackboard/plan-adjustment-notice"
+        },
+        {
+          "title": "Kimi Code membership guide",
+          "url": "https://www.kimi.com/en/help/kimi-code/membership-guide"
         }
       ],
-      "theme": "general"
+      "theme": "general",
+      "id": "tool-level3:kimi-membership-allegro"
     },
     {
       "vendor_key": "alibaba",
@@ -9294,13 +9370,11 @@
       "last_updated_date": "2026-06-18"
     },
     {
-      "id": "tool-level3:deepseek-harness",
       "vendor_key": "deepseek",
       "detail_kind": "tool",
-      "theme": "dev",
       "title": "DeepSeek Harness",
       "vendor_label": "深度求索",
-      "icon": "🧰",
+      "icon": "🧩",
       "official_url": "https://www.deepseek.com/harness/en/",
       "status": "partial",
       "summary": "DeepSeek 官方开源 Agent Harness，以插件化方式组合模型、工具、技能、会话、沙箱、存储、循环和界面。",
@@ -9346,15 +9420,34 @@
           "url": "https://www.deepseek.com/harness/en/"
         },
         {
-          "title": "DeepSeek Harness repository",
-          "url": "https://github.com/deepseek-ai/deepseek-harness"
+          "title": "DeepSeek Harness license",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/LICENSE"
         },
         {
-          "title": "DeepSeek Harness architecture",
-          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md"
+          "title": "DeepSeek Harness provider guide",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md"
+        },
+        {
+          "title": "DeepSeek Harness token meter",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/token-meter.md"
+        },
+        {
+          "title": "DeepSeek Harness release commit",
+          "url": "https://github.com/deepseek-ai/deepseek-harness/commit/10ea83bcc3cf97151710cc96dee3a58d54956a40"
         }
       ],
-      "last_updated_date": "2026-09-07"
+      "theme": "dev",
+      "pricing_disclosure": {
+        "status": "external_usage_cost",
+        "text": "DeepSeek Harness 按 MIT 开源许可提供；官方资料未列统一模型/API 单价。连接第三方 provider 或自定义模型 API 时，模型调用可能按相应服务商规则另行计费，具体费用需核对实际 provider 的官方价格。",
+        "source_urls": [
+          "https://github.com/deepseek-ai/deepseek-harness/blob/master/LICENSE",
+          "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md",
+          "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/token-meter.md"
+        ]
+      },
+      "last_updated_date": "2026-09-22",
+      "id": "tool-level3:deepseek-harness"
     },
     {
       "vendor_key": "minimax",
@@ -15766,15 +15859,14 @@
       "theme": "media"
     },
     {
-      "id": "tool-level3:workbuddy",
       "vendor_key": "tencent",
       "detail_kind": "tool",
       "title": "WorkBuddy",
       "vendor_label": "腾讯（混元）",
-      "icon": "💼",
+      "icon": "🧩",
       "official_url": "https://www.codebuddy.ai",
       "status": "active",
-      "summary": "WorkBuddy 是腾讯与 CodeBuddy 团队推出的全能 AI Agent 桌面工作平台，面向全场景办公与智能体协同，支持 Windows、macOS、鸿蒙、银河麒麟与统信系统。",
+      "summary": "WorkBuddy 是腾讯提供的桌面 AI Agent；用户可用自然语言描述任务，由 Agent 规划并执行多步办公工作，处理获授权目录中的文件。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -15789,18 +15881,47 @@
       },
       "applicable_scenarios": [
         {
-          "title": "桌面 Agent 智能协作",
-          "description": "日常办公自动化、多格式文档深度解析与智能体基座开放生态。"
+          "title": "桌面办公自动化",
+          "description": "通过自然语言安排多步办公任务并处理获授权目录中的文件。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "开发者直连 API",
+          "description": "需要程序直接调用模型 API 时，应核对实际模型服务商的接入方式和计费。"
         }
       ],
       "sources": [
         {
-          "title": "腾讯 WorkBuddy 开放平台上线 - IT之家",
-          "url": "https://www.ithome.com/0/999/369.htm"
+          "title": "WorkBuddy overview",
+          "url": "https://www.codebuddy.ai/docs/zh/workbuddy/Overview"
+        },
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
         }
       ],
-      "last_updated_date": "2026-09-07",
-      "theme": "general"
+      "theme": "general",
+      "subscription_plan_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-pro"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:workbuddy-team"
+        }
+      ],
+      "last_updated_date": "2026-08-07",
+      "id": "tool-level3:workbuddy"
     },
     {
       "id": "tool-level3:codebuddy-pro",
@@ -21276,10 +21397,10 @@
       "id": "tool-level3:muse-image"
     },
     {
-      "vendor_key": "microsoft-ai",
+      "vendor_key": "microsoft",
       "detail_kind": "tool",
       "title": "MAI-Image-2.6",
-      "vendor_label": "Microsoft AI",
+      "vendor_label": "Microsoft",
       "icon": "🧩",
       "official_url": "https://microsoft.ai/models/mai-image-2-6",
       "status": "active",
@@ -21322,39 +21443,26 @@
       ],
       "sources": [
         {
-          "title": "[PDF] MAI-Image-2.6 / MAI-Image-2.6-Flash Model Card - Microsoft AI",
-          "url": "https://microsoft.ai/pdf/MAI-Image-2.6-Model-Card.pdf"
-        },
-        {
-          "title": "Microsoft AI",
-          "url": "https://microsoft.ai/?post_type=new"
-        },
-        {
-          "title": "MAI-Image-2.6 launches at No. 2 on Arena ahead of Google ...",
-          "url": "https://microsoft.ai/news/mai-image-2-6-launches-at-no-2-on-arena-ahead-of-google-meta-and-xai"
-        },
-        {
           "title": "MAI-Image-2.6 | Microsoft AI",
           "url": "https://microsoft.ai/models/mai-image-2-6"
         },
         {
-          "title": "Pushing the quality-cost frontier with MAI-Image-2.6 | Microsoft AI",
-          "url": "https://microsoft.ai/news/pushing-the-quality-cost-frontier-with-mai-image-2-6"
+          "title": "MAI-Image-2.6 launch | Microsoft AI",
+          "url": "https://microsoft.ai/news/mai-image-2-6-launches-at-no-2-on-arena-ahead-of-google-meta-and-xai"
         },
         {
-          "title": "Data Summary for MAI-Image-2.6 / 2.6-Flash - Microsoft AI",
-          "url": "https://microsoft.ai/pdf/MAI-Image-2.6-Data-Summary.pdf"
-        },
-        {
-          "title": "Pushing the quality-cost frontier with MAI-Image-2.6 | Microsoft AI",
-          "url": "https://microsoft.ai/blog/pushing-the-quality-cost-frontier-with-mai-image-2-6"
-        },
-        {
-          "title": "[PDF] MAI-Image-2 Model Card - Microsoft AI",
-          "url": "https://microsoft.ai/pdf/MAI-Image-2-Model-Card.pdf"
+          "title": "MAI-Image-2.6 model card",
+          "url": "https://microsoft.ai/pdf/MAI-Image-2.6-Model-Card.pdf"
         }
       ],
       "theme": "general",
+      "pricing_disclosure": {
+        "status": "not_published",
+        "text": "微软官方页面未公布 MAI-Image-2.6 的统一价格或 API 单价，并引导查看 Microsoft Foundry 的具体定价；实际价格需按区域、部署方式和配置核实。",
+        "source_urls": [
+          "https://microsoft.ai/models/mai-image-2-6"
+        ]
+      },
       "last_updated_date": "2026-09-04",
       "id": "tool-level3:mai-image-2.6"
     },
@@ -21652,43 +21760,37 @@
           "url": "https://openai.com/index/introducing-chatgpt-images-2-5"
         },
         {
-          "title": "ChatGPT Images 2.5 System Card - OpenAI Deployment Safety Hub",
-          "url": "https://deploymentsafety.openai.com/chatgpt-images-2-5"
+          "title": "ChatGPT pricing",
+          "url": "https://chatgpt.com/pricing"
         },
         {
-          "title": "The new ChatGPT Images is here",
-          "url": "https://openai.com/index/new-chatgpt-images-is-here"
-        },
-        {
-          "title": "Introducing GPT Images 2.5 in the API and ChatGPT",
-          "url": "https://community.openai.com/t/introducing-gpt-images-2-5-in-the-api-and-chatgpt/1395897"
-        },
-        {
-          "title": "ChatGPT — Release Notes",
-          "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
-        },
-        {
-          "title": "Introducing GPT Images 2.5 in the API and ChatGPT - #12 by safi7yy - Announcements - OpenAI Developer Community",
-          "url": "https://community.openai.com/t/introducing-gpt-images-2-5-in-the-api-and-chatgpt/1395897/12"
-        },
-        {
-          "title": "Introducing GPT Images 2.5 in the API and ChatGPT - #7 by EricGT - Announcements - OpenAI Developer Community",
-          "url": "https://community.openai.com/t/introducing-gpt-images-2-5-in-the-api-and-chatgpt/1395897/7"
-        },
-        {
-          "title": "Pricing | OpenAI API",
-          "url": "https://developers.openai.com/api/docs/pricing"
-        },
-        {
-          "title": "Assistants API Pricing and Token Usage - Page 5 - API - OpenAI Developer Community",
-          "url": "https://community.openai.com/t/assistants-api-pricing-and-token-usage/475526?page=5"
-        },
-        {
-          "title": "GPT-Image-2 Model | OpenAI API",
-          "url": "https://developers.openai.com/api/docs/models/gpt-image-2"
+          "title": "About ChatGPT Pro tiers",
+          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
         }
       ],
       "theme": "general",
+      "subscription_plan_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-free"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-go"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-plus"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-pro-100"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:chatgpt-pro"
+        }
+      ],
       "last_updated_date": "2026-09-08",
       "id": "tool-level3:gpt-images-2.5"
     },
@@ -22026,6 +22128,259 @@
       "release_date": "2026-09-15",
       "model_key": "stepfun-stepaudio-3-gen-preview",
       "id": "tool-level3:stepaudio-3-gen-preview"
+    },
+    {
+      "vendor_key": "openai",
+      "detail_kind": "subscription_plan",
+      "title": "ChatGPT Free",
+      "vendor_label": "OpenAI",
+      "icon": "🧩",
+      "official_url": "https://chatgpt.com/pricing",
+      "status": "active",
+      "summary": "ChatGPT 免费个人计划。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 0,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "美国显示价 $0/月；免费层的模型和使用额度受限制，地区和权益以官方账户页面为准。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "ChatGPT 个人计划",
+          "description": "ChatGPT 免费个人计划。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 调用",
+          "description": "ChatGPT 订阅不替代 OpenAI API 按量计费。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ChatGPT pricing",
+          "url": "https://chatgpt.com/pricing"
+        },
+        {
+          "title": "Introducing ChatGPT Go",
+          "url": "https://openai.com/index/introducing-chatgpt-go"
+        },
+        {
+          "title": "About ChatGPT Pro tiers",
+          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:chatgpt-free"
+    },
+    {
+      "vendor_key": "openai",
+      "detail_kind": "subscription_plan",
+      "title": "ChatGPT Pro $100",
+      "vendor_label": "OpenAI",
+      "icon": "🧩",
+      "official_url": "https://chatgpt.com/pricing",
+      "status": "active",
+      "summary": "ChatGPT Pro $100 月度计划，官方称使用量约为 Plus 的 5 倍。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 100,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "美国显示价 $100/月；官方称使用量约为 Plus 的 5 倍。地区和权益以官方账户页面为准。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "ChatGPT 个人计划",
+          "description": "ChatGPT Pro $100 月度计划，官方称使用量约为 Plus 的 5 倍。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "独立 API 调用",
+          "description": "ChatGPT 订阅不替代 OpenAI API 按量计费。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ChatGPT pricing",
+          "url": "https://chatgpt.com/pricing"
+        },
+        {
+          "title": "Introducing ChatGPT Go",
+          "url": "https://openai.com/index/introducing-chatgpt-go"
+        },
+        {
+          "title": "About ChatGPT Pro tiers",
+          "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:chatgpt-pro-100"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "WorkBuddy Free",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🧩",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "status": "active",
+      "summary": "WorkBuddy Free 免费方案，每月提供 100 基础 credits。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 0,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "免费；每月 100 基础 credits。限时活动：活跃日可额外获 30 credits、开放所有模型、代码补全不限量、自动任务上限 99（常态为 3）；需当天发起有效会话，活动结束后恢复标准配额，结束日期未公布。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "轻量办公自动化",
+          "description": "适合先体验桌面 Agent 与每月基础额度。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "稳定高额度使用",
+          "description": "需要持续更多月度额度或团队共享额度时应评估付费档。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:workbuddy-free"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "WorkBuddy Team",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🧩",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "status": "active",
+      "summary": "WorkBuddy Team：$40/席位/月或 $480/席位/年。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 40,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "$40/席位/月；年付 $480/席位/年。每席位每月 1,000 credits，进入团队共享额度池。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "团队统一管理",
+          "description": "适合需要席位管理、共享额度池与团队协作的组织。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "个人轻量使用",
+          "description": "个人用户可先评估 Free 或 Pro 计划。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:workbuddy-team"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "subscription_plan",
+      "title": "WorkBuddy Pro",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🧩",
+      "official_url": "https://www.codebuddy.ai/docs/workbuddy/pricing",
+      "status": "active",
+      "summary": "WorkBuddy Pro：$10/月或 $96/年，月度共 2,000 credits。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "amount": 10,
+        "currency": "USD",
+        "billing_period": "month",
+        "conditions": "$10/月；年付 $96/年（折合 $8/月）。每月 1,000 基础 + 1,000 奖励 credits；奖励额度有效一个月、不结转。符合 2026-08-07 前已开通且持续自动续订条件的旧 Pro 订阅可能享 $9.95/月价格保护，取消自动续订会失去保护，资格以官方政策为准。限时活动：活跃日另获 50 credits，自动任务上限 99（常态为 15）；需当天发起有效会话，活动结束日期未公布。Pro 订阅或 7 天试用用户不另领 Free 的 100 credits。",
+        "included_models_status": "not_listed"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "个人高频办公 Agent",
+          "description": "需要更多月度额度、全模型可用和更高自动任务上限的个人用户。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "多人共享与统一账单",
+          "description": "团队席位、共享额度池和管理员控制应评估 Team。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "WorkBuddy pricing",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/pricing"
+        },
+        {
+          "title": "WorkBuddy subscription policy",
+          "url": "https://www.codebuddy.ai/docs/workbuddy/Subscription"
+        }
+      ],
+      "theme": "general",
+      "id": "tool-level3:workbuddy-pro"
     }
   ]
 }

@@ -158,7 +158,8 @@ function publishAfterCommit(options) {
   if (options.publishCatalogReleaseDates === false) return null;
   const publish = options.publishCatalogReleaseDatesAfterCommit || publishCatalogReleaseDatesAfterCommit;
   try {
-    return publish() || null;
+    const result = publish();
+    return result?.ok === true ? null : result || null;
   } catch (error) {
     return { code: 'CATALOG_RELEASE_DATES_PUBLISH_FAILED', error: error.message };
   }

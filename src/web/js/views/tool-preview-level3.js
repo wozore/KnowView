@@ -2,6 +2,7 @@ import { escapeHtml, safeExternalUrl, formatPrice, renderTimelinessBadge } from 
 import { getToolDateDisplay } from '../ui/date-display.mjs';
 import { ICON_ARROW_LEFT, ICON_EXTERNAL } from '../ui/ui-icons.js';
 import { brandIconHtml } from '../ui/brand-icons.js';
+import { getCatalogItems } from '../data/data-catalog.js';
 
 function notApplicableHtml(title, value) {
   return value?.status === 'not_applicable'
@@ -66,9 +67,39 @@ function renderPlanPrices(plan) {
   return '<p class="plan-price-line"><b>' + formatPrice(plan.amount, plan.currency) + ' / ' + period + '</b></p>';
 }
 
+function renderSubscriptionPlans(detail, plans) {
+  const linkedPlans = (detail.subscription_plan_refs || [])
+    .map(ref => plans.find(item => item.id === ref.id))
+    .filter(item => item?.detail_kind === 'subscription_plan');
+  if (!linkedPlans.length) return '';
+  return '<div class="intelligence-pricing linked-plans"><h5>套餐价格</h5>' + linkedPlans.map(item => {
+    const plan = item.plan || {};
+    const includedModels = plan.included_models_status === 'not_listed'
+      ? '官方未列出'
+      : plan.included_models?.length ? plan.included_models.map(escapeHtml).join('、') : '';
+    return '<section class="plan-card"><h5>' + escapeHtml(item.title) + '</h5>' + renderPlanPrices(plan) +
+      (plan.conditions ? '<p>' + escapeHtml(plan.conditions) + '</p>' : '') +
+      (includedModels ? '<p><b>主要模型：</b>' + includedModels + '</p>' : '') +
+      '<button class="plan-detail-link" type="button" onclick="openDetail(\'' + escapeHtml(item.id) + '\',null,this,\'' + escapeHtml(detail.id) + '\')">查看套餐详情</button></section>';
+  }).join('') + '</div>';
+}
+
+function renderPricingDisclosure(detail) {
+  const disclosure = detail.pricing_disclosure;
+  if (!disclosure?.text) return '';
+  const title = disclosure.status === 'external_usage_cost' ? '额外使用费用' : '公开单价';
+  const sources = (disclosure.source_urls || []).map(url => {
+    const source = detail.sources?.find(item => item.url === url);
+    return source ? '<a href="' + escapeHtml(safeExternalUrl(url)) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(source.title) + '</a>' : '';
+  }).filter(Boolean);
+  return '<div class="intelligence-pricing pricing-disclosure"><h5>' + title + '</h5><p>' + escapeHtml(disclosure.text) + '</p>' + (sources.length ? '<small>依据：' + sources.join(' · ') + '</small>' : '') + '</div>';
+}
+
 function renderToolLevel3(request = {}) {
   const { detail, toolKey = null, showCompare = false, compareSelected = false, backRef = null } = request;
   if (!detail) return '<div class="intelligence-unavailable">工具详情暂不可用。</div>';
+  const allDetails = request.subscriptionPlans || getCatalogItems('tool-level3');
+  const isTool = detail.detail_kind === 'tool';
   const kindLabel = detail.detail_kind === 'api_model' ? '模型' : detail.detail_kind === 'subscription_plan' ? '套餐' : detail.detail_kind === 'product_variant' ? '变体' : '工具';
   const dateDisplay = getToolDateDisplay(detail);
   const showCompareAction = showCompare && detail.detail_kind !== 'subscription_plan';
@@ -78,24 +109,32 @@ function renderToolLevel3(request = {}) {
     ).join(' · ') + (dateDisplay ? '<span>' + dateDisplay.label + ' ' + escapeHtml(dateDisplay.value) + '</span>' : '') + '</div>'
     : '';
   const context = detail.one_m_context;
-  const contextHtml = context?.status === 'not_applicable'
-    ? notApplicableHtml('上下文窗口', context)
-    : context
-      ? '<div class="intelligence-context"><b>1M 上下文：</b>' + escapeHtml({ native: '原生支持 1M', conditional: '特定条件支持 1M', not_supported: '不支持 1M', unknown: '1M 支持情况待核验' }[context.status] || '资料待核验') + (context.tokens ? '（' + Number(context.tokens).toLocaleString('zh-CN') + ' tokens）' : '') + (context.conditions ? '<p>' + escapeHtml(context.conditions) + '</p>' : '') + '</div>'
-      : '';
+  const contextHtml = isTool || detail.detail_kind === 'subscription_plan'
+    ? ''
+    : context?.status === 'not_applicable'
+      ? notApplicableHtml('上下文窗口', context)
+      : context
+        ? '<div class="intelligence-context"><b>1M 上下文：</b>' + escapeHtml({ native: '原生支持 1M', conditional: '特定条件支持 1M', not_supported: '不支持 1M', unknown: '1M 支持情况待核验' }[context.status] || '资料待核验') + (context.tokens ? '（' + Number(context.tokens).toLocaleString('zh-CN') + ' tokens）' : '') + (context.conditions ? '<p>' + escapeHtml(context.conditions) + '</p>' : '') + '</div>'
+        : '';
   const pricing = detail.api_pricing;
   const rates = pricing?.status === 'not_applicable' ? [] : pricing?.rate_cards || [];
-  const pricingHtml = pricing?.status === 'not_applicable'
-    ? notApplicableHtml('API 价格', pricing)
-    : rates.length
-      ? '<div class="intelligence-pricing"><h5>API 价格</h5>' + rates.map(renderRateCard).join('') + '</div>'
-      : '';
+  const pricingHtml = isTool || detail.detail_kind === 'subscription_plan'
+    ? ''
+    : pricing?.status === 'not_applicable'
+      ? notApplicableHtml('API 价格', pricing)
+      : rates.length
+        ? '<div class="intelligence-pricing"><h5>API 价格</h5>' + rates.map(renderRateCard).join('') + '</div>'
+        : '';
   const plan = detail.plan;
-  const planHtml = plan?.status === 'not_applicable'
-    ? notApplicableHtml('套餐信息', plan)
-    : plan
-      ? '<div class="plan-card"><h5>套餐信息</h5>' + renderPlanPrices(plan) + '<p>' + escapeHtml(plan.conditions || '') + '</p><p><b>主要模型：</b>' + (plan.included_models_status === 'not_listed' ? '官方未列出' : plan.included_models?.length ? plan.included_models.map(escapeHtml).join('、') : '官方资料待核验') + '</p></div>'
-      : '';
+  const planHtml = isTool
+    ? ''
+    : plan?.status === 'not_applicable'
+      ? notApplicableHtml('套餐信息', plan)
+      : plan
+        ? '<div class="plan-card"><h5>套餐信息</h5>' + renderPlanPrices(plan) + '<p>' + escapeHtml(plan.conditions || '') + '</p><p><b>主要模型：</b>' + (plan.included_models_status === 'not_listed' ? '官方未列出' : plan.included_models?.length ? plan.included_models.map(escapeHtml).join('、') : '官方资料待核验') + '</p></div>'
+        : '';
+  const linkedPlansHtml = isTool ? renderSubscriptionPlans(detail, allDetails) : '';
+  const disclosureHtml = isTool ? renderPricingDisclosure(detail) : '';
   const compareHtml = showCompareAction
     ? '<div class="leaf-actions"><button class="compare-toggle ' + (compareSelected ? 'selected' : '') + '" onclick="toggleCompareRef(\'' + escapeHtml(detail.id) + '\',\'' + escapeHtml(detail.id) + '\',this)">' + (compareSelected ? '已选' : '+对比') + '</button></div>'
     : '';
@@ -115,7 +154,7 @@ function renderToolLevel3(request = {}) {
   return '<div class="model-index-page model-leaf-page">' + backHtml +
     '<section class="node-overview model-index-overview"><h2>' + detailIcon + ' ' + escapeHtml(detail.title) + '</h2><div class="vendor">' + vendorHtml + '<a href="' + escapeHtml(safeExternalUrl(detail.official_url)) + '" target="_blank" rel="noopener noreferrer">官网 ' + ICON_EXTERNAL + '</a></div></section>' +
     '<div class="model-leaf-panel"><div class="model-panel-heading"><div><span class="node-kind-badge leaf">具体' + kindLabel + '</span><h4>' + escapeHtml(detail.title) + '</h4>' + (dateDisplay?.freshnessEligible ? renderTimelinessBadge(dateDisplay.value) : '') + '</div>' + compareHtml + '</div>' +
-    '<div class="intelligence-item-body"><p>' + escapeHtml(detail.summary || '') + '</p>' + contextHtml + renderFreeTier(detail.free_tier) + renderChineseSupport(detail.chinese_support) + pricingHtml + planHtml + renderScenario('适用场景及说明', detail.applicable_scenarios) + renderScenario('不适用场景及说明', detail.inapplicable_scenarios) + sourceHtml + '</div></div></div>';
+    '<div class="intelligence-item-body"><p>' + escapeHtml(detail.summary || '') + '</p>' + contextHtml + renderFreeTier(detail.free_tier) + renderChineseSupport(detail.chinese_support) + pricingHtml + planHtml + linkedPlansHtml + disclosureHtml + renderScenario('适用场景及说明', detail.applicable_scenarios) + renderScenario('不适用场景及说明', detail.inapplicable_scenarios) + sourceHtml + '</div></div></div>';
 }
 
 export { renderToolLevel3, renderScenario, renderRateCard, renderFreeTier, renderChineseSupport, notApplicableHtml };

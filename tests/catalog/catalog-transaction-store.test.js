@@ -386,3 +386,20 @@ test('提交后发布共享日期失败仍保留已提交 catalog 与 dist', () 
     assert.equal(fs.existsSync(path.join(context.projectDir, 'dist')), true);
   } finally { clean(context.root); }
 });
+
+test('successful shared date publication does not set outcome_pending', () => {
+  const context = makeTransactionFixture();
+  try {
+    const result = commitSnapshotChange(context.snapshot, {
+      ...context.options,
+      expectedRevision: revisionOf(context.snapshot),
+      runId: 'fixture-publish-success',
+      buildDist: false,
+      publishCatalogReleaseDates: true,
+      publishCatalogReleaseDatesAfterCommit() { return { ok: true, count: 158 }; },
+    });
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.outcome_pending, undefined);
+    assert.equal(result.outcome_warning, undefined);
+  } finally { clean(context.root); }
+});

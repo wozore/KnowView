@@ -146,7 +146,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 - 如果 `name` 无法稳定转成 ASCII 业务键，需要手工填写 `tool_key`；如果 `vendor_name` 无法稳定转成 ASCII 业务键，需要手工填写 `vendor_key`。
 - `modality` 与 `detail_kind` 共同决定 CatalogProfile。API 模型必须明确 `text`、`video`、`image` 或 `audio`，不能让视频模型落入文本 token/context 假设。
 - `model_key`：`api_model` 类 detail 必填，格式为 `<vendor_key>-<identity>` 的单横线小写键（如 `deepseek-deepseek-v4.1-flash`）；缺失时报 `MODEL_KEY_REQUIRED`，非 `api_model` 携带时报 `MODEL_KEY_NOT_APPLICABLE`。
-- `known_fields` 只放维护者已经确定的结构提示；当前稳定支持 `theme`、`icon` 和 `integrated_release_date`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），合成时仅在模型未给出 `release_date` 且记录不是 `tool` 时作为确定性兜底填入。摘要、价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
+- `known_fields` 只放维护者已经确定的结构提示；支持 `theme`、`icon`、`integrated_release_date`、`subscription_plan_refs` 和 `pricing_disclosure`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），合成时仅在模型未给出 `release_date` 且记录不是 `tool` 时作为确定性兜底填入。`subscription_plan_refs` 是显式的同厂商 `subscription_plan` 三级详情引用；`pricing_disclosure` 使用 `{status, text, source_urls}`，状态为 `not_published` 或 `external_usage_cost`，每个 URL 必须与 ResearchResult 中的官方来源匹配。套餐关系不能推断，价格说明不能缺少官方证据；摘要、直接价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
 - `repair_layers` 用于声明本次确实需要替换的污染层；未列入且已存在的健康层为 `noop`，不会因新增一个模型而重写厂商资料。
 
 生成器对本次新建或替换的记录执行严格完整性校验：每个适用契约字段都必须是非空、类型正确的明确值，禁止 `null`、空字符串、空数组、`unknown/未知` 等占位值。`one_m_context`、`api_pricing` 或 `plan` 确实不适用时，必须使用：

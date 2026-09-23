@@ -107,4 +107,5 @@ test('synthesis instructions cover field rules, enums, and provenance requiremen
   assert.match(instructions, /禁止使用 vendor_features/);
   assert.match(instructions, /禁止用逗号、顿号或分号把多个特点拼接/);
   assert.match(instructions, /不得创建不存在的 source_id/);
+  assert.match(instructions, /subscription_plan_refs 与 pricing_disclosure 不属于模型输出字段/);
 });
