@@ -8775,10 +8775,10 @@
       "id": "tool-card:hy-image-3.5",
       "tool_key": "hy-image-3.5",
       "vendor_key": "tencent",
-      "title": "Hy Image 3.5",
+      "title": "Hy Image 3.5 Preview",
       "vendor_label": "腾讯（混元）",
       "icon": "🖼️",
-      "summary": "混元生图系列 API 模型，通过腾讯云 TokenHub 提供 hy-image-v3 与 hy-image-v3.5-preview，支持文生图、参考生图与多轮编辑，同步返回生成结果。",
+      "summary": "腾讯混元 Hy-Image-3.5-Preview（hy-image-v3.5-preview）图像生成模型，支持文生图、参考生图和多轮编辑，采用 Chat/Messages 协议同步调用，最高支持 4K 输出。",
       "theme": "vision",
       "scenes": [
         "文生图创作",
@@ -8786,7 +8786,7 @@
         "多轮图像编辑",
         "营销与设计素材生成"
       ],
-      "best_for_preview": "需要文生图、参考生图与多轮编辑能力的图像生成场景，hy-image-v3.5-preview 最高支持 4096×4096（4K）输出。",
+      "best_for_preview": "需要文生图、参考生图和多轮对话式编辑能力的图像生成场景；官方 API model ID 为 hy-image-v3.5-preview，最高支持 4K 输出。",
       "not_for_preview": "需要异步任务轮询、生成图片长期托管（返回 URL 仅 12 小时有效）或超出面积与尺寸约束的输出场景。",
       "price_badge": "usage_based",
       "access_level": "受限",
@@ -8797,7 +8797,10 @@
         "文生图创作",
         "参考图生图",
         "多轮图像编辑",
-        "营销与设计素材生成"
+        "营销与设计素材生成",
+        "Hy Image 3.5 Preview",
+        "Hy-Image-3.5-preview",
+        "hy-image-v3.5-preview"
       ],
       "detail_ref": {
         "kind": "tool-level3",
@@ -8840,41 +8843,6 @@
       },
       "detail_kind": "api_model",
       "model_key": "alibaba-qwen-image-2.1"
-    },
-    {
-      "id": "tool-card:hy-image-3.0",
-      "tool_key": "hy-image-3.0",
-      "vendor_key": "tencent",
-      "title": "Hy Image 3.0",
-      "vendor_label": "腾讯（混元）",
-      "icon": "🖼️",
-      "summary": "混元生图是腾讯混元推出的图像生成模型系列，本文档介绍通过腾讯云大模型服务平台 TokenHub 调用 Hy-Image-3.0（hy-image-v3）与 Hy-Image-3.5-Preview（hy-image-v3.5-preview）的方式：两者均为同步调用，一次请求直接返回生成结果；Hy-Image-3.0 支持文生图、参考生图、37 组预设尺寸、prompt 自动改写与自定义水印；Hy-Image-3.5-Preview 采用 OpenAI Chat 风格 messages 协议，支持多模态输入、多轮编辑、思维链改写、外部搜索增强，最高支持 4096×4096（4K）输出。",
-      "theme": "vision",
-      "scenes": [
-        "文生图与参考生图",
-        "多轮图像编辑",
-        "营销与内容创作配图生成",
-        "漫画、表情包与科普插画生成"
-      ],
-      "best_for_preview": "需要通过 API 同步生成图片、支持参考图输入与多轮编辑上下文的图像生成开发场景，最高可达 4K 输出。",
-      "not_for_preview": "需要异步任务提交与轮询的批处理流程（两个模型均为同步调用），以及生成图片的长期托管（返回 URL 为临时地址，有效期仅 12 小时）。",
-      "price_badge": "usage_based",
-      "access_level": "受限",
-      "search_terms": [
-        "Hy Image 3.0",
-        "腾讯（混元）",
-        "hy-image-3.0",
-        "文生图与参考生图",
-        "多轮图像编辑",
-        "营销与内容创作配图生成",
-        "漫画、表情包与科普插画生成"
-      ],
-      "detail_ref": {
-        "kind": "tool-level3",
-        "id": "tool-level3:hy-image-3.0"
-      },
-      "detail_kind": "api_model",
-      "model_key": "tencent-hy-image-3.0"
     }
   ]
 }

@@ -344,6 +344,19 @@ test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归�
   assert.ok(vendor.search_terms.some(term => /microsoft ai/i.test(term)));
 });
 
+test('真实 Catalog 保留 Hy Image 3.5 Preview 并移除重复的 Hy Image 3.0 条目', () => {
+  const snapshot = realSnapshot();
+  const series = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:tencent:hunyuan-image-video');
+  const preview = snapshot['tool-level3'].find(item => item.id === 'tool-level3:hy-image-3.5');
+  assert.ok(series.detail_refs.some(ref => ref.id === 'tool-level3:hy-image-3.5'));
+  assert.equal(series.detail_refs.some(ref => ref.id === 'tool-level3:hy-image-3.0'), false);
+  assert.equal(snapshot['tool-level3'].some(item => item.id === 'tool-level3:hy-image-3.0'), false);
+  assert.equal(snapshot['tool-card'].some(item => item.id === 'tool-card:hy-image-3.0'), false);
+  assert.equal(preview.title, 'Hy Image 3.5 Preview');
+  assert.equal(preview.model_key, 'tencent-hy-image-3.5-preview');
+  assert.equal(preview.release_date, undefined);
+});
+
 test('集成：仅政策指定历史成员更新详情和卡片可见性', () => {
   const policy = loadSeriesPolicy();
   const before = realSnapshot();

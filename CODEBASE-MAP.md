@@ -370,7 +370,7 @@
 - [vibe-hub-evidence.test.js](tests/catalog/vibe-hub-evidence.test.js) — vibe-hub 提取回归：term→slug（中文 null）、JSON-LD/正文结构化提取、缓存命中零网络、未命中 GET+写缓存、TTL 过期重抓、404/网络失败 null、串行节流、过期刷新与失败保留。
 - [catalog-profile-contract.test.js](tests/catalog/catalog-profile-contract.test.js) — CatalogProfile 适用性、video API 必需谓词、稳定目标与逐层 create/replace/noop 规划回归。
 - [catalog-series-policy.test.js](tests/catalog/catalog-series-policy.test.js) — LLM 二级系列政策契约回归：16 厂商矩阵、validator fail-closed、Anthropic 产品线单代唯一与历史日期、usageKindOf general/专用/uncovered 分类、vendor 别名、人工 placement ref（kind/存在性/vendor 归属）、稳定 ID 与 slugify 点号冲突。
-- [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、历史详情/卡片转移、新孤儿阻断、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、既有浮空详情入 warnings、非政策厂商零漂移；集成真实快照迁移后校验通过，MAI-Image-2.6 归入 MAI 系列。
+- [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、历史详情/卡片转移、新孤儿阻断、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、既有浮空详情入 warnings、非政策厂商零漂移；真实快照校验 MAI-Image-2.6 归入 MAI 系列及 Hunyuan 图像项清单。
 - [catalog-series-placement-ai.test.js](tests/catalog/catalog-series-placement-ai.test.js) — 二级系列 AI 分类 Adapter 回归：prompt 白名单无密钥、结构校验、缺 ledger fail-closed、resolveSeriesPlacement 人工优先/非法拒绝、确定性 decision existing/create、专用与无政策厂商 not_applicable、GLM 第 4 个成员 migration_required、needs_ai 未放行/放行+AI hint/冲突/失败各分支、applyPlacementToSeed 写入 seed。
 - [series-data-audit.test.js](tests/catalog/series-data-audit.test.js) — 系列/模型键数据纯只读审计回归：12 类 finding 与 5 类建议动作枚举、干净快照零 finding、全注入输入零改动、空输入鲁棒。
 - [model-identity-verification.test.js](tests/catalog/model-identity-verification.test.js) — 模型/系列官方身份核验全离线回归：AI 建议值校验与正文出现判定、回执复用与 24 小时 TTL、成员发现与 catalog model_key 索引、receipts 临时目录注入。

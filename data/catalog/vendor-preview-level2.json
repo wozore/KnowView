@@ -2217,7 +2217,7 @@
       "vendor_key": "tencent",
       "title": "混元图像与视频生成",
       "official_url": "https://cloud.tencent.com/document/product/1729/105925",
-      "summary": "腾讯混元原生多模态视觉生成家族，涵盖 80B MoE 混元图像 3.0 与腾讯云混元生视频服务。",
+      "summary": "腾讯混元视觉生成家族，涵盖混元图像 3.0、Hy Image 3.5 Preview API 与腾讯云混元生视频服务。",
       "status": "active",
       "series_kind": "model_series",
       "detail_refs": [
@@ -2232,10 +2232,6 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:hy-image-3.5"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:hy-image-3.0"
         }
       ]
     },

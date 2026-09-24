@@ -135,6 +135,7 @@ test('profile planning rejects unsupported modality instead of falling back sile
 test('model names provide a modality fallback when the approved pending card omits modality', () => {
   assert.equal(inferModality({ detail_kind: 'api_model', name: 'Qwen-Image-2.1' }), 'image');
   assert.equal(inferModality({ detail_kind: 'api_model', name: 'Hy Image 3.5' }), 'image');
+  assert.equal(inferModality({ detail_kind: 'api_model', name: 'Hy Image 3.5 Preview' }), 'image');
   assert.equal(inferModality({ detail_kind: 'api_model', name: 'StepAudio 3 ASR' }), 'audio');
   assert.equal(inferModality({ detail_kind: 'api_model', name: 'GPT-6 Luna' }), 'text');
   assert.equal(inferModality({ detail_kind: 'api_model', name: 'GPT-6 Luna', modality: 'audio' }), 'audio', '显式人工模态优先');

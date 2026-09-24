@@ -23009,12 +23009,12 @@
     {
       "vendor_key": "tencent",
       "detail_kind": "api_model",
-      "title": "Hy Image 3.5",
+      "title": "Hy Image 3.5 Preview",
       "vendor_label": "腾讯（混元）",
       "icon": "🖼️",
       "official_url": "https://cloud.tencent.com/document/product/1823/135745",
       "status": "active",
-      "summary": "混元生图系列 API 模型，通过腾讯云 TokenHub 提供 hy-image-v3 与 hy-image-v3.5-preview，支持文生图、参考生图与多轮编辑，同步返回生成结果。",
+      "summary": "腾讯混元 Hy-Image-3.5-Preview（hy-image-v3.5-preview）图像生成模型，支持文生图、参考生图和多轮编辑，采用 Chat/Messages 协议同步调用，最高支持 4K 输出。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -23062,7 +23062,7 @@
         },
         {
           "title": "高分辨率批量离线任务",
-          "description": "两个模型均为同步调用，且 hy-image-v3 面积上限为 1024×1024，不适合大规模异步高分辨率任务。"
+          "description": "该 API 为同步调用，不支持异步任务提交与轮询；超出官方尺寸和面积约束的输出也不适用。"
         }
       ],
       "sources": [
@@ -23092,7 +23092,6 @@
         }
       ],
       "theme": "vision",
-      "release_date": "2023-10-26",
       "model_key": "tencent-hy-image-3.5-preview",
       "id": "tool-level3:hy-image-3.5"
     },
@@ -23169,96 +23168,6 @@
       "release_date": "2026-09-20",
       "model_key": "alibaba-qwen-image-2.1",
       "id": "tool-level3:qwen-image-2.1"
-    },
-    {
-      "vendor_key": "tencent",
-      "detail_kind": "api_model",
-      "title": "Hy Image 3.0",
-      "vendor_label": "腾讯（混元）",
-      "icon": "🖼️",
-      "official_url": "https://cloud.tencent.com/document/product/1823/135745",
-      "status": "active",
-      "summary": "混元生图是腾讯混元推出的图像生成模型系列，本文档介绍通过腾讯云大模型服务平台 TokenHub 调用 Hy-Image-3.0（hy-image-v3）与 Hy-Image-3.5-Preview（hy-image-v3.5-preview）的方式：两者均为同步调用，一次请求直接返回生成结果；Hy-Image-3.0 支持文生图、参考生图、37 组预设尺寸、prompt 自动改写与自定义水印；Hy-Image-3.5-Preview 采用 OpenAI Chat 风格 messages 协议，支持多模态输入、多轮编辑、思维链改写、外部搜索增强，最高支持 4096×4096（4K）输出。",
-      "one_m_context": {
-        "status": "not_applicable",
-        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
-      },
-      "api_pricing": {
-        "status": "available",
-        "rate_cards": [
-          {
-            "label": "TokenHub 在线推理后付费",
-            "pricing_basis": "按 token 用量计费",
-            "currency": "CNY",
-            "metrics": [
-              {
-                "label": "total_tokens",
-                "amount": 1024,
-                "unit": "tokens/次（响应示例）"
-              }
-            ],
-            "conditions": "需在控制台-在线推理-视觉模型处开启对应模型的后付费，按本次任务消耗的 token 数（tokenhub_usage.total_tokens）用于计费与对账。"
-          }
-        ]
-      },
-      "plan": {
-        "status": "not_applicable",
-        "reason": "当前记录不是订阅套餐。"
-      },
-      "applicable_scenarios": [
-        {
-          "title": "文生图与参考生图",
-          "description": "Hy-Image-3.0 凭文本提示词同步生成图片，支持 0~3 张参考图、自定义尺寸、生成种子与 prompt 自动改写。"
-        },
-        {
-          "title": "多轮编辑与多模态创作",
-          "description": "Hy-Image-3.5-Preview 以 Chat/Messages 协议提交单轮或多轮生图与编辑请求，支持文本加参考图输入、思维链改写与外部搜索增强，最高 4K 输出。"
-        }
-      ],
-      "inapplicable_scenarios": [
-        {
-          "title": "长期图片托管",
-          "description": "接口返回的图片 URL 为临时地址，有效期 12 小时且带鉴权校验，需及时下载转存，不适合直接作为长期存储链接。"
-        },
-        {
-          "title": "无并发控制的批量任务",
-          "description": "默认并发数有限，超过并发上限会返回 429 错误，需退避重试并控制调用并发，不适合无节流的高并发批量调用。"
-        }
-      ],
-      "sources": [
-        {
-          "title": "https://cloud.tencent.com/document/product/1823/135745",
-          "url": "https://cloud.tencent.com/document/product/1823/135745"
-        },
-        {
-          "title": "https://cloud.tencent.com/document/product/1823/130051",
-          "url": "https://cloud.tencent.com/document/product/1823/130051"
-        },
-        {
-          "title": "来了！腾讯混元3D世界模型正式发布并开源-腾讯云开发者社区-腾讯云（发布时间：2025-07-29 08:35:59）",
-          "url": "https://cloud.tencent.com/developer/article/2548846"
-        },
-        {
-          "title": "腾讯混元3D世界模型1.0发布并开源：文字图片生成可交互3D场景（发布时间：2025-07-28 04:00:36）",
-          "url": "https://cloud.tencent.com/developer/news/2805297"
-        },
-        {
-          "title": "全球最活跃3D模型平台接入腾讯混元！（发布时间：2025-07-30 10:30:11）",
-          "url": "https://cloud.tencent.com/developer/news/2812505"
-        },
-        {
-          "title": "全球首个设计智能体Lovart上线！腾讯混元成「默认设置」（发布时间：2025-07-28 11:00:31）",
-          "url": "https://cloud.tencent.com/developer/news/2803720"
-        },
-        {
-          "title": "腾讯自研混元大模型正式亮相",
-          "url": "https://www.tencent.com/zh-cn/articles/2201685.html"
-        }
-      ],
-      "theme": "vision",
-      "release_date": "2026-09-21",
-      "model_key": "tencent-hy-image-3.0",
-      "id": "tool-level3:hy-image-3.0"
     }
   ]
 }
