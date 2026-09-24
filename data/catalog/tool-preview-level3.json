@@ -23014,7 +23014,7 @@
       "icon": "🖼️",
       "official_url": "https://cloud.tencent.com/document/product/1823/135745",
       "status": "active",
-      "summary": "腾讯混元 Hy-Image-3.5-Preview（hy-image-v3.5-preview）图像生成模型，支持文生图、参考生图和多轮编辑，采用 Chat/Messages 协议同步调用，最高支持 4K 输出。",
+      "summary": "腾讯混元 Hy-Image-3.5-Preview（API ID：hy-image-v3.5-preview）图像生成模型，支持文生图、参考生图和多轮编辑，采用 Chat/Messages 协议同步调用，最高支持 4K 输出。",
       "one_m_context": {
         "status": "not_applicable",
         "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
@@ -23023,17 +23023,58 @@
         "status": "available",
         "rate_cards": [
           {
-            "label": "TokenHub 在线推理后付费",
-            "pricing_basis": "按 token 用量计费",
+            "label": "Hy-Image-3.5-preview · 1K 输出",
+            "pricing_basis": "按图片生成实际 Token 用量计费，10 元/百万 tokens",
             "currency": "CNY",
             "metrics": [
               {
-                "label": "total_tokens",
-                "amount": 0,
-                "unit": "按实际消耗 token 数计费"
+                "label": "参考 Token 用量",
+                "amount": 15000,
+                "unit": "tokens/张"
+              },
+              {
+                "label": "参考费用",
+                "amount": 0.15,
+                "unit": "元/张"
               }
             ],
-            "conditions": "需在 TokenHub 控制台-在线推理-视觉模型处开启对应模型的后付费，按本次任务消耗的 tokenhub_usage.total_tokens 计费。"
+            "conditions": "腾讯云官方模型价格表参考值；实际用量随生成参数变化，按控制台与最终账单结算。"
+          },
+          {
+            "label": "Hy-Image-3.5-preview · 2K 输出",
+            "pricing_basis": "按图片生成实际 Token 用量计费，10 元/百万 tokens",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "参考 Token 用量",
+                "amount": 15000,
+                "unit": "tokens/张"
+              },
+              {
+                "label": "参考费用",
+                "amount": 0.15,
+                "unit": "元/张"
+              }
+            ],
+            "conditions": "腾讯云官方模型价格表参考值；实际用量随生成参数变化，按控制台与最终账单结算。"
+          },
+          {
+            "label": "Hy-Image-3.5-preview · 4K 输出",
+            "pricing_basis": "按图片生成实际 Token 用量计费，10 元/百万 tokens",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "参考 Token 用量",
+                "amount": 20000,
+                "unit": "tokens/张"
+              },
+              {
+                "label": "参考费用",
+                "amount": 0.2,
+                "unit": "元/张"
+              }
+            ],
+            "conditions": "腾讯云官方模型价格表参考值；实际用量随生成参数变化，按控制台与最终账单结算。"
           }
         ]
       },
@@ -23067,33 +23108,26 @@
       ],
       "sources": [
         {
-          "title": "https://cloud.tencent.com/document/product/1823/135745",
+          "title": "Hy Image3.5 Preview 发布公告 - 腾讯混元",
+          "url": "https://hunyuan.tencent.com/"
+        },
+        {
+          "title": "Hy 生图调用指南 - 腾讯云 TokenHub",
           "url": "https://cloud.tencent.com/document/product/1823/135745"
         },
         {
-          "title": "https://cloud.tencent.com/document/product/1823/130051",
+          "title": "TokenHub 模型列表 - 腾讯云",
           "url": "https://cloud.tencent.com/document/product/1823/130051"
         },
         {
-          "title": "腾讯大模型新进展：超越GPT3.5、上线文生图、接入180个业务（发布时间：2023-10-28 01:20:26）",
-          "url": "https://cloud.tencent.com/developer/news/1227406"
-        },
-        {
-          "title": "腾讯混元开源大语言模型、Claude 3.5 Haiku API价格公布（发布时间：2024-11-06 10:00:38）",
-          "url": "https://cloud.tencent.com/developer/news/1879359"
-        },
-        {
-          "title": "腾讯混元大模型与GPT3.5代码能力对比（发布时间：2023-11-22 04:52:43）",
-          "url": "https://cloud.tencent.com/developer/news/1252064"
-        },
-        {
-          "title": "腾讯搜狗输入法上线 “文字图片”AI功能 输入文字秒变精致图（发布时间：2025-08-27 05:00:26）",
-          "url": "https://cloud.tencent.com/developer/news/2906699"
+          "title": "TokenHub 模型价格 - 腾讯云",
+          "url": "https://cloud.tencent.com/document/product/1823/130055"
         }
       ],
       "theme": "vision",
       "model_key": "tencent-hy-image-3.5-preview",
-      "id": "tool-level3:hy-image-3.5"
+      "id": "tool-level3:hy-image-3.5",
+      "release_date": "2026-09-21"
     },
     {
       "vendor_key": "alibaba",

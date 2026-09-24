@@ -344,7 +344,7 @@ test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归�
   assert.ok(vendor.search_terms.some(term => /microsoft ai/i.test(term)));
 });
 
-test('真实 Catalog 保留 Hy Image 3.5 Preview 并移除重复的 Hy Image 3.0 条目', () => {
+test('真实 Catalog 校验 Hy Image 3.5 Preview 信息与发布时间并移除重复 3.0 条目', () => {
   const snapshot = realSnapshot();
   const series = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:tencent:hunyuan-image-video');
   const preview = snapshot['tool-level3'].find(item => item.id === 'tool-level3:hy-image-3.5');
@@ -354,7 +354,10 @@ test('真实 Catalog 保留 Hy Image 3.5 Preview 并移除重复的 Hy Image 3.0
   assert.equal(snapshot['tool-card'].some(item => item.id === 'tool-card:hy-image-3.0'), false);
   assert.equal(preview.title, 'Hy Image 3.5 Preview');
   assert.equal(preview.model_key, 'tencent-hy-image-3.5-preview');
-  assert.equal(preview.release_date, undefined);
+  assert.equal(preview.release_date, '2026-09-21');
+  assert.deepEqual(preview.api_pricing.rate_cards.map(rate => rate.metrics.find(item => item.label === '参考费用').amount), [0.15, 0.15, 0.2]);
+  assert.ok(preview.sources.some(source => source.url === 'https://hunyuan.tencent.com/'));
+  assert.ok(preview.sources.some(source => source.url === 'https://cloud.tencent.com/document/product/1823/130055'));
 });
 
 test('集成：仅政策指定历史成员更新详情和卡片可见性', () => {
