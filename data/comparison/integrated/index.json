@@ -1,23 +1,23 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-23T23:39:47.765Z",
+  "generated_at": "2026-09-24T23:52:11.868Z",
   "model_count": 259,
   "series_count": 115,
   "sources": {
     "openrouter": {
-      "fetched_at": "2026-09-22T23:35:41.355Z",
-      "count": 454
+      "fetched_at": "2026-09-24T23:52:12.010Z",
+      "count": 460
     },
     "lmarena": {
-      "fetched_at": "2026-09-22T23:35:56.993Z",
-      "count": 1129
+      "fetched_at": "2026-09-24T23:52:27.016Z",
+      "count": 1134
     },
     "livebench": {
       "fetched_at": "2026-09-17T23:33:10.572Z",
       "count": 58
     },
     "llm_stats": {
-      "fetched_at": "2026-09-22T23:35:57.319Z",
+      "fetched_at": "2026-09-24T23:52:27.198Z",
       "count": 398
     }
   },
@@ -144,6 +144,7 @@
               "composite_score": null,
               "sources": [
                 "openrouter",
+                "lmarena",
                 "llm_stats"
               ]
             }
@@ -198,6 +199,7 @@
               "composite_score": null,
               "sources": [
                 "openrouter",
+                "lmarena",
                 "llm_stats"
               ]
             }
@@ -3996,6 +3998,7 @@
               "composite_score": null,
               "sources": [
                 "openrouter",
+                "lmarena",
                 "llm_stats"
               ]
             }
@@ -6828,9 +6831,14 @@
       "member_variant_count": 1,
       "has_composite": false,
       "composite_score": null,
-      "degrees": {},
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
       "sources": [
         "openrouter",
+        "lmarena",
         "llm_stats"
       ],
       "file": "data.json"
@@ -10478,9 +10486,14 @@
       "member_variant_count": 1,
       "has_composite": false,
       "composite_score": null,
-      "degrees": {},
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
       "sources": [
         "openrouter",
+        "lmarena",
         "llm_stats"
       ],
       "file": "data.json"
@@ -12648,9 +12661,14 @@
       "member_variant_count": 1,
       "has_composite": false,
       "composite_score": null,
-      "degrees": {},
+      "degrees": {
+        "lmarena": [
+          "xhigh"
+        ]
+      },
       "sources": [
         "openrouter",
+        "lmarena",
         "llm_stats"
       ],
       "file": "data.json"
