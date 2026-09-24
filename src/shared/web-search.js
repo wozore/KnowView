@@ -113,14 +113,120 @@ async function searchWeb(options = {}) {
     : searchTavilyProvider(options, includeDomains, excludeDomains, maxResults);
 }
 
+function attemptOf(result, provider) {
+  return {
+    provider,
+    ok: result?.ok === true,
+    code: result?.code || null,
+    source_count: Array.isArray(result?.sources) ? result.sources.length : 0,
+    requests: Number(result?.usage?.requests || 0),
+  };
+}
+
+/** Search with one explicitly budgeted backup provider; successful empty results remain eligible for domain widening. */
+async function searchWebWithFallback(options = {}) {
+  const {
+    fallbackProvider: fallbackInput,
+    fallbackLedger,
+    fallbackApiKey,
+    providerApiKeys,
+    ...requestOptions
+  } = options;
+  const primaryProvider = providerOf(requestOptions.provider);
+  const primaryApiKey = providerApiKeys?.[primaryProvider] ?? requestOptions.apiKey;
+  const primary = await searchWeb({ ...requestOptions, provider: primaryProvider, apiKey: primaryApiKey });
+  const primaryAttempt = attemptOf(primary, primaryProvider);
+  if (primary.ok && primary.sources.length) return { ...primary, fallback_used: false, attempts: [primaryAttempt] };
+
+  const fallbackProvider = String(fallbackInput || '').trim().toLowerCase();
+  if (!fallbackProvider || fallbackProvider === primaryProvider) {
+    return { ...primary, fallback_used: false, attempts: [primaryAttempt] };
+  }
+  const fallbackRequests = requestCountOf({ provider: fallbackProvider, includeDomains: requestOptions.includeDomains });
+  if (fallbackLedger && fallbackRequests > 0) {
+    const reservation = fallbackLedger.reserve('search_queries', fallbackRequests);
+    if (!reservation.ok) {
+      if (primary.ok) {
+        return {
+          ...primary,
+          fallback_used: false,
+          fallback_error: { provider: fallbackProvider, code: 'COST_BUDGET_EXHAUSTED', error: '备用 Web Search 的成本预算不足' },
+          attempts: [primaryAttempt, { provider: fallbackProvider, ok: false, code: 'COST_BUDGET_EXHAUSTED', source_count: 0, requests: 0 }],
+        };
+      }
+      return {
+        ok: false,
+        provider: fallbackProvider,
+        code: 'COST_BUDGET_EXHAUSTED',
+        error: '备用 Web Search 的成本预算不足',
+        sources: [],
+        usage: primary.usage || usageOf(0),
+        fallback_used: false,
+        attempts: [primaryAttempt, { provider: fallbackProvider, ok: false, code: 'COST_BUDGET_EXHAUSTED', source_count: 0, requests: 0 }],
+      };
+    }
+  }
+  const backupApiKey = providerApiKeys?.[fallbackProvider] ?? fallbackApiKey ?? requestOptions.apiKey;
+  const fallback = await searchWeb({ ...requestOptions, provider: fallbackProvider, apiKey: backupApiKey, maxRequests: fallbackRequests || undefined });
+  const attempts = [primaryAttempt, attemptOf(fallback, fallbackProvider)];
+  const usage = { requests: Number(primary.usage?.requests || 0) + Number(fallback.usage?.requests || 0) };
+  if (fallback.ok && fallback.sources.length) {
+    return {
+      ...fallback,
+      usage,
+      fallback_used: true,
+      fallback_from: primaryProvider,
+      primary_code: primary.code || (primary.sources?.length ? null : 'WEB_SEARCH_NO_RESULTS'),
+      attempts,
+    };
+  }
+  if (fallback.ok) {
+    return {
+      ...fallback,
+      usage,
+      fallback_used: true,
+      fallback_from: primaryProvider,
+      fallback_error: { provider: fallbackProvider, code: 'WEB_SEARCH_NO_RESULTS', error: '首选和备用 Web Search 均未找到来源' },
+      attempts,
+    };
+  }
+  if (primary.ok) {
+    return {
+      ...primary,
+      usage,
+      fallback_used: true,
+      fallback_error: { provider: fallbackProvider, code: fallback.code || 'WEB_SEARCH_FAILED', error: fallback.error || '备用 Web Search 失败' },
+      attempts,
+    };
+  }
+  return {
+    ok: false,
+    provider: fallbackProvider,
+    code: fallback.code || primary.code || 'WEB_SEARCH_FAILED',
+    error: `${primaryProvider} 首选搜索失败${primary.code ? `（${primary.code}）` : ''}；${fallbackProvider} 备用搜索失败${fallback.code ? `（${fallback.code}）` : ''}`,
+    sources: [],
+    usage,
+    fallback_used: true,
+    fallback_from: primaryProvider,
+    attempts,
+  };
+}
+
 async function probeWebSearch(options = {}) {
-  const result = await searchWeb({
+  const result = await searchWebWithFallback({
     ...options,
     query: options.query || 'official web search documentation',
     maxResults: 1,
   });
   if (!result.ok) return result;
-  return { ok: true, provider: result.provider, source_count: result.sources.length, usage: result.usage };
+  return {
+    ok: true,
+    provider: result.provider,
+    source_count: result.sources.length,
+    usage: result.usage,
+    ...(result.fallback_used ? { fallback_used: true, fallback_from: result.fallback_from } : {}),
+    ...(result.fallback_error ? { fallback_error: result.fallback_error } : {}),
+  };
 }
 
 function plannedWebSearchRequests(options = {}) {
@@ -129,6 +235,7 @@ function plannedWebSearchRequests(options = {}) {
 
 module.exports = {
   searchWeb,
+  searchWebWithFallback,
   probeWebSearch,
   plannedWebSearchRequests,
 };

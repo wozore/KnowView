@@ -68,7 +68,7 @@ function planCatalogDraft(seed, options = {}) {
   let researchPlan;
   try { researchPlan = planCatalogResearch(seed, current.snapshot); }
   catch (error) { return { ok: false, code: error.message.split(':')[0], error: error.message }; }
-  const limits = researchLimits(options);
+  const limits = researchLimits(options, researchPlan);
   return {
     ok: true,
     base_revision: current.revision,
@@ -151,18 +151,20 @@ function draftRecoveryOf(draft) {
   };
 }
 
-function cleanGeneratorOptionsForToken(options = {}) {
+function cleanGeneratorOptionsForToken(options = {}, researchPlan = null) {
   const norm = normalizeGeneratorOptions(options);
-  const limits = researchLimits(norm);
+  const limits = researchLimits(norm, researchPlan);
   return {
     provider: norm.provider,
     model: norm.model,
     protocol: norm.protocol,
     search_provider: norm.searchProvider,
+    search_fallback_provider: norm.searchFallbackProvider,
     extract_provider: norm.extractProvider,
+    extract_fallback_provider: norm.extractFallbackProvider,
     search_engine: norm.searchEngine,
     ...(norm.accessMode ? { access_mode: norm.accessMode } : {}),
-    max_search_queries: limits.search_queries,
+    max_search_queries: norm.maxSearchQueries ?? 4,
     max_pages: limits.pages,
     max_responses_calls: limits.responses_calls,
     max_synthesis_calls: limits.synthesis_calls,
@@ -189,8 +191,8 @@ function recoveryPlanForDraft(draftId, input = {}) {
   if (blocked) return blocked;
   const recovery = draftRecoveryOf(draft);
   if (recovery.recovery_kind === 'manual_required') return { ok: false, code: 'DRAFT_RECOVERY_FORBIDDEN', recovery_kind: recovery.recovery_kind };
-  const tokenOptions = cleanGeneratorOptionsForToken(input.generatorOptions || {});
-  const limits = researchLimits(tokenOptions);
+  const tokenOptions = cleanGeneratorOptionsForToken(input.generatorOptions || {}, draft.research_plan);
+  const limits = researchLimits(tokenOptions, draft.research_plan);
   const hardLimits = recovery.mode === 'synthesis_only'
     ? { search_queries: 0, pages: 0, responses_calls: limits.responses_calls, synthesis_calls: limits.synthesis_calls }
     : limits;
@@ -233,7 +235,7 @@ async function resumeCatalogDraftImpl(draftId, options = {}) {
   if (normalized.confirmCost !== true) return {
     ok: false,
     code: 'COST_CONFIRMATION_REQUIRED',
-    cost_plan: { hard_limits: researchLimits(normalized), previous_cost: previous.cost || null },
+    cost_plan: { hard_limits: researchLimits(normalized, previous.research_plan), previous_cost: previous.cost || null },
   };
   const current = loadCatalogSnapshot();
   if (runtimeOptions.expectedRevision && runtimeOptions.expectedRevision !== current.revision) return { ok: false, code: 'REVISION_CONFLICT', currentRevision: current.revision, baseRevision: previous.base_revision };
@@ -249,7 +251,7 @@ async function resumeCatalogDraftImpl(draftId, options = {}) {
   if (previous.research_plan?.seed) enrichSeedWithReleaseDate(previous.research_plan.seed);
   let research;
   let synthesis;
-  const limits = resumeResearchLimits(normalized, previous.cost);
+  const limits = resumeResearchLimits(normalized, previous.cost, previous.research_plan);
   try {
     if (recoveryPlan.recovery_mode === 'synthesis_only') {
       const previousSpent = previous.cost?.spent || {};

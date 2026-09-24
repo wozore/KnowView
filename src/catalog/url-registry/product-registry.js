@@ -207,6 +207,10 @@ function validateProductUrlRegistry(registry, options = {}) {
     for (const field of ['aliases', 'product_prefixes']) {
       if (product[field] !== undefined && !Array.isArray(product[field])) errors.push(`${key}:${field.toUpperCase()}_INVALID`);
     }
+    if (product.identity_aliases !== undefined && (!Array.isArray(product.identity_aliases)
+      || product.identity_aliases.some(alias => typeof alias !== 'string' || !alias.trim()))) {
+      errors.push(`${key}:IDENTITY_ALIASES_INVALID`);
+    }
     if (Array.isArray(product.product_prefixes)) {
       for (const prefix of product.product_prefixes.map(normalizeKey)) {
         if (!prefix || FORBIDDEN_PRODUCT_PREFIXES.has(prefix)) errors.push(`${key}:PRODUCT_PREFIX_INVALID`);
@@ -245,6 +249,7 @@ function addProductUrlRegistryEntry(input, options = {}) {
     vendor_key: vendorKey,
     official_urls: officialUrls,
     ...(Array.isArray(input?.aliases) && input.aliases.length ? { aliases: [...input.aliases] } : {}),
+    ...(input?.identity_aliases !== undefined ? { identity_aliases: Array.isArray(input.identity_aliases) ? [...input.identity_aliases] : input.identity_aliases } : {}),
     ...(productPrefixesOf(input?.product_prefixes).length ? { product_prefixes: productPrefixesOf(input.product_prefixes) } : {}),
     ...(updateSources !== undefined ? { update_sources: updateSources.map(source => ({ ...source })) } : {}),
     lifecycle: input?.lifecycle || 'active',

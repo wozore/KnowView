@@ -80,10 +80,10 @@ test('buildSeriesPlacementInstructions 禁止把专用当通用、禁止编造 U
 });
 
 test('validateSeriesPlacementValue 结构校验', () => {
-  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', modality: 'text', canonical_vendor_key: 'zhipu', canonical_family: 'glm', major_line: 'glm5', release_cohort: 'newest', confidence: 0.9, rationale: 'x' }), true);
+  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', modality: 'text', canonical_vendor_key: 'zhipu', canonical_family: 'glm', major_line: 'glm5', release_cohort: 'newest', rationale: 'x' }), true);
   assert.equal(validateSeriesPlacementValue(null), false);
   assert.equal(validateSeriesPlacementValue({ usage_kind: 5 }), false);
-  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', confidence: 1.5 }), false);
+  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', modality: 'text', canonical_vendor_key: 'zhipu', canonical_family: 'glm', major_line: 'glm5', release_cohort: 'newest', rationale: 'x', confidence: -1 }), true, '不再读取置信度字段');
 });
 
 // ── 2. suggestSeriesPlacement：缺 ledger fail-closed ────────────
@@ -112,7 +112,6 @@ test('suggestSeriesPlacement 自适应当前 provider 的默认模型', async ()
               canonical_family: 'glm',
               major_line: 'glm5',
               release_cohort: 'newest',
-              confidence: 0.9,
               rationale: 'x',
             }),
           }],
@@ -245,6 +244,36 @@ test('resolve：GLM 第 4 个成员 → migration_required（阻断普通 Draft�
   assert.equal(result.family, 'glm');
 });
 
+test('policy expected members include approved candidates so existing groups do not demand needless migrations', async () => {
+  const policy = loadSeriesPolicy();
+  const cases = [
+    { vendor: 'alibaba', family: 'qwen_image', series: 'vendor-level2:alibaba:qwen-image', name: 'Qwen-Image-2.1', identity: 'qwen-image-2.1', modality: 'image' },
+    { vendor: 'stepfun', family: 'step', series: 'vendor-level2:stepfun:step', name: 'StepFun Step 5 Preview', identity: 'step-5-preview', modality: 'text' },
+    { vendor: 'anthropic', family: 'claude', series: 'vendor-level2:anthropic:claude', name: 'Claude Opus 5.5', identity: 'claude-opus-5.5', modality: 'text' },
+    { vendor: 'openai', family: 'gpt', series: 'vendor-level2:openai:gpt-6', name: 'GPT-6 Luna', identity: 'gpt-6-luna', modality: 'text' },
+  ];
+  for (const item of cases) {
+    const series = policy.vendors.find(vendor => vendor.vendor_key === item.vendor).families
+      .find(family => family.family === item.family).series.find(target => target.id === item.series);
+    const candidateMember = item.identity.replace(/(\d)\.(\d)/g, '$1-$2');
+    const snapshot = emptySnapshot();
+    snapshot['vendor-level2'].push({
+      id: item.series,
+      vendor_key: item.vendor,
+      title: series.title,
+      detail_refs: series.expected_members
+        .filter(member => String(member).replace(/[.\s_]+/g, '-') !== candidateMember)
+        .map(member => ({ kind: 'tool-level3', id: `tool-level3:${member}` })),
+    });
+    const result = await resolveSeriesPlacement(policy, snapshot, {
+      ...candidate({ vendor_key: item.vendor, vendor_name: item.vendor, name: item.name, modality: item.modality }),
+      model_key: `${item.vendor}-${item.identity}`,
+    }, { allowAi: false });
+    assert.equal(result.kind, 'decision', `${item.name} should enter its policy group`);
+    assert.equal(result.target_level2_id, item.series);
+  }
+});
+
 test('resolve：needs_ai 未放行 → fail_closed PLACEMENT_MANUAL_REQUIRED', async () => {
   const policy = loadSeriesPolicy();
   // 某政策厂商但名称完全无法判定用途 → needs_ai；allowAi=false → fail_closed
@@ -261,7 +290,7 @@ test('resolve：needs_ai + 放行 + AI hint 正确 → decision(ai)', async () =
   const snap = emptySnapshot();
   snap['vendor-level2'].push({ id: 'vendor-level2:alibaba:qwen', vendor_key: 'alibaba', title: 'Qwen 模型', detail_refs: [] });
   const mockSuggest = async () => ({
-    ok: true, hint: { usage_kind: 'general_llm', canonical_family: 'qwen', release_cohort: 'newest', confidence: 0.8 },
+    ok: true, hint: { usage_kind: 'general_llm', canonical_family: 'qwen', release_cohort: 'newest' },
     usage: {}, raw: {},
   });
   const result = await resolveSeriesPlacement(policy, snap, c, {
@@ -270,7 +299,7 @@ test('resolve：needs_ai + 放行 + AI hint 正确 → decision(ai)', async () =
   assert.equal(result.kind, 'decision');
   assert.equal(result.source, 'ai');
   assert.equal(result.target_level2_id, 'vendor-level2:alibaba:qwen');
-  assert.equal(result.ai_confidence, 0.8);
+  assert.equal('ai_confidence' in result, false);
 });
 
 test('resolve：needs_ai + AI 冲突（无法确认）→ fail_closed', async () => {
@@ -278,7 +307,7 @@ test('resolve：needs_ai + AI 冲突（无法确认）→ fail_closed', async ()
   const c = candidate({ vendor_key: 'zhipu', vendor_name: '智谱', name: 'Z-Unknown-7' });
   const snap = snapshot(); // zhipu glm 已有 3 成员
   const mockSuggest = async () => ({
-    ok: true, hint: { usage_kind: 'unknown', canonical_family: null, release_cohort: null, confidence: 0.3 },
+    ok: true, hint: { usage_kind: 'unknown', canonical_family: null, release_cohort: null },
     usage: {}, raw: {},
   });
   const result = await resolveSeriesPlacement(policy, snap, c, {

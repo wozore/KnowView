@@ -22412,6 +22412,851 @@
       ],
       "theme": "general",
       "id": "tool-level3:workbuddy-pro"
+    },
+    {
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "StepFun Step 5 Preview",
+      "vendor_label": "StepFun Step 5 Preview",
+      "icon": "🤖",
+      "official_url": "https://www.stepfun.com/step-5-preview",
+      "status": "active",
+      "summary": "Step 5 Preview 是 StepFun 面向真实任务的新一代旗舰基模型，基于稀疏 MoE 架构（总参数 600B、每 token 激活 27B），原生支持文本、图片和视频输入，提供 1M tokens 上下文窗口，重点覆盖编程、软件工程与专业知识工作。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "模型原生支持 1M tokens 上下文窗口，最大输入 1M tokens，最大输出 64k tokens。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按用量计费",
+            "pricing_basis": "按实际输入和输出 token 用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入与输出 token 用量",
+                "amount": 0,
+                "unit": "按定价与限速页公布的单价计费"
+              }
+            ],
+            "conditions": "Step 5 Preview 按实际输入和输出 token 用量计费，具体单价、缓存计费规则和账号限速见官方定价与限速页。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "软件开发",
+          "description": "结合代码、依赖信息和错误日志，完成问题定位、代码修改与测试建议。"
+        },
+        {
+          "title": "长文档处理",
+          "description": "在 1M tokens 上下文中整理多份材料，执行信息抽取、归纳和交叉核对。"
+        },
+        {
+          "title": "研究与分析",
+          "description": "配合搜索、代码执行或文档工具，拆解任务并形成结构化结果。"
+        },
+        {
+          "title": "多模态理解",
+          "description": "分析截图、图表和视频内容，并按指定格式输出结论。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "直接访问本地环境",
+          "description": "工具、搜索和代码执行由应用提供，模型不会直接访问本地环境或外部服务。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://www.stepfun.com/?ref=www.heooo.com/",
+          "url": "https://www.stepfun.com/?ref=www.heooo.com/"
+        },
+        {
+          "title": "Step 5 Preview",
+          "url": "https://platform.stepfun.com/docs/zh/guides/models/step-5-preview"
+        },
+        {
+          "title": "Step 5 Preview:向前一步,智能效率的新一代“帕累托前沿”",
+          "url": "https://www.stepfun.com/step-5-preview"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2025-10-15",
+      "model_key": "stepfun-step-5-preview",
+      "id": "tool-level3:stepfun-step-5-preview"
+    },
+    {
+      "vendor_key": "openai",
+      "detail_kind": "api_model",
+      "title": "GPT-6 Sol",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "official_url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+      "status": "active",
+      "summary": "GPT-6 Sol 是 OpenAI 推出的前沿智能模型，面向复杂专业工作与编码代理任务，API 价格较 GPT-5.6 促销定价降低 50%，具备 1,050,000 上下文窗口和广泛的工具调用能力。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1050000,
+        "conditions": "模型上下文窗口为 1,050,000 tokens，最大输出 128,000 tokens，知识截止日期为 2026-04-20。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Standard 文本令牌",
+            "pricing_basis": "per_1M_tokens",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Input",
+                "amount": 2,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "Cached input",
+                "amount": 0.2,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "Cache writes",
+                "amount": 2.5,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "Output",
+                "amount": 10,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "标准处理费率，按每百万令牌计费；缓存输入按未缓存输入费率的 10% 计价，缓存写入按 1.25 倍输入费率计价；超过 272K 输入令牌的请求全程按 2 倍输入与缓存费率、1.5 倍输出费率计价。"
+          },
+          {
+            "label": "Batch / Flex",
+            "pricing_basis": "per_1M_tokens",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Input",
+                "amount": 1,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "Output",
+                "amount": 5,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "Batch 和 Flex 按标准费率的 50% 计价。"
+          },
+          {
+            "label": "Fast mode",
+            "pricing_basis": "per_1M_tokens",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Input",
+                "amount": 4,
+                "unit": "USD/1M tokens"
+              },
+              {
+                "label": "Output",
+                "amount": 20,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "快速模式按适用费率的 2 倍计价。"
+          },
+          {
+            "label": "区域处理",
+            "pricing_basis": "per_1M_tokens",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Input",
+                "amount": 2.2,
+                "unit": "USD/1M tokens"
+              }
+            ],
+            "conditions": "区域处理在可用地区加收 10% 溢价；EU 数据驻留仅在标准处理下可用。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂编码代理",
+          "description": "编码代理可承接更复杂、更长时间的任务，Sol 在保持强编码性能的同时降低 API 成本。"
+        },
+        {
+          "title": "专业工作处理",
+          "description": "Sol 可承担困难的工作任务，提供更高用量上限与更低成本，在同价位竞品中提供更高智能。"
+        },
+        {
+          "title": "长上下文与代理缓存",
+          "description": "凭借 1,050,000 上下文窗口与缓存定价优化，适合长对话和代理场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "模型微调",
+          "description": "官方文档标注 GPT-6 Sol 不支持微调，需要自定义微调的场景不适用。"
+        },
+        {
+          "title": "音频与视频处理",
+          "description": "该模型不支持音频与视频模态，相关多模态输出需求不适用。"
+        },
+        {
+          "title": "Free 层级 API 调用",
+          "description": "API 速率限制表中 Free 层级不支持该模型，免费层级用户无法调用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing GPT‑6 Sol and Luna",
+          "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
+        },
+        {
+          "title": "https://platform.openai.com/docs",
+          "url": "https://platform.openai.com/docs"
+        },
+        {
+          "title": "https://platform.openai.com/",
+          "url": "https://platform.openai.com/"
+        },
+        {
+          "title": "https://chatgpt.com/pricing/",
+          "url": "https://chatgpt.com/pricing/"
+        },
+        {
+          "title": "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "url": "https://openai.com/index/introducing-chatgpt-images-2-5"
+        },
+        {
+          "title": "Introducing GPT-6 Sol and Luna",
+          "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna"
+        },
+        {
+          "title": "GPT-6 Sol Model  OpenAI API",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-sol"
+        },
+        {
+          "title": "Примітки до релізу  OpenAI",
+          "url": "https://openai.com/uk-UA/products/release-notes/"
+        },
+        {
+          "title": "发布说明  OpenAI",
+          "url": "https://support@openai.com/zh-Hans-CN/products/release-notes"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-22",
+      "model_key": "openai-gpt-6-sol",
+      "id": "tool-level3:gpt-6-sol"
+    },
+    {
+      "vendor_key": "openai",
+      "detail_kind": "api_model",
+      "title": "GPT-6 Luna",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "status": "active",
+      "summary": "GPT-6 Luna 是 OpenAI GPT-6 系列中面向专注、高吞吐任务的模型，API 名称 gpt-6-luna，拥有 1,050,000 上下文窗口，价格较 GPT-5.6 促销价降低 50%。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1050000,
+        "conditions": "官方模型文档标注上下文窗口为 1,050,000 tokens，最大输出 128,000 tokens。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Standard 文本 token 计费",
+            "pricing_basis": "per_token",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Input",
+                "amount": 0.1,
+                "unit": "USD / 1M tokens"
+              },
+              {
+                "label": "Cached input",
+                "amount": 0.01,
+                "unit": "USD / 1M tokens"
+              },
+              {
+                "label": "Cache writes",
+                "amount": 0.125,
+                "unit": "USD / 1M tokens"
+              },
+              {
+                "label": "Output",
+                "amount": 0.5,
+                "unit": "USD / 1M tokens"
+              }
+            ],
+            "conditions": "Standard 处理层级；超过 272K 输入 token 的请求按输入与缓存 2 倍、输出 1.5 倍计价；Batch 与 Flex 为 50%，Fast 模式为 2 倍，区域处理加收 10%。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "高吞吐专注任务",
+          "description": "官方发布说明建议将 Luna 用于专注、高吞吐量的大规模任务。"
+        },
+        {
+          "title": "长上下文处理",
+          "description": "1,050,000 上下文窗口适合需要处理超长文档或长对话的场景。"
+        },
+        {
+          "title": "批量推理",
+          "description": "Batch 和 Flex 按 Standard 费率的 50% 计价，适合成本敏感的批处理工作负载。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "语音与视频应用",
+          "description": "该模型不支持音频和视频输入输出，相关场景不适用。"
+        },
+        {
+          "title": "模型微调",
+          "description": "官方文档标注 Fine-tuning 为 Not supported，无法定制训练。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Introducing GPT‑6 Sol and Luna",
+          "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
+        },
+        {
+          "title": "https://platform.openai.com/docs",
+          "url": "https://platform.openai.com/docs"
+        },
+        {
+          "title": "https://platform.openai.com/",
+          "url": "https://platform.openai.com/"
+        },
+        {
+          "title": "https://chatgpt.com/pricing/",
+          "url": "https://chatgpt.com/pricing/"
+        },
+        {
+          "title": "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "url": "https://openai.com/index/introducing-chatgpt-images-2-5"
+        },
+        {
+          "title": "Introducing GPT-6 Sol and Luna",
+          "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna"
+        },
+        {
+          "title": "GPT-6 Luna",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+        },
+        {
+          "title": "Примітки до релізу  OpenAI",
+          "url": "https://openai.com/uk-UA/products/release-notes/"
+        },
+        {
+          "title": "Napomene o izdanju",
+          "url": "https://openai.com/bs-BA/products/release-notes/"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-22",
+      "model_key": "openai-gpt-6-luna",
+      "id": "tool-level3:gpt-6-luna"
+    },
+    {
+      "vendor_key": "anthropic",
+      "detail_kind": "api_model",
+      "title": "Claude Opus 5.5",
+      "vendor_label": "Anthropic",
+      "icon": "🤖",
+      "official_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+      "status": "active",
+      "summary": "Claude Opus 5.5（claude-opus-5-5）是面向长时间运行的代理式编程和知识工作打造的模型，上下文窗口为 1M tokens，自适应思考常开，输入/输出价格为 $4 / $20 USD 每百万 tokens。",
+      "one_m_context": {
+        "status": "native",
+        "tokens": 1000000,
+        "conditions": "模型原生默认提供 1M tokens 上下文窗口，最大输出 128K tokens。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "标准定价",
+            "pricing_basis": "per_token",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 4,
+                "unit": "USD/百万 tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 20,
+                "unit": "USD/百万 tokens"
+              },
+              {
+                "label": "5 分钟缓存写入",
+                "amount": 5,
+                "unit": "USD/百万 tokens"
+              },
+              {
+                "label": "1 小时缓存写入",
+                "amount": 8,
+                "unit": "USD/百万 tokens"
+              },
+              {
+                "label": "缓存读取",
+                "amount": 0.2,
+                "unit": "USD/百万 tokens"
+              }
+            ],
+            "conditions": "标准同步调用定价，缓存读取为基础输入价格的 0.05 倍，最低可缓存提示长度为 512 tokens。"
+          },
+          {
+            "label": "Batch API",
+            "pricing_basis": "per_token",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 2,
+                "unit": "USD/百万 tokens"
+              },
+              {
+                "label": "输出",
+                "amount": 10,
+                "unit": "USD/百万 tokens"
+              }
+            ],
+            "conditions": "批量处理输入与输出享受半价（50% 折扣），支持最高 300K 输出 tokens（需 output-300k-2026-03-24 beta header）。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "长时间代理式编程",
+          "description": "官方定位为长时间运行的 agentic coding，适合执行数小时的自主编程代理、大规模重构和复杂系统工程。"
+        },
+        {
+          "title": "知识工作与研究",
+          "description": "面向知识工作场景，始终开启的自适应思考支持高要求推理与长时程任务。"
+        },
+        {
+          "title": "视觉与计算机使用",
+          "description": "支持图像输入、vision 与计算机使用（需 computer_toolset_20260801 工具集），适合大量依赖视觉的工作流。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要禁用思考的集成",
+          "description": "thinking 无法禁用，启用或禁用 thinking 字段会返回 400 错误，不兼容需要关闭思考的旧代码。"
+        },
+        {
+          "title": "强制工具使用的调用",
+          "description": "tool_choice 类型为 any 或 tool 的强制工具使用会返回错误，不适合此类集成。"
+        },
+        {
+          "title": "依赖旧计算机使用工具",
+          "description": "在 Claude API 和 Google Cloud 上不接受 computer_20251124 工具，需迁移到 computer_toolset_20260801。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "What's new in Claude Opus 5.5",
+          "url": "https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5"
+        },
+        {
+          "title": "https://docs.anthropic.com/",
+          "url": "https://docs.anthropic.com/"
+        },
+        {
+          "title": "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "url": "https://platform.claude.com/docs/en/about-claude/models/overview"
+        },
+        {
+          "title": "https://platform.claude.com/docs/en/about-claude/pricing",
+          "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+        },
+        {
+          "title": "https://code.claude.com/docs/en/overview",
+          "url": "https://code.claude.com/docs/en/overview"
+        },
+        {
+          "title": "選擇合適的模型",
+          "url": "https://docs.anthropic.com/docs/zh-TW/about-claude/models/choosing-a-model"
+        },
+        {
+          "title": "Claude Opus 5.5 Latest",
+          "url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+        },
+        {
+          "title": "Notas de versão da Claude Platform",
+          "url": "https://docs.anthropic.com/pt/release-notes/api"
+        },
+        {
+          "title": "Claude Platform 版本說明",
+          "url": "https://docs.anthropic.com/zh-TW/developer-newsletter/july2024"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-22",
+      "model_key": "anthropic-claude-opus-5.5",
+      "id": "tool-level3:claude-opus-5.5"
+    },
+    {
+      "vendor_key": "stepfun",
+      "detail_kind": "api_model",
+      "title": "StepAudio 3 ASR",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎵",
+      "official_url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-asr",
+      "status": "active",
+      "summary": "StepAudio 3 ASR 是 StepFun 推出的高精度低延迟语音转写模型系列，其中 StepAudio 3 ASR Max 是其迄今最大的 ASR 模型，基于大语言模型融合声学建模与上下文理解，支持中英文、方言、中英混说及复杂音频的识别。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "StepAudio 3 ASR 语音识别",
+            "pricing_basis": "按音频时长计费",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "识别服务",
+                "amount": 0.24,
+                "unit": "美元/小时"
+              }
+            ],
+            "conditions": "通过 POST /v1/audio/asr/sse 端点以 HTTP + SSE 协议提交音频，识别文本以 SSE 流式返回，按小时计费。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "会议与视频内容转写",
+          "description": "支持长音频与增量输出，可高效生成会议纪要和视频字幕。"
+        },
+        {
+          "title": "垂直领域专业识别",
+          "description": "覆盖体育、医药、化工、汽车、法律、金融、软件开发等 20+ 领域术语识别。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "纯静音环境音频",
+          "description": "模型针对有语音内容设计，静音片段不产生有效转写价值。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://platform.stepfun.ai/",
+          "url": "https://platform.stepfun.ai/"
+        },
+        {
+          "title": "StepAudio 3 ASR - StepFun Documentation",
+          "url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-asr"
+        },
+        {
+          "title": "Audio Models - StepFun Documentation",
+          "url": "https://platform.stepfun.ai/docs/en/guides/models/audio"
+        },
+        {
+          "title": "StepFun Open Platform Documentation",
+          "url": "https://platform.stepfun.ai/docs/en/welcome"
+        },
+        {
+          "title": "Speech Recognition (Streaming Output) - StepFun Documentation",
+          "url": "https://platform.stepfun.ai/docs/en/api-reference/audio/asr-sse"
+        }
+      ],
+      "theme": "media",
+      "release_date": "2025-01-01",
+      "model_key": "stepfun-stepaudio-3-asr",
+      "id": "tool-level3:stepaudio-3-asr"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Hy Image 3.5",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🖼️",
+      "official_url": "https://cloud.tencent.com/document/product/1823/135745",
+      "status": "active",
+      "summary": "混元生图系列 API 模型，通过腾讯云 TokenHub 提供 hy-image-v3 与 hy-image-v3.5-preview，支持文生图、参考生图与多轮编辑，同步返回生成结果。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "TokenHub 在线推理后付费",
+            "pricing_basis": "按 token 用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "total_tokens",
+                "amount": 0,
+                "unit": "按实际消耗 token 数计费"
+              }
+            ],
+            "conditions": "需在 TokenHub 控制台-在线推理-视觉模型处开启对应模型的后付费，按本次任务消耗的 tokenhub_usage.total_tokens 计费。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "文生图创作",
+          "description": "通过文本提示词同步生成图片，hy-image-v3.5-preview 支持 4K 输出。"
+        },
+        {
+          "title": "参考图生图",
+          "description": "上传参考图片（URL 或 Base64），结合文本提示词生成风格一致的图像。"
+        },
+        {
+          "title": "多轮图像编辑",
+          "description": "以 Chat/Messages 协议进行多轮对话式编辑，逐步调整生成结果。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "长期图片托管",
+          "description": "生成的图片 URL 为临时地址，有效期仅 12 小时，需及时下载转存，不适合直接作为长期存储方案。"
+        },
+        {
+          "title": "高分辨率批量离线任务",
+          "description": "两个模型均为同步调用，且 hy-image-v3 面积上限为 1024×1024，不适合大规模异步高分辨率任务。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://cloud.tencent.com/document/product/1823/135745",
+          "url": "https://cloud.tencent.com/document/product/1823/135745"
+        },
+        {
+          "title": "https://cloud.tencent.com/document/product/1823/130051",
+          "url": "https://cloud.tencent.com/document/product/1823/130051"
+        },
+        {
+          "title": "腾讯大模型新进展：超越GPT3.5、上线文生图、接入180个业务（发布时间：2023-10-28 01:20:26）",
+          "url": "https://cloud.tencent.com/developer/news/1227406"
+        },
+        {
+          "title": "腾讯混元开源大语言模型、Claude 3.5 Haiku API价格公布（发布时间：2024-11-06 10:00:38）",
+          "url": "https://cloud.tencent.com/developer/news/1879359"
+        },
+        {
+          "title": "腾讯混元大模型与GPT3.5代码能力对比（发布时间：2023-11-22 04:52:43）",
+          "url": "https://cloud.tencent.com/developer/news/1252064"
+        },
+        {
+          "title": "腾讯搜狗输入法上线 “文字图片”AI功能 输入文字秒变精致图（发布时间：2025-08-27 05:00:26）",
+          "url": "https://cloud.tencent.com/developer/news/2906699"
+        }
+      ],
+      "theme": "vision",
+      "release_date": "2023-10-26",
+      "model_key": "tencent-hy-image-3.5-preview",
+      "id": "tool-level3:hy-image-3.5"
+    },
+    {
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "Qwen-Image-2.1",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🖼️",
+      "official_url": "https://github.com/QwenLM/Qwen-Image-2.1",
+      "status": "active",
+      "summary": "Qwen-Image-2.1 是通义千问家族开源的统一文生图与图像编辑模型，视觉生成组件仅 7B 参数，支持透明 RGBA 生成、最多 10 张参考图编辑和原生 2K 分辨率。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "开源权重自部署",
+            "pricing_basis": "开源许可下自行部署，官方来源未提供按量计费档位",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "模型权重获取",
+                "amount": 0,
+                "unit": "元/开源下载"
+              }
+            ],
+            "conditions": "官方以开源方式在 HuggingFace 和 ModelScope 发布权重，用户自行承担推理算力成本，无官方按量计费费率"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "透明素材创作",
+          "description": "模型原生支持生成带 alpha 通道的 RGBA 透明图像，适合制作贴纸、电商抠图等透明背景素材。"
+        },
+        {
+          "title": "多主体图像合成",
+          "description": "支持最多 10 张参考图进行多主体构图，并可圈选局部区域编辑、保持人物与产品身份一致。"
+        },
+        {
+          "title": "高性能部署推理",
+          "description": "vLLM-Omni、SGLang、ComfyUI、Diffusers 均提供 Day-0 支持，可配合 FP8 量化与前缀 KV 缓存高效部署。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "按量计费的云端 API 调用",
+          "description": "给定官方来源未提供任何 API 计费档位信息，需要按量计费服务能力的场景无法据此评估成本。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://github.com/QwenLM/Qwen-Image-2.1",
+          "url": "https://github.com/QwenLM/Qwen-Image-2.1"
+        },
+        {
+          "title": "联合早报：华为盘古团队否认AI模型抄袭阿里通义千问 · Issue #321 · HW-whistleblower/True-Story-of-Pangu · GitHub",
+          "url": "https://github.com/HW-whistleblower/True-Story-of-Pangu/issues/321"
+        },
+        {
+          "title": "owenliang/qwen-vllm: 通义千问VLLM推理部署DEMO",
+          "url": "https://github.com/owenliang/qwen-vllm/blob/master/"
+        }
+      ],
+      "theme": "vision",
+      "release_date": "2026-09-20",
+      "model_key": "alibaba-qwen-image-2.1",
+      "id": "tool-level3:qwen-image-2.1"
+    },
+    {
+      "vendor_key": "tencent",
+      "detail_kind": "api_model",
+      "title": "Hy Image 3.0",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🖼️",
+      "official_url": "https://cloud.tencent.com/document/product/1823/135745",
+      "status": "active",
+      "summary": "混元生图是腾讯混元推出的图像生成模型系列，本文档介绍通过腾讯云大模型服务平台 TokenHub 调用 Hy-Image-3.0（hy-image-v3）与 Hy-Image-3.5-Preview（hy-image-v3.5-preview）的方式：两者均为同步调用，一次请求直接返回生成结果；Hy-Image-3.0 支持文生图、参考生图、37 组预设尺寸、prompt 自动改写与自定义水印；Hy-Image-3.5-Preview 采用 OpenAI Chat 风格 messages 协议，支持多模态输入、多轮编辑、思维链改写、外部搜索增强，最高支持 4096×4096（4K）输出。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "TokenHub 在线推理后付费",
+            "pricing_basis": "按 token 用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "total_tokens",
+                "amount": 1024,
+                "unit": "tokens/次（响应示例）"
+              }
+            ],
+            "conditions": "需在控制台-在线推理-视觉模型处开启对应模型的后付费，按本次任务消耗的 token 数（tokenhub_usage.total_tokens）用于计费与对账。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "文生图与参考生图",
+          "description": "Hy-Image-3.0 凭文本提示词同步生成图片，支持 0~3 张参考图、自定义尺寸、生成种子与 prompt 自动改写。"
+        },
+        {
+          "title": "多轮编辑与多模态创作",
+          "description": "Hy-Image-3.5-Preview 以 Chat/Messages 协议提交单轮或多轮生图与编辑请求，支持文本加参考图输入、思维链改写与外部搜索增强，最高 4K 输出。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "长期图片托管",
+          "description": "接口返回的图片 URL 为临时地址，有效期 12 小时且带鉴权校验，需及时下载转存，不适合直接作为长期存储链接。"
+        },
+        {
+          "title": "无并发控制的批量任务",
+          "description": "默认并发数有限，超过并发上限会返回 429 错误，需退避重试并控制调用并发，不适合无节流的高并发批量调用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://cloud.tencent.com/document/product/1823/135745",
+          "url": "https://cloud.tencent.com/document/product/1823/135745"
+        },
+        {
+          "title": "https://cloud.tencent.com/document/product/1823/130051",
+          "url": "https://cloud.tencent.com/document/product/1823/130051"
+        },
+        {
+          "title": "来了！腾讯混元3D世界模型正式发布并开源-腾讯云开发者社区-腾讯云（发布时间：2025-07-29 08:35:59）",
+          "url": "https://cloud.tencent.com/developer/article/2548846"
+        },
+        {
+          "title": "腾讯混元3D世界模型1.0发布并开源：文字图片生成可交互3D场景（发布时间：2025-07-28 04:00:36）",
+          "url": "https://cloud.tencent.com/developer/news/2805297"
+        },
+        {
+          "title": "全球最活跃3D模型平台接入腾讯混元！（发布时间：2025-07-30 10:30:11）",
+          "url": "https://cloud.tencent.com/developer/news/2812505"
+        },
+        {
+          "title": "全球首个设计智能体Lovart上线！腾讯混元成「默认设置」（发布时间：2025-07-28 11:00:31）",
+          "url": "https://cloud.tencent.com/developer/news/2803720"
+        },
+        {
+          "title": "腾讯自研混元大模型正式亮相",
+          "url": "https://www.tencent.com/zh-cn/articles/2201685.html"
+        }
+      ],
+      "theme": "vision",
+      "release_date": "2026-09-21",
+      "model_key": "tencent-hy-image-3.0",
+      "id": "tool-level3:hy-image-3.0"
     }
   ]
 }

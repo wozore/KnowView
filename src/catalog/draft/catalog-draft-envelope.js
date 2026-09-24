@@ -2,21 +2,25 @@
 
 const { validatePlannedRecords } = require('../core/catalog-record-completeness');
 const { fieldCoverageOf } = require('../core/catalog-synthesis');
+const { inferModality } = require('../core');
 
 const RETRYABLE_CODES = new Set([
   'TIMEOUT', 'RATE_LIMITED', 'PROVIDER_ERROR', 'NETWORK_ERROR',
+  'WEB_SEARCH_FALLBACK_FAILED', 'OFFICIAL_SOURCE_FETCH_FAILED',
   'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED', 'SYNTHESIS_RESUME_FAILED',
   'OUTPUT_INVALID', 'SCHEMA_INVALID', 'COST_BUDGET_EXHAUSTED', 'LAYER_PATCH_INVALID',
   'TAVILY_SEARCH_FAILED', 'TAVILY_EXTRACT_FAILED', 'TAVILY_SEARCH_RATE_LIMITED', 'TAVILY_EXTRACT_RATE_LIMITED',
-  'ZHIPU_WEB_SEARCH_FAILED', 'ZHIPU_WEB_SEARCH_RATE_LIMITED', 'ZHIPU_WEB_SEARCH_TIMEOUT', 'ZHIPU_WEB_SEARCH_NETWORK_ERROR',
+  'ZHIPU_WEB_SEARCH_FAILED', 'ZHIPU_WEB_SEARCH_RATE_LIMITED', 'ZHIPU_WEB_SEARCH_TIMEOUT', 'ZHIPU_WEB_SEARCH_NETWORK_ERROR', 'ZHIPU_WEB_SEARCH_OUTPUT_INVALID',
   'RESEARCH_RESUME_FAILED',
 ]);
 const CONFIG_CODES = new Set([
   'MODEL_REQUIRED', 'AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED',
-  'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'TAVILY_AUTH_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED',
+  'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'SEARCH_PROVIDER_UNSUPPORTED', 'SEARCH_ENGINE_UNSUPPORTED',
+  'TAVILY_AUTH_REQUIRED', 'TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED',
   'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_ENGINE_INVALID', 'ZHIPU_WEB_SEARCH_QUERY_REQUIRED',
+  'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED', 'EXTRACT_PROVIDER_UNSUPPORTED', 'EXTRACT_FALLBACK_PROVIDER_UNSUPPORTED',
 ]);
-const PROFILE_CODES = new Set(['PROFILE_MISMATCH_SUSPECTED', 'PLACEMENT_MANUAL_REQUIRED', 'PLACEMENT_AI_FAILED', 'SEED_INVALID']);
+const PROFILE_CODES = new Set(['PROFILE_MISMATCH_SUSPECTED', 'DRAFT_PROFILE_MODALITY_MISMATCH', 'PLACEMENT_MANUAL_REQUIRED', 'PLACEMENT_AI_FAILED', 'SEED_INVALID']);
 const EVIDENCE_CODES = new Set(['SYNTHESIS_COVERAGE_INCOMPLETE', 'SOURCE_ID_INVALID', 'PATCH_PROVENANCE_MISSING', 'OFFICIAL_SOURCE_REQUIRED']);
 
 // 网关阶段码形如 SYNTHESIS_SCHEMA_INVALID；传输类码由 ai-transport 按当前 provider 拼
@@ -64,9 +68,11 @@ function missingConfigFieldsOf(failure, errorCode) {
   if (errorCode === 'MODEL_REQUIRED') return ['model'];
   if (errorCode === 'AI_PROTOCOL_MISMATCH') return ['protocol'];
   if (['RETRIEVAL_PROVIDER_UNSUPPORTED', 'SEARCH_PROVIDER_UNSUPPORTED'].includes(errorCode)) return ['search_provider'];
+  if (errorCode === 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED') return ['search_fallback_provider'];
   if (errorCode === 'EXTRACT_PROVIDER_UNSUPPORTED') return ['extract_provider'];
+  if (errorCode === 'EXTRACT_FALLBACK_PROVIDER_UNSUPPORTED') return ['extract_fallback_provider'];
   if (errorCode === 'SEARCH_ENGINE_UNSUPPORTED') return ['search_engine'];
-  if (errorCode === 'TAVILY_ACCESS_MODE_REQUIRED') return ['access_mode'];
+  if (['TAVILY_ACCESS_MODE_REQUIRED', 'TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED'].includes(errorCode)) return ['access_mode'];
   return Array.isArray(failure?.missing_config_fields) ? failure.missing_config_fields.filter(field => typeof field === 'string') : [];
 }
 
@@ -138,6 +144,12 @@ function validateCatalogDraftEnvelope(draft) {
   const errors = [];
   if (draft?.schema_version !== 4) return { ok: false, errors: [{ code: 'DRAFT_SCHEMA_UNSUPPORTED', path: 'schema_version', message: '只允许 schema_version=4 的 CatalogDraft Apply' }] };
   if (!draft.research_plan || !Array.isArray(draft.research_plan.research_scopes)) errors.push({ code: 'RESEARCH_PLAN_MISSING', path: 'research_plan', message: '缺少 ResearchPlan' });
+  if (draft.seed?.detail_kind === 'api_model' && draft.research_plan?.profile?.modality) {
+    const expectedModality = inferModality(draft.seed);
+    if (draft.research_plan.profile.modality !== expectedModality) {
+      errors.push({ code: 'DRAFT_PROFILE_MODALITY_MISMATCH', path: 'research_plan.profile.modality', message: `Draft 按 ${draft.research_plan.profile.modality} 规划，但候选应按 ${expectedModality} 处理` });
+    }
+  }
   const sources = draft.research?.official_sources || [];
   const sourceIds = new Set();
   for (const source of sources) {

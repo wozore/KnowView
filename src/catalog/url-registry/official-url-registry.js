@@ -9,7 +9,7 @@
  *   厂商表 data/manual/registries/official-url-registry.json：
  *   { schema_version: 1, entries: { "<vendor_key>": { vendor_name, official_urls: [], aliases?: [], model_prefixes?: [] } } }
  *   产品表 data/manual/registries/official-product-url-registry.json：
- *   { schema_version: 1, products: { "<product_key>": { name, vendor_key, official_urls: [], update_sources?: [], aliases?: [], product_prefixes?: [], lifecycle, last_verified_at? } } }
+ *   { schema_version: 1, products: { "<product_key>": { name, vendor_key, official_urls: [], update_sources?: [], aliases?: [], identity_aliases?: [], product_prefixes?: [], lifecycle, last_verified_at? } } }
  *   update_sources 是更新链路专用来源；GitHub URL 始终是 github.com 人类网页，REST endpoint 由后续 collector 根据 repository 构造。
  *   product_prefixes 采用词边界匹配，model_prefixes 保留旧 startsWith 兼容。
  *
@@ -75,6 +75,8 @@ function addRegistryCandidate(candidates, { key, entry, officialUrls, kind, matc
   candidates.push({
     key,
     entry: vendorEntry || entry,
+    vendorKey: kind === 'product' ? normalizeKey(entry.vendor_key) : key,
+    ...(kind === 'product' && Array.isArray(entry.identity_aliases) ? { identityAliases: [...entry.identity_aliases] } : {}),
     officialUrls,
     kind,
     matchedKey: key,
@@ -86,10 +88,10 @@ function addRegistryCandidate(candidates, { key, entry, officialUrls, kind, matc
 /**
  * 查找模型名/工具名的登记条目。
  * 默认同时读取厂商表与产品表；传入 registry 且未传 productRegistry 时保留旧单表测试注入模式。
- * detailKind 为 tool 时优先产品，api_model 时优先厂商模型；缺省时产品优先。
+ * detailKind 为 tool 时产品优先；api_model 时产品精确匹配优先，其次厂商模型匹配；缺省时产品优先。
  * @param {string} name 模型名/工具名
  * @param {object} [options] { registry?, productRegistry?, detailKind? }
- * @returns {{ok:true, vendor_name, official_url, official_urls, matched_entry_kind, matched_key} | {ok:false, code, error}}
+ * @returns {{ok:true, vendor_name, vendor_key, official_url, official_urls, identity_aliases?, matched_entry_kind, matched_key} | {ok:false, code, error}}
  */
 function lookupOfficialUrl(name, options = {}) {
   const vendorStore = options.registry !== undefined ? options.registry : loadUrlRegistry();
@@ -132,7 +134,7 @@ function lookupOfficialUrl(name, options = {}) {
         officialUrls,
         kind: 'product',
         match: exactHit,
-        priority: 2,
+        priority: exactHit ? 5 : 2,
       });
     }
   }
@@ -160,10 +162,14 @@ function lookupOfficialUrl(name, options = {}) {
   return {
     ok: true,
     vendor_name: String(best.entry.vendor_name || name).trim() || name,
+    vendor_key: best.vendorKey,
     official_url: best.officialUrls[0],
     official_urls: best.officialUrls,
     matched_entry_kind: best.kind,
     matched_key: best.matchedKey,
+    ...(best.kind === 'product' && Array.isArray(best.identityAliases)
+      ? { identity_aliases: [...best.identityAliases] }
+      : {}),
   };
 }
 

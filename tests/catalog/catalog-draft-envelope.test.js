@@ -2,7 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { buildCatalogDraftEnvelope, validateCatalogDraftEnvelope } = require('../../src/catalog/draft/index');
+const { buildCatalogDraftEnvelope, validateCatalogDraftEnvelope, classifyFailure } = require('../../src/catalog/draft/index');
 
 function plan() {
   return {
@@ -80,6 +80,22 @@ test('field coverage gap creates preview_blocked envelope and cannot be relabele
   assert.ok(checked.recomputed_missing.includes('detail.access_level'));
 });
 
+test('ready Draft with a stale text profile cannot pass review after modality inference changes', () => {
+  const ready = buildCatalogDraftEnvelope({ seed: plan().seed, baseRevision: 'rev-1', researchPlan: plan(), research: research(), synthesis: synthesis() });
+  const stale = {
+    ...ready,
+    seed: { ...ready.seed, name: 'StepAudio 3 ASR', modality: undefined },
+    research_plan: {
+      ...ready.research_plan,
+      seed: { ...ready.research_plan.seed, name: 'StepAudio 3 ASR', modality: undefined },
+      profile: { ...ready.research_plan.profile, key: 'api_model:text', modality: 'text' },
+    },
+  };
+  const checked = validateCatalogDraftEnvelope(stale);
+  assert.equal(checked.ok, false);
+  assert.ok(checked.errors.some(error => error.code === 'DRAFT_PROFILE_MODALITY_MISMATCH'));
+});
+
 test('failed research preserves bounded failure diagnostics', () => {
   const envelope = buildCatalogDraftEnvelope({
     seed: plan().seed,
@@ -99,6 +115,12 @@ test('failed research preserves bounded failure diagnostics', () => {
   assert.equal(envelope.last_error.code, 'TAVILY_SEARCH_FAILED');
   assert.equal(envelope.last_error.response_status, 'error');
   assert.equal(envelope.last_error.output_preview.length, 1200);
+});
+
+test('search auth and provider config failures remain config-recoverable', () => {
+  for (const code of ['TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED']) {
+    assert.equal(classifyFailure({ ok: false, code }, null).recovery_kind, 'config_required', code);
+  }
 });
 
 test('draft envelope rejects missing or duplicate source_ids', () => {

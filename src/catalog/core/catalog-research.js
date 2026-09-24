@@ -140,7 +140,7 @@ function normalizeSource(source, roots, authorizedUrls = new Set()) {
     excerpt: String(source.excerpt || '').trim(),
     discovered_for: scopeRefsOf(source),
   };
-  if (normalized.content && normalized.content_origin !== 'tavily_extract') normalized.content = '';
+  if (normalized.content && !['direct_fetch', 'tavily_extract'].includes(normalized.content_origin)) normalized.content = '';
   return normalized;
 }
 
@@ -232,6 +232,7 @@ async function researchCatalog(plan, adapters, options = {}) {
     if (!reservation.ok) return failWithProgress(costFailure(reservation));
     const discovered = await callResearchAdapter(adapters.discover, { plan, scope, missing_predicates: scope.predicates, ledger }, 'RESEARCH_DISCOVER_FAILED');
     if (discovered?.ok === false) return failWithProgress({ ...discovered, failed_scope: key });
+    if (discovered?.fallback_error) warnings.push(`${scope.kind}: 备用搜索失败（${discovered.fallback_error.code || 'WEB_SEARCH_FAILED'}）`);
     const discoveredSources = Array.isArray(discovered?.sources) ? discovered.sources : [];
     // 窄域命中判定：本轮 discover 至少带到一个信任根内的新 URL，或命中 seed 已声明的官方来源。
     // 只有窄域完全落空（无可信命中）才触发扩域，避免预置提示与发现重合时白耗预算。
@@ -252,7 +253,10 @@ async function researchCatalog(plan, adapters, options = {}) {
         reservation = ledger.reserve('search_queries', 1);
         const widened = await callResearchAdapter(adapters.discover, { plan, scope, missing_predicates: scope.predicates, ledger, domain_scope: 'registrant' }, 'RESEARCH_DISCOVER_FAILED');
         if (widened?.ok === false) warnings.push(`${scope.kind}: 扩域搜索失败已忽略（${widened.code || 'RESEARCH_DISCOVER_FAILED'}）`);
-        else addSources(sources, Array.isArray(widened?.sources) ? widened.sources : [], scope, roots, warnings, authorizedUrls);
+        else {
+          if (widened?.fallback_error) warnings.push(`${scope.kind}: 扩域备用搜索失败（${widened.fallback_error.code || 'WEB_SEARCH_FAILED'}）`);
+          addSources(sources, Array.isArray(widened?.sources) ? widened.sources : [], scope, roots, warnings, authorizedUrls);
+        }
       } else {
         warnings.push(`${scope.kind}: 搜索预算不足以安全扩域，跳过扩域搜索`);
       }
@@ -269,12 +273,12 @@ async function researchCatalog(plan, adapters, options = {}) {
       if (!reservation.ok) return failWithProgress(costFailure(reservation));
       const acquired = await callResearchAdapter(adapters.acquire, { plan, scope, sources: toAcquire, ledger }, 'RESEARCH_ACQUIRE_FAILED');
       if (acquired?.ok === false) return failWithProgress({ ...acquired, failed_scope: key });
-      const byUrl = new Map((acquired?.contents || []).map(item => [canonicalizeUrl(item.url), item.content]).filter(([url, content]) => url && content));
+      const byUrl = new Map((acquired?.contents || []).map(item => [canonicalizeUrl(item.url), item]).filter(([url, item]) => url && item?.content));
       for (const source of toAcquire) {
-        const content = byUrl.get(source.url);
-        if (content) {
-          source.content = String(content).trim();
-          source.content_origin = 'tavily_extract';
+        const fetched = byUrl.get(source.url);
+        if (fetched?.content) {
+          source.content = String(fetched.content).trim();
+          source.content_origin = fetched.content_origin || 'tavily_extract';
         }
       }
       for (const failure of acquired?.failed || []) {

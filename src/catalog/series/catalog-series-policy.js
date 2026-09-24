@@ -374,7 +374,6 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
     target_level2_title: target.title,
     group_key: groupKeyOfSeriesId(target.id),
     source: hint ? 'ai' : 'policy',
-    confidence: hint ? (hint.confidence ?? 1) : 1,
     evidence: [target.id],
   };
 }

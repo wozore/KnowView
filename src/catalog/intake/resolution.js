@@ -7,7 +7,7 @@ const { readPending, setIntakeOutcome } = require('../../pending');
 const { listDrafts } = require('../draft/catalog-draft-store');
 const { planCatalogDraft, normalizeGeneratorOptions, loadGeneratorConfig } = require('../draft');
 const { resolveOfficialSource } = require('./catalog-adapters');
-const { resolveSeriesPlacement, applyPlacementToSeed, loadSeriesPolicy } = require('../series');
+const { resolveSeriesPlacement, applyPlacementToSeed, loadSeriesPolicy, normalizeVendorKey } = require('../series');
 const { loadSharedReleaseIndex, buildIntegratedLookup, lookupReleaseDateForSeed } = require('../catalog-integrated-lookup');
 const { loadCatalogSnapshot, createCostLedger, slugify } = require('../core');
 const { lookupOfficialUrl } = require('../url-registry');
@@ -18,6 +18,7 @@ const {
   readIdentityReceipts,
 } = require('./model-identity-verification');
 const { appendIdentityReceipts } = require('./identity-receipts');
+const { searchAttemptMultiplier, identitySearchRequestBounds, estimateResolutionNeed: estimateResolutionNeedBy } = require('./resolution-cost');
 const {
   createIdentityVerificationAdapters,
   createSeriesMembersSuggestAdapter,
@@ -47,28 +48,8 @@ function effectiveCardForResolution(card, resolution) {
 }
 
 
-/**
- * 批量成本估算：registry 命中仅免 vendor_resolution；核验上限按全 unique 卡计
- * （每张卡至少一次官方源发现 + 一次 AI 身份建议，registry 命中不免核验）。
- */
 function estimateResolutionNeed(cards, options = {}) {
-  let paid = 0;
-  let free = 0;
-  for (const card of cards || []) {
-    const name = String(card.name || card.title || '').trim();
-    if (!name) continue;
-    const hit = lookupRegistryForCard(card, options);
-    if (hit.ok) free += 1; else paid += 1;
-  }
-  const total = paid + free;
-  return {
-    cards_paid: paid,
-    cards_free: free,
-    vendor_search_upper_bound: paid,
-    vendor_responses_upper_bound: paid,
-    verification_search_upper_bound: total,
-    verification_responses_upper_bound: total,
-  };
+  return estimateResolutionNeedBy(cards, options, lookupRegistryForCard);
 }
 
 /** 浅深拷贝快照（供 placement 顺序投影，不改原始数据）。 */
@@ -255,15 +236,22 @@ async function resolveBatchCandidates(cards, options = {}) {
   const verifyFn = options.verifyModelIdentity || verifyModelIdentity;
   const membersFn = options.discoverSeriesMembers || discoverSeriesMembers;
   const indexFn = options.catalogModelKeyIndex || catalogModelKeyIndex;
-  const ledger = options.resolveLedger || createCostLedger({ search_queries: Math.max(1, (cards || []).length), responses_calls: Math.max(1, (cards || []).length) });
+  const fallbackSearchMultiplier = searchAttemptMultiplier(options);
+  const ledger = options.resolveLedger || createCostLedger({ search_queries: Math.max(1, (cards || []).length) * fallbackSearchMultiplier, responses_calls: Math.max(1, (cards || []).length) });
   // 核验预算按本批模型轴卡数下限放大（调用方显式 identityBudgetSize 取两者较大值）
   const modelAxisCount = (cards || []).filter(card => card.entity_type === 'series'
     || card.entity_type === 'model' || card.detail_kind_hint === 'api_model').length;
+  const identitySearchRequests = identitySearchRequestBounds((cards || []).filter(card => card.entity_type === 'series'
+    || card.entity_type === 'model' || card.detail_kind_hint === 'api_model'), options, lookupRegistryForCard);
   const identityOptions = modelAxisCount
-    ? { ...options, identityBudgetSize: Math.max(modelAxisCount, Number(options.identityBudgetSize) || 0) }
+    ? {
+      ...options,
+      identityBudgetSize: Math.max(modelAxisCount, Number(options.identityBudgetSize) || 0),
+      identitySearchBudget: identitySearchRequests.primary + identitySearchRequests.fallback,
+    }
     : options;
   const context = options.identityContext || identityContextOf(identityOptions);
-  // 核验适配器默认按白名单 options 构造真实 Tavily 适配器；options.identityAdapters 注入优先（测试/显式覆盖）。
+  // 核验适配器默认按白名单 options 构造 Web Search + 正文读取适配器；options.identityAdapters 注入优先（测试/显式覆盖）。
   const identityAdapters = options.identityAdapters || createIdentityVerificationAdapters(identityAdapterOptionsOf(options));
   const modelKeyIndex = indexFn(context.snapshot);
   const seeds = [];
@@ -285,8 +273,22 @@ async function resolveBatchCandidates(cards, options = {}) {
         ...(Array.isArray(registryHit?.official_urls) ? registryHit.official_urls : []),
         ...(registryHit?.ok && registryHit.official_url ? [registryHit.official_url] : []),
       ].filter(Boolean);
+      const registryVendorHint = registryHit?.ok && context?.policy
+        ? normalizeVendorKey(context.policy, registryHit.vendor_name)
+        : null;
+      const identityAliases = [...new Set([
+        ...(Array.isArray(card.identity_aliases) ? card.identity_aliases : []),
+        ...(Array.isArray(registryHit?.identity_aliases) ? registryHit.identity_aliases : []),
+      ])];
       const result = await verifyFn(
-        { name, entity_type: card.entity_type || 'model', vendor_hint: card.vendor_key || card.vendor_hint, official_urls: officialUrls },
+        {
+          name,
+          entity_type: card.entity_type || 'model',
+          vendor_hint: card.vendor_key || card.vendor_hint || registryVendorHint || registryHit.matched_key || registryHit.vendor_key,
+          official_urls: officialUrls,
+          ...(card.identity_key ? { identity_key: card.identity_key } : {}),
+          ...(identityAliases.length ? { identity_aliases: identityAliases } : {}),
+        },
         context,
         identityAdapters,
       );
@@ -328,15 +330,18 @@ async function resolveBatchCandidates(cards, options = {}) {
         continue;
       }
       if (modelKeyIndex.has(result.verdict.model_key)) {
-        intakeOutcomes.push(await writeIntakeOutcome(card, 'already_complete', options));
+        intakeOutcomes.push(await writeIntakeOutcome(card, 'already_complete', options)
+          || { candidate_key: card.candidate_key || null, outcome: 'already_complete' });
         continue;
       }
       // 普通 api_model seed：registry 命中仅作域提示，official_urls 全量注入
       try {
+        const verifiedUrl = result.verdict.evidence?.official_url;
+        const verifiedUrls = [...new Set([verifiedUrl, ...officialUrls].filter(Boolean))];
         const seed = pendingCandidateToSeed(effectiveCardForResolution(card, registryHit.ok ? registryHit : card), {
           ...(registryHit.ok ? registryHit : {}),
           vendor_key: result.verdict.vendor_key,
-          official_urls: officialUrls,
+          official_urls: verifiedUrls,
         });
         seed.model_key = result.verdict.model_key;
         seeds.push(seed);

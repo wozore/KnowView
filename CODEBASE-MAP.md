@@ -12,7 +12,7 @@
 
 ## data/manual/registries/ — 生成器登记表与政策数据
 - [official-url-registry.json](data/manual/registries/official-url-registry.json) — 厂商/模型人工官方 URL 登记表。
-- [official-product-url-registry.json](data/manual/registries/official-product-url-registry.json) — 具体 AI 产品官方来源登记表与更新源契约。
+- [official-product-url-registry.json](data/manual/registries/official-product-url-registry.json) — 具体 AI 产品官方来源、经官方核实的身份别名与更新源登记表。
 - [llm-series-policy.json](data/manual/registries/llm-series-policy.json) — 厂商 LLM 二级系列分类政策唯一规则源。
 - [vibe-hub-cache.json](data/manual/registries/vibe-hub-cache.json) — VibeHub 概念页本地缓存。
 
@@ -75,7 +75,8 @@
 - [catalog-integrated-lookup.js](src/catalog/catalog-integrated-lookup.js) — Catalog 与 comparison 共享数据的查询适配。
 - [ai-config.js](src/catalog/ai-config.js) — Catalog 模块 AI provider、模型与检索配置。
 - [catalog-shared-publish.js](src/catalog/catalog-shared-publish.js) — Catalog 发布后共享日期投影。
-- [catalog-workbench.js](src/catalog/catalog-workbench.js) — 维护者知识闭环 Catalog 协调器。
+- [catalog-workbench.js](src/catalog/catalog-workbench.js) — 维护者知识闭环 Catalog 协调器；按规范 model_key 在研究前识别目录已有候选并报告完成状态。
+- [catalog-workbench-prepare.js](src/catalog/catalog-workbench-prepare.js) — Catalog Draft 准备流水线：候选/Draft 复用、规范 model_key 查重、身份解析、模型 placement 解析与逐卡草稿准备。导出: `createCatalogPrepareHandler`
 - [catalog-workbench-view.js](src/catalog/catalog-workbench-view.js) — Catalog 工作台视图 DTO 与诊断格式化。
 - [catalog-generator-commands.js](src/catalog/catalog-generator-commands.js) — 目录生成器各子命令纯逻辑编排。
 - [catalog-retention-prune.js](src/catalog/catalog-retention-prune.js) — Catalog 五模块滚动保留与级联删除协调。
@@ -97,19 +98,23 @@
 - [draft/catalog-batch.js](src/catalog/draft/catalog-batch.js) — 批量 Draft 解析、预览与应用编排。
 - [draft/catalog-draft-envelope.js](src/catalog/draft/catalog-draft-envelope.js) — Draft Envelope 与 Apply 前 readiness 门禁。
 - [draft/catalog-draft-store.js](src/catalog/draft/catalog-draft-store.js) — Draft 创建、读取、更新、列举与删除。
-- [draft/catalog-bundle.js](src/catalog/draft/catalog-bundle.js) — SeriesBundle Draft 的计划、准备、预览、审核、原子应用与丢弃。
+- [draft/catalog-bundle.js](src/catalog/draft/catalog-bundle.js) — SeriesBundle Draft 的计划、准备、预览、审核、原子应用与丢弃；Bundle 候选排除已在目录中的 model_key。
 - [draft/draft-options.js](src/catalog/draft/draft-options.js) — Draft 配置、Seed 校验与研究成本预算。
 - [intake/index.js](src/catalog/intake/index.js) — Intake 子域真实聚合门面。
 - [intake/catalog-adapters.js](src/catalog/intake/catalog-adapters.js) — Catalog 研究与合成默认适配器。
 - [intake/catalog-batch.js](src/catalog/intake/catalog-batch.js) — 待补卡批量导入与 Draft 生命周期。
-- [intake/resolution.js](src/catalog/intake/resolution.js) — 待补卡解析、登记表查重与 placement 编排。
-- [intake/model-identity-verification.js](src/catalog/intake/model-identity-verification.js) — 模型/系列官方正文身份核验、系列成员发现、model_key 索引与 24 小时回执。
-- [intake/identity-adapters.js](src/catalog/intake/identity-adapters.js) — 身份核验层专用适配器工厂（核验契约形状，失败抛错）：Tavily 官方源发现/正文获取与 requestStructuredJson 身份建议；resolution 未显式注入时默认构造。导出: `identityAdapterOptionsOf, createIdentityVerificationAdapters, createIdentitySuggestAdapter`。
-- [intake/identity-receipts.js](src/catalog/intake/identity-receipts.js) — 身份核验回执的单一文件读写、去重与 7 天压缩。
+- [intake/resolution.js](src/catalog/intake/resolution.js) — 待补卡解析、官方产品身份别名传递、登记表查重与 placement 编排。
+- [intake/catalog-model-completion.js](src/catalog/intake/catalog-model-completion.js) — 用候选和登记别名重算规范 model_key，判断模型是否已在目录中。导出: `alreadyCompleteInCatalog`
+- [intake/resolution-cost.js](src/catalog/intake/resolution-cost.js) — 厂商解析、身份搜索、域 fan-out 与一次身份建议格式重试的请求上限估算。
+- [intake/official-source-fetch.js](src/catalog/intake/official-source-fetch.js) — 官方 URL 直连正文获取与 HTML 纯文本归一化。导出: `textFromHtml, fetchOfficialSources`
+- [intake/identity-evidence-contract.js](src/catalog/intake/identity-evidence-contract.js) — 候选身份/别名归一、正文命中与厂商来源域判定。
+- [intake/model-identity-verification.js](src/catalog/intake/model-identity-verification.js) — 候选身份与官方正文一致性、共享域登记 URL 所有权、厂商政策核验、身份建议格式重试、系列成员发现与 model_key 索引。
+- [intake/identity-adapters.js](src/catalog/intake/identity-adapters.js) — 身份核验层适配器：智谱 Web Search 首选、Tavily Search 备用；官方 URL 直连优先，正文未命中候选时用 Tavily Extract 补取，并生成结构化身份建议。resolution 未显式注入时默认构造。导出: `identityAdapterOptionsOf, identityContextOf, createIdentityVerificationAdapters, createIdentitySuggestAdapter`。
+- [intake/identity-receipts.js](src/catalog/intake/identity-receipts.js) — 身份核验回执读写、候选别名与最新匹配回执复用、来源证据投影、系列回执筛选与 7 天压缩。
 - [series/index.js](src/catalog/series/index.js) — Series 子域真实聚合门面。
 - [series/catalog-series-policy.js](src/catalog/series/catalog-series-policy.js) — LLM 系列政策读取、校验与确定性 placement。
 - [series/catalog-series-migration.js](src/catalog/series/catalog-series-migration.js) — 系列容量拆分迁移编排。
-- [series/catalog-series-placement-ai.js](src/catalog/series/catalog-series-placement-ai.js) — 系列 placement AI 建议适配器。
+- [series/catalog-series-placement-ai.js](src/catalog/series/catalog-series-placement-ai.js) — 系列 placement AI 建议适配器；政策决定最终目标系列，不依赖置信度字段。
 - [series/series-data-audit.js](src/catalog/series/series-data-audit.js) — 目录系列/模型键数据纯只读审计：非法/重复/点号丢失 model_key、同名不同键、悬空引用、已知污染卡、厂商别名冲突、跨实体复制、可见成员超容、hidden_history 残留引用、桥接失配；全部输入纯对象注入，零 comparison require、零写入、零真实 policy 读取。导出: `AUDIT_ACTIONS, AUDIT_FINDING_CODES, FINDING_ACTION_BY_CODE, summaryFingerprint, auditCatalogSeriesData`
 - [series/series-bundle-contract.js](src/catalog/series/series-bundle-contract.js) — SeriesBundle 结构、成员分类、Patch 覆盖集、基线漂移与删除禁令校验。
 - [series/series-bundle-planner.js](src/catalog/series/series-bundle-planner.js) — 基于政策、快照和官方核验 verdict 规划系列成员、容量历史转移、Catalog patch 与 identity bridge。
@@ -129,8 +134,8 @@
 - [tool-update/review-scan.js](src/catalog/tool-update/review-scan.js) — 工具更新审核全源扫描与候选组装。
 - [tool-update/catalog-date-repair.js](src/catalog/tool-update/catalog-date-repair.js) — 工具详情日期修补规划与 Apply 门禁。
 - [url-registry/index.js](src/catalog/url-registry/index.js) — URL Registry 子域真实聚合门面。
-- [url-registry/official-url-registry.js](src/catalog/url-registry/official-url-registry.js) — 厂商与模型官方 URL 登记及查询。
-- [url-registry/product-registry.js](src/catalog/url-registry/product-registry.js) — 产品官方 URL 与更新源登记。
+- [url-registry/official-url-registry.js](src/catalog/url-registry/official-url-registry.js) — 厂商与模型官方 URL 登记查询、规范 vendor_key 投影，并向身份核验提供产品身份别名。
+- [url-registry/product-registry.js](src/catalog/url-registry/product-registry.js) — 产品官方 URL、身份别名与更新源登记及校验。
 - [concept/index.js](src/catalog/concept/index.js) — Concept 子域真实聚合门面。
 - [concept/concept-batch.js](src/catalog/concept/concept-batch.js) — 概念待补卡批量计划、合成与应用。
 - [concept/concept-synthesis-ai.js](src/catalog/concept/concept-synthesis-ai.js) — 概念结构化合成 AI 适配器。
@@ -497,6 +502,7 @@
 - [top-panel.js](src/maintainer-web/js/panels/top-panel.js) — 维护者平台 Top 待选池面板：Top 生成/选择/保存、公开投影重建与发布预览渲染，及已选 Top YouTube 条目的字幕文件上传与显式成本确认后的外部 AI 总结。
 - [knowledge-panel.js](src/maintainer-web/js/panels/knowledge-panel.js) — 维护者平台知识提取与待补卡面板。
 - [catalog-draft-discard.js](src/maintainer-web/js/panels/catalog-draft-discard.js) — Catalog Draft 丢弃按钮与 discard 请求（从 catalog-panel 拆出）。
+- [catalog-prepare-report.js](src/maintainer-web/js/panels/catalog-prepare-report.js) — Catalog Draft 计划与准备控制器，展示逐卡阶段、错误码与安全原因摘要。
 - [catalog-panel.js](src/maintainer-web/js/panels/catalog-panel.js) — 维护者平台目录草稿与 SeriesBundle 审核面板：Catalog/Bundle 计划、准备与增量成本确认，Draft 阻断恢复（恢复计划预览 + resume）与 cleanup-only 清理，Bundle 审核/Apply/丢弃与 pending outcome 收敛，批次预览与 apply-batch 事务写入。
 - [concept-panel.js](src/maintainer-web/js/panels/concept-panel.js) — 维护者平台概念合成与应用面板。
 - [tool-update-panel.js](src/maintainer-web/js/panels/tool-update-panel.js) — 维护者平台工具更新审核面板。

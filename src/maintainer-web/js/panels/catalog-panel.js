@@ -1,6 +1,9 @@
 import { request, listFrom, ApiError } from '../api.js';
 import { state, $, addText, addBadge, clearChildren, showNotice } from '../state.js';
 import { discardButtonFor } from './catalog-draft-discard.js';
+import { planCatalog, prepareCatalog } from './catalog-prepare-report.js';
+
+export { planCatalog, prepareCatalog };
 export function recoveryControlsFor(draft, content, onRefreshAll) {
   if (!draft.recovery_kind || draft.readiness === 'ready') return;
   const panel = document.createElement('div');
@@ -19,9 +22,9 @@ export function recoveryControlsFor(draft, content, onRefreshAll) {
   controls.className = 'recovery-controls';
   const configFields = Array.isArray(draft.missing_config_fields) ? draft.missing_config_fields : [];
   const inputs = new Map();
-  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', search_provider: 'tavily', extract_provider: 'tavily', search_engine: 'search_std', access_mode: 'keyless' };
+  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', search_provider: 'zhipu_web_search', search_fallback_provider: 'tavily', extract_provider: 'direct_fetch', extract_fallback_provider: 'tavily', search_engine: 'search_std', access_mode: 'keyless' };
   for (const field of configFields) {
-    if (!['model', 'provider', 'protocol', 'search_provider', 'extract_provider', 'search_engine', 'access_mode'].includes(field)) continue;
+    if (!['model', 'provider', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine', 'access_mode'].includes(field)) continue;
     const label = document.createElement('label');
     label.className = 'recovery-field';
     label.textContent = field;
@@ -175,7 +178,7 @@ async function reviewBundle(draft, row, onRefreshAll) {   const id = draft.draft
 function renderBundleReview(draft, row, review, onRefreshAll) {   const content = row.querySelector('.item-content');   if (!content) return;   const old = content.querySelector('.bundle-review');   if (old) old.remove();   const panel = document.createElement('div');   panel.className = 'bundle-review';   addText(panel, 'p', `预览已锁定：Catalog revision ${review.current_revision}`, 'item-id');   addText(panel, 'p', `${bundleMembers(review.draft).length} 个成员；请核对后再确认写入。`, 'item-summary');   const toolbar = document.createElement('div');   toolbar.className = 'toolbar';   const apply = document.createElement('button');   apply.type = 'button';   apply.className = 'button button-danger';   apply.textContent = 'Apply Bundle';   const discard = document.createElement('button');   discard.type = 'button';   discard.className = 'button button-quiet';   discard.textContent = '丢弃 Bundle';   toolbar.append(apply, discard);   panel.appendChild(toolbar);   content.appendChild(panel);   apply.addEventListener('click', () => applyBundle(review, apply, onRefreshAll));   discard.addEventListener('click', () => discardBundle(review, discard, onRefreshAll)); }
 async function applyBundle(review, button, onRefreshAll) {   button.disabled = true;   try {     const result = await request('catalog/apply-bundle', {       method: 'POST',       body: JSON.stringify({         draft_id: review.draft_id,         expected_revision: review.current_revision,         bundle_token: review.bundle_token,         confirm: review.confirmation,       }),     });     if (!result?.ok) throw new Error(result?.code || 'Bundle Apply 被拒绝');     state.catalogBundleOutcome = result;     const suffix = result.cleanup_only ? 'cleanup-only 恢复待处理' : result.cleanup_pending ? 'Draft 清理待处理' : result.outcome_pending ? 'pending outcome warning' : '';     showNotice(`Bundle 已应用，目标 revision：${result.target_revision || '未返回'}。${suffix ? `（${suffix}）` : ''}`, result.outcome_pending || result.cleanup_pending ? 'conflict' : 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     showNotice(error.message || 'Bundle Apply 失败。', 'error');   } finally {     button.disabled = false;   } }
 async function discardBundle(review, button, onRefreshAll) {   button.disabled = true;   try {     const result = await request(`catalog/bundles/${encodeURIComponent(review.draft_id)}/discard`, {       method: 'POST',       body: JSON.stringify({ expected_revision: review.current_revision, confirm: review.discard_confirmation }),     });     if (!result?.ok) throw new Error(result?.code || 'Bundle 丢弃被拒绝');     showNotice('Bundle 已丢弃。', 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     showNotice(error.message || 'Bundle 丢弃失败。', 'error');   } finally {     button.disabled = false;   } }
-function renderBundlePlan(payload) {   const root = $('#catalogBundlePlanPreview');   if (!root) return;   clearChildren(root);   if (!payload?.ok) {     addText(root, 'p', payload?.code || 'Bundle 计划被阻断。', 'item-blocked');     return;   }   const resolution = payload.cost_plan || payload.resolution || {};   addText(root, 'p', `身份核验：搜索上限 ${Number(resolution.verification_search_upper_bound || 0)}，responses 上限 ${Number(resolution.verification_responses_upper_bound || 0)}。`, 'item-summary');   addText(root, 'p', payload.enrichment_cost?.message || '成员富化成本将在 prepare 阶段按成员上限计入。', 'item-summary');   addText(root, 'p', `本次 ${Number(payload.candidates?.length || 0)} 个系列候选需要确认身份核验与成员富化成本。`, 'item-id'); }
+function renderBundlePlan(payload) {   const root = $('#catalogBundlePlanPreview');   if (!root) return;   clearChildren(root);   if (!payload?.ok) {     addText(root, 'p', payload?.code || 'Bundle 计划被阻断。', 'item-blocked');     return;   }   const resolution = payload.cost_plan || payload.resolution || {};   addText(root, 'p', `身份核验：搜索上限 ${Number(resolution.verification_search_upper_bound || 0)}（备用 ${Number(resolution.verification_search_fallback_upper_bound || 0)}），正文提取备用 ${Number(resolution.verification_extract_upper_bound || 0)}，responses 上限 ${Number(resolution.verification_responses_upper_bound || 0)}。`, 'item-summary');   addText(root, 'p', payload.enrichment_cost?.message || '成员富化成本将在 prepare 阶段按成员上限计入。', 'item-summary');   addText(root, 'p', `本次 ${Number(payload.candidates?.length || 0)} 个系列候选需要确认身份核验与成员富化成本。`, 'item-id'); }
 export async function planBundle(button) {   button.disabled = true;   try {     const plan = await request('catalog/bundle-plan');     state.catalogBundlePlan = plan;     state.catalogBundleEnrichmentToken = null;     if (plan?.catalog_revision) state.revisions.catalog = plan.catalog_revision;     renderBundlePlan(plan);     const prepare = $('#catalogBundlePrepareButton');     if (prepare) prepare.disabled = !plan?.ok || !$('#catalogBundleCostConfirm')?.checked;     showNotice(plan?.ok ? 'Bundle 计划已生成，请确认身份核验与成员富化成本。' : (plan?.code || '当前没有可进入 Bundle 的系列候选。'), plan?.ok ? 'success' : 'error');   } catch (error) {     showNotice(error.message || 'Bundle 计划失败。', 'error');   } finally {     button.disabled = false;   } }
 export async function prepareBundle(button, onRefreshAll) {   const plan = state.catalogBundlePlan;   if (!plan?.ok || !$('#catalogBundleCostConfirm')?.checked) {     showNotice('请先生成 Bundle 计划并确认身份核验与成员富化成本。', 'error');     return;   }   button.disabled = true;   try {     const payload = { pending_revision: plan.pending_revision, catalog_revision: plan.catalog_revision, plan_hash: plan.plan_hash, confirm_cost: true };     if (state.catalogBundleEnrichmentToken) payload.enrichment_confirmation_token = state.catalogBundleEnrichmentToken;     const result = await request('catalog/bundle-prepare', { method: 'POST', body: JSON.stringify(payload) });     if (!result?.ok) {       if (result?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED' || result?.status === 'enrichment_cost_confirmation_required') {         state.catalogBundleEnrichmentToken = result.enrichment_confirmation_token;         const limits = result.enrichment_hard_limits || {};         showNotice(`已计算成员富化上限（搜索 ${Number(limits.max_total_search_queries || 0)} 次，综合调用 ${Number(limits.max_total_synthesis_calls || 0)} 次）。请再次点击准备以确认富化。`, 'warning');         return;       }       throw new Error(result?.code || 'Bundle Draft 准备被阻断');     }     state.catalogBundleEnrichmentToken = null;     showNotice('Bundle Draft 已准备，请逐项审核或丢弃。', 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     const p = error?.payload;     if (error?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED' || p?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED') {       state.catalogBundleEnrichmentToken = p?.enrichment_confirmation_token || error?.enrichment_confirmation_token;       const limits = p?.enrichment_hard_limits || {};       showNotice(`已计算成员富化上限（搜索 ${Number(limits.max_total_search_queries || 0)} 次，综合调用 ${Number(limits.max_total_synthesis_calls || 0)} 次）。请再次点击准备以确认富化。`, 'warning');       return;     }     showNotice(error.message || 'Bundle Draft 准备失败。', 'error');   } finally {     button.disabled = false;   } }
 export function renderCatalogBundles(payload, onRefreshAll) {
@@ -287,44 +290,6 @@ export function renderCatalogBatchPreview(payload) {
   }
   const applyBtn = $('#catalogApplyButton');
   if (applyBtn) applyBtn.disabled = false;
-}
-export async function planCatalog(button) {
-  button.disabled = true;
-  try {
-    state.catalogPlan = await request('catalog/plan');
-    state.revisions.catalog = state.catalogPlan.catalog_revision || '';
-    const prepBtn = $('#catalogPrepareButton');
-    if (prepBtn) prepBtn.disabled = !state.catalogPlan.ok;
-    showNotice(state.catalogPlan.ok ? 'Catalog 计划已生成，请核对成本并确认。' : '当前没有可进入 Catalog 的已批准待补卡。', state.catalogPlan.ok ? 'success' : 'error');
-  } catch (error) {
-    showNotice(error.message || 'Catalog 计划失败。', 'error');
-  } finally {
-    button.disabled = false;
-  }
-}
-export async function prepareCatalog(button, onRefreshAll) {
-  const plan = state.catalogPlan;
-  if (!plan || !$('#catalogCostConfirm').checked) {
-    showNotice('请先生成计划并确认 Catalog 成本。', 'error');
-    return;
-  }
-  button.disabled = true;
-  try {
-    const result = await request('catalog/prepare', {
-      method: 'POST',
-      body: JSON.stringify({ pending_revision: plan.pending_revision, catalog_revision: plan.catalog_revision, plan_hash: plan.plan_hash, confirm_cost: true })
-    });
-    if (!result?.ok) throw new Error(result?.code || 'Catalog Draft 准备被阻断');
-    showNotice('Catalog Draft 已准备，仍需逐项审核后 Apply。');
-    if (typeof onRefreshAll === 'function') await onRefreshAll();
-  } catch (error) {
-    const msg = (error.code || error.message) === 'PREPARE_IN_PROGRESS'
-      ? '已有一轮 Catalog Draft 准备在执行中，请等待完成后点击“刷新数据”查看进度。'
-      : (error.message || 'Catalog Draft 准备失败。');
-    showNotice(msg, 'error');
-  } finally {
-    button.disabled = false;
-  }
 }
 export async function previewCatalogBatch(button) {
   button.disabled = true;

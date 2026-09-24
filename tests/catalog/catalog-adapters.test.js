@@ -31,6 +31,8 @@ test('catalog discovery propagates keyed Tavily mode without keyless headers', a
     scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-v2-6' } },
     missing_predicates: ['api_available'],
   }, {
+    searchProvider: 'tavily',
+    searchFallbackProvider: 'tavily',
     searchApiKey: 'tavily-key',
     accessMode: 'keyed',
     fetchImpl: async (url, init) => {
@@ -51,6 +53,7 @@ test('zhipu search uses only the dedicated Web Search key', async () => {
     missing_predicates: ['api_available'],
   }, {
     searchProvider: 'zhipu_web_search',
+    searchFallbackProvider: 'tavily',
     apiKey: 'deepseek-secret',
     webSearchApiKey: 'zhipu-search-key',
     fetchImpl: async (url, init) => {
@@ -76,6 +79,8 @@ test('catalog discovery fails closed before fetch when keyed Tavily key is missi
     scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-v2-6' } },
     missing_predicates: ['api_available'],
   }, {
+    searchProvider: 'tavily',
+    searchFallbackProvider: 'tavily',
     searchApiKey: '',
     accessMode: 'keyed',
     fetchImpl: async () => { calls += 1; return response({ results: [] }); },
@@ -92,6 +97,8 @@ test('catalog discovery delegates official-domain filtering to Tavily', async ()
     scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-v2-6' } },
     missing_predicates: ['api_available', 'price_rate'],
   }, {
+    searchProvider: 'tavily',
+    searchFallbackProvider: 'tavily',
     searchApiKey: 'tavily-key',
     fetchImpl: async (url, init) => {
       request = { url, body: JSON.parse(init.body) };
@@ -120,6 +127,8 @@ test('catalog discovery returns seed official URLs for direct extraction in deta
     scope: { kind: 'detail', subject: { kind: 'detail', key: 'augment-code' } },
     missing_predicates: ['release_date'],
   }, {
+    searchProvider: 'tavily',
+    searchFallbackProvider: 'tavily',
     searchApiKey: 'tavily-key',
     accessMode: 'keyed',
     fetchImpl: async () => response({ results: [] }),
@@ -148,6 +157,8 @@ test('catalog discovery includes identity_verified sources and excludes untruste
     scope: { kind: 'detail', subject: { kind: 'detail', key: 'stepaudio-3-gen' } },
     missing_predicates: ['price_rate'],
   }, {
+    searchProvider: 'tavily',
+    searchFallbackProvider: 'tavily',
     searchApiKey: 'tavily-key',
     accessMode: 'keyed',
     fetchImpl: async () => response({ results: [] }),
@@ -172,6 +183,8 @@ test('catalog discovery does not force detail hints into parent scopes', async (
     scope: { kind: 'vendor', subject: { kind: 'vendor', key: 'kling' } },
     missing_predicates: ['vendor_features'],
   }, {
+    searchProvider: 'tavily',
+    searchFallbackProvider: 'tavily',
     searchApiKey: 'tavily-key',
     accessMode: 'keyed',
     fetchImpl: async () => response({ results: [] }),
@@ -180,8 +193,9 @@ test('catalog discovery does not force detail hints into parent scopes', async (
   assert.deepEqual(result.sources.map(source => source.url), ['https://kling.ai/document-api']);
 });
 
-test('catalog acquire uses Tavily cleaned content and canonical URLs', async () => {
+test('catalog acquire uses direct official fetch first and Tavily for unreadable pages', async () => {
   let request;
+  const calls = [];
   const result = await acquireOfficialSources({
     plan: plan(),
     scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-v2-6' }, predicates: ['price_rate'] },
@@ -189,14 +203,58 @@ test('catalog acquire uses Tavily cleaned content and canonical URLs', async () 
   }, {
     searchApiKey: 'tavily-key',
     fetchImpl: async (url, init) => {
+      calls.push(String(url));
+      if (String(url).startsWith('https://kling.ai/')) return { ok: false, status: 503, text: async () => '' };
       request = { url, body: JSON.parse(init.body) };
-      return response({ results: [{ url: 'https://kling.ai/document-api/api/video/2-6', raw_content: '# Pricing\n1 unit per second' }] });
+      return response({ results: [{ url: 'https://kling.ai/document-api/api/video/2-6', raw_content: 'Kling 2.6 Pro official API pricing: 1 unit per second' }] });
     },
   });
   assert.equal(result.ok, true);
   assert.equal(request.url, 'https://api.tavily.com/extract');
   assert.deepEqual(request.body.urls, ['https://kling.ai/document-api/api/video/2-6']);
-  assert.equal(result.contents[0].content, '# Pricing\n1 unit per second');
+  assert.equal(result.contents[0].content, 'Kling 2.6 Pro official API pricing: 1 unit per second');
+  assert.deepEqual(calls, ['https://kling.ai/document-api/api/video/2-6', 'https://api.tavily.com/extract']);
+  assert.equal(result.contents[0].content_origin, 'tavily_extract');
+});
+
+test('catalog acquire skips Tavily when direct official fetch returns body text', async () => {
+  const calls = [];
+  const result = await acquireOfficialSources({
+    plan: plan(),
+    scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-v2-6' }, predicates: ['api_available'] },
+    sources: [{ url: 'https://kling.ai/model', title: 'Kling 2.6' }],
+  }, {
+    fetchImpl: async url => {
+      calls.push(String(url));
+      return { ok: true, status: 200, text: async () => '<html><body><h1>Kling 2.6</h1><p>Official API</p></body></html>' };
+    },
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.contents[0].content_origin, 'direct_fetch');
+  assert.match(result.contents[0].content, /Kling 2.6 Official API/);
+  assert.deepEqual(calls, ['https://kling.ai/model']);
+});
+
+test('catalog acquire uses Tavily when a direct API-model page has no candidate name', async () => {
+  const calls = [];
+  const result = await acquireOfficialSources({
+    plan: {
+      ...plan(),
+      seed: { ...plan().seed, detail_kind: 'api_model', name: 'Kling 2.6 Pro', vendor_key: 'kuaishou', model_key: 'kuaishou-kling-2.6-pro' },
+    },
+    scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-2-6-pro' }, predicates: ['api_available'] },
+    sources: [{ url: 'https://kling.ai/models', title: 'Kling 2.6 Pro' }],
+  }, {
+    fetchImpl: async url => {
+      calls.push(String(url));
+      if (String(url) === 'https://kling.ai/models') return { ok: true, status: 200, text: async () => '<html><body>模型文档导航</body></html>' };
+      return response({ results: [{ url: 'https://kling.ai/models', raw_content: 'Kling 2.6 Pro offers an official API.' }] });
+    },
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.contents[0].content_origin, 'tavily_extract');
+  assert.match(result.contents[0].content, /Kling 2\.6 Pro/);
+  assert.deepEqual(calls, ['https://kling.ai/models', 'https://api.tavily.com/extract']);
 });
 
 test('catalog capability probe checks Tavily without invoking the extraction LLM', async () => {
@@ -204,12 +262,16 @@ test('catalog capability probe checks Tavily without invoking the extraction LLM
   const result = await probeCatalogCapabilities({
     apiKey: 'zhipu-key',
     searchApiKey: 'tavily-key',
+    webSearchApiKey: 'zhipu-search-key',
+    searchProvider: 'zhipu_web_search',
     accessMode: 'keyed',
-    fetchImpl: async () => { calls += 1; return response({ results: [{ url: 'https://docs.tavily.com', title: 'Docs', content: 'Tavily' }] }); },
+    fetchImpl: async (_url, init) => { calls += 1; assert.equal(init.headers.Authorization, 'Bearer zhipu-search-key'); return response({ search_result: [{ link: 'https://docs.example.com', title: 'Docs', content: 'Web Search' }] }); },
   });
   assert.equal(result.ok, true);
-  assert.equal(result.search_provider, 'tavily');
-  assert.equal(result.extract_provider, 'tavily');
+  assert.equal(result.search_provider, 'zhipu_web_search');
+  assert.equal(result.search_fallback_provider, 'tavily');
+  assert.equal(result.extract_provider, 'direct_fetch');
+  assert.equal(result.extract_fallback_provider, 'tavily');
   assert.equal(result.search_engine, 'search_std');
   assert.equal(result.access_mode, 'keyed');
   assert.equal(result.extraction_provider, 'zhipu');

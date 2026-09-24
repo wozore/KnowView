@@ -7,7 +7,7 @@
  *   - 输入：候选模型、厂商政策、当前该厂商二级系列与成员摘要、已有登记表元数据；
  *     不要求 Research 阶段才获得的正文摘录，避免 placement→plan→research 循环依赖。
  *   - 输出严格结构：usage_kind / modality / canonical_vendor_key / canonical_family /
- *     major_line / release_cohort / confidence / rationale。
+ *     major_line / release_cohort / rationale。
  *   - AI 不直接决定 target ID/标题、不输出 LayerPatch、不负责 split 成员搬迁。
  *
  * 确定性门禁在 catalog-series-policy 的 planSeriesPlacement：
@@ -49,8 +49,11 @@ function ordinaryPlacementGate(policy, snapshot, candidate, planned) {
   const targetSnapshot = (snapshot?.['vendor-level2'] || []).find(item => item.id === planned.target_level2_id);
   const projectedRefs = new Set((targetSnapshot?.detail_refs || []).map(ref => normalizedMemberKey(ref?.id)));
   const hasCompleteExpectedSet = expected.length > 0 && expected.every(key => projectedRefs.has(key));
-  const candidateKey = normalizedMemberKey(candidate?.name);
-  if (family?.version_axis && family.version_axis !== 'none' && hasCompleteExpectedSet && !expected.includes(candidateKey)) {
+  const candidateKeys = new Set([normalizedMemberKey(candidate?.name)]);
+  const modelKey = String(candidate?.model_key || '');
+  if (vendorKey && modelKey.startsWith(`${vendorKey}-`)) candidateKeys.add(normalizedMemberKey(modelKey.slice(vendorKey.length + 1)));
+  const isExpectedMember = expected.some(key => candidateKeys.has(key));
+  if (family?.version_axis && family.version_axis !== 'none' && hasCompleteExpectedSet && !isExpectedMember) {
     return {
       kind: 'migration_required',
       code: 'PLACEMENT_MIGRATION_REQUIRED',
@@ -106,20 +109,17 @@ function buildSeriesPlacementInstructions() {
     '3) canonical_family 只能取当前厂商政策 families 中的 family 名；不确定时填 unknown。' +
     '4) major_line 是厂商自己的主版本标识（如 glm5、qwen3），不要用全局数字猜测。' +
     '5) release_cohort 只能取 newest（当前代）或 previous（紧邻上一代）；无法判断填 unknown。' +
-    '6) confidence 为 0~1 的小数，低置信（<0.5）表示建议不可靠。' +
-    '7) rationale 用一句话说明依据，必须引用候选名/政策家族名，不许编造 URL。' +
+    '6) rationale 用一句话说明依据，必须引用候选名/政策家族名，不许编造 URL。' +
     '输出 JSON：{"usage_kind":string,"modality":string,"canonical_vendor_key":string,' +
     '"canonical_family":string,"major_line":string,"release_cohort":string,' +
-    '"confidence":number,"rationale":string}。字段必须是字符串/数字，禁止额外字段。';
+    '"rationale":string}。字段必须是字符串，禁止额外字段。';
 }
 
 /** 校验 AI 输出结构。 */
 function validateSeriesPlacementValue(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
   return ['usage_kind', 'modality', 'canonical_vendor_key', 'canonical_family', 'major_line', 'release_cohort', 'rationale']
-    .every(key => typeof value[key] === 'string')
-    && typeof value.confidence === 'number'
-    && value.confidence >= 0 && value.confidence <= 1;
+    .every(key => typeof value[key] === 'string');
 }
 
 /**
@@ -150,7 +150,6 @@ async function suggestSeriesPlacement(input, options = {}) {
     usage_kind: VALID_USAGE.includes(value.usage_kind) ? value.usage_kind : 'unknown',
     canonical_family: value.canonical_family || null,
     release_cohort: ['newest', 'previous'].includes(value.release_cohort) ? value.release_cohort : null,
-    confidence: value.confidence,
   };
   return { ok: true, hint, usage: result.usage, raw: value };
 }
@@ -198,7 +197,6 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
         target_level2_id: cached.target_level2_id,
         target_level2_title: cached.target_level2_title,
         group_key: cached.group_key,
-        confidence: 1,
       };
     }
   }
@@ -242,12 +240,11 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
     usage_kind: suggestion.hint.usage_kind,
     canonical_family: suggestion.hint.canonical_family,
     release_cohort: suggestion.hint.release_cohort,
-    confidence: suggestion.hint.confidence,
   };
   const replanned = planSeriesPlacement(policy, snapshot, candidate, hint);
   const gated = ordinaryPlacementGate(policy, snapshot, candidate, replanned);
   if (gated.kind === 'decision' || gated.kind === 'not_applicable' || gated.kind === 'migration_required') {
-    return { ...gated, source: 'ai', ai_confidence: suggestion.hint.confidence };
+    return { ...gated, source: 'ai' };
   }
   return { kind: 'fail_closed', code: 'PLACEMENT_AI_NOT_CONFIRMED', reason: replanned.reason };
 }
@@ -295,7 +292,6 @@ function applyPlacementToSeed(seed, decision) {
     target_level2_id: decision.target_level2_id,
     target_level2_title: decision.target_level2_title,
     group_key: decision.group_key || null,
-    confidence: decision.confidence ?? 1,
   };
   return seed;
 }

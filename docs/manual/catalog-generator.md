@@ -9,8 +9,8 @@
 - Node.js；
 - 在项目根目录执行命令；
 - 目录模块配置的合成 provider 对应 API Key 环境变量（默认 provider 为 ZhipuAI，使用 `ZHIPU_API_KEY`）；
-- 官方资料搜索和正文提取使用 Tavily。目录生成器的联网命令必须显式传入 `--tavily-access-mode keyed`，使用 `TAVILY_API_KEY`；本轮工具卡生成不使用 keyless 模式。缺少 Key 时会在发出请求前 fail-closed；不要把真实 Key 写入 Seed、配置文件、BAT 或目录 JSON。
-- 配置的 Search provider（Tavily 或 Zhipu Web Search）负责发现官方来源，Tavily Extract 负责返回清洗后的正文，合成模型（默认 ZhipuAI `glm-5.3-flash`）单段式基于官方来源正文合成五层字段与来源 provenance。
+- 官方来源搜索默认使用智谱 Web Search，Tavily Search 是备用；官方 URL 正文优先直连获取，失败时使用 Tavily Extract 备用。联网目录命令显式传入 `--tavily-access-mode keyed|keyless`，以便授权备用 Tavily 的访问模式；只有触发备用且模式为 keyed 时才需要 `TAVILY_API_KEY`。不要把真实 Key 写入 Seed、配置文件、BAT 或目录 JSON。
+- 目录生成器的 `search_provider` 用于首选官方来源发现，`search_fallback_provider` 用于搜索失败/无结果时的备用；`extract_provider` 固定为 `direct_fetch`，`extract_fallback_provider` 为 Tavily。合成模型（默认 ZhipuAI `glm-5.3-flash`）只依据获取到的官方正文合成五层字段与来源 provenance。
 
 API Key 只通过环境变量读取，不要写入 Seed、配置文件、BAT、草案或目录 JSON。
 
@@ -40,8 +40,10 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
     "catalog": {
       "enabled": true,
       "provider": "zhipu",
-      "search_provider": "tavily",
-      "extract_provider": "tavily",
+      "search_provider": "zhipu_web_search",
+      "search_fallback_provider": "tavily",
+      "extract_provider": "direct_fetch",
+      "extract_fallback_provider": "tavily",
       "search_engine": "search_std",
       "model": "glm-5.3-flash",
       "protocol": "messages",
@@ -63,11 +65,11 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 ```
 
 - `provider` 选择字段合成的模型厂商；当前目录生成器默认使用 ZhipuAI（默认模型 `glm-5.3-flash`）。
-- `search_provider` 支持 `tavily` 与 `zhipu_web_search`；`extract_provider` 当前固定为 `tavily`，由 Tavily Extract 获取清洗后的正文。`search_engine` 在智谱搜索时可选 `search_std`、`search_pro`、`search_pro_sogou`、`search_pro_quark`。
+- `search_provider` 支持 `zhipu_web_search` 与 `tavily`；默认智谱首选，Tavily 备用。`extract_provider` 使用直连官方 URL；直连失败时由 `extract_fallback_provider: "tavily"` 调用 Tavily Extract。`search_engine` 在智谱搜索时可选 `search_std`、`search_pro`、`search_pro_sogou`、`search_pro_quark`。
 - `model` 选择合成 provider 的模型；OpenAI 等没有默认模型的 provider 必须显式填写。
 - `protocol` 必须与 provider 匹配；zhipu 使用 Anthropic 兼容的 `messages` 端点，协议不匹配会 fail-closed，不会发请求。
-- API Key 只按职责从环境变量读取：ZhipuAI 使用 `ZHIPU_API_KEY`，Tavily 使用 `TAVILY_API_KEY`；Key 不进入配置文件。
-- `max_search_queries`、`max_pages`、`max_responses_calls`、`max_synthesis_calls` 是执行前就生效的硬上限；搜索请求、正文 URL 和模型请求均在执行前扣减，额度不足时返回 `COST_BUDGET_EXHAUSTED`。
+- API Key 只按职责从环境变量读取：ZhipuAI 搜索/合成使用 `ZHIPU_API_KEY`，Tavily 备用使用 `TAVILY_API_KEY`；Key 不进入配置文件。
+- `max_search_queries`、`max_pages`、`max_responses_calls`、`max_synthesis_calls` 控制本次研究上限；计划会把搜索域 fan-out、扩域查询和 Tavily 备用计入实际搜索请求上限，并显示正文提取备用次数。搜索请求、正文 URL 和模型请求均在执行前扣减，额度不足时返回 `COST_BUDGET_EXHAUSTED`。
 - `resume --confirm-cost` 表示维护者授权一组新的增量硬预算；历史消耗仍保留在 Draft 成本账本中，不会被重置。
 - `news` 配置项为新闻链路模块配置。
 
@@ -81,7 +83,7 @@ $env:TAVILY_API_KEY = "你的Tavily_API_Key"
 |---|---|---|---|
 | `plan --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
 | `prepare --seed <file>` | 离线计算 CatalogProfile、ResearchScope、LayerPlan 和硬成本计划 | 否 | 否 |
-| `probe --confirm-cost --tavily-access-mode keyed` | 检查配置的 Search/Extract provider 和合成 provider（正文 Extract 当前仍需 Tavily access mode） | 会调用一次配置的 Search | 否 |
+| `probe --confirm-cost --tavily-access-mode keyed` | 检查首选/备用 Search 和合成 provider；不调用正文提取 | 首选失败时可能调用 Tavily Search | 否 |
 | `new --seed <file> --confirm-cost --tavily-access-mode keyed` | 按计划联网研究并生成 schema v4 Preview Draft；Search 可在配置中选择 Tavily 或 Zhipu Web Search | 会联网并可能产生费用 | 否 |
 | `resume <draft-id> --confirm-cost --tavily-access-mode keyed` | 只补 FieldCoverage 中仍缺失字段对应的层来源并重新合成 | 会联网并可能产生费用 | 否 |
 | `list` | 列出草案及状态 | 否 | 否 |
@@ -108,7 +110,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 
 双击后直接按回车会退出，不会修改任何文件。命令执行完毕后窗口不会自动进入下一轮交互；需要执行下一条命令时重新双击 BAT，或在终端中再次运行。
 
-## 3. 先检查 Tavily 检索和合成 provider 配置
+## 3. 先检查 Web Search 和合成 provider 配置
 
 在项目根目录执行：
 
@@ -116,16 +118,17 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 ```
 
-这会执行一次最小 Tavily 动态检查，可能产生 API 调用费用。成功时应看到：
+这会执行一次最小首选 Web Search 检查；首选失败或无结果时会尝试 Tavily 备用检索，可能产生 API 调用费用。成功时应看到：
 
-- Tavily 检索 provider；
+- 首选或备用 Web Search provider，以及实际来源数量；
 - 合成 provider 和 model；
 - 可审计官方来源数量。
 
 常见失败：
 
 - `TAVILY_SEARCH_AUTH_REQUIRED`：keyed 模式（`TAVILY_ACCESS_MODE=keyed` 或 keyed 端点）下当前终端没有 `TAVILY_API_KEY`；
-- `TAVILY_SEARCH_RATE_LIMITED` / `TAVILY_SEARCH_FAILED`：Tavily Search 被限流或返回失败；
+- `ZHIPU_WEB_SEARCH_RATE_LIMITED` / `ZHIPU_WEB_SEARCH_FAILED`：智谱 Web Search 首选被限流或返回失败；
+- `TAVILY_SEARCH_RATE_LIMITED` / `TAVILY_SEARCH_FAILED`：Tavily Search 备用被限流或返回失败；
 - `TAVILY_EXTRACT_FAILED`：官方页面正文提取失败，来源会保留但字段合成证据不足；
 - 鉴权与传输类错误码带当前 provider 前缀（默认 ZhipuAI）：`ZHIPU_AUTH_REQUIRED`：当前终端没有 `ZHIPU_API_KEY`；`ZHIPU_RATE_LIMITED` / `ZHIPU_TIMEOUT`：字段合成请求被限流或超时；Draft 分类按后缀归一，与 provider 无关；
 - 合成类错误码固定使用 `SYNTHESIS_*` 前缀：`SYNTHESIS_EMPTY`：合成模型没有返回文本；
@@ -312,9 +315,9 @@ bat\catalog-generator.bat new --seed data\manual\catalog-seed.json --confirm-cos
 `new` 会依次执行：
 
 1. 根据 `detail_kind + modality` 选择 CatalogProfile，并计算需要研究的 vendor/group/detail scope；
-2. 使用 Tavily Search 按官方域名和谓词联想搜索 developer/API/OpenAPI/pricing/credits/specifications 等资料；
+2. 使用智谱 Web Search 首选、Tavily Search 备用，按官方域名和谓词联想搜索 developer/API/OpenAPI/pricing/credits/specifications 等资料；
 3. `detail` scope 还会把 Seed 的 `official_url` 与 `discovery_sources[kind=official_hint]` 作为指定官方来源直接加入待提取列表；它们不只是信任根，适用于用户已核验的具体 release notes、定价页或产品文档；
-4. canonicalize URL、过滤非官方域名，再用 Tavily Extract 获取清洗后的 markdown/text 正文；
+4. canonicalize URL、过滤非官方域名，先直连官方 URL 获取正文，失败时再用 Tavily Extract；
 5. 合成模型不使用 web tools，单段式直接基于各层官方来源正文合成全部层字段与来源 provenance；
 6. 计算 FieldCoverage；任一适用字段缺值、占位或未引用官方来源时保持 blocked；
 7. 验证每个字段引用的 source_id 真实存在，并校验记录完整性；
@@ -495,15 +498,15 @@ tool-cards-pending.json
 批量生成前把已知来源登记到两个相互引用的文件中：
 
 - `data/manual/registries/official-url-registry.json`：厂商表，只保存厂商级官方文档/API 入口和 `model_prefixes`。
-- `data/manual/registries/official-product-url-registry.json`：产品表，保存 Cursor、Claude Code、图像/音频工具和编程 Agent 等具体产品，通过 `vendor_key` 引用厂商表。
+- `data/manual/registries/official-product-url-registry.json`：产品表，保存 Cursor、Claude Code、图像/音频工具和编程 Agent 等具体产品，通过 `vendor_key` 引用厂商表；`identity_aliases` 只登记官方资料明确证明为同一型号的名称，用于身份核验。
 
 两个文件由 `src/catalog/url-registry/official-url-registry.js` 统一读取。调用方不需要知道文件拆分：
 
 - `detailKind=tool`：产品精确名称/词边界前缀优先，再回退厂商名称。
-- `detailKind=api_model`：厂商精确名称/模型前缀优先，特殊产品模型再回退产品精确名称。
+- `detailKind=api_model`：产品精确名称优先，其次匹配厂商精确名称/模型前缀；产品身份别名只用于候选名一致性核验，不放宽官方正文和厂商域名门禁。
 - 未提供类型时：产品优先，再匹配厂商模型。
 
-产品记录使用 `lifecycle`（`active` / `deprecated` / `discontinued` / `unknown`）、`last_verified_at` 和可选 `last_official_update_at`。产品过期不代表官方服务停止；使用 audit 命令区分“待核验”“半年未更新”和“已弃用”。只登记官网、官方文档、官方定价或官方更新页；不要把 `agent`、`code`、`ai` 等通用词登记为产品前缀。
+产品记录使用 `lifecycle`（`active` / `deprecated` / `discontinued` / `unknown`）、`last_verified_at` 和可选 `last_official_update_at`。产品过期不代表官方服务停止；使用 audit 命令区分“待核验”“半年未更新”和“已弃用”。只登记官网、官方文档、官方定价或官方更新页；不要把 `agent`、`code`、`ai` 等通用词登记为产品前缀。`identity_aliases` 可通过 `url-registry product add --identity-alias <名称,...>` 登记，只能填写官方来源能证明与登记产品为同一型号的明确名称；型号变体不得作为别名。
 
 #### 编程工具专用更新源契约（第 1 步）
 

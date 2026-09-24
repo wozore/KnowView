@@ -54,7 +54,6 @@ function verifiedModelIdentity(overrides = {}) {
       model_key: `${candidate.vendor_hint || 'alibaba'}-${String(candidate.name).toLowerCase().replace(/\s+/g, '-')}`,
       series_title: null,
       family: null,
-      confidence: 0.9,
       evidence: { official_url: 'https://example.com/official', content_hash: 'sha256:mock' },
       reasons: ['mock'],
     },
@@ -107,14 +106,28 @@ test('dedupeBatchCandidates：同批去重 / draft 跳过 / 目录已存在降�
 
 // ── 第 3 组：厂商/官方源解析三路 ───────────────────────────────
 
-test('estimateResolutionNeed：registry 命中免 vendor 解析，核验上限按全量卡计', () => {
-  const cards = [{ name: 'DeepSeek' }, { name: 'Brand New Tool A' }, { name: 'Third Tool' }];
-  const need = estimateResolutionNeed(cards, { tools: [{ title: 'DeepSeek', tool_key: 'deepseek' }], drafts: [] });
+test('estimateResolutionNeed：registry 命中免 vendor 解析，核验与备用上限按模型轴候选计', () => {
+  const cards = [
+    { name: 'DeepSeek', entity_type: 'model' },
+    { name: 'Brand New Tool A', entity_type: 'model' },
+    { name: 'Third Tool', entity_type: 'model' },
+  ];
+  const need = estimateResolutionNeed(cards, {
+    tools: [{ title: 'DeepSeek', tool_key: 'deepseek' }],
+    drafts: [],
+    registry: { schema_version: 1, entries: { deepseek: { vendor_name: 'DeepSeek', official_url: 'https://deepseek.com' } } },
+    productRegistry: { schema_version: 1, products: {} },
+  });
   assert.equal(need.cards_free, 1);
   assert.equal(need.cards_paid, 2);
-  assert.equal(need.vendor_search_upper_bound, 2, 'vendor 解析上限 = 未命中数');
-  assert.equal(need.verification_search_upper_bound, 3, '核验上限按全 unique 卡计');
-  assert.equal(need.verification_responses_upper_bound, 3);
+  assert.equal(need.vendor_search_primary_upper_bound, 2);
+  assert.equal(need.vendor_search_fallback_upper_bound, 2);
+  assert.equal(need.vendor_search_upper_bound, 4, '首选加备用搜索按未命中数估算');
+  assert.equal(need.verification_search_primary_upper_bound, 3, '每个候选按官方域 fan-out 估算身份搜索');
+  assert.equal(need.verification_search_fallback_upper_bound, 3);
+  assert.equal(need.verification_search_upper_bound, 6);
+  assert.equal(need.verification_extract_upper_bound, 9);
+  assert.equal(need.verification_responses_upper_bound, 12, '身份建议允许一次格式重试，成本上限按实际响应次数估算');
 });
 
 // ── 第 3 组：厂商/官方源解析三路 ───────────────────────────────
@@ -158,6 +171,40 @@ test('resolveBatchCandidates 将 detail_kind_hint 传入双表 lookup', async ()
   assert.equal(result.seeds.length, 1);
   assert.equal(result.seeds[0].vendor_name, 'Anthropic');
   assert.equal(result.seeds[0].official_url, 'https://code.claude.com/docs/en/overview');
+});
+
+test('product identity_aliases 优先用于模型登记并传入身份核验', async () => {
+  const registry = {
+    schema_version: 1,
+    entries: { tencent: { vendor_name: '腾讯（混元）', official_urls: ['https://cloud.tencent.com'], model_prefixes: ['hy'] } },
+  };
+  const productRegistry = {
+    schema_version: 1,
+    products: {
+      'hy-image-3.5': {
+        name: 'Hy Image 3.5', vendor_key: 'tencent',
+        official_urls: ['https://cloud.tencent.com/document/product/1823/135745'],
+        identity_aliases: ['Hy-Image-3.5-Preview'], lifecycle: 'active',
+      },
+    },
+  };
+  const hit = lookupOfficialUrl('Hy Image 3.5', { registry, productRegistry, detailKind: 'api_model' });
+  assert.equal(hit.matched_entry_kind, 'product', '登记的具体型号优先于厂商通用前缀');
+  assert.deepEqual(hit.identity_aliases, ['Hy-Image-3.5-Preview']);
+
+  let verifiedCandidate;
+  await resolveBatchCandidates([{ name: 'Hy Image 3.5', vendor_key: 'tencent', entity_type: 'model', detail_kind_hint: 'api_model' }], {
+    registry,
+    productRegistry,
+    identityContext: mockIdentityContext(),
+    verifyModelIdentity: async candidate => {
+      verifiedCandidate = candidate;
+      return { ok: false, code: 'IDENTITY_CANDIDATE_MISMATCH', error: 'test only' };
+    },
+    catalogModelKeyIndex: () => new Map(),
+    setIntakeOutcome: null,
+  });
+  assert.deepEqual(verifiedCandidate.identity_aliases, ['Hy-Image-3.5-Preview']);
 });
 
 test('resolveBatchCandidates 兼容旧待补卡：带版本号模型误标 tool 时回退 api_model 登记表', async () => {
@@ -316,7 +363,6 @@ test('resolveBatchCandidates 多候选 outcome 写入逐次 fresh-read，不复�
         model_key: `alibaba-${candidate.name.toLowerCase().replace(/\s+/g, '-')}`,
         series_title: null,
         family: null,
-        confidence: 0.9,
         evidence: { official_url: 'https://example.com/model', content_hash: 'sha256:mock' },
         reasons: ['mock'],
       },
@@ -581,6 +627,19 @@ test('official-url-registry detailKind 决定产品与厂商模型的优先级',
   assert.equal(imageModelHit.matched_entry_kind, 'product');
   assert.equal(imageModelHit.matched_key, 'dall-e-3');
 
+  const hy35Hit = lookupOfficialUrl('Hy Image 3.5', { registry, productRegistry, detailKind: 'api_model' });
+  assert.equal(hy35Hit.matched_key, 'hy-image-3.5');
+  assert.equal(hy35Hit.vendor_key, 'tencent');
+  assert.deepEqual(hy35Hit.identity_aliases, ['Hy-Image-3.5-Preview']);
+  const hy30Hit = lookupOfficialUrl('Hy Image 3.0', { registry, productRegistry, detailKind: 'api_model' });
+  assert.equal(hy30Hit.matched_key, 'hy-image-3.0');
+  assert.deepEqual(hy30Hit.identity_aliases, ['hy-image-v3'], '只登记官方 API ID，不把 Instruct 变体并作别名');
+
+  const qwenHit = lookupOfficialUrl('Qwen-Image-2.1', { registry, productRegistry, detailKind: 'api_model' });
+  assert.equal(qwenHit.matched_key, 'qwen-image-2.1');
+  assert.equal(qwenHit.vendor_key, 'alibaba');
+  assert.ok(qwenHit.official_urls.includes('https://github.com/QwenLM/Qwen-Image-2.1'));
+
   assert.equal(lookupOfficialUrl('Cursorless', { registry, productRegistry, detailKind: 'tool' }).ok, false);
 });
 
@@ -592,6 +651,9 @@ test('official-product-url-registry 双表契约：产品引用厂商、生命�
   assert.ok(registry.products['claude-code']);
   assert.equal(registry.products['claude-code'].vendor_key, 'anthropic');
   assert.equal(registry.products['dall-e-3'].lifecycle, 'deprecated');
+  assert.deepEqual(registry.products['hy-image-3.5'].identity_aliases, ['Hy-Image-3.5-Preview']);
+  assert.deepEqual(registry.products['hy-image-3.0'].identity_aliases, ['hy-image-v3']);
+  assert.equal(registry.products['qwen-image-2.1'].vendor_key, 'alibaba');
 
   const invalid = {
     schema_version: 1,
@@ -612,6 +674,11 @@ test('official-product-url-registry 双表契约：产品引用厂商、生命�
   assert.match(invalidResult.errors.join(','), /PRODUCT_PREFIX_INVALID/);
   assert.match(invalidResult.errors.join(','), /LIFECYCLE_INVALID/);
   assert.match(invalidResult.errors.join(','), /LAST_VERIFIED_AT_INVALID/);
+
+  assert.match(validateProductUrlRegistry({
+    schema_version: 1,
+    products: { broken: { ...invalid.products.broken, identity_aliases: [''] } },
+  }).errors.join(','), /IDENTITY_ALIASES_INVALID/);
 });
 
 test('update_sources 可选契约：合法 GitHub Release/File 与厂商 changelog/release notes', () => {
@@ -681,11 +748,13 @@ test('update_sources 可选契约：合法 GitHub Release/File 与厂商 changel
     name: 'Sample Tool',
     vendor_key: 'acme',
     official_url: 'https://acme.example/docs',
+    identity_aliases: ['Sample Tool API v2'],
     lifecycle: 'active',
     update_sources: [registry.products['sample-tool'].update_sources[0]],
   }, { registry: addedStore, vendorRegistry });
   assert.equal(added.ok, true);
   assert.equal(added.product.update_sources[0].repository, 'acme/sample-tool');
+  assert.deepEqual(added.product.identity_aliases, ['Sample Tool API v2']);
 });
 
 test('update_sources 严格拒绝错误来源边界、组合、重复和未知字段', () => {

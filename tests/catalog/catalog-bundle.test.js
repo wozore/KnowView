@@ -218,12 +218,13 @@ test('成员发现后先返回完整 enrichment hard-limit，未二次确认不�
 test('Bundle 入口并入被身份核验判定为 series 的 api_model 待补卡（series 回执粗筛）', () => {
   const snapshot = emptySnapshot();
   const catalogRevision = revisionOf(snapshot);
-  const apiModelCard = { candidate_key: 'vidu-s2-model-hint', name: 'Vidu S2', entity_type: 'model', detail_kind_hint: 'api_model', review_status: 'approved' };
+  const apiModelCard = { candidate_key: 'vidu-s2-model-hint', name: 'Vidu S2', identity_key: 'vidu-s2', entity_type: 'model', detail_kind_hint: 'api_model', review_status: 'approved' };
   const options = {
     readPending: () => ({ revision: 'pending-series-receipt-r1', cards: [apiModelCard] }),
     loadCatalog: () => ({ revision: catalogRevision, snapshot }),
+    now: '2026-09-24T12:00:00.000Z',
     identityReceipts: [
-      { receipt_id: 'receipt-series00001', candidate_name: 'Vidu S2', entity_class: 'series', catalog_revision: catalogRevision },
+      { receipt_id: 'receipt-series00001', candidate_name: 'Vidu S2', identity_key: 'vidu-s2', entity_class: 'series', catalog_revision: catalogRevision, verified_at: '2026-09-24T11:30:00.000Z' },
     ],
   };
   const planned = planCatalogBundles(options);
@@ -243,6 +244,30 @@ test('Bundle 入口并入被身份核验判定为 series 的 api_model 待补卡
     identityReceipts: [{ ...options.identityReceipts[0], entity_class: 'model' }],
   });
   assert.equal(modelClass.code, 'SERIES_CANDIDATE_NOT_APPROVED');
+});
+
+test('Bundle 入口不重复接收已在目录中的 series 回执候选', () => {
+  const snapshot = emptySnapshot();
+  snapshot['tool-level3'].push({
+    id: 'tool-level3:stepaudio-3-asr', title: 'StepAudio 3 ASR', detail_kind: 'api_model',
+    vendor_key: 'stepfun', model_key: 'stepfun-stepaudio-3-asr',
+  });
+  const catalogRevision = revisionOf(snapshot);
+  const card = {
+    candidate_key: 'stepaudio-existing', name: 'StepAudio 3 ASR', identity_key: 'stepaudio-3-asr',
+    entity_type: 'model', detail_kind_hint: 'api_model', review_status: 'approved',
+  };
+  const plan = planCatalogBundles({
+    readPending: () => ({ revision: 'pending-stepaudio', cards: [card] }),
+    loadCatalog: () => ({ revision: catalogRevision, snapshot }),
+    registry: { schema_version: 1, entries: { stepfun: { vendor_name: 'StepFun', official_urls: ['https://platform.stepfun.ai'], model_prefixes: ['stepaudio'] } } },
+    identityReceipts: [{
+      receipt_id: 'receipt-stepaudio-series', candidate_name: card.name, identity_key: 'stepaudio-3-asr',
+      entity_class: 'series', catalog_revision: catalogRevision, verified_at: new Date().toISOString(),
+    }],
+  });
+  assert.equal(plan.code, 'SERIES_CANDIDATE_NOT_APPROVED');
+  assert.deepEqual(plan.candidates, []);
 });
 
 test('重复与并发 prepare 复用同一个可复用 Bundle Draft', async () => {
