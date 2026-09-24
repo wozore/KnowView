@@ -23024,57 +23024,42 @@
         "rate_cards": [
           {
             "label": "Hy-Image-3.5-preview · 1K 输出",
-            "pricing_basis": "按图片生成实际 Token 用量计费，10 元/百万 tokens",
+            "pricing_basis": "按实际生成 Token 用量计费，单价 10 元/百万 tokens；官方参考用量 15,000 tokens/张",
             "currency": "CNY",
             "metrics": [
               {
-                "label": "参考 Token 用量",
-                "amount": 15000,
-                "unit": "tokens/张"
-              },
-              {
                 "label": "参考费用",
                 "amount": 0.15,
-                "unit": "元/张"
+                "unit": "张"
               }
             ],
-            "conditions": "腾讯云官方模型价格表参考值；实际用量随生成参数变化，按控制台与最终账单结算。"
+            "conditions": "腾讯云价格表参考值，需开启视觉模型后付费；实际用量随生成参数变化，以控制台和最终账单为准。"
           },
           {
             "label": "Hy-Image-3.5-preview · 2K 输出",
-            "pricing_basis": "按图片生成实际 Token 用量计费，10 元/百万 tokens",
+            "pricing_basis": "按实际生成 Token 用量计费，单价 10 元/百万 tokens；官方参考用量 15,000 tokens/张",
             "currency": "CNY",
             "metrics": [
-              {
-                "label": "参考 Token 用量",
-                "amount": 15000,
-                "unit": "tokens/张"
-              },
               {
                 "label": "参考费用",
                 "amount": 0.15,
-                "unit": "元/张"
+                "unit": "张"
               }
             ],
-            "conditions": "腾讯云官方模型价格表参考值；实际用量随生成参数变化，按控制台与最终账单结算。"
+            "conditions": "腾讯云价格表参考值，需开启视觉模型后付费；实际用量随生成参数变化，以控制台和最终账单为准。"
           },
           {
             "label": "Hy-Image-3.5-preview · 4K 输出",
-            "pricing_basis": "按图片生成实际 Token 用量计费，10 元/百万 tokens",
+            "pricing_basis": "按实际生成 Token 用量计费，单价 10 元/百万 tokens；官方参考用量 20,000 tokens/张",
             "currency": "CNY",
             "metrics": [
               {
-                "label": "参考 Token 用量",
-                "amount": 20000,
-                "unit": "tokens/张"
-              },
-              {
                 "label": "参考费用",
                 "amount": 0.2,
-                "unit": "元/张"
+                "unit": "张"
               }
             ],
-            "conditions": "腾讯云官方模型价格表参考值；实际用量随生成参数变化，按控制台与最终账单结算。"
+            "conditions": "腾讯云价格表参考值，需开启视觉模型后付费；实际用量随生成参数变化，以控制台和最终账单为准。"
           }
         ]
       },

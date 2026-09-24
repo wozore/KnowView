@@ -202,7 +202,7 @@
 - [ui/date-display.mjs](src/web/js/ui/date-display.mjs) — 前端日期事实展示与三级对象类型纯函数。
 - [ui/i18n.js](src/web/js/ui/i18n.js) — 前端 i18n 框架核心（UI 文案 t() + 内容数据 getLocalizedField）。
 - [ui/modal.js](src/web/js/ui/modal.js) — 全站统一模态框与无障碍焦点管理。
-- [ui/ui-helpers.js](src/web/js/ui/ui-helpers.js) — 前端安全外链与文本转义通用辅助函数。
+- [ui/ui-helpers.js](src/web/js/ui/ui-helpers.js) — 前端安全外链、文本转义、时效和数值价格格式化辅助函数；非数值金额按安全文本展示。
 - [ui/ui-icons.js](src/web/js/ui/ui-icons.js) — 前端通用内联 SVG 图标定义。
 - [ui/feedback-drawer.js](src/web/js/ui/feedback-drawer.js) — 测试阶段全站反馈抽屉；右缘标签开合、打开即隐藏标签、焦点回还与 Esc/焦点圈定关闭。导出: `isFeedbackDrawerOpen, openFeedbackDrawer, closeFeedbackDrawer, setupFeedbackDrawer`
 
@@ -346,7 +346,7 @@
 - [static-site.test.js](tests/build/static-site.test.js) — 静态站点复制构建与历史产物清理测试。
 - [web-date-display.test.js](tests/web/web-date-display.test.js) — 前端 typed 日期、无日期/套餐及场景类型标签纯函数回归。
 - [brand-icons.test.js](tests/web/brand-icons.test.js) — 品牌图标继承与本地资产登记回归。
-- [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳和价格披露回归；核对 GPT Images 2.5 与 MAI-Image-2.6 的结构化 API 费率及卡片摘要。
+- [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳和价格披露回归；核对 GPT Images 2.5、MAI-Image-2.6 API 费率、Hy Image 3.5 token 用量与 MiMo 文本型价格说明。
 - [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引与对比选择器回归：hidden_history、系列回退、最长词匹配、全角归一化及 Microsoft AI 对比展示名保留。
 - [catalog-interface.test.js](tests/catalog/catalog-interface.test.js) — 五模块目录 Interface、字段所有权、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
 - [catalog-date-audit.test.js](tests/catalog/catalog-date-audit.test.js) — 日期语义审计保守分类、目标字段和输入不变回归。

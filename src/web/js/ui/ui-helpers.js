@@ -63,8 +63,10 @@ export function formatMetric(value) {
 
 export function formatPrice(value, currency) {
   if (value === null || value === undefined) return '未提供';
+  const amount = Number(value);
+  if (!Number.isFinite(amount)) return escapeHtml(value);
   const symbol = currency === 'USD' ? '$' : currency === 'CNY' ? '¥' : currency + ' ';
-  return symbol + Number(value).toLocaleString('zh-CN', { maximumFractionDigits: 6 });
+  return symbol + amount.toLocaleString('zh-CN', { maximumFractionDigits: 6 });
 }
 
 export function renderState({ icon, title, message, type = 'empty', actions }) {
