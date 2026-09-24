@@ -3,6 +3,7 @@
 const { CATALOG_GENERATOR_FILES } = require('../../shared/paths');
 const { readJson } = require('../../shared/json-store');
 const { REF_TARGETS, emptySnapshot } = require('../core/catalog-contract');
+const { validateFamilyMemberLineages } = require('./catalog-series-policy-member-validation');
 
 const USAGE_KINDS = Object.freeze([
   'general_llm', 'coding', 'image', 'video', 'audio_realtime',
@@ -14,7 +15,6 @@ const GENERATION_STATES = Object.freeze(['newest', 'previous']);
 const VENDOR_DIRECTIONS = Object.freeze(['llm', 'video', 'image', 'search_platform', 'infrastructure']);
 const FAMILY_MODALITIES = Object.freeze(['text', 'image', 'video', 'audio', 'omni']);
 const FAMILY_SERIES_KINDS = Object.freeze(['model_series', 'subscription_series', 'tool_series']);
-
 const DETAIL_REF_KIND = 'tool-level3';
 
 function readSeriesPolicy(filePath) {
@@ -105,6 +105,7 @@ function validateSeriesPolicy(policy) {
       if (!FAMILY_SERIES_KINDS.includes(family.series_kind)) errors.push(`SERIES_POLICY_FAMILY_SERIES_KIND_INVALID:${vk}:${family.family}:${family.series_kind}`);
       if (family.version_axis && typeof family.version_axis !== 'string') errors.push(`SERIES_POLICY_VERSION_AXIS_INVALID:${vk}:${family.family}`);
       if (family.name_patterns && !Array.isArray(family.name_patterns)) errors.push(`SERIES_POLICY_NAME_PATTERNS_INVALID:${vk}:${family.family}`);
+      errors.push(...validateFamilyMemberLineages(vk, family, detailKeyOf));
 
       if (!Array.isArray(family.series) || !family.series.length) {
         errors.push(`SERIES_POLICY_FAMILY_NO_SERIES:${vk}:${family.family}`);

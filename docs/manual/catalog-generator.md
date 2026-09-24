@@ -608,7 +608,7 @@ node scripts/catalog-generator.js batch --file data/manual/tools/tool-cards-pend
 
 通用 LLM 模型（`detail_kind=api_model` 且属于政策中的 `general_llm` 家族）在批量 prepare 前由「LLM 二级系列分类政策」决定归属，不再默认以模型名建组：
 
-1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v2）声明 29 个厂商的模型家族、用途、版本轴、允许的目标二级系列、容量（同系列可见成员上限 `visible_members` 为 6，第 7 个起按 `release_date` 最旧转入 `hidden_history`，由 SeriesBundle planner 与迁移 CLI 执行）与证据状态。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
+1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v2）声明厂商模型家族、用途、版本轴、允许的目标二级系列、容量与证据状态。`member_lineages` 可声明成员所属产品线，校验每个 newest/previous 系列中同一产品线最多一个成员；`hidden_history_members` 声明迁移时转入历史的详情及日期。同系列可见成员上限 `visible_members` 为 6，第 7 个起按 `release_date` 最旧转入 `hidden_history`。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
 2. **确定性判定**：`src/catalog/series/catalog-series-policy.js` 的 `planSeriesPlacement` 用品牌提示/家族 pattern 识别已知 LLM，直接产出 `existing`（加入已有系列）或 `create`（用政策稳定 id/标题新建）。已知模型不需要 AI，零成本。
 3. **AI 只作 hint**：仅当候选用途/家族无法确定性判定（`needs_ai`，如无任何品牌命中的新模型）且显式放行 `allowAiPlacement` 时，才调用 `catalog-series-placement-ai` 输出 `usage_kind/family/cohort/confidence` 建议，再由政策重算最终归属。AI 低置信、未知家族、与政策冲突一律 fail-closed；缺账本、未放行时直接 `PLACEMENT_MANUAL_REQUIRED`，绝不静默建组。
 4. **名册满员触发迁移**：目标系列 `expected_members` 名册成员已全部在快照且候选不在名册时，新候选返回 `PLACEMENT_MIGRATION_REQUIRED` 并阻断该 seed，**不自动重排既有成员**。需要扩容时由维护者更新政策（声明 newest/previous 代际与名册）后执行系列迁移（见下）。
@@ -622,12 +622,15 @@ node scripts/catalog-generator.js batch --file data/manual/tools/tool-cards-pend
 ```bash
 node scripts/catalog-series-migration.js                        # 只读预览（含目标 revision）
 node scripts/catalog-series-migration.js --json                 # 结构化预览
+node scripts/catalog-series-migration.js --vendor anthropic      # 只预览 Anthropic
 node scripts/catalog-series-migration.js --apply <targetRevision>  # 原子 Apply（必须传预览输出的目标 revision）
+node scripts/catalog-series-migration.js --apply <targetRevision> --vendor anthropic
 ```
 
-- 预览列出：删除的碎片系列、成员搬迁、孤儿、既有浮空详情警告、`id_map` 与 `vendor-level1.level2_refs` 重写。
+- `--vendor <keys>` 可用逗号分隔厂商 key 限定迁移范围；Apply 必须使用与预览相同的范围。
+- 预览列出：删除的碎片系列、成员搬迁、政策指定的历史转移、孤儿、既有浮空详情警告、`id_map` 与 `vendor-level1.level2_refs` 重写。存在校验错误、历史转移目标缺失或新增孤儿时，预览会阻断 Apply。
 - `--apply <targetRevision>` 会按当前快照**重新计算目标 revision**，与传入值不一致（数据已漂移）即中止；随后经 `commitSnapshotChange` 五文件事务 + dist 重建原子提交，并绑定 `expectedRevision` 防并发。
-- 迁移只改 `vendor-preview-level1.json` / `vendor-preview-level2.json`；`tool-level3` 与 `tool-card` 零漂移。
+- 迁移重写系列成员引用；只有 `hidden_history_members` 明确列出的成员会同步更新 `tool-level3` 和 `tool-card` 的历史可见性与日期，其余详情和卡片保持不变。
 - 目标系列不在快照且被非政策系列占用（`SERIES_MIGRATION_REQUIRED`），或名册满员（`PLACEMENT_MIGRATION_REQUIRED`）时：先更新政策（按 `newest` / `previous` 代际声明系列并分配 `expected_members` 名册），再跑迁移 Apply，最后重跑批量。
 
 ### 批量成本门禁（零确认零付费）

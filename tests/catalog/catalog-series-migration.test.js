@@ -76,7 +76,7 @@ function addVendor(snapshot, vendorKey, l2s) {
 function syntheticSnapshot() {
   const snap = emptySnapshot();
   addVendor(snap, 'anthropic', [
-    l2('vendor-level2:anthropic:claude', 'anthropic', 'Claude 最新系列', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']),
+    l2('vendor-level2:anthropic:claude', 'anthropic', 'Claude 最新系列', ['claude-fable-5.1', 'claude-opus-5', 'claude-opus-5.5', 'claude-sonnet-5', 'claude-haiku-4.5']),
     l2('vendor-level2:anthropic:claude-previous', 'anthropic', 'Claude 上一世代', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6', 'claude-haiku-3.5']),
     l2('vendor-level2:anthropic:claude-coding-plan', 'anthropic', '套餐', ['claude-pro', 'claude-max-5x']),
   ]);
@@ -117,11 +117,47 @@ function syntheticSnapshot() {
 test('迁移：anthropic 单一最新/上一世代结构、coding-plan 零漂移', () => {
   const policy = loadSeriesPolicy();
   const plan = planSeriesMigration(policy, syntheticSnapshot());
+  assert.equal(plan.ok, true);
   assert.equal(plan.validation.ok, true, JSON.stringify(plan.validation.errors));
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
-  assert.deepEqual(byId.get('vendor-level2:anthropic:claude').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5.1', 'tool-level3:claude-opus-5', 'tool-level3:claude-sonnet-5', 'tool-level3:claude-haiku-4.5']);
-  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-previous').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5', 'tool-level3:claude-opus-4.8', 'tool-level3:claude-sonnet-4.6', 'tool-level3:claude-haiku-3.5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5.1', 'tool-level3:claude-opus-5.5', 'tool-level3:claude-sonnet-5', 'tool-level3:claude-haiku-4.5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-previous').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5', 'tool-level3:claude-opus-5', 'tool-level3:claude-sonnet-4.6', 'tool-level3:claude-haiku-3.5']);
+  const archivedOpus = plan.snapshot['tool-level3'].find(x => x.id === 'tool-level3:claude-opus-4.8');
+  const archivedOpusCard = plan.snapshot['tool-card'].find(x => x.id === 'claude-opus-4.8');
+  assert.equal(archivedOpus.visibility, 'hidden_history');
+  assert.equal(archivedOpus.historical_since, '2026-09-24');
+  assert.equal(archivedOpusCard.visibility, 'hidden_history');
+  assert.deepEqual(plan.orphaned, []);
   assert.deepEqual(byId.get('vendor-level2:anthropic:claude-coding-plan').detail_refs.map(r => r.id), ['tool-level3:claude-pro', 'tool-level3:claude-max-5x']);
+});
+
+test('迁移：移出版面的既有成员无历史政策时阻断 Apply', () => {
+  const snap = syntheticSnapshot();
+  snap['tool-level3'].push({ ...detail('tool-level3:claude-opus-4.7', 'anthropic'), visibility: 'visible' });
+  snap['tool-card'].push({ ...card('claude-opus-4.7', 'anthropic'), visibility: 'visible' });
+  snap['vendor-level2'].find(x => x.id === 'vendor-level2:anthropic:claude-previous').detail_refs.push({
+    kind: 'tool-level3', id: 'tool-level3:claude-opus-4.7',
+  });
+
+  const plan = planSeriesMigration(loadSeriesPolicy(), snap);
+  assert.equal(plan.validation.ok, false);
+  assert.equal(plan.ok, false);
+  assert.deepEqual(plan.orphaned, [{ detail: 'tool-level3:claude-opus-4.7', vendor_key: 'anthropic' }]);
+});
+
+test('迁移：厂商范围限制只重组指定厂商', () => {
+  const snap = syntheticSnapshot();
+  const plan = planSeriesMigration(loadSeriesPolicy(), snap, { vendorKeys: ['anthropic'] });
+  const openaiBefore = snap['vendor-level2'].filter(x => x.vendor_key === 'openai');
+  const openaiAfter = plan.snapshot['vendor-level2'].filter(x => x.vendor_key === 'openai');
+  assert.equal(plan.ok, true);
+  assert.deepEqual(plan.scope_vendors, ['anthropic']);
+  assert.deepEqual(openaiAfter, openaiBefore);
+  assert.deepEqual(plan.history_transitions.map(x => x.member), ['tool-level3:claude-opus-4.8']);
+
+  const unknown = planSeriesMigration(loadSeriesPolicy(), snap, { vendorKeys: ['not-a-vendor'] });
+  assert.equal(unknown.ok, false);
+  assert.deepEqual(unknown.scope_errors, ['not-a-vendor']);
 });
 
 test('迁移：openai realtime/image 专用改名、codex 不变', () => {
@@ -265,8 +301,10 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:openai:gpt-5-5', ['gpt-5-5', 'gpt-5-5-pro']);
   expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2', 'gpt-realtime-2-1', 'gpt-realtime-2-1-mini', 'gpt-realtime-translate', 'gpt-live-transcribe', 'gpt-realtime-whisper']);
   expect('vendor-level2:openai:gpt-image', ['gpt-image-2', 'gpt-images-2.5']);
-  expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5', 'claude-opus-5.5', 'claude-sonnet-5', 'claude-haiku-4.5']);
-  expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6']);
+  expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5.5', 'claude-sonnet-5', 'claude-haiku-4.5']);
+  expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-5', 'claude-sonnet-4.6']);
+  assert.equal(plan.snapshot['tool-level3'].find(x => x.id === 'tool-level3:claude-opus-4.8').visibility, 'hidden_history');
+  assert.equal(plan.snapshot['tool-card'].find(x => x.id === 'tool-card:claude-opus-4.8').visibility, 'hidden_history');
   expect('vendor-level2:google:gemini-flash', ['gemini-3-8-flash', 'gemini-3-7-flash', 'gemini-3-6-flash', 'gemini-3.5-flash']);
   expect('vendor-level2:google:gemini-pro', ['gemini-3-1-pro', 'gemini-3-5-pro']);
   expect('vendor-level2:zhipu:glm', ['glm-5.1', 'glm-5.2', 'glm-5-3']);
@@ -306,16 +344,28 @@ test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归�
   assert.ok(vendor.search_terms.some(term => /microsoft ai/i.test(term)));
 });
 
-test('集成：迁移后 tool-level3 与 tool-card 完全不变（只改二级关系）', () => {
+test('集成：仅政策指定历史成员更新详情和卡片可见性', () => {
   const policy = loadSeriesPolicy();
   const before = realSnapshot();
   const plan = planSeriesMigration(policy, before);
   const after = plan.snapshot;
   assert.deepEqual(after['tool-level3'].map(x => x.id).sort(), before['tool-level3'].map(x => x.id).sort());
   assert.deepEqual(after['tool-card'].map(x => x.id).sort(), before['tool-card'].map(x => x.id).sort());
-  // 三级详情与工具卡内容逐条一致
+  // 除政策指定归档项外，三级详情与工具卡内容逐条不变。
   for (const d of before['tool-level3']) {
     const afterDetail = after['tool-level3'].find(x => x.id === d.id);
-    assert.deepEqual(afterDetail, d, `tool-level3:${d.id} 不应被修改`);
+    if (d.id === 'tool-level3:claude-opus-4.8') {
+      assert.deepEqual(afterDetail, { ...d, visibility: 'hidden_history', historical_since: '2026-09-24' });
+    } else {
+      assert.deepEqual(afterDetail, d, `tool-level3:${d.id} 不应被修改`);
+    }
+  }
+  for (const c of before['tool-card']) {
+    const afterCard = after['tool-card'].find(x => x.id === c.id);
+    if (c.id === 'tool-card:claude-opus-4.8') {
+      assert.deepEqual(afterCard, { ...c, visibility: 'hidden_history', historical_since: '2026-09-24' });
+    } else {
+      assert.deepEqual(afterCard, c, `tool-card:${c.id} 不应被修改`);
+    }
   }
 });

@@ -21,8 +21,8 @@
  *      （仅当厂商有 general 家族）。成员不删除，保留三级详情。
  *   5. 重写 vendor-level1.level2_refs：保留专用/套餐/工具引用，删除已消失引用，追加新目标。
  *
- * 不变式：tool-level3 与 tool-card 完全不动；被移出窗口的模型保留详情，无新父级的列入
- * orphaned 警告，绝不静默删除成员。
+ * 不变式：目录模型详情与卡片只按政策显式转入 hidden_history；系列外移出的成员保留详情，
+ * 无新父级的成员列入 orphaned 并阻断 Apply，绝不静默丢失。
  */
 
 const { normalizeSnapshot, emptySnapshot } = require('../core/catalog-contract');
@@ -138,8 +138,10 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
   // 仅把完全由政策通用模型成员组成的旧系列视为可删除碎片；工具、套餐和专用系列必须保留。
   const generalMemberIds = new Set(vendor.families
     .filter(family => family.usage_kind === 'general_llm')
-    .flatMap(family => family.series || [])
-    .flatMap(series => series.expected_members || [])
+    .flatMap(family => [
+      ...(family.series || []).flatMap(series => series.expected_members || []),
+      ...(family.hidden_history_members || []).map(item => item.member),
+    ])
     .map(memberRef)
     .filter(Boolean)
     .map(ref => ref.id));
@@ -160,13 +162,61 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
   return { plan, removed };
 }
 
+function applyHistoryPolicy(policy, snapshot, hiddenHistoryIds, changes, vendorKeys) {
+  const transitions = [];
+  const errors = [];
+  for (const vendor of policy.vendors) {
+    if (vendorKeys && !vendorKeys.has(vendor.vendor_key)) continue;
+    for (const family of vendor.families || []) {
+      for (const transition of family.hidden_history_members || []) {
+        const detailId = detailRefIdOf(transition.member);
+        const detailIndex = snapshot['tool-level3'].findIndex(item => item.id === detailId);
+        const detail = snapshot['tool-level3'][detailIndex];
+        if (!detail || detail.vendor_key !== vendor.vendor_key) {
+          errors.push({ member: detailId, vendor_key: vendor.vendor_key });
+          continue;
+        }
+
+        hiddenHistoryIds.add(detailId);
+        const historicalDetail = {
+          ...detail,
+          visibility: 'hidden_history',
+          historical_since: transition.historical_since,
+        };
+        if (detail.visibility !== historicalDetail.visibility
+          || detail.historical_since !== historicalDetail.historical_since) {
+          snapshot['tool-level3'][detailIndex] = historicalDetail;
+          changes.push({ area: 'tool-level3', id: detailId, operation: 'replace', note: '按政策转入历史记录' });
+        }
+        for (let index = 0; index < snapshot['tool-card'].length; index += 1) {
+          const card = snapshot['tool-card'][index];
+          if (card.detail_ref?.id !== detailId) continue;
+          if (card.visibility === 'hidden_history' && card.historical_since === transition.historical_since) continue;
+          snapshot['tool-card'][index] = {
+            ...card,
+            visibility: 'hidden_history',
+            historical_since: transition.historical_since,
+          };
+          changes.push({ area: 'tool-card', id: card.id, operation: 'replace', note: '按政策转入历史记录' });
+        }
+        transitions.push({ member: detailId, historical_since: transition.historical_since });
+      }
+    }
+  }
+  return { transitions, errors };
+}
+
 /**
  * 生成完整迁移计划。
- * @returns {{ ok:true, snapshot, changes, id_map, members_moved, removed_level2, orphaned, warnings, validation }}
+ * @returns {{ ok:boolean, snapshot, changes, id_map, members_moved, removed_level2, orphaned, history_transitions, history_errors, scope_vendors, scope_errors, warnings, validation }}
  */
-function planSeriesMigration(policy, snapshotInput) {
+function planSeriesMigration(policy, snapshotInput, options = {}) {
   const snapshot = normalizeSnapshot(snapshotInput);
   const warnings = [];
+  const vendorKeys = Array.isArray(options.vendorKeys) ? new Set(options.vendorKeys) : null;
+  const scopeErrors = vendorKeys
+    ? [...vendorKeys].filter(key => !policy.vendors.some(vendor => vendor.vendor_key === key))
+    : [];
 
   const detailIdToVendor = new Map();
   const hiddenHistoryIds = new Set();
@@ -189,11 +239,16 @@ function planSeriesMigration(policy, snapshotInput) {
   next['tool-level3'] = [...snapshot['tool-level3']];
 
   const changes = [];
+  const { transitions: historyTransitions, errors: historyErrors } = applyHistoryPolicy(
+    policy, next, hiddenHistoryIds, changes, vendorKeys,
+  );
+
   const removedLevel2 = [];
   const targetIdsByVendor = new Map();
   const newParentByDetail = new Map(); // detail key → 新 L2 id
 
   for (const vendor of policy.vendors) {
+    if (vendorKeys && !vendorKeys.has(vendor.vendor_key)) continue;
     const l2s = level2ByVendor.get(vendor.vendor_key) || [];
     if (!l2s.length) continue;
     const hasGeneral = vendor.families.some(f => f.usage_kind === 'general_llm');
@@ -270,7 +325,7 @@ function planSeriesMigration(policy, snapshotInput) {
   for (const detail of snapshot['tool-level3']) {
     const key = detailKeyOf(detail.id);
     if (!policyVendorKeys.has(detail.vendor_key)) continue;
-    // hidden_history 只标不改不删：移出可见窗口的成员不参与父级对账，绝不报 orphan
+    // 隐藏历史记录保留详情但不参与可见父级对账，绝不报 orphan。
     if (hiddenHistoryIds.has(detail.id)) continue;
     if (parentedBeforeKeys.has(key) && !parentedAfterKeys.has(key)) {
       orphaned.push({ detail: detail.id, vendor_key: detail.vendor_key });
@@ -282,6 +337,7 @@ function planSeriesMigration(policy, snapshotInput) {
   // 5. 重写 L1.level2_refs
   for (const l1 of next['vendor-level1']) {
     const vendorTargets = targetIdsByVendor.get(l1.vendor_key);
+    if (!vendorTargets) continue;
     const oldRefs = l1.level2_refs || [];
     const nextRefs = [];
     const seen = new Set();
@@ -306,13 +362,17 @@ function planSeriesMigration(policy, snapshotInput) {
   const validation = validateCatalogSnapshot(next);
 
   return {
-    ok: true,
+    ok: validation.ok && orphaned.length === 0 && historyErrors.length === 0 && scopeErrors.length === 0,
     snapshot: next,
     changes,
     id_map: idMap,
     members_moved: membersMoved,
     removed_level2: removedLevel2,
     orphaned,
+    scope_vendors: vendorKeys ? [...vendorKeys] : null,
+    scope_errors: scopeErrors,
+    history_transitions: historyTransitions,
+    history_errors: historyErrors,
     warnings,
     validation,
   };
