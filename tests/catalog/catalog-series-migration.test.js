@@ -7,7 +7,7 @@
  *   - 同 id 目标就地改写成员（anthropic newest）
  *   - 全新目标创建（anthropic last）
  *   - 专用改名（openai realtime/image）
- *   - 多碎片合并（xai grok / minimax m / nvidia nemotron-3）
+ *   - 多碎片合并（xai grok / minimax m），NVIDIA Nemotron 按当前政策合并
  *   - 同 id 基座的“多余成员”搬家（google gemini → gemini-last）
  *   - 专用/套餐/工具系列零漂移（h3 / imagine / coding-plan / gemini-cli / omni / image）
  *   - 碎片删除（cohere command-a / anthropic claude-opus-5）与 id_map / members_moved
@@ -147,11 +147,13 @@ test('迁移：google Gemini 按 Flash/Pro 产品线归类，开源 Gemma 排除
   assert.equal(byId.get('vendor-level2:google:gemini-cli').title, 'Gemini CLI');
 });
 
-test('迁移：nvidia nemotron-3 合并，nemotron-3-5 独立', () => {
+test('迁移：NVIDIA Nemotron 按政策合并为一个系列', () => {
   const plan = planSeriesMigration(loadSeriesPolicy(), syntheticSnapshot());
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
-  assert.deepEqual(byId.get('vendor-level2:nvidia:nemotron-3').detail_refs.map(r => r.id), ['tool-level3:nemotron-3-ultra', 'tool-level3:nemotron-3-super']);
-  assert.deepEqual(byId.get('vendor-level2:nvidia:nemotron-3-5').detail_refs.map(r => r.id), ['tool-level3:nemotron-3-5']);
+  assert.deepEqual(byId.get('vendor-level2:nvidia:nemotron').detail_refs.map(r => r.id), [
+    'tool-level3:nemotron-3-5', 'tool-level3:nemotron-3-ultra', 'tool-level3:nemotron-3-super',
+  ]);
+  assert.equal(byId.has('vendor-level2:nvidia:nemotron-3-5'), false);
   assert.equal(byId.has('vendor-level2:nvidia:nemotron-3-ultra'), false);
   assert.equal(byId.has('vendor-level2:nvidia:nemotron-3-super'), false);
 });
@@ -259,11 +261,11 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   assert.deepEqual(plan.orphaned, []);
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
   const expect = (id, members) => assert.deepEqual(byId.get(id).detail_refs.map(r => r.id), members.map(m => `tool-level3:${m}`), id);
-  expect('vendor-level2:openai:gpt-6', ['gpt-6', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna']);
+  expect('vendor-level2:openai:gpt-6', ['gpt-6', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna', 'gpt-6-luna']);
   expect('vendor-level2:openai:gpt-5-5', ['gpt-5-5', 'gpt-5-5-pro']);
   expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2', 'gpt-realtime-2-1', 'gpt-realtime-2-1-mini', 'gpt-realtime-translate', 'gpt-live-transcribe', 'gpt-realtime-whisper']);
   expect('vendor-level2:openai:gpt-image', ['gpt-image-2', 'gpt-images-2.5']);
-  expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
+  expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5', 'claude-opus-5.5', 'claude-sonnet-5', 'claude-haiku-4.5']);
   expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6']);
   expect('vendor-level2:google:gemini-flash', ['gemini-3-8-flash', 'gemini-3-7-flash', 'gemini-3-6-flash', 'gemini-3.5-flash']);
   expect('vendor-level2:google:gemini-pro', ['gemini-3-1-pro', 'gemini-3-5-pro']);
@@ -275,11 +277,10 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:moonshot:kimi-coding-models', ['kimi-k2.7-code', 'kimi-k2.7-code-highspeed']);
   expect('vendor-level2:moonshot:kimi-work', ['kimi-work']);
   expect('vendor-level2:moonshot:kimi-membership', ['kimi-membership-andante', 'kimi-membership-moderato', 'kimi-membership-allegretto', 'kimi-membership-allegro']);
-  expect('vendor-level2:alibaba:qwen', ['qwen3-8-max', 'qwen3-5-omni', 'qwen3-7-max', 'qwen3-7-plus', 'qwen3-8-flash']);
-  expect('vendor-level2:stepfun:step', ['step-3-7-flash', 'step-3-5-flash', 'step-3']);
+  expect('vendor-level2:alibaba:qwen', ['qwen3-8-max', 'qwen3-5-omni', 'qwen3-7-max', 'qwen3-7-plus', 'qwen3-8-flash', 'qwen3.8-omni-flash']);
+  expect('vendor-level2:stepfun:step', ['step-3-7-flash', 'step-3-5-flash', 'step-3', 'stepfun-step-5-preview']);
   expect('vendor-level2:xiaomi:mimo', ['mimo-v2-5-pro', 'mimo-v2-5', 'mimo-v2-flash']);
-  expect('vendor-level2:nvidia:nemotron-3', ['nemotron-3-ultra', 'nemotron-3-super']);
-  expect('vendor-level2:nvidia:nemotron-3-5', ['nemotron-3-5']);
+  expect('vendor-level2:nvidia:nemotron', ['nemotron-3-5', 'nemotron-3-ultra', 'nemotron-3-super']);
 });
 
 test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归入 MAI 系列', () => {

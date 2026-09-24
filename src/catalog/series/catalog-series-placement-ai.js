@@ -51,6 +51,7 @@ function ordinaryPlacementGate(policy, snapshot, candidate, planned) {
   const hasCompleteExpectedSet = expected.length > 0 && expected.every(key => projectedRefs.has(key));
   const candidateKeys = new Set([normalizedMemberKey(candidate?.name)]);
   const modelKey = String(candidate?.model_key || '');
+  if (modelKey) candidateKeys.add(normalizedMemberKey(modelKey));
   if (vendorKey && modelKey.startsWith(`${vendorKey}-`)) candidateKeys.add(normalizedMemberKey(modelKey.slice(vendorKey.length + 1)));
   const isExpectedMember = expected.some(key => candidateKeys.has(key));
   if (family?.version_axis && family.version_axis !== 'none' && hasCompleteExpectedSet && !isExpectedMember) {

@@ -248,22 +248,19 @@ test('policy expected members include approved candidates so existing groups do 
   const policy = loadSeriesPolicy();
   const cases = [
     { vendor: 'alibaba', family: 'qwen_image', series: 'vendor-level2:alibaba:qwen-image', name: 'Qwen-Image-2.1', identity: 'qwen-image-2.1', modality: 'image' },
-    { vendor: 'stepfun', family: 'step', series: 'vendor-level2:stepfun:step', name: 'StepFun Step 5 Preview', identity: 'step-5-preview', modality: 'text' },
+    { vendor: 'stepfun', family: 'step', series: 'vendor-level2:stepfun:step', name: 'Step 5 Preview', identity: 'step-5-preview', modality: 'text' },
     { vendor: 'anthropic', family: 'claude', series: 'vendor-level2:anthropic:claude', name: 'Claude Opus 5.5', identity: 'claude-opus-5.5', modality: 'text' },
     { vendor: 'openai', family: 'gpt', series: 'vendor-level2:openai:gpt-6', name: 'GPT-6 Luna', identity: 'gpt-6-luna', modality: 'text' },
   ];
   for (const item of cases) {
     const series = policy.vendors.find(vendor => vendor.vendor_key === item.vendor).families
       .find(family => family.family === item.family).series.find(target => target.id === item.series);
-    const candidateMember = item.identity.replace(/(\d)\.(\d)/g, '$1-$2');
     const snapshot = emptySnapshot();
     snapshot['vendor-level2'].push({
       id: item.series,
       vendor_key: item.vendor,
       title: series.title,
-      detail_refs: series.expected_members
-        .filter(member => String(member).replace(/[.\s_]+/g, '-') !== candidateMember)
-        .map(member => ({ kind: 'tool-level3', id: `tool-level3:${member}` })),
+      detail_refs: series.expected_members.map(member => ({ kind: 'tool-level3', id: `tool-level3:${member}` })),
     });
     const result = await resolveSeriesPlacement(policy, snapshot, {
       ...candidate({ vendor_key: item.vendor, vendor_name: item.vendor, name: item.name, modality: item.modality }),
