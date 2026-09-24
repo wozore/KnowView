@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-24T05:16:49.945Z",
-  "date": "20260924",
-  "total_pending": 164,
+  "generated_at": "2026-09-24T17:31:47.442Z",
+  "date": "20260925",
+  "total_pending": 191,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -1153,6 +1153,195 @@
       "summary": "Claude has discovered a previously unknown enzyme system hidden in the DNA of ba",
       "suggestion": "人工判断：是否值得收录",
       "review_status": "pending"
+    },
+    {
+      "id": "x-66d200f3ee78d8e66799",
+      "score": 68.3,
+      "summary": "AI says it works. Real users may disagree. After 25+ years in QA, I built the AI",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-fa3065108a7100907b5b",
+      "score": 66.7,
+      "summary": "YouTube for prediction markets finally landed. Anyone can publish a market now. ",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-217373d5ca9fe97d65bc",
+      "score": 65.5,
+      "summary": "Commercializing Conversational AI: Realbotix Prepares ECHO Order Books! 🎙️🤖 Th",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-17d57adf35699aea88a0",
+      "score": 65.2,
+      "summary": "Massive Catalyst Ahead: Order Window Opening for Realbotix ECHO Series! 🔑💬 Phy",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6991849195d023653f0e",
+      "score": 63.7,
+      "summary": "meta connect 2026 day 1 – the best of @finkd's keynote conclusions: the star was",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-311f08cfd0f921409ae6",
+      "score": 63.6,
+      "summary": "Chinese streaming platform iQiyi plans to release what it says is the first “hyb",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9fb39fb1dc8ecacba346",
+      "score": 63.5,
+      "summary": "💡 Have a mobile app idea for your business? Apptunix delivers custom mobile app",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-40d4b1903c8f07732456",
+      "score": 63.5,
+      "summary": "And there you have it. Spend many years clearing the path that AI is harmless an",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e2e799e66346ef0fc407",
+      "score": 57.6,
+      "summary": "Love this news. More doctors around the world will be able to use OpenEvidence f",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-d2229d4bcfcbaee4c246",
+      "score": 57,
+      "summary": "Claude 的云端会话正式发布 即使您的笔记本电脑已关闭，也能让 Claude Code 持续运行... 云端会话运行在 Anthropic 托管的云端设施上",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9e0ff8952586780e483e",
+      "score": 54.1,
+      "summary": "An open letter on what I want Hey Research Lab to become The longer I build Hey ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-fbb0aaa1974c6156e066",
+      "score": 52.7,
+      "summary": "🚨 JUST IN: Google Says Gemini 4 Is Entering Its Final Refinement Stage Google D",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-212dc5aa456881dc092d",
+      "score": 50.1,
+      "summary": "牛P了 OpenAI 将 ChatGPT Voice 升级为语音 Agent 语音不光能回答问题，现在能直接帮你把事办了👇 你可以直接通过语音和GPT交流，它",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-36a66ec689fd2a3b223a",
+      "score": 49.3,
+      "summary": "Claude Opus 5.5 is the new #1 in the Artificial Analysis Coding Agent Index, wit",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a823e4de0f1db1d4d9f6",
+      "score": 49,
+      "summary": "Stuff is happening quite fast. When asked in September 2025, the best superforec",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-670fb050cc676dd94cc8",
+      "score": 48.5,
+      "summary": "DAILY AI BRIEF 🗞 — Sept 24 META 🔥: - Meta VR Glasses: first VR in glasses, not",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0325eefa02818db0ebf5",
+      "score": 47.8,
+      "summary": "⚡️ As LLM reinforcement learning scales to larger GPU clusters and more training",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e4d95a8145e738dd2d00",
+      "score": 47.3,
+      "summary": "blocksky株式会社（本社：東京都港区）は、WebサイトがAIからどのように認識されているかを可視化し、AIが企業やサービスの情報を発見・理解しやすい情報環",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-dba3ad35775bbac893b4",
+      "score": 45.8,
+      "summary": "You can record straight to the timeline in Suno Studio. Arm your track and press",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f84231f5491f1d04c366",
+      "score": 45.7,
+      "summary": "inclusionAI's Ming-Image-0.1-Design is the #1 open weights model for UI/UX Desig",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ab42f6ee9a4f0ca1b47d",
+      "score": 45.6,
+      "summary": "这个有点牛P啊 Claude Opus 5.5 自己写代码画出一支手绘 MV： 没有使用任何 AI 生视频工具： Opus 5.5 自己通过写 p5.js 代码",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-d52d9de9e87eb4690427",
+      "score": 44.4,
+      "summary": "现在的 LLM 训练完后权重都是完全冻结的，用户在对话中提供的最新事实、纠错或长文档 模型只能塞进 上下文窗口里，每次对话都要从头重读一遍，极度烧显存和算力，而",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-692cdc9cea45ca73b094",
+      "score": 44.1,
+      "summary": "据The Information：Google 即将发布旗舰Gemini 4 AI模型。 就在这两天😎",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f71d104231af5b958707",
+      "score": 42.4,
+      "summary": "🚀 Tencent Hy Translation just landed.Powered by Hy-MT2. 33 languages. 5 Chinese",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-419f7b44b9be61f446d6",
+      "score": 41.9,
+      "summary": "BREAKING: Here's an early look at the \"Grok Bots\" tab inside the X web app! http",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-bd5e7bed245cff218d62",
+      "score": 41.5,
+      "summary": "BREAKING: SpaceXAI is working on the “Unify account” button for Grok! 👀 https:/",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-74892f988d1dcf64ffe7",
+      "score": 39.4,
+      "summary": "I just had a voice conversation with the Datasette backup of my blog via dataset",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
@@ -1319,6 +1508,33 @@
     "[45] Qwen3.7-Max and Qwen3.8-Flash from @Alibaba_Qwen are now 40% off on serverless t\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[44.7] We heard you loud and clear. ChatGPT Voice can now: - Use plugins like your emai\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[39.6] In the Democratic Republic of the Congo, global health organizations including @\n    建议：人工判断：是否值得收录",
-    "[38.8] Claude has discovered a previously unknown enzyme system hidden in the DNA of ba\n    建议：人工判断：是否值得收录"
+    "[38.8] Claude has discovered a previously unknown enzyme system hidden in the DNA of ba\n    建议：人工判断：是否值得收录",
+    "[68.3] AI says it works. Real users may disagree. After 25+ years in QA, I built the AI\n    建议：AI 产品/工具，建议 approved",
+    "[66.7] YouTube for prediction markets finally landed. Anyone can publish a market now. \n    建议：个人使用/成本体验，建议 discarded",
+    "[65.5] Commercializing Conversational AI: Realbotix Prepares ECHO Order Books! 🎙️🤖 Th\n    建议：个人使用/成本体验，建议 discarded",
+    "[65.2] Massive Catalyst Ahead: Order Window Opening for Realbotix ECHO Series! 🔑💬 Phy\n    建议：个人使用/成本体验，建议 discarded",
+    "[63.7] meta connect 2026 day 1 – the best of @finkd's keynote conclusions: the star was\n    建议：AI 产品/工具，建议 approved",
+    "[63.6] Chinese streaming platform iQiyi plans to release what it says is the first “hyb\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] 💡 Have a mobile app idea for your business? Apptunix delivers custom mobile app\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] And there you have it. Spend many years clearing the path that AI is harmless an\n    建议：AI 产品/工具，建议 approved",
+    "[57.6] Love this news. More doctors around the world will be able to use OpenEvidence f\n    建议：AI 产品/工具，建议 approved",
+    "[57] Claude 的云端会话正式发布 即使您的笔记本电脑已关闭，也能让 Claude Code 持续运行... 云端会话运行在 Anthropic 托管的云端设施上\n    建议：AI 产品/工具，建议 approved",
+    "[54.1] An open letter on what I want Hey Research Lab to become The longer I build Hey \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.7] 🚨 JUST IN: Google Says Gemini 4 Is Entering Its Final Refinement Stage Google D\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[50.1] 牛P了 OpenAI 将 ChatGPT Voice 升级为语音 Agent 语音不光能回答问题，现在能直接帮你把事办了👇 你可以直接通过语音和GPT交流，它\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[49.3] Claude Opus 5.5 is the new #1 in the Artificial Analysis Coding Agent Index, wit\n    建议：AI 行业事件，建议 approved",
+    "[49] Stuff is happening quite fast. When asked in September 2025, the best superforec\n    建议：AI 行业事件，建议 approved",
+    "[48.5] DAILY AI BRIEF 🗞 — Sept 24 META 🔥: - Meta VR Glasses: first VR in glasses, not\n    建议：AI 行业事件，建议 approved",
+    "[47.8] ⚡️ As LLM reinforcement learning scales to larger GPU clusters and more training\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[47.3] blocksky株式会社（本社：東京都港区）は、WebサイトがAIからどのように認識されているかを可視化し、AIが企業やサービスの情報を発見・理解しやすい情報環\n    建议：人工判断：是否值得收录",
+    "[45.8] You can record straight to the timeline in Suno Studio. Arm your track and press\n    建议：人工判断：是否值得收录",
+    "[45.7] inclusionAI's Ming-Image-0.1-Design is the #1 open weights model for UI/UX Desig\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.6] 这个有点牛P啊 Claude Opus 5.5 自己写代码画出一支手绘 MV： 没有使用任何 AI 生视频工具： Opus 5.5 自己通过写 p5.js 代码\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.4] 现在的 LLM 训练完后权重都是完全冻结的，用户在对话中提供的最新事实、纠错或长文档 模型只能塞进 上下文窗口里，每次对话都要从头重读一遍，极度烧显存和算力，而\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.1] 据The Information：Google 即将发布旗舰Gemini 4 AI模型。 就在这两天😎\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[42.4] 🚀 Tencent Hy Translation just landed.Powered by Hy-MT2. 33 languages. 5 Chinese\n    建议：人工判断：是否值得收录",
+    "[41.9] BREAKING: Here's an early look at the \"Grok Bots\" tab inside the X web app! http\n    建议：人工判断：是否值得收录",
+    "[41.5] BREAKING: SpaceXAI is working on the “Unify account” button for Grok! 👀 https:/\n    建议：人工判断：是否值得收录",
+    "[39.4] I just had a voice conversation with the Datasette backup of my blog via dataset\n    建议：人工判断：是否值得收录"
   ]
 }
