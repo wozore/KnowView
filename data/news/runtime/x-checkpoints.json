@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-25T05:17:40.198Z",
+  "updated_at": "2026-09-25T17:31:20.423Z",
   "checkpoints": {
     "2026-09-14T20:00:00+08:00__2026-09-15T08:00:00+08:00::account_group::g1::782d989e625de0f2": {
       "schema_version": 1,
@@ -3009,6 +3009,150 @@
       "credits_used": 0,
       "retained_items": 0,
       "updated_at": "2026-09-25T05:17:40.198Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::account_group::g2::f713c0e464d426fe": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g2",
+      "group_id": "g2",
+      "query_hash": "f713c0e464d426fe",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTCqPjhboMYKAAIdMH1Ta9qA-QAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdMUSJwgAnEAoABh0xRInB_9jwCwAHAAAAUEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFBVWRNSDF4M2h1d2h4MHdmVk5yMm9ENUhUQjlqYnVhRUpjZE1IMmlzMXJBT0Iwd3FqNDRXNkRHAAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 75,
+      "retained_items": 0,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::account_group::g4::be8220d2700cab40": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g4",
+      "group_id": "g4",
+      "query_hash": "be8220d2700cab40",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTBm-hWbAeIKAAIdMGZ8fZuxSgAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdMUSLUkAnEAoABh0xRItSP9jwCwAHAAAAMEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFBSWRNR1o4Zlp1eFNoMHdadm9WbXdIaQAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 30,
+      "retained_items": 0,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::account_group::g5::8f934018ac25c5a0": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g5",
+      "group_id": "g5",
+      "query_hash": "8f934018ac25c5a0",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTDVBCgX0Y0KAAIdMNUEKBfRjQAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdMUSNJAAnEAoABh0xRI0j_9jwCwAHAAAAKEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFBRWRNTlVFS0JmUmpRPT0AAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 15,
+      "retained_items": 1,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::account_group::g6::7e3f0536959cbd88": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g6",
+      "group_id": "g6",
+      "query_hash": "7e3f0536959cbd88",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTDXpqQWYPcKAAIdMGIi2duQJAAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdMUSN7UAnEAoABh0xRI3tP9jwCwAHAAAAPEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFBTWRNTmVtcEJaZzl4MHcxYXRUbTBBVkhUQmlJdG5ia0NRPQAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 45,
+      "retained_items": 2,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::account_group::g7::bc91228957184512": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g7",
+      "group_id": "g7",
+      "query_hash": "bc91228957184512",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTDl-3da0fIKAAIdMFTbpxeBCAAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdMUSOw0AnEAoABh0xRI7DP9jwCwAHAAAAyEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFCQWRNTWFGYUpvUm9SMHdjQTB3MjFGOEhUQnpnaGNXOFlvZE1GVGJweGVCQ0IwdzNxbnZHMkE4SFRCNVlzNldzSVVkTUhnMHg1WndJQjB3ZEVFQ21vRThIVENEcFozWG9SZ2RNT1g3ZDFyUjhoMHc1ZnJSVndHb0hUQldPQjNiQUdzZE1JV0xIRmVRTXgwd2Ixa1BtaUV5SFRDTUJ5SWJRWnNkTUsxczZsYUFwdz09AAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 240,
+      "retained_items": 6,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::discovery::release-events::0ae6f460585cc7d0": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "release-events",
+      "group_id": null,
+      "query_hash": "0ae6f460585cc7d0",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTD4FgWWsIUKAAIdMPXsWVtQTAAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdMUSVnEAnEAoABh0xRJWcP9jwCwAHAAAA8EVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFCUWRNUGdXQlphd2hSMHc5dS9pV3ZGeUhURDE3RmxiVUV3ZE1QZWR5TmFoMXgwdzlrcmsxbkYzSFREM2RxalhnUm9kTVBZQW9oWlFqaDB3OWtOZDJwQy9IVEQzQVZIWFFWY2RNUFlYVVphd1dSMHc5aTRVbDRHUkhURDJVMitYWU1nZE1QYzZvQllBWUIwdzlvZWRtNkRkSFREM3FiQ1d3WHdkTVBlVm50cXhvQjB3OTY2bmxsQytIVEQzdy9qYUVXSWRNUGFTTmhaQUxSMHc5cTd3RzBBSgAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 300,
+      "retained_items": 16,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::discovery::open-source-models::337d5add3e1b4062": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "open-source-models",
+      "group_id": null,
+      "query_hash": "337d5add3e1b4062",
+      "status": "partial",
+      "pages_completed": 0,
+      "next_cursor": null,
+      "reason_code": "NEWS_BUDGET_EXHAUSTED",
+      "credits_used": 0,
+      "retained_items": 0,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::discovery::benchmarks-eval::37ac85e98edbe6f0": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "benchmarks-eval",
+      "group_id": null,
+      "query_hash": "37ac85e98edbe6f0",
+      "status": "partial",
+      "pages_completed": 0,
+      "next_cursor": null,
+      "reason_code": "NEWS_BUDGET_EXHAUSTED",
+      "credits_used": 0,
+      "retained_items": 0,
+      "updated_at": "2026-09-25T17:31:20.423Z"
+    },
+    "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00::discovery::frontier-agents::caee5c9d8ab4777c": {
+      "schema_version": 1,
+      "window_id": "2026-09-25T08:00:00+08:00__2026-09-25T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "frontier-agents",
+      "group_id": null,
+      "query_hash": "caee5c9d8ab4777c",
+      "status": "partial",
+      "pages_completed": 0,
+      "next_cursor": null,
+      "reason_code": "NEWS_BUDGET_EXHAUSTED",
+      "credits_used": 0,
+      "retained_items": 0,
+      "updated_at": "2026-09-25T17:31:20.423Z"
     }
   },
   "tail_recheck_observations": [
@@ -4074,6 +4218,62 @@
       "group_id": "g7",
       "recovered_new_count": 0,
       "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-25T17:31:20.423Z",
+      "half": "cold",
+      "group_id": "g1",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-25T17:31:20.423Z",
+      "half": "cold",
+      "group_id": "g2",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-25T17:31:20.423Z",
+      "half": "cold",
+      "group_id": "g3",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-25T17:31:20.423Z",
+      "half": "cold",
+      "group_id": "g4",
+      "recovered_new_count": 1,
+      "credits_used": 30,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-25T17:31:20.423Z",
+      "half": "cold",
+      "group_id": "g5",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-25T17:31:20.423Z",
+      "half": "cold",
+      "group_id": "g6",
+      "recovered_new_count": 1,
+      "credits_used": 60,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-25T17:31:20.423Z",
+      "half": "cold",
+      "group_id": "g7",
+      "recovered_new_count": 3,
+      "credits_used": 150,
       "recovered_approved_count": 0
     }
   ]
