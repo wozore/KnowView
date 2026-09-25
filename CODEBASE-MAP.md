@@ -109,6 +109,7 @@
 - [intake/official-source-fetch.js](src/catalog/intake/official-source-fetch.js) — 官方 URL 直连正文获取与 HTML 纯文本归一化。导出: `textFromHtml, fetchOfficialSources`
 - [intake/identity-evidence-contract.js](src/catalog/intake/identity-evidence-contract.js) — 候选身份/别名归一、正文命中与厂商来源域判定。
 - [intake/model-identity-verification.js](src/catalog/intake/model-identity-verification.js) — 候选身份与官方正文一致性、共享域登记 URL 所有权、厂商政策核验、身份建议格式重试、系列成员发现与 model_key 索引。
+- [intake/resolution-model-guards.js](src/catalog/intake/resolution-model-guards.js) — 模型身份核验与系列成员发现的逐卡异常归一，防止单卡异常中断整批解析。
 - [intake/identity-adapters.js](src/catalog/intake/identity-adapters.js) — 身份核验层适配器：智谱 Web Search 首选、Tavily Search 备用；官方 URL 直连优先，正文未命中候选时用 Tavily Extract 补取，并生成结构化身份建议。resolution 未显式注入时默认构造。导出: `identityAdapterOptionsOf, identityContextOf, createIdentityVerificationAdapters, createIdentitySuggestAdapter`。
 - [intake/identity-receipts.js](src/catalog/intake/identity-receipts.js) — 身份核验回执读写、候选别名与最新匹配回执复用、来源证据投影、系列回执筛选与 7 天压缩。
 - [series/index.js](src/catalog/series/index.js) — Series 子域真实聚合门面。

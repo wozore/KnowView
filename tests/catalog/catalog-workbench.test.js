@@ -115,6 +115,24 @@ test('catalog workbench returns phased blocker details alongside successful draf
   assert.equal(result.blocked[0].reason, '官方正文未命中 blocked-model');
 });
 
+test('catalog workbench preserves a sanitized batch resolution error', async () => {
+  const card = { name: 'Batch Failure Tool', candidate_key: candidateKeyOf('tools', 'Batch Failure Tool'), review_status: 'approved' };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
+    resolveBatchCandidates: async () => { throw new Error('SOURCE_CONTEXT_UNAVAILABLE: shared resolver bootstrap failed'); },
+    listDrafts: () => [],
+  });
+  const plan = coordinator.plan();
+  const result = await coordinator.prepare({ ...plan, confirm_cost: true });
+
+  assert.equal(result.status, 'drafts_blocked');
+  assert.equal(result.blocked.length, 1);
+  assert.equal(result.blocked[0].code, 'SOURCE_RESOLUTION_FAILED');
+  assert.equal(result.blocked[0].reason, 'SOURCE_CONTEXT_UNAVAILABLE: shared resolver bootstrap failed');
+});
+
 test('catalog workbench resolves api_model placement before draft preparation and budgets deferred research', async () => {
   const card = {
     name: 'StepAudio 3 ASR',

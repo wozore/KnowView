@@ -156,6 +156,63 @@ test('resolveBatchCandidates 三路：登记表命中 / 解析成功 / unresolve
   assert.equal(result.unresolved[0].name, 'Unknown Tool');
 });
 
+test('单卡模型身份核验异常转成该卡 blocker，后续候选继续解析', async () => {
+  const registry = {
+    schema_version: 1,
+    entries: { 'Known Tool': { vendor_name: 'Alpha', official_url: 'https://alpha.example.com' } },
+  };
+  const result = await resolveBatchCandidates([
+    { name: 'Broken Model', candidate_key: 'broken-model', entity_type: 'model', detail_kind_hint: 'api_model' },
+    { name: 'Known Tool', candidate_key: 'known-tool', detail_kind_hint: 'tool' },
+  ], {
+    registry,
+    productRegistry: { schema_version: 1, products: {} },
+    identityContext: mockIdentityContext(),
+    identityAdapters: {},
+    verifyModelIdentity: async () => {
+      throw Object.assign(new Error('identity adapter escaped its result contract'), { code: 'IDENTITY_RUNTIME_ERROR: detail' });
+    },
+    catalogModelKeyIndex: () => new Map(),
+    setIntakeOutcome: null,
+  });
+
+  assert.deepEqual(result.verification_blocked.map(item => ({ name: item.name, code: item.code })), [
+    { name: 'Broken Model', code: 'IDENTITY_RUNTIME_ERROR' },
+  ]);
+  assert.match(result.verification_blocked[0].reason, /escaped its result contract/);
+  assert.deepEqual(result.seeds.map(seed => seed.name), ['Known Tool']);
+  assert.deepEqual(result.unresolved, []);
+});
+
+test('单卡系列成员发现异常不会中断后续候选', async () => {
+  const registry = {
+    schema_version: 1,
+    entries: { 'Known Tool': { vendor_name: 'Alpha', official_url: 'https://alpha.example.com' } },
+  };
+  const result = await resolveBatchCandidates([
+    { name: 'Broken Series', candidate_key: 'broken-series', entity_type: 'series', detail_kind_hint: 'api_model' },
+    { name: 'Known Tool', candidate_key: 'known-tool', detail_kind_hint: 'tool' },
+  ], {
+    registry,
+    productRegistry: { schema_version: 1, products: {} },
+    identityContext: mockIdentityContext(),
+    identityAdapters: {},
+    verifyModelIdentity: async candidate => ({
+      ok: true,
+      verdict: { entity_class: 'series', vendor_key: 'alibaba', model_key: 'alibaba-broken-series', series_title: candidate.name },
+    }),
+    discoverSeriesMembers: async () => { throw new Error('series member resolver failed'); },
+    catalogModelKeyIndex: () => new Map(),
+    setIntakeOutcome: null,
+  });
+
+  assert.deepEqual(result.verification_blocked.map(item => ({ name: item.name, code: item.code })), [
+    { name: 'Broken Series', code: 'IDENTITY_SERIES_MEMBERS_FAILED' },
+  ]);
+  assert.match(result.verification_blocked[0].reason, /series member resolver failed/);
+  assert.deepEqual(result.seeds.map(seed => seed.name), ['Known Tool']);
+});
+
 test('resolveBatchCandidates 将 detail_kind_hint 传入双表 lookup', async () => {
   const registry = require('../../data/manual/registries/official-url-registry.json');
   const productRegistry = loadProductUrlRegistry();

@@ -171,7 +171,7 @@ async function runPreparation(input, dependencies) {
         name: card.name,
         phase: 'source_resolution',
         code: safeErrorCode(error, 'SOURCE_RESOLUTION_FAILED'),
-        reason: '官方来源解析批次失败。',
+        reason: sanitizeReason(error?.message || String(error)) || '官方来源解析批次失败。',
       }));
       const ok = reuse.drafts.length > 0 || catalogCompleted.length > 0;
       return {
