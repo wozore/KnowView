@@ -45,7 +45,11 @@ function defaultRunner(command, args) {
 
 function isMissingGitPathError(error, filePath) {
   const stderr = String(error?.stderr || '');
-  return error?.status === 128 && stderr.includes(`fatal: path '${filePath}' does not exist in '`);
+  const missingPrefix = `fatal: path '${filePath}'`;
+  return error?.status === 128 && (
+    stderr.includes(`${missingPrefix} does not exist in '`)
+    || stderr.includes(`${missingPrefix} exists on disk, but not in '`)
+  );
 }
 
 function readGitFile(run, revision, filePath, errorCode, context = revision) {

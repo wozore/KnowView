@@ -104,6 +104,8 @@ test('defaultRunner：可读取超过 execFileSync 默认缓冲区的 Git 文件
       maxBuffer: 64 * 1024 * 1024,
     });
     assert.equal(readGitFile(localRun, 'HEAD', 'data/news/runtime/missing.json', 'TEST_READ_FAILED'), null);
+    fs.writeFileSync(path.join(tempDir, 'local-only.json'), '{"uncommitted":true}', 'utf8');
+    assert.equal(readGitFile(localRun, 'HEAD', 'local-only.json', 'TEST_READ_FAILED'), null);
   } finally {
     fs.rmSync(tempDir, { recursive: true, force: true });
   }
