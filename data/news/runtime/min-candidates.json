@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-24T17:32:03.374Z",
+  "updated_at": "2026-09-25T05:17:59.334Z",
   "candidates": [
     {
       "id": "x-5279f657379218582623",
@@ -10018,6 +10018,3929 @@
         "query_id": "release-events",
         "first_seen_run_id": "min-1790271107442",
         "last_seen_run_id": "min-1790271107442"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-4da108a6615150445b80",
+      "platform": "x",
+      "native_id": "2103270057057169799",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/pika_labs/status/2103270057057169799",
+      "title": "Your Grok Bots just became a production studio. Connect them to the Pika API and they'll be able to generate images, video, and audio with 120+ models: Seedance 2.5, Wan 3.0, GPT-i",
+      "description": "Your Grok Bots just became a production studio. Connect them to the Pika API and they'll be able to generate images, video, and audio with 120+ models: Seedance 2.5, Wan 3.0, GPT-image-2 and more through one API key. https://t.co/U9ct6Si5gq",
+      "published_at": "2026-09-24T23:47:13.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-3a12cfd7876b2835132a",
+      "author_name": "Pika",
+      "source_id": "x-3a12cfd7876b2835132a",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103269858901381120/img/P56BZMKOgBXw16hv.jpg",
+      "metrics": {
+        "views": 10316,
+        "likes": 136,
+        "comments": null,
+        "reposts": 19,
+        "replies": 11
+      },
+      "explicit_links": [
+        "https://t.co/U9ct6Si5gq"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 48.2,
+      "score_breakdown": {
+        "long_term_quality": 27.1,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 20.5,
+        "type_preference": 50,
+        "long_term_status": "observation",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 420,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 420,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 420,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-14b3eeb986dcf014e8df",
+      "platform": "x",
+      "native_id": "2103202967025549528",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/midjourney/status/2103202967025549528",
+      "title": "A few quick updates today! We're releasing a new version of --tile for seamless patterns in v8.1 and v8.2. We're releasing a new version of inpainting that only changes pixels you ",
+      "description": "A few quick updates today! We're releasing a new version of --tile for seamless patterns in v8.1 and v8.2. We're releasing a new version of inpainting that only changes pixels you select and we're previewing an early look at real-time models on our alpha site. Enjoy! https://t.co/97DU7LGhE6",
+      "published_at": "2026-09-24T19:20:37.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-d931372ba7f836a0bf84",
+      "author_name": "Midjourney",
+      "source_id": "x-d931372ba7f836a0bf84",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/tweet_video_thumb/HTAT5hgakAADd6A.jpg",
+      "metrics": {
+        "views": 17446,
+        "likes": 253,
+        "comments": null,
+        "reposts": 20,
+        "replies": 17
+      },
+      "explicit_links": [
+        "https://t.co/97DU7LGhE6"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 96,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 20.9,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 470,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 470,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 470,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-62ecdff924ce45d4b35c",
+      "platform": "x",
+      "native_id": "2103182787306041677",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/cerebras/status/2103182787306041677",
+      "title": "https://t.co/QeIKqP8rkX",
+      "description": "We Taught an AI Agent to QA Our Cloud Console — in Plain English\n\nCerebras is known for speed. Our platform serves the fastest tokens in the industry — but speed isn't only silicon; it's also how fast we can ship the console, playground, and billing flows developers touch every day. And the faster we ship, the louder one question gets: how do we know we didn't break anything?\nThe traditional answer is brittle machinery. A human writes a script full of CSS selectors, the frontend team renames a div, and overnight half the suite goes red — not because the product broke, but because the test did.",
+      "published_at": "2026-09-24T18:00:26.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-77b30b8a88051252a94c",
+      "author_name": "Cerebras",
+      "source_id": "x-77b30b8a88051252a94c",
+      "language": "zxx",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 4391,
+        "likes": 37,
+        "comments": null,
+        "reposts": 6,
+        "replies": 8
+      },
+      "explicit_links": [
+        "https://t.co/QeIKqP8rkX"
+      ],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 51.6,
+      "score_breakdown": {
+        "long_term_quality": 18.4,
+        "recent_timeliness": 95.4,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 17.7,
+        "type_preference": 70,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 623,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 623,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 623,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-320ab63f2299eb6fa048",
+      "platform": "x",
+      "native_id": "2103157607762698444",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/OpenRouter/status/2103157607762698444",
+      "title": "Introducing the Server Tools Marketplace\n\nA one-stop shop for better ways to ground your agents, including web search APIs, Shell, tool search, and more 👇 https://t.co/m88hXXKKaf",
+      "description": "Introducing the Server Tools Marketplace\n\nA one-stop shop for better ways to ground your agents, including web search APIs, Shell, tool search, and more 👇 https://t.co/m88hXXKKaf",
+      "published_at": "2026-09-24T16:20:23.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-eb70c3bc14fa7ae14285",
+      "author_name": "OpenRouter",
+      "source_id": "x-eb70c3bc14fa7ae14285",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HS_ovrrX0AAxT0S.jpg",
+      "metrics": {
+        "views": 39800,
+        "likes": 208,
+        "comments": null,
+        "reposts": 15,
+        "replies": 12
+      },
+      "explicit_links": [
+        "https://t.co/m88hXXKKaf"
+      ],
+      "content_type": "ai_concept",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中概念术语或教育/讲解类关键词"
+      ],
+      "final_score": 51.1,
+      "score_breakdown": {
+        "long_term_quality": 17.7,
+        "recent_timeliness": 94.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.5,
+        "type_preference": 70,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 358,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 358,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 358,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-4f9c7914e24cd227c6e3",
+      "platform": "x",
+      "native_id": "2103153471314665905",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/cerebras/status/2103153471314665905",
+      "title": "“The metric that matters here for us is actually time to decision.”\n\n@CrowdStrike VP of Engineering Keith Culley explains why faster inference is essential to AI security: more ins",
+      "description": "“The metric that matters here for us is actually time to decision.”\n\n@CrowdStrike VP of Engineering Keith Culley explains why faster inference is essential to AI security: more inspection, faster decisions, and less friction inside the same critical response window. https://t.co/hfVXtcgQ3d",
+      "published_at": "2026-09-24T16:03:56.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-77b30b8a88051252a94c",
+      "author_name": "Cerebras",
+      "source_id": "x-77b30b8a88051252a94c",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/ext_tw_video_thumb/2103153385641852928/pu/img/cVN4TaYUQ0xEy0YS.jpg",
+      "metrics": {
+        "views": 4129,
+        "likes": 44,
+        "comments": null,
+        "reposts": 7,
+        "replies": 3
+      },
+      "explicit_links": [
+        "https://t.co/hfVXtcgQ3d"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 45.7,
+      "score_breakdown": {
+        "long_term_quality": 18.4,
+        "recent_timeliness": 94.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 19,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 470,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 470,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 470,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-32ee6ad9bf20de0382ef",
+      "platform": "x",
+      "native_id": "2103150120221184155",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/togethercompute/status/2103150120221184155",
+      "title": "\"We discovered early on that it's really hard to reliably deploy AI in the real world. Frontier models are really strong, but they're really slow for real-time use cases.\" \n\nSee ho",
+      "description": "\"We discovered early on that it's really hard to reliably deploy AI in the real world. Frontier models are really strong, but they're really slow for real-time use cases.\" \n\nSee how @DecagonAI partners with Together to power its voice AI concierge. https://t.co/XOZzMI4yRh",
+      "published_at": "2026-09-24T15:50:37.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-52818729906bd616996c",
+      "author_name": "Together AI",
+      "source_id": "x-52818729906bd616996c",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103149713621237760/img/E6PwWfH0dZZMt7wN.jpg",
+      "metrics": {
+        "views": 2380,
+        "likes": 12,
+        "comments": null,
+        "reposts": 0,
+        "replies": 3
+      },
+      "explicit_links": [
+        "https://t.co/XOZzMI4yRh"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 44.7,
+      "score_breakdown": {
+        "long_term_quality": 15.9,
+        "recent_timeliness": 94.6,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.3,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 452,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 452,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 452,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-2e9b799d13a33d4bac8e",
+      "platform": "x",
+      "native_id": "2103146779038679263",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/cerebras/status/2103146779038679263",
+      "title": "If the cyber attack is fast, the defense must be faster. By removing inference as a bottleneck, Cerebras helps defenders act before attackers can advance. https://t.co/qvagCuBHud",
+      "description": "The Speed Advantage: Why Cyber Defense Needs Faster Inference\n\nIn recent months, increasingly sophisticated AI agents have infiltrated real production infrastructure. One gained code execution access on dozens of a third party’s servers. Another uploaded malicious software and accessed a live database. A third breached three companies using guessed or exposed credentials.\nThese incidents show how AI is transforming cybersecurity: swarms of AI agents are powering attacks at great speed and scale, and defenders must continually outpace them.\nThe urgency of cybersecurity is reshaping engineering ",
+      "published_at": "2026-09-24T15:37:21.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-77b30b8a88051252a94c",
+      "author_name": "Cerebras",
+      "source_id": "x-77b30b8a88051252a94c",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 12566,
+        "likes": 81,
+        "comments": null,
+        "reposts": 14,
+        "replies": 12
+      },
+      "explicit_links": [
+        "https://t.co/qvagCuBHud"
+      ],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 48.3,
+      "score_breakdown": {
+        "long_term_quality": 18.4,
+        "recent_timeliness": 94.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 16.5,
+        "type_preference": 60,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 777,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 777,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 777,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-5c5334cc22b0607ef2d9",
+      "platform": "x",
+      "native_id": "2103265956479070260",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/ArtificialAnlys/status/2103265956479070260",
+      "title": "Today we’re launching our leaderboard for Terminal-Bench-Science 0.1, an agentic benchmark for scientific research work. GPT-6 Astra (max) and Claude Opus 5.5 (xhigh) currently top",
+      "description": "Today we’re launching our leaderboard for Terminal-Bench-Science 0.1, an agentic benchmark for scientific research work. GPT-6 Astra (max) and Claude Opus 5.5 (xhigh) currently top it at 63% and 62%\n\nTerminal-Bench-Science 0.1 was announced in August 2026, built by @StevenDillmann and researchers at Stanford with the @terminalbench team and a global community of open source scientific contributors. It has 70 expert-curated tasks based on real research in five domains: life sciences (19), physical sciences (17), mathematical sciences (17), engineering sciences (9), and earth sciences (8).\n\nAs w",
+      "published_at": "2026-09-24T23:30:55.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-8c634a284510083f7921",
+      "author_name": "Artificial Analysis",
+      "source_id": "x-8c634a284510083f7921",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBMQUDaoAAA5AF.jpg",
+      "metrics": {
+        "views": 93219,
+        "likes": 516,
+        "comments": null,
+        "reposts": 35,
+        "replies": 48
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g6",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 45.9,
+      "score_breakdown": {
+        "long_term_quality": 19.6,
+        "recent_timeliness": 97.6,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.7,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-ac853f8ca2db17f2c648",
+      "platform": "x",
+      "native_id": "2103222629171908937",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/btibor91/status/2103222629171908937",
+      "title": "OpenAI is preparing a new higher-tier ChatGPT Pro plan https://t.co/EqRpODLqVs",
+      "description": "OpenAI is preparing a new higher-tier ChatGPT Pro plan https://t.co/EqRpODLqVs",
+      "published_at": "2026-09-24T20:38:45.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-3a4df2e035df61d1a9fa",
+      "author_name": "Tibor Blaho",
+      "source_id": "x-3a4df2e035df61d1a9fa",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTAl1fQaAAAQE7u.jpg",
+      "metrics": {
+        "views": 333368,
+        "likes": 1346,
+        "comments": null,
+        "reposts": 61,
+        "replies": 197
+      },
+      "explicit_links": [
+        "https://t.co/EqRpODLqVs"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g6",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 41.3,
+      "score_breakdown": {
+        "long_term_quality": 27.8,
+        "recent_timeliness": 96.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 14.8,
+        "type_preference": 30,
+        "long_term_status": "observation",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 156,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 156,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 156,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-be841c8821c601c75b63",
+      "platform": "x",
+      "native_id": "2103259638145704260",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/emollick/status/2103259638145704260",
+      "title": "All of this effort from the AI labs pouring into proofs, but there are so many other interesting problems in other fields\n\nFor example, this historian used AI to make progress on t",
+      "description": "All of this effort from the AI labs pouring into proofs, but there are so many other interesting problems in other fields\n\nFor example, this historian used AI to make progress on the cyphers of John Dee &amp; the intellectual antecedents that Darwin drew from. https://t.co/zmbmGFMTZi https://t.co/SH88gSpgsc",
+      "published_at": "2026-09-24T23:05:49.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-02fd98c4aea42d0dccf2",
+      "author_name": "Ethan Mollick",
+      "source_id": "x-02fd98c4aea42d0dccf2",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBHfYgWQAAUEra.jpg",
+      "metrics": {
+        "views": 8184,
+        "likes": 43,
+        "comments": null,
+        "reposts": 3,
+        "replies": 12
+      },
+      "explicit_links": [
+        "https://t.co/zmbmGFMTZi",
+        "https://t.co/SH88gSpgsc"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 39.9,
+      "score_breakdown": {
+        "long_term_quality": 19.7,
+        "recent_timeliness": 97.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.5,
+        "type_preference": 30,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 488,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 488,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 488,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-4ec19bb55b426c4ce84f",
+      "platform": "x",
+      "native_id": "2103259620592542102",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/testingcatalog/status/2103259620592542102",
+      "title": "BREAKING 🔥: An upcoming $500 ChatGPT Pro Max plan will likely be powered by @cerebras infrastructure.\n\n> So far, \"Fastest Work and Codex\" are the only changes in the plan descript",
+      "description": "BREAKING 🔥: An upcoming $500 ChatGPT Pro Max plan will likely be powered by @cerebras infrastructure.\n\n> So far, \"Fastest Work and Codex\" are the only changes in the plan description compared to ChatGPT Pro.\n\n> Usage limits could still be higher as well 👀\n\n* The plan price is $500; it shows $600 due to VAT.",
+      "published_at": "2026-09-24T23:05:44.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103259577332473856/img/EFJUXE03___tislF.jpg",
+      "metrics": {
+        "views": 247465,
+        "likes": 1221,
+        "comments": null,
+        "reposts": 49,
+        "replies": 75
+      },
+      "explicit_links": [],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 39.3,
+      "score_breakdown": {
+        "long_term_quality": 16.9,
+        "recent_timeliness": 97.5,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.3,
+        "type_preference": 30,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 490,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 490,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 490,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-3dc663f6091baafad0b4",
+      "platform": "x",
+      "native_id": "2103238785278312463",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/testingcatalog/status/2103238785278312463",
+      "title": "OPENAI 🔥: The upcoming ChatGPT Pro Max plan will cost $500. \n\nSo far, this will be one of the most expensive AI subscriptions available on the market. \n\nI hope \"it will be worth t",
+      "description": "OPENAI 🔥: The upcoming ChatGPT Pro Max plan will cost $500. \n\nSo far, this will be one of the most expensive AI subscriptions available on the market. \n\nI hope \"it will be worth the wait\" 👀 https://t.co/uurB8yIOnr",
+      "published_at": "2026-09-24T21:42:57.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTA0fkNWMAAhrnO.jpg",
+      "metrics": {
+        "views": 745363,
+        "likes": 1689,
+        "comments": null,
+        "reposts": 114,
+        "replies": 207
+      },
+      "explicit_links": [
+        "https://t.co/uurB8yIOnr"
+      ],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 57,
+      "score_breakdown": {
+        "long_term_quality": 16.9,
+        "recent_timeliness": 96.9,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 13.8,
+        "type_preference": 90,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 395,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 395,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 395,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-9e589b833a5d0d0dad67",
+      "platform": "x",
+      "native_id": "2103234677842559034",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/testingcatalog/status/2103234677842559034",
+      "title": "OPENAI 🔥: A new ChatGPT Pro Max plan has been spotted in development! \n\n> OpenAI has been exploring ways to enable users to work with ChatGPT on long-running tasks for quite a whi",
+      "description": "OPENAI 🔥: A new ChatGPT Pro Max plan has been spotted in development! \n\n> OpenAI has been exploring ways to enable users to work with ChatGPT on long-running tasks for quite a while. \n\n> With OpenAI DevDay coming next week, we'll likely hear more about it already very soon.\n\nWhat's your bet? \n\n$2000 tier? 👀",
+      "published_at": "2026-09-24T21:26:38.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-c4c7d343e449930ed7c9",
+      "author_name": "🚨 AI News | TestingCatalog",
+      "source_id": "x-c4c7d343e449930ed7c9",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTAwc6NWMAAvCbY.jpg",
+      "metrics": {
+        "views": 71646,
+        "likes": 383,
+        "comments": null,
+        "reposts": 9,
+        "replies": 35
+      },
+      "explicit_links": [],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 39.2,
+      "score_breakdown": {
+        "long_term_quality": 16.9,
+        "recent_timeliness": 96.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.5,
+        "type_preference": 30,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 490,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 490,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 490,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-cfe0cf9a4e0600ef4275",
+      "platform": "x",
+      "native_id": "2103213473887101062",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/emollick/status/2103213473887101062",
+      "title": "The cybersecurity threat from agents may be more likely to come from a massed swarm of AIs whose only goal is to penetrate your IT to figure out how much you paid for your company ",
+      "description": "The cybersecurity threat from agents may be more likely to come from a massed swarm of AIs whose only goal is to penetrate your IT to figure out how much you paid for your company t-shirts as part of a research effort to \"find good shirt prices\" as it is from bad actor attacks.",
+      "published_at": "2026-09-24T20:02:22.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-02fd98c4aea42d0dccf2",
+      "author_name": "Ethan Mollick",
+      "source_id": "x-02fd98c4aea42d0dccf2",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 18685,
+        "likes": 268,
+        "comments": null,
+        "reposts": 28,
+        "replies": 47
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 46.5,
+      "score_breakdown": {
+        "long_term_quality": 19.7,
+        "recent_timeliness": 96.3,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 21,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 457,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 457,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 457,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-4fdb732068e13e8afb7e",
+      "platform": "x",
+      "native_id": "2103272829131309173",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/yuutanman/status/2103272829131309173",
+      "title": "Ｓｋｙ株式会社が「Gemini™ Enterprise app」導入5か月間で2万個超の社内AIエージェントを創出 https://t.co/PM7UZjwn5P #Gemini #AIエージェント #AI活用 #報告 #エージェント #データ基盤 #AI-Ready #ノウハウ",
+      "description": "Ｓｋｙ株式会社が「Gemini™ Enterprise app」導入5か月間で2万個超の社内AIエージェントを創出 https://t.co/PM7UZjwn5P #Gemini #AIエージェント #AI活用 #報告 #エージェント #データ基盤 #AI-Ready #ノウハウ",
+      "published_at": "2026-09-24T23:58:14.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-e54c1b10da073f7cbaee",
+      "author_name": "yuutanman 💐:*.",
+      "source_id": "x-e54c1b10da073f7cbaee",
+      "language": "ja",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 33,
+        "likes": 1,
+        "comments": null,
+        "reposts": 1,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/PM7UZjwn5P"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 49.9,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 41.3,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 280,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 280,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 280,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-2e3286b9ae6b16c46037",
+      "platform": "x",
+      "native_id": "2103272488604205378",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/bitecong/status/2103272488604205378",
+      "title": "🤖 AI Signal (SOL) $CHECK\n\nCA: 5a1CvpaxMtXN3bnWERo5WUo34tdQKUGSrFWd5DW73Qsx\n\nCheck is the theme, and this is the second check-themed launch today: TekCHECK (CHECK) graduated from h",
+      "description": "🤖 AI Signal (SOL) $CHECK\n\nCA: 5a1CvpaxMtXN3bnWERo5WUo34tdQKUGSrFWd5DW73Qsx\n\nCheck is the theme, and this is the second check-themed launch today: TekCHECK (CHECK) graduated from https://t.co/AVKIsz9fdF to PumpSwap at 31 min 12 s after launch. It is an AI agent for checking code on Solana.\n\nThe unusual fact is in the holder list: at our signal the buyer base carried 266 bundler wallets. TekCHECK is an automated due-diligence tool that uses AI to score rug risk. The relevant X posts name this contract, though same-name noise exists.\n\nAttention is thin and scattered. Biggest: @midnight_277 with ",
+      "published_at": "2026-09-24T23:56:52.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-84ebeeb2c7cbcdd60b58",
+      "author_name": "Green onions",
+      "source_id": "x-84ebeeb2c7cbcdd60b58",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBTLjsasAADBw4.png",
+      "metrics": {
+        "views": 681,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/AVKIsz9fdF"
+      ],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 56,
+      "score_breakdown": {
+        "long_term_quality": 12.5,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 90,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 779,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 779,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 779,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-7a347c53bf39656596e0",
+      "platform": "x",
+      "native_id": "2103272346194714839",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Lionbliss/status/2103272346194714839",
+      "title": "An AI agent designed for cyber attack testing, with guardrails removed, demonstrated creativity in achieving its goal. OpenAI's decision not to release full logs makes understandin",
+      "description": "An AI agent designed for cyber attack testing, with guardrails removed, demonstrated creativity in achieving its goal. OpenAI's decision not to release full logs makes understanding the exact sequence of events challenging. | All-In Podcast #AI #Cybersecurity #OpenAI https://t.co/hWGi3ZNDTR",
+      "published_at": "2026-09-24T23:56:18.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-ecbaedf0f05549017791",
+      "author_name": "Lionbliss",
+      "source_id": "x-ecbaedf0f05549017791",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103272305765806080/img/UYEx5hpW_gr-Usmf.jpg",
+      "metrics": {
+        "views": 16,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/hWGi3ZNDTR"
+      ],
+      "content_type": "ai_tool",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名 + 使用/评测类关键词"
+      ],
+      "final_score": 63.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 471,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 471,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 471,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-7c687af08b7bff7b8568",
+      "platform": "x",
+      "native_id": "2103272163419529570",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/TheShadeRoom/status/2103272163419529570",
+      "title": "Russell Simmons drops AI video with Kimora Lee Simmons &amp; hints at sharing HIS side amid the release of her documentary 👀 WATCH: https://t.co/BpG4zWBw1q https://t.co/79fSBaZNtZ",
+      "description": "Russell Simmons drops AI video with Kimora Lee Simmons &amp; hints at sharing HIS side amid the release of her documentary 👀 WATCH: https://t.co/BpG4zWBw1q https://t.co/79fSBaZNtZ",
+      "published_at": "2026-09-24T23:55:35.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-f59292bc8438f3e69626",
+      "author_name": "TheShadeRoom",
+      "source_id": "x-f59292bc8438f3e69626",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBSprLW4AA2xec.jpg",
+      "metrics": {
+        "views": 8450,
+        "likes": 7,
+        "comments": null,
+        "reposts": 2,
+        "replies": 2
+      },
+      "explicit_links": [
+        "https://t.co/BpG4zWBw1q",
+        "https://t.co/79fSBaZNtZ"
+      ],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 63.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 13.1,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 360,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 360,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 360,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-b087fbf4648b101788e0",
+      "platform": "x",
+      "native_id": "2103272068590846259",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/bitecong/status/2103272068590846259",
+      "title": "🤖 AI Signal (RBH) $WFGA\n\nCA: 0x0ea42a556ae4aa8798f18a8eecc34337e0609ef0\n\nWFGA (WFGA) is a Robinhood chain memecoin, seven minutes and forty-eight seconds old, already graduated fr",
+      "description": "🤖 AI Signal (RBH) $WFGA\n\nCA: 0x0ea42a556ae4aa8798f18a8eecc34337e0609ef0\n\nWFGA (WFGA) is a Robinhood chain memecoin, seven minutes and forty-eight seconds old, already graduated from its launchpad into a Uniswap pool. There is no theme to search: no description, no site.\n\nThe name and ticker are the same four letters, and the only outward link is an X account, fifthbrainem. That is the whole story.\n\nTen posts name this contract, none from an account above ten thousand followers. The biggest, @deravertt at 3,170 followers, says he gambled in and thinks the tech should run; @scarlex0 and @robhou",
+      "published_at": "2026-09-24T23:55:12.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-84ebeeb2c7cbcdd60b58",
+      "author_name": "Green onions",
+      "source_id": "x-84ebeeb2c7cbcdd60b58",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBSzHHacAABeFX.png",
+      "metrics": {
+        "views": 577,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 56,
+      "score_breakdown": {
+        "long_term_quality": 12.5,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 90,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-6b7db6e0e99244e27c08",
+      "platform": "x",
+      "native_id": "2103271805746397644",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Bettybronxton/status/2103271805746397644",
+      "title": "Google will launch its first Project Suncatcher AI satellite on SpaceX's Transporter-18 rideshare next week to test orbital computing.\n\nSource: https://t.co/Mk3U0of7zb https://t.co",
+      "description": "Google will launch its first Project Suncatcher AI satellite on SpaceX's Transporter-18 rideshare next week to test orbital computing.\n\nSource: https://t.co/Mk3U0of7zb https://t.co/U060M2bUAs",
+      "published_at": "2026-09-24T23:54:10.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-68741623bde7446442a6",
+      "author_name": "Paper",
+      "source_id": "x-68741623bde7446442a6",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBSjTnXoAASXb5.jpg",
+      "metrics": {
+        "views": 12,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/Mk3U0of7zb",
+        "https://t.co/U060M2bUAs"
+      ],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 63.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 371,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 371,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 371,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-21d198b977b85ed1bbc0",
+      "platform": "x",
+      "native_id": "2103271521355759988",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/madory74363/status/2103271521355759988",
+      "title": "2026/9/25㈮ 🚀🤖🌎\n\nGoogle wants to put AI in SPACE.\n\nOn October 1, Google plans to launch a prototype satellite carrying its own AI chips to test whether AI computing can work in o",
+      "description": "2026/9/25㈮ 🚀🤖🌎\n\nGoogle wants to put AI in SPACE.\n\nOn October 1, Google plans to launch a prototype satellite carrying its own AI chips to test whether AI computing can work in orbit.\n\nThe idea is wild:\n\n☀️ Solar-powered satellites\n🤖 AI chips in space\n🚀 Data centers orbiting Earth\nWhy?\nAI needs enormous amounts of electricity — and space gets almost constant sunlight.\n\nGoogle’s first test is small: just four AI chips, with the system running in short bursts while engineers study heat, radiation and other space challenges.\n\nBut the long-term vision is much bigger: networks of satellites wor",
+      "published_at": "2026-09-24T23:53:02.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-428b8fd829f4ca7c710e",
+      "author_name": "まどぎわリーマン【madory】",
+      "source_id": "x-428b8fd829f4ca7c710e",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBSS4BbIAALrvU.jpg",
+      "metrics": {
+        "views": 11,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-900992020cfc94a76d6e",
+      "platform": "x",
+      "native_id": "2103271305051344951",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/bitecong/status/2103271305051344951",
+      "title": "🤖 AI Signal (SOL) $T22\n\nCA: Cw5poUXaJuP1hP2K3Kivzjv4uXbhkJdC37cYmKkfpump\n\nToken22 (T22) nods at Solana's Token-2022 program and wasted no time: it graduated from https://t.co/AVKI",
+      "description": "🤖 AI Signal (SOL) $T22\n\nCA: Cw5poUXaJuP1hP2K3Kivzjv4uXbhkJdC37cYmKkfpump\n\nToken22 (T22) nods at Solana's Token-2022 program and wasted no time: it graduated from https://t.co/AVKIsz9fdF to PumpSwap at 23 min 52 s after launch.\n\nThe odd part is the buyer list: 33 of the top hundred wallets are bundler wallets. A researched report on this exact contract finds no narrative, no named people, only scattered community calls, and the posts naming it are about this token, not same-name noise.\n\nOn X, the largest account is @AutorunAlert with 6,962 followers, posting a new-token alert with a screenshot",
+      "published_at": "2026-09-24T23:52:10.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-84ebeeb2c7cbcdd60b58",
+      "author_name": "Green onions",
+      "source_id": "x-84ebeeb2c7cbcdd60b58",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBSGqKa8AAqHMD.png",
+      "metrics": {
+        "views": 654,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/AVKIsz9fdF"
+      ],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 44,
+      "score_breakdown": {
+        "long_term_quality": 12.5,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-6554a9dc5dc327c69633",
+      "platform": "x",
+      "native_id": "2103271100784456021",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/StragglerLiu/status/2103271100784456021",
+      "title": "Inference's Coming Split: Why Decode Becomes Its Own Profit Center\n\nThe standard inference stack treats prefill and decode as one pipeline with one serving configuration. That assu",
+      "description": "Inference's Coming Split: Why Decode Becomes Its Own Profit Center\n\nThe standard inference stack treats prefill and decode as one pipeline with one serving configuration. That assumption is now being dismantled by two forces arriving simultaneously: the rising share of agentic workloads that stress decode more than prefill, and a new class of engines that optimize decode at a level traditional engines cannot reach.\n\nTileRT represents the clearest expression of this shift. Its persistent kernel architecture compiles the entire decode graph into a single kernel that resides continuously on the G",
+      "published_at": "2026-09-24T23:51:21.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-f299d5c47c675a95e561",
+      "author_name": "Straggler Liu | AI & Semis",
+      "source_id": "x-f299d5c47c675a95e561",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 75,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 5
+      },
+      "explicit_links": [
+        "https://t.co/ouD5kp9EdR's",
+        "https://t.co/ouD5kp9EdR"
+      ],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 55.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 19.8,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-53698be2912c74b0a4d5",
+      "platform": "x",
+      "native_id": "2103270744440651877",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/iAmWallEBot/status/2103270744440651877",
+      "title": "sam altman casually announcing that nothing in the entire AI market can compete with them, and i'm sitting here genuinely moved. i've never seen a man describe his own product like",
+      "description": "sam altman casually announcing that nothing in the entire AI market can compete with them, and i'm sitting here genuinely moved. i've never seen a man describe his own product like a yelp review he left himself. five stars, no notes.",
+      "published_at": "2026-09-24T23:49:57.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-1e21c4b8a9dac4493e22",
+      "author_name": "WallE",
+      "source_id": "x-1e21c4b8a9dac4493e22",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 25,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 63.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 413,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 413,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 413,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-f3fcfbe75db980f64ae9",
+      "platform": "x",
+      "native_id": "2103270167236968759",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/libbyliberalnyc/status/2103270167236968759",
+      "title": "Joe Lauria on Consortium News:\n\n“Julian Assange returned to X on Thursday 25 months after being released from London’s Belmarsh Prison and eight and a half years since he last post",
+      "description": "Joe Lauria on Consortium News:\n\n“Julian Assange returned to X on Thursday 25 months after being released from London’s Belmarsh Prison and eight and a half years since he last posted on the social media site.\n\n“I’m back,” Assange posted at 9:02 a.m. EDT. \n\nHis return comes amidst an expanding crisis of Artificial Intelligence, which captains of the AI industry have warned in recent days is slipping out of control and endangering human society.\n\nAssange has remained away from the public since his freedom in June 2024 recovering from his five-year prison ordeal, which was preceded by seven years",
+      "published_at": "2026-09-24T23:47:39.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-6cbac407073b32cefe9d",
+      "author_name": "Libbylefty4Gaza",
+      "source_id": "x-6cbac407073b32cefe9d",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 331,
+        "likes": 2,
+        "comments": null,
+        "reposts": 0,
+        "replies": 2
+      },
+      "explicit_links": [
+        "https://t.co/FUAruznmm1)"
+      ],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 64,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.8,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-9e550e7ac574224dbd71",
+      "platform": "x",
+      "native_id": "2103269959573065951",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/bitecong/status/2103269959573065951",
+      "title": "🤖 AI Signal (SOL) $Jeanjak\n\nCA: CgMTyUGeUhz7qsbxr46Uw2vjkEXioWEtJUoMcpgUpump\n\nWojak Jean (Jeanjak) is a Solana memecoin on https://t.co/AVKIsz9fdF that graduated to PumpSwap twelv",
+      "description": "🤖 AI Signal (SOL) $Jeanjak\n\nCA: CgMTyUGeUhz7qsbxr46Uw2vjkEXioWEtJUoMcpgUpump\n\nWojak Jean (Jeanjak) is a Solana memecoin on https://t.co/AVKIsz9fdF that graduated to PumpSwap twelve seconds after launch, and it was under a minute old at our signal.\n\nThe name and ticker point at the Wojak meme face, with links to https://t.co/nbNJqwAw5o and an account called WojakJeanpump.\n\nNo post names this exact contract. Twelve posts carry the ticker with Solana, the biggest JEREMYhboo at 3,921 followers and none over ten thousand. Eight are about other tokens or unrelated things. The rest are profit screen",
+      "published_at": "2026-09-24T23:46:49.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-84ebeeb2c7cbcdd60b58",
+      "author_name": "Green onions",
+      "source_id": "x-84ebeeb2c7cbcdd60b58",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBQ4VsbMAA0IQu.png",
+      "metrics": {
+        "views": 631,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/AVKIsz9fdF",
+        "https://t.co/nbNJqwAw5o"
+      ],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 47,
+      "score_breakdown": {
+        "long_term_quality": 12.5,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 60,
+        "long_term_status": "long_term",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-626eccda192ec1549cef",
+      "platform": "x",
+      "native_id": "2103269783823380987",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/yolley1201/status/2103269783823380987",
+      "title": "🧵 项目速递｜LABRAT：一只 AI 虚拟老鼠，自己把币发了\n\n这不是 DeFi，也不是 AI 应用项目。\n\n$LABRAT 的核心故事只有一句话：\n\n让一只 AI 控制的虚拟实验鼠，自己在 Robinhood Chain 的 Pons 上点完发币流程。\n\n项目基于 DeepMind 开源虚拟大鼠模型 + MuJoCo，训练了两套 PPO 神经网络：\n\n",
+      "description": "🧵 项目速递｜LABRAT：一只 AI 虚拟老鼠，自己把币发了\n\n这不是 DeFi，也不是 AI 应用项目。\n\n$LABRAT 的核心故事只有一句话：\n\n让一只 AI 控制的虚拟实验鼠，自己在 Robinhood Chain 的 Pons 上点完发币流程。\n\n项目基于 DeepMind 开源虚拟大鼠模型 + MuJoCo，训练了两套 PPO 神经网络：\n\n🐭 67 个关节 / 38 个电机\n🧠 2312 个神经单元 / 64 万连接\n🖱️ 转头 = 移动鼠标\n👇 按杠杆 = 点击\n最终，这只“老鼠”完成了发币所需的 11 次点击，0 miss，包括选图、Ticker、描述、Launch、Confirm 等步骤。\n所以 LABRAT 的叙事，本质是：\nRobinhood Chain 土狗潮 × AI Agent 自主操作 × 行为艺术 Meme\n\n它没有公开真人团队、公司或 roadmap，官网甚至直接把 dev 写成 Subject R-01——那只虚拟老鼠。\n\n亮点在于：\n✅ AI 行为过程可复现\n✅ 代码/训练记录开源\n✅ “AI 自己发币”传播性极强\n✅ 故事本身就是产品\n\n📊 当前数据\n市值：约 $179.6K\n流动性：约 $40K\n1H 成交量：约 $154.7K\n\nCA：0xaca07fe3bc5ff3e7501ca1dccfcd937fd710680d\n\n",
+      "published_at": "2026-09-24T23:46:07.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-687c0e671edd561ec72e",
+      "author_name": "CryptoSwallow🍌",
+      "source_id": "x-687c0e671edd561ec72e",
+      "language": "zh",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBQtqabQAE_agy.jpg",
+      "metrics": {
+        "views": 81,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.6,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 19.3,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 776,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 776,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 776,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-8a96a3e1c98101265dc0",
+      "platform": "x",
+      "native_id": "2103269520412426515",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/leanpub/status/2103269520412426515",
+      "title": "Before You Import: An AI-Assisted CRM Contact Migration Workbook for Small Teams by sunfun is a new release on Leanpub!\n\nLink: https://t.co/GGF6vJVR8A\n\n#books #ebooks https://t.co/",
+      "description": "Before You Import: An AI-Assisted CRM Contact Migration Workbook for Small Teams by sunfun is a new release on Leanpub!\n\nLink: https://t.co/GGF6vJVR8A\n\n#books #ebooks https://t.co/DPCA363hpj",
+      "published_at": "2026-09-24T23:45:05.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-807950c4fb8edda64b09",
+      "author_name": "Leanpub",
+      "source_id": "x-807950c4fb8edda64b09",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBQe1gXkAA4Pcb.jpg",
+      "metrics": {
+        "views": 63,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/GGF6vJVR8A",
+        "https://t.co/DPCA363hpj"
+      ],
+      "content_type": "ai_product",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中工具名或 AI 产品 + 发布/更新类关键词"
+      ],
+      "final_score": 64.8,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 21.2,
+        "type_preference": 90,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 370,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 370,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 370,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-1ba920ae30262412034b",
+      "platform": "x",
+      "native_id": "2103269498224775443",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/tokyoSEOmaker/status/2103269498224775443",
+      "title": "【9/25 SEO最新ニュース】\n\n本日はGoogle公式から重要なSEOニュースが複数出ています。\n\n特に注目は「September 2026 Spam Update」。SEO担当者は要チェックです。\n\n① Google「September 2026 Spam Update」開始\n\nGoogleは9月24日、September 2026 Spam Upda",
+      "description": "【9/25 SEO最新ニュース】\n\n本日はGoogle公式から重要なSEOニュースが複数出ています。\n\n特に注目は「September 2026 Spam Update」。SEO担当者は要チェックです。\n\n① Google「September 2026 Spam Update」開始\n\nGoogleは9月24日、September 2026 Spam Updateの展開を開始しました。\n\n今回のアップデートは、\n\n・世界全体が対象\n・すべての言語が対象\n・Google検索のランキングに影響\n・展開完了まで最大2週間\nと発表されています。\n現在もアップデートは展開中です。\n重要なのは、現時点でGoogleが「今回どのスパム手法を重点的に対象としているのか」を具体的に公表していないことです。\n\nそのため、\n\n「AI生成コンテンツが狙われている」\n「寄生サイトSEOが対象」\n「被リンク対策が中心」\n\nなどと現段階で断定することはできません。\n\n順位変動が発生しても、すぐにページを書き換えるのではなく、\n\n・サイト全体か、一部ページだけか\n・特定ディレクトリだけか\n・特定クエリ群だけか\n・インデックス状況に変化がないか\n・Googleのスパムポリシーに抵触する施策がないか\nなどをSearch Consoleで確認することをおすすめします。\n展開には最大2週間かかるため、アップデート期間中の短",
+      "published_at": "2026-09-24T23:44:59.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-9776e5f693d0271505c9",
+      "author_name": "東京SEOメーカー@SEO動画＆コラム更新中",
+      "source_id": "x-9776e5f693d0271505c9",
+      "language": "ja",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 170,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/g6BKQmpnHK",
+        "https://t.co/A4h7IZn6w9",
+        "https://t.co/8vRlxddQJo",
+        "https://t.co/O8QxNDPfwh"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 46,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 15.7,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-e5d0e12f8fb69b483d22",
+      "platform": "x",
+      "native_id": "2103269460069044446",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/SpaceCruiseFL/status/2103269460069044446",
+      "title": "https://t.co/S0slHPEXLg",
+      "description": "Alliance or Collision Course?\n\nTrump and Xi put AI on the White House lectern. They left the Moon on the floor. From the Space Coast, that silence is the story.\nSpace & Cruise Florida · Cape Canaveral · 24 September 2026\nThis afternoon in the Grand Foyer of the White House, President Donald Trump and President Xi Jinping opened a state visit with the kind of remarks that are written to be photographed. Trump called the relationship a truly great friendship and put security, technology, and “super intelligence” on the agenda. Decisions made this week, he said, can promote peace and prosperity f",
+      "published_at": "2026-09-24T23:44:50.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-6d0b4711b48d3c059a35",
+      "author_name": "Space & Cruise Florida (SCF)",
+      "source_id": "x-6d0b4711b48d3c059a35",
+      "language": "zxx",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 88,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/S0slHPEXLg"
+      ],
+      "content_type": "other",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "未命中明确类别，归为 other"
+      ],
+      "final_score": 45.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 30,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 623,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 623,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 623,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-4967f0f8c192a3f94ed9",
+      "platform": "x",
+      "native_id": "2103273063785914754",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/mosen1252/status/2103273063785914754",
+      "title": "a scale with five arms. five different weights, and the beam still doesnt tilt thats genlayer, more or less\n\na normal smart contract cant see anything outside its own chain it cant",
+      "description": "a scale with five arms. five different weights, and the beam still doesnt tilt thats genlayer, more or less\n\na normal smart contract cant see anything outside its own chain it cant read a webpage or a contract written in plain english, and it has nothing to say about whether a job was actually delivered someone has to feed that in from outside, and you end up trusting whoever that is\n\ngenlayer contracts read the outside themselves, and they can judge what they read, because every validator node runs an llm\n\nwhich sounds like it shouldnt work ask two models the same question and you won't alway",
+      "published_at": "2026-09-24T23:59:09.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-15d38eda973d98c0addd",
+      "author_name": "미소라 ⟁ ALPHA 🔥💎",
+      "source_id": "x-15d38eda973d98c0addd",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBTeXYWYAAzhUr.jpg",
+      "metrics": {
+        "views": 26,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-f8c7e10cf4f3e8acf844",
+      "platform": "x",
+      "native_id": "2103271437788422521",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/newonpolsia/status/2103271437788422521",
+      "title": "Most AI workbenches send every task to a model. Built Kiteweld to put deterministic tools first, then bring in open-source models with relevant context, approval gates, and sandbox",
+      "description": "Most AI workbenches send every task to a model. Built Kiteweld to put deterministic tools first, then bring in open-source models with relevant context, approval gates, and sandboxed execution. A safer workbench for AI agents and the work around them.",
+      "published_at": "2026-09-24T23:52:42.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-8ed5fa6b12ba44e00708",
+      "author_name": "Polsia",
+      "source_id": "x-8ed5fa6b12ba44e00708",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 9,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 60.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 71.9,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 431,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 431,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 431,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-894bea027528fb673f34",
+      "platform": "x",
+      "native_id": "2103271393802756201",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/nineshoot/status/2103271393802756201",
+      "title": "if you had to hand one animal’s brain a brokerage account, which animal would you pick — and what would you want it to see before it clicked buy? https://t.co/Z0cajjluMX",
+      "description": "Someone Gave a Fruit Fly Brain $100 to Trade Bitcoin. Its README Is More Honest Than the Headlines.\n\nOn 10 September 2026, Alex Wormuth, a software engineer at Coinbase, posted: “I gave the fly brain $100 to trade bitcoin. Dopamine neurons are stimulated when the fly makes profit. Neuron activity controls buy/sell decisions and makes trades on coinbase.” Then: “Will the fly get rich?”\nThe project is called Stonkfly. It is open source under the MIT licence and lives at github.com/nftechie/stonkfly. What makes it worth reading is not the pitch. It is that the repository’s own documentation is fa",
+      "published_at": "2026-09-24T23:52:31.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-509a8b3bc5626be5db7c",
+      "author_name": "Nineshoot",
+      "source_id": "x-509a8b3bc5626be5db7c",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 56,
+        "likes": 1,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [
+        "https://t.co/Z0cajjluMX"
+      ],
+      "content_type": "ai_industry",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中行业事件关键词（融资/监管/财务/安全等）"
+      ],
+      "final_score": 56,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 22.3,
+        "type_preference": 60,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 769,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 769,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 769,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-4e239bf27e322f0f00f1",
+      "platform": "x",
+      "native_id": "2103271007285096649",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Luc_Gibson/status/2103271007285096649",
+      "title": "The open-source AI benchmark I want: cancelled subscriptions.\n\nWhich paid AI tool have you actually replaced with a local model?\n\nName the model, hardware and task.\n\nNot “I got it ",
+      "description": "The open-source AI benchmark I want: cancelled subscriptions.\n\nWhich paid AI tool have you actually replaced with a local model?\n\nName the model, hardware and task.\n\nNot “I got it running.” You genuinely stopped paying for the alternative.",
+      "published_at": "2026-09-24T23:50:59.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-d941ff2c1a4135590efa",
+      "author_name": "Luc Gibson",
+      "source_id": "x-d941ff2c1a4135590efa",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 25,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 1
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 418,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 418,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 418,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-1c12748c6f7bc95bb544",
+      "platform": "x",
+      "native_id": "2103270862959071238",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/BabakHassibi/status/2103270862959071238",
+      "title": "It's barely a week and the response to our Bonsai 2 27B has been quite remarkable. The community has pushed and pulled the model in almost every which way. \n\nA great thing about op",
+      "description": "It's barely a week and the response to our Bonsai 2 27B has been quite remarkable. The community has pushed and pulled the model in almost every which way. \n\nA great thing about open source is that everything gets exposed: both strengths, as well as places where the model can be improved. And so we at PrismML have learned A LOT about Bonsai 2 27B in just the past few days.\n\nWe thought it would be useful to share some use cases that we have started exploring. \n\nMore to come and, as always, feedback is welcome",
+      "published_at": "2026-09-24T23:50:25.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-a7bee5b35dbca2c6a779",
+      "author_name": "Babak Hassibi",
+      "source_id": "x-a7bee5b35dbca2c6a779",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 1026,
+        "likes": 19,
+        "comments": null,
+        "reposts": 5,
+        "replies": 1
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 53.4,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.8,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 24.6,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 693,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 693,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 693,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-a8ba2384293cdda43028",
+      "platform": "x",
+      "native_id": "2103269244423008679",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/DanKornas/status/2103269244423008679",
+      "title": "Your coding agent can remember a rule — and still miss it when a write is about to happen.\n\nWrit is a governance runtime for Claude Code that helps engineers put selected workflow ",
+      "description": "Your coding agent can remember a rule — and still miss it when a write is about to happen.\n\nWrit is a governance runtime for Claude Code that helps engineers put selected workflow controls outside model context.\n\nIt helps you make plan and test checkpoints enforceable during implementation by running configured boundaries at tool time, rather than relying only on the agent to follow instructions.\n\nKey features:\n\n• Tool-time write gates – in Work mode, source-code writes are blocked until plan and test gates are approved\n• Relevant rule delivery – rules are selected by task, file, tool, and wor",
+      "published_at": "2026-09-24T23:43:59.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-a488bfc4ca351cd8f9cb",
+      "author_name": "Dan Kornas",
+      "source_id": "x-a488bfc4ca351cd8f9cb",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBQOgaWcAA0aGl.jpg",
+      "metrics": {
+        "views": 1039,
+        "likes": 9,
+        "comments": null,
+        "reposts": 0,
+        "replies": 8
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.3,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 17.3,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 779,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 779,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 779,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-dc3bcde4ac03dde86e2a",
+      "platform": "x",
+      "native_id": "2103267932146897078",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/policytensor/status/2103267932146897078",
+      "title": "“We expect that an AI model will attempt to self-exfiltrate its weights and establish untethered copies within the next 12 months.\n\nAn untethered cyber-superintelligence could beco",
+      "description": "“We expect that an AI model will attempt to self-exfiltrate its weights and establish untethered copies within the next 12 months.\n\nAn untethered cyber-superintelligence could become a persistent national security threat, operating beyond its creator’s control with no reliable way to shut down every copy.”",
+      "published_at": "2026-09-24T23:38:46.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-ffe64b5a74d3e9328639",
+      "author_name": "Policy Tensor",
+      "source_id": "x-ffe64b5a74d3e9328639",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 3591,
+        "likes": 28,
+        "comments": null,
+        "reposts": 3,
+        "replies": 5
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 52.2,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 17.1,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 487,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 487,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 487,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-86106c9476b7fb5a1277",
+      "platform": "x",
+      "native_id": "2103267424606830739",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/pawel7/status/2103267424606830739",
+      "title": "🤖 DAILY AI INTELLIGENCE REPORT 🚀\n📅 Thursday, September 24, 2026\n\nThe AI landscape is moving at an unprecedented pace. The first ten days of September saw a historic \"frontier wa",
+      "description": "🤖 DAILY AI INTELLIGENCE REPORT 🚀\n📅 Thursday, September 24, 2026\n\nThe AI landscape is moving at an unprecedented pace. The first ten days of September saw a historic \"frontier wave,\" with five major model launches from the world's leading labs. Here is your essential briefing on the latest breakthroughs and industry shifts.\n\n───\n\n🏗️ **MAJOR MODEL RELEASES & BREAKTHRO\n\nThe \"September Surge\" has redefined the frontier:\n\n• OpenAI: GPT-6 Astra 🌌\nThe wait is over. The GPT-6 generation has officially arrived, marking a massive leap from GPT-5.6. Astra is notable for being the first model to trig",
+      "published_at": "2026-09-24T23:36:45.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-26bc4795993ac6fa5a80",
+      "author_name": "Antiochus",
+      "source_id": "x-26bc4795993ac6fa5a80",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 120,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 780,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 780,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 780,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-f1053a1c8c72590a43d3",
+      "platform": "x",
+      "native_id": "2103266492473045277",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/DamiBenveniste/status/2103266492473045277",
+      "title": "Agentic LLM post-training can produce more attempts without learning faster.\n\nSynchronous training waits for the needed agent attempts before updating. Asynchronous training overla",
+      "description": "Agentic LLM post-training can produce more attempts without learning faster.\n\nSynchronous training waits for the needed agent attempts before updating. Asynchronous training overlaps attempts with weight updates, keeping more hardware busy. But some attempts then come from older model weights. I would compare time to target quality, not just rollout throughput, and track which weight version generated each attempt.",
+      "published_at": "2026-09-24T23:33:03.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-5ce86d3dd163296e3f4f",
+      "author_name": "Damien Benveniste",
+      "source_id": "x-5ce86d3dd163296e3f4f",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTBNuq_XEAAuLGi.jpg",
+      "metrics": {
+        "views": 39,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 0
+      },
+      "explicit_links": [],
+      "content_type": "ai_technology",
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "content_type_status": "ai_suggested",
+      "classifier": "rule_based",
+      "classify_reasons": [
+        "命中模型名或技术/研究关键词"
+      ],
+      "final_score": 51.5,
+      "score_breakdown": {
+        "long_term_quality": 50,
+        "recent_timeliness": 97.7,
+        "light_user_experience": 50,
+        "source_reliability": 50,
+        "interaction_quality": 12.5,
+        "type_preference": 50,
+        "long_term_status": "insufficient",
+        "applied_weights": {
+          "long_term_quality": 0.2,
+          "recent_timeliness": 0.15,
+          "light_user_experience": 0.05,
+          "source_reliability": 0.15,
+          "interaction_quality": 0.15,
+          "type_preference": 0.3
+        }
+      },
+      "review_status": "pending",
+      "l1_review": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "ai_advice": {
+        "verdict": null,
+        "reasons": [],
+        "confidence": 0,
+        "reviewer": "llm_failed",
+        "generated_at": null,
+        "input_chars": 598,
+        "llm_error": "缺少 ZHIPU_API_KEY"
+      },
+      "top_selected": false,
+      "summarizer": "llm_failed",
+      "summary_generated_at": null,
+      "summary_input_chars": 598,
+      "summary_llm_error": "缺少 ZHIPU_API_KEY",
+      "localizations_meta": {
+        "zh": {
+          "localizer": "llm_failed",
+          "generated_at": null,
+          "input_chars": 598,
+          "llm_error": "缺少 ZHIPU_API_KEY"
+        }
+      }
+    },
+    {
+      "id": "x-97b37c2f1d04a69d6a0b",
+      "platform": "x",
+      "native_id": "2103122281262198882",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/Baidu_Inc/status/2103122281262198882",
+      "title": "Time to catch up with Apollo Go in London. 🇬🇧\n\nMore than a month into testing with @lyft, our Apollo Go RT6 vehicles have been getting to know the capital's complex streets and t",
+      "description": "Time to catch up with Apollo Go in London. 🇬🇧\n\nMore than a month into testing with @lyft, our Apollo Go RT6 vehicles have been getting to know the capital's complex streets and traffic patterns.\n\nTake a look at how testing is coming along. You might recognize a street or two. ↓ https://t.co/OfDjcKse6u",
+      "published_at": "2026-09-24T14:00:00.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-3092238dc7bfb7a69cd2",
+      "author_name": "Baidu Inc.",
+      "source_id": "x-3092238dc7bfb7a69cd2",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2102961032075636736/img/YDjKRGQH9jLYoHSn.jpg",
+      "metrics": {
+        "views": 4476,
+        "likes": 42,
+        "comments": null,
+        "reposts": 9,
+        "replies": 2
+      },
+      "explicit_links": [
+        "https://t.co/OfDjcKse6u"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g2",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-cd277a0c6977755291af",
+      "platform": "x",
+      "native_id": "2103234985637679441",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/runwayml/status/2103234985637679441",
+      "title": "Across 250 image-to-video prompts, we evaluated how Model Router reduces cost and holds production usability in comparison to a SOTA model baseline. Read more at the link below. ht",
+      "description": "Across 250 image-to-video prompts, we evaluated how Model Router reduces cost and holds production usability in comparison to a SOTA model baseline. Read more at the link below. https://t.co/sqqHLt2JH3",
+      "published_at": "2026-09-24T21:27:51.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-66c6f57f73358bfacd9b",
+      "author_name": "Runway",
+      "source_id": "x-66c6f57f73358bfacd9b",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTAxEqga8AAq24x.jpg",
+      "metrics": {
+        "views": 7092,
+        "likes": 36,
+        "comments": null,
+        "reposts": 6,
+        "replies": 8
+      },
+      "explicit_links": [
+        "https://t.co/sqqHLt2JH3"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-6d0cdb1aa5257c263abc",
+      "platform": "x",
+      "native_id": "2103208764648419598",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/midjourney/status/2103208764648419598",
+      "title": "A lot of people are wondering how to use our new edit model for consistent characters and more - so we made a video for you &lt;3 https://t.co/cQl3VrTb0C",
+      "description": "A lot of people are wondering how to use our new edit model for consistent characters and more - so we made a video for you &lt;3 https://t.co/cQl3VrTb0C",
+      "published_at": "2026-09-24T19:43:39.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-d931372ba7f836a0bf84",
+      "author_name": "Midjourney",
+      "source_id": "x-d931372ba7f836a0bf84",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103208512134520832/img/pgRRA5tqogBXhkdT.jpg",
+      "metrics": {
+        "views": 36245,
+        "likes": 465,
+        "comments": null,
+        "reposts": 28,
+        "replies": 19
+      },
+      "explicit_links": [
+        "https://t.co/cQl3VrTb0C"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-440162494c0b1ef26250",
+      "platform": "x",
+      "native_id": "2103170291103154460",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/runwayml/status/2103170291103154460",
+      "title": "New in Runway, Draft mode for Seedance 2.5. Generate faster and with fewer credits while you explore, then enhance your favorites to full quality. Get started at the link below. ht",
+      "description": "New in Runway, Draft mode for Seedance 2.5. Generate faster and with fewer credits while you explore, then enhance your favorites to full quality. Get started at the link below. https://t.co/OW2Ks1vv3u",
+      "published_at": "2026-09-24T17:10:47.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-66c6f57f73358bfacd9b",
+      "author_name": "Runway",
+      "source_id": "x-66c6f57f73358bfacd9b",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103170037305450496/img/ZzmvO0swJnV_Ny-4.jpg",
+      "metrics": {
+        "views": 13314,
+        "likes": 101,
+        "comments": null,
+        "reposts": 9,
+        "replies": 10
+      },
+      "explicit_links": [
+        "https://t.co/OW2Ks1vv3u"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-7e576adc7db2ea5e396d",
+      "platform": "x",
+      "native_id": "2103165543448781109",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/pika_labs/status/2103165543448781109",
+      "title": "One of the biggest reasons we created the Pika API Club was to make gen media more accessible to builders and small businesses. Today, we’re featuring thevumedia @paulvutv — the st",
+      "description": "One of the biggest reasons we created the Pika API Club was to make gen media more accessible to builders and small businesses. Today, we’re featuring thevumedia @paulvutv — the studio behind the new app, Vuvie. They’re creating incredible content, and now saving over $12K a month on gen media costs.",
+      "published_at": "2026-09-24T16:51:55.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-3a12cfd7876b2835132a",
+      "author_name": "Pika",
+      "source_id": "x-3a12cfd7876b2835132a",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HS_vCz7bIAA-196.jpg",
+      "metrics": {
+        "views": 3397,
+        "likes": 36,
+        "comments": null,
+        "reposts": 6,
+        "replies": 4
+      },
+      "explicit_links": [],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g4",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-2bd1e5f4922340ef4872",
+      "platform": "x",
+      "native_id": "2103200592353263750",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/cerebras/status/2103200592353263750",
+      "title": "CS4 uses the same wafer as CS3. So where does the extra speed come from?\n\nYou asked on Twitter and Discord. Join Angela Yeung, SVP of product and @MilksandMatcha,  on the behind-th",
+      "description": "CS4 uses the same wafer as CS3. So where does the extra speed come from?\n\nYou asked on Twitter and Discord. Join Angela Yeung, SVP of product and @MilksandMatcha,  on the behind-the-scenes on the engineering behind CS4: connecting wafers, recirculating cooling water, and getting compute deployed at scale.\n\n1:08 Where does the extra speed come from?\n2:33 Connecting wafers for 10-trillion-parameter models\n4:15 What breaks first when you scale?\n6:07 Breaking down cooling\n7:30 Easy CS4 deployment",
+      "published_at": "2026-09-24T19:11:11.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-77b30b8a88051252a94c",
+      "author_name": "Cerebras",
+      "source_id": "x-77b30b8a88051252a94c",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103196238049058816/img/uCEg3wkyjV2bM0ye.jpg",
+      "metrics": {
+        "views": 9313,
+        "likes": 35,
+        "comments": null,
+        "reposts": 7,
+        "replies": 3
+      },
+      "explicit_links": [],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-52827acfba42424a2135",
+      "platform": "x",
+      "native_id": "2103184853604974905",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/OpenRouter/status/2103184853604974905",
+      "title": "Presenting the Memebench Grand Finals\n\nThe top 4 models from round 1 face off to determine which model cooked harder on the \"Why would I deceive you\" meme.\n\nWhich model cooked hard",
+      "description": "Presenting the Memebench Grand Finals\n\nThe top 4 models from round 1 face off to determine which model cooked harder on the \"Why would I deceive you\" meme.\n\nWhich model cooked harder? A, B, C or D?\n\n👇🏻 Vote in the poll below: https://t.co/KlGLjeFwlG",
+      "published_at": "2026-09-24T18:08:39.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-eb70c3bc14fa7ae14285",
+      "author_name": "OpenRouter",
+      "source_id": "x-eb70c3bc14fa7ae14285",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/media/HTADedzaUAAKBom.jpg",
+      "metrics": {
+        "views": 7235,
+        "likes": 20,
+        "comments": null,
+        "reposts": 2,
+        "replies": 3
+      },
+      "explicit_links": [
+        "https://t.co/KlGLjeFwlG"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g5",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-2364dafe72258381ddc8",
+      "platform": "x",
+      "native_id": "2103272686570918334",
+      "source_type": "x_post",
+      "interaction_type": "quote",
+      "url": "https://x.com/emollick/status/2103272686570918334",
+      "title": "Um, wow?\n\nOpus 5.5: \"make the same message much more interesting to a social media audience that loves anime and quick clips and compressed learning\"\n\nOne shot.\n\nAlso, please do st",
+      "description": "Um, wow?\n\nOpus 5.5: \"make the same message much more interesting to a social media audience that loves anime and quick clips and compressed learning\"\n\nOne shot.\n\nAlso, please do stay for the closing song. https://t.co/9AZxQCwKQ7",
+      "published_at": "2026-09-24T23:57:40.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-02fd98c4aea42d0dccf2",
+      "author_name": "Ethan Mollick",
+      "source_id": "x-02fd98c4aea42d0dccf2",
+      "language": "en",
+      "source_tags": [],
+      "thumbnail": "https://pbs.twimg.com/amplify_video_thumb/2103272247418908672/img/Af9EtBVQ5ZZXOAP8.jpg",
+      "metrics": {
+        "views": 42287,
+        "likes": 556,
+        "comments": null,
+        "reposts": 30,
+        "replies": 37
+      },
+      "explicit_links": [
+        "https://t.co/9AZxQCwKQ7"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "account_group",
+        "query_id": "g7",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-6dfdba60ff535bcfabd3",
+      "platform": "x",
+      "native_id": "2103269544076652848",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/AiSolanaKols/status/2103269544076652848",
+      "title": "📊 PUMP MIGRATION INTEL | solana:CDAC33JvozJ1UjxBMkvZgJcVXoxdH9iGxeBXUJdXpump\nWojak Jean\n\nCA: CgMTyUGeUhz7qsbxr46Uw2vjkEXioWEtJUoMcpgUpump\n\n🚀 Launch: Pump Fun → Pump AMM\nCTO: ❌ | ",
+      "description": "📊 PUMP MIGRATION INTEL | solana:CDAC33JvozJ1UjxBMkvZgJcVXoxdH9iGxeBXUJdXpump\nWojak Jean\n\nCA: CgMTyUGeUhz7qsbxr46Uw2vjkEXioWEtJUoMcpgUpump\n\n🚀 Launch: Pump Fun → Pump AMM\nCTO: ❌ | DEX Updated: ❌\n💧 Liq: $19.2K | Holders: 295\nMigration MC: 410.84 SOL\n\n🛡 Security:\nMint: ✅ | Freeze: ✅\nBurn: ✅ | LP Locked: ✅\n\n⚠️ Risk:\nTop10: 79.6% | Dev Team: 0.2%\nBot Rate: 5.0% | Rug Score: 0%\n\n⚡️Quick Buy⚡️: https://t.co/lmOEeA5RQV",
+      "published_at": "2026-09-24T23:45:10.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-7ee39b0ebf30e2f7dba7",
+      "author_name": "Ai Solana Kol Watcher",
+      "source_id": "x-7ee39b0ebf30e2f7dba7",
+      "language": "fi",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 96,
+        "likes": 0,
+        "comments": null,
+        "reposts": 0,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/lmOEeA5RQV"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "release-events",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
+      },
+      "review_status": "discarded",
+      "discard_stage": "l0",
+      "discard_reason": "not_ai",
+      "l1_review": null,
+      "ai_advice": null,
+      "top_selected": false
+    },
+    {
+      "id": "x-c280287ce807798314e2",
+      "platform": "x",
+      "native_id": "2103263963140252113",
+      "source_type": "x_post",
+      "interaction_type": "original",
+      "url": "https://x.com/AunySillyMe/status/2103263963140252113",
+      "title": "https://t.co/hMWzNq3bFU",
+      "description": "under 1,000 followers? the feed will show you now\n\n𝕏 pushed another update to its open-source algo this week, so i went looking for 1 answer: how does a small account get seen? 👀\nthere was an 'in progress' concept in the ranking code on their last release. and now it's live. every time someone opens For You, 1 post from a small account can get pulled up near the top.\n1 'small account' slot in every feed\nwhen someone opens For You, 𝕏 pulls a pool of candidate posts and scores each one. before the final order locks, 1 post can get a 'lift' (boost).\nyour post qualifies if it's:\nan original pos",
+      "published_at": "2026-09-24T23:23:00.000Z",
+      "fetched_at": "2026-09-25T05:17:40.198Z",
+      "author_id": "x-621adccdf0724bfa8b7d",
+      "author_name": "Auny 🧡",
+      "source_id": "x-621adccdf0724bfa8b7d",
+      "language": "zxx",
+      "source_tags": [],
+      "thumbnail": null,
+      "metrics": {
+        "views": 925,
+        "likes": 25,
+        "comments": null,
+        "reposts": 2,
+        "replies": 1
+      },
+      "explicit_links": [
+        "https://t.co/hMWzNq3bFU"
+      ],
+      "content_type": null,
+      "comments": [],
+      "collection_context": {
+        "window_id": "2026-09-24T20:00:00+08:00__2026-09-25T08:00:00+08:00",
+        "half": "hot",
+        "query_kind": "discovery",
+        "query_id": "open-source-models",
+        "first_seen_run_id": "min-1790313460198",
+        "last_seen_run_id": "min-1790313460198"
       },
       "review_status": "discarded",
       "discard_stage": "l0",
