@@ -31,11 +31,8 @@ jobs:
           node scripts/validate.js
           node --test --test-concurrency=1 tests/
 
-  deploy:
+  build:
     needs: validate
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -57,6 +54,13 @@ jobs:
         with:
           path: dist
 
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

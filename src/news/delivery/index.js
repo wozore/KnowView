@@ -10,6 +10,7 @@ const {
   validateDataPrFiles,
   findOpenDataPr,
   syncDataPrBaseline,
+  assertCandidateRetention,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 } = require('./news-data-pr-delivery');
@@ -20,6 +21,7 @@ module.exports = {
   validateDataPrFiles,
   findOpenDataPr,
   syncDataPrBaseline,
+  assertCandidateRetention,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 };

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "kind": "identity_receipts",
-  "count": 19,
-  "generated_at": "2026-09-23T11:09:26.870Z",
+  "count": 34,
+  "generated_at": "2026-09-24T07:52:49.716Z",
   "receipts": [
     {
       "receipt_id": "receipt-02596f6e08d2",
@@ -33,6 +33,121 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
       "verified_at": "2026-09-22T08:26:34.788Z"
+    },
+    {
+      "receipt_id": "receipt-02efdb942882",
+      "candidate_name": "StepAudio 3 ASR",
+      "identity_key": "stepaudio-3-asr",
+      "entity_class": "series",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-stepaudio-3-asr",
+      "series_title": "StepAudio 3 ASR",
+      "family": "StepAudio 3",
+      "evidence": {
+        "official_url": "https://platform.stepfun.ai/",
+        "official_urls": [
+          "https://platform.stepfun.ai/"
+        ],
+        "content_hash": "sha256:c4705bd67fd17a052651efb4d8582118c3635df37c515751937f947c6b11b010",
+        "sources": [
+          {
+            "url": "https://platform.stepfun.ai/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:c4705bd67fd17a052651efb4d8582118c3635df37c515751937f947c6b11b010"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://platform.stepfun.ai/"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:01033cfa32a0e48a45ee8049537989043db080a47cfc2eb2b1d69c120f74dfe5",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T06:24:21.408Z"
+    },
+    {
+      "receipt_id": "receipt-0b8c5f64d297",
+      "candidate_name": "GPT-6 Luna",
+      "identity_key": "gpt-5-6-luna",
+      "entity_class": "model",
+      "vendor_key": "openai",
+      "model_key": "openai-gpt-5-6-luna",
+      "series_title": "GPT-5.6",
+      "family": "gpt",
+      "evidence": {
+        "official_url": "https://platform.openai.com/docs",
+        "official_urls": [
+          "https://platform.openai.com/docs",
+          "https://platform.openai.com/",
+          "https://chatgpt.com/pricing/",
+          "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "https://platform.openai.com/docs"
+        ],
+        "content_hash": "sha256:9627c7eeda8ff502a711f687ac98d482b218b6143fa4e9b1082948d5b0f0906f",
+        "sources": [
+          {
+            "url": "https://chatgpt.com/pricing/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:7bdce22b57cb8e97d5afab1f246a9d911be389d63954337c1aba23a807bb2f19"
+          },
+          {
+            "url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:eb49b0a8665bb1a099d4ca02052bc925dd7a53072588f2abb3b1074adc99d7bd"
+          },
+          {
+            "url": "https://platform.openai.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:00b90c110df163136a55f8e3dea917e0edd56231d8a49ab820269a85b13e3f1a"
+          },
+          {
+            "url": "https://platform.openai.com/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:9627c7eeda8ff502a711f687ac98d482b218b6143fa4e9b1082948d5b0f0906f"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T03:00:12.951Z"
+    },
+    {
+      "receipt_id": "receipt-157748cbf80f",
+      "candidate_name": "StepFun Step 5 Preview",
+      "identity_key": "step-5-preview",
+      "entity_class": "model",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-step-5-preview",
+      "series_title": "Step 5",
+      "family": "Step",
+      "evidence": {
+        "official_url": "https://www.stepfun.com/?ref=www.heooo.com/",
+        "official_urls": [
+          "https://www.stepfun.com/?ref=www.heooo.com/"
+        ],
+        "content_hash": "sha256:5aca58d30fed79f18b54235edefcdf119466409ec47a80adcc556504c3ade74a",
+        "sources": [
+          {
+            "url": "https://www.stepfun.com/?ref=www.heooo.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:5aca58d30fed79f18b54235edefcdf119466409ec47a80adcc556504c3ade74a"
+          }
+        ]
+      },
+      "candidate_official_urls": [],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:01033cfa32a0e48a45ee8049537989043db080a47cfc2eb2b1d69c120f74dfe5",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T06:23:16.893Z"
     },
     {
       "receipt_id": "receipt-1950159f81c4",
@@ -82,6 +197,69 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": "sha256:00ecbc1d20c9c1f86057d8f14d4c24dc06b2cff56456dedba8b5644e97524e6e",
       "verified_at": "2026-09-22T07:34:35.858Z"
+    },
+    {
+      "receipt_id": "receipt-1aa50eadef0e",
+      "candidate_name": "GPT-6 Luna",
+      "identity_key": "gpt-6-luna",
+      "entity_class": "model",
+      "vendor_key": "openai",
+      "model_key": "openai-gpt-6-luna",
+      "series_title": "GPT-6",
+      "family": "GPT",
+      "evidence": {
+        "official_url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+        "official_urls": [
+          "https://chatgpt.com/pricing/",
+          "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+          "https://platform.openai.com/",
+          "https://platform.openai.com/docs"
+        ],
+        "content_hash": "sha256:cba36442026147bce6140d84be8bdbe68ca81faab4d0ac00675c0770ae0c6550",
+        "sources": [
+          {
+            "url": "https://chatgpt.com/pricing/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:94f9017b996acaebc9ba7d68ad8680727c2f43167509ae19c9ace66fe24d2cd4"
+          },
+          {
+            "url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:994ccf3f90f079d67e3b0553d28aa614a898b26b6176fa9815186f3fd2e8dc18"
+          },
+          {
+            "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:cba36442026147bce6140d84be8bdbe68ca81faab4d0ac00675c0770ae0c6550"
+          },
+          {
+            "url": "https://platform.openai.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:00b90c110df163136a55f8e3dea917e0edd56231d8a49ab820269a85b13e3f1a"
+          },
+          {
+            "url": "https://platform.openai.com/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:9627c7eeda8ff502a711f687ac98d482b218b6143fa4e9b1082948d5b0f0906f"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://chatgpt.com/pricing/",
+        "https://openai.com/index/introducing-chatgpt-images-2-5",
+        "https://platform.openai.com/",
+        "https://platform.openai.com/docs"
+      ],
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T05:37:13.647Z"
     },
     {
       "receipt_id": "receipt-249bbb351ae6",
@@ -148,6 +326,165 @@
       "verified_at": "2026-09-22T05:47:04.178Z"
     },
     {
+      "receipt_id": "receipt-39b449e64915",
+      "candidate_name": "GPT-6 Luna",
+      "identity_key": "gpt-6-luna",
+      "entity_class": "model",
+      "vendor_key": "openai",
+      "model_key": "openai-gpt-6-luna",
+      "series_title": null,
+      "family": "gpt-6",
+      "evidence": {
+        "official_url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+        "official_urls": [
+          "https://chatgpt.com/pricing/",
+          "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+          "https://platform.openai.com/",
+          "https://platform.openai.com/docs"
+        ],
+        "content_hash": "sha256:cba36442026147bce6140d84be8bdbe68ca81faab4d0ac00675c0770ae0c6550",
+        "sources": [
+          {
+            "url": "https://chatgpt.com/pricing/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:94f9017b996acaebc9ba7d68ad8680727c2f43167509ae19c9ace66fe24d2cd4"
+          },
+          {
+            "url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:994ccf3f90f079d67e3b0553d28aa614a898b26b6176fa9815186f3fd2e8dc18"
+          },
+          {
+            "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:cba36442026147bce6140d84be8bdbe68ca81faab4d0ac00675c0770ae0c6550"
+          },
+          {
+            "url": "https://platform.openai.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:00b90c110df163136a55f8e3dea917e0edd56231d8a49ab820269a85b13e3f1a"
+          },
+          {
+            "url": "https://platform.openai.com/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:9627c7eeda8ff502a711f687ac98d482b218b6143fa4e9b1082948d5b0f0906f"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://chatgpt.com/pricing/",
+        "https://openai.com/index/introducing-chatgpt-images-2-5",
+        "https://platform.openai.com/",
+        "https://platform.openai.com/docs"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:01033cfa32a0e48a45ee8049537989043db080a47cfc2eb2b1d69c120f74dfe5",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T06:23:29.499Z"
+    },
+    {
+      "receipt_id": "receipt-3b7bb6a8febe",
+      "candidate_name": "Claude Opus 5.5",
+      "identity_key": "claude-opus-5.5",
+      "entity_class": "model",
+      "vendor_key": "anthropic",
+      "model_key": "anthropic-claude-opus-5.5",
+      "series_title": "Claude Opus 5.5",
+      "family": "Claude Opus",
+      "evidence": {
+        "official_url": "https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5",
+        "official_urls": [
+          "https://code.claude.com/docs/en/overview",
+          "https://docs.anthropic.com/",
+          "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "https://platform.claude.com/docs/en/about-claude/pricing",
+          "https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5"
+        ],
+        "content_hash": "sha256:4cb72071b462166aafc80be8cf5e8e1bd49f266dd3519f3614879e64bdf11e38",
+        "sources": [
+          {
+            "url": "https://code.claude.com/docs/en/overview",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:bcf77885a762bd4bbde88b0012806d9d3e3e9e7ee70bf247d7ff0e47acc2b2bf"
+          },
+          {
+            "url": "https://docs.anthropic.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:afeaeb0419ab8d6f87b90cf7e1232c8dd2af6ba065aa4d2dc26f6440e830c7e8"
+          },
+          {
+            "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:d8139f9b8e6fe452ab29428fecce481bba5a1bdd25e458effa8975fd3f437a51"
+          },
+          {
+            "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:988a5ba363f99cbcf282c348dd061b72ef828214e1566f8dd03391a3c61032b8"
+          },
+          {
+            "url": "https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:4cb72071b462166aafc80be8cf5e8e1bd49f266dd3519f3614879e64bdf11e38"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://code.claude.com/docs/en/overview",
+        "https://docs.anthropic.com/",
+        "https://platform.claude.com/docs/en/about-claude/models/overview",
+        "https://platform.claude.com/docs/en/about-claude/pricing"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:01033cfa32a0e48a45ee8049537989043db080a47cfc2eb2b1d69c120f74dfe5",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T06:23:49.561Z"
+    },
+    {
+      "receipt_id": "receipt-3c125109ff42",
+      "candidate_name": "StepAudio 3 ASR",
+      "identity_key": "stepaudio-3-asr",
+      "entity_class": "model",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-stepaudio-3-asr",
+      "series_title": "StepAudio 3",
+      "family": "stepaudio",
+      "confidence": 0.6,
+      "evidence": {
+        "official_url": "https://platform.stepfun.ai/",
+        "official_urls": [
+          "https://platform.stepfun.ai/",
+          "https://platform.stepfun.ai/"
+        ],
+        "content_hash": "sha256:e7f220a3ab8a0122fb30f6b5ba5f66497680bf32d54a6b8996fedb1f27167ec5",
+        "sources": [
+          {
+            "url": "https://platform.stepfun.ai/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:e7f220a3ab8a0122fb30f6b5ba5f66497680bf32d54a6b8996fedb1f27167ec5"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-23T12:57:52.948Z"
+    },
+    {
       "receipt_id": "receipt-3c3441e26763",
       "candidate_name": "Vidu S2",
       "identity_key": "vidu-s2",
@@ -165,6 +502,36 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": null,
       "verified_at": "2026-09-21T07:49:03.337Z"
+    },
+    {
+      "receipt_id": "receipt-416d621a4459",
+      "candidate_name": "StepFun Step 5 Preview",
+      "identity_key": "step-5-preview",
+      "entity_class": "model",
+      "vendor_key": "stepfun",
+      "model_key": "stepfun-step-5-preview",
+      "series_title": null,
+      "family": "Step",
+      "evidence": {
+        "official_url": "https://www.stepfun.com/?ref=www.heooo.com/",
+        "official_urls": [
+          "https://www.stepfun.com/?ref=www.heooo.com/"
+        ],
+        "content_hash": "sha256:5aca58d30fed79f18b54235edefcdf119466409ec47a80adcc556504c3ade74a",
+        "sources": [
+          {
+            "url": "https://www.stepfun.com/?ref=www.heooo.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:5aca58d30fed79f18b54235edefcdf119466409ec47a80adcc556504c3ade74a"
+          }
+        ]
+      },
+      "candidate_official_urls": [],
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T05:36:33.076Z"
     },
     {
       "receipt_id": "receipt-56acb772c227",
@@ -203,6 +570,57 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": null,
       "verified_at": "2026-09-21T11:08:41.606Z"
+    },
+    {
+      "receipt_id": "receipt-5f8d60972004",
+      "candidate_name": "GPT-6 Sol",
+      "identity_key": "gpt-5.6-sol",
+      "entity_class": "model",
+      "vendor_key": "openai",
+      "model_key": "openai-gpt-5.6-sol",
+      "series_title": null,
+      "family": "gpt-5.6",
+      "evidence": {
+        "official_url": "https://platform.openai.com/docs",
+        "official_urls": [
+          "https://platform.openai.com/docs",
+          "https://platform.openai.com/",
+          "https://chatgpt.com/pricing/",
+          "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "https://platform.openai.com/docs"
+        ],
+        "content_hash": "sha256:4896a755f043cb8be77396313fe49a2327feb2e4fdd0240e84fc89c83ec707a3",
+        "sources": [
+          {
+            "url": "https://chatgpt.com/pricing/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:04302946100f4de6890e7860d19d8b6ce4c7459768138aa43a67aa9a3cb5d909"
+          },
+          {
+            "url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:994ccf3f90f079d67e3b0553d28aa614a898b26b6176fa9815186f3fd2e8dc18"
+          },
+          {
+            "url": "https://platform.openai.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:00b90c110df163136a55f8e3dea917e0edd56231d8a49ab820269a85b13e3f1a"
+          },
+          {
+            "url": "https://platform.openai.com/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:4896a755f043cb8be77396313fe49a2327feb2e4fdd0240e84fc89c83ec707a3"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T02:59:50.756Z"
     },
     {
       "receipt_id": "receipt-7053fe209cce",
@@ -262,6 +680,49 @@
       "verified_at": "2026-09-21T10:20:32.291Z"
     },
     {
+      "receipt_id": "receipt-76c7c83b8ee6",
+      "candidate_name": "Hy Image 3.0",
+      "identity_key": "hy-image-3.0",
+      "entity_class": "model",
+      "vendor_key": "tencent",
+      "model_key": "tencent-hy-image-3.0",
+      "series_title": "Hy-Image-3.0",
+      "family": "hy-image",
+      "evidence": {
+        "official_url": "https://cloud.tencent.com/document/product/1823/135745",
+        "official_urls": [
+          "https://cloud.tencent.com/document/product/1823/130051",
+          "https://cloud.tencent.com/document/product/1823/135745"
+        ],
+        "content_hash": "sha256:9e1054f6ddafa53fbc34b85daa7f9034573a353237c21d0436a8c1a0900895cd",
+        "sources": [
+          {
+            "url": "https://cloud.tencent.com/document/product/1823/130051",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:a6b73fe8fb356981e89e22d09350e908c674c5f376644cfe59a174fd4c328b72"
+          },
+          {
+            "url": "https://cloud.tencent.com/document/product/1823/135745",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:9e1054f6ddafa53fbc34b85daa7f9034573a353237c21d0436a8c1a0900895cd"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://cloud.tencent.com/document/product/1823/130051",
+        "https://cloud.tencent.com/document/product/1823/135745"
+      ],
+      "identity_aliases": [
+        "hy-image-v3"
+      ],
+      "catalog_revision": "sha256:d0b8cd29e9bc669950a3cca383478f0ffccb9db65b0aa0aec1aeef634a882d8e",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T07:52:39.645Z"
+    },
+    {
       "receipt_id": "receipt-878b06c11a96",
       "candidate_name": "Grok Voice Transcribe 2.0",
       "identity_key": "grok-voice-transcribe-2.0",
@@ -298,6 +759,93 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": null,
       "verified_at": "2026-09-21T05:40:52.044Z"
+    },
+    {
+      "receipt_id": "receipt-992dd93d80fc",
+      "candidate_name": "Hy Image 3.5",
+      "identity_key": "hy-image-3.5-preview",
+      "entity_class": "model",
+      "vendor_key": "tencent",
+      "model_key": "tencent-hy-image-3.5-preview",
+      "series_title": "混元生图",
+      "family": "hy-image",
+      "evidence": {
+        "official_url": "https://cloud.tencent.com/document/product/1823/135745",
+        "official_urls": [
+          "https://cloud.tencent.com/document/product/1823/130051",
+          "https://cloud.tencent.com/document/product/1823/135745"
+        ],
+        "content_hash": "sha256:9e1054f6ddafa53fbc34b85daa7f9034573a353237c21d0436a8c1a0900895cd",
+        "sources": [
+          {
+            "url": "https://cloud.tencent.com/document/product/1823/130051",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:a6b73fe8fb356981e89e22d09350e908c674c5f376644cfe59a174fd4c328b72"
+          },
+          {
+            "url": "https://cloud.tencent.com/document/product/1823/135745",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:9e1054f6ddafa53fbc34b85daa7f9034573a353237c21d0436a8c1a0900895cd"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://cloud.tencent.com/document/product/1823/130051",
+        "https://cloud.tencent.com/document/product/1823/135745"
+      ],
+      "identity_aliases": [
+        "Hy-Image-3.5-Preview"
+      ],
+      "catalog_revision": "sha256:01033cfa32a0e48a45ee8049537989043db080a47cfc2eb2b1d69c120f74dfe5",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T06:22:40.127Z"
+    },
+    {
+      "receipt_id": "receipt-a7167bb34d0a",
+      "candidate_name": "Hy Image 3.5",
+      "identity_key": "hunyuan",
+      "entity_class": "series",
+      "vendor_key": "tencent",
+      "model_key": "tencent-hunyuan",
+      "series_title": "Hunyuan 系列",
+      "family": "hunyuan",
+      "evidence": {
+        "official_url": "https://cloud.tencent.com.cn/document/product/1759/127342",
+        "official_urls": [
+          "https://hunyuan.tencent.com/model/hy-model",
+          "https://hunyuan.tencent.com/model/open-source-model",
+          "https://cloud.tencent.com.cn/document/product/1759/127342",
+          "https://hunyuan.tencent.com/model/hy-model"
+        ],
+        "content_hash": "sha256:b9ccda7ccd107b040f39e511bcfc96745158ecbdc50348dffef430ad0b98ec7a",
+        "sources": [
+          {
+            "url": "https://cloud.tencent.com.cn/document/product/1759/127342",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:b9ccda7ccd107b040f39e511bcfc96745158ecbdc50348dffef430ad0b98ec7a"
+          },
+          {
+            "url": "https://hunyuan.tencent.com/model/hy-model",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:09d3eb0b07daf955d4059d19d0ffca1025feb58db0b607f6676cb715efb097c2"
+          },
+          {
+            "url": "https://hunyuan.tencent.com/model/open-source-model",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:09d3eb0b07daf955d4059d19d0ffca1025feb58db0b607f6676cb715efb097c2"
+          }
+        ]
+      },
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T02:59:12.570Z"
     },
     {
       "receipt_id": "receipt-b3d7e83d563d",
@@ -427,6 +975,165 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": "sha256:00ecbc1d20c9c1f86057d8f14d4c24dc06b2cff56456dedba8b5644e97524e6e",
       "verified_at": "2026-09-22T07:34:47.722Z"
+    },
+    {
+      "receipt_id": "receipt-f835d55f75c4",
+      "candidate_name": "Claude Opus 5.5",
+      "identity_key": "claude-opus-5.5",
+      "entity_class": "model",
+      "vendor_key": "anthropic",
+      "model_key": "anthropic-claude-opus-5.5",
+      "series_title": "Claude Opus 5",
+      "family": "claude",
+      "evidence": {
+        "official_url": "https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5",
+        "official_urls": [
+          "https://code.claude.com/docs/en/overview",
+          "https://docs.anthropic.com/",
+          "https://platform.claude.com/docs/en/about-claude/models/overview",
+          "https://platform.claude.com/docs/en/about-claude/pricing",
+          "https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5"
+        ],
+        "content_hash": "sha256:4cb72071b462166aafc80be8cf5e8e1bd49f266dd3519f3614879e64bdf11e38",
+        "sources": [
+          {
+            "url": "https://code.claude.com/docs/en/overview",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:bcf77885a762bd4bbde88b0012806d9d3e3e9e7ee70bf247d7ff0e47acc2b2bf"
+          },
+          {
+            "url": "https://docs.anthropic.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:afeaeb0419ab8d6f87b90cf7e1232c8dd2af6ba065aa4d2dc26f6440e830c7e8"
+          },
+          {
+            "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:d8139f9b8e6fe452ab29428fecce481bba5a1bdd25e458effa8975fd3f437a51"
+          },
+          {
+            "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:988a5ba363f99cbcf282c348dd061b72ef828214e1566f8dd03391a3c61032b8"
+          },
+          {
+            "url": "https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:4cb72071b462166aafc80be8cf5e8e1bd49f266dd3519f3614879e64bdf11e38"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://code.claude.com/docs/en/overview",
+        "https://docs.anthropic.com/",
+        "https://platform.claude.com/docs/en/about-claude/models/overview",
+        "https://platform.claude.com/docs/en/about-claude/pricing"
+      ],
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T05:37:28.183Z"
+    },
+    {
+      "receipt_id": "receipt-fd7cf86a4c6a",
+      "candidate_name": "Qwen-Image-2.1",
+      "identity_key": "qwen-image-2.1",
+      "entity_class": "model",
+      "vendor_key": "alibaba",
+      "model_key": "alibaba-qwen-image-2.1",
+      "series_title": "Qwen-Image",
+      "family": "Qwen",
+      "evidence": {
+        "official_url": "https://github.com/QwenLM/Qwen-Image-2.1",
+        "official_urls": [
+          "https://github.com/QwenLM/Qwen-Image-2.1"
+        ],
+        "content_hash": "sha256:ac5d1ecafff1b4c8598c8bbeb344186fc0cf3d5c81a3cf818c487b8e8ae681b5",
+        "sources": [
+          {
+            "url": "https://github.com/QwenLM/Qwen-Image-2.1",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:ac5d1ecafff1b4c8598c8bbeb344186fc0cf3d5c81a3cf818c487b8e8ae681b5"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://github.com/QwenLM/Qwen-Image-2.1"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:d0b8cd29e9bc669950a3cca383478f0ffccb9db65b0aa0aec1aeef634a882d8e",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T07:52:24.670Z"
+    },
+    {
+      "receipt_id": "receipt-fdc07884c924",
+      "candidate_name": "GPT-6 Sol",
+      "identity_key": "gpt-6-sol",
+      "entity_class": "model",
+      "vendor_key": "openai",
+      "model_key": "openai-gpt-6-sol",
+      "series_title": null,
+      "family": "gpt-6",
+      "evidence": {
+        "official_url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+        "official_urls": [
+          "https://chatgpt.com/pricing/",
+          "https://openai.com/index/introducing-chatgpt-images-2-5",
+          "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+          "https://platform.openai.com/",
+          "https://platform.openai.com/docs"
+        ],
+        "content_hash": "sha256:aa9c11c66434f922c2f21cb943977ee99ac37103053a4d2478cc22b618d8abb8",
+        "sources": [
+          {
+            "url": "https://chatgpt.com/pricing/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:2eba7e0bf6d7eb719cd55d79dfead2abca1f117810f824becd68aa67ff3a8f84"
+          },
+          {
+            "url": "https://openai.com/index/introducing-chatgpt-images-2-5",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:a6b2593cb6db95e8da29122298ccf3aff60a1719b4ecabe806975502957e6234"
+          },
+          {
+            "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:aa9c11c66434f922c2f21cb943977ee99ac37103053a4d2478cc22b618d8abb8"
+          },
+          {
+            "url": "https://platform.openai.com/",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:00b90c110df163136a55f8e3dea917e0edd56231d8a49ab820269a85b13e3f1a"
+          },
+          {
+            "url": "https://platform.openai.com/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:4896a755f043cb8be77396313fe49a2327feb2e4fdd0240e84fc89c83ec707a3"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://chatgpt.com/pricing/",
+        "https://openai.com/index/introducing-chatgpt-images-2-5",
+        "https://platform.openai.com/",
+        "https://platform.openai.com/docs"
+      ],
+      "catalog_revision": "sha256:d031cb97c54ebc1bd80fe0e919f987ac1458fa9c201fdf53daab59b76ae28f8f",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-24T05:36:57.481Z"
     }
   ]
 }

@@ -3,8 +3,10 @@
     "catalog": {
       "enabled": true,
       "provider": "zhipu",
-      "search_provider": "tavily",
-      "extract_provider": "tavily",
+      "search_provider": "zhipu_web_search",
+      "search_fallback_provider": "tavily",
+      "extract_provider": "direct_fetch",
+      "extract_fallback_provider": "tavily",
       "search_engine": "search_std",
       "model": "glm-5.3-flash",
       "protocol": "messages",

@@ -21,8 +21,10 @@ test('catalog recovery projects safe defaults and rejects sensitive or empty ove
   });
   assert.equal(result.ok, true);
   assert.equal(calls[0].input.generatorOptions.model, 'deepseek-v4-flash');
-  assert.equal(calls[0].input.generatorOptions.searchProvider, 'tavily');
-  assert.equal(calls[0].input.generatorOptions.extractProvider, 'tavily');
+  assert.equal(calls[0].input.generatorOptions.searchProvider, 'zhipu_web_search');
+  assert.equal(calls[0].input.generatorOptions.searchFallbackProvider, 'tavily');
+  assert.equal(calls[0].input.generatorOptions.extractProvider, 'direct_fetch');
+  assert.equal(calls[0].input.generatorOptions.extractFallbackProvider, 'tavily');
   assert.equal(calls[0].input.generatorOptions.searchEngine, 'search_std');
   assert.throws(() => coordinator.recoveryPlan('draft-blocked', {
     expected_revision: 'catalog-r1',
@@ -87,6 +89,148 @@ test('catalog workbench keeps cost, plan and explicit apply gates', async () => 
   assert.equal(coordinator.apply({ draft_id: 'draft-offline', expected_revision: 'catalog-r1', preview_hash: 'hash-1', confirm: 'wrong' }).code, 'CONFIRMATION_INVALID');
   assert.equal(coordinator.apply({ draft_id: 'draft-offline', expected_revision: 'catalog-r1', preview_hash: 'hash-1', confirm: 'APPLY CATALOG DRAFT draft-offline' }).status, 'completed');
   assert.deepEqual(calls, ['resolve', 'prepare', 'apply']);
+});
+
+test('catalog workbench returns phased blocker details alongside successful drafts', async () => {
+  const readyCard = { name: 'Ready Tool', candidate_key: candidateKeyOf('tools', 'Ready Tool'), review_status: 'approved' };
+  const blockedCard = { name: 'Blocked Model', candidate_key: candidateKeyOf('tools', 'Blocked Model'), review_status: 'approved', entity_type: 'model', detail_kind_hint: 'api_model' };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [readyCard, blockedCard] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
+    resolveBatchCandidates: async () => ({
+      seeds: [{ name: readyCard.name }],
+      unresolved: [],
+      verification_blocked: [{ name: blockedCard.name, code: 'IDENTITY_NAME_NOT_IN_BODY', reason: '官方正文未命中 blocked-model' }],
+    }),
+    prepareCatalogDraft: async () => ({ ok: true, draft: { draft_id: 'draft-ready-tool', state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' } } }),
+    listDrafts: () => [],
+  });
+  const plan = coordinator.plan();
+  const result = await coordinator.prepare({ ...plan, confirm_cost: true });
+  assert.equal(result.ok, true);
+  assert.equal(result.drafts.length, 1);
+  assert.equal(result.blocked[0].phase, 'identity_verification');
+  assert.equal(result.blocked[0].code, 'IDENTITY_NAME_NOT_IN_BODY');
+  assert.equal(result.blocked[0].reason, '官方正文未命中 blocked-model');
+});
+
+test('catalog workbench resolves api_model placement before draft preparation and budgets deferred research', async () => {
+  const card = {
+    name: 'StepAudio 3 ASR',
+    candidate_key: candidateKeyOf('tools', 'StepAudio 3 ASR'),
+    review_status: 'approved',
+    entity_type: 'model',
+    detail_kind_hint: 'api_model',
+  };
+  const calls = [];
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: { 'vendor-level2': [] } }),
+    generatorOptions: { maxSearchQueries: 2, maxPages: 3, maxResponsesCalls: 4, maxSynthesisCalls: 1 },
+    resolveOptions: { allowAiPlacement: true },
+    planCatalogDraft: seed => (seed.placement?.existing_level2_ref?.id
+      ? { ok: true, cost_plan: { hard_limits: { responses_calls: 4 } } }
+      : { ok: false, code: 'PLACEMENT_REQUIRED_FOR_API_MODEL' }),
+    resolveBatchCandidates: async () => ({
+      seeds: [{ name: card.name, detail_kind: 'api_model', vendor_name: 'StepFun', vendor_key: 'stepfun' }],
+      unresolved: [],
+    }),
+    resolveBatchPlacements: async (seeds, options) => {
+      calls.push('placement');
+      assert.deepEqual(options.snapshotOf(), { 'vendor-level2': [] });
+      assert.equal(options.allowAiPlacement, true);
+      assert.equal(options.placementLedger.snapshot().limits.responses_calls, 1);
+      seeds[0].placement = { existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:stepfun:audio' } };
+      return { blocked: [] };
+    },
+    prepareCatalogDraft: async seed => {
+      calls.push('prepare');
+      assert.equal(seed.placement.existing_level2_ref.id, 'vendor-level2:stepfun:audio');
+      return { ok: true, draft: { draft_id: 'draft-stepaudio', state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' } } };
+    },
+    listDrafts: () => [],
+  });
+
+  const plan = coordinator.plan();
+  assert.equal(plan.ok, true);
+  assert.equal(plan.entries[0].status, 'placement_deferred');
+  assert.equal(plan.cost_plan.search_queries, 10);
+  assert.equal(plan.cost_plan.pages, 3);
+  assert.equal(plan.cost_plan.responses_calls, 4);
+  assert.equal(plan.cost_plan.synthesis_calls, 1);
+  assert.equal(plan.cost_plan.verification_search_upper_bound, 2);
+  assert.equal(plan.cost_plan.verification_search_fallback_upper_bound, 1);
+  assert.equal(plan.cost_plan.verification_responses_upper_bound, 4);
+  assert.equal(plan.cost_plan.placement_ai_calls_upper_bound, 1);
+
+  const prepared = await coordinator.prepare({ ...plan, confirm_cost: true });
+  assert.equal(prepared.status, 'drafts_ready');
+  assert.deepEqual(calls, ['placement', 'prepare']);
+});
+
+test('catalog workbench preserves per-candidate identity blockers when another draft succeeds', async () => {
+  const readyCard = { name: 'Ready Tool', candidate_key: candidateKeyOf('tools', 'Ready Tool'), review_status: 'approved' };
+  const blockedCard = {
+    name: 'Blocked Model',
+    candidate_key: candidateKeyOf('tools', 'Blocked Model'),
+    review_status: 'approved',
+    entity_type: 'model',
+    detail_kind_hint: 'api_model',
+  };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [readyCard, blockedCard] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
+    resolveBatchCandidates: async () => ({
+      seeds: [{ name: readyCard.name }],
+      unresolved: [],
+      verification_blocked: [{ name: blockedCard.name, code: 'IDENTITY_NAME_NOT_IN_BODY', reason: '官方正文未命中 blocked-model' }],
+    }),
+    prepareCatalogDraft: async () => ({
+      ok: true,
+      draft: { draft_id: 'draft-ready-tool', state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' } },
+    }),
+    listDrafts: () => [],
+  });
+
+  const plan = coordinator.plan();
+  const prepared = await coordinator.prepare({ ...plan, confirm_cost: true });
+  assert.equal(prepared.ok, true);
+  assert.equal(prepared.drafts.length, 1);
+  assert.deepEqual(prepared.blocked, [{
+    name: blockedCard.name,
+    phase: 'identity_verification',
+    code: 'IDENTITY_NAME_NOT_IN_BODY',
+    reason: '官方正文未命中 blocked-model',
+  }]);
+});
+
+test('catalog workbench reports placement blockers and does not start draft generation', async () => {
+  const card = {
+    name: 'Model Without Placement',
+    candidate_key: candidateKeyOf('tools', 'Model Without Placement'),
+    review_status: 'approved',
+    entity_type: 'model',
+    detail_kind_hint: 'api_model',
+  };
+  let prepareCalls = 0;
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    planCatalogDraft: () => ({ ok: false, code: 'PLACEMENT_REQUIRED_FOR_API_MODEL' }),
+    resolveBatchCandidates: async () => ({ seeds: [{ name: card.name, detail_kind: 'api_model', vendor_key: 'vendor' }], unresolved: [] }),
+    resolveBatchPlacements: async () => ({ blocked: [{ name: card.name, code: 'PLACEMENT_MANUAL_REQUIRED' }] }),
+    prepareCatalogDraft: async () => { prepareCalls += 1; return { ok: true, draft: {} }; },
+    listDrafts: () => [],
+  });
+
+  const plan = coordinator.plan();
+  const prepared = await coordinator.prepare({ ...plan, confirm_cost: true });
+  assert.equal(prepared.ok, false);
+  assert.equal(prepared.code, 'PLACEMENT_MANUAL_REQUIRED');
+  assert.equal(prepared.blocked[0].code, 'PLACEMENT_MANUAL_REQUIRED');
+  assert.equal(prepareCalls, 0);
 });
 
 test('catalog workbench discard requires current catalog revision', () => {
@@ -260,6 +404,148 @@ test('catalog prepare reuses a matching ready draft without resolving or prepari
   assert.equal(calls, 0);
 });
 
+test('catalog prepare rejects a reused Draft whose model modality no longer matches the candidate', async () => {
+  const card = { name: 'StepAudio 3 ASR', candidate_key: candidateKeyOf('tools', 'StepAudio 3 ASR'), review_status: 'approved', entity_type: 'model', detail_kind_hint: 'api_model' };
+  let resolved = 0;
+  let preparedSeed;
+  const oldDraft = {
+    draft_id: 'draft-stepaudio-text', schema_version: 4, draft_kind: 'catalog', state: 'preview_ready', base_revision: 'catalog-r1',
+    seed: { name: card.name, candidate_key: card.candidate_key, detail_kind: 'api_model' },
+    research_plan: { profile: { detail_kind: 'api_model', modality: 'text' } },
+    readiness: { status: 'ready' },
+  };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    listDrafts: () => [oldDraft],
+    planCatalogDraft: seed => seed.placement?.existing_level2_ref
+      ? { ok: true, cost_plan: { hard_limits: {} } }
+      : { ok: false, code: 'PLACEMENT_REQUIRED_FOR_API_MODEL' },
+    resolveBatchCandidates: async () => {
+      resolved += 1;
+      return { seeds: [{ name: card.name, detail_kind: 'api_model', placement: { existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:stepfun:audio' } } }] };
+    },
+    resolveBatchPlacements: async () => ({ blocked: [] }),
+    prepareCatalogDraft: async seed => {
+      preparedSeed = seed;
+      return { ok: true, draft: { draft_id: 'draft-stepaudio-audio', state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' } } };
+    },
+  });
+  const plan = coordinator.plan();
+  const result = await coordinator.prepare({ ...plan, confirm_cost: true });
+  assert.equal(result.ok, true);
+  assert.equal(resolved, 1);
+  assert.equal(preparedSeed.modality, 'audio');
+  assert.deepEqual(result.reused, []);
+});
+
+test('already_complete outcome is rechecked when its model key is absent from the catalog', () => {
+  const card = {
+    name: 'GPT-6 Sol', candidate_key: 'candidate-gpt-6-sol', review_status: 'approved',
+    entity_type: 'model', detail_kind_hint: 'api_model', identity_key: 'gpt-6-sol', intake_outcome: 'already_complete',
+  };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({
+      revision: 'catalog-r1',
+      snapshot: {
+        'tool-level3': [{ id: 'tool-level3:gpt-5.6-sol', vendor_key: 'openai', title: 'GPT-5.6 Sol', model_key: 'openai-gpt-5.6-sol' }],
+        'tool-card': [],
+      },
+    }),
+    registry: { schema_version: 1, entries: { openai: { vendor_name: 'OpenAI', official_url: 'https://openai.com', model_prefixes: ['GPT-'] } } },
+    productRegistry: { schema_version: 1, products: {} },
+    planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
+  });
+  const plan = coordinator.plan();
+  assert.equal(plan.ok, true);
+  assert.deepEqual(plan.candidates, [card.candidate_key]);
+});
+
+test('stale bundled_for_review marker and mismatched series receipt do not hide a model candidate', () => {
+  const card = {
+    name: 'Hy Image 3.5', candidate_key: 'candidate-hy-image-35', review_status: 'approved',
+    entity_type: 'model', detail_kind_hint: 'api_model', identity_key: 'hy-image-3.5', intake_outcome: 'bundled_for_review',
+  };
+  const identityReceipts = [{
+    candidate_name: card.name, identity_key: 'hunyuan', entity_class: 'series',
+    catalog_revision: 'catalog-r1', verified_at: new Date().toISOString(),
+  }];
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    identityReceipts,
+    planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
+  });
+  assert.deepEqual(coordinator.plan().candidates, [card.candidate_key]);
+  assert.equal(coordinator.bundlePlan().code, 'SERIES_CANDIDATE_NOT_APPROVED');
+});
+
+test('already complete resolution is reported as complete instead of SEED_NOT_RESOLVED', async () => {
+  const card = { name: 'Existing Model', candidate_key: 'candidate-existing-model', review_status: 'approved', entity_type: 'model', detail_kind_hint: 'api_model' };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    planCatalogDraft: () => ({ ok: false, code: 'PLACEMENT_REQUIRED_FOR_API_MODEL' }),
+    resolveBatchCandidates: async () => ({ seeds: [], intake_outcomes: [{ candidate_key: card.candidate_key, outcome: 'already_complete' }] }),
+  });
+  const plan = coordinator.plan();
+  const result = await coordinator.prepare({ ...plan, confirm_cost: true });
+  assert.equal(result.ok, true);
+  assert.equal(result.status, 'candidates_complete');
+  assert.equal(result.completed[0].name, card.name);
+  assert.deepEqual(result.blocked, []);
+});
+
+test('目录已有模型在身份/系列核验前按规范 model_key 标记完成', async () => {
+  const cards = [
+    { name: 'StepAudio 3 ASR', candidate_key: 'candidate-stepaudio', identity_key: 'stepaudio-3-asr', review_status: 'approved', entity_type: 'model', detail_kind_hint: 'api_model' },
+    { name: 'Hy Image 3.5', candidate_key: 'candidate-hy35', identity_key: 'hy-image-3.5', review_status: 'approved', entity_type: 'model', detail_kind_hint: 'api_model' },
+  ];
+  const snapshot = {
+    'tool-level3': [
+      { id: 'tool-level3:stepaudio-3-asr', title: 'StepAudio 3 ASR', detail_kind: 'api_model', vendor_key: 'stepfun', model_key: 'stepfun-stepaudio-3-asr' },
+      { id: 'tool-level3:hy-image-3.5-preview', title: 'Hy-Image-3.5-Preview', detail_kind: 'api_model', vendor_key: 'tencent', model_key: 'tencent-hy-image-3.5-preview' },
+    ],
+    'tool-card': [],
+  };
+  let resolveCalls = 0;
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
+    registry: {
+      schema_version: 1,
+      entries: {
+        stepfun: { vendor_name: 'StepFun', official_urls: ['https://platform.stepfun.ai'], model_prefixes: ['stepaudio'] },
+        tencent: { vendor_name: '腾讯（混元）', official_urls: ['https://cloud.tencent.com'], model_prefixes: ['hy'] },
+      },
+    },
+    productRegistry: {
+      schema_version: 1,
+      products: {
+        'hy-image-3.5': {
+          name: 'Hy Image 3.5', vendor_key: 'tencent',
+          official_urls: ['https://cloud.tencent.com/document/product/1823/135745'],
+          identity_aliases: ['Hy-Image-3.5-Preview'], lifecycle: 'active',
+        },
+      },
+    },
+    resolveBatchCandidates: async () => { resolveCalls += 1; throw new Error('已有模型不应再做身份核验'); },
+    planCatalogDraft: () => { throw new Error('已有模型不应再规划 Draft'); },
+    prepareCatalogDraft: async () => { throw new Error('已有模型不应生成 Draft'); },
+    listDrafts: () => [],
+  });
+  const plan = coordinator.plan();
+  assert.equal(plan.ok, true);
+  assert.deepEqual(plan.candidates, []);
+  assert.deepEqual(plan.completed.map(item => item.name), ['StepAudio 3 ASR', 'Hy Image 3.5']);
+
+  const prepared = await coordinator.prepare(plan);
+  assert.equal(prepared.status, 'candidates_complete');
+  assert.deepEqual(prepared.completed.map(item => item.name), ['StepAudio 3 ASR', 'Hy Image 3.5']);
+  assert.equal(resolveCalls, 0);
+});
+
 test('projection reclassifies stale manual_required schema failures as retryable', () => {
   const { projectDraft } = require('../../src/catalog/catalog-workbench');
   const projected = projectDraft({
@@ -272,6 +558,21 @@ test('projection reclassifies stale manual_required schema failures as retryable
   assert.equal(projected.recovery_kind, 'retryable');
   assert.equal(projected.recovery_mode, 'synthesis_only');
   assert.equal(projected.error_code, 'SCHEMA_INVALID');
+});
+
+test('projection marks a ready Draft with a now-wrong inferred modality as blocked', () => {
+  const { projectDraft } = require('../../src/catalog/catalog-workbench');
+  const projected = projectDraft({
+    draft_id: 'draft-stepaudio-text',
+    state: 'preview_ready',
+    seed: { name: 'StepAudio 3 ASR', detail_kind: 'api_model' },
+    research_plan: { profile: { detail_kind: 'api_model', modality: 'text' } },
+    readiness: { status: 'ready', blocking_reasons: [], warnings: [] },
+  });
+  assert.equal(projected.readiness, 'blocked');
+  assert.equal(projected.state, 'preview_blocked');
+  assert.equal(projected.error_code, 'DRAFT_PROFILE_MODALITY_MISMATCH');
+  assert.match(projected.blocking_reasons[0], /重新准备/);
 });
 
 
@@ -352,6 +653,31 @@ test('blocked Bundle 可独立丢弃并由 coordinator 内部注入 allowBundleD
   });
 });
 
+test('Bundle 计划和准备拿到 Catalog 默认 Web Search 配置与备用预算', () => {
+  const seriesCard = { name: 'Series Candidate', candidate_key: 'tools:series-candidate', review_status: 'approved', entity_type: 'series' };
+  let receivedOptions;
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [seriesCard] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    identityReceipts: [],
+    generatorOptions: {
+      searchProvider: 'zhipu_web_search',
+      searchFallbackProvider: 'tavily',
+      extractProvider: 'direct_fetch',
+      extractFallbackProvider: 'tavily',
+    },
+    planCatalogBundles: options => {
+      receivedOptions = options;
+      return { ok: true, status: 'cost_confirmation_required', candidates: ['tools:series-candidate'], plan_hash: 'plan-r1' };
+    },
+  });
+  assert.equal(coordinator.bundlePlan().ok, true);
+  assert.equal(receivedOptions.resolveOptions.searchProvider, 'zhipu_web_search');
+  assert.equal(receivedOptions.resolveOptions.searchFallbackProvider, 'tavily');
+  assert.equal(receivedOptions.resolveOptions.extractProvider, 'direct_fetch');
+  assert.equal(receivedOptions.generatorOptions.extractFallbackProvider, 'tavily');
+});
+
 test('普通 Catalog plan 和 prepare 排除 series candidate，series 只能由 Bundle 入口处理', async () => {
   const normalCard = { name: 'Normal Tool', candidate_key: 'tools:normal-tool', review_status: 'approved', entity_type: 'tool' };
   const seriesCard = { name: 'Series Model', candidate_key: 'tools:series-model', review_status: 'approved', entity_type: 'series' };
@@ -361,6 +687,7 @@ test('普通 Catalog plan 和 prepare 排除 series candidate，series 只能由
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'pending-r1', cards: [normalCard, seriesCard, bundledCard, completeCard] }),
     loadCatalog: () => ({ revision: 'catalog-r1' }),
+    identityReceipts: [{ candidate_name: 'Bundled Model', identity_key: 'bundled-model', entity_class: 'series', catalog_revision: 'catalog-r1', verified_at: new Date().toISOString() }],
     planCatalogDraft: seed => { plannedSeeds.push(seed); return { ok: true, cost_plan: { hard_limits: {} } }; },
     planCatalogBundles: () => ({ ok: true, candidates: [seriesCard] }),
   });

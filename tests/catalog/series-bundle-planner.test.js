@@ -44,7 +44,7 @@ function glmSnapshot(memberCount = 2, withReleaseDates = true) {
 function verdict() {
   return {
     entity_class: 'series', vendor_key: 'zhipu', model_key: 'zhipu-glm-5', series_title: 'GLM 5',
-    family: 'glm', confidence: 0.9,
+    family: 'glm',
     evidence: { official_url: 'https://docs.z.ai/guides/llm/glm-5', content_hash: 'sha256:abc' },
     reasons: ['官方模型列表含 GLM 系列'],
   };

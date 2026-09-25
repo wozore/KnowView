@@ -8,14 +8,14 @@
  *   - discoverOfficialSources: { name, entity_type, official_urls } → sources 数组；
  *   - acquireOfficialSources: sources → [{ url, body_text }]；
  *   - suggestIdentity: { candidate, pages, instructions } → { ok, value }。
- * 官方源发现/正文获取失败一律【抛错】，由核验层 catch 归类为"官方源发现失败"，
- * 绝不把限流/网络错误伪装成"无官方源命中"（fail-closed 红线）。
+ * 已登记官方 URL 与搜索结果都保留为来源；无可用来源时搜索失败抛错，正文获取失败也由核验层归类并 fail-closed。
  * 身份建议走 requestStructuredJson（AI 只建议，最终归属由核验层程序重算）。
  */
 
-const { searchWeb } = require('../../shared/web-search');
+const { searchWebWithFallback, plannedWebSearchRequests } = require('../../shared/web-search');
 const { extractTavily } = require('../../shared/tavily-client');
 const { canonicalizeUrl } = require('../../shared/web-source-contract');
+const { fetchOfficialSources } = require('./official-source-fetch');
 const { requestStructuredJson } = require('../../shared/llm-gateway');
 const { resolveProvider, apiKeyForProvider, DEFAULT_PROVIDER_NAME } = require('../../shared/providers');
 const { createCostLedger, loadCatalogSnapshot } = require('../core');
@@ -23,6 +23,7 @@ const { revisionOf } = require('../core/catalog-revision');
 const { loadSeriesPolicy } = require('../series');
 const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { validateIdentitySuggestionValue } = require('./model-identity-verification');
+const { identityAppearsInBody, candidateIdentityKeysOf } = require('./identity-evidence-contract');
 const { readIdentityReceipts } = require('./identity-receipts');
 
 /** resolution/bundle 转发只透传白名单键，防止上层无关 options 误入真实凭据面。 */
@@ -37,8 +38,10 @@ function identityAdapterOptionsOf(options = {}) {
     maxSearchResults: options.maxSearchResults,
     searchDepth: options.searchDepth,
     searchProvider: options.searchProvider,
+    searchFallbackProvider: options.searchFallbackProvider,
     searchEngine: options.searchEngine,
     extractProvider: options.extractProvider,
+    extractFallbackProvider: options.extractFallbackProvider,
     extractDepth: options.extractDepth,
     chunksPerSource: options.chunksPerSource,
     provider: options.provider,
@@ -62,16 +65,22 @@ async function discoverOfficialSources(input, options = {}) {
   if (!name) throw new Error('IDENTITY_DISCOVER_NAME_REQUIRED: 候选名为空');
   const declaredUrls = (Array.isArray(input.official_urls) ? input.official_urls : [])
     .map(url => canonicalizeUrl(url)).filter(Boolean);
-  // 卡片/登记表已声明官方 URL 时直接采信为发现结果：域内泛搜会让 AI 证据漂移到
-  // 无目标内容的文档地图页（如 docs/model-map），导致成员发现与核验间歇性失败；
-  // 声明页本身已经过登记表人工核验，是更强的信任根。
-  if (declaredUrls.length) {
-    return declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
+  const includeDomains = officialDomainsOf(declaredUrls);
+  const provider = options.searchProvider || 'zhipu_web_search';
+  const fallbackProvider = options.searchFallbackProvider ?? 'tavily';
+  const primaryRequests = plannedWebSearchRequests({ provider, includeDomains });
+  if (primaryRequests > 1 && input.ledger?.reserve) {
+    const reservation = input.ledger.reserve('search_queries', primaryRequests - 1);
+    if (!reservation.ok) {
+      if (!declaredUrls.length) throw new Error('COST_BUDGET_EXHAUSTED: 多域身份搜索预算不足');
+      return declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
+    }
   }
-  const includeDomains = officialDomainsOf(input.official_urls);
-  const result = await searchWeb({
-    provider: options.searchProvider || 'tavily',
-    apiKey: options.searchProvider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
+  const result = await searchWebWithFallback({
+    provider,
+    fallbackProvider,
+    fallbackLedger: input.ledger,
+    providerApiKeys: { zhipu_web_search: options.webSearchApiKey, tavily: options.searchApiKey },
     fetchImpl: options.fetchImpl,
     timeoutMs: options.timeoutMs,
     accessMode: options.accessMode,
@@ -82,8 +91,15 @@ async function discoverOfficialSources(input, options = {}) {
     maxResults: options.maxSearchResults ?? 5,
     providerOptions: { engine: options.searchEngine || 'search_std' },
   });
-  if (!result.ok) throw new Error(`${result.code || 'TAVILY_SEARCH_FAILED'}: ${result.error || '官方源发现失败'}`);
-  return result.sources;
+  if (!result.ok && !declaredUrls.length) throw new Error(`${result.code || 'WEB_SEARCH_FAILED'}: ${result.error || '官方源发现失败'}`);
+  if (!result.ok && declaredUrls.length) return declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
+  if (!result.sources.length && result.fallback_error && !declaredUrls.length) {
+    throw new Error(`${result.fallback_error.code || 'WEB_SEARCH_FALLBACK_FAILED'}: ${result.fallback_error.error || '官方源发现失败'}`);
+  }
+  const declared = declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
+  const discovered = result.sources.map(source => ({ ...source, source_kind: 'official' }));
+  const seen = new Set();
+  return [...declared, ...discovered].filter(source => !seen.has(source.url) && seen.add(source.url));
 }
 
 /** 官方正文获取（核验层契约）：sources → [{url, body_text}]；失败抛错，空正文过滤。 */
@@ -92,52 +108,53 @@ async function acquireOfficialSources(sources, options = {}) {
     .map(source => ({ ...source, url: canonicalizeUrl(source?.url) }))
     .filter(source => source.url);
   if (!normalized.length) return [];
+  const direct = await fetchOfficialSources(normalized, {
+    fetchImpl: options.fetchImpl,
+    timeoutMs: options.timeoutMs,
+  });
+  const expectedIdentityKeys = Array.isArray(options.candidateIdentityKeys)
+    ? options.candidateIdentityKeys
+    : candidateIdentityKeysOf({ identity_aliases: options.identityAliases }, options.candidateName);
+  const relevant = page => !expectedIdentityKeys.length || expectedIdentityKeys.some(key => identityAppearsInBody(key, page.body_text));
+  const directByUrl = new Map(direct.pages.map(page => [page.url, page]));
+  const pending = normalized.filter(source => !directByUrl.has(source.url) || !relevant(directByUrl.get(source.url)));
+  if (!pending.length) return direct.pages;
+  if ((options.extractFallbackProvider ?? 'tavily') !== 'tavily') {
+    if (direct.pages.length) return direct.pages;
+    throw new Error('OFFICIAL_SOURCE_FETCH_FAILED: 官方页面直连未取得正文，且未配置正文提取备用 provider');
+  }
   // extract 相关性 query 用来源标题拼接（discover 检索词为 "<name> official"，标题携带候选名上下文）。
-  const query = normalized.map(source => source?.title).filter(Boolean).join(' ');
+  const query = [options.candidateName, ...(options.identityAliases || []), ...pending.map(source => source?.title)].filter(Boolean).join(' ');
   const result = await extractTavily({
     apiKey: options.searchApiKey,
     fetchImpl: options.fetchImpl,
     timeoutMs: options.timeoutMs,
     accessMode: options.accessMode,
     fallbackToKey: options.fallbackToKey,
-    urls: normalized.map(source => source.url),
+    urls: pending.map(source => source.url),
     query,
     extractDepth: options.extractDepth || 'advanced',
     chunksPerSource: options.chunksPerSource,
   });
   if (!result.ok) {
-    // 当 Tavily extract 失败（如配额用尽）时，对官方源直连 fetch 抓取纯文本作为高可用降级
-    const contents = [];
-    const fetchFn = options.fetchImpl || (typeof fetch === 'function' ? fetch : null);
-    if (fetchFn) {
-      for (const source of normalized) {
-        try {
-          const res = await fetchFn(source.url, { signal: AbortSignal.timeout(options.timeoutMs || 15000) });
-          if (res.ok) {
-            const html = await res.text();
-            const text = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                             .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-                             .replace(/<[^>]+>/g, ' ')
-                             .replace(/\s+/g, ' ')
-                             .trim();
-            if (text) contents.push({ url: source.url, body_text: text.slice(0, 20000) });
-          }
-        } catch {}
-      }
-    }
-    if (contents.length) return contents;
+    if (direct.pages.length) return direct.pages;
     throw new Error(`${result.code || 'TAVILY_EXTRACT_FAILED'}: ${result.error || '官方正文获取失败'}`);
   }
-  return result.contents
+  const extracted = result.contents
     .map(item => ({ url: item.url, body_text: String(item.content || '').trim() }))
     .filter(page => page.body_text);
+  for (const page of extracted) {
+    const current = directByUrl.get(page.url);
+    if (!current || !relevant(current) || relevant(page)) directByUrl.set(page.url, page);
+  }
+  return [...directByUrl.values()];
 }
 
 /** 官方源适配器工厂：{ discoverOfficialSources, acquireOfficialSources }（核验层契约形状）。 */
 function createIdentityVerificationAdapters(options = {}) {
   return {
     discoverOfficialSources: input => discoverOfficialSources(input, options),
-    acquireOfficialSources: sources => acquireOfficialSources(sources, options),
+    acquireOfficialSources: (sources, criteria = {}) => acquireOfficialSources(sources, { ...options, ...criteria }),
   };
 }
 
@@ -229,8 +246,7 @@ function identityContextOf(options) {
   const snapshot = options.identitySnapshotOf ? options.identitySnapshotOf() : loadCatalogSnapshot().snapshot;
   const policy = options.identityPolicy || loadSeriesPolicy();
   const bridge = readModelIdentityBridge();
-  // 预算按"每张模型卡至多 2 次搜索/取页（身份核验 + 系列成员发现各 1）与 2 次 AI"配置，
-  // 三类同步放大；旧实现 search_queries 落默认值 3，整批共享导致批量核验必然 IDENTITY_BUDGET_EXHAUSTED。
+  // responses 预算覆盖身份建议重试和最多两轮系列成员建议；搜索预算由候选官方域数和备用 provider 计算。
   const budgetSize = Math.max(1, options.identityBudgetSize || 8);
   return {
     snapshot,
@@ -240,9 +256,9 @@ function identityContextOf(options) {
     // 缺省读 receipts 文件启用 24h 五条件复用（零网络零 AI）；测试/调用方注入优先
     receipts: options.identityReceipts ?? readIdentityReceipts(),
     ledger: options.identityLedger || createCostLedger({
-      search_queries: budgetSize * 2,
-      pages: budgetSize * 2,
-      responses_calls: budgetSize * 2,
+      search_queries: options.identitySearchBudget ?? budgetSize * 2,
+      pages: budgetSize * 3,
+      responses_calls: budgetSize * 4,
     }),
     suggestIdentity: options.suggestIdentity || createIdentitySuggestAdapter(identityAdapterOptionsOf(options)),
     suggestSeriesMembers: options.suggestSeriesMembers || createSeriesMembersSuggestAdapter(identityAdapterOptionsOf(options)),

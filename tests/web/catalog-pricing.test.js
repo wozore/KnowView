@@ -151,3 +151,21 @@ test('MAI-Image-2.6 shows a channel-specific API price with source', () => {
   assert.match(html, /openrouter\.ai\/microsoft\/mai-image-2\.6/);
   assert.doesNotMatch(html, /额外使用费用/);
 });
+
+test('Hy Image 3.5 Preview separates token usage from CNY amount in price display', () => {
+  const items = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/catalog/tool-preview-level3.json'), 'utf8')).items;
+  const item = items.find(entry => entry.id === 'tool-level3:hy-image-3.5');
+  const html = renderToolLevel3({ detail: item });
+  assert.match(html, /参考费用<strong>¥0\.15<\/strong><small> \/ 张/);
+  assert.match(html, /官方参考用量 15,000 tokens\/张/);
+  assert.doesNotMatch(html, /¥15,000/);
+});
+
+test('non-numeric MiMo pricing notes render as text instead of currency or NaN', () => {
+  const items = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/catalog/tool-preview-level3.json'), 'utf8')).items;
+  const item = items.find(entry => entry.id === 'tool-level3:mimo-v2-5-pro');
+  const html = renderToolLevel3({ detail: item });
+  assert.match(html, /按套餐规定/);
+  assert.match(html, /限时免费/);
+  assert.doesNotMatch(html, /¥NaN|¥按套餐规定|¥限时免费/);
+});

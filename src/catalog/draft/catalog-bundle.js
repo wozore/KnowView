@@ -3,7 +3,7 @@ const { readPending, setIntakeOutcome } = require('../../pending');
 const { loadCatalogSnapshot } = require('../core');
 const { loadSeriesPolicy, planSeriesBundle, validateSeriesBundle, bundlePreviewHashOf, bundleTokenOf } = require('../series');
 const { finalizeSeriesBundles } = require('../series/series-bundle-finalizer');
-const { resolveBatchCandidates, estimateResolutionNeed } = require('../intake');
+const { resolveBatchCandidates, estimateResolutionNeed, catalogModelKeyIndex, lookupRegistryForCard, alreadyCompleteInCatalog } = require('../intake');
 const { seriesReceiptNames } = require('../intake/identity-receipts');
 const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { createDraft, readDraft, updateDraft, deleteDraft, listDrafts, acquireBundlePrepareLock, releaseBundlePrepareLock } = require('./catalog-draft-store');
@@ -23,13 +23,15 @@ function pendingOf(options) {
 }
 function seriesCards(options) {
   const pending = pendingOf(options);
-  const seriesNames = seriesReceiptNames(options, snapshotOf(options).revision);
+  const snapshot = snapshotOf(options);
+  const modelIndex = catalogModelKeyIndex(snapshot.snapshot || {});
+  const seriesNames = seriesReceiptNames(options, snapshot.revision, pending.cards);
   return {
     pending,
     cards: pending.cards.filter(card => card.review_status === 'approved'
       && (card.entity_type === 'series'
-        || (card.detail_kind_hint === 'api_model' && seriesNames.has(String(card.name || '').trim().toLowerCase()))
-        || (card.detail_kind_hint === 'api_model' && card.intake_outcome === 'bundled_for_review'))),
+        || (card.detail_kind_hint === 'api_model' && seriesNames.has(String(card.name || '').trim().toLowerCase())))
+      && !alreadyCompleteInCatalog(card, options, modelIndex, lookupRegistryForCard)),
   };
 }
 function projectBundleDraft(draft, extra = {}) {

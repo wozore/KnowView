@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "verified_at": "2026-09-07",
-  "purpose": "厂商系列政策（schema v2）。描述每厂商的主攻方向 direction、模型家族、用途、模态、系列种类、版本代际与允许的目标二级系列及证据状态。系列迁移、SeriesBundle 规划与 AI 分类均以本文件为唯一规则源；未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。可见容量 visible_members=6，第 7 个起按 release_date 最旧转 hidden_history（由 SeriesBundle planner 与迁移 CLI 执行，政策不再定义拆分规则）。",
+  "purpose": "厂商系列政策（schema v2）。描述每厂商的主攻方向 direction、模型家族、用途、模态、系列种类、版本代际与允许的目标二级系列及证据状态；可用 member_lineages 限制每代产品线成员唯一，并用 hidden_history_members 声明迁移时归档的成员。系列迁移、SeriesBundle 规划与 AI 分类均以本文件为唯一规则源；未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。可见容量 visible_members=6，第 7 个起按 release_date 最旧转 hidden_history（由 SeriesBundle planner 与迁移 CLI 执行，政策不再定义拆分规则）。",
   "capacity": {
     "visible_members": 6,
     "history_retention_months": 14
@@ -70,6 +70,7 @@
     ],
     "alibaba": [
       "alibaba",
+      "aliyun",
       "阿里",
       "通义",
       "qwen",
@@ -180,9 +181,11 @@
               "generation_state": "newest",
               "expected_members": [
                 "gpt-6",
+                "gpt-6-sol",
                 "gpt-5.6-sol",
                 "gpt-5.6-terra",
-                "gpt-5.6-luna"
+                "gpt-5.6-luna",
+                "gpt-6-luna"
               ]
             },
             {
@@ -318,6 +321,23 @@
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
+          "member_lineages": {
+            "claude-fable-5.1": "fable",
+            "claude-opus-5.5": "opus",
+            "claude-sonnet-5": "sonnet",
+            "claude-haiku-4.5": "haiku",
+            "claude-fable-5": "fable",
+            "claude-opus-5": "opus",
+            "claude-sonnet-4.6": "sonnet",
+            "claude-haiku-3.5": "haiku",
+            "claude-opus-4.8": "opus"
+          },
+          "hidden_history_members": [
+            {
+              "member": "claude-opus-4.8",
+              "historical_since": "2026-09-24"
+            }
+          ],
           "series": [
             {
               "id": "vendor-level2:anthropic:claude",
@@ -325,7 +345,7 @@
               "generation_state": "newest",
               "expected_members": [
                 "claude-fable-5.1",
-                "claude-opus-5",
+                "claude-opus-5.5",
                 "claude-sonnet-5",
                 "claude-haiku-4.5"
               ]
@@ -336,7 +356,7 @@
               "generation_state": "previous",
               "expected_members": [
                 "claude-fable-5",
-                "claude-opus-4.8",
+                "claude-opus-5",
                 "claude-sonnet-4.6",
                 "claude-haiku-3.5"
               ]
@@ -1357,6 +1377,7 @@
               "expected_members": [
                 "qwen-image-3.0-pro",
                 "qwen-image-2-0-pro",
+                "qwen-image-2-1",
                 "wan2.7-t2v"
               ]
             }
@@ -1635,7 +1656,8 @@
               "expected_members": [
                 "step-3-7-flash",
                 "step-3-5-flash",
-                "step-3"
+                "step-3",
+                "stepfun-step-5-preview"
               ]
             }
           ],

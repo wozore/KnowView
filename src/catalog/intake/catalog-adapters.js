@@ -2,11 +2,13 @@
 
 const { getProvider, resolveProvider, apiKeyForProvider, DEFAULT_PROVIDER_NAME } = require('../../shared/providers');
 const { canonicalizeUrl } = require('../../shared/web-source-contract');
-const { searchWeb, plannedWebSearchRequests, probeWebSearch } = require('../../shared/web-search');
+const { searchWebWithFallback, plannedWebSearchRequests, probeWebSearch } = require('../../shared/web-search');
 const { extractTavily } = require('../../shared/tavily-client');
 const { LOCAL_API_BASE } = require('../../shared/llm-endpoints');
 const { registrableHostOf, synthesizeLayerFields } = require('../core');
 const { requestStructuredJson } = require('../../shared/llm-gateway');
+const { fetchOfficialSources } = require('./official-source-fetch');
+const { identityAppearsInBody } = require('./model-identity-verification');
 
 function discoveryKeywords(predicates = []) {
   const keywords = [];
@@ -68,16 +70,19 @@ function sourceScopeOf(scope) {
 
 async function discoverOfficialSources(input, options = {}) {
   const declaredSources = explicitOfficialSourcesOf(input.plan, input.scope);
-  const provider = options.searchProvider || 'tavily';
+  const provider = options.searchProvider || 'zhipu_web_search';
+  const fallbackProvider = options.searchFallbackProvider ?? 'tavily';
   const includeDomains = officialDomainsOf(input.plan, input.domain_scope);
   const plannedRequests = plannedWebSearchRequests({ provider, includeDomains });
   if (plannedRequests > 1 && input.ledger?.reserve) {
     const reservation = input.ledger.reserve('search_queries', plannedRequests - 1);
     if (!reservation.ok) return { ok: false, code: 'COST_BUDGET_EXHAUSTED', error: 'search_queries 成本预算不足以覆盖多域搜索' };
   }
-  const result = await searchWeb({
+  const result = await searchWebWithFallback({
     provider,
-    apiKey: provider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
+    fallbackProvider,
+    fallbackLedger: input.ledger,
+    providerApiKeys: { zhipu_web_search: options.webSearchApiKey, tavily: options.searchApiKey },
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
     accessMode: options.accessMode,
@@ -93,7 +98,7 @@ async function discoverOfficialSources(input, options = {}) {
     // Tavily 失败（如配额用尽）时降级：以 seed 声明的官方提示页为信任根直接返回。
     // 声明页经登记表人工核验，是比泛搜更强的信任根；无声明页时维持 fail 原样返回。
     if (declaredSources.length) {
-      return { ok: true, sources: declaredSources, usage: null };
+      return { ok: true, sources: declaredSources, usage: null, fallback_error: { code: result.code || 'WEB_SEARCH_FAILED', error: result.error || '官方来源搜索失败' } };
     }
     return result;
   }
@@ -106,33 +111,8 @@ async function discoverOfficialSources(input, options = {}) {
     ok: true,
     sources: [...declaredSources, ...discoveredSources],
     usage: result.usage,
+    ...(result.fallback_error ? { fallback_error: result.fallback_error } : {}),
   };
-}
-
-/** 官方声明页直连抓取（研究层高可用降级）：sources 已含 url/title，正文以纯文本返回。 */
-async function directFetchFallback(sources, options = {}) {
-  const fetchFn = options.searchFetchImpl || options.fetchImpl || (typeof fetch === 'function' ? fetch : null);
-  if (!fetchFn || !sources.length) return { ok: false };
-  const contents = [];
-  const failed = [];
-  for (const source of sources) {
-    try {
-      const res = await fetchFn(source.url, { signal: AbortSignal.timeout(options.timeoutMs || 15000) });
-      if (!res.ok) { failed.push({ url: source.url, error: `HTTP ${res.status}` }); continue; }
-      const html = await res.text();
-      const text = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                       .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-                       .replace(/<[^>]+>/g, ' ')
-                       .replace(/\s+/g, ' ')
-                       .trim();
-      if (text) contents.push({ url: source.url, content: text.slice(0, 20000) });
-      else failed.push({ url: source.url, error: '空正文' });
-    } catch (error) {
-      failed.push({ url: source.url, error: String(error?.message || error) });
-    }
-  }
-  if (!contents.length) return { ok: false };
-  return { ok: true, contents, failed };
 }
 
 function queryForScope(input) {
@@ -147,28 +127,61 @@ function queryForScope(input) {
 async function acquireOfficialSources(input, options = {}) {
   const sources = (input.sources || []).map(source => ({ ...source, url: canonicalizeUrl(source.url) })).filter(source => source.url);
   if (!sources.length) return { ok: true, contents: [], failed: [] };
+  const detailModel = input.scope?.kind === 'detail' && input.plan?.seed?.detail_kind === 'api_model';
+  const seed = input.plan?.seed || {};
+  const modelIdentity = String(seed.model_key || '').startsWith(`${seed.vendor_key || ''}-`)
+    ? String(seed.model_key).slice(String(seed.vendor_key).length + 1)
+    : '';
+  const relevant = content => !detailModel || [seed.name, seed.identity_key, modelIdentity]
+    .filter(Boolean).some(identity => identityAppearsInBody(identity, content));
+  const direct = await fetchOfficialSources(sources, {
+    fetchImpl: options.searchFetchImpl || options.fetchImpl,
+    timeoutMs: options.searchTimeoutMs || options.timeoutMs,
+  });
+  const directContents = direct.pages.filter(page => relevant(page.body_text))
+    .map(page => ({ url: page.url, content: page.body_text, content_origin: 'direct_fetch' }));
+  const relevantDirectUrls = new Set(directContents.map(page => page.url));
+  const pending = sources.filter(source => !relevantDirectUrls.has(source.url));
+  if (!pending.length) return { ok: true, contents: directContents, failed: direct.failed, usage: { requests: 0 } };
+  if ((options.extractFallbackProvider ?? 'tavily') !== 'tavily') {
+    return directContents.length
+      ? { ok: true, contents: directContents, failed: direct.failed, usage: { requests: 0 } }
+      : { ok: false, code: 'OFFICIAL_SOURCE_FETCH_FAILED', error: '官方正文直连失败且未配置备用提取 provider', failed: direct.failed };
+  }
   const result = await extractTavily({
     apiKey: options.searchApiKey,
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
     accessMode: options.accessMode,
     fallbackToKey: options.fallbackToKey,
-    urls: sources.map(source => source.url),
+    urls: pending.map(source => source.url),
     query: queryForScope(input),
     extractDepth: options.extractDepth || 'advanced',
     format: options.extractFormat || 'markdown',
     chunksPerSource: options.chunksPerSource ?? 5,
   });
   if (!result.ok) {
-    // Tavily extract 失败（如配额用尽）时降级直连抓取官方声明页正文
-    const fallback = await directFetchFallback(sources, options);
-    if (fallback.ok) return { ok: true, contents: fallback.contents, failed: fallback.failed, usage: null };
+    if (directContents.length) {
+      return {
+        ok: true,
+        contents: directContents,
+        failed: [...direct.failed, ...pending.map(source => ({ url: source.url, error: result.code || 'TAVILY_EXTRACT_FAILED' }))],
+        usage: { requests: 0 },
+        fallback_error: { provider: 'tavily', code: result.code || 'TAVILY_EXTRACT_FAILED' },
+      };
+    }
     return result;
   }
   return {
     ok: true,
-    contents: result.contents,
-    failed: result.failed,
+    contents: [...directContents, ...result.contents
+      .filter(item => relevant(item.content || ''))
+      .map(item => ({ ...item, content_origin: 'tavily_extract' }))],
+    failed: [
+      ...direct.failed,
+      ...(result.failed || []),
+      ...result.contents.filter(item => !relevant(item.content || '')).map(item => ({ url: item.url, error: 'TARGET_NAME_NOT_IN_BODY' })),
+    ],
     usage: result.usage,
   };
 }
@@ -180,8 +193,9 @@ async function probeCatalogCapabilities(options = {}) {
   const extractionKey = apiKeyForProvider(provider, options.apiKey);
   if (!extractionKey) return { ok: false, code: `${provider.name.toUpperCase()}_AUTH_REQUIRED`, error: `缺少 ${provider.apiKeyEnv}` };
   const retrieval = await probeWebSearch({
-    provider: options.searchProvider || 'tavily',
-    apiKey: options.searchProvider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
+    provider: options.searchProvider || 'zhipu_web_search',
+    fallbackProvider: options.searchFallbackProvider ?? 'tavily',
+    providerApiKeys: { zhipu_web_search: options.webSearchApiKey, tavily: options.searchApiKey },
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
     accessMode: options.accessMode,
@@ -191,14 +205,18 @@ async function probeCatalogCapabilities(options = {}) {
   if (!retrieval.ok) return retrieval;
   return {
     ok: true,
-    search_provider: options.searchProvider || 'tavily',
-    extract_provider: options.extractProvider || 'tavily',
+    search_provider: options.searchProvider || 'zhipu_web_search',
+    extract_provider: options.extractProvider || 'direct_fetch',
+    search_fallback_provider: options.searchFallbackProvider ?? 'tavily',
+    extract_fallback_provider: options.extractFallbackProvider ?? 'tavily',
     search_engine: options.searchEngine || 'search_std',
     extraction_provider: provider.name,
     protocol: provider.protocol,
     model: options.model || provider.defaultModel,
     access_mode: options.accessMode || null,
     source_count: retrieval.source_count,
+    ...(retrieval.fallback_used ? { fallback_used: true, fallback_from: retrieval.fallback_from } : {}),
+    ...(retrieval.fallback_error ? { fallback_error: retrieval.fallback_error } : {}),
   };
 }
 
@@ -218,8 +236,8 @@ function createCatalogAiAdapters(options = {}) {
 // 结果会被当非官方丢弃。因此批量链路在喂 seed 给生成器之前，必须先解析出
 // 厂商名 + 官方域名，写进 seed.official_url 与 discovery_sources。
 //
-// 解析策略：Tavily 搜工具名 → DeepSeek 结构化提取 { vendor_name, official_url }。
-// 缺 TAVILY key / DeepSeek key / ledger 一律 fail-closed，不硬猜（防假官方来源）。
+// 解析策略：首选 Web Search、Tavily 备用 → DeepSeek 结构化提取 { vendor_name, official_url }。
+// 缺搜索结果 / DeepSeek key / ledger 一律 fail-closed，不硬猜（防假官方来源）。
 // ═══════════════════════════════════════════════════════════════
 
 /** 厂商解析指令（纯函数构建）。 */
@@ -242,9 +260,11 @@ async function resolveOfficialSource(name, options = {}) {
   const toolName = String(name || '').trim();
   if (!toolName) return { ok: false, code: 'VENDOR_RESOLUTION_NAME_REQUIRED', error: '缺少工具名' };
 
-  const search = await searchWeb({
-    provider: options.searchProvider || 'tavily',
-    apiKey: options.searchProvider === 'zhipu_web_search' ? options.webSearchApiKey : options.searchApiKey,
+  const search = await searchWebWithFallback({
+    provider: options.searchProvider || 'zhipu_web_search',
+    fallbackProvider: options.searchFallbackProvider ?? 'tavily',
+    fallbackLedger: options.ledger,
+    providerApiKeys: { zhipu_web_search: options.webSearchApiKey, tavily: options.searchApiKey },
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
     accessMode: options.accessMode,
@@ -256,7 +276,8 @@ async function resolveOfficialSource(name, options = {}) {
   });
   if (!search.ok) return search;
   if (!search.sources || !search.sources.length) {
-    return { ok: false, code: 'VENDOR_RESOLUTION_NO_RESULTS', error: `搜索无结果: ${toolName}` };
+    const fallbackError = search.fallback_error ? `；备用搜索 ${search.fallback_error.code || '失败'}` : '';
+    return { ok: false, code: search.fallback_error?.code || 'VENDOR_RESOLUTION_NO_RESULTS', error: `搜索无结果: ${toolName}${fallbackError}` };
   }
 
   const providerResult = resolveProvider(options.provider || 'deepseek');

@@ -124,6 +124,27 @@ test('validateSeriesPolicy：expected_members 空字符串拒绝', () => {
   assert.ok(validateSeriesPolicy(bad).includes('SERIES_POLICY_SERIES_MEMBER_KEY_INVALID:vendor-level2:openai:gpt:   '));
 });
 
+test('validateSeriesPolicy：Anthropic 每代每条产品线最多一个成员，历史转移日期有效', () => {
+  const p = policy();
+  const claude = p.vendors.find(v => v.vendor_key === 'anthropic').families.find(f => f.family === 'claude');
+  assert.equal(validateSeriesPolicy(p).length, 0);
+  assert.deepEqual(claude.hidden_history_members, [{ member: 'claude-opus-4.8', historical_since: '2026-09-24' }]);
+
+  const duplicateLine = structuredClone(p);
+  duplicateLine.vendors.find(v => v.vendor_key === 'anthropic').families.find(f => f.family === 'claude')
+    .series.find(s => s.generation_state === 'newest').expected_members.push('claude-opus-5');
+  assert.ok(validateSeriesPolicy(duplicateLine).includes(
+    'SERIES_POLICY_MEMBER_LINEAGE_DUPLICATE:vendor-level2:anthropic:claude:opus',
+  ));
+
+  const invalidHistoryDate = structuredClone(p);
+  invalidHistoryDate.vendors.find(v => v.vendor_key === 'anthropic').families.find(f => f.family === 'claude')
+    .hidden_history_members[0].historical_since = '2026-02-30';
+  assert.ok(validateSeriesPolicy(invalidHistoryDate).includes(
+    'SERIES_POLICY_HIDDEN_HISTORY_MEMBER_INVALID:anthropic:claude:claude-opus-4.8',
+  ));
+});
+
 // ── 第 3 组：vendor 别名规范化 ─────────────────────────────────
 
 test('normalizeVendorKey：别名/大小写/未命中', () => {

@@ -1,0 +1,28 @@
+name: News Data Candidate Retention
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  candidate-retention:
+    if: startsWith(github.head_ref, 'news/review/') || startsWith(github.head_ref, 'news/data/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check candidate retention against parent commits
+        run: node scripts/check-news-data-retention.js --head-sha "${{ github.event.pull_request.head.sha }}"

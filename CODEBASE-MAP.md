@@ -12,7 +12,7 @@
 
 ## data/manual/registries/ — 生成器登记表与政策数据
 - [official-url-registry.json](data/manual/registries/official-url-registry.json) — 厂商/模型人工官方 URL 登记表。
-- [official-product-url-registry.json](data/manual/registries/official-product-url-registry.json) — 具体 AI 产品官方来源登记表与更新源契约。
+- [official-product-url-registry.json](data/manual/registries/official-product-url-registry.json) — 具体 AI 产品官方来源、经官方核实的身份别名与更新源登记表。
 - [llm-series-policy.json](data/manual/registries/llm-series-policy.json) — 厂商 LLM 二级系列分类政策唯一规则源。
 - [vibe-hub-cache.json](data/manual/registries/vibe-hub-cache.json) — VibeHub 概念页本地缓存。
 
@@ -75,7 +75,8 @@
 - [catalog-integrated-lookup.js](src/catalog/catalog-integrated-lookup.js) — Catalog 与 comparison 共享数据的查询适配。
 - [ai-config.js](src/catalog/ai-config.js) — Catalog 模块 AI provider、模型与检索配置。
 - [catalog-shared-publish.js](src/catalog/catalog-shared-publish.js) — Catalog 发布后共享日期投影。
-- [catalog-workbench.js](src/catalog/catalog-workbench.js) — 维护者知识闭环 Catalog 协调器。
+- [catalog-workbench.js](src/catalog/catalog-workbench.js) — 维护者知识闭环 Catalog 协调器；按规范 model_key 在研究前识别目录已有候选并报告完成状态。
+- [catalog-workbench-prepare.js](src/catalog/catalog-workbench-prepare.js) — Catalog Draft 准备流水线：候选/Draft 复用、规范 model_key 查重、身份解析、模型 placement 解析与逐卡草稿准备。导出: `createCatalogPrepareHandler`
 - [catalog-workbench-view.js](src/catalog/catalog-workbench-view.js) — Catalog 工作台视图 DTO 与诊断格式化。
 - [catalog-generator-commands.js](src/catalog/catalog-generator-commands.js) — 目录生成器各子命令纯逻辑编排。
 - [catalog-retention-prune.js](src/catalog/catalog-retention-prune.js) — Catalog 五模块滚动保留与级联删除协调。
@@ -97,19 +98,24 @@
 - [draft/catalog-batch.js](src/catalog/draft/catalog-batch.js) — 批量 Draft 解析、预览与应用编排。
 - [draft/catalog-draft-envelope.js](src/catalog/draft/catalog-draft-envelope.js) — Draft Envelope 与 Apply 前 readiness 门禁。
 - [draft/catalog-draft-store.js](src/catalog/draft/catalog-draft-store.js) — Draft 创建、读取、更新、列举与删除。
-- [draft/catalog-bundle.js](src/catalog/draft/catalog-bundle.js) — SeriesBundle Draft 的计划、准备、预览、审核、原子应用与丢弃。
+- [draft/catalog-bundle.js](src/catalog/draft/catalog-bundle.js) — SeriesBundle Draft 的计划、准备、预览、审核、原子应用与丢弃；Bundle 候选排除已在目录中的 model_key。
 - [draft/draft-options.js](src/catalog/draft/draft-options.js) — Draft 配置、Seed 校验与研究成本预算。
 - [intake/index.js](src/catalog/intake/index.js) — Intake 子域真实聚合门面。
 - [intake/catalog-adapters.js](src/catalog/intake/catalog-adapters.js) — Catalog 研究与合成默认适配器。
 - [intake/catalog-batch.js](src/catalog/intake/catalog-batch.js) — 待补卡批量导入与 Draft 生命周期。
-- [intake/resolution.js](src/catalog/intake/resolution.js) — 待补卡解析、登记表查重与 placement 编排。
-- [intake/model-identity-verification.js](src/catalog/intake/model-identity-verification.js) — 模型/系列官方正文身份核验、系列成员发现、model_key 索引与 24 小时回执。
-- [intake/identity-adapters.js](src/catalog/intake/identity-adapters.js) — 身份核验层专用适配器工厂（核验契约形状，失败抛错）：Tavily 官方源发现/正文获取与 requestStructuredJson 身份建议；resolution 未显式注入时默认构造。导出: `identityAdapterOptionsOf, createIdentityVerificationAdapters, createIdentitySuggestAdapter`。
-- [intake/identity-receipts.js](src/catalog/intake/identity-receipts.js) — 身份核验回执的单一文件读写、去重与 7 天压缩。
+- [intake/resolution.js](src/catalog/intake/resolution.js) — 待补卡解析、官方产品身份别名传递、登记表查重与 placement 编排。
+- [intake/catalog-model-completion.js](src/catalog/intake/catalog-model-completion.js) — 用候选和登记别名重算规范 model_key，判断模型是否已在目录中。导出: `alreadyCompleteInCatalog`
+- [intake/resolution-cost.js](src/catalog/intake/resolution-cost.js) — 厂商解析、身份搜索、域 fan-out 与一次身份建议格式重试的请求上限估算。
+- [intake/official-source-fetch.js](src/catalog/intake/official-source-fetch.js) — 官方 URL 直连正文获取与 HTML 纯文本归一化。导出: `textFromHtml, fetchOfficialSources`
+- [intake/identity-evidence-contract.js](src/catalog/intake/identity-evidence-contract.js) — 候选身份/别名归一、正文命中与厂商来源域判定。
+- [intake/model-identity-verification.js](src/catalog/intake/model-identity-verification.js) — 候选身份与官方正文一致性、共享域登记 URL 所有权、厂商政策核验、身份建议格式重试、系列成员发现与 model_key 索引。
+- [intake/identity-adapters.js](src/catalog/intake/identity-adapters.js) — 身份核验层适配器：智谱 Web Search 首选、Tavily Search 备用；官方 URL 直连优先，正文未命中候选时用 Tavily Extract 补取，并生成结构化身份建议。resolution 未显式注入时默认构造。导出: `identityAdapterOptionsOf, identityContextOf, createIdentityVerificationAdapters, createIdentitySuggestAdapter`。
+- [intake/identity-receipts.js](src/catalog/intake/identity-receipts.js) — 身份核验回执读写、候选别名与最新匹配回执复用、来源证据投影、系列回执筛选与 7 天压缩。
 - [series/index.js](src/catalog/series/index.js) — Series 子域真实聚合门面。
-- [series/catalog-series-policy.js](src/catalog/series/catalog-series-policy.js) — LLM 系列政策读取、校验与确定性 placement。
-- [series/catalog-series-migration.js](src/catalog/series/catalog-series-migration.js) — 系列容量拆分迁移编排。
-- [series/catalog-series-placement-ai.js](src/catalog/series/catalog-series-placement-ai.js) — 系列 placement AI 建议适配器。
+- [series/catalog-series-policy.js](src/catalog/series/catalog-series-policy.js) — LLM 系列政策读取、校验（产品线成员唯一及显式历史转移）与确定性 placement。
+- [series/catalog-series-policy-member-validation.js](src/catalog/series/catalog-series-policy-member-validation.js) — 系列政策成员产品线唯一性、历史转移目标与日期的纯结构校验。
+- [series/catalog-series-migration.js](src/catalog/series/catalog-series-migration.js) — 二级系列成员迁移与政策指定历史记录转移规划；新孤儿、无效历史目标或目录校验失败时标记计划不可 Apply。
+- [series/catalog-series-placement-ai.js](src/catalog/series/catalog-series-placement-ai.js) — 系列 placement AI 建议适配器；政策决定最终目标系列，不依赖置信度字段。
 - [series/series-data-audit.js](src/catalog/series/series-data-audit.js) — 目录系列/模型键数据纯只读审计：非法/重复/点号丢失 model_key、同名不同键、悬空引用、已知污染卡、厂商别名冲突、跨实体复制、可见成员超容、hidden_history 残留引用、桥接失配；全部输入纯对象注入，零 comparison require、零写入、零真实 policy 读取。导出: `AUDIT_ACTIONS, AUDIT_FINDING_CODES, FINDING_ACTION_BY_CODE, summaryFingerprint, auditCatalogSeriesData`
 - [series/series-bundle-contract.js](src/catalog/series/series-bundle-contract.js) — SeriesBundle 结构、成员分类、Patch 覆盖集、基线漂移与删除禁令校验。
 - [series/series-bundle-planner.js](src/catalog/series/series-bundle-planner.js) — 基于政策、快照和官方核验 verdict 规划系列成员、容量历史转移、Catalog patch 与 identity bridge。
@@ -129,8 +135,8 @@
 - [tool-update/review-scan.js](src/catalog/tool-update/review-scan.js) — 工具更新审核全源扫描与候选组装。
 - [tool-update/catalog-date-repair.js](src/catalog/tool-update/catalog-date-repair.js) — 工具详情日期修补规划与 Apply 门禁。
 - [url-registry/index.js](src/catalog/url-registry/index.js) — URL Registry 子域真实聚合门面。
-- [url-registry/official-url-registry.js](src/catalog/url-registry/official-url-registry.js) — 厂商与模型官方 URL 登记及查询。
-- [url-registry/product-registry.js](src/catalog/url-registry/product-registry.js) — 产品官方 URL 与更新源登记。
+- [url-registry/official-url-registry.js](src/catalog/url-registry/official-url-registry.js) — 厂商与模型官方 URL 登记查询、规范 vendor_key 投影，并向身份核验提供产品身份别名。
+- [url-registry/product-registry.js](src/catalog/url-registry/product-registry.js) — 产品官方 URL、身份别名与更新源登记及校验。
 - [concept/index.js](src/catalog/concept/index.js) — Concept 子域真实聚合门面。
 - [concept/concept-batch.js](src/catalog/concept/concept-batch.js) — 概念待补卡批量计划、合成与应用。
 - [concept/concept-synthesis-ai.js](src/catalog/concept/concept-synthesis-ai.js) — 概念结构化合成 AI 适配器。
@@ -196,7 +202,7 @@
 - [ui/date-display.mjs](src/web/js/ui/date-display.mjs) — 前端日期事实展示与三级对象类型纯函数。
 - [ui/i18n.js](src/web/js/ui/i18n.js) — 前端 i18n 框架核心（UI 文案 t() + 内容数据 getLocalizedField）。
 - [ui/modal.js](src/web/js/ui/modal.js) — 全站统一模态框与无障碍焦点管理。
-- [ui/ui-helpers.js](src/web/js/ui/ui-helpers.js) — 前端安全外链与文本转义通用辅助函数。
+- [ui/ui-helpers.js](src/web/js/ui/ui-helpers.js) — 前端安全外链、文本转义、时效和数值价格格式化辅助函数；非数值金额按安全文本展示。
 - [ui/ui-icons.js](src/web/js/ui/ui-icons.js) — 前端通用内联 SVG 图标定义。
 - [ui/feedback-drawer.js](src/web/js/ui/feedback-drawer.js) — 测试阶段全站反馈抽屉；右缘标签开合、打开即隐藏标签、焦点回还与 Esc/焦点圈定关闭。导出: `isFeedbackDrawerOpen, openFeedbackDrawer, closeFeedbackDrawer, setupFeedbackDrawer`
 
@@ -288,8 +294,8 @@
 - [transcript-notify.js](src/news/transcripts/transcript-notify.js) — 每日"待人工获取字幕"清单（min 候选层挑评分最高 notify_count 个 YouTube，写 transcript-requests.json 交人工，文件名固定去掉日期后缀、dateKey 北京时间；不碰主链/不调采集总结）。导出: `notifyTranscripts, parseNotifyCount, scoreOf`
 
 ### delivery/ — Data PR CAS 交付
-- [delivery/index.js](src/news/delivery/index.js) — Data PR 交付统一门面。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, verifyHeadNotDrifted, deliverNewsDataPr`
-- [delivery/news-data-pr-delivery.js](src/news/delivery/news-data-pr-delivery.js) — 新闻 Data PR 独立 CAS 交付模块（6 个运行时文件严格白名单、逐文件 schema 兼容门禁、单一开放 PR 查找与分支锁定、开放 PR 分支基线播种、head 漂移二次核验与普通 push）。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, verifyHeadNotDrifted, deliverNewsDataPr`
+- [delivery/index.js](src/news/delivery/index.js) — Data PR 交付统一门面。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, assertCandidateRetention, verifyHeadNotDrifted, deliverNewsDataPr`
+- [delivery/news-data-pr-delivery.js](src/news/delivery/news-data-pr-delivery.js) — 新闻 Data PR 独立 CAS 交付模块（6 个运行时文件严格白名单、逐文件 schema 兼容门禁、开放 PR 分支基线播种、候选记录留存校验、head 漂移二次核验与普通 push）。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, assertCandidateRetention, verifyHeadNotDrifted, deliverNewsDataPr`
 
 ### feedback/ — 收尾环节：工具库/概念库反哺（独立于主链，只写待补卡文件）
 - [tool-feedback.js](src/news/feedback/tool-feedback.js) — 从 approved summary 提取带类型实体并写入待补卡。
@@ -340,7 +346,7 @@
 - [static-site.test.js](tests/build/static-site.test.js) — 静态站点复制构建与历史产物清理测试。
 - [web-date-display.test.js](tests/web/web-date-display.test.js) — 前端 typed 日期、无日期/套餐及场景类型标签纯函数回归。
 - [brand-icons.test.js](tests/web/brand-icons.test.js) — 品牌图标继承与本地资产登记回归。
-- [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳和价格披露回归；核对 GPT Images 2.5 与 MAI-Image-2.6 的结构化 API 费率及卡片摘要。
+- [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳和价格披露回归；核对 GPT Images 2.5、MAI-Image-2.6 API 费率、Hy Image 3.5 token 用量与 MiMo 文本型价格说明。
 - [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引与对比选择器回归：hidden_history、系列回退、最长词匹配、全角归一化及 Microsoft AI 对比展示名保留。
 - [catalog-interface.test.js](tests/catalog/catalog-interface.test.js) — 五模块目录 Interface、字段所有权、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
 - [catalog-date-audit.test.js](tests/catalog/catalog-date-audit.test.js) — 日期语义审计保守分类、目标字段和输入不变回归。
@@ -363,8 +369,8 @@
 - [concept-batch.test.js](tests/catalog/concept-batch.test.js) — 概念批量编排回归：读卡、双层查重、approved 摘要证据匹配与 K 上限、vibe-hub 补充/失败静默、成本估算、dry-run 零网络零写入、成本门禁、合成失败隔离、预览文件、apply 必填校验/去重/合并保序/terms 子集。
 - [vibe-hub-evidence.test.js](tests/catalog/vibe-hub-evidence.test.js) — vibe-hub 提取回归：term→slug（中文 null）、JSON-LD/正文结构化提取、缓存命中零网络、未命中 GET+写缓存、TTL 过期重抓、404/网络失败 null、串行节流、过期刷新与失败保留。
 - [catalog-profile-contract.test.js](tests/catalog/catalog-profile-contract.test.js) — CatalogProfile 适用性、video API 必需谓词、稳定目标与逐层 create/replace/noop 规划回归。
-- [catalog-series-policy.test.js](tests/catalog/catalog-series-policy.test.js) — LLM 二级系列政策契约回归：16 厂商矩阵、validator fail-closed、usageKindOf general/专用/uncovered 分类、vendor 别名、人工 placement ref（kind/存在性/vendor 归属）、稳定 ID 与 slugify 点号冲突。
-- [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、全新创建、专用改名、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、孤儿为空、既有浮空详情入 warnings、非政策厂商零漂移；集成真实快照迁移后校验通过，MAI-Image-2.6 归入 MAI 系列。
+- [catalog-series-policy.test.js](tests/catalog/catalog-series-policy.test.js) — LLM 二级系列政策契约回归：16 厂商矩阵、validator fail-closed、Anthropic 产品线单代唯一与历史日期、usageKindOf general/专用/uncovered 分类、vendor 别名、人工 placement ref（kind/存在性/vendor 归属）、稳定 ID 与 slugify 点号冲突。
+- [catalog-series-migration.test.js](tests/catalog/catalog-series-migration.test.js) — LLM 二级系列迁移规划器回归：同 id 就地改写、历史详情/卡片转移、新孤儿阻断、多碎片合并、多余成员搬家、专用零漂移、碎片删除与 id_map、L1 level2_refs 重写、既有浮空详情入 warnings、非政策厂商零漂移；真实快照校验 MAI-Image-2.6 归入 MAI 系列及 Hunyuan 图像项清单。
 - [catalog-series-placement-ai.test.js](tests/catalog/catalog-series-placement-ai.test.js) — 二级系列 AI 分类 Adapter 回归：prompt 白名单无密钥、结构校验、缺 ledger fail-closed、resolveSeriesPlacement 人工优先/非法拒绝、确定性 decision existing/create、专用与无政策厂商 not_applicable、GLM 第 4 个成员 migration_required、needs_ai 未放行/放行+AI hint/冲突/失败各分支、applyPlacementToSeed 写入 seed。
 - [series-data-audit.test.js](tests/catalog/series-data-audit.test.js) — 系列/模型键数据纯只读审计回归：12 类 finding 与 5 类建议动作枚举、干净快照零 finding、全注入输入零改动、空输入鲁棒。
 - [model-identity-verification.test.js](tests/catalog/model-identity-verification.test.js) — 模型/系列官方身份核验全离线回归：AI 建议值校验与正文出现判定、回执复用与 24 小时 TTL、成员发现与 catalog model_key 索引、receipts 临时目录注入。
@@ -394,8 +400,8 @@
 - [x-search-checkpoint.test.js](tests/news/x-search-checkpoint.test.js) — Checkpoint Schema 唯一主键、30 天滚动修剪与 14 天尾部观察指标汇总回归。
 - [x-checkpoint-store.test.js](tests/news/x-checkpoint-store.test.js) — Checkpoint Store 读写、成功清理、损坏阻断 fail-closed 与 30 天滚动修剪回归。
 - [x-search-client.test.js](tests/news/x-search-client.test.js) — AdvancedSearchClient 请求构造、分页 DTO 归一化、tweet_id 参数与有限重试回归。
-- [news-data-pr-delivery.test.js](tests/news/news-data-pr-delivery.test.js) — Data PR CAS 交付回归：6 个运行时文件白名单、开放 PR 状态/base/head 校验、二次 head 核验与普通推送。
-- [deliver-news-data-pr-script.test.js](tests/news/deliver-news-data-pr-script.test.js) — Data PR CLI adapter 回归：参数数组、main 基线、普通 push、工作树白名单和输出参数。
+- [news-data-pr-delivery.test.js](tests/news/news-data-pr-delivery.test.js) — Data PR CAS 交付回归：文件白名单、开放 PR 状态/base/head 校验、候选保留/归档、push 前丢失阻断与普通推送。
+- [deliver-news-data-pr-script.test.js](tests/news/deliver-news-data-pr-script.test.js) — Data PR CLI adapter 回归：参数数组、大文件读取、基线播种与异常 fail-closed、parent 候选保留检查和普通 push。
 - [news-pipeline-min.test.js](tests/news/news-pipeline-min.test.js) — v2 全链编排、总开关、采集状态汇总、credits→last-run 透传回归。
 - [validate-news-config.test.js](tests/maintenance/validate-news-config.test.js) — news-config-v2 安全字段与 last-run X credits/request schema 校验。
 - [model-exclusions.test.js](tests/comparison/model-exclusions.test.js) — 排除规则 schema、token-boundary prefix、exact identity、命中诊断和 fail-closed 回归。
@@ -445,10 +451,11 @@
 
 ## scripts/ — 命令入口（薄包装；src/ 为纯逻辑）
 - [build-news.js](scripts/build-news.js) — 热点管线 v2 CLI 实际入口；加载 `.env` 后运行 `runMin`，支持默认双平台、`--platforms` 分时采集与 `--fixture` 离线全链。导出: `main, mainMin, buildMinFixtureOptions`
-- [deliver-news-data-pr.js](scripts/deliver-news-data-pr.js) — GitHub Actions 新闻 Data PR 交付薄包装；装配原生 `git`/`gh` 命令到 delivery facade，严格传递白名单文件、main 基线与普通 push；`--sync-baseline` 在管线运行前从开放 PR 分支播种六文件数据基线。导出: `parseArgs, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, runBaselineSync, main`
+- [deliver-news-data-pr.js](scripts/deliver-news-data-pr.js) — GitHub Actions 新闻 Data PR 交付薄包装；Git 输出缓冲区支持 64 MiB，基线读取错误 fail-closed 并记录文件大小；更新开放 PR 前比较旧候选，阻止未归档记录丢失。导出: `parseArgs, defaultRunner, readGitFile, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, runBaselineSync, main`
+- [check-news-data-retention.js](scripts/check-news-data-retention.js) — PR 检查入口：比较候选 PR head 与每个 parent commit 的 min/review 候选 ID，阻断未归档删除并允许已写入轻量历史的归档清理。导出: `runRetentionCheck, main`
 - [catalog-generator.js](scripts/catalog-generator.js) — schema v3 五模块目录生成器 CLI；`plan/prepare` 零网络，`new/resume/probe/batch` 要求显式 `--tavily-access-mode` 并透传到 Tavily，Apply 要求维护者输入完整确认；支持 `remove --targets` 精确 ID 删除（revision/确认值/事务回滚）、`batch`（`--confirm-cost` 全局确认自动 apply / `--dry-run` 预览 / `--from-preview` 复用解析）以及双表 `url-registry vendor/product` 维护和纯本地 product freshness audit。导出: `parseArgs, main, readSeed, tavilyAccessModeFromFlags, generatorOptionsFromFlags`
 - [concept-generator.js](scripts/concept-generator.js) — **AI 概念库生成器 CLI（与五模块目录生成器分离）**：`batch --file <待补概念卡> --dry-run/--confirm-cost` 合成预览 → `preview` → `apply [--terms]` 人工写 glossary。导出: `parseArgs, main`
-- [catalog-series-migration.js](scripts/catalog-series-migration.js) — LLM 二级系列迁移 CLI：预览（人类可读 / `--json`）加载政策 + 当前快照输出变更；`--apply <targetRevision>` 阶段 3 原子 Apply——按当前快照重算目标 revision 校验防漂移，经 commitSnapshotChange 五文件事务 + dist 重建提交，expectedRevision 绑定防并发冲突。导出: `currentPlan, humanReport, applyMigration, main`
+- [catalog-series-migration.js](scripts/catalog-series-migration.js) — LLM 二级系列迁移 CLI：人类可读 / `--json` 预览，`--vendor` 限定厂商；校验失败、历史目标错误或新增孤儿阻断 Apply；`--apply <targetRevision>` 按同范围重算 revision 后，经 commitSnapshotChange 五文件事务 + dist 重建提交并绑定 expectedRevision。导出: `currentPlan, humanReport, applyMigration, main`
 - [tool-update-review.js](scripts/tool-update-review.js) — 编程工具专用更新审核 CLI：`preflight` 只读环境检查，`scan` 采集/AI/planner 后写 review queue 并通过新闻链路 GLM 生成中文展示摘要，`localize` 只回填已有队列且失败可重试，日期不晚于当前记录的证据作为 no-op，`list/preview` 只读，`apply` 仅消费 approved 并复用日期批量事务。外部摘要回退受显式成本确认与账本门禁约束。导出: `PRODUCT_KEYS, parseArgs, accessModeOf, runPreflight, runScan, runLocalize, localizeToolCandidate, runList, runPreview, runApply, main`
 - [refresh-vibe-hub-cache.js](scripts/refresh-vibe-hub-cache.js) — 定时刷新 vibe-hub 概念缓存（CI 入口，由 refresh-vibe-hub-cache.yml 每 3 天北京 19:00 调用）；只刷 `fetched_at` 距今 > 3 天 TTL 的条目，空缓存/全新鲜零网络，纯 HTTP 不读任何 Key。导出: `main`
 - [news-cli.js](scripts/news-cli.js) — CLI 分发入口（透传 src/news/cli/news-cli，含 **`min-review` 命令组**）
@@ -497,6 +504,7 @@
 - [top-panel.js](src/maintainer-web/js/panels/top-panel.js) — 维护者平台 Top 待选池面板：Top 生成/选择/保存、公开投影重建与发布预览渲染，及已选 Top YouTube 条目的字幕文件上传与显式成本确认后的外部 AI 总结。
 - [knowledge-panel.js](src/maintainer-web/js/panels/knowledge-panel.js) — 维护者平台知识提取与待补卡面板。
 - [catalog-draft-discard.js](src/maintainer-web/js/panels/catalog-draft-discard.js) — Catalog Draft 丢弃按钮与 discard 请求（从 catalog-panel 拆出）。
+- [catalog-prepare-report.js](src/maintainer-web/js/panels/catalog-prepare-report.js) — Catalog Draft 计划与准备控制器，展示逐卡阶段、错误码与安全原因摘要。
 - [catalog-panel.js](src/maintainer-web/js/panels/catalog-panel.js) — 维护者平台目录草稿与 SeriesBundle 审核面板：Catalog/Bundle 计划、准备与增量成本确认，Draft 阻断恢复（恢复计划预览 + resume）与 cleanup-only 清理，Bundle 审核/Apply/丢弃与 pending outcome 收敛，批次预览与 apply-batch 事务写入。
 - [concept-panel.js](src/maintainer-web/js/panels/concept-panel.js) — 维护者平台概念合成与应用面板。
 - [tool-update-panel.js](src/maintainer-web/js/panels/tool-update-panel.js) — 维护者平台工具更新审核面板。

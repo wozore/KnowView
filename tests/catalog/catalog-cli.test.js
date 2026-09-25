@@ -64,10 +64,11 @@ test('catalog generator requires and propagates explicit Tavily access mode', ()
 });
 
 test('catalog generator CLI parses product registry flags and keeps legacy vendor syntax', () => {
-  const product = parseArgs(['url-registry', 'product', 'add', '--name', 'Cursor', '--vendor-key', 'anysphere', '--url', 'https://cursor.com', '--product-prefix', 'cursor', '--lifecycle', 'active', '--verified-at', '2026-08-23']);
+  const product = parseArgs(['url-registry', 'product', 'add', '--name', 'Cursor', '--vendor-key', 'anysphere', '--url', 'https://cursor.com', '--product-prefix', 'cursor', '--identity-alias', 'Cursor API v2', '--lifecycle', 'active', '--verified-at', '2026-08-23']);
   assert.deepEqual(product.positional, ['url-registry', 'product', 'add']);
   assert.equal(product.flags.vendor_key, 'anysphere');
   assert.equal(product.flags.product_prefix, 'cursor');
+  assert.equal(product.flags.identity_alias, 'Cursor API v2');
   assert.equal(product.flags.verified_at, '2026-08-23');
 
   const legacy = parseArgs(['url-registry', 'list']);
@@ -103,8 +104,10 @@ test('product registry add/remove and audit stay local and validate vendor refer
 test('catalog module config maps snake_case limits to internal options', () => {
   const options = normalizeGeneratorOptions(loadGeneratorConfig());
   assert.equal(options.provider, 'zhipu');
-  assert.equal(options.searchProvider, 'tavily');
-  assert.equal(options.extractProvider, 'tavily');
+  assert.equal(options.searchProvider, 'zhipu_web_search');
+  assert.equal(options.searchFallbackProvider, 'tavily');
+  assert.equal(options.extractProvider, 'direct_fetch');
+  assert.equal(options.extractFallbackProvider, 'tavily');
   assert.equal(options.searchEngine, 'search_std');
   assert.equal(options.model, 'glm-5.3-flash');
   assert.equal(options.protocol, 'messages');
@@ -114,14 +117,15 @@ test('catalog module config maps snake_case limits to internal options', () => {
   assert.equal(normalizeGeneratorOptions({ access_mode: 'keyed' }).accessMode, 'keyed');
 });
 
-test('Tavily capability probe succeeds via keyless without a search key', async () => {
+test('default capability probe uses Zhipu Web Search without requiring Tavily for success', async () => {
   const result = await probeCatalogCapabilities({
     apiKey: 'test-key',
     searchApiKey: '',
-    fetchImpl: async () => ({ ok: true, status: 200, json: async () => ({ results: [] }) }),
+    webSearchApiKey: 'zhipu-test-key',
+    fetchImpl: async () => ({ ok: true, status: 200, json: async () => ({ search_result: [{ link: 'https://example.com', title: 'x' }] }) }),
   });
   assert.equal(result.ok, true);
-  assert.equal(result.search_provider, 'tavily');
+  assert.equal(result.search_provider, 'zhipu_web_search');
 });
 
 test('Tavily capability probe fails closed without the default provider key', async () => {

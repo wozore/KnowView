@@ -7,7 +7,7 @@
  *   - 同 id 目标就地改写成员（anthropic newest）
  *   - 全新目标创建（anthropic last）
  *   - 专用改名（openai realtime/image）
- *   - 多碎片合并（xai grok / minimax m / nvidia nemotron-3）
+ *   - 多碎片合并（xai grok / minimax m），NVIDIA Nemotron 按当前政策合并
  *   - 同 id 基座的“多余成员”搬家（google gemini → gemini-last）
  *   - 专用/套餐/工具系列零漂移（h3 / imagine / coding-plan / gemini-cli / omni / image）
  *   - 碎片删除（cohere command-a / anthropic claude-opus-5）与 id_map / members_moved
@@ -76,7 +76,7 @@ function addVendor(snapshot, vendorKey, l2s) {
 function syntheticSnapshot() {
   const snap = emptySnapshot();
   addVendor(snap, 'anthropic', [
-    l2('vendor-level2:anthropic:claude', 'anthropic', 'Claude 最新系列', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']),
+    l2('vendor-level2:anthropic:claude', 'anthropic', 'Claude 最新系列', ['claude-fable-5.1', 'claude-opus-5', 'claude-opus-5.5', 'claude-sonnet-5', 'claude-haiku-4.5']),
     l2('vendor-level2:anthropic:claude-previous', 'anthropic', 'Claude 上一世代', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6', 'claude-haiku-3.5']),
     l2('vendor-level2:anthropic:claude-coding-plan', 'anthropic', '套餐', ['claude-pro', 'claude-max-5x']),
   ]);
@@ -117,11 +117,47 @@ function syntheticSnapshot() {
 test('迁移：anthropic 单一最新/上一世代结构、coding-plan 零漂移', () => {
   const policy = loadSeriesPolicy();
   const plan = planSeriesMigration(policy, syntheticSnapshot());
+  assert.equal(plan.ok, true);
   assert.equal(plan.validation.ok, true, JSON.stringify(plan.validation.errors));
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
-  assert.deepEqual(byId.get('vendor-level2:anthropic:claude').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5.1', 'tool-level3:claude-opus-5', 'tool-level3:claude-sonnet-5', 'tool-level3:claude-haiku-4.5']);
-  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-previous').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5', 'tool-level3:claude-opus-4.8', 'tool-level3:claude-sonnet-4.6', 'tool-level3:claude-haiku-3.5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5.1', 'tool-level3:claude-opus-5.5', 'tool-level3:claude-sonnet-5', 'tool-level3:claude-haiku-4.5']);
+  assert.deepEqual(byId.get('vendor-level2:anthropic:claude-previous').detail_refs.map(r => r.id), ['tool-level3:claude-fable-5', 'tool-level3:claude-opus-5', 'tool-level3:claude-sonnet-4.6', 'tool-level3:claude-haiku-3.5']);
+  const archivedOpus = plan.snapshot['tool-level3'].find(x => x.id === 'tool-level3:claude-opus-4.8');
+  const archivedOpusCard = plan.snapshot['tool-card'].find(x => x.id === 'claude-opus-4.8');
+  assert.equal(archivedOpus.visibility, 'hidden_history');
+  assert.equal(archivedOpus.historical_since, '2026-09-24');
+  assert.equal(archivedOpusCard.visibility, 'hidden_history');
+  assert.deepEqual(plan.orphaned, []);
   assert.deepEqual(byId.get('vendor-level2:anthropic:claude-coding-plan').detail_refs.map(r => r.id), ['tool-level3:claude-pro', 'tool-level3:claude-max-5x']);
+});
+
+test('迁移：移出版面的既有成员无历史政策时阻断 Apply', () => {
+  const snap = syntheticSnapshot();
+  snap['tool-level3'].push({ ...detail('tool-level3:claude-opus-4.7', 'anthropic'), visibility: 'visible' });
+  snap['tool-card'].push({ ...card('claude-opus-4.7', 'anthropic'), visibility: 'visible' });
+  snap['vendor-level2'].find(x => x.id === 'vendor-level2:anthropic:claude-previous').detail_refs.push({
+    kind: 'tool-level3', id: 'tool-level3:claude-opus-4.7',
+  });
+
+  const plan = planSeriesMigration(loadSeriesPolicy(), snap);
+  assert.equal(plan.validation.ok, false);
+  assert.equal(plan.ok, false);
+  assert.deepEqual(plan.orphaned, [{ detail: 'tool-level3:claude-opus-4.7', vendor_key: 'anthropic' }]);
+});
+
+test('迁移：厂商范围限制只重组指定厂商', () => {
+  const snap = syntheticSnapshot();
+  const plan = planSeriesMigration(loadSeriesPolicy(), snap, { vendorKeys: ['anthropic'] });
+  const openaiBefore = snap['vendor-level2'].filter(x => x.vendor_key === 'openai');
+  const openaiAfter = plan.snapshot['vendor-level2'].filter(x => x.vendor_key === 'openai');
+  assert.equal(plan.ok, true);
+  assert.deepEqual(plan.scope_vendors, ['anthropic']);
+  assert.deepEqual(openaiAfter, openaiBefore);
+  assert.deepEqual(plan.history_transitions.map(x => x.member), ['tool-level3:claude-opus-4.8']);
+
+  const unknown = planSeriesMigration(loadSeriesPolicy(), snap, { vendorKeys: ['not-a-vendor'] });
+  assert.equal(unknown.ok, false);
+  assert.deepEqual(unknown.scope_errors, ['not-a-vendor']);
 });
 
 test('迁移：openai realtime/image 专用改名、codex 不变', () => {
@@ -147,11 +183,13 @@ test('迁移：google Gemini 按 Flash/Pro 产品线归类，开源 Gemma 排除
   assert.equal(byId.get('vendor-level2:google:gemini-cli').title, 'Gemini CLI');
 });
 
-test('迁移：nvidia nemotron-3 合并，nemotron-3-5 独立', () => {
+test('迁移：NVIDIA Nemotron 按政策合并为一个系列', () => {
   const plan = planSeriesMigration(loadSeriesPolicy(), syntheticSnapshot());
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
-  assert.deepEqual(byId.get('vendor-level2:nvidia:nemotron-3').detail_refs.map(r => r.id), ['tool-level3:nemotron-3-ultra', 'tool-level3:nemotron-3-super']);
-  assert.deepEqual(byId.get('vendor-level2:nvidia:nemotron-3-5').detail_refs.map(r => r.id), ['tool-level3:nemotron-3-5']);
+  assert.deepEqual(byId.get('vendor-level2:nvidia:nemotron').detail_refs.map(r => r.id), [
+    'tool-level3:nemotron-3-5', 'tool-level3:nemotron-3-ultra', 'tool-level3:nemotron-3-super',
+  ]);
+  assert.equal(byId.has('vendor-level2:nvidia:nemotron-3-5'), false);
   assert.equal(byId.has('vendor-level2:nvidia:nemotron-3-ultra'), false);
   assert.equal(byId.has('vendor-level2:nvidia:nemotron-3-super'), false);
 });
@@ -259,12 +297,14 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   assert.deepEqual(plan.orphaned, []);
   const byId = new Map(plan.snapshot['vendor-level2'].map(x => [x.id, x]));
   const expect = (id, members) => assert.deepEqual(byId.get(id).detail_refs.map(r => r.id), members.map(m => `tool-level3:${m}`), id);
-  expect('vendor-level2:openai:gpt-6', ['gpt-6', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna']);
+  expect('vendor-level2:openai:gpt-6', ['gpt-6', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna', 'gpt-6-luna']);
   expect('vendor-level2:openai:gpt-5-5', ['gpt-5-5', 'gpt-5-5-pro']);
   expect('vendor-level2:openai:gpt-realtime', ['gpt-realtime-2', 'gpt-realtime-2-1', 'gpt-realtime-2-1-mini', 'gpt-realtime-translate', 'gpt-live-transcribe', 'gpt-realtime-whisper']);
   expect('vendor-level2:openai:gpt-image', ['gpt-image-2', 'gpt-images-2.5']);
-  expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5', 'claude-sonnet-5', 'claude-haiku-4.5']);
-  expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-4.8', 'claude-sonnet-4.6']);
+  expect('vendor-level2:anthropic:claude', ['claude-fable-5.1', 'claude-opus-5.5', 'claude-sonnet-5', 'claude-haiku-4.5']);
+  expect('vendor-level2:anthropic:claude-previous', ['claude-fable-5', 'claude-opus-5', 'claude-sonnet-4.6']);
+  assert.equal(plan.snapshot['tool-level3'].find(x => x.id === 'tool-level3:claude-opus-4.8').visibility, 'hidden_history');
+  assert.equal(plan.snapshot['tool-card'].find(x => x.id === 'tool-card:claude-opus-4.8').visibility, 'hidden_history');
   expect('vendor-level2:google:gemini-flash', ['gemini-3-8-flash', 'gemini-3-7-flash', 'gemini-3-6-flash', 'gemini-3.5-flash']);
   expect('vendor-level2:google:gemini-pro', ['gemini-3-1-pro', 'gemini-3-5-pro']);
   expect('vendor-level2:zhipu:glm', ['glm-5.1', 'glm-5.2', 'glm-5-3']);
@@ -275,11 +315,10 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:moonshot:kimi-coding-models', ['kimi-k2.7-code', 'kimi-k2.7-code-highspeed']);
   expect('vendor-level2:moonshot:kimi-work', ['kimi-work']);
   expect('vendor-level2:moonshot:kimi-membership', ['kimi-membership-andante', 'kimi-membership-moderato', 'kimi-membership-allegretto', 'kimi-membership-allegro']);
-  expect('vendor-level2:alibaba:qwen', ['qwen3-8-max', 'qwen3-5-omni', 'qwen3-7-max', 'qwen3-7-plus', 'qwen3-8-flash']);
-  expect('vendor-level2:stepfun:step', ['step-3-7-flash', 'step-3-5-flash', 'step-3']);
+  expect('vendor-level2:alibaba:qwen', ['qwen3-8-max', 'qwen3-5-omni', 'qwen3-7-max', 'qwen3-7-plus', 'qwen3-8-flash', 'qwen3.8-omni-flash']);
+  expect('vendor-level2:stepfun:step', ['step-3-7-flash', 'step-3-5-flash', 'step-3', 'stepfun-step-5-preview']);
   expect('vendor-level2:xiaomi:mimo', ['mimo-v2-5-pro', 'mimo-v2-5', 'mimo-v2-flash']);
-  expect('vendor-level2:nvidia:nemotron-3', ['nemotron-3-ultra', 'nemotron-3-super']);
-  expect('vendor-level2:nvidia:nemotron-3-5', ['nemotron-3-5']);
+  expect('vendor-level2:nvidia:nemotron', ['nemotron-3-5', 'nemotron-3-ultra', 'nemotron-3-super']);
 });
 
 test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归入 MAI 系列', () => {
@@ -305,16 +344,44 @@ test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归�
   assert.ok(vendor.search_terms.some(term => /microsoft ai/i.test(term)));
 });
 
-test('集成：迁移后 tool-level3 与 tool-card 完全不变（只改二级关系）', () => {
+test('真实 Catalog 校验 Hy Image 3.5 Preview 信息与发布时间并移除重复 3.0 条目', () => {
+  const snapshot = realSnapshot();
+  const series = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:tencent:hunyuan-image-video');
+  const preview = snapshot['tool-level3'].find(item => item.id === 'tool-level3:hy-image-3.5');
+  assert.ok(series.detail_refs.some(ref => ref.id === 'tool-level3:hy-image-3.5'));
+  assert.equal(series.detail_refs.some(ref => ref.id === 'tool-level3:hy-image-3.0'), false);
+  assert.equal(snapshot['tool-level3'].some(item => item.id === 'tool-level3:hy-image-3.0'), false);
+  assert.equal(snapshot['tool-card'].some(item => item.id === 'tool-card:hy-image-3.0'), false);
+  assert.equal(preview.title, 'Hy Image 3.5 Preview');
+  assert.equal(preview.model_key, 'tencent-hy-image-3.5-preview');
+  assert.equal(preview.release_date, '2026-09-21');
+  assert.deepEqual(preview.api_pricing.rate_cards.map(rate => rate.metrics.find(item => item.label === '参考费用').amount), [0.15, 0.15, 0.2]);
+  assert.ok(preview.sources.some(source => source.url === 'https://hunyuan.tencent.com/'));
+  assert.ok(preview.sources.some(source => source.url === 'https://cloud.tencent.com/document/product/1823/130055'));
+});
+
+test('集成：仅政策指定历史成员更新详情和卡片可见性', () => {
   const policy = loadSeriesPolicy();
   const before = realSnapshot();
   const plan = planSeriesMigration(policy, before);
   const after = plan.snapshot;
   assert.deepEqual(after['tool-level3'].map(x => x.id).sort(), before['tool-level3'].map(x => x.id).sort());
   assert.deepEqual(after['tool-card'].map(x => x.id).sort(), before['tool-card'].map(x => x.id).sort());
-  // 三级详情与工具卡内容逐条一致
+  // 除政策指定归档项外，三级详情与工具卡内容逐条不变。
   for (const d of before['tool-level3']) {
     const afterDetail = after['tool-level3'].find(x => x.id === d.id);
-    assert.deepEqual(afterDetail, d, `tool-level3:${d.id} 不应被修改`);
+    if (d.id === 'tool-level3:claude-opus-4.8') {
+      assert.deepEqual(afterDetail, { ...d, visibility: 'hidden_history', historical_since: '2026-09-24' });
+    } else {
+      assert.deepEqual(afterDetail, d, `tool-level3:${d.id} 不应被修改`);
+    }
+  }
+  for (const c of before['tool-card']) {
+    const afterCard = after['tool-card'].find(x => x.id === c.id);
+    if (c.id === 'tool-card:claude-opus-4.8') {
+      assert.deepEqual(afterCard, { ...c, visibility: 'hidden_history', historical_since: '2026-09-24' });
+    } else {
+      assert.deepEqual(afterCard, c, `tool-card:${c.id} 不应被修改`);
+    }
   }
 });

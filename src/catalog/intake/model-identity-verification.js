@@ -5,40 +5,48 @@
  *
  * 职责：把"待补候选名"核验为"官方正文背书的 model/series 身份"，产出
  * verdict + receipt。不变量（T1 契约冻结）：
- *   - 绝不按名称建卡：无官方正文、名称未出现在官方域正文、证据冲突、
- *     预算耗尽、缺 AI、低置信 → { ok:false, code:IDENTITY_* }；
+ *   - 绝不按名称建卡：无官方正文、身份与候选不匹配、厂商或域名不符、
+ *     预算耗尽、缺 AI → { ok:false, code:IDENTITY_* }；
  *   - registry/登记表命中只是官方 URL 域提示，不免除正文核验；
  *   - AI 只建议：vendor_key 经政策归一化程序重算，model_key 必须由
  *     modelKeyOf 程序重算，identity 必须命中官方域正文（identityAppearsInBody）；
- *   - Receipt 五条件复用：候选名、catalog revision、policy revision、
- *     bridge revision、官方 URL+正文 hash 全等且 ≤24h。
+ *   - Receipt 复用：候选名/已登记别名、catalog revision、policy revision、
+ *     bridge revision、官方 URL+正文 hash 全等且 ≤24h；命中时采用最新回执。
  * 所有网络/AI 调用一律经 adapters/context 注入；本模块自身零网络。
  *
  * receipts 文件单一写者 = 本模块（readIdentityReceipts/appendIdentityReceipts），
  * 追加 + 7 天 TTL 压缩；默认路径 data/manual/tools/identity-receipts.json（测试可注入）。
  */
 
-const { modelKeyOf, normalizeModelIdentity, VENDOR_KEY_RE } = require('../../shared/model-key-contract');
+const { modelKeyOf, normalizeModelIdentity } = require('../../shared/model-key-contract');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
 const { revisionOf } = require('../core/catalog-revision');
 const {
   RECEIPT_TTL_MS,
+  IDENTITY_VERIFICATION_TTL_MS,
   sha256Of,
   receiptIdOf,
   hostOf,
-  registrableDomainOf,
+  normalizedUrlSet,
+  findReusableReceipt,
+  sourceEvidenceOf,
   readIdentityReceipts,
   appendIdentityReceipts,
 } = require('./identity-receipts');
+const {
+  identityAppearsInBody,
+  candidateIdentityKeysOf,
+  identityEquivalent,
+  canonicalCandidateIdentity,
+  registrableDomainForIdentity,
+  vendorDomainIndex,
+} = require('./identity-evidence-contract');
 
-const IDENTITY_VERIFICATION_TTL_MS = 24 * 3600 * 1000;
-const IDENTITY_LOW_CONFIDENCE_THRESHOLD = 0.5;
 const IDENTITY_ENTITY_CLASSES = Object.freeze(['model', 'series']);
 
 function fail(code, error) {
   return { ok: false, code, error };
 }
-
-function isOfficialSocialDomain(domain) { return domain === 'x.com' || domain === 'twitter.com'; }
 
 /** AI 建议 prompt（真实 adapter 使用；本模块只约定结构）。 */
 function buildIdentitySuggestInstructions() {
@@ -47,8 +55,8 @@ function buildIdentitySuggestInstructions() {
     '2) 判断是否独立实体只依据官方可调用性/能力/价格/状态证据（官方模型列表、API 文档、定价页），禁止按名称后缀或档位词猜测。' +
     '3) vendor_key 只能取候选官方域名归属的厂商小写 slug；无法确定填 unknown。' +
     '4) identity 是候选名归一化形态（小写、连字符分隔），必须来自官方正文原词，禁止编造。' +
-    '5) confidence 为 0~1：正文无直接证据时必须 <0.5。' +
-    '输出 JSON：{"entity_class":string,"vendor_key":string,"identity":string,"series_title":string|null,"family":string|null,"confidence":number,"reasons":string[]}，禁止额外字段。';
+    '5) reasons 说明官方正文中支持实体、厂商与具体型号/系列判定的原文线索。' +
+    '输出 JSON：{"entity_class":string,"vendor_key":string,"identity":string,"series_title":string|null,"family":string|null,"reasons":string[]}，禁止额外字段。';
 }
 
 /** 校验 AI 建议结构（fail-closed：结构非法一律拒绝）。 */
@@ -59,64 +67,21 @@ function validateIdentitySuggestionValue(value) {
   if (typeof value.identity !== 'string' || !value.identity) return false;
   if (value.series_title !== null && typeof value.series_title !== 'string') return false;
   if (value.family !== null && typeof value.family !== 'string') return false;
-  if (typeof value.confidence !== 'number' || value.confidence < 0 || value.confidence > 1) return false;
   if (!Array.isArray(value.reasons)) return false;
   return true;
 }
 
-/**
- * 官方域正文命中判定：identity 段间允许空白/连字符/下划线/点号弹性
- * （normalize 折叠掉的分隔符在正文里可能是任意一种），
- * 'gpt-5.6' 命中 "GPT-5.6"、"gpt 5.6"、"gpt5.6"；'claude-opus-4-8' 命中 "Claude Opus 4.8"。
- */
-function identityAppearsInBody(identityKey, bodyText) {
-  const identity = String(identityKey || '').trim();
-  const body = String(bodyText || '');
-  if (!identity || !body) return false;
-  const escaped = identity
-    .split('-')
-    .filter(Boolean)
-    .map(segment => segment.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .join('[\\s\\-_.]?');
-  if (!escaped) return false;
-  return new RegExp(escaped, 'i').test(body);
-}
-
-/** Receipt 五条件复用：候选名/catalog/policy/bridge revision/官方 URL+hash 全等且 ≤24h。 */
-function findReusableReceipt(receipts, expected, now = Date.now()) {
-  const nowMs = Number.isFinite(now) ? now : Date.parse(now);
-  const expectedUrls = normalizedUrlSet(expected.officialUrls);
-  const expectedIdentity = safeIdentityKey(expected.candidateName);
-  for (const receipt of receipts || []) {
-    if (!receipt || typeof receipt !== 'object') continue;
-    if (!expectedIdentity || receipt.identity_key !== expectedIdentity) continue;
-    if (receipt.catalog_revision !== expected.catalogRevision) continue;
-    if (receipt.policy_revision !== expected.policyRevision) continue;
-    if (receipt.bridge_revision !== expected.bridgeRevision) continue;
-    const evidence = receipt.evidence || {};
-    const evidenceUrls = Array.isArray(evidence.official_urls) && evidence.official_urls.length
-      ? evidence.official_urls
-      : [evidence.official_url];
-    if (!sameUrlSet(evidenceUrls, expectedUrls)) continue;
-    if (typeof evidence.official_url !== 'string' || !expectedUrls.includes(evidence.official_url)) continue;
-    if (typeof evidence.content_hash !== 'string' || !evidence.content_hash) continue;
-    const verifiedMs = Date.parse(receipt.verified_at || '');
-    if (!Number.isFinite(verifiedMs) || nowMs - verifiedMs > IDENTITY_VERIFICATION_TTL_MS) continue;
-    return receipt;
-  }
-  return null;
-}
-
 function safeIdentityKey(name) { try { return normalizeModelIdentity(name); } catch { return null; } }
-function normalizedUrlSet(values) { return [...new Set((values || []).map(value => String(value || '').trim()).filter(Boolean))].sort(); }
-function sameUrlSet(left, right) { const a = normalizedUrlSet(left); const b = normalizedUrlSet(right); return a.length === b.length && a.every((value, index) => value === b[index]); }
-
-function sourceEvidenceOf(urls, pages, sourceRole = 'identity_evidence') { const byUrl = new Map((pages || []).map(page => [String(page.url || '').trim(), page])); return normalizedUrlSet(urls).map(url => ({ url, source_kind: 'identity_verified', source_role: sourceRole, ...(byUrl.get(url)?.content_hash ? { content_hash: byUrl.get(url).content_hash } : {}) })); }
 
 function vendorKeyViaPolicy(policy, vendorKey, normalizeVendorKey) {
-  if (typeof normalizeVendorKey === 'function') return normalizeVendorKey(policy, vendorKey);
+  if (!policy || !Array.isArray(policy.vendors)) return null;
+  if (typeof normalizeVendorKey === 'function') return normalizeVendorKey(policy, vendorKey) || null;
   const text = String(vendorKey || '').trim().toLowerCase();
-  return VENDOR_KEY_RE.test(text) ? text : null;
+  if (policy.vendors.some(vendor => vendor.vendor_key === text)) return text;
+  for (const [canonical, aliases] of Object.entries(policy.vendor_aliases || {})) {
+    if (canonical === text || (Array.isArray(aliases) && aliases.some(alias => String(alias).trim().toLowerCase() === text))) return canonical;
+  }
+  return null;
 }
 
 /**
@@ -134,18 +99,21 @@ async function verifyModelIdentity(candidate, context, adapters) {
   const officialUrls = (Array.isArray(candidate.official_urls) && candidate.official_urls.length)
     ? candidate.official_urls
     : (candidate.official_url ? [candidate.official_url] : []);
+  const allowedIdentityKeys = candidateIdentityKeysOf(candidate, name);
 
   // 0. Receipt 五条件复用（零网络零 AI）
   const catalogRevision = revisionOf(context?.snapshot);
   const reusable = findReusableReceipt(context?.receipts || [], {
     candidateName: name,
+    candidateIdentityKeys: allowedIdentityKeys,
     officialUrls,
     catalogRevision,
     policyRevision: context?.policyRevision,
     bridgeRevision: context?.bridgeRevision,
+    identityAliases: candidate.identity_aliases,
   }, nowMs);
   if (reusable) {
-    return { ok: true, reused: true, verdict: { entity_class: reusable.entity_class, vendor_key: reusable.vendor_key, model_key: reusable.model_key, series_title: reusable.series_title, family: reusable.family, confidence: reusable.confidence, evidence: { ...reusable.evidence }, reasons: ['receipt_reused'] }, receipt: reusable };
+    return { ok: true, reused: true, verdict: { entity_class: reusable.entity_class, vendor_key: reusable.vendor_key, model_key: reusable.model_key, series_title: reusable.series_title, family: reusable.family, evidence: { ...reusable.evidence }, reasons: ['receipt_reused'] }, receipt: reusable };
   }
 
   // 1. 预算门禁（fail-closed：无账本视为预算不可证明）
@@ -161,7 +129,7 @@ async function verifyModelIdentity(candidate, context, adapters) {
   if (!reserve('search_queries').ok) return fail('IDENTITY_BUDGET_EXHAUSTED', 'search_queries 预算耗尽');
   let sources = [];
   try {
-    sources = await discoverAdapter({ name, entity_type: candidate.entity_type, official_urls: officialUrls }) || [];
+    sources = await discoverAdapter({ name, entity_type: candidate.entity_type, official_urls: officialUrls, ledger }) || [];
   } catch (error) {
     return fail('IDENTITY_EVIDENCE_MISSING', `官方源发现失败: ${error.message}`);
   }
@@ -169,7 +137,11 @@ async function verifyModelIdentity(candidate, context, adapters) {
   if (!reserve('pages').ok) return fail('IDENTITY_BUDGET_EXHAUSTED', 'pages 预算耗尽');
   let pages = [];
   try {
-    pages = await acquireAdapter(sources) || [];
+    pages = await acquireAdapter(sources, {
+      candidateName: name,
+      identityAliases: Array.isArray(candidate.identity_aliases) ? candidate.identity_aliases : [],
+      candidateIdentityKeys: allowedIdentityKeys,
+    }) || [];
   } catch (error) {
     return fail('IDENTITY_EVIDENCE_MISSING', `官方正文获取失败: ${error.message}`);
   }
@@ -181,12 +153,13 @@ async function verifyModelIdentity(candidate, context, adapters) {
 
   // 3. AI 建议（注入；缺 AI 一律 fail-closed）
   if (typeof context?.suggestIdentity !== 'function') return fail('IDENTITY_AI_UNAVAILABLE', '未注入 suggestIdentity');
-  if (!reserve('responses_calls').ok) return fail('IDENTITY_BUDGET_EXHAUSTED', 'responses_calls 预算耗尽');
+  const identityInstructions = buildIdentitySuggestInstructions();
   let suggestion;
-  try {
-    suggestion = await context.suggestIdentity({ candidate: { ...candidate, name }, pages, instructions: buildIdentitySuggestInstructions() });
-  } catch (error) {
-    return fail('IDENTITY_AI_UNAVAILABLE', `身份建议调用失败: ${error.message}`);
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (!reserve('responses_calls').ok) return fail('IDENTITY_BUDGET_EXHAUSTED', 'responses_calls 预算耗尽');
+    try { suggestion = await context.suggestIdentity({ candidate: { ...candidate, name }, pages, instructions: attempt ? `${identityInstructions} 上一条输出无法解析，请只返回一个符合上述结构的 JSON 对象。` : identityInstructions }); }
+    catch (error) { return fail('IDENTITY_AI_UNAVAILABLE', `身份建议调用失败: ${error.message}`); }
+    if (suggestion?.ok !== false || attempt === 1 || !['IDENTITY_SUGGEST_OUTPUT_INVALID', 'IDENTITY_SUGGEST_SCHEMA_INVALID'].includes(suggestion.code)) break;
   }
   if (!suggestion || suggestion.ok === false) {
     const code = suggestion?.code === 'COST_BUDGET_EXHAUSTED' ? 'IDENTITY_BUDGET_EXHAUSTED' : 'IDENTITY_AI_UNAVAILABLE';
@@ -196,34 +169,50 @@ async function verifyModelIdentity(candidate, context, adapters) {
   if (!validateIdentitySuggestionValue(value)) return fail('IDENTITY_AI_UNAVAILABLE', '身份建议结构非法');
 
   // 4. 确定性核验：AI 只建议，一切关键字段程序重算
-  if (value.confidence < IDENTITY_LOW_CONFIDENCE_THRESHOLD) {
-    return fail('IDENTITY_LOW_CONFIDENCE', `置信度 ${value.confidence} 低于阈值`);
-  }
   const vendorKey = vendorKeyViaPolicy(context?.policy, value.vendor_key, context?.normalizeVendorKey);
-  if (!vendorKey) return fail('IDENTITY_LOW_CONFIDENCE', `厂商未通过政策归一化: ${value.vendor_key}`);
-  let identityKey;
-  try { identityKey = normalizeModelIdentity(value.identity); } catch { return fail('IDENTITY_AI_UNAVAILABLE', 'identity 归一化失败'); }
-  const hitPages = pages.filter(page => identityAppearsInBody(identityKey, page.body_text));
-  if (!hitPages.length) return fail('IDENTITY_NAME_NOT_IN_BODY', `正文未命中 ${identityKey}`);
-
-  // 证据冲突：多个不同注册域的官方正文均命中同名候选（归属矛盾）
-  const hitDomains = [...new Set(hitPages.map(page => registrableDomainOf(hostOf(page.url))).filter(Boolean))];
-  const declaredSocialDomains = new Set(officialUrls
-    .map(url => registrableDomainOf(hostOf(url)))
-    .filter(isOfficialSocialDomain));
-  const conflictingDomains = hitDomains.filter(domain => !declaredSocialDomains.has(domain));
-  if (conflictingDomains.length > 1) return fail('IDENTITY_EVIDENCE_CONFLICT', `多域证据冲突: ${conflictingDomains.join(',')}`);
+  if (!vendorKey) return fail('IDENTITY_VENDOR_UNRESOLVED', `厂商未通过政策归一化: ${value.vendor_key}`);
+  const hintedVendorKey = candidate.vendor_hint
+    ? vendorKeyViaPolicy(context?.policy, candidate.vendor_hint, context?.normalizeVendorKey)
+    : null;
+  if (hintedVendorKey && hintedVendorKey !== vendorKey) {
+    return fail('IDENTITY_VENDOR_MISMATCH', `建议厂商 ${vendorKey} 与登记厂商 ${hintedVendorKey} 不一致`);
+  }
+  let suggestedIdentityKey;
+  try { suggestedIdentityKey = normalizeModelIdentity(value.identity); } catch { return fail('IDENTITY_AI_UNAVAILABLE', 'identity 归一化失败'); }
+  const vendorBoundCandidate = { ...candidate, vendor_hint: vendorKey };
+  const vendorBoundIdentityKeys = [...new Set([...allowedIdentityKeys, ...candidateIdentityKeysOf(vendorBoundCandidate, name)])];
+  if (!vendorBoundIdentityKeys.some(identity => identityEquivalent(identity, suggestedIdentityKey))) {
+    return fail('IDENTITY_CANDIDATE_MISMATCH', `身份建议 ${suggestedIdentityKey} 与候选名/人工别名不一致`);
+  }
+  const identityKey = canonicalCandidateIdentity(vendorBoundCandidate, name, suggestedIdentityKey);
+  const domainOwners = vendorDomainIndex(context?.policy, vendorKey, officialUrls);
+  const nameHitPages = pages.filter(page => identityAppearsInBody(identityKey, page.body_text));
+  if (!nameHitPages.length) return fail('IDENTITY_NAME_NOT_IN_BODY', `正文未命中 ${identityKey}`);
+  const declaredUrls = new Set(officialUrls.map(canonicalizeUrl).filter(Boolean));
+  const ownersOfPage = page => {
+    const owners = domainOwners.get(registrableDomainForIdentity(hostOf(page.url))) || new Set();
+    if (owners.size <= 1) return owners;
+    const pageUrl = canonicalizeUrl(page.url);
+    return declaredUrls.has(pageUrl) ? new Set([vendorKey]) : new Set();
+  };
+  const conflictingDomains = [...new Set(nameHitPages
+    .filter(page => [...ownersOfPage(page)].some(owner => owner !== vendorKey))
+    .map(page => registrableDomainForIdentity(hostOf(page.url)))
+    .filter(Boolean))];
+  if (conflictingDomains.length) return fail('IDENTITY_EVIDENCE_CONFLICT', `多域证据冲突: ${conflictingDomains.join(',')}`);
+  const hitPages = nameHitPages.filter(page => ownersOfPage(page).has(vendorKey));
+  if (!hitPages.length) return fail('IDENTITY_VENDOR_DOMAIN_UNVERIFIED', `命中正文的域名未在厂商政策或人工登记中确认: ${nameHitPages.map(page => hostOf(page.url)).join(',')}`);
 
   const modelKey = modelKeyOf(vendorKey, identityKey);
   const hitPage = hitPages[0];
-  const evidence = { official_url: hitPage.url, official_urls: officialUrls, content_hash: hitPage.content_hash, sources: sourceEvidenceOf(officialUrls, pages) };
+  const verifiedUrls = normalizedUrlSet([...officialUrls, hitPage.url]);
+  const evidence = { official_url: hitPage.url, official_urls: verifiedUrls, content_hash: hitPage.content_hash, sources: sourceEvidenceOf(verifiedUrls, pages) };
   const verdict = {
     entity_class: value.entity_class,
     vendor_key: vendorKey,
     model_key: modelKey,
     series_title: value.series_title,
     family: value.family,
-    confidence: value.confidence,
     evidence,
     reasons: Array.isArray(value.reasons) ? value.reasons.map(String) : [],
   };
@@ -236,8 +225,9 @@ async function verifyModelIdentity(candidate, context, adapters) {
     model_key: verdict.model_key,
     series_title: verdict.series_title,
     family: verdict.family,
-    confidence: verdict.confidence,
     evidence: { ...evidence },
+    candidate_official_urls: normalizedUrlSet(officialUrls),
+    identity_aliases: Array.isArray(candidate.identity_aliases) ? [...candidate.identity_aliases] : [],
     catalog_revision: catalogRevision,
     policy_revision: context?.policyRevision ?? null,
     bridge_revision: context?.bridgeRevision ?? null,
@@ -292,7 +282,6 @@ async function discoverSeriesMembers(verdict, adapters, context = {}) {
   const reserve = category => (ledger && typeof ledger.reserve === 'function'
     ? ledger.reserve(category, 1)
     : { ok: false, code: 'COST_BUDGET_EXHAUSTED', category });
-  if (!reserve('search_queries').ok) return fail('IDENTITY_BUDGET_EXHAUSTED', 'search_queries 预算耗尽');
   let sources = [];
   const evidenceUrls = Array.isArray(verdict.evidence?.official_urls) && verdict.evidence.official_urls.length
     ? verdict.evidence.official_urls
@@ -300,11 +289,13 @@ async function discoverSeriesMembers(verdict, adapters, context = {}) {
   if (evidenceUrls.length) {
     sources = evidenceUrls.map(url => ({ url, title: `${verdict.series_title || verdict.model_key} Official`, source_kind: 'official' }));
   } else {
+    if (!reserve('search_queries').ok) return fail('IDENTITY_BUDGET_EXHAUSTED', 'search_queries 预算耗尽');
     try {
       sources = await discoverAdapter({
         name: verdict.series_title || verdict.model_key,
         entity_type: 'series',
         official_urls: [],
+        ledger,
       }) || [];
     } catch (error) {
       return fail('IDENTITY_EVIDENCE_MISSING', `系列页发现失败: ${error.message}`);
@@ -312,9 +303,13 @@ async function discoverSeriesMembers(verdict, adapters, context = {}) {
   }
   if (!Array.isArray(sources) || !sources.length) return fail('IDENTITY_EVIDENCE_MISSING', '无系列页命中');
   if (!reserve('pages').ok) return fail('IDENTITY_BUDGET_EXHAUSTED', 'pages 预算耗尽');
+  const seriesIdentity = String(verdict.model_key || '').slice(String(verdict.vendor_key || '').length + 1);
   let pages = [];
   try {
-    pages = await acquireAdapter(sources) || [];
+    pages = await acquireAdapter(sources, {
+      candidateName: verdict.series_title || verdict.model_key,
+      candidateIdentityKeys: [seriesIdentity],
+    }) || [];
   } catch (error) {
     return fail('IDENTITY_EVIDENCE_MISSING', `系列页正文获取失败: ${error.message}`);
   }
@@ -335,7 +330,6 @@ async function discoverSeriesMembers(verdict, adapters, context = {}) {
   // 系列前缀门禁：成员 identity 必须以系列 identity 为前缀（modelKeyOf(vendor, identity) 的层级契约）。
   // 防御 AI 把正文里的计费档位/文档栏目名（如 "Avatar 实时版"）误提为成员——它们虽出现在正文，
   // 但与系列无命名层级关系。
-  const seriesIdentity = String(verdict.model_key || '').slice(String(verdict.vendor_key || '').length + 1);
   const members = [];
   for (const item of list || []) {
     const memberName = String(item?.name || '').trim();
@@ -385,10 +379,11 @@ async function discoverSeriesMembers(verdict, adapters, context = {}) {
 module.exports = {
   IDENTITY_VERIFICATION_TTL_MS,
   RECEIPT_TTL_MS,
-  IDENTITY_LOW_CONFIDENCE_THRESHOLD,
   buildIdentitySuggestInstructions,
   validateIdentitySuggestionValue,
   identityAppearsInBody,
+  candidateIdentityKeysOf,
+  identityEquivalent,
   findReusableReceipt,
   verifyModelIdentity,
   catalogModelKeyIndex,

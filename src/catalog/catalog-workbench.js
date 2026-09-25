@@ -9,27 +9,19 @@
  * Draft 面板投影、恢复诊断与恢复选项归一化在 catalog-workbench-view.js。
  */
 const { readPending, pendingCandidateToSeed } = require('../pending/index');
-const { resolveBatchCandidates, estimateResolutionNeed } = require('./intake/index');
+const { estimateResolutionNeed, lookupRegistryForCard } = require('./intake/index');
 const { loadCatalogSnapshot } = require('./core/index');
 const assistant = require('./draft/index');
 const draftStore = require('./draft/index');
 const bundleDraft = require('./draft/catalog-bundle');
-const { codeError, planHashOf, projectDraft, normalizeRecoveryOptions, blockedEntriesOf } = require('./catalog-workbench-view');
+const { codeError, planHashOf, projectDraft, normalizeRecoveryOptions, assertRequestFields, bundleReviewDto, bundleApplyDto } = require('./catalog-workbench-view');
+const { approvedCatalogCandidates, createCatalogPrepareHandler } = require('./catalog-workbench-prepare');
 
-const REUSABLE_DRAFT_STATES = Object.freeze(['researching', 'preview_ready', 'preview_blocked', 'failed_retryable', 'rolled_back', 'resuming']);
 let prepareInFlight = false;
 
-function snapshotOf(options) {
-  return typeof options.loadCatalog === 'function' ? options.loadCatalog() : loadCatalogSnapshot();
-}
-function pendingOf(options) {
-  return typeof options.readPending === 'function' ? options.readPending(options) : readPending('tools', options);
-}
-function approvedCandidates(options) {
-  const pending = pendingOf(options);
-  const excludedOutcomes = new Set(['already_complete', 'bundled_for_review', 'committed']);
-  return { pending, cards: pending.cards.filter(card => card.review_status === 'approved' && card.entity_type !== 'series' && !excludedOutcomes.has(card.intake_outcome)) };
-}
+function snapshotOf(options) { return typeof options.loadCatalog === 'function' ? options.loadCatalog() : loadCatalogSnapshot(); }
+function pendingOf(options) { return typeof options.readPending === 'function' ? options.readPending(options) : readPending('tools', options); }
+function approvedCandidates(options) { return approvedCatalogCandidates(pendingOf(options), snapshotOf(options), options); }
 function candidateKey(card) { return card.candidate_key; }
 
 const CATALOG_DRAFT_SCHEMA_VERSION = 4;
@@ -39,24 +31,6 @@ const BUNDLE_REVIEW_FIELDS = new Set();
 const BUNDLE_APPLY_FIELDS = new Set(['draft_id', 'expected_revision', 'bundle_token', 'confirm']);
 const BUNDLE_DISCARD_FIELDS = new Set(['expected_revision', 'confirm']);
 
-function assertRequestFields(input, allowed, code, label) {
-  if (!input || typeof input !== 'object' || Array.isArray(input) || Object.keys(input).some(key => !allowed.has(key))) {
-    throw codeError(code, `${label} 请求字段无效`);
-  }
-}
-function bundleReviewDto(result, draftId) {
-  if (!result || result.ok !== true) return { ok: false, code: result?.code || 'BUNDLE_BLOCKED', draft_id: draftId, ...(result?.draft ? { draft: result.draft } : {}), ...(Array.isArray(result?.blockers) ? { blockers: result.blockers } : {}) };
-  const previewHash = result.preview_hash || result.previewHash || result.draft?.preview_hash || null;
-  const bundleToken = result.bundle_token || result.bundleToken || result.draft?.bundle_token || null;
-  const currentRevision = result.current_revision || result.currentRevision || null;
-  return { ok: true, status: 'review_ready', draft_id: draftId, current_revision: currentRevision, base_revision: result.draft?.base_revision || currentRevision, preview_hash: previewHash, bundle_token: bundleToken, confirmation: bundleToken ? `APPLY CATALOG BUNDLE ${bundleToken}` : null, discard_confirmation: bundleToken ? `DISCARD CATALOG BUNDLE ${bundleToken}` : null, draft: result.draft || null };
-}
-function bundleApplyDto(result, applyOptions = {}) {
-  if (!result || result.ok !== true) return result || { ok: false, code: 'OPERATION_FAILED' };
-  const cleanupPending = result.cleanup_pending === true || (Array.isArray(result.cleanup_pending) && result.cleanup_pending.length > 0);
-  const outcomeWarning = result.outcome_warning || null;
-  return { ok: true, status: result.status || 'committed', target_revision: result.target_revision || result.targetRevision || null, dist_requested: result.dist_requested === true, dist_built: result.dist_built === true, dist_pending: result.dist_pending === true, cleanup_pending: cleanupPending, cleanup_only: result.cleanup_only === true || result.cleanupOnly === true, outcome_pending: result.outcome_pending === true || Boolean(outcomeWarning), outcome_warning: outcomeWarning };
-}
 function isCatalogDraft(draft) {
   return draft && draft.schema_version === CATALOG_DRAFT_SCHEMA_VERSION && (draft.draft_kind || CATALOG_DRAFT_KIND) === CATALOG_DRAFT_KIND;
 }
@@ -84,30 +58,75 @@ function createCatalogWorkbench(options = {}) {
   const bundleDiscardFn = options.discardCatalogBundle || bundleDraft.discardCatalogBundle;
 
   function bundleOptions() {
-    return { ...options, loadCatalog: () => snapshotOf(options), readPending: options.readPending, setIntakeOutcome: options.setIntakeOutcome, resolveBatchCandidates: options.resolveBatchCandidates, pendingOptions: options.pendingOptions, catalogAdapters: options.catalogAdapters, applyOptions: options.applyOptions };
+    return {
+      ...options,
+      generatorOptions,
+      resolveOptions: { ...generatorOptions, ...(options.resolveOptions || {}) },
+      loadCatalog: () => snapshotOf(options),
+      readPending: options.readPending,
+      setIntakeOutcome: options.setIntakeOutcome,
+      resolveBatchCandidates: options.resolveBatchCandidates,
+      pendingOptions: options.pendingOptions,
+      catalogAdapters: options.catalogAdapters,
+      applyOptions: options.applyOptions,
+    };
   }
   function buildPlan() {
-    const { pending, cards } = approvedCandidates(options);
+    const { pending, cards, completed } = approvedCandidates(options);
     const catalog = snapshotOf(options);
     const seeds = [];
     const blocked = [];
     for (const card of cards) {
-      try { seeds.push({ card, seed: pendingCandidateToSeed(card, {}) }); }
+      try {
+        const registry = lookupRegistryForCard(card, options);
+        seeds.push({ card, seed: pendingCandidateToSeed(card, registry.ok ? registry : {}) });
+      }
       catch (error) { blocked.push({ candidate_key: candidateKey(card), code: String(error?.message || 'PENDING_CANDIDATE_INVALID').split(':')[0] }); }
     }
-    if (!cards.length) return { ok: false, code: 'PENDING_CANDIDATE_NOT_APPROVED', pending_revision: pending.revision, catalog_revision: catalog.revision, candidates: [], blocking_reasons: ['没有已批准的工具待补卡'] };
+    if (!cards.length && !completed.length) return { ok: false, code: 'PENDING_CANDIDATE_NOT_APPROVED', pending_revision: pending.revision, catalog_revision: catalog.revision, candidates: [], blocking_reasons: ['没有已批准的工具待补卡'] };
     const plans = [];
     for (const entry of seeds) {
       try {
         const result = planFn(entry.seed, generatorOptions);
-        plans.push({ candidate_key: candidateKey(entry.card), name: entry.card.name, ok: result.ok, cost_plan: result.cost_plan || null, code: result.code || null });
+        const placementDeferred = result.code === 'PLACEMENT_REQUIRED_FOR_API_MODEL';
+        const registry = placementDeferred ? lookupRegistryForCard(entry.card, options) : null;
+        const researchBound = placementDeferred ? {
+          seed: pendingCandidateToSeed(entry.card, registry?.ok ? registry : {}),
+          research_scopes: [{ kind: 'vendor' }, { kind: 'group' }, { kind: 'detail' }],
+        } : null;
+        const costPlan = result.cost_plan || (placementDeferred
+          ? {
+            hard_limits: assistant.researchLimits(generatorOptions, researchBound),
+            estimated_extract_fallback_upper_bound: Math.min(3, generatorOptions.maxSearchQueries ?? 4),
+          }
+          : null);
+        plans.push({
+          candidate_key: candidateKey(entry.card),
+          name: entry.card.name,
+          ok: result.ok === true || placementDeferred,
+          status: placementDeferred ? 'placement_deferred' : (result.ok ? 'ready' : 'blocked'),
+          cost_plan: costPlan,
+          code: result.code || null,
+        });
       } catch (error) {
         plans.push({ candidate_key: candidateKey(entry.card), name: entry.card.name, ok: false, code: String(error?.message || 'PLAN_FAILED').split(':')[0] });
       }
     }
     const resolveOptions = { ...generatorOptions, ...(options.resolveOptions || {}) };
     const resolutionNeed = estimateResolutionNeed(cards, resolveOptions);
-    const plan = { pending_revision: pending.revision, catalog_revision: catalog.revision, candidates: cards.map(card => candidateKey(card)), entries: plans, blocked, resolution: resolutionNeed };
+    const placementAiUpperBound = resolveOptions.allowAiPlacement === true
+      ? cards.filter(card => card.entity_type === 'model' || card.detail_kind_hint === 'api_model').length
+      : 0;
+    const plan = {
+      pending_revision: pending.revision,
+      catalog_revision: catalog.revision,
+      candidates: cards.map(card => candidateKey(card)),
+      entries: plans,
+      blocked,
+      completed,
+      resolution: resolutionNeed,
+      placement: { ai_calls_upper_bound: placementAiUpperBound },
+    };
     return {
       ok: true,
       status: 'cost_confirmation_required',
@@ -118,8 +137,17 @@ function createCatalogWorkbench(options = {}) {
           for (const [key, value] of Object.entries(entry.cost_plan?.hard_limits || {})) total[key] = Number(total[key] || 0) + Number(value || 0);
           return total;
         }, {}),
+        vendor_search_primary_upper_bound: resolutionNeed.vendor_search_primary_upper_bound,
+        vendor_search_fallback_upper_bound: resolutionNeed.vendor_search_fallback_upper_bound,
         vendor_search_upper_bound: resolutionNeed.vendor_search_upper_bound,
         vendor_responses_upper_bound: resolutionNeed.vendor_responses_upper_bound,
+        verification_search_primary_upper_bound: resolutionNeed.verification_search_primary_upper_bound,
+        verification_search_upper_bound: resolutionNeed.verification_search_upper_bound,
+        verification_search_fallback_upper_bound: resolutionNeed.verification_search_fallback_upper_bound,
+        verification_extract_upper_bound: resolutionNeed.verification_extract_upper_bound,
+        verification_responses_upper_bound: resolutionNeed.verification_responses_upper_bound,
+        placement_ai_calls_upper_bound: placementAiUpperBound,
+        extract_fallback_upper_bound: plans.reduce((total, entry) => total + Number(entry.cost_plan?.estimated_extract_fallback_upper_bound || 0), 0),
       },
     };
   }
@@ -130,58 +158,27 @@ function createCatalogWorkbench(options = {}) {
     if (String(input?.plan_hash || '') !== current.plan_hash) throw codeError('PLAN_CHANGED');
     return current;
   }
+  const prepareCatalog = createCatalogPrepareHandler({
+    options,
+    generatorOptions,
+    assertPlan,
+    approvedCandidates: () => approvedCandidates(options),
+    candidateKey,
+    isCatalogDraft,
+    listDrafts: listFn,
+    planCatalogDraft: planFn,
+    prepareCatalogDraft: prepareFn,
+    loadCatalog: () => snapshotOf(options),
+  });
   async function prepare(input = {}) {
-    if (input.confirm_cost !== true) return { ok: false, code: 'COST_CONFIRMATION_REQUIRED' };
+    if (input.confirm_cost !== true) {
+      const current = buildPlan();
+      if (!current.ok || current.candidates.length || !current.completed.length) return { ok: false, code: 'COST_CONFIRMATION_REQUIRED' };
+    }
     if (prepareInFlight) return { ok: false, code: 'PREPARE_IN_PROGRESS', blocking_reasons: ['已有一轮 Catalog Draft 准备在执行中，请等待其完成后再试。'] };
     prepareInFlight = true;
-    try {
-      const planned = assertPlan(input);
-      if (!planned.ok) return planned;
-      const { pending, cards } = approvedCandidates(options);
-      const reusableOf = () => listFn().filter(draft => isCatalogDraft(draft) && draft.base_revision === planned.catalog_revision && REUSABLE_DRAFT_STATES.includes(draft.state));
-      const matchReusable = (reusable, key, card) => reusable.find(draft => !used.has(draft.draft_id)
-        && (draft.seed?.candidate_key === key || (!draft.seed?.candidate_key && String(draft.seed?.name || '').trim().toLowerCase() === String(card.name || '').trim().toLowerCase())));
-      const used = new Set();
-      const drafts = [];
-      const missingCards = [];
-      const initialReusable = reusableOf();
-      for (const card of cards) {
-        const key = candidateKey(card);
-        const existing = matchReusable(initialReusable, key, card);
-        if (existing) { used.add(existing.draft_id); drafts.push(projectDraft(existing, { candidate_key: key, reused: true })); }
-        else missingCards.push(card);
-      }
-      const resolveOptions = { ...generatorOptions, ...(options.resolveOptions || {}) };
-      let resolved = { seeds: [], unresolved: [] };
-      if (missingCards.length) {
-        try { resolved = await (options.resolveBatchCandidates || resolveBatchCandidates)(missingCards, resolveOptions); }
-        catch (error) { return { ok: false, code: 'DRAFT_BLOCKED', blocking_reasons: ['官方来源解析失败'] }; }
-      }
-      const byName = new Map((resolved.seeds || []).map(seed => [String(seed.name).trim().toLowerCase(), seed]));
-      const blocked = blockedEntriesOf(resolved, planned);
-      const seriesVerifiedNames = new Set((resolved.series_candidates || []).map(item => String(item.name || '').trim().toLowerCase()));
-      for (const card of missingCards) {
-        const key = candidateKey(card);
-        const again = matchReusable(reusableOf(), key, card);
-        if (again) { used.add(again.draft_id); drafts.push(projectDraft(again, { candidate_key: key, reused: true })); continue; }
-        const resolvedSeed = byName.get(String(card.name).trim().toLowerCase());
-        if (!resolvedSeed) {
-          const alreadyBlocked = seriesVerifiedNames.has(String(card.name).trim().toLowerCase())
-            || blocked.some(item => (item.candidate_key && item.candidate_key === key) || item.name === card.name);
-          if (!alreadyBlocked) {
-            blocked.push({ candidate_key: key, name: card.name, code: 'DRAFT_BLOCKED' });
-          }
-          continue;
-        }
-        const seed = { ...resolvedSeed, candidate_key: key };
-        try {
-          const result = await prepareFn(seed, { ...generatorOptions, confirmCost: true, catalogAdapters: options.catalogAdapters });
-          if (result && result.draft) drafts.push(projectDraft(result.draft, { candidate_key: key, reused: false }));
-          else blocked.push({ candidate_key: key, code: result?.code || 'DRAFT_BLOCKED' });
-        } catch (error) { blocked.push({ candidate_key: key, code: String(error?.message || 'DRAFT_BLOCKED').split(':')[0] }); }
-      }
-      return { ok: drafts.length > 0, status: drafts.length ? 'drafts_ready' : 'drafts_blocked', pending_revision: pending.revision, catalog_revision: planned.catalog_revision, plan_hash: planned.plan_hash, drafts, reused: drafts.filter(draft => draft.reused).map(draft => draft.draft_id), blocked };
-    } finally { prepareInFlight = false; }
+    try { return await prepareCatalog(input); }
+    finally { prepareInFlight = false; }
   }
   function list() {
     const catalogRevision = snapshotOf(options).revision;
@@ -211,7 +208,7 @@ function createCatalogWorkbench(options = {}) {
     const merged = normalizeRecoveryOptions(rawOptions, generatorOptions);
     const result = recoveryPlanFn(draftId, { expectedRevision, generatorOptions: merged });
     if (!result?.ok) return result;
-    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, search_provider: merged.searchProvider, extract_provider: merged.extractProvider, search_engine: merged.searchEngine, ...(merged.accessMode ? { access_mode: merged.accessMode } : {}) } };
+    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, search_provider: merged.searchProvider, search_fallback_provider: merged.searchFallbackProvider, extract_provider: merged.extractProvider, extract_fallback_provider: merged.extractFallbackProvider, search_engine: merged.searchEngine, ...(merged.accessMode ? { access_mode: merged.accessMode } : {}) } };
   }
   async function resume(draftId, input = {}) {
     if (input.confirm_cost !== true) return { ok: false, code: 'COST_CONFIRMATION_REQUIRED' };

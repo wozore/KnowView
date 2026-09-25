@@ -637,7 +637,9 @@
         "kind": "tool-level3",
         "id": "tool-level3:claude-opus-4.8"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "visibility": "hidden_history",
+      "historical_since": "2026-09-24"
     },
     {
       "id": "tool-card:claude-sonnet-5",
@@ -8576,6 +8578,271 @@
       },
       "detail_kind": "api_model",
       "model_key": "stepfun-stepaudio-3-gen-preview"
+    },
+    {
+      "id": "tool-card:stepfun-step-5-preview",
+      "tool_key": "stepfun-step-5-preview",
+      "vendor_key": "stepfun",
+      "title": "StepFun Step 5 Preview",
+      "vendor_label": "StepFun Step 5 Preview",
+      "icon": "🤖",
+      "summary": "Step 5 Preview 是 StepFun 面向真实任务的新一代旗舰基模型，基于稀疏 MoE 架构（总参数 600B、每 token 激活 27B），原生支持文本、图片和视频输入，提供 1M tokens 上下文窗口，重点覆盖编程、软件工程与专业知识工作。",
+      "theme": "general",
+      "scenes": [
+        "软件开发",
+        "长文档处理",
+        "研究与分析",
+        "多模态理解",
+        "多步骤 Agent 任务"
+      ],
+      "best_for_preview": "需要处理海量信息、调用工具并持续推进到交付结果的编程与 Agent 任务",
+      "not_for_preview": "工具、搜索和代码执行能力由接入应用提供，模型不会直接访问本地环境或外部服务",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "StepFun Step 5 Preview",
+        "StepFun Step 5 Preview",
+        "stepfun-step-5-preview",
+        "软件开发",
+        "长文档处理",
+        "研究与分析",
+        "多模态理解",
+        "多步骤 Agent 任务"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:stepfun-step-5-preview"
+      },
+      "detail_kind": "api_model",
+      "model_key": "stepfun-step-5-preview"
+    },
+    {
+      "id": "tool-card:gpt-6-sol",
+      "tool_key": "gpt-6-sol",
+      "vendor_key": "openai",
+      "title": "GPT-6 Sol",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "GPT-6 Sol 是 OpenAI 推出的前沿智能模型，面向复杂专业工作与编码代理任务，API 价格较 GPT-5.6 促销定价降低 50%，具备 1,050,000 上下文窗口和广泛的工具调用能力。",
+      "theme": "general",
+      "scenes": [
+        "复杂编码与代理工作流",
+        "专业工作处理",
+        "事实性问答",
+        "计算机使用",
+        "长对话与代理缓存场景"
+      ],
+      "best_for_preview": "复杂编码、代理工作流与高用量的专业工作，兼顾性能与更低成本。",
+      "not_for_preview": "不适合 Free 层级 API 用户（不支持），也不适合需要微调或音频/视频模态的场景。",
+      "price_badge": "paid",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-6 Sol",
+        "OpenAI",
+        "gpt-6-sol",
+        "复杂编码与代理工作流",
+        "专业工作处理",
+        "事实性问答",
+        "计算机使用",
+        "长对话与代理缓存场景"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-6-sol"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-6-sol"
+    },
+    {
+      "id": "tool-card:gpt-6-luna",
+      "tool_key": "gpt-6-luna",
+      "vendor_key": "openai",
+      "title": "GPT-6 Luna",
+      "vendor_label": "OpenAI",
+      "icon": "🤖",
+      "summary": "GPT-6 Luna 是 OpenAI GPT-6 系列中面向专注、高吞吐任务的模型，API 名称 gpt-6-luna，拥有 1,050,000 上下文窗口，价格较 GPT-5.6 促销价降低 50%。",
+      "theme": "general",
+      "scenes": [
+        "复杂长上下文的高吞吐文本处理",
+        "编程与代理工作流中的规模化任务",
+        "Batch 与 Flex 等低成本批量推理"
+      ],
+      "best_for_preview": "专注、高吞吐量任务",
+      "not_for_preview": "不支持微调；音频与视频模态不支持",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "GPT-6 Luna",
+        "OpenAI",
+        "gpt-6-luna",
+        "复杂长上下文的高吞吐文本处理",
+        "编程与代理工作流中的规模化任务",
+        "Batch 与 Flex 等低成本批量推理"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gpt-6-luna"
+      },
+      "detail_kind": "api_model",
+      "model_key": "openai-gpt-6-luna"
+    },
+    {
+      "id": "tool-card:claude-opus-5.5",
+      "tool_key": "claude-opus-5.5",
+      "vendor_key": "anthropic",
+      "title": "Claude Opus 5.5",
+      "vendor_label": "Anthropic",
+      "icon": "🤖",
+      "summary": "Claude Opus 5.5（claude-opus-5-5）是面向长时间运行的代理式编程和知识工作打造的模型，上下文窗口为 1M tokens，自适应思考常开，输入/输出价格为 $4 / $20 USD 每百万 tokens。",
+      "theme": "general",
+      "scenes": [
+        "长时间运行的代理式编程",
+        "大规模重构与复杂系统工程",
+        "知识工作与深度研究",
+        "视觉理解工作流",
+        "计算机使用（computer use）"
+      ],
+      "best_for_preview": "需要长时间自主编程代理、大规模重构、复杂系统工程和大量视觉工作负载的企业场景。",
+      "not_for_preview": "需要禁用思考功能、强制 tool use 或依赖旧 computer_20251124 计算机使用工具的既有集成。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Claude Opus 5.5",
+        "Anthropic",
+        "claude-opus-5.5",
+        "长时间运行的代理式编程",
+        "大规模重构与复杂系统工程",
+        "知识工作与深度研究",
+        "视觉理解工作流",
+        "计算机使用（computer use）"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:claude-opus-5.5"
+      },
+      "detail_kind": "api_model",
+      "model_key": "anthropic-claude-opus-5.5"
+    },
+    {
+      "id": "tool-card:stepaudio-3-asr",
+      "tool_key": "stepaudio-3-asr",
+      "vendor_key": "stepfun",
+      "title": "StepAudio 3 ASR",
+      "vendor_label": "阶跃星辰",
+      "icon": "🎵",
+      "summary": "StepAudio 3 ASR 是 StepFun 推出的高精度低延迟语音转写模型系列，其中 StepAudio 3 ASR Max 是其迄今最大的 ASR 模型，基于大语言模型融合声学建模与上下文理解，支持中英文、方言、中英混说及复杂音频的识别。",
+      "theme": "media",
+      "scenes": [
+        "会议纪要生成",
+        "视频字幕制作",
+        "直播内容理解",
+        "智能客服",
+        "车载交互",
+        "医疗病历记录",
+        "金融服务",
+        "专业内容生产"
+      ],
+      "best_for_preview": [
+        "需要理解专业术语与上下文的语音转写",
+        "方言、中英混说及含噪声、歌声等复杂音频的识别"
+      ],
+      "not_for_preview": [
+        "对计费成本极度敏感且音频时长巨大的场景需先评估按小时计费成本"
+      ],
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "StepAudio 3 ASR",
+        "阶跃星辰",
+        "stepaudio-3-asr",
+        "会议纪要生成",
+        "视频字幕制作",
+        "直播内容理解",
+        "智能客服",
+        "车载交互",
+        "医疗病历记录",
+        "金融服务",
+        "专业内容生产"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:stepaudio-3-asr"
+      },
+      "detail_kind": "api_model",
+      "model_key": "stepfun-stepaudio-3-asr"
+    },
+    {
+      "id": "tool-card:hy-image-3.5",
+      "tool_key": "hy-image-3.5",
+      "vendor_key": "tencent",
+      "title": "Hy Image 3.5 Preview",
+      "vendor_label": "腾讯（混元）",
+      "icon": "🖼️",
+      "summary": "腾讯混元 Hy-Image-3.5-Preview（API ID：hy-image-v3.5-preview）图像生成模型，支持文生图、参考生图和多轮编辑，采用 Chat/Messages 协议同步调用，最高支持 4K 输出。",
+      "theme": "vision",
+      "scenes": [
+        "文生图创作",
+        "参考图生图",
+        "多轮图像编辑",
+        "营销与设计素材生成"
+      ],
+      "best_for_preview": "需要文生图、参考生图和多轮对话式编辑能力的图像生成场景；官方 API model ID 为 hy-image-v3.5-preview，最高支持 4K 输出。",
+      "not_for_preview": "需要异步任务轮询、生成图片长期托管（返回 URL 仅 12 小时有效）或超出面积与尺寸约束的输出场景。",
+      "price_badge": "usage_based",
+      "access_level": "受限",
+      "search_terms": [
+        "Hy Image 3.5",
+        "腾讯（混元）",
+        "hy-image-3.5",
+        "文生图创作",
+        "参考图生图",
+        "多轮图像编辑",
+        "营销与设计素材生成",
+        "Hy Image 3.5 Preview",
+        "Hy-Image-3.5-preview",
+        "hy-image-v3.5-preview"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:hy-image-3.5"
+      },
+      "detail_kind": "api_model",
+      "model_key": "tencent-hy-image-3.5-preview"
+    },
+    {
+      "id": "tool-card:qwen-image-2.1",
+      "tool_key": "qwen-image-2.1",
+      "vendor_key": "alibaba",
+      "title": "Qwen-Image-2.1",
+      "vendor_label": "阿里巴巴（通义千问）",
+      "icon": "🖼️",
+      "summary": "Qwen-Image-2.1 是通义千问家族开源的统一文生图与图像编辑模型，视觉生成组件仅 7B 参数，支持透明 RGBA 生成、最多 10 张参考图编辑和原生 2K 分辨率。",
+      "theme": "vision",
+      "scenes": [
+        "文生图创作",
+        "图像编辑",
+        "多主体合成",
+        "透明贴图生成"
+      ],
+      "best_for_preview": "需要高效开源模型进行文生图、多参考图编辑与 RGBA 透明图像生成的创作场景",
+      "not_for_preview": "无官方 API 计费信息可参考的商业化按量付费调用场景",
+      "price_badge": "free",
+      "access_level": "开放",
+      "search_terms": [
+        "Qwen-Image-2.1",
+        "阿里巴巴（通义千问）",
+        "qwen-image-2.1",
+        "文生图创作",
+        "图像编辑",
+        "多主体合成",
+        "透明贴图生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:qwen-image-2.1"
+      },
+      "detail_kind": "api_model",
+      "model_key": "alibaba-qwen-image-2.1"
     }
   ]
 }

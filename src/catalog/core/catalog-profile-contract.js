@@ -71,6 +71,10 @@ function inferModality(seed) {
   const theme = seed.known_fields?.theme;
   if (theme === 'media') return 'video';
   if (theme === 'vision') return 'image';
+  const identityText = `${seed.name || ''} ${seed.identity_key || ''}`.toLowerCase();
+  if (/(?:audio|asr|speech|voice|tts)/.test(identityText)) return 'audio';
+  if (/(?:image|vision|paint|visual)/.test(identityText)) return 'image';
+  if (/(?:video|t2v|i2v)/.test(identityText)) return 'video';
   return 'text';
 }
 

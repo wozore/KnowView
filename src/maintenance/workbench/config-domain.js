@@ -303,11 +303,11 @@ function projectProviders(providers) {
 
 function projectCatalog(config, providers) {
   const source = 'source_default';
-  if (!isObject(config) || ['provider', 'model', 'protocol', 'search_provider', 'extract_provider', 'search_engine'].some(key => typeof config[key] !== 'string' || !config[key].trim())) throw failure();
+  if (!isObject(config) || ['provider', 'model', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine'].some(key => typeof config[key] !== 'string' || !config[key].trim())) throw failure();
   if (config.enabled !== undefined) assertType(config.enabled, value => typeof value === 'boolean');
   const limits = ['timeout_ms', 'max_search_queries', 'max_pages', 'max_responses_calls', 'max_synthesis_calls', 'max_repair_calls'];
   return group('catalog_ai', 'Catalog AI', [
-    section('effective', 'Effective configuration', valueItems(config, ['enabled', 'provider', 'model', 'protocol', 'search_provider', 'extract_provider', 'search_engine'], source), []),
+    section('effective', 'Effective configuration', valueItems(config, ['enabled', 'provider', 'model', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine'], source), []),
     section('limits', 'Limits', valueItems(config, limits, source), []),
     section('providers', 'Provider registry', [], [collection('providers', 'Providers', projectProviders(providers), 'source_default')]),
   ]);

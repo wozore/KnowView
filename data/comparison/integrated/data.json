@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-22T23:35:41.198Z",
+  "generated_at": "2026-09-24T23:52:11.868Z",
   "models": [
     {
       "canonical": "amazon--nova-2-lite",
@@ -414,7 +414,8 @@
         ],
         "lmarena": [
           "Claude Fable 5 (High)",
-          "claude-fable-5"
+          "claude-fable-5",
+          "claude-fable-5-high"
         ],
         "livebench": [
           "claude-fable-5-max-effort"
@@ -462,6 +463,11 @@
         "note": null
       },
       "dimensions": {
+        "webdev": {
+          "value": 74,
+          "source": "lmarena",
+          "raw": 1626.8275806213235
+        },
         "agent_praise_complaint": {
           "value": 96.1,
           "source": "lmarena",
@@ -586,9 +592,9 @@
           }
         },
         "webdev": {
-          "base": {
-            "score": 1627.9838820923837,
-            "rank": 10
+          "high": {
+            "score": 1626.8275806213235,
+            "rank": 14
           }
         },
         "search": {
@@ -746,9 +752,9 @@
           "raw": 1322.3403440993363
         },
         "webdev": {
-          "value": 94.1,
+          "value": 91.4,
           "source": "lmarena",
-          "raw": 1758.0453349337508
+          "raw": 1754.6666028244922
         },
         "agent_praise_complaint": {
           "value": 100,
@@ -863,8 +869,8 @@
         },
         "webdev": {
           "max": {
-            "score": 1758.0453349337508,
-            "rank": 2
+            "score": 1754.6666028244922,
+            "rank": 3
           }
         },
         "agent_praise_complaint": {
@@ -1032,9 +1038,9 @@
           "raw": 1396.6367998746723
         },
         "webdev": {
-          "value": 34.5,
+          "value": 33.6,
           "source": "lmarena",
-          "raw": 1329.3115918229696
+          "raw": 1329.2978151886969
         },
         "reasoning": {
           "value": 56.6,
@@ -1112,8 +1118,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1329.3115918229696,
-            "rank": 104
+            "score": 1329.2978151886969,
+            "rank": 107
           }
         }
       },
@@ -1492,9 +1498,9 @@
           "raw": 1418.0927370682243
         },
         "webdev": {
-          "value": 42.8,
+          "value": 41.8,
           "source": "lmarena",
-          "raw": 1388.969799226031
+          "raw": 1389.116727131408
         },
         "reasoning": {
           "value": 62.4,
@@ -1560,8 +1566,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1388.969799226031,
-            "rank": 81
+            "score": 1389.116727131408,
+            "rank": 85
           }
         }
       },
@@ -1667,9 +1673,9 @@
           "raw": 1447.0818203958963
         },
         "webdev": {
-          "value": 57.5,
+          "value": 56.1,
           "source": "lmarena",
-          "raw": 1494.8924996935639
+          "raw": 1494.8233697440894
         }
       },
       "lmarena_scores": {
@@ -1681,8 +1687,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1494.8924996935639,
-            "rank": 45
+            "score": 1494.8233697440894,
+            "rank": 48
           }
         }
       },
@@ -1880,9 +1886,9 @@
           "raw": 1450.4590546195989
         },
         "webdev": {
-          "value": 53.8,
+          "value": 52.5,
           "source": "lmarena",
-          "raw": 1468.177336848809
+          "raw": 1468.0925361068755
         },
         "reasoning": {
           "value": 74.9,
@@ -1948,8 +1954,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1468.177336848809,
-            "rank": 52
+            "score": 1468.0925361068755,
+            "rank": 55
           }
         }
       },
@@ -2046,9 +2052,9 @@
           "raw": 1291.6819998948467
         },
         "webdev": {
-          "value": 66.4,
+          "value": 64.3,
           "source": "lmarena",
-          "raw": 1558.8327870970375
+          "raw": 1555.1694974361722
         },
         "agent_praise_complaint": {
           "value": 92.5,
@@ -2183,12 +2189,12 @@
         },
         "webdev": {
           "high": {
-            "score": 1558.8327870970375,
-            "rank": 24
+            "score": 1555.1694974361722,
+            "rank": 29
           },
           "base": {
-            "score": 1538.8061866281587,
-            "rank": 30
+            "score": 1536.6618620646539,
+            "rank": 36
           }
         },
         "search": {
@@ -2349,9 +2355,9 @@
           "raw": 1321.2117571301064
         },
         "webdev": {
-          "value": 80.6,
+          "value": 78.7,
           "source": "lmarena",
-          "raw": 1660.4496932789316
+          "raw": 1661.6885872728221
         },
         "agent_praise_complaint": {
           "value": 97.3,
@@ -2474,11 +2480,11 @@
         },
         "webdev": {
           "max": {
-            "score": 1686.9942451998663,
-            "rank": 3
+            "score": 1692.4435144973606,
+            "rank": 4
           },
           "high": {
-            "score": 1660.4496932789316,
+            "score": 1661.6885872728221,
             "rank": 7
           }
         },
@@ -2590,6 +2596,9 @@
           "anthropic/claude-opus-5.5",
           "anthropic/claude-opus-5.5:batch"
         ],
+        "lmarena": [
+          "claude-opus-5.5-max"
+        ],
         "llm_stats": [
           "claude-opus-5-5"
         ]
@@ -2606,10 +2615,21 @@
         "image"
       ],
       "single_source": false,
-      "degrees": {},
-      "default_degree": {},
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "max"
+      },
       "composite": null,
       "dimensions": {
+        "webdev": {
+          "value": 100,
+          "source": "lmarena",
+          "raw": 1818.4080843495262
+        },
         "reasoning": {
           "value": 97.3,
           "source": "llm_stats",
@@ -2659,7 +2679,14 @@
           "note": "swe-bench-pro"
         }
       },
-      "lmarena_scores": {},
+      "lmarena_scores": {
+        "webdev": {
+          "max": {
+            "score": 1818.4080843495262,
+            "rank": 1
+          }
+        }
+      },
       "lmarena_profiles": {},
       "livebench_scores": {},
       "pricing": {
@@ -2774,9 +2801,9 @@
           "raw": 1433.9444221972358
         },
         "webdev": {
-          "value": 43.3,
+          "value": 42.3,
           "source": "lmarena",
-          "raw": 1392.5889183050035
+          "raw": 1392.74130358819
         }
       },
       "lmarena_scores": {
@@ -2788,8 +2815,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1392.5889183050035,
-            "rank": 79
+            "score": 1392.74130358819,
+            "rank": 82
           }
         }
       },
@@ -2895,9 +2922,9 @@
           "raw": 1438.2469788453327
         },
         "webdev": {
-          "value": 42.3,
+          "value": 41.3,
           "source": "lmarena",
-          "raw": 1385.4913968718781
+          "raw": 1385.348969619174
         },
         "reasoning": {
           "value": 64.1,
@@ -2963,8 +2990,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1385.4913968718781,
-            "rank": 84
+            "score": 1385.348969619174,
+            "rank": 87
           }
         }
       },
@@ -3050,9 +3077,9 @@
           "raw": 1282.7186314818323
         },
         "webdev": {
-          "value": 61.2,
+          "value": 59.6,
           "source": "lmarena",
-          "raw": 1520.9868241527552
+          "raw": 1520.7071303017478
         },
         "agent_praise_complaint": {
           "value": 55.7,
@@ -3178,8 +3205,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1520.9868241527552,
-            "rank": 36
+            "score": 1520.7071303017478,
+            "rank": 38
           }
         },
         "agent_praise_complaint": {
@@ -3462,9 +3489,9 @@
           "raw": 1277.1610988806
         },
         "webdev": {
-          "value": 63.3,
+          "value": 62,
           "source": "lmarena",
-          "raw": 1536.7226173776958
+          "raw": 1538.225548347194
         },
         "agent_praise_complaint": {
           "value": 82.1,
@@ -3585,7 +3612,7 @@
         },
         "webdev": {
           "high": {
-            "score": 1536.7226173776958,
+            "score": 1538.225548347194,
             "rank": 33
           }
         },
@@ -4099,27 +4126,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 50.5,
+          "value": 50.3,
           "source": "lmarena",
-          "raw": 1162.0418393816763
+          "raw": 1162.1795114420781
         },
         "image_edit": {
-          "value": 50.5,
+          "value": 50,
           "source": "lmarena",
-          "raw": 1261.8104616919827
+          "raw": 1261.8895206977545
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "max": {
-            "score": 1162.0418393816763,
-            "rank": 25
+            "score": 1162.1795114420781,
+            "rank": 26
           }
         },
         "image_edit": {
           "max": {
-            "score": 1261.8104616919827,
-            "rank": 29
+            "score": 1261.8895206977545,
+            "rank": 30
           }
         }
       },
@@ -4161,27 +4188,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 49.5,
+          "value": 49.3,
           "source": "lmarena",
-          "raw": 1156.5030849484722
+          "raw": 1156.5642920892888
         },
         "image_edit": {
-          "value": 43.5,
+          "value": 43,
           "source": "lmarena",
-          "raw": 1225.2408504002967
+          "raw": 1225.3421588050915
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1156.5030849484722,
-            "rank": 27
+            "score": 1156.5642920892888,
+            "rank": 28
           }
         },
         "image_edit": {
           "base": {
-            "score": 1225.2408504002967,
-            "rank": 38
+            "score": 1225.3421588050915,
+            "rank": 39
           }
         }
       },
@@ -4223,27 +4250,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 49,
+          "value": 48.8,
           "source": "lmarena",
-          "raw": 1153.9261650549058
+          "raw": 1154.1488188614694
         },
         "image_edit": {
-          "value": 47.2,
+          "value": 46.8,
           "source": "lmarena",
-          "raw": 1244.700228980646
+          "raw": 1245.356722631092
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1153.9261650549058,
-            "rank": 28
+            "score": 1154.1488188614694,
+            "rank": 29
           }
         },
         "image_edit": {
           "base": {
-            "score": 1244.700228980646,
-            "rank": 32
+            "score": 1245.356722631092,
+            "rank": 33
           }
         }
       },
@@ -4285,16 +4312,16 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 95.9,
+          "value": 95.4,
           "source": "lmarena",
-          "raw": 1493.8040842194478
+          "raw": 1493.0543332847847
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1493.8040842194478,
-            "rank": 4
+            "score": 1493.0543332847847,
+            "rank": 3
           }
         }
       },
@@ -4338,15 +4365,15 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 91.1,
+          "value": 90.8,
           "source": "lmarena",
-          "raw": 1449.9843486836905
+          "raw": 1449.4473750556915
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1449.9843486836905,
+            "score": 1449.4473750556915,
             "rank": 9
           }
         }
@@ -4451,14 +4478,14 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 96.1,
+          "value": 96.4,
           "source": "lmarena",
-          "raw": 1475.0509040924435
+          "raw": 1477.4129374929146
         },
         "text_to_video": {
-          "value": 93.6,
+          "value": 91.7,
           "source": "lmarena",
-          "raw": 1481.983747851711
+          "raw": 1473.9317980031665
         },
         "video_edit": {
           "value": 98,
@@ -4469,14 +4496,14 @@
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1475.0509040924435,
+            "score": 1477.4129374929146,
             "rank": 4
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1481.983747851711,
-            "rank": 6
+            "score": 1473.9317980031665,
+            "rank": 7
           }
         },
         "video_edit": {
@@ -5003,16 +5030,16 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 60.8,
+          "value": 59.4,
           "source": "lmarena",
-          "raw": 1518.722761108953
+          "raw": 1518.9004445467422
         }
       },
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1518.722761108953,
-            "rank": 38
+            "score": 1518.9004445467422,
+            "rank": 40
           }
         }
       },
@@ -5162,26 +5189,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 62.4,
+          "value": 62.2,
           "source": "lmarena",
-          "raw": 1307.123792583224
+          "raw": 1307.197082115737
         },
         "text_to_video": {
-          "value": 48.9,
+          "value": 48.7,
           "source": "lmarena",
-          "raw": 1255.8783379460754
+          "raw": 1255.9639765937768
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1307.123792583224,
+            "score": 1307.197082115737,
             "rank": 24
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1255.8783379460754,
+            "score": 1255.9639765937768,
             "rank": 22
           }
         }
@@ -5224,16 +5251,16 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 26.9,
+          "value": 26.7,
           "source": "lmarena",
-          "raw": 1138.9390710162402
+          "raw": 1138.8906026527147
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1138.9390710162402,
-            "rank": 50
+            "score": 1138.8906026527147,
+            "rank": 52
           }
         }
       },
@@ -5275,27 +5302,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 46.3,
+          "value": 46.1,
           "source": "lmarena",
-          "raw": 1139.7058369095566
+          "raw": 1139.7537637177893
         },
         "image_edit": {
-          "value": 52.2,
+          "value": 51.6,
           "source": "lmarena",
-          "raw": 1270.5667257241428
+          "raw": 1270.503244648437
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1139.7058369095566,
-            "rank": 36
+            "score": 1139.7537637177893,
+            "rank": 37
           }
         },
         "image_edit": {
           "base": {
-            "score": 1270.5667257241428,
-            "rank": 28
+            "score": 1270.503244648437,
+            "rank": 29
           }
         }
       },
@@ -5337,27 +5364,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 41.8,
+          "value": 41.6,
           "source": "lmarena",
-          "raw": 1116.3558969929907
+          "raw": 1116.4253005554833
         },
         "image_edit": {
-          "value": 40.5,
+          "value": 40,
           "source": "lmarena",
-          "raw": 1209.597008537617
+          "raw": 1209.529319481605
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1116.3558969929907,
+            "score": 1116.4253005554833,
             "rank": 45
           }
         },
         "image_edit": {
           "base": {
-            "score": 1209.597008537617,
-            "rank": 42
+            "score": 1209.529319481605,
+            "rank": 43
           }
         }
       },
@@ -5399,27 +5426,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 41.2,
+          "value": 41,
           "source": "lmarena",
-          "raw": 1112.9727042146073
+          "raw": 1113.0393524639524
         },
         "image_edit": {
-          "value": 41.9,
+          "value": 41.5,
           "source": "lmarena",
-          "raw": 1217.1578392383688
+          "raw": 1217.2144052638694
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1112.9727042146073,
-            "rank": 48
+            "score": 1113.0393524639524,
+            "rank": 49
           }
         },
         "image_edit": {
           "base": {
-            "score": 1217.1578392383688,
-            "rank": 40
+            "score": 1217.2144052638694,
+            "rank": 41
           }
         }
       },
@@ -5461,27 +5488,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 47.7,
+          "value": 47.5,
           "source": "lmarena",
-          "raw": 1147.3450792972574
+          "raw": 1147.093186366108
         },
         "image_edit": {
-          "value": 58.1,
+          "value": 57.6,
           "source": "lmarena",
-          "raw": 1301.5114450285334
+          "raw": 1301.983986575472
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1147.3450792972574,
-            "rank": 34
+            "score": 1147.093186366108,
+            "rank": 35
           }
         },
         "image_edit": {
           "base": {
-            "score": 1301.5114450285334,
-            "rank": 24
+            "score": 1301.983986575472,
+            "rank": 25
           }
         }
       },
@@ -5523,27 +5550,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 45.9,
+          "value": 45.8,
           "source": "lmarena",
-          "raw": 1137.668893672582
+          "raw": 1138.4379417169143
         },
         "image_edit": {
-          "value": 56.6,
+          "value": 56.1,
           "source": "lmarena",
-          "raw": 1293.8360594492444
+          "raw": 1294.3718594380484
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1137.668893672582,
-            "rank": 37
+            "score": 1138.4379417169143,
+            "rank": 38
           }
         },
         "image_edit": {
           "base": {
-            "score": 1293.8360594492444,
-            "rank": 26
+            "score": 1294.3718594380484,
+            "rank": 27
           }
         }
       },
@@ -5585,26 +5612,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 68.7,
+          "value": 68.3,
           "source": "lmarena",
-          "raw": 1257.1038107318113
+          "raw": 1256.3708267679358
         },
         "image_edit": {
-          "value": 75.9,
+          "value": 74.9,
           "source": "lmarena",
-          "raw": 1394.483446178541
+          "raw": 1393.5057892261175
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1257.1038107318113,
+            "score": 1256.3708267679358,
             "rank": 10
           }
         },
         "image_edit": {
           "base": {
-            "score": 1394.483446178541,
+            "score": 1393.5057892261175,
             "rank": 8
           }
         }
@@ -5785,9 +5812,9 @@
           "raw": 1284.8358194936038
         },
         "webdev": {
-          "value": 49.6,
+          "value": 48.4,
           "source": "lmarena",
-          "raw": 1437.8742017225575
+          "raw": 1437.9553099828024
         }
       },
       "lmarena_scores": {
@@ -5805,8 +5832,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1437.8742017225575,
-            "rank": 62
+            "score": 1437.9553099828024,
+            "rank": 65
           }
         }
       },
@@ -5909,9 +5936,9 @@
           "raw": 1265.368917155501
         },
         "webdev": {
-          "value": 42,
+          "value": 40.9,
           "source": "lmarena",
-          "raw": 1383.120227055435
+          "raw": 1382.939938051233
         }
       },
       "lmarena_scores": {
@@ -5929,8 +5956,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1383.120227055435,
-            "rank": 86
+            "score": 1382.939938051233,
+            "rank": 89
           }
         }
       },
@@ -6117,9 +6144,9 @@
           "raw": 1304.4084345336246
         },
         "webdev": {
-          "value": 49.7,
+          "value": 48.5,
           "source": "lmarena",
-          "raw": 1438.7719990578635
+          "raw": 1438.8492725716076
         }
       },
       "lmarena_scores": {
@@ -6137,8 +6164,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1438.7719990578635,
-            "rank": 61
+            "score": 1438.8492725716076,
+            "rank": 64
           }
         }
       },
@@ -6231,26 +6258,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 66.6,
+          "value": 66.3,
           "source": "lmarena",
-          "raw": 1246.241435218239
+          "raw": 1246.2721013681999
         },
         "image_edit": {
-          "value": 75,
+          "value": 74.3,
           "source": "lmarena",
-          "raw": 1390.0365753708506
+          "raw": 1390.1185121280105
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1246.241435218239,
+            "score": 1246.2721013681999,
             "rank": 14
           }
         },
         "image_edit": {
           "base": {
-            "score": 1390.0365753708506,
+            "score": 1390.1185121280105,
             "rank": 9
           }
         }
@@ -6293,26 +6320,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 63.9,
+          "value": 63.7,
           "source": "lmarena",
-          "raw": 1232.1582152667036
+          "raw": 1232.1631285583567
         },
         "image_edit": {
-          "value": 74.2,
+          "value": 73.4,
           "source": "lmarena",
-          "raw": 1385.451415510249
+          "raw": 1385.4766622472835
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1232.1582152667036,
+            "score": 1232.1631285583567,
             "rank": 16
           }
         },
         "image_edit": {
           "base": {
-            "score": 1385.451415510249,
+            "score": 1385.4766622472835,
             "rank": 13
           }
         }
@@ -6453,26 +6480,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 69.4,
+          "value": 69,
           "source": "lmarena",
-          "raw": 1260.680952945605
+          "raw": 1260.2374216994708
         },
         "image_edit": {
-          "value": 74.5,
+          "value": 73.9,
           "source": "lmarena",
-          "raw": 1387.492132534014
+          "raw": 1388.2211641936892
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1260.680952945605,
+            "score": 1260.2374216994708,
             "rank": 9
           }
         },
         "image_edit": {
           "base": {
-            "score": 1387.492132534014,
+            "score": 1388.2211641936892,
             "rank": 12
           }
         }
@@ -6574,27 +6601,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 67.4,
+          "value": 67.1,
           "source": "lmarena",
-          "raw": 1250.402349022443
+          "raw": 1250.2512926951067
         },
         "image_edit": {
-          "value": 60.5,
+          "value": 59.9,
           "source": "lmarena",
-          "raw": 1314.295914743134
+          "raw": 1314.3774302656727
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1250.402349022443,
+            "score": 1250.2512926951067,
             "rank": 13
           }
         },
         "image_edit": {
           "base": {
-            "score": 1314.295914743134,
-            "rank": 19
+            "score": 1314.3774302656727,
+            "rank": 21
           }
         }
       },
@@ -6659,9 +6686,9 @@
           "raw": 1240.5095072142235
         },
         "webdev": {
-          "value": 24.1,
+          "value": 23.5,
           "source": "lmarena",
-          "raw": 1254.2676816579017
+          "raw": 1254.196532122286
         },
         "reasoning": {
           "value": 64.1,
@@ -6727,8 +6754,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1254.2676816579017,
-            "rank": 114
+            "score": 1254.196532122286,
+            "rank": 117
           }
         }
       },
@@ -6887,9 +6914,9 @@
           "raw": 1295.6086087119418
         },
         "webdev": {
-          "value": 50.8,
+          "value": 49.6,
           "source": "lmarena",
-          "raw": 1446.6380535473631
+          "raw": 1446.6860776032818
         },
         "agent_praise_complaint": {
           "value": 60.8,
@@ -7022,8 +7049,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1446.6380535473631,
-            "rank": 57
+            "score": 1446.6860776032818,
+            "rank": 61
           }
         },
         "agent_praise_complaint": {
@@ -7176,9 +7203,9 @@
           "raw": 1310.1635899312562
         },
         "webdev": {
-          "value": 58.2,
+          "value": 56.8,
           "source": "lmarena",
-          "raw": 1500.0355056854846
+          "raw": 1499.9195959862527
         },
         "reasoning": {
           "value": 82,
@@ -7282,12 +7309,12 @@
         },
         "webdev": {
           "high": {
-            "score": 1500.0355056854846,
-            "rank": 44
+            "score": 1499.9195959862527,
+            "rank": 47
           },
           "medium": {
-            "score": 1491.5540593664782,
-            "rank": 46
+            "score": 1490.875835284356,
+            "rank": 49
           }
         }
       },
@@ -7454,9 +7481,9 @@
           "raw": 1268.4241317835983
         },
         "webdev": {
-          "value": 50.8,
+          "value": 49.6,
           "source": "lmarena",
-          "raw": 1446.6186929968917
+          "raw": 1446.9815452697121
         },
         "agent_praise_complaint": {
           "value": 27.7,
@@ -7565,8 +7592,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1446.6186929968917,
-            "rank": 58
+            "score": 1446.9815452697121,
+            "rank": 60
           }
         },
         "agent_praise_complaint": {
@@ -7720,9 +7747,9 @@
           "raw": 1299.756291052673
         },
         "webdev": {
-          "value": 63.4,
+          "value": 61.8,
           "source": "lmarena",
-          "raw": 1536.951171049402
+          "raw": 1537.0415573771609
         },
         "agent_praise_complaint": {
           "value": 45.2,
@@ -7831,8 +7858,8 @@
         },
         "webdev": {
           "high": {
-            "score": 1536.951171049402,
-            "rank": 32
+            "score": 1537.0415573771609,
+            "rank": 35
           }
         },
         "agent_praise_complaint": {
@@ -7981,9 +8008,9 @@
           "raw": 1490.4920154663198
         },
         "webdev": {
-          "value": 70.4,
+          "value": 69.6,
           "source": "lmarena",
-          "raw": 1587.2627792759977
+          "raw": 1594.5640955062843
         },
         "agent_praise_complaint": {
           "value": 53,
@@ -8092,8 +8119,8 @@
         },
         "webdev": {
           "high": {
-            "score": 1587.2627792759977,
-            "rank": 20
+            "score": 1594.5640955062843,
+            "rank": 22
           }
         },
         "agent_praise_complaint": {
@@ -8242,9 +8269,9 @@
           "raw": 1494.673989980363
         },
         "webdev": {
-          "value": 67.7,
+          "value": 68.2,
           "source": "lmarena",
-          "raw": 1567.8750817956961
+          "raw": 1583.7541452139337
         },
         "agent_praise_complaint": {
           "value": 86.7,
@@ -8353,8 +8380,8 @@
         },
         "webdev": {
           "high": {
-            "score": 1567.8750817956961,
-            "rank": 23
+            "score": 1583.7541452139337,
+            "rank": 24
           }
         },
         "agent_praise_complaint": {
@@ -8552,26 +8579,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 98.8,
+          "value": 98.6,
           "source": "lmarena",
-          "raw": 1488.11062904083
+          "raw": 1488.4906811724961
         },
         "text_to_video": {
           "value": 100,
           "source": "lmarena",
-          "raw": 1514.597143292216
+          "raw": 1516.2118921315541
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1488.11062904083,
+            "score": 1488.4906811724961,
             "rank": 2
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1514.597143292216,
+            "score": 1516.2118921315541,
             "rank": 1
           }
         }
@@ -8614,14 +8641,14 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 94,
+          "value": 93.9,
           "source": "lmarena",
-          "raw": 1464.4263578180312
+          "raw": 1464.827931386498
         },
         "text_to_video": {
-          "value": 99.4,
+          "value": 99.3,
           "source": "lmarena",
-          "raw": 1511.4416920761478
+          "raw": 1512.8868289138463
         },
         "video_edit": {
           "value": 78.1,
@@ -8632,13 +8659,13 @@
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1464.4263578180312,
+            "score": 1464.827931386498,
             "rank": 6
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1511.4416920761478,
+            "score": 1512.8868289138463,
             "rank": 2
           }
         },
@@ -8687,16 +8714,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 44.2,
+          "value": 44,
           "source": "lmarena",
-          "raw": 1128.9194031427128
+          "raw": 1128.9507042450582
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1128.9194031427128,
-            "rank": 40
+            "score": 1128.9507042450582,
+            "rank": 41
           }
         }
       },
@@ -8738,16 +8765,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 47.8,
+          "value": 47.6,
           "source": "lmarena",
-          "raw": 1147.693660214661
+          "raw": 1147.727529146412
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1147.693660214661,
-            "rank": 33
+            "score": 1147.727529146412,
+            "rank": 34
           }
         }
       },
@@ -8789,26 +8816,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 80.6,
+          "value": 80.5,
           "source": "lmarena",
-          "raw": 1398.0396743660783
+          "raw": 1398.0958709582592
         },
         "text_to_video": {
-          "value": 70.3,
+          "value": 70,
           "source": "lmarena",
-          "raw": 1364.1097581509985
+          "raw": 1364.1829129498647
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1398.0396743660783,
+            "score": 1398.0958709582592,
             "rank": 13
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1364.1097581509985,
+            "score": 1364.1829129498647,
             "rank": 12
           }
         }
@@ -8851,26 +8878,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 79.1,
+          "value": 78.9,
           "source": "lmarena",
-          "raw": 1390.151450673408
+          "raw": 1390.2367113612709
         },
         "text_to_video": {
-          "value": 70,
+          "value": 69.6,
           "source": "lmarena",
-          "raw": 1362.566978944138
+          "raw": 1362.2058561903405
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1390.151450673408,
+            "score": 1390.2367113612709,
             "rank": 14
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1362.566978944138,
+            "score": 1362.2058561903405,
             "rank": 13
           }
         }
@@ -8913,26 +8940,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 78,
+          "value": 77.9,
           "source": "lmarena",
-          "raw": 1385.0082007614856
+          "raw": 1385.0582064359148
         },
         "text_to_video": {
-          "value": 69.8,
+          "value": 69.6,
           "source": "lmarena",
-          "raw": 1361.5998750554163
+          "raw": 1361.91151855212
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1385.0082007614856,
+            "score": 1385.0582064359148,
             "rank": 15
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1361.5998750554163,
+            "score": 1361.91151855212,
             "rank": 14
           }
         }
@@ -8975,26 +9002,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 75.3,
+          "value": 75.2,
           "source": "lmarena",
-          "raw": 1371.5231593915003
+          "raw": 1371.5950379327135
         },
         "text_to_video": {
-          "value": 69,
+          "value": 68.8,
           "source": "lmarena",
-          "raw": 1357.9053272923693
+          "raw": 1357.948145912706
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1371.5231593915003,
+            "score": 1371.5950379327135,
             "rank": 17
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1357.9053272923693,
+            "score": 1357.948145912706,
             "rank": 15
           }
         }
@@ -9037,16 +9064,16 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 91.4,
+          "value": 92.2,
           "source": "lmarena",
-          "raw": 1451.5846000310044
+          "raw": 1456.465317098215
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1451.5846000310044,
-            "rank": 8
+            "score": 1456.465317098215,
+            "rank": 7
           }
         }
       },
@@ -9152,9 +9179,9 @@
           "raw": 1357.5754488622858
         },
         "webdev": {
-          "value": 11.9,
+          "value": 11.6,
           "source": "lmarena",
-          "raw": 1166.5930317649709
+          "raw": 1166.8991744146815
         },
         "reasoning": {
           "value": 53.3,
@@ -9202,8 +9229,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1166.5930317649709,
-            "rank": 125
+            "score": 1166.8991744146815,
+            "rank": 128
           }
         }
       },
@@ -9257,26 +9284,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 56,
+          "value": 55.9,
           "source": "lmarena",
-          "raw": 1275.6395795160008
+          "raw": 1275.5587970208678
         },
         "text_to_video": {
           "value": 41.6,
           "source": "lmarena",
-          "raw": 1219.374454524227
+          "raw": 1219.8113419615956
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1275.6395795160008,
+            "score": 1275.5587970208678,
             "rank": 27
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1219.374454524227,
+            "score": 1219.8113419615956,
             "rank": 28
           }
         }
@@ -9319,26 +9346,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 59.7,
+          "value": 59.6,
           "source": "lmarena",
-          "raw": 1293.747920984033
+          "raw": 1293.953181223861
         },
         "text_to_video": {
-          "value": 41,
+          "value": 40.9,
           "source": "lmarena",
-          "raw": 1216.3334153168928
+          "raw": 1216.244830390597
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1293.747920984033,
+            "score": 1293.953181223861,
             "rank": 26
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1216.3334153168928,
+            "score": 1216.244830390597,
             "rank": 29
           }
         }
@@ -9381,16 +9408,16 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 48.4,
+          "value": 47.9,
           "source": "lmarena",
-          "raw": 1251.0331357350349
+          "raw": 1251.1978552438425
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1251.0331357350349,
-            "rank": 31
+            "score": 1251.1978552438425,
+            "rank": 32
           }
         }
       },
@@ -9432,9 +9459,9 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 38.8,
+          "value": 38.6,
           "source": "lmarena",
-          "raw": 1204.9075516702478
+          "raw": 1204.5721541418056
         },
         "video_edit": {
           "value": 0,
@@ -9445,7 +9472,7 @@
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1204.9075516702478,
+            "score": 1204.5721541418056,
             "rank": 33
           }
         },
@@ -9545,15 +9572,15 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 72,
+          "value": 71.6,
           "source": "lmarena",
-          "raw": 1354.9642993577875
+          "raw": 1354.014060785636
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1354.9642993577875,
+            "score": 1354.014060785636,
             "rank": 19
           }
         }
@@ -9602,16 +9629,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 43,
+          "value": 42.9,
           "source": "lmarena",
-          "raw": 1122.5803963744195
+          "raw": 1123.0295913616837
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "medium": {
-            "score": 1122.5803963744195,
-            "rank": 42
+            "score": 1123.0295913616837,
+            "rank": 43
           }
         }
       },
@@ -9653,16 +9680,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 40.3,
+          "value": 40.2,
           "source": "lmarena",
-          "raw": 1108.262138702522
+          "raw": 1108.6977134682566
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1108.262138702522,
-            "rank": 51
+            "score": 1108.6977134682566,
+            "rank": 52
           }
         }
       },
@@ -9704,16 +9731,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 22.1,
+          "value": 22,
           "source": "lmarena",
-          "raw": 1013.4123857677018
+          "raw": 1013.3948453792821
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1013.4123857677018,
-            "rank": 70
+            "score": 1013.3948453792821,
+            "rank": 72
           }
         }
       },
@@ -9755,16 +9782,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 26.3,
+          "value": 26.2,
           "source": "lmarena",
-          "raw": 1035.2031087028402
+          "raw": 1035.2290282896397
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1035.2031087028402,
-            "rank": 64
+            "score": 1035.2290282896397,
+            "rank": 65
           }
         }
       },
@@ -9806,26 +9833,26 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 46,
+          "value": 45.9,
           "source": "lmarena",
-          "raw": 1225.8527711061365
+          "raw": 1225.904100719842
         },
         "text_to_video": {
           "value": 38.9,
           "source": "lmarena",
-          "raw": 1205.3945113442267
+          "raw": 1206.1559669963058
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1225.8527711061365,
+            "score": 1225.904100719842,
             "rank": 37
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1205.3945113442267,
+            "score": 1206.1559669963058,
             "rank": 31
           }
         }
@@ -9870,24 +9897,24 @@
         "image_to_video": {
           "value": 22.4,
           "source": "lmarena",
-          "raw": 1108.425673513232
+          "raw": 1108.474233542956
         },
         "text_to_video": {
           "value": 11.1,
           "source": "lmarena",
-          "raw": 1064.7278474018783
+          "raw": 1065.4329497791252
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1108.425673513232,
+            "score": 1108.474233542956,
             "rank": 46
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1064.7278474018783,
+            "score": 1065.4329497791252,
             "rank": 46
           }
         }
@@ -9937,34 +9964,34 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 55.5,
+          "value": 55.3,
           "source": "lmarena",
-          "raw": 1188.1464486877367
+          "raw": 1188.3702163317644
         },
         "image_edit": {
-          "value": 64.2,
+          "value": 63.6,
           "source": "lmarena",
-          "raw": 1333.458320511475
+          "raw": 1333.615758434827
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "max": {
-            "score": 1188.1464486877367,
-            "rank": 19
+            "score": 1188.3702163317644,
+            "rank": 20
           },
           "base": {
-            "score": 1181.4513747818664,
-            "rank": 21
+            "score": 1182.577752665685,
+            "rank": 22
           }
         },
         "image_edit": {
           "max": {
-            "score": 1333.458320511475,
-            "rank": 17
+            "score": 1333.615758434827,
+            "rank": 18
           },
           "base": {
-            "score": 1313.5729597520894,
+            "score": 1314.5792214022358,
             "rank": 20
           }
         }
@@ -10280,16 +10307,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 37.4,
+          "value": 37.2,
           "source": "lmarena",
-          "raw": 1093.321419257576
+          "raw": 1093.2859704707994
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1093.321419257576,
-            "rank": 54
+            "score": 1093.2859704707994,
+            "rank": 55
           }
         }
       },
@@ -10331,16 +10358,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 54.5,
+          "value": 54.2,
           "source": "lmarena",
-          "raw": 1182.5654352412926
+          "raw": 1182.7070063771241
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1182.5654352412926,
-            "rank": 20
+            "score": 1182.7070063771241,
+            "rank": 21
           }
         }
       },
@@ -10382,26 +10409,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 68.1,
+          "value": 67.8,
           "source": "lmarena",
-          "raw": 1254.0716694351397
+          "raw": 1254.0677474265985
         },
         "image_edit": {
-          "value": 77,
+          "value": 76.2,
           "source": "lmarena",
-          "raw": 1400.2099425389276
+          "raw": 1400.1314610327504
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1254.0716694351397,
+            "score": 1254.0677474265985,
             "rank": 12
           }
         },
         "image_edit": {
           "base": {
-            "score": 1400.2099425389276,
+            "score": 1400.1314610327504,
             "rank": 7
           }
         }
@@ -10444,26 +10471,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 82.8,
+          "value": 83,
           "source": "lmarena",
-          "raw": 1330.7442148973387
+          "raw": 1333.9754637193469
         },
         "image_edit": {
-          "value": 83.4,
+          "value": 81.6,
           "source": "lmarena",
-          "raw": 1433.916630671604
+          "raw": 1428.888034319838
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1330.7442148973387,
+            "score": 1333.9754637193469,
             "rank": 4
           }
         },
         "image_edit": {
           "base": {
-            "score": 1433.916630671604,
+            "score": 1428.888034319838,
             "rank": 5
           }
         }
@@ -10471,8 +10498,8 @@
       "lmarena_profiles": {},
       "livebench_scores": {},
       "pricing": {},
-      "release_date": null,
-      "release_date_provenance": null,
+      "release_date": "2026-08-10",
+      "release_date_provenance": "catalog",
       "value": null,
       "series_key": "microsoft-ai--mai-image",
       "series_display": "Mai Image",
@@ -10508,24 +10535,24 @@
         "image_to_video": {
           "value": 53.2,
           "source": "lmarena",
-          "raw": 1261.7825198302162
+          "raw": 1261.9720613447057
         },
         "text_to_video": {
-          "value": 38.9,
+          "value": 38.8,
           "source": "lmarena",
-          "raw": 1205.332677108679
+          "raw": 1205.9682009698774
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1261.7825198302162,
+            "score": 1261.9720613447057,
             "rank": 29
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1205.332677108679,
+            "score": 1205.9682009698774,
             "rank": 32
           }
         }
@@ -10605,9 +10632,9 @@
           "raw": 1254.3094333120546
         },
         "webdev": {
-          "value": 56.4,
+          "value": 54.8,
           "source": "lmarena",
-          "raw": 1486.7017314128002
+          "raw": 1485.0729545345882
         },
         "agent_praise_complaint": {
           "value": 36.3,
@@ -10722,8 +10749,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1486.7017314128002,
-            "rank": 48
+            "score": 1485.0729545345882,
+            "rank": 51
           }
         },
         "agent_praise_complaint": {
@@ -10830,7 +10857,7 @@
         "webdev": {
           "value": 0,
           "source": "lmarena",
-          "raw": 1081.1775273979379
+          "raw": 1081.2821784409698
         },
         "reasoning": {
           "value": 41.8,
@@ -10854,8 +10881,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1081.1775273979379,
-            "rank": 128
+            "score": 1081.2821784409698,
+            "rank": 131
           }
         }
       },
@@ -11080,9 +11107,9 @@
           "raw": 1472.272610174843
         },
         "webdev": {
-          "value": 82.5,
+          "value": 78.5,
           "source": "lmarena",
-          "raw": 1674.2579751995886
+          "raw": 1659.5717658088586
         },
         "agent_praise_complaint": {
           "value": 83.6,
@@ -11179,8 +11206,8 @@
         },
         "webdev": {
           "max": {
-            "score": 1674.2579751995886,
-            "rank": 5
+            "score": 1659.5717658088586,
+            "rank": 9
           }
         },
         "agent_praise_complaint": {
@@ -11280,15 +11307,15 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 74.9,
+          "value": 73.9,
           "source": "lmarena",
-          "raw": 1389.493197291928
+          "raw": 1388.440232761658
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1389.493197291928,
+            "score": 1388.440232761658,
             "rank": 11
           }
         }
@@ -11442,8 +11469,8 @@
         },
         "webdev": {
           "medium": {
-            "score": 1419.5222434984944,
-            "rank": 69
+            "score": 1419.9619395249156,
+            "rank": 72
           }
         }
       },
@@ -12168,12 +12195,12 @@
         },
         "webdev": {
           "medium": {
-            "score": 1392.0297717148594,
-            "rank": 80
+            "score": 1391.7047480721521,
+            "rank": 84
           },
           "base": {
-            "score": 1340.9030420163556,
-            "rank": 99
+            "score": 1340.855777514201,
+            "rank": 102
           }
         }
       },
@@ -12232,9 +12259,9 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 35.5,
+          "value": 34.6,
           "source": "lmarena",
-          "raw": 1336.2804889632296
+          "raw": 1336.022988400718
         },
         "reasoning": {
           "value": 62.1,
@@ -12264,8 +12291,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1336.2804889632296,
-            "rank": 102
+            "score": 1336.022988400718,
+            "rank": 105
           }
         }
       },
@@ -12378,9 +12405,9 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 22.6,
+          "value": 22.1,
           "source": "lmarena",
-          "raw": 1243.9286259282542
+          "raw": 1243.95350088752
         },
         "reasoning": {
           "value": 21.7,
@@ -12398,8 +12425,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1243.9286259282542,
-            "rank": 116
+            "score": 1243.95350088752,
+            "rank": 119
           }
         }
       },
@@ -13060,8 +13087,8 @@
         "webdev": {
           "codex-harness": {
             "base": {
-              "score": 1408.7914258973374,
-              "rank": 72
+              "score": 1408.9237994131345,
+              "rank": 75
             }
           }
         }
@@ -13357,16 +13384,16 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1510.1450492200738,
-              "rank": 41
+              "score": 1510.0812329989467,
+              "rank": 43
             },
             "high": {
-              "score": 1486.9783275120744,
-              "rank": 47
+              "score": 1486.4199423900802,
+              "rank": 50
             },
             "base": {
-              "score": 1457.7621454796417,
-              "rank": 56
+              "score": 1457.6115035116686,
+              "rank": 59
             }
           }
         }
@@ -13893,8 +13920,8 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1518.87491873604,
-              "rank": 37
+              "score": 1519.2524349217535,
+              "rank": 39
             }
           }
         }
@@ -14187,8 +14214,8 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1617.3213915191732,
-              "rank": 14
+              "score": 1617.1376709056278,
+              "rank": 19
             }
           }
         }
@@ -14470,8 +14497,8 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1521.2493052131276,
-              "rank": 35
+              "score": 1518.7812325910738,
+              "rank": 41
             }
           }
         }
@@ -14709,9 +14736,9 @@
           "raw": 1278.5755227326415
         },
         "webdev": {
-          "value": 100,
+          "value": 96.4,
           "source": "lmarena",
-          "raw": 1800.2807670457605
+          "raw": 1792.1796354686667
         },
         "agent_praise_complaint": {
           "value": 100,
@@ -14820,8 +14847,8 @@
         },
         "webdev": {
           "max": {
-            "score": 1800.2807670457605,
-            "rank": 1
+            "score": 1792.1796354686667,
+            "rank": 2
           }
         },
         "agent_praise_complaint": {
@@ -15001,6 +15028,9 @@
           "openai/gpt-6-sol",
           "openai/gpt-6-sol:batch"
         ],
+        "lmarena": [
+          "gpt-6-sol-max"
+        ],
         "llm_stats": [
           "gpt-6-sol"
         ]
@@ -15017,10 +15047,21 @@
         "text"
       ],
       "single_source": false,
-      "degrees": {},
-      "default_degree": {},
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "max"
+      },
       "composite": null,
       "dimensions": {
+        "webdev": {
+          "value": 82,
+          "source": "lmarena",
+          "raw": 1685.8986154645982
+        },
         "reasoning": {
           "value": 82,
           "source": "llm_stats",
@@ -15046,7 +15087,14 @@
           "note": "index_vision"
         }
       },
-      "lmarena_scores": {},
+      "lmarena_scores": {
+        "webdev": {
+          "max": {
+            "score": 1685.8986154645982,
+            "rank": 5
+          }
+        }
+      },
       "lmarena_profiles": {},
       "livebench_scores": {},
       "pricing": {
@@ -15097,26 +15145,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 41.6,
+          "value": 41.4,
           "source": "lmarena",
-          "raw": 1115.0750710002508
+          "raw": 1115.0473729970572
         },
         "image_edit": {
-          "value": 26.9,
+          "value": 26.7,
           "source": "lmarena",
-          "raw": 1138.887015649243
+          "raw": 1138.9033977194013
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1115.0750710002508,
-            "rank": 46
+            "score": 1115.0473729970572,
+            "rank": 47
           }
         },
         "image_edit": {
           "base": {
-            "score": 1138.887015649243,
+            "score": 1138.9033977194013,
             "rank": 51
           }
         }
@@ -15159,27 +15207,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 40.5,
+          "value": 40.3,
           "source": "lmarena",
-          "raw": 1109.3699890439939
+          "raw": 1109.4439015287403
         },
         "image_edit": {
-          "value": 24.1,
+          "value": 23.9,
           "source": "lmarena",
-          "raw": 1124.2728399511423
+          "raw": 1124.3083497454109
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1109.3699890439939,
-            "rank": 50
+            "score": 1109.4439015287403,
+            "rank": 51
           }
         },
         "image_edit": {
           "base": {
-            "score": 1124.2728399511423,
-            "rank": 52
+            "score": 1124.3083497454109,
+            "rank": 53
           }
         }
       },
@@ -15221,26 +15269,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 65.3,
+          "value": 64.9,
           "source": "lmarena",
-          "raw": 1239.1603175610771
+          "raw": 1238.7300889047756
         },
         "image_edit": {
-          "value": 71.2,
+          "value": 70.4,
           "source": "lmarena",
-          "raw": 1370.1898328559384
+          "raw": 1369.8338184071422
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1239.1603175610771,
+            "score": 1238.7300889047756,
             "rank": 15
           }
         },
         "image_edit": {
           "base": {
-            "score": 1370.1898328559384,
+            "score": 1369.8338184071422,
             "rank": 15
           }
         }
@@ -15289,26 +15337,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 92.4,
+          "value": 92,
           "source": "lmarena",
-          "raw": 1381.1493148248587
+          "raw": 1380.899621191184
         },
         "image_edit": {
-          "value": 88.6,
+          "value": 87.7,
           "source": "lmarena",
-          "raw": 1461.0473648794402
+          "raw": 1461.2299752330932
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "medium": {
-            "score": 1381.1493148248587,
+            "score": 1380.899621191184,
             "rank": 3
           }
         },
         "image_edit": {
           "medium": {
-            "score": 1461.0473648794402,
+            "score": 1461.2299752330932,
             "rank": 3
           }
         }
@@ -15353,24 +15401,24 @@
         "text_to_image": {
           "value": 95.8,
           "source": "lmarena",
-          "raw": 1398.9834153444895
+          "raw": 1401.3066695094585
         },
         "image_edit": {
-          "value": 94.3,
+          "value": 91.6,
           "source": "lmarena",
-          "raw": 1490.632142005645
+          "raw": 1481.848305165563
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1398.9834153444895,
+            "score": 1401.3066695094585,
             "rank": 2
           }
         },
         "image_edit": {
           "base": {
-            "score": 1490.632142005645,
+            "score": 1481.848305165563,
             "rank": 2
           }
         }
@@ -15415,24 +15463,24 @@
         "text_to_image": {
           "value": 100,
           "source": "lmarena",
-          "raw": 1420.7153252330818
+          "raw": 1423.1621434383296
         },
         "image_edit": {
           "value": 100,
           "source": "lmarena",
-          "raw": 1520.443075793235
+          "raw": 1525.9810912060939
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1420.7153252330818,
+            "score": 1423.1621434383296,
             "rank": 1
           }
         },
         "image_edit": {
           "base": {
-            "score": 1520.443075793235,
+            "score": 1525.9810912060939,
             "rank": 1
           }
         }
@@ -15475,16 +15523,16 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 65.9,
+          "value": 65.8,
           "source": "lmarena",
-          "raw": 1341.8839135367716
+          "raw": 1342.5555504253562
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1341.8839135367716,
-            "rank": 18
+            "score": 1342.5555504253562,
+            "rank": 17
           }
         }
       },
@@ -15528,13 +15576,13 @@
         "text_to_video": {
           "value": 70.7,
           "source": "lmarena",
-          "raw": 1366.5517880630687
+          "raw": 1367.7785079474975
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1366.5517880630687,
+            "score": 1367.7785079474975,
             "rank": 11
           }
         }
@@ -15693,24 +15741,24 @@
         "image_to_video": {
           "value": 0,
           "source": "lmarena",
-          "raw": 997.0246595175706
+          "raw": 997.073436049672
         },
         "text_to_video": {
           "value": 0,
           "source": "lmarena",
-          "raw": 1008.6508482802657
+          "raw": 1009.036038328957
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 997.0246595175706,
+            "score": 997.073436049672,
             "rank": 48
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1008.6508482802657,
+            "score": 1009.036038328957,
             "rank": 47
           }
         }
@@ -15755,27 +15803,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 56.1,
+          "value": 55.8,
           "source": "lmarena",
-          "raw": 1191.159373099951
+          "raw": 1191.1241261360628
         },
         "image_edit": {
-          "value": 58.5,
+          "value": 57.9,
           "source": "lmarena",
-          "raw": 1303.653493100615
+          "raw": 1303.815096140727
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1191.159373099951,
-            "rank": 18
+            "score": 1191.1241261360628,
+            "rank": 19
           }
         },
         "image_edit": {
           "base": {
-            "score": 1303.653493100615,
-            "rank": 21
+            "score": 1303.815096140727,
+            "rank": 22
           }
         }
       },
@@ -15817,15 +15865,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 68.2,
+          "value": 67.9,
           "source": "lmarena",
-          "raw": 1254.3001169818751
+          "raw": 1254.4638724850483
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1254.3001169818751,
+            "score": 1254.4638724850483,
             "rank": 11
           }
         }
@@ -16151,9 +16199,9 @@
           "raw": 1397.6510085029963
         },
         "webdev": {
-          "value": 21.8,
+          "value": 21.4,
           "source": "lmarena",
-          "raw": 1238.1743207879108
+          "raw": 1238.8721313111812
         }
       },
       "lmarena_scores": {
@@ -16165,8 +16213,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1238.1743207879108,
-            "rank": 118
+            "score": 1238.8721313111812,
+            "rank": 121
           }
         }
       },
@@ -16348,9 +16396,9 @@
           "raw": 1436.7371645331768
         },
         "webdev": {
-          "value": 52.8,
+          "value": 51.4,
           "source": "lmarena",
-          "raw": 1460.5307548457781
+          "raw": 1460.5224598127315
         },
         "reasoning": {
           "value": 75.8,
@@ -16446,8 +16494,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1460.5307548457781,
-            "rank": 55
+            "score": 1460.5224598127315,
+            "rank": 58
           }
         }
       },
@@ -16528,9 +16576,9 @@
           "raw": 1446.331797785251
         },
         "webdev": {
-          "value": 55.3,
+          "value": 53.9,
           "source": "lmarena",
-          "raw": 1479.0595857062222
+          "raw": 1478.7526177630934
         }
       },
       "lmarena_scores": {
@@ -16542,8 +16590,8 @@
         },
         "webdev": {
           "max": {
-            "score": 1479.0595857062222,
-            "rank": 49
+            "score": 1478.7526177630934,
+            "rank": 52
           }
         }
       },
@@ -16864,16 +16912,16 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 60.6,
+          "value": 59.1,
           "source": "lmarena",
-          "raw": 1517.1228435798594
+          "raw": 1517.0453125092138
         }
       },
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1517.1228435798594,
-            "rank": 39
+            "score": 1517.0453125092138,
+            "rank": 42
           }
         }
       },
@@ -17237,9 +17285,9 @@
           "raw": 1315.334313394561
         },
         "webdev": {
-          "value": 82,
+          "value": 80,
           "source": "lmarena",
-          "raw": 1670.5773659196798
+          "raw": 1671.2119243436873
         },
         "agent_praise_complaint": {
           "value": 68.4,
@@ -17313,7 +17361,7 @@
         },
         "webdev": {
           "max": {
-            "score": 1670.5773659196798,
+            "score": 1671.2119243436873,
             "rank": 6
           }
         },
@@ -17525,9 +17573,9 @@
       },
       "dimensions": {
         "webdev": {
-          "value": 77.1,
+          "value": 75.3,
           "source": "lmarena",
-          "raw": 1635.2741156529796
+          "raw": 1636.2726556223574
         },
         "agent_praise_complaint": {
           "value": 56.5,
@@ -17630,8 +17678,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1635.2741156529796,
-            "rank": 9
+            "score": 1636.2726556223574,
+            "rank": 11
           }
         },
         "agent_praise_complaint": {
@@ -17823,16 +17871,16 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 83.4,
+          "value": 78.6,
           "source": "lmarena",
-          "raw": 1680.7823383470377
+          "raw": 1660.5849055666995
         }
       },
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1680.7823383470377,
-            "rank": 4
+            "score": 1660.5849055666995,
+            "rank": 8
           }
         }
       },
@@ -17943,16 +17991,16 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 35.1,
+          "value": 34.7,
           "source": "lmarena",
-          "raw": 1181.2897809976007
+          "raw": 1181.4853069907347
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1181.2897809976007,
-            "rank": 46
+            "score": 1181.4853069907347,
+            "rank": 47
           }
         }
       },
@@ -17996,15 +18044,15 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 65.2,
+          "value": 65.1,
           "source": "lmarena",
-          "raw": 1321.1844329389257
+          "raw": 1321.3786104559142
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1321.1844329389257,
+            "score": 1321.3786104559142,
             "rank": 22
           }
         }
@@ -18049,16 +18097,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 42,
+          "value": 41.8,
           "source": "lmarena",
-          "raw": 1117.6086756509862
+          "raw": 1117.185158057987
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1117.6086756509862,
-            "rank": 43
+            "score": 1117.185158057987,
+            "rank": 44
           }
         }
       },
@@ -18102,15 +18150,15 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 47,
+          "value": 46.6,
           "source": "lmarena",
-          "raw": 1246.410548109307
+          "raw": 1245.3336634929315
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1246.410548109307,
+            "score": 1245.3336634929315,
             "rank": 25
           }
         }
@@ -18153,15 +18201,15 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 62.9,
+          "value": 62.7,
           "source": "lmarena",
-          "raw": 1309.6143606353996
+          "raw": 1309.5358287019499
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1309.6143606353996,
+            "score": 1309.5358287019499,
             "rank": 23
           }
         }
@@ -18204,16 +18252,16 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 44.4,
+          "value": 44.1,
           "source": "lmarena",
-          "raw": 1230.160747994185
+          "raw": 1231.0153120251825
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1230.160747994185,
-            "rank": 36
+            "score": 1231.0153120251825,
+            "rank": 37
           }
         }
       },
@@ -18255,16 +18303,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 45.7,
+          "value": 45.5,
           "source": "lmarena",
-          "raw": 1136.5864630990043
+          "raw": 1136.7732329664977
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1136.5864630990043,
-            "rank": 38
+            "score": 1136.7732329664977,
+            "rank": 39
           }
         }
       },
@@ -18306,15 +18354,15 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 63,
+          "value": 62.6,
           "source": "lmarena",
-          "raw": 1327.6445860281299
+          "raw": 1326.738582481625
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1327.6445860281299,
+            "score": 1326.738582481625,
             "rank": 21
           }
         }
@@ -18357,27 +18405,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 38.6,
+          "value": 38.5,
           "source": "lmarena",
-          "raw": 1099.8098875119395
+          "raw": 1099.8952275968404
         },
         "image_edit": {
-          "value": 58,
+          "value": 57.4,
           "source": "lmarena",
-          "raw": 1301.0310025013825
+          "raw": 1301.1131255515638
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1099.8098875119395,
-            "rank": 53
+            "score": 1099.8952275968404,
+            "rank": 54
           }
         },
         "image_edit": {
           "base": {
-            "score": 1301.0310025013825,
-            "rank": 25
+            "score": 1301.1131255515638,
+            "rank": 26
           }
         }
       },
@@ -18419,27 +18467,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 39.2,
+          "value": 39,
           "source": "lmarena",
-          "raw": 1102.6771082892944
+          "raw": 1102.7103574158327
         },
         "image_edit": {
-          "value": 58.2,
+          "value": 57.6,
           "source": "lmarena",
-          "raw": 1301.9364288399895
+          "raw": 1302.0023909220613
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1102.6771082892944,
-            "rank": 52
+            "score": 1102.7103574158327,
+            "rank": 53
           }
         },
         "image_edit": {
           "base": {
-            "score": 1301.9364288399895,
-            "rank": 23
+            "score": 1302.0023909220613,
+            "rank": 24
           }
         }
       },
@@ -18481,14 +18529,14 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 97,
+          "value": 96.9,
           "source": "lmarena",
-          "raw": 1479.4157079063789
+          "raw": 1479.8060779755199
         },
         "text_to_video": {
-          "value": 96,
+          "value": 92.1,
           "source": "lmarena",
-          "raw": 1494.3428809079605
+          "raw": 1476.2739934367091
         },
         "video_edit": {
           "value": 100,
@@ -18499,14 +18547,14 @@
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1479.4157079063789,
+            "score": 1479.8060779755199,
             "rank": 3
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1494.3428809079605,
-            "rank": 3
+            "score": 1476.2739934367091,
+            "rank": 6
           }
         },
         "video_edit": {
@@ -18554,16 +18602,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 41.4,
+          "value": 41.2,
           "source": "lmarena",
-          "raw": 1114.2663231329736
+          "raw": 1114.0058301636418
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1114.2663231329736,
-            "rank": 47
+            "score": 1114.0058301636418,
+            "rank": 48
           }
         }
       },
@@ -18605,16 +18653,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 44.5,
+          "value": 44.3,
           "source": "lmarena",
-          "raw": 1130.394139424757
+          "raw": 1130.6375309544965
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1130.394139424757,
-            "rank": 39
+            "score": 1130.6375309544965,
+            "rank": 40
           }
         }
       },
@@ -18656,16 +18704,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 51.9,
+          "value": 51.7,
           "source": "lmarena",
-          "raw": 1169.3842427273012
+          "raw": 1169.3553702267964
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1169.3842427273012,
-            "rank": 23
+            "score": 1169.3553702267964,
+            "rank": 24
           }
         }
       },
@@ -18707,27 +18755,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 71.2,
+          "value": 70.9,
           "source": "lmarena",
-          "raw": 1270.164910472874
+          "raw": 1270.3714957240159
         },
         "image_edit": {
-          "value": 68.9,
+          "value": 68.2,
           "source": "lmarena",
-          "raw": 1358.2176491488199
+          "raw": 1358.144194218964
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1270.164910472874,
+            "score": 1270.3714957240159,
             "rank": 8
           }
         },
         "image_edit": {
           "base": {
-            "score": 1358.2176491488199,
-            "rank": 16
+            "score": 1358.144194218964,
+            "rank": 17
           }
         }
       },
@@ -18769,26 +18817,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 77.1,
+          "value": 76.7,
           "source": "lmarena",
-          "raw": 1301.093431826346
+          "raw": 1300.920169657385
         },
         "image_edit": {
-          "value": 72.2,
+          "value": 71.4,
           "source": "lmarena",
-          "raw": 1375.3075680611455
+          "raw": 1375.2198847090585
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1301.093431826346,
+            "score": 1300.920169657385,
             "rank": 6
           }
         },
         "image_edit": {
           "base": {
-            "score": 1375.3075680611455,
+            "score": 1375.2198847090585,
             "rank": 14
           }
         }
@@ -18838,16 +18886,16 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 38.2,
+          "value": 37.8,
           "source": "lmarena",
-          "raw": 1197.8860738994263
+          "raw": 1197.8627857836168
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1197.8860738994263,
-            "rank": 44
+            "score": 1197.8627857836168,
+            "rank": 45
           }
         }
       },
@@ -18889,16 +18937,16 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 45.2,
+          "value": 44.7,
           "source": "lmarena",
-          "raw": 1234.2706290372143
+          "raw": 1234.2183523147057
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1234.2706290372143,
-            "rank": 35
+            "score": 1234.2183523147057,
+            "rank": 36
           }
         }
       },
@@ -18948,16 +18996,16 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 50.4,
+          "value": 49.9,
           "source": "lmarena",
-          "raw": 1261.3113857668397
+          "raw": 1261.4126300814592
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1261.3113857668397,
-            "rank": 30
+            "score": 1261.4126300814592,
+            "rank": 31
           }
         }
       },
@@ -18999,16 +19047,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 49,
+          "value": 48.7,
           "source": "lmarena",
-          "raw": 1153.8231699085418
+          "raw": 1153.8671996548487
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1153.8231699085418,
-            "rank": 29
+            "score": 1153.8671996548487,
+            "rank": 30
           }
         }
       },
@@ -19050,15 +19098,15 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 42.6,
+          "value": 42.5,
           "source": "lmarena",
-          "raw": 1224.3288623616345
+          "raw": 1224.6876341545008
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1224.3288623616345,
+            "score": 1224.6876341545008,
             "rank": 27
           }
         }
@@ -19188,15 +19236,15 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 73.6,
+          "value": 73.5,
           "source": "lmarena",
-          "raw": 1363.1472004245993
+          "raw": 1363.148682824981
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1363.1472004245993,
+            "score": 1363.148682824981,
             "rank": 18
           }
         }
@@ -19593,9 +19641,9 @@
           "raw": 1377.2778113965023
         },
         "webdev": {
-          "value": 40.4,
+          "value": 38.9,
           "source": "lmarena",
-          "raw": 1371.4775097721108
+          "raw": 1368.1945362759816
         },
         "reasoning": {
           "value": 68.4,
@@ -19667,8 +19715,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1371.4775097721108,
-            "rank": 88
+            "score": 1368.1945362759816,
+            "rank": 92
           }
         }
       },
@@ -19722,15 +19770,15 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 86.4,
+          "value": 86.5,
           "source": "lmarena",
-          "raw": 1426.481840128004
+          "raw": 1428.2142043136757
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1426.481840128004,
+            "score": 1428.2142043136757,
             "rank": 11
           }
         }
@@ -19773,16 +19821,16 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 65.7,
+          "value": 64.7,
           "source": "lmarena",
-          "raw": 1341.164338711853
+          "raw": 1337.1761500745083
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1341.164338711853,
-            "rank": 19
+            "score": 1337.1761500745083,
+            "rank": 20
           }
         }
       },
@@ -20019,9 +20067,9 @@
           "raw": 1398.7894645755377
         },
         "webdev": {
-          "value": 11.1,
+          "value": 10.9,
           "source": "lmarena",
-          "raw": 1161.116747026725
+          "raw": 1161.8037526210387
         }
       },
       "lmarena_scores": {
@@ -20033,8 +20081,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1161.116747026725,
-            "rank": 127
+            "score": 1161.8037526210387,
+            "rank": 130
           }
         }
       },
@@ -20322,9 +20370,9 @@
           "raw": 1199.2828630962192
         },
         "webdev": {
-          "value": 22.1,
+          "value": 21.6,
           "source": "lmarena",
-          "raw": 1240.434552927648
+          "raw": 1240.5613391455736
         }
       },
       "lmarena_scores": {
@@ -20342,8 +20390,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1240.434552927648,
-            "rank": 117
+            "score": 1240.5613391455736,
+            "rank": 120
           }
         }
       },
@@ -20446,9 +20494,9 @@
           "raw": 1437.049352526253
         },
         "webdev": {
-          "value": 18,
+          "value": 17.6,
           "source": "lmarena",
-          "raw": 1210.9492974005798
+          "raw": 1211.0429630096455
         }
       },
       "lmarena_scores": {
@@ -20460,8 +20508,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1210.9492974005798,
-            "rank": 122
+            "score": 1211.0429630096455,
+            "rank": 125
           }
         }
       },
@@ -20677,9 +20725,9 @@
           "raw": 1263.2020481344448
         },
         "webdev": {
-          "value": 40.7,
+          "value": 39.6,
           "source": "lmarena",
-          "raw": 1373.7550482465708
+          "raw": 1373.338585095958
         },
         "reasoning": {
           "value": 44.2,
@@ -20715,8 +20763,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1373.7550482465708,
-            "rank": 87
+            "score": 1373.338585095958,
+            "rank": 90
           }
         }
       },
@@ -20942,9 +20990,9 @@
           "raw": 1229.46625445945
         },
         "webdev": {
-          "value": 38.4,
+          "value": 37.4,
           "source": "lmarena",
-          "raw": 1357.1677364173438
+          "raw": 1357.020102769479
         },
         "search": {
           "value": 27.2,
@@ -21009,8 +21057,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1357.1677364173438,
-            "rank": 96
+            "score": 1357.020102769479,
+            "rank": 99
           }
         },
         "search": {
@@ -21120,9 +21168,9 @@
           "raw": 1288.5430877555339
         },
         "webdev": {
-          "value": 65.9,
+          "value": 63.9,
           "source": "lmarena",
-          "raw": 1555.1049386593459
+          "raw": 1552.4256231435443
         },
         "search": {
           "value": 64.9,
@@ -21230,8 +21278,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1555.1049386593459,
-            "rank": 27
+            "score": 1552.4256231435443,
+            "rank": 30
           }
         },
         "search": {
@@ -21468,8 +21516,8 @@
         },
         "webdev": {
           "high": {
-            "score": 1617.6400139873886,
-            "rank": 13
+            "score": 1624.2159267130223,
+            "rank": 16
           }
         },
         "agent_praise_complaint": {
@@ -21552,6 +21600,9 @@
         "openrouter": [
           "x-ai/grok-4.7"
         ],
+        "lmarena": [
+          "grok-4.7-xhigh"
+        ],
         "llm_stats": [
           "grok-4.7"
         ]
@@ -21568,10 +21619,21 @@
         "image"
       ],
       "single_source": false,
-      "degrees": {},
-      "default_degree": {},
+      "degrees": {
+        "lmarena": [
+          "xhigh"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "xhigh"
+      },
       "composite": null,
       "dimensions": {
+        "webdev": {
+          "value": 74.8,
+          "source": "lmarena",
+          "raw": 1632.301456495259
+        },
         "reasoning": {
           "value": 71.4,
           "source": "llm_stats",
@@ -21597,7 +21659,14 @@
           "note": "index_healthcare"
         }
       },
-      "lmarena_scores": {},
+      "lmarena_scores": {
+        "webdev": {
+          "xhigh": {
+            "score": 1632.301456495259,
+            "rank": 12
+          }
+        }
+      },
       "lmarena_profiles": {},
       "livebench_scores": {},
       "pricing": {
@@ -21819,9 +21888,9 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 11.7,
+          "value": 11.4,
           "source": "lmarena",
-          "raw": 1165.0844603407347
+          "raw": 1165.1597679223532
         },
         "reasoning": {
           "value": 50.8,
@@ -21845,8 +21914,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1165.0844603407347,
-            "rank": 126
+            "score": 1165.1597679223532,
+            "rank": 129
           }
         }
       },
@@ -21893,27 +21962,27 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 52.2,
+          "value": 51.9,
           "source": "lmarena",
-          "raw": 1170.6967403599654
+          "raw": 1170.6026365867922
         },
         "image_edit": {
-          "value": 63.5,
+          "value": 62.7,
           "source": "lmarena",
-          "raw": 1329.8111634354784
+          "raw": 1329.2370608353444
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1170.6967403599654,
-            "rank": 22
+            "score": 1170.6026365867922,
+            "rank": 23
           }
         },
         "image_edit": {
           "base": {
-            "score": 1329.8111634354784,
-            "rank": 18
+            "score": 1329.2370608353444,
+            "rank": 19
           }
         }
       },
@@ -21961,26 +22030,26 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 79.8,
+          "value": 76.9,
           "source": "lmarena",
-          "raw": 1315.065267643766
+          "raw": 1301.6266527360585
         },
         "image_edit": {
-          "value": 84.4,
+          "value": 81.9,
           "source": "lmarena",
-          "raw": 1438.840391118557
+          "raw": 1430.4325578469702
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "low": {
-            "score": 1315.065267643766,
+            "score": 1301.6266527360585,
             "rank": 5
           }
         },
         "image_edit": {
           "low": {
-            "score": 1438.840391118557,
+            "score": 1430.4325578469702,
             "rank": 4
           }
         }
@@ -22023,16 +22092,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 50.4,
+          "value": 50.1,
           "source": "lmarena",
-          "raw": 1161.0859776196087
+          "raw": 1161.1514408227968
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1161.0859776196087,
-            "rank": 26
+            "score": 1161.1514408227968,
+            "rank": 27
           }
         }
       },
@@ -22076,15 +22145,15 @@
       "composite": null,
       "dimensions": {
         "image_edit": {
-          "value": 75,
+          "value": 74.2,
           "source": "lmarena",
-          "raw": 1389.8281145925653
+          "raw": 1389.9395500159467
         }
       },
       "lmarena_scores": {
         "image_edit": {
           "base": {
-            "score": 1389.8281145925653,
+            "score": 1389.9395500159467,
             "rank": 10
           }
         }
@@ -22178,16 +22247,16 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 92.4,
+          "value": 92.1,
           "source": "lmarena",
-          "raw": 1456.4874744188915
+          "raw": 1456.0170160700688
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1456.4874744188915,
-            "rank": 7
+            "score": 1456.0170160700688,
+            "rank": 8
           }
         }
       },
@@ -22229,16 +22298,16 @@
       "composite": null,
       "dimensions": {
         "text_to_video": {
-          "value": 95.4,
+          "value": 95.3,
           "source": "lmarena",
-          "raw": 1491.26322726435
+          "raw": 1492.3046704346343
         }
       },
       "lmarena_scores": {
         "text_to_video": {
           "base": {
-            "score": 1491.26322726435,
-            "rank": 5
+            "score": 1492.3046704346343,
+            "rank": 4
           }
         }
       },
@@ -22280,15 +22349,15 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 78,
+          "value": 77.8,
           "source": "lmarena",
-          "raw": 1384.7979429721295
+          "raw": 1384.855331216425
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1384.7979429721295,
+            "score": 1384.855331216425,
             "rank": 16
           }
         }
@@ -22331,27 +22400,27 @@
       "composite": null,
       "dimensions": {
         "image_to_video": {
-          "value": 84.1,
+          "value": 83.9,
           "source": "lmarena",
-          "raw": 1415.0022613895612
+          "raw": 1415.3041442928777
         },
         "text_to_video": {
-          "value": 66.1,
+          "value": 65.7,
           "source": "lmarena",
-          "raw": 1342.9164080341457
+          "raw": 1342.1528886385886
         }
       },
       "lmarena_scores": {
         "image_to_video": {
           "base": {
-            "score": 1415.0022613895612,
+            "score": 1415.3041442928777,
             "rank": 12
           }
         },
         "text_to_video": {
           "base": {
-            "score": 1342.9164080341457,
-            "rank": 17
+            "score": 1342.1528886385886,
+            "rank": 18
           }
         }
       },
@@ -22489,9 +22558,9 @@
           "raw": 1436.4913822407943
         },
         "webdev": {
-          "value": 49,
+          "value": 47.8,
           "source": "lmarena",
-          "raw": 1433.490233773708
+          "raw": 1433.6322892157702
         },
         "reasoning": {
           "value": 71.8,
@@ -22533,8 +22602,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1433.490233773708,
-            "rank": 67
+            "score": 1433.6322892157702,
+            "rank": 70
           }
         }
       },
@@ -22777,9 +22846,9 @@
           "raw": 1475.0836598142798
         },
         "webdev": {
-          "value": 74.2,
+          "value": 73.3,
           "source": "lmarena",
-          "raw": 1614.4460597399911
+          "raw": 1621.842446071151
         },
         "agent_praise_complaint": {
           "value": 71.1,
@@ -22888,8 +22957,8 @@
         },
         "webdev": {
           "max": {
-            "score": 1614.4460597399911,
-            "rank": 15
+            "score": 1621.842446071151,
+            "rank": 17
           }
         },
         "agent_praise_complaint": {
@@ -22937,9 +23006,9 @@
       },
       "pricing": {
         "openrouter": {
-          "prompt": 5.614e-7,
-          "completion": 0.0000017644,
-          "input_cache_read": 1.0426e-7,
+          "prompt": 0.0000014,
+          "completion": 0.0000044,
+          "input_cache_read": 2.6e-7,
           "currency": "USD",
           "is_listed_price": true
         },
@@ -22951,8 +23020,8 @@
       "release_date": "2026-08-14",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 88,
-        "raw": 4.091847682023514,
+        "score": 62.2,
+        "raw": 3.1780538303479453,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "zhipu--glm-5.3",
@@ -23007,9 +23076,9 @@
           "raw": 1262.4990506551915
         },
         "webdev": {
-          "value": 44.4,
+          "value": 43.3,
           "source": "lmarena",
-          "raw": 1400.6851493406753
+          "raw": 1400.346033265378
         },
         "reasoning": {
           "value": 35,
@@ -23045,8 +23114,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1400.6851493406753,
-            "rank": 75
+            "score": 1400.346033265378,
+            "rank": 78
           }
         }
       },

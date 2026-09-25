@@ -64,6 +64,9 @@ function generatorOptionsFromFlags(flags = {}) {
     ...normalizeGeneratorOptions({
       ...configured,
       ...(flags.search_provider ? { search_provider: flags.search_provider } : {}),
+      ...(flags.search_fallback_provider ? { search_fallback_provider: flags.search_fallback_provider } : {}),
+      ...(flags.extract_provider ? { extract_provider: flags.extract_provider } : {}),
+      ...(flags.extract_fallback_provider ? { extract_fallback_provider: flags.extract_fallback_provider } : {}),
       ...(flags.search_engine ? { search_engine: flags.search_engine } : {}),
     }),
     accessMode,
@@ -309,6 +312,7 @@ async function runCommand(parsed = { positional: [], flags: {} }, io) {
         vendor_key: flags.vendor_key,
         official_url: flags.url,
         aliases: csvFlag(flags.alias),
+        identity_aliases: csvFlag(flags.identity_alias),
         product_prefixes: csvFlag(flags.product_prefix),
         lifecycle: flags.lifecycle || 'active',
         last_verified_at: flags.verified_at,
@@ -329,7 +333,7 @@ async function runCommand(parsed = { positional: [], flags: {} }, io) {
       io.print(result);
       return result;
     }
-    throw new Error('用法: catalog-generator url-registry vendor list|add --name <名> --url <URL> [--vendor <厂商>] [--alias <别名>] [--product-prefix <前缀,...>] [--model-prefix <前缀,...>] | remove --name <名>; url-registry product list|add --name <产品> --vendor-key <厂商键> --url <URL> [--alias <别名>] [--product-prefix <前缀,...>] [--lifecycle <状态>] [--verified-at <YYYY-MM-DD>] [--official-update-at <YYYY-MM-DD>] [--superseded-by <产品键>] | remove --name <产品> | audit [--stale-days <天数>]');
+    throw new Error('用法: catalog-generator url-registry vendor list|add --name <名> --url <URL> [--vendor <厂商>] [--alias <别名>] [--product-prefix <前缀,...>] [--model-prefix <前缀,...>] | remove --name <名>; url-registry product list|add --name <产品> --vendor-key <厂商键> --url <URL> [--alias <别名>] [--identity-alias <已核实身份别名,...>] [--product-prefix <前缀,...>] [--lifecycle <状态>] [--verified-at <YYYY-MM-DD>] [--official-update-at <YYYY-MM-DD>] [--superseded-by <产品键>] | remove --name <产品> | audit [--stale-days <天数>]');
   }
   throw new Error('用法: catalog-generator probe|plan|prepare|list|recover|new|resume|review|apply|cancel|remove|prune|batch|url-registry');
 }
