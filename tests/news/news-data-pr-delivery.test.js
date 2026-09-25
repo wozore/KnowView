@@ -8,6 +8,7 @@ const {
   validateDataPrFiles,
   findOpenDataPr,
   syncDataPrBaseline,
+  assertCandidateRetention,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 } = require('../../src/news/delivery');
@@ -116,6 +117,36 @@ test('syncDataPrBaseline: 无开放 PR 时不取文件；有开放 PR 时按分�
   assert.deepEqual(fetched.map(pair => pair[1]), [...DATA_PR_ALLOWED_FILES]);
   assert.deepEqual(written.map(pair => pair[0]), DATA_PR_ALLOWED_FILES.filter(file => !file.endsWith('schedule-state.json')));
   assert.deepEqual(result.files, DATA_PR_ALLOWED_FILES.filter(file => !file.endsWith('schedule-state.json')));
+  assert.deepEqual(result.missingFiles, ['data/news/runtime/schedule-state.json']);
+  assert.equal(result.fileSizes['data/news/runtime/min-candidates.json'], Buffer.byteLength('{"file":"data/news/runtime/min-candidates.json"}', 'utf8'));
+});
+
+test('assertCandidateRetention：拦截未归档的候选丢失，允许归档后的清理', () => {
+  const previousFiles = {
+    'data/news/runtime/min-candidates.json': JSON.stringify({ candidates: [{ id: 'youtube:video-1', platform: 'youtube' }] }),
+    'data/manual/review.json': JSON.stringify({ candidates: [{ id: 'youtube:video-1' }] }),
+  };
+  const currentFiles = {
+    'data/news/runtime/min-candidates.json': JSON.stringify({ candidates: [] }),
+    'data/manual/review.json': JSON.stringify({ candidates: [] }),
+  };
+  assert.throws(
+    () => assertCandidateRetention({ previousFiles, currentFiles }),
+    error => error.code === 'NEWS_DELIVERY_CANDIDATES_DROPPED' && /youtube:video-1/.test(error.message)
+  );
+  const result = assertCandidateRetention({
+    previousFiles,
+    currentFiles,
+    historyContent: JSON.stringify({ batches: [{ items: [{ id: 'youtube:video-1', title: 'Video' }] }] }),
+  });
+  assert.deepEqual(result.checkedFiles, ['data/news/runtime/min-candidates.json', 'data/manual/review.json']);
+  assert.doesNotThrow(() => assertCandidateRetention({
+    previousFiles,
+    currentFiles: {
+      ...currentFiles,
+      'data/news/runtime/min-candidates.json': JSON.stringify({ candidates: [{ id: 'youtube:video-1', review_status: 'approved' }] }),
+    },
+  }), 'min store 已落地 approved/discarded 结论后允许从人工清单移除');
 });
 
 test('syncDataPrBaseline: 多个开放 PR 或非法适配器 fail-closed', async () => {
@@ -156,12 +187,16 @@ test('deliverNewsDataPr: 0 个开放 PR 时新建分支并提 PR', async () => {
   const actions = [];
   const ghClient = {
     listOpenPrs: async () => [],
+    getBranchHeadSha: async () => 'main-head',
     createPr: async payload => {
       actions.push({ type: 'createPr', ...payload });
       return { prNumber: 101 };
     },
   };
   const gitClient = {
+    readBranchFile: async (_branch, file) => file.endsWith('review.json')
+      ? JSON.stringify({ schema_version: 1, kind: 'review_candidates', candidates: [] })
+      : JSON.stringify({ schema_version: 1, candidates: [] }),
     createAndCheckoutBranch: async b => actions.push({ type: 'createBranch', b }),
     stageFiles: async f => actions.push({ type: 'stage', f }),
     commit: async m => actions.push({ type: 'commit', m }),
@@ -173,6 +208,10 @@ test('deliverNewsDataPr: 0 个开放 PR 时新建分支并提 PR', async () => {
     gitClient,
     batch: 'batch-test-1',
     changedFiles: ['data/news/runtime/min-candidates.json', 'data/news/runtime/source-history.json'],
+    readCurrentFile: async file => file.endsWith('min-candidates-history.json') ? null
+      : file.endsWith('review.json')
+        ? JSON.stringify({ schema_version: 1, kind: 'review_candidates', candidates: [] })
+        : JSON.stringify({ schema_version: 1, candidates: [] }),
   });
 
   assert.equal(res.action, 'created');
@@ -180,6 +219,38 @@ test('deliverNewsDataPr: 0 个开放 PR 时新建分支并提 PR', async () => {
   assert.equal(actions.some(a => a.type === 'createPr'), true);
   assert.equal(actions.find(a => a.type === 'createPr').base, 'main');
   assert.equal(actions.some(a => a.type === 'push' && a.b === 'news/review/batch-test-1'), true);
+});
+
+test('deliverNewsDataPr：基于 main 新建 PR 前阻断已存在候选的丢失', async () => {
+  const actions = [];
+  const candidate = { id: 'youtube:main-video', platform: 'youtube', review_status: 'pending' };
+  const ghClient = {
+    listOpenPrs: async () => [],
+    getBranchHeadSha: async () => 'main-head',
+    createPr: async () => { actions.push('createPr'); return { prNumber: 102 }; },
+  };
+  const gitClient = {
+    readBranchFile: async (_branch, file) => file.endsWith('review.json')
+      ? JSON.stringify({ candidates: [candidate] })
+      : JSON.stringify({ candidates: [candidate] }),
+    createAndCheckoutBranch: async () => actions.push('createBranch'),
+    stageFiles: async () => {},
+    commit: async () => {},
+    pushNormal: async () => actions.push('push'),
+  };
+  await assert.rejects(
+    () => deliverNewsDataPr({
+      ghClient,
+      gitClient,
+      batch: 'drop-main',
+      changedFiles: [DATA_PR_ALLOWED_FILES[0]],
+      readCurrentFile: async file => file.endsWith('min-candidates-history.json')
+        ? null
+        : JSON.stringify({ candidates: [] }),
+    }),
+    error => error.code === 'NEWS_DELIVERY_CANDIDATES_DROPPED' && /youtube:main-video/.test(error.message)
+  );
+  assert.deepEqual(actions, []);
 });
 
 test('deliverNewsDataPr: 存在 1 个开放 PR 时通过 CAS 更新同一个 PR', async () => {
@@ -190,6 +261,12 @@ test('deliverNewsDataPr: 存在 1 个开放 PR 时通过 CAS 更新同一个 PR'
   };
   const gitClient = {
     checkoutBranch: async b => actions.push({ type: 'checkout', b }),
+    readBranchFile: async (b, file, sha) => {
+      actions.push({ type: 'readBranchFile', b, file, sha });
+      return file.endsWith('review.json')
+        ? JSON.stringify({ schema_version: 1, kind: 'review_candidates', candidates: [] })
+        : JSON.stringify({ schema_version: 1, candidates: [] });
+    },
     stageFiles: async f => actions.push({ type: 'stage', f }),
     commit: async m => actions.push({ type: 'commit', m }),
     pushNormal: async b => actions.push({ type: 'push', b }),
@@ -200,12 +277,50 @@ test('deliverNewsDataPr: 存在 1 个开放 PR 时通过 CAS 更新同一个 PR'
     gitClient,
     batch: 'batch-test-2',
     changedFiles: ['data/news/runtime/min-candidates.json'],
+    readCurrentFile: async file => file.endsWith('min-candidates-history.json') ? null
+      : file.endsWith('review.json')
+        ? JSON.stringify({ schema_version: 1, kind: 'review_candidates', candidates: [] })
+        : JSON.stringify({ schema_version: 1, candidates: [] }),
   });
 
   assert.equal(res.action, 'updated');
   assert.equal(res.prNumber, 99);
   assert.equal(actions.some(a => a.type === 'checkout' && a.b === 'news/review/batch-open'), true);
+  assert.equal(actions.filter(a => a.type === 'readBranchFile').length, 4, '同时核对开放 Data PR 分支与最新 main');
   assert.equal(actions.some(a => a.type === 'push' && a.b === 'news/review/batch-open'), true);
+});
+
+test('deliverNewsDataPr：候选记录丢失时在 checkout 和 push 前 fail-closed', async () => {
+  const actions = [];
+  const candidate = { id: 'youtube:kept-video', platform: 'youtube', review_status: 'pending' };
+  const previousMin = JSON.stringify({ schema_version: 1, candidates: [candidate] });
+  const previousReview = JSON.stringify({ schema_version: 1, kind: 'review_candidates', candidates: [candidate] });
+  const currentMin = previousMin;
+  const currentReview = JSON.stringify({ schema_version: 1, kind: 'review_candidates', candidates: [] });
+  const ghClient = {
+    listOpenPrs: async () => [{ number: 100, state: 'open', baseRefName: 'main', headRefName: 'news/review/retention', headRefOid: 'head-retention' }],
+    getBranchHeadSha: async () => 'head-retention',
+  };
+  const gitClient = {
+    readBranchFile: async (_branch, file) => file.endsWith('review.json') ? previousReview : previousMin,
+    checkoutBranch: async () => actions.push('checkout'),
+    stageFiles: async () => {},
+    commit: async () => {},
+    pushNormal: async () => actions.push('push'),
+  };
+  await assert.rejects(
+    () => deliverNewsDataPr({
+      ghClient,
+      gitClient,
+      batch: 'retention',
+      changedFiles: [DATA_PR_ALLOWED_FILES[0]],
+      readCurrentFile: async file => file.endsWith('min-candidates-history.json')
+        ? null
+        : file.endsWith('review.json') ? currentReview : currentMin,
+    }),
+    error => error.code === 'NEWS_DELIVERY_CANDIDATES_DROPPED' && /youtube:kept-video/.test(error.message)
+  );
+  assert.deepEqual(actions, []);
 });
 
 test('findOpenDataPr：closed、非 main 或缺 SHA 的 PR fail-closed', async () => {
@@ -235,12 +350,19 @@ test('deliverNewsDataPr：push 前 PR 或 head 漂移时不 push', async () => {
   };
   const gitClient = {
     checkoutBranch: async () => {},
+    readBranchFile: async () => null,
     stageFiles: async () => {},
     commit: async () => {},
     pushNormal: async () => { pushes += 1; },
   };
   await assert.rejects(
-    () => deliverNewsDataPr({ ghClient, gitClient, batch: 'cas', changedFiles: [DATA_PR_ALLOWED_FILES[0]] }),
+    () => deliverNewsDataPr({
+      ghClient,
+      gitClient,
+      batch: 'cas',
+      changedFiles: [DATA_PR_ALLOWED_FILES[0]],
+      readCurrentFile: async () => null,
+    }),
     err => err.code === 'NEWS_DELIVERY_HEAD_DRIFT'
   );
   assert.equal(pushes, 0);

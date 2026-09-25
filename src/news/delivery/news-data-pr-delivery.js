@@ -12,6 +12,11 @@ const DATA_PR_ALLOWED_FILES = Object.freeze([
   'data/news/runtime/schedule-state.json',
   'data/news/runtime/x-checkpoints.json',
 ]);
+const CANDIDATE_RETENTION_FILES = Object.freeze([
+  'data/news/runtime/min-candidates.json',
+  'data/manual/review.json',
+]);
+const MIN_CANDIDATES_HISTORY_FILE = 'data/news/runtime/min-candidates-history.json';
 
 const ALLOWED_SET = new Set(DATA_PR_ALLOWED_FILES);
 const DATA_BRANCH_PREFIXES = ['news/review/', 'news/data/'];
@@ -163,13 +168,97 @@ async function syncDataPrBaseline({ ghClient, fetchFile, writeFile }) {
   const pr = await findOpenDataPr(ghClient);
   if (!pr) return { synced: false, reason: 'no_open_data_pr' };
   const seeded = [];
+  const missing = [];
+  const fileSizes = {};
   for (const file of DATA_PR_ALLOWED_FILES) {
     const content = await fetchFile(pr.branch, file);
-    if (typeof content !== 'string') continue;
-    writeFile(file, content);
+    if (content === null) {
+      missing.push(file);
+      continue;
+    }
+    if (typeof content !== 'string') {
+      fail('NEWS_DELIVERY_INVALID_BASELINE_CONTENT', `基线读取器对 ${file} 必须返回字符串或 null`);
+    }
+    await writeFile(file, content);
     seeded.push(file);
+    fileSizes[file] = Buffer.byteLength(content, 'utf8');
   }
-  return { synced: true, prNumber: pr.prNumber, branch: pr.branch, headSha: pr.headSha, files: seeded };
+  return {
+    synced: true,
+    prNumber: pr.prNumber,
+    branch: pr.branch,
+    headSha: pr.headSha,
+    files: seeded,
+    missingFiles: missing,
+    fileSizes,
+  };
+}
+
+function parseCandidates(file, content) {
+  if (content === null) return new Map();
+  let data;
+  try {
+    data = JSON.parse(content);
+  } catch (error) {
+    fail('NEWS_DELIVERY_RETENTION_INVALID_DATA', `${file} 无法解析：${error.message}`);
+  }
+  if (!isObject(data) || !Array.isArray(data.candidates)) {
+    fail('NEWS_DELIVERY_RETENTION_INVALID_DATA', `${file}.candidates 必须为数组`);
+  }
+  const candidates = new Map();
+  for (const candidate of data.candidates) {
+    if (!isObject(candidate) || typeof candidate.id !== 'string' || !candidate.id) {
+      fail('NEWS_DELIVERY_RETENTION_INVALID_DATA', `${file} 含无效候选 ID`);
+    }
+    candidates.set(candidate.id, candidate);
+  }
+  return candidates;
+}
+
+function parseArchivedCandidateIds(content) {
+  if (content === null) return new Set();
+  let data;
+  try {
+    data = JSON.parse(content);
+  } catch (error) {
+    fail('NEWS_DELIVERY_RETENTION_INVALID_DATA', `${MIN_CANDIDATES_HISTORY_FILE} 无法解析：${error.message}`);
+  }
+  if (!isObject(data) || !Array.isArray(data.batches)) {
+    fail('NEWS_DELIVERY_RETENTION_INVALID_DATA', `${MIN_CANDIDATES_HISTORY_FILE}.batches 必须为数组`);
+  }
+  return new Set(data.batches.flatMap(batch => Array.isArray(batch?.items)
+    ? batch.items.filter(item => item && typeof item.id === 'string').map(item => item.id)
+    : []));
+}
+
+function assertCandidateRetention({ previousFiles, currentFiles, historyContent = null }) {
+  if (!previousFiles || !currentFiles || typeof previousFiles !== 'object' || typeof currentFiles !== 'object') {
+    fail('NEWS_DELIVERY_INVALID_RETENTION_INPUT', '候选保留检查需要 previousFiles 和 currentFiles 对象');
+  }
+  const archived = parseArchivedCandidateIds(historyContent);
+  const dropped = [];
+  const minFile = CANDIDATE_RETENTION_FILES[0];
+  const reviewFile = CANDIDATE_RETENTION_FILES[1];
+  const previousMin = parseCandidates(minFile, previousFiles[minFile] ?? null);
+  const currentMin = parseCandidates(minFile, currentFiles[minFile] ?? null);
+  const previousReview = parseCandidates(reviewFile, previousFiles[reviewFile] ?? null);
+  const currentReview = parseCandidates(reviewFile, currentFiles[reviewFile] ?? null);
+  for (const id of previousMin.keys()) {
+    if (!currentMin.has(id) && !archived.has(id)) dropped.push({ file: minFile, id });
+  }
+  for (const id of previousReview.keys()) {
+    if (currentReview.has(id) || archived.has(id)) continue;
+    const currentCandidate = currentMin.get(id);
+    if (currentCandidate?.review_status !== 'approved' && currentCandidate?.review_status !== 'discarded') {
+      dropped.push({ file: reviewFile, id });
+    }
+  }
+  if (dropped.length > 0) {
+    const summary = dropped.slice(0, 10).map(item => `${item.file}:${item.id}`).join(', ');
+    const suffix = dropped.length > 10 ? ` 等 ${dropped.length} 条` : '';
+    fail('NEWS_DELIVERY_CANDIDATES_DROPPED', `候选记录丢失且未进入归档历史：${summary}${suffix}`);
+  }
+  return { checkedFiles: [...CANDIDATE_RETENTION_FILES], archivedCount: archived.size };
 }
 
 async function verifyHeadNotDrifted(ghClient, branch, expectedHeadSha) {
@@ -194,12 +283,37 @@ async function verifyPrUnchanged(ghClient, expectedPr) {
   return current;
 }
 
+async function verifyCandidateRetentionAgainstBranch({ branch, headSha, gitClient, readCurrentFile }) {
+  if (typeof readCurrentFile !== 'function') {
+    fail('NEWS_DELIVERY_INVALID_GIT_CLIENT', 'Data PR 交付需要当前工作树文件读取器');
+  }
+  const previousFiles = {};
+  const currentFiles = {};
+  for (const file of CANDIDATE_RETENTION_FILES) {
+    previousFiles[file] = await gitClient.readBranchFile(branch, file, headSha);
+    const content = await readCurrentFile(file);
+    currentFiles[file] = typeof content === 'string' ? content : null;
+  }
+  const historyContent = await readCurrentFile(MIN_CANDIDATES_HISTORY_FILE);
+  return assertCandidateRetention({
+    previousFiles,
+    currentFiles,
+    historyContent: typeof historyContent === 'string' ? historyContent : null,
+  });
+}
+
 function assertAdapterMethods(gitClient, ghClient, existingPr) {
   const gitMethods = existingPr
     ? ['checkoutBranch', 'stageFiles', 'commit', 'pushNormal']
     : ['createAndCheckoutBranch', 'stageFiles', 'commit', 'pushNormal'];
   for (const method of gitMethods) {
     if (typeof gitClient[method] !== 'function') fail('NEWS_DELIVERY_INVALID_GIT_CLIENT', `gitClient 缺少 ${method}`);
+  }
+  if (typeof gitClient.readBranchFile !== 'function') {
+    fail('NEWS_DELIVERY_INVALID_GIT_CLIENT', 'Data PR 交付需要 gitClient.readBranchFile');
+  }
+  if (typeof ghClient.getBranchHeadSha !== 'function') {
+    fail('NEWS_DELIVERY_INVALID_GH_CLIENT', 'Data PR 交付需要 ghClient.getBranchHeadSha');
   }
   if (typeof ghClient.listOpenPrs !== 'function') {
     fail('NEWS_DELIVERY_INVALID_GH_CLIENT', 'ghClient 缺少 listOpenPrs');
@@ -209,22 +323,41 @@ function assertAdapterMethods(gitClient, ghClient, existingPr) {
   }
 }
 
-async function updateExistingPr({ existingPr, ghClient, gitClient, changedFiles, commitMessage, batch }) {
+async function updateExistingPr({ existingPr, ghClient, gitClient, changedFiles, commitMessage, batch, readCurrentFile }) {
   await verifyHeadNotDrifted(ghClient, existingPr.branch, existingPr.headSha);
+  const mainHeadSha = await ghClient.getBranchHeadSha('main');
+  if (!mainHeadSha) fail('NEWS_DELIVERY_BRANCH_NOT_FOUND', 'main 分支已被删除或不可达');
+  await verifyCandidateRetentionAgainstBranch({
+    branch: existingPr.branch,
+    headSha: existingPr.headSha,
+    gitClient,
+    readCurrentFile,
+  });
+  await verifyCandidateRetentionAgainstBranch({ branch: 'main', headSha: mainHeadSha, gitClient, readCurrentFile });
   await gitClient.checkoutBranch(existingPr.branch);
   await gitClient.stageFiles(changedFiles);
   await gitClient.commit(commitMessage || `chore(data): update news data (${batch})`);
   await verifyPrUnchanged(ghClient, existingPr);
   await verifyHeadNotDrifted(ghClient, existingPr.branch, existingPr.headSha);
+  await verifyHeadNotDrifted(ghClient, 'main', mainHeadSha);
   await gitClient.pushNormal(existingPr.branch);
   return { action: 'updated', prNumber: existingPr.prNumber, branch: existingPr.branch, files: changedFiles };
 }
 
-async function createNewPr({ ghClient, gitClient, changedFiles, commitMessage, batch }) {
+async function createNewPr({ ghClient, gitClient, changedFiles, commitMessage, batch, readCurrentFile }) {
   const branch = `news/review/${batch}`;
+  const mainHeadSha = await ghClient.getBranchHeadSha('main');
+  if (!mainHeadSha) fail('NEWS_DELIVERY_BRANCH_NOT_FOUND', 'main 分支已被删除或不可达');
+  await verifyCandidateRetentionAgainstBranch({
+    branch: 'main',
+    headSha: mainHeadSha,
+    gitClient,
+    readCurrentFile,
+  });
   await gitClient.createAndCheckoutBranch(branch);
   await gitClient.stageFiles(changedFiles);
   await gitClient.commit(commitMessage || `chore(data): update min candidates + review list (${batch})`);
+  await verifyHeadNotDrifted(ghClient, 'main', mainHeadSha);
   await gitClient.pushNormal(branch);
   const prResult = await ghClient.createPr({
     base: 'main',
@@ -238,14 +371,14 @@ async function createNewPr({ ghClient, gitClient, changedFiles, commitMessage, b
   return { action: 'created', prNumber: prResult.prNumber, branch, files: changedFiles };
 }
 
-async function deliverNewsDataPr({ ghClient, gitClient, batch, changedFiles, commitMessage }) {
+async function deliverNewsDataPr({ ghClient, gitClient, batch, changedFiles, commitMessage, readCurrentFile }) {
   if (!gitClient || !ghClient) fail('NEWS_DELIVERY_INVALID_CLIENT', 'deliverNewsDataPr 需要有效 gitClient 与 ghClient');
   verifyAllowedFilesOnly(changedFiles);
   const existingPr = await findOpenDataPr(ghClient);
   assertAdapterMethods(gitClient, ghClient, existingPr);
   return existingPr
-    ? updateExistingPr({ existingPr, ghClient, gitClient, changedFiles, commitMessage, batch })
-    : createNewPr({ ghClient, gitClient, changedFiles, commitMessage, batch });
+    ? updateExistingPr({ existingPr, ghClient, gitClient, changedFiles, commitMessage, batch, readCurrentFile })
+    : createNewPr({ ghClient, gitClient, changedFiles, commitMessage, batch, readCurrentFile });
 }
 
 module.exports = {
@@ -254,6 +387,7 @@ module.exports = {
   validateDataPrFiles,
   findOpenDataPr,
   syncDataPrBaseline,
+  assertCandidateRetention,
   verifyHeadNotDrifted,
   deliverNewsDataPr,
 };

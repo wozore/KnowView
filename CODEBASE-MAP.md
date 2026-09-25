@@ -294,8 +294,8 @@
 - [transcript-notify.js](src/news/transcripts/transcript-notify.js) — 每日"待人工获取字幕"清单（min 候选层挑评分最高 notify_count 个 YouTube，写 transcript-requests.json 交人工，文件名固定去掉日期后缀、dateKey 北京时间；不碰主链/不调采集总结）。导出: `notifyTranscripts, parseNotifyCount, scoreOf`
 
 ### delivery/ — Data PR CAS 交付
-- [delivery/index.js](src/news/delivery/index.js) — Data PR 交付统一门面。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, verifyHeadNotDrifted, deliverNewsDataPr`
-- [delivery/news-data-pr-delivery.js](src/news/delivery/news-data-pr-delivery.js) — 新闻 Data PR 独立 CAS 交付模块（6 个运行时文件严格白名单、逐文件 schema 兼容门禁、单一开放 PR 查找与分支锁定、开放 PR 分支基线播种、head 漂移二次核验与普通 push）。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, verifyHeadNotDrifted, deliverNewsDataPr`
+- [delivery/index.js](src/news/delivery/index.js) — Data PR 交付统一门面。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, assertCandidateRetention, verifyHeadNotDrifted, deliverNewsDataPr`
+- [delivery/news-data-pr-delivery.js](src/news/delivery/news-data-pr-delivery.js) — 新闻 Data PR 独立 CAS 交付模块（6 个运行时文件严格白名单、逐文件 schema 兼容门禁、开放 PR 分支基线播种、候选记录留存校验、head 漂移二次核验与普通 push）。导出: `DATA_PR_ALLOWED_FILES, verifyAllowedFilesOnly, validateDataPrFiles, findOpenDataPr, syncDataPrBaseline, assertCandidateRetention, verifyHeadNotDrifted, deliverNewsDataPr`
 
 ### feedback/ — 收尾环节：工具库/概念库反哺（独立于主链，只写待补卡文件）
 - [tool-feedback.js](src/news/feedback/tool-feedback.js) — 从 approved summary 提取带类型实体并写入待补卡。
@@ -400,8 +400,8 @@
 - [x-search-checkpoint.test.js](tests/news/x-search-checkpoint.test.js) — Checkpoint Schema 唯一主键、30 天滚动修剪与 14 天尾部观察指标汇总回归。
 - [x-checkpoint-store.test.js](tests/news/x-checkpoint-store.test.js) — Checkpoint Store 读写、成功清理、损坏阻断 fail-closed 与 30 天滚动修剪回归。
 - [x-search-client.test.js](tests/news/x-search-client.test.js) — AdvancedSearchClient 请求构造、分页 DTO 归一化、tweet_id 参数与有限重试回归。
-- [news-data-pr-delivery.test.js](tests/news/news-data-pr-delivery.test.js) — Data PR CAS 交付回归：6 个运行时文件白名单、开放 PR 状态/base/head 校验、二次 head 核验与普通推送。
-- [deliver-news-data-pr-script.test.js](tests/news/deliver-news-data-pr-script.test.js) — Data PR CLI adapter 回归：参数数组、main 基线、普通 push、工作树白名单和输出参数。
+- [news-data-pr-delivery.test.js](tests/news/news-data-pr-delivery.test.js) — Data PR CAS 交付回归：文件白名单、开放 PR 状态/base/head 校验、候选保留/归档、push 前丢失阻断与普通推送。
+- [deliver-news-data-pr-script.test.js](tests/news/deliver-news-data-pr-script.test.js) — Data PR CLI adapter 回归：参数数组、大文件读取、基线播种与异常 fail-closed、parent 候选保留检查和普通 push。
 - [news-pipeline-min.test.js](tests/news/news-pipeline-min.test.js) — v2 全链编排、总开关、采集状态汇总、credits→last-run 透传回归。
 - [validate-news-config.test.js](tests/maintenance/validate-news-config.test.js) — news-config-v2 安全字段与 last-run X credits/request schema 校验。
 - [model-exclusions.test.js](tests/comparison/model-exclusions.test.js) — 排除规则 schema、token-boundary prefix、exact identity、命中诊断和 fail-closed 回归。
@@ -451,7 +451,8 @@
 
 ## scripts/ — 命令入口（薄包装；src/ 为纯逻辑）
 - [build-news.js](scripts/build-news.js) — 热点管线 v2 CLI 实际入口；加载 `.env` 后运行 `runMin`，支持默认双平台、`--platforms` 分时采集与 `--fixture` 离线全链。导出: `main, mainMin, buildMinFixtureOptions`
-- [deliver-news-data-pr.js](scripts/deliver-news-data-pr.js) — GitHub Actions 新闻 Data PR 交付薄包装；装配原生 `git`/`gh` 命令到 delivery facade，严格传递白名单文件、main 基线与普通 push；`--sync-baseline` 在管线运行前从开放 PR 分支播种六文件数据基线。导出: `parseArgs, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, runBaselineSync, main`
+- [deliver-news-data-pr.js](scripts/deliver-news-data-pr.js) — GitHub Actions 新闻 Data PR 交付薄包装；Git 输出缓冲区支持 64 MiB，基线读取错误 fail-closed 并记录文件大小；更新开放 PR 前比较旧候选，阻止未归档记录丢失。导出: `parseArgs, defaultRunner, readGitFile, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, runBaselineSync, main`
+- [check-news-data-retention.js](scripts/check-news-data-retention.js) — PR 检查入口：比较候选 PR head 与每个 parent commit 的 min/review 候选 ID，阻断未归档删除并允许已写入轻量历史的归档清理。导出: `runRetentionCheck, main`
 - [catalog-generator.js](scripts/catalog-generator.js) — schema v3 五模块目录生成器 CLI；`plan/prepare` 零网络，`new/resume/probe/batch` 要求显式 `--tavily-access-mode` 并透传到 Tavily，Apply 要求维护者输入完整确认；支持 `remove --targets` 精确 ID 删除（revision/确认值/事务回滚）、`batch`（`--confirm-cost` 全局确认自动 apply / `--dry-run` 预览 / `--from-preview` 复用解析）以及双表 `url-registry vendor/product` 维护和纯本地 product freshness audit。导出: `parseArgs, main, readSeed, tavilyAccessModeFromFlags, generatorOptionsFromFlags`
 - [concept-generator.js](scripts/concept-generator.js) — **AI 概念库生成器 CLI（与五模块目录生成器分离）**：`batch --file <待补概念卡> --dry-run/--confirm-cost` 合成预览 → `preview` → `apply [--terms]` 人工写 glossary。导出: `parseArgs, main`
 - [catalog-series-migration.js](scripts/catalog-series-migration.js) — LLM 二级系列迁移 CLI：人类可读 / `--json` 预览，`--vendor` 限定厂商；校验失败、历史目标错误或新增孤儿阻断 Apply；`--apply <targetRevision>` 按同范围重算 revision 后，经 commitSnapshotChange 五文件事务 + dist 重建提交并绑定 expectedRevision。导出: `currentPlan, humanReport, applyMigration, main`

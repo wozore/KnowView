@@ -13,6 +13,7 @@ const {
   validateDataPrFiles,
   deliverNewsDataPr,
   syncDataPrBaseline,
+  assertCandidateRetention,
 } = require('../src/news/delivery');
 
 function parseArgs(argv = process.argv.slice(2)) {
@@ -35,7 +36,28 @@ function parseArgs(argv = process.argv.slice(2)) {
 // 不做整体 trim：git status -z 的首条目以前导空格开头（状态位 " M " 的一部分），
 // trim 会破坏 slice(3) 的路径解析；需要去空白的位置各自显式 trim。
 function defaultRunner(command, args) {
-  return execFileSync(command, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  return execFileSync(command, args, {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+    maxBuffer: 64 * 1024 * 1024,
+  });
+}
+
+function isMissingGitPathError(error, filePath) {
+  const stderr = String(error?.stderr || '');
+  return error?.status === 128 && stderr.includes(`fatal: path '${filePath}' does not exist in '`);
+}
+
+function readGitFile(run, revision, filePath, errorCode, context = revision) {
+  try {
+    return run('git', ['show', `${revision}:${filePath}`]);
+  } catch (error) {
+    if (isMissingGitPathError(error, filePath)) return null;
+    const detail = error?.code || error?.status || String(error?.stderr || error?.message || 'unknown error').split('\n')[0];
+    const wrapped = new Error(`[${errorCode}] 无法读取 ${context}:${filePath}：${detail}`);
+    wrapped.code = errorCode;
+    throw wrapped;
+  }
 }
 
 function createGitHubClient(run = defaultRunner) {
@@ -110,6 +132,11 @@ function createGitClient(run = defaultRunner, { rootDir = process.cwd() } = {}) 
       run('git', ['checkout', '-f', '-B', branch, `origin/${branch}`]);
       restoreAllowedFiles(saved);
     },
+    readBranchFile: async (branch, file, expectedHeadSha) => {
+      verifyAllowedFilesOnly([file]);
+      run('git', ['fetch', 'origin', `refs/heads/${branch}:refs/remotes/origin/${branch}`]);
+      return readGitFile(run, expectedHeadSha, file, 'NEWS_DELIVERY_BRANCH_READ_FAILED', branch);
+    },
     createAndCheckoutBranch: async branch => {
       configureIdentity();
       run('git', ['fetch', 'origin', 'main']);
@@ -147,6 +174,7 @@ async function runDelivery({ args = parseArgs(), run = defaultRunner, outputWrit
     batch,
     changedFiles,
     commitMessage: args.commitMessage,
+    readCurrentFile: file => fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null,
   });
   const output = { ...result, batch, pushed: true, pr_number: result.prNumber };
   outputWriter(args.output, output);
@@ -158,7 +186,7 @@ async function runDelivery({ args = parseArgs(), run = defaultRunner, outputWrit
  * 六个运行时文件写回工作树，作为本次采集的读入基线。要求当前工作树完全干净，
  * 防止覆盖维护者本地未提交数据。
  */
-async function runBaselineSync({ args = parseArgs(), run = defaultRunner, outputWriter = writeOutput, rootDir = process.cwd() } = {}) {
+async function runBaselineSync({ args = parseArgs(), run = defaultRunner, outputWriter = writeOutput, logWriter = message => process.stdout.write(`${message}\n`), rootDir = process.cwd() } = {}) {
   const raw = run('git', ['status', '--porcelain', '-z', '--untracked-files=all']);
   const dirty = raw ? raw.split('\0').filter(Boolean) : [];
   if (dirty.length > 0) {
@@ -170,11 +198,7 @@ async function runBaselineSync({ args = parseArgs(), run = defaultRunner, output
       run('git', ['fetch', 'origin', `refs/heads/${branch}:refs/remotes/origin/${branch}`]);
       fetchedBranches.add(branch);
     }
-    try {
-      return run('git', ['show', `refs/remotes/origin/${branch}:${filePath}`]);
-    } catch {
-      return null;
-    }
+    return readGitFile(run, `refs/remotes/origin/${branch}`, filePath, 'NEWS_DELIVERY_BASELINE_READ_FAILED', branch);
   };
   const result = await syncDataPrBaseline({
     ghClient: createGitHubClient(run),
@@ -189,7 +213,17 @@ async function runBaselineSync({ args = parseArgs(), run = defaultRunner, output
     action: result.synced ? 'baseline_synced' : 'none',
     pr_number: result.prNumber ?? '',
     branch: result.branch ?? '',
+    files: JSON.stringify(result.files || []),
+    missing_files: JSON.stringify(result.missingFiles || []),
+    file_sizes: JSON.stringify(result.fileSizes || {}),
   });
+  if (result.synced) {
+    const sizes = Object.entries(result.fileSizes).map(([file, bytes]) => `${file}: ${bytes} B`).join('; ');
+    const missing = result.missingFiles.length ? ` Missing: ${result.missingFiles.join(', ')}.` : '';
+    logWriter(`Data PR #${result.prNumber} baseline: seeded ${result.files.length}/${DATA_PR_ALLOWED_FILES.length} files. ${sizes}.${missing}`);
+  } else {
+    logWriter('No open Data PR baseline to sync.');
+  }
   return result;
 }
 
@@ -205,4 +239,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { parseArgs, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, runBaselineSync, main };
+module.exports = { parseArgs, defaultRunner, readGitFile, createGitHubClient, createGitClient, assertCleanOutsideData, runDelivery, runBaselineSync, main };
