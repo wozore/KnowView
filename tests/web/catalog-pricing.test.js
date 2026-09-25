@@ -99,6 +99,24 @@ test('tool detail shows every linked plan, pricing conditions, and plan navigati
   assert.doesNotMatch(html, /API 价格：<\/b>不适用/);
 });
 
+test('tool cards and model details render canonical task type badges', () => {
+  const cardHtml = toolCards.default({ card: {
+    id: 'tool-card:embed-v4',
+    tool_key: 'embed-v4',
+    vendor_key: 'cohere',
+    title: 'Embed v4',
+    vendor_label: 'Cohere',
+    summary: 'Embedding model',
+    theme: 'general',
+    detail_kind: 'api_model',
+    detail_ref: { kind: 'tool-level3', id: 'tool-level3:embed-v4' },
+    task_types: ['Embedding'],
+  } });
+  const detailHtml = renderToolLevel3({ detail: detail({ detail_kind: 'api_model', task_types: ['STT'] }) });
+  assert.match(cardHtml, /class="node-kind-badge task-type">Embedding<\/span>/);
+  assert.match(detailHtml, /class="node-kind-badge task-type">STT<\/span>/);
+});
+
 test('tool detail renders an explicit disclosure when a public unit price is unavailable', () => {
   const html = renderToolLevel3({ detail: detail({
     id: 'tool-level3:mai-image-2.6',

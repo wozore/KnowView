@@ -67,7 +67,7 @@ function buildLevel1({ vendorKey, title, icon, officialUrl, description, status,
   };
 }
 
-function buildLevel2({ vendorKey, level1Id, groupKey, title, officialUrl, summary, status, detailRefs, seriesKind, generationState }) {
+function buildLevel2({ vendorKey, level1Id, groupKey, title, officialUrl, summary, status, detailRefs, seriesKind, generationState, taskTypes, searchTerms }) {
   if (!seriesKind) throw new Error('SERIES_KIND_REQUIRED');
   if (!SERIES_KINDS.includes(seriesKind)) throw new Error(`SERIES_KIND_INVALID:${seriesKind}`);
   if (generationState !== undefined && generationState !== null && seriesKind !== 'model_series') {
@@ -88,10 +88,12 @@ function buildLevel2({ vendorKey, level1Id, groupKey, title, officialUrl, summar
     series_kind: seriesKind,
   };
   if (generationState !== undefined && generationState !== null) level2.generation_state = generationState;
+  if (taskTypes !== undefined && taskTypes !== null) level2.task_types = [...new Set(taskTypes.map(type => String(type).trim()).filter(Boolean))];
+  if (searchTerms !== undefined && searchTerms !== null) level2.search_terms = [...new Set(searchTerms.map(term => String(term).trim()).filter(Boolean))];
   return level2;
 }
 
-function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, officialUrl, status, summary, oneMContext, apiPricing, plan, applicableScenarios, inapplicableScenarios, sources, releaseDate, lastUpdatedDate, modelKey, visibility, historicalSince, subscriptionPlanRefs, pricingDisclosure }) {
+function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, officialUrl, status, summary, oneMContext, apiPricing, plan, applicableScenarios, inapplicableScenarios, sources, releaseDate, lastUpdatedDate, modelKey, visibility, historicalSince, subscriptionPlanRefs, pricingDisclosure, taskTypes }) {
   const detail = {
     vendor_key: vendorKey,
     detail_kind: detailKind,
@@ -114,10 +116,11 @@ function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, o
   if (detailKind === 'tool') detail.last_updated_date = lastUpdatedDate;
   if (detailKind === 'api_model' || detailKind === 'product_variant') detail.release_date = releaseDate;
   applyModelFields(detail, { modelKey, visibility, historicalSince, detailKind, name: title });
+  if (taskTypes !== undefined && taskTypes !== null) detail.task_types = [...new Set(taskTypes)];
   return detail;
 }
 
-function buildToolCard({ toolKey, vendorKey, title, vendorLabel, icon, summary, theme, scenes, bestForPreview, notForPreview, priceBadge, accessLevel, searchTerms, detailId, detailKind, modelKey, visibility, historicalSince }) {
+function buildToolCard({ toolKey, vendorKey, title, vendorLabel, icon, summary, theme, scenes, bestForPreview, notForPreview, priceBadge, accessLevel, searchTerms, detailId, detailKind, modelKey, visibility, historicalSince, taskTypes }) {
   if (!TOOL_CARD_KINDS.includes(detailKind)) throw new Error(`TOOL_CARD_KIND_INVALID:${detailKind}`);
   if (!THEMES.includes(theme)) throw new Error(`THEME_INVALID:${theme}`);
   const card = {
@@ -139,6 +142,7 @@ function buildToolCard({ toolKey, vendorKey, title, vendorLabel, icon, summary, 
     detail_kind: detailKind,
   };
   applyModelFields(card, { modelKey, visibility, historicalSince, detailKind, name: title });
+  if (taskTypes !== undefined && taskTypes !== null) card.task_types = [...new Set(taskTypes)];
   return card;
 }
 

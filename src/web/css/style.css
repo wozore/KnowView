@@ -1818,6 +1818,7 @@ main:has(#view-compare.active.cmp-wide-active) { max-width: none; }
 .node-kind-badge { display: inline-block; border-radius: 999px; padding: 2px 7px; font-size: 11px; font-weight: 700; }
 .node-kind-badge.group { color: var(--primary); background: var(--primary-light); }
 .node-kind-badge.leaf { color: var(--accent); background: var(--accent-light); }
+.node-kind-badge.task-type { color: var(--text-secondary); background: var(--surface); border: 1px solid var(--border); margin: 0 4px 4px 0; }
 .model-tree-action { color: var(--primary); font-size: 12px; font-weight: 700; margin-top: auto; }
 .model-bulk-compare { flex: none; border: 1px solid var(--primary); background: var(--primary-light); color: var(--primary); border-radius: var(--radius-sm); padding: 7px 10px; cursor: pointer; font-weight: 700; font-size: 12px; }
 .model-bulk-compare:hover { background: var(--primary); color: white; }

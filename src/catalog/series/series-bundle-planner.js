@@ -22,6 +22,7 @@ const {
 const { revisionOf } = require('../core/catalog-revision');
 const { catalogModelKeyIndex } = require('../intake/model-identity-verification');
 const { planSeriesPlacement } = require('./catalog-series-policy');
+const { taskTypesForMember } = require('./catalog-series-task-types');
 const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { bundleTokenOf, bundlePreviewHashOf, validateSeriesBundle, hash12Of, BUNDLE_SCHEMA_VERSION } = require('./series-bundle-contract');
 
@@ -142,12 +143,14 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
       continue;
     }
     const identityKey = slugify(name, 'member_name');
+    const taskTypes = taskTypesForMember(name, familyDef.task_types, policy.task_type_registry);
     members.push({
       name,
       model_key: modelKey,
       detail_id: `tool-level3:${identityKey}`,
       tool_card_id: `tool-card:${identityKey}`,
       classification: 'bundled',
+      ...(taskTypes.length ? { task_types: taskTypes } : {}),
       evidence: sub.evidence || null,
     });
   }
@@ -202,7 +205,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
     }
   }
   const level2Record = existingL2
-    ? { ...existingL2, title: target.title, detail_refs: visibleDetailRefs, series_kind: familyDef.series_kind, generation_state: target.generation_state }
+    ? { ...existingL2, title: target.title, detail_refs: visibleDetailRefs, series_kind: familyDef.series_kind, generation_state: target.generation_state, task_types: familyDef.task_types || [], search_terms: target.search_terms || [] }
     : buildLevel2({
       vendorKey: placement.vendor,
       level1Id: `vendor-level1:${placement.vendor}`,
@@ -214,6 +217,8 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
       detailRefs: visibleDetailRefs,
       seriesKind: familyDef.series_kind,
       generationState: target.generation_state,
+      taskTypes: familyDef.task_types || [],
+      searchTerms: target.search_terms || [],
     });
   patches.push({ area: 'vendor-level2', id: level2Record.id, operation: existingL2 ? 'replace' : 'create', record: level2Record });
 
@@ -240,6 +245,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
       summary: `官方核验收录：${verdict.reasons?.[0] || member.name}`,
       releaseDate: null,
       modelKey: member.model_key,
+      taskTypes: member.task_types,
     });
     detailRecord.id = member.detail_id;
     patches.push({ area: 'tool-level3', id: member.detail_id, operation: existingDetail ? 'replace' : 'create', record: detailRecord });
@@ -256,6 +262,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
         detailId: detailKeyOf(member.detail_id),
         detailKind: 'api_model',
         modelKey: member.model_key,
+        taskTypes: member.task_types,
       });
       cardRecord.detail_ref = { kind: 'tool-level3', id: member.detail_id };
       patches.push({ area: 'tool-card', id: cardRecord.id, operation: existingCard ? 'replace' : 'create', record: cardRecord });
@@ -310,6 +317,8 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
       title: target.title,
       series_kind: familyDef.series_kind,
       generation_state: target.generation_state,
+      task_types: familyDef.task_types || [],
+      search_terms: target.search_terms || [],
       mode: existingL2 ? 'existing' : 'create',
     },
     members,

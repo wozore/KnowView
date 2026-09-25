@@ -80,10 +80,11 @@ test('buildSeriesPlacementInstructions 禁止把专用当通用、禁止编造 U
 });
 
 test('validateSeriesPlacementValue 结构校验', () => {
-  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', modality: 'text', canonical_vendor_key: 'zhipu', canonical_family: 'glm', major_line: 'glm5', release_cohort: 'newest', rationale: 'x' }), true);
+  const registry = loadSeriesPolicy().task_type_registry;
+  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', task_types: ['LLM'], modality: 'text', canonical_vendor_key: 'zhipu', canonical_family: 'glm', major_line: 'glm5', release_cohort: 'newest', rationale: 'x' }, registry), true);
   assert.equal(validateSeriesPlacementValue(null), false);
   assert.equal(validateSeriesPlacementValue({ usage_kind: 5 }), false);
-  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', modality: 'text', canonical_vendor_key: 'zhipu', canonical_family: 'glm', major_line: 'glm5', release_cohort: 'newest', rationale: 'x', confidence: -1 }), true, '不再读取置信度字段');
+  assert.equal(validateSeriesPlacementValue({ usage_kind: 'general_llm', task_types: ['LLM'], modality: 'text', canonical_vendor_key: 'zhipu', canonical_family: 'glm', major_line: 'glm5', release_cohort: 'newest', rationale: 'x', confidence: -1 }, registry), true, '不再读取置信度字段');
 });
 
 // ── 2. suggestSeriesPlacement：缺 ledger fail-closed ────────────
@@ -96,6 +97,7 @@ test('suggestSeriesPlacement 缺 ledger → COST_LEDGER_REQUIRED（fail-closed�
 
 test('suggestSeriesPlacement 自适应当前 provider 的默认模型', async () => {
   const calls = [];
+  const input = { policy_scope: { task_type_registry: loadSeriesPolicy().task_type_registry } };
   const fetchImpl = async (url, init) => {
     calls.push({ url, body: JSON.parse(init.body) });
     return {
@@ -107,6 +109,7 @@ test('suggestSeriesPlacement 自适应当前 provider 的默认模型', async ()
             type: 'text',
             text: JSON.stringify({
               usage_kind: 'general_llm',
+              task_types: ['LLM'],
               modality: 'text',
               canonical_vendor_key: 'zhipu',
               canonical_family: 'glm',
@@ -122,7 +125,7 @@ test('suggestSeriesPlacement 自适应当前 provider 的默认模型', async ()
   };
 
   const ledger = { reserve: () => ({ ok: true }) };
-  const res = await suggestSeriesPlacement({}, {
+  const res = await suggestSeriesPlacement(input, {
     ledger,
     apiKey: 'test-key',
     fetchImpl,
@@ -191,7 +194,7 @@ test('resolve：政策覆盖的通用 LLM 确定性判定（零 AI）→ decisio
   assert.equal(result.target_mode, 'existing');
   assert.equal(result.target_level2_id, 'vendor-level2:cohere:command');
   assert.equal(result.source, 'policy');
-  assert.equal(result.target_level2_title, 'Command 文本与推理模型');
+  assert.equal(result.target_level2_title, 'Command Text & Reasoning Models');
 });
 
 test('resolve：目标系列未建 → decision create（组 key 取政策稳定段）', async () => {
@@ -222,6 +225,22 @@ test('resolve：政策专用系列（xAI Grok Voice）→ decision，复用 Grok
   assert.equal(result.vendor, 'xai');
   assert.equal(result.family, 'voice');
   assert.equal(result.target_level2_id, 'vendor-level2:xai:grok-voice');
+  assert.deepEqual(result.candidate_task_types, ['STT', 'Voice']);
+});
+
+test('resolve：明确的图像与检索任务使用统一英文类型标签', async () => {
+  const policy = loadSeriesPolicy();
+  const image = await resolveSeriesPlacement(policy, emptySnapshot(),
+    candidate({ vendor_key: 'alibaba', name: 'Qwen-Image-2.1', modality: 'image' }), {});
+  const embedding = await resolveSeriesPlacement(policy, emptySnapshot(),
+    candidate({ vendor_key: 'cohere', name: 'embed-v4.0', modality: 'text' }), {});
+  const transcribe = await resolveSeriesPlacement(policy, emptySnapshot(),
+    candidate({ vendor_key: 'microsoft', name: 'MAI-Transcribe-2', modality: 'audio' }), {});
+  assert.deepEqual(image.candidate_task_types, ['Image Generation']);
+  assert.deepEqual(embedding.candidate_task_types, ['Embedding']);
+  assert.equal(transcribe.target_mode, 'create');
+  assert.equal(transcribe.target_level2_id, 'vendor-level2:microsoft:mai-transcribe');
+  assert.deepEqual(transcribe.candidate_task_types, ['STT']);
 });
 
 test('resolve：OpenAI 不匹配 Kling，Kuaishou Kling 进入自身系列', async () => {
@@ -339,9 +358,11 @@ test('applyPlacementToSeed：existing → 写 existing_level2_ref；create → g
   applyPlacementToSeed(createSeed, {
     kind: 'decision', vendor: 'alibaba', target_mode: 'create',
     target_level2_id: 'vendor-level2:alibaba:qwen', target_level2_title: 'Qwen 模型', group_key: 'qwen',
+    candidate_task_types: ['TTS'],
   });
   assert.equal(createSeed.group_key, 'qwen');
   assert.equal(createSeed.placement.new_group_title, 'Qwen 模型');
+  assert.deepEqual(createSeed.task_types, ['TTS']);
   assert.equal(createSeed.placement.existing_level2_ref, null);
   assert.deepEqual(createSeed.placement.existing_level1_ref, { kind: 'vendor-level1', id: 'vendor-level1:alibaba' });
 });

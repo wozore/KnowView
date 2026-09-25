@@ -58,7 +58,11 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "LLM"
+      ],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:google:gemini-coding-plan",
@@ -86,7 +90,9 @@
         }
       ],
       "series_kind": "subscription_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:deepseek:deepseek",
@@ -95,7 +101,7 @@
         "id": "vendor-level1:deepseek"
       },
       "vendor_key": "deepseek",
-      "title": "DeepSeek 模型",
+      "title": "DeepSeek Models",
       "official_url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
       "summary": "当前已核实的 DeepSeek API 模型。",
       "status": "active",
@@ -116,7 +122,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:deepseek-v4-flash-vision-exp"
         }
-      ]
+      ],
+      "search_terms": [
+        "DeepSeek 模型"
+      ],
+      "task_types": [
+        "Vision"
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:zhipu:glm",
@@ -142,7 +156,13 @@
           "kind": "tool-level3",
           "id": "tool-level3:glm-5-3"
         }
-      ]
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "search_terms": []
     },
     {
       "id": "vendor-level2:zhipu:image",
@@ -151,7 +171,7 @@
         "id": "vendor-level1:zhipu"
       },
       "vendor_key": "zhipu",
-      "title": "图像生成",
+      "title": "Image Generation",
       "official_url": "https://docs.z.ai/guides/image/glm-image",
       "summary": "智谱图像生成模型系列。",
       "status": "active",
@@ -162,7 +182,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Image Generation",
+        "图像生成"
+      ],
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "vendor-level2:baidu:ernie",
@@ -171,7 +198,7 @@
         "id": "vendor-level1:baidu"
       },
       "vendor_key": "baidu",
-      "title": "ERNIE 模型",
+      "title": "ERNIE Models",
       "official_url": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "summary": "当前已核实的百度 ERNIE API 模型。",
       "status": "active",
@@ -184,7 +211,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:ernie-5.0"
         }
-      ]
+      ],
+      "search_terms": [
+        "ERNIE 模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:mistral:mistral",
@@ -193,7 +228,7 @@
         "id": "vendor-level1:mistral"
       },
       "vendor_key": "mistral",
-      "title": "Mistral 模型",
+      "title": "Mistral Models",
       "official_url": "https://mistral.ai/pricing/api/",
       "summary": "当前核实的 Mistral API 模型，覆盖通用、编码和推理场景。",
       "status": "active",
@@ -206,7 +241,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:mistral-large-3"
         }
-      ]
+      ],
+      "search_terms": [
+        "Mistral 模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:command",
@@ -215,7 +258,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Command 文本与推理模型",
+      "title": "Command Text & Reasoning Models",
       "official_url": "https://docs.cohere.com/docs/models",
       "summary": "Cohere Command 文本与推理模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -237,7 +280,15 @@
           "id": "tool-level3:command-a-translate"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Command 文本与推理模型"
+      ],
+      "task_types": [
+        "LLM",
+        "Translation"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:google:gemini-pro",
@@ -261,7 +312,11 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "LLM"
+      ],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:google:gemini-image",
@@ -270,7 +325,7 @@
         "id": "vendor-level1:google"
       },
       "vendor_key": "google",
-      "title": "Nano Banana 图像产品",
+      "title": "Nano Banana Image Series",
       "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
       "summary": "Google 的 Nano Banana 图像生成与编辑产品入口，最新一代由 Nano Banana 2 (Gemini 3.1 Flash Image) 驱动。",
       "status": "active",
@@ -281,7 +336,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Nano Banana 图像产品"
+      ],
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "vendor-level2:google:gemini-live",
@@ -290,7 +351,7 @@
         "id": "vendor-level1:google"
       },
       "vendor_key": "google",
-      "title": "Gemini Live 实时语音系列",
+      "title": "Gemini Live Voice Series",
       "official_url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking",
       "summary": "Google 原生 Speech-to-Speech 实时语音与多模态交互模型系列，支持边说边思考的复杂多步骤推理与后台工具调用。",
       "status": "active",
@@ -301,7 +362,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Gemini Live 实时语音系列"
+      ],
+      "task_types": [
+        "Voice"
+      ]
     },
     {
       "id": "vendor-level2:moonshot:kimi",
@@ -310,7 +377,7 @@
         "id": "vendor-level1:moonshot"
       },
       "vendor_key": "moonshot",
-      "title": "Kimi 通用/多模态模型",
+      "title": "Kimi General & Multimodal Models",
       "official_url": "https://platform.kimi.com/docs/models",
       "summary": "Kimi 通用与多模态模型系列，覆盖 K3 与 K2.6 的视觉理解、长上下文和 Agent 能力。",
       "status": "active",
@@ -324,7 +391,14 @@
           "id": "tool-level3:kimi-k2.6"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Kimi 通用/多模态模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:moonshot:kimi-coding-models",
@@ -333,7 +407,7 @@
         "id": "vendor-level1:moonshot"
       },
       "vendor_key": "moonshot",
-      "title": "Kimi 编程模型",
+      "title": "Kimi Coding Models",
       "official_url": "https://platform.kimi.com/",
       "summary": "Kimi Open Platform 的编程模型系列，包含 K2.7 Code 标准版与 HighSpeed API 变体。",
       "status": "active",
@@ -347,7 +421,14 @@
           "id": "tool-level3:kimi-k2.7-code-highspeed"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Kimi 编程模型"
+      ],
+      "task_types": [
+        "Code"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:moonshot:kimi-code",
@@ -366,7 +447,9 @@
           "id": "tool-level3:kimi-code"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:moonshot:kimi-work",
@@ -385,7 +468,9 @@
           "id": "tool-level3:kimi-work"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:moonshot:kimi-membership",
@@ -416,7 +501,9 @@
           "id": "tool-level3:kimi-membership-allegro"
         }
       ],
-      "series_kind": "subscription_series"
+      "series_kind": "subscription_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:tencent:hy3",
@@ -425,7 +512,7 @@
         "id": "vendor-level1:tencent"
       },
       "vendor_key": "tencent",
-      "title": "混元通用/推理大模型",
+      "title": "Hunyuan General & Reasoning Models",
       "official_url": "https://cloud.tencent.com.cn/product/tclm",
       "summary": "腾讯混元通用与深度思考大模型系列，涵盖 2026 最新旗舰 Hy4 preview、混元 3.0 基座、Hunyuan-T1 深度思考推理模型与高并发生文模型。",
       "status": "active",
@@ -447,7 +534,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:hy2-think"
         }
-      ]
+      ],
+      "search_terms": [
+        "混元通用/推理大模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:stepfun:step",
@@ -456,7 +550,7 @@
         "id": "vendor-level1:stepfun"
       },
       "vendor_key": "stepfun",
-      "title": "Step 通用与推理模型",
+      "title": "Step General & Reasoning Models",
       "official_url": "https://platform.stepfun.com",
       "summary": "阶跃星辰新一代基础大模型与高效率 Agent 推理模型系列，包含 Step 3.7 Flash、Step 3.5 Flash 与 Step 3 基础基座。",
       "status": "active",
@@ -478,7 +572,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:stepfun-step-5-preview"
         }
-      ]
+      ],
+      "search_terms": [
+        "Step 通用与推理模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:xiaomi:mimo",
@@ -487,7 +588,7 @@
         "id": "vendor-level1:xiaomi"
       },
       "vendor_key": "xiaomi",
-      "title": "MiMo 通用与推理模型",
+      "title": "MiMo General & Reasoning Models",
       "official_url": "https://aistudio.xiaomimimo.com/",
       "summary": "小米大模型 Core 团队自研的推理优先大型语言模型系列，包含 1T 参数 MoE 旗舰 MiMo-V2.5-Pro、标准推理基座 MiMo-V2.5 与极速代码模型 MiMo-V2-Flash。",
       "status": "active",
@@ -505,7 +606,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:mimo-v2-flash"
         }
-      ]
+      ],
+      "search_terms": [
+        "MiMo 通用与推理模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:nvidia:nemotron",
@@ -514,7 +622,7 @@
         "id": "vendor-level1:nvidia"
       },
       "vendor_key": "nvidia",
-      "title": "Nemotron 模型",
+      "title": "Nemotron Models",
       "official_url": "https://developer.nvidia.com/topics/ai/nemotron",
       "summary": "NVIDIA Nemotron 系列模型，包含 Nemotron 3.5、Nemotron 3 Ultra 与 Nemotron 3 Super。",
       "status": "active",
@@ -533,6 +641,12 @@
           "kind": "tool-level3",
           "id": "tool-level3:nemotron-3-super"
         }
+      ],
+      "search_terms": [
+        "Nemotron 模型"
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -542,7 +656,7 @@
         "id": "vendor-level1:alibaba"
       },
       "vendor_key": "alibaba",
-      "title": "Qwen 通用/全模态/推理模型",
+      "title": "Qwen General, Omni & Reasoning Models",
       "official_url": "https://help.aliyun.com/zh/model-studio/qwen3-8-max",
       "summary": "通义千问通用语言与原生全模态大模型系列，覆盖旗舰推理、全模态音视频同传、高性价比生产力与超长文档理解。",
       "status": "active",
@@ -572,7 +686,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:qwen3.8-omni-flash"
         }
-      ]
+      ],
+      "search_terms": [
+        "Qwen 通用/全模态/推理模型"
+      ],
+      "task_types": [
+        "LLM",
+        "Omni"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:vidu:video",
@@ -581,7 +703,7 @@
         "id": "vendor-level1:vidu"
       },
       "vendor_key": "vidu",
-      "title": "Vidu 视频与交互模型系列",
+      "title": "Vidu Video & Interactive Models",
       "official_url": "https://platform.vidu.cn/docs/pricing",
       "summary": "生数科技 Vidu 视频与实时交互大模型家族，包含 Vidu S1 实时流式数字人、高画质音视频模型 ViduQ3 系列与极速视频模型 Vidu 2.0。",
       "status": "active",
@@ -612,6 +734,12 @@
           "kind": "tool-level3",
           "id": "tool-level3:vidu-s2-editing"
         }
+      ],
+      "search_terms": [
+        "Vidu 视频与交互模型系列"
+      ],
+      "task_types": [
+        "Video Generation"
       ]
     },
     {
@@ -631,7 +759,9 @@
           "id": "tool-level3:gemini-cli"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:bytedance:trae",
@@ -650,7 +780,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:trae"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:tencent:codebuddy",
@@ -673,7 +805,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:workbuddy"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:google:antigravity",
@@ -692,7 +826,9 @@
           "id": "tool-level3:antigravity-cli"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:kuaishou:kling",
@@ -701,7 +837,7 @@
         "id": "vendor-level1:kuaishou"
       },
       "vendor_key": "kuaishou",
-      "title": "Kling 视频生成模型",
+      "title": "Kling Video Generation Models",
       "official_url": "https://kling.ai/quickstart",
       "summary": "Kling 视频生成模型系列，覆盖 VIDEO 2.6、VIDEO 3.0 和 VIDEO 3.0 Omni，支持原生音频、多镜头和元素一致性。",
       "status": "active",
@@ -720,7 +856,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Kling 视频生成模型"
+      ],
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "vendor-level2:kuaishou:kling-image",
@@ -729,7 +871,7 @@
         "id": "vendor-level1:kuaishou"
       },
       "vendor_key": "kuaishou",
-      "title": "Kling 图像生成模型",
+      "title": "Kling Image Generation Models",
       "official_url": "https://kling.ai/quickstart",
       "summary": "Kling 图像生成模型系列，覆盖 IMAGE 3.0 与 IMAGE 3.0 Omni，支持多参考图、图像编辑、图像系列和 2K/4K 输出。",
       "status": "active",
@@ -744,7 +886,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Kling 图像生成模型"
+      ],
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "vendor-level2:kuaishou:kling-tools",
@@ -837,7 +985,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:perplexity"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:zhipu:glm-5-3-flash",
@@ -859,7 +1009,13 @@
           "kind": "tool-level3",
           "id": "tool-level3:glm-4-7-flash"
         }
-      ]
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "series_kind": "model_series",
+      "generation_state": "newest",
+      "search_terms": []
     },
     {
       "id": "vendor-level2:openai:gpt-6",
@@ -879,6 +1035,10 @@
         },
         {
           "kind": "tool-level3",
+          "id": "tool-level3:gpt-6-sol"
+        },
+        {
+          "kind": "tool-level3",
           "id": "tool-level3:gpt-5.6-sol"
         },
         {
@@ -891,15 +1051,15 @@
         },
         {
           "kind": "tool-level3",
-          "id": "tool-level3:gpt-6-sol"
-        },
-        {
-          "kind": "tool-level3",
           "id": "tool-level3:gpt-6-luna"
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "LLM"
+      ],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:openai:gpt-5-5",
@@ -923,7 +1083,11 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "previous"
+      "generation_state": "previous",
+      "task_types": [
+        "LLM"
+      ],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:openai:gpt-realtime",
@@ -963,7 +1127,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "Voice",
+        "STT",
+        "TTS",
+        "Translation"
+      ],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:openai:gpt-image",
@@ -987,7 +1158,11 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "Image Generation"
+      ],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:openai:openai-codex",
@@ -1006,7 +1181,9 @@
           "id": "tool-level3:openai-codex"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:openai:openai-coding-plan",
@@ -1041,7 +1218,9 @@
           "id": "tool-level3:chatgpt-pro-100"
         }
       ],
-      "series_kind": "subscription_series"
+      "series_kind": "subscription_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:anthropic:claude",
@@ -1050,7 +1229,7 @@
         "id": "vendor-level1:anthropic"
       },
       "vendor_key": "anthropic",
-      "title": "Claude 最新系列",
+      "title": "Claude Current Generation",
       "official_url": "https://platform.claude.com/docs/en/models/overview",
       "summary": "Claude 当前最新模型系列，包含 Fable、Opus、Sonnet 和 Haiku 四个产品层级。",
       "status": "active",
@@ -1073,7 +1252,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Claude 最新系列"
+      ],
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "vendor-level2:anthropic:claude-previous",
@@ -1082,7 +1267,7 @@
         "id": "vendor-level1:anthropic"
       },
       "vendor_key": "anthropic",
-      "title": "Claude 上一世代",
+      "title": "Claude Previous Generation",
       "official_url": "https://platform.claude.com/docs/en/about-claude/model-deprecations",
       "summary": "Claude 各产品线上一世代模型；已退役成员仅保留为历史记录，不进入当前可见列表。",
       "status": "active",
@@ -1101,7 +1286,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "previous"
+      "generation_state": "previous",
+      "search_terms": [
+        "Claude 上一世代"
+      ],
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "vendor-level2:anthropic:claude-code",
@@ -1147,7 +1338,9 @@
           "id": "tool-level3:claude-max-20x"
         }
       ],
-      "series_kind": "subscription_series"
+      "series_kind": "subscription_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:deepseek:deepseek-harness",
@@ -1166,7 +1359,9 @@
           "id": "tool-level3:deepseek-harness"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:minimax:token-plan",
@@ -1202,7 +1397,7 @@
         "id": "vendor-level1:minimax"
       },
       "vendor_key": "minimax",
-      "title": "MiniMax M 系列",
+      "title": "MiniMax M Series",
       "official_url": "https://platform.minimax.io/docs/guides/models-intro",
       "summary": "MiniMax 的通用文本模型系列，覆盖编码、推理、工具调用和智能体工作流。",
       "status": "active",
@@ -1229,7 +1424,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "MiniMax M 系列"
+      ],
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "vendor-level2:minimax:hailuo-video",
@@ -1238,7 +1439,7 @@
         "id": "vendor-level1:minimax"
       },
       "vendor_key": "minimax",
-      "title": "Hailuo 视频系列",
+      "title": "Hailuo Video Series",
       "official_url": "https://platform.minimax.io/docs/api-reference/video-generation",
       "summary": "MiniMax 的商业视频生成 API，覆盖文本生视频和图像生视频。",
       "status": "active",
@@ -1257,7 +1458,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Hailuo 视频系列"
+      ],
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "vendor-level2:minimax:speech",
@@ -1266,7 +1473,7 @@
         "id": "vendor-level1:minimax"
       },
       "vendor_key": "minimax",
-      "title": "Speech 语音系列",
+      "title": "MiniMax Speech Series",
       "official_url": "https://platform.minimax.io/docs/api-reference/api-overview",
       "summary": "MiniMax 的语音合成与声音工作流模型系列。",
       "status": "active",
@@ -1285,7 +1492,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Speech 语音系列"
+      ],
+      "task_types": [
+        "TTS",
+        "Voice"
+      ]
     },
     {
       "id": "vendor-level2:minimax:music",
@@ -1294,7 +1508,7 @@
         "id": "vendor-level1:minimax"
       },
       "vendor_key": "minimax",
-      "title": "Music 音乐系列",
+      "title": "MiniMax Music Series",
       "official_url": "https://platform.minimax.io/docs/api-reference/api-overview",
       "summary": "MiniMax 的商业音乐生成模型系列。",
       "status": "active",
@@ -1321,7 +1535,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Music 音乐系列"
+      ],
+      "task_types": [
+        "Music",
+        "Audio Generation"
+      ]
     },
     {
       "id": "vendor-level2:minimax:minimax-code",
@@ -1349,7 +1570,7 @@
         "id": "vendor-level1:xai"
       },
       "vendor_key": "xai",
-      "title": "Grok 4 系列",
+      "title": "Grok 4 Series",
       "official_url": "https://docs.x.ai/developers/models",
       "summary": "xAI 的通用 Grok API 模型系列，覆盖编程、推理、工具调用和多智能体任务。",
       "status": "active",
@@ -1380,7 +1601,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Grok 4 系列"
+      ],
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "vendor-level2:xai:grok-imagine",
@@ -1389,7 +1616,7 @@
         "id": "vendor-level1:xai"
       },
       "vendor_key": "xai",
-      "title": "Grok Imagine 系列",
+      "title": "Grok Imagine Series",
       "official_url": "https://docs.x.ai/developers/pricing",
       "summary": "xAI 的商业图像与视频生成 API 系列。",
       "status": "active",
@@ -1416,7 +1643,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Grok Imagine 系列"
+      ],
+      "task_types": [
+        "Image Generation",
+        "Video Generation"
+      ]
     },
     {
       "id": "vendor-level2:xai:grok-build",
@@ -1439,7 +1673,9 @@
           "id": "tool-level3:grok-build"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:xai:grok-voice",
@@ -1470,7 +1706,13 @@
           "id": "tool-level3:grok-voice-transcribe-2.0"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [
+        "Voice",
+        "STT",
+        "TTS"
+      ],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:xai:grok-bot",
@@ -1489,7 +1731,9 @@
           "id": "tool-level3:grok-bot"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:zhipu:zcode",
@@ -1655,7 +1899,7 @@
         "id": "vendor-level1:zhipu"
       },
       "vendor_key": "zhipu",
-      "title": "视频生成",
+      "title": "Video Generation",
       "official_url": "https://docs.z.ai/guides/video/cogvideox-3",
       "summary": "视频生成 系列。",
       "status": "active",
@@ -1666,7 +1910,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Video Generation",
+        "视频生成"
+      ],
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "vendor-level2:zhipu:vision",
@@ -1675,7 +1926,7 @@
         "id": "vendor-level1:zhipu"
       },
       "vendor_key": "zhipu",
-      "title": "视觉",
+      "title": "Vision Models",
       "official_url": "https://docs.z.ai/guides/overview/overview",
       "summary": "视觉 系列。",
       "status": "active",
@@ -1694,7 +1945,15 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Vision Models",
+        "视觉"
+      ],
+      "task_types": [
+        "Vision",
+        "OCR"
+      ]
     },
     {
       "id": "vendor-level2:zhipu:audio",
@@ -1703,7 +1962,7 @@
         "id": "vendor-level1:zhipu"
       },
       "vendor_key": "zhipu",
-      "title": "音频",
+      "title": "Audio Models",
       "official_url": "https://docs.bigmodel.cn/cn/guide/models/sound-and-video/glm-asr-2512",
       "summary": "音频 系列。",
       "status": "active",
@@ -1714,7 +1973,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Audio Models",
+        "音频"
+      ],
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "vendor-level2:zhipu:embedding-rerank",
@@ -1742,7 +2008,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "Embedding",
+        "Rerank"
+      ],
+      "search_terms": [
+        "Embedding / Rerank"
+      ]
     },
     {
       "id": "vendor-level2:baidu:ernie-x",
@@ -1766,7 +2039,13 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "LLM"
+      ],
+      "search_terms": [
+        "ERNIE X"
+      ]
     },
     {
       "id": "vendor-level2:baidu:vision",
@@ -1775,7 +2054,7 @@
         "id": "vendor-level1:baidu"
       },
       "vendor_key": "baidu",
-      "title": "视觉",
+      "title": "Baidu Vision Models",
       "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
       "summary": "视觉 系列。",
       "status": "active",
@@ -1786,7 +2065,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Baidu Vision Models",
+        "视觉"
+      ],
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "vendor-level2:baidu:image",
@@ -1795,7 +2081,7 @@
         "id": "vendor-level1:baidu"
       },
       "vendor_key": "baidu",
-      "title": "图像生成",
+      "title": "Baidu Image Generation",
       "official_url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
       "summary": "图像生成 系列。",
       "status": "active",
@@ -1806,7 +2092,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Baidu Image Generation",
+        "图像生成"
+      ],
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "vendor-level2:baidu:embedding-rerank",
@@ -1834,7 +2127,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "Embedding",
+        "Rerank"
+      ],
+      "search_terms": [
+        "Embedding / Rerank"
+      ]
     },
     {
       "id": "vendor-level2:mistral:vision",
@@ -1843,7 +2143,7 @@
         "id": "vendor-level1:mistral"
       },
       "vendor_key": "mistral",
-      "title": "视觉",
+      "title": "Mistral Vision Models",
       "official_url": "https://docs.mistral.ai/models",
       "summary": "视觉 系列。",
       "status": "active",
@@ -1854,7 +2154,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Mistral Vision Models",
+        "视觉"
+      ],
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "vendor-level2:mistral:ocr",
@@ -1874,7 +2181,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "task_types": [
+        "OCR",
+        "Document AI"
+      ],
+      "search_terms": [
+        "OCR"
+      ]
     },
     {
       "id": "vendor-level2:mistral:audio",
@@ -1883,7 +2197,7 @@
         "id": "vendor-level1:mistral"
       },
       "vendor_key": "mistral",
-      "title": "音频",
+      "title": "Voxtral Audio Models",
       "official_url": "https://docs.mistral.ai/inference/pricing",
       "summary": "音频 系列。",
       "status": "active",
@@ -1894,7 +2208,16 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Voxtral Audio Models",
+        "音频"
+      ],
+      "task_types": [
+        "STT",
+        "TTS",
+        "Audio Understanding"
+      ]
     },
     {
       "id": "vendor-level2:mistral:code",
@@ -1903,7 +2226,7 @@
         "id": "vendor-level1:mistral"
       },
       "vendor_key": "mistral",
-      "title": "代码",
+      "title": "Mistral Code Models",
       "official_url": "https://docs.mistral.ai/inference/pricing",
       "summary": "代码 系列。",
       "status": "active",
@@ -1914,7 +2237,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Mistral Code Models",
+        "代码"
+      ],
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "id": "vendor-level2:mistral:safety",
@@ -1923,7 +2253,7 @@
         "id": "vendor-level1:mistral"
       },
       "vendor_key": "mistral",
-      "title": "安全 / Moderation",
+      "title": "Mistral Safety & Moderation",
       "official_url": "https://docs.mistral.ai/models/mistral-moderation-26-03",
       "summary": "安全 / Moderation 系列。",
       "status": "active",
@@ -1934,7 +2264,14 @@
         }
       ],
       "series_kind": "model_series",
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "Mistral Safety & Moderation",
+        "安全 / Moderation"
+      ],
+      "task_types": [
+        "Moderation"
+      ]
     },
     {
       "id": "vendor-level2:cohere:vision",
@@ -1943,7 +2280,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Cohere 视觉与多模态模型",
+      "title": "Cohere Vision & Multimodal Models",
       "official_url": "https://docs.cohere.com/docs/models",
       "summary": "Cohere Cohere 视觉与多模态模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -1953,7 +2290,15 @@
           "id": "tool-level3:command-a-vision"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Cohere 视觉与多模态模型"
+      ],
+      "task_types": [
+        "Vision",
+        "Omni"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:coding",
@@ -1962,7 +2307,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Cohere 编程模型",
+      "title": "Cohere Coding Models",
       "official_url": "https://docs.cohere.com/docs/north-mini-code-1.0",
       "summary": "Cohere Cohere 编程模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -1972,7 +2317,14 @@
           "id": "tool-level3:north-mini-code-1-0"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Cohere 编程模型"
+      ],
+      "task_types": [
+        "Code"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:embedding",
@@ -1981,7 +2333,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Cohere Embedding 模型",
+      "title": "Cohere Embedding Models",
       "official_url": "https://docs.cohere.com/docs/models",
       "summary": "Cohere Cohere Embedding 模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -1995,7 +2347,14 @@
           "id": "tool-level3:embed-multilingual-v3.0"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Cohere Embedding 模型"
+      ],
+      "task_types": [
+        "Embedding"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:rerank",
@@ -2004,7 +2363,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Cohere Rerank 模型",
+      "title": "Cohere Rerank Models",
       "official_url": "https://docs.cohere.com/v2/docs/rerank",
       "summary": "Cohere Cohere Rerank 模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -2018,7 +2377,14 @@
           "id": "tool-level3:rerank-v4.0-fast"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Cohere Rerank 模型"
+      ],
+      "task_types": [
+        "Rerank"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:document",
@@ -2027,7 +2393,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Cohere 文档解析模型",
+      "title": "Cohere Document Parsing Models",
       "official_url": "https://docs.cohere.com/v2/docs/parse",
       "summary": "Cohere Cohere 文档解析模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -2037,7 +2403,15 @@
           "id": "tool-level3:parse-v5.0"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Cohere 文档解析模型"
+      ],
+      "task_types": [
+        "OCR",
+        "Document AI"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:speech",
@@ -2046,7 +2420,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Cohere 语音模型",
+      "title": "Cohere Speech Models",
       "official_url": "https://docs.cohere.com/docs/models",
       "summary": "Cohere Cohere 语音模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -2060,7 +2434,14 @@
           "id": "tool-level3:cohere-transcribe-arabic-07-2026"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Cohere 语音模型"
+      ],
+      "task_types": [
+        "STT"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:multilingual",
@@ -2069,7 +2450,7 @@
         "id": "vendor-level1:cohere"
       },
       "vendor_key": "cohere",
-      "title": "Cohere 多语言模型",
+      "title": "Cohere Multilingual Models",
       "official_url": "https://docs.cohere.com/docs/models",
       "summary": "Cohere Cohere 多语言模型，以官方模型与产品页面为准。",
       "status": "active",
@@ -2079,7 +2460,14 @@
           "id": "tool-level3:tiny-aya-global"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "search_terms": [
+        "Cohere 多语言模型"
+      ],
+      "task_types": [
+        "Multilingual"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:cohere:enterprise-products",
@@ -2106,7 +2494,9 @@
           "id": "tool-level3:cohere-model-vault"
         }
       ],
-      "series_kind": "tool_series"
+      "series_kind": "tool_series",
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:alibaba:qwen-image",
@@ -2115,7 +2505,7 @@
         "id": "vendor-level1:alibaba"
       },
       "vendor_key": "alibaba",
-      "title": "Qwen 图像与视频生成",
+      "title": "Qwen Image & Video Generation",
       "official_url": "https://www.aliyun.com/product/tongyi",
       "summary": "通义千问图像与万相视频生成模型系列，支持超长提示词输入、复杂版面中英文字渲染与高画质视频生成。",
       "status": "active",
@@ -2137,7 +2527,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:qwen-image-2.1"
         }
-      ]
+      ],
+      "search_terms": [
+        "Qwen 图像与视频生成"
+      ],
+      "task_types": [
+        "Image Generation",
+        "Video Generation"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:alibaba:qwen-embedding-rerank",
@@ -2146,7 +2544,7 @@
         "id": "vendor-level1:alibaba"
       },
       "vendor_key": "alibaba",
-      "title": "Qwen 向量与重排序",
+      "title": "Qwen Embedding & Rerank Models",
       "official_url": "https://help.aliyun.com/zh/model-studio/text-embedding-v4",
       "summary": "基于 Qwen3 训练的多语言文本统一向量模型与高精度重排序模型，赋能企业 RAG 与精准搜索。",
       "status": "active",
@@ -2160,7 +2558,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:qwen3-rerank"
         }
-      ]
+      ],
+      "search_terms": [
+        "Qwen 向量与重排序"
+      ],
+      "task_types": [
+        "Embedding",
+        "Rerank"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:alibaba:qwen-developer-tools",
@@ -2183,7 +2589,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:qwen-code"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:alibaba:bailian-coding-plan",
@@ -2206,7 +2614,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:coding-plan-lite"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:tencent:hunyuan-image-video",
@@ -2215,7 +2625,7 @@
         "id": "vendor-level1:tencent"
       },
       "vendor_key": "tencent",
-      "title": "混元图像与视频生成",
+      "title": "Hunyuan Image & Video Generation",
       "official_url": "https://cloud.tencent.com/document/product/1729/105925",
       "summary": "腾讯混元视觉生成家族，涵盖混元图像 3.0、Hy Image 3.5 Preview API 与腾讯云混元生视频服务。",
       "status": "active",
@@ -2233,7 +2643,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:hy-image-3.5"
         }
-      ]
+      ],
+      "search_terms": [
+        "混元图像与视频生成"
+      ],
+      "task_types": [
+        "Image Generation",
+        "Video Generation"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:tencent:codebuddy-subscription",
@@ -2256,7 +2674,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:codebuddy-team"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:meta:muse",
@@ -2265,7 +2685,7 @@
         "id": "vendor-level1:meta"
       },
       "vendor_key": "meta",
-      "title": "Muse 编程与推理大模型",
+      "title": "Muse Coding & Reasoning Models",
       "official_url": "https://developer.meta.com/ai/models/muse-spark",
       "summary": "Meta 专为长周期智能体与真实代码工作流打造的原生多模态模型家族，包含 Muse Spark 1.3、Muse Spark 1.2 及轻量级 Muse Glimmer。",
       "status": "active",
@@ -2283,7 +2703,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:muse-glimmer"
         }
-      ]
+      ],
+      "search_terms": [
+        "Muse 编程与推理大模型"
+      ],
+      "task_types": [
+        "Code",
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:meta:muse-code",
@@ -2302,7 +2730,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:muse-code"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:stepfun:step-image",
@@ -2311,7 +2741,7 @@
         "id": "vendor-level1:stepfun"
       },
       "vendor_key": "stepfun",
-      "title": "Step 图像生成与编辑",
+      "title": "Step Image Generation & Editing",
       "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
       "summary": "阶跃星辰商业生图与图像编辑大模型家族，涵盖轻量秒级 Step Image Edit 2 与高画质 Step-2X-Large。",
       "status": "active",
@@ -2325,7 +2755,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:step-2x-large"
         }
-      ]
+      ],
+      "search_terms": [
+        "Step 图像生成与编辑"
+      ],
+      "task_types": [
+        "Image Generation"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:stepfun:step-audio",
@@ -2334,7 +2771,7 @@
         "id": "vendor-level1:stepfun"
       },
       "vendor_key": "stepfun",
-      "title": "StepAudio 语音大模型",
+      "title": "StepAudio Speech Models",
       "official_url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
       "summary": "阶跃星辰具备语境感知力的高拟真语音合成（StepAudio-2.5-TTS）与大模型语音识别（StepAudio-2.5-ASR）。",
       "status": "active",
@@ -2357,7 +2794,15 @@
           "id": "tool-level3:stepaudio-3-asr"
         }
       ],
-      "generation_state": "newest"
+      "generation_state": "newest",
+      "search_terms": [
+        "StepAudio 语音大模型"
+      ],
+      "task_types": [
+        "TTS",
+        "STT",
+        "Voice"
+      ]
     },
     {
       "id": "vendor-level2:stepfun:step-developer-tools",
@@ -2376,7 +2821,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:stepfun-studio"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:stepfun:step-plan",
@@ -2407,7 +2854,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:step-plan-flash-max"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:xiaomi:mimo-omni-media",
@@ -2416,7 +2865,7 @@
         "id": "vendor-level1:xiaomi"
       },
       "vendor_key": "xiaomi",
-      "title": "MiMo 全模态与多媒体",
+      "title": "MiMo Omni & Media Models",
       "official_url": "https://mimo.mi.com",
       "summary": "小米自研全模态大模型与语音合成系列，涵盖音视频图文原生对齐的 MiMo-V2.5-Omni 与情感表达引擎 MiMo-V2.5-TTS。",
       "status": "active",
@@ -2430,7 +2879,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:mimo-v2-5-tts"
         }
-      ]
+      ],
+      "search_terms": [
+        "MiMo 全模态与多媒体"
+      ],
+      "task_types": [
+        "Omni",
+        "TTS"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:xiaomi:mimo-developer-tools",
@@ -2453,7 +2910,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:xiaomi-mimo-studio"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:xiaomi:mimo-token-plan",
@@ -2484,7 +2943,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:mimo-token-plan-max"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:nvidia:nim-tools",
@@ -2503,7 +2964,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:nvidia-nim"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:nvidia:ai-enterprise",
@@ -2522,7 +2985,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:nvidia-ai-enterprise-subscription"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:bytedance:doubao",
@@ -2531,7 +2996,7 @@
         "id": "vendor-level1:bytedance"
       },
       "vendor_key": "bytedance",
-      "title": "豆包通用与推理模型",
+      "title": "Doubao General & Reasoning Models",
       "official_url": "https://www.volcengine.com/product/doubao",
       "summary": "字节跳动火山引擎旗舰语言大模型与推理模型家族，包含 Doubao-1.5-Pro、极速版 1.5-Lite、四档思考的 Seed-2.0-Mini 与 Seed Character 角色扮演模型。",
       "status": "active",
@@ -2553,7 +3018,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:doubao-seed-character"
         }
-      ]
+      ],
+      "search_terms": [
+        "豆包通用与推理模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:bytedance:doubao-vision-video",
@@ -2562,7 +3034,7 @@
         "id": "vendor-level1:bytedance"
       },
       "vendor_key": "bytedance",
-      "title": "豆包图像与视频生成",
+      "title": "Doubao Image & Video Generation",
       "official_url": "https://ai.volcengine.com/model",
       "summary": "字节跳动多模态视觉生成模型家族，涵盖音视频参考视频生成的 Seedance-2.0-Mini，以及精准分层生图编辑的 Seedream-5.0 系列。",
       "status": "active",
@@ -2580,7 +3052,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:doubao-seedream-5.0-lite"
         }
-      ]
+      ],
+      "search_terms": [
+        "豆包图像与视频生成"
+      ],
+      "task_types": [
+        "Image Generation",
+        "Video Generation"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:bytedance:trae-subscription",
@@ -2611,7 +3091,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:trae-ultra"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:bytedance:doubao-token-packages",
@@ -2638,7 +3120,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:doubao-resource-package-100m"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:thinking-machines:inkling",
@@ -2647,7 +3131,7 @@
         "id": "vendor-level1:thinking-machines"
       },
       "vendor_key": "thinking-machines",
-      "title": "Inkling 全模态推理模型",
+      "title": "Inkling Multimodal Reasoning Models",
       "official_url": "https://thinkingmachines.ai/inkling",
       "summary": "Thinking Machines Lab 研发的原生全模态大模型家族，包含 975B 旗舰 MoE 的 Inkling 与 276B 轻量 MoE 的 Inkling-Small，支持文本、图像与音频跨模态推理。",
       "status": "active",
@@ -2661,7 +3145,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:inkling-small"
         }
-      ]
+      ],
+      "search_terms": [
+        "Inkling 全模态推理模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:thinking-machines:tinker",
@@ -2680,7 +3171,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:tinker"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:upstage:solar",
@@ -2689,7 +3182,7 @@
         "id": "vendor-level1:upstage"
       },
       "vendor_key": "upstage",
-      "title": "Solar 通用与推理模型",
+      "title": "Solar General & Reasoning Models",
       "official_url": "https://console.upstage.ai/docs",
       "summary": "Upstage 专为终端任务、长文档推理与智能体工作流研发的 Solar 大语言模型系列，包含 Solar Pro 4 旗舰、Solar Pro 3 与轻量级 Solar Mini。",
       "status": "active",
@@ -2707,7 +3200,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:solar-mini"
         }
-      ]
+      ],
+      "search_terms": [
+        "Solar 通用与推理模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:upstage:document-ai",
@@ -2716,7 +3216,7 @@
         "id": "vendor-level1:upstage"
       },
       "vendor_key": "upstage",
-      "title": "Upstage Document AI 文档智能",
+      "title": "Upstage Document AI Models",
       "official_url": "https://console.upstage.ai/docs/capabilities/digitize/document-parsing",
       "summary": "Upstage 核心专有文档智能大模型家族，涵盖复杂版式解析 Document Parse、高精度 Document OCR 与结构化字段提取 Information Extract。",
       "status": "active",
@@ -2734,7 +3234,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:upstage-information-extract"
         }
-      ]
+      ],
+      "search_terms": [
+        "Upstage Document AI 文档智能"
+      ],
+      "task_types": [
+        "OCR",
+        "Document AI"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:upstage:embedding",
@@ -2743,7 +3251,7 @@
         "id": "vendor-level1:upstage"
       },
       "vendor_key": "upstage",
-      "title": "Upstage 语义向量模型",
+      "title": "Upstage Embedding Models",
       "official_url": "https://console.upstage.ai/docs/capabilities/embed",
       "summary": "Upstage 全新一代高维语义向量嵌入大模型，专为大规模精准文本检索、跨语言匹配与企业 RAG 知识库打造。",
       "status": "active",
@@ -2753,7 +3261,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:upstage-embed-2"
         }
-      ]
+      ],
+      "search_terms": [
+        "Upstage 语义向量模型"
+      ],
+      "task_types": [
+        "Embedding"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:upstage:studio",
@@ -2772,7 +3287,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:upstage-studio"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:upstage:commitment-plan",
@@ -2795,7 +3312,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:upstage-build-tier"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:perplexity:sonar",
@@ -2804,7 +3323,7 @@
         "id": "vendor-level1:perplexity"
       },
       "vendor_key": "perplexity",
-      "title": "Sonar 联网推理大模型",
+      "title": "Sonar Search & Reasoning Models",
       "official_url": "https://docs.perplexity.ai",
       "summary": "Perplexity 专为实时网络检索与事实引文生成打造的 Sonar 系列模型，涵盖旗舰 Sonar Pro、思维链推理 Sonar Reasoning Pro 与全自动长篇调研 Sonar Deep Research。",
       "status": "active",
@@ -2826,7 +3345,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:sonar"
         }
-      ]
+      ],
+      "search_terms": [
+        "Sonar 联网推理大模型"
+      ],
+      "task_types": [
+        "LLM",
+        "Search"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:perplexity:pplx-embed",
@@ -2835,7 +3362,7 @@
         "id": "vendor-level1:perplexity"
       },
       "vendor_key": "perplexity",
-      "title": "Perplexity 网页检索向量",
+      "title": "Perplexity Web Retrieval Embeddings",
       "official_url": "https://docs.perplexity.ai",
       "summary": "Perplexity 官方超大规模网页级向量嵌入模型家族，包含密集检索 pplx-embed 与文档感知 pplx-embed-context。",
       "status": "active",
@@ -2845,7 +3372,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:pplx-embed"
         }
-      ]
+      ],
+      "search_terms": [
+        "Perplexity 网页检索向量"
+      ],
+      "task_types": [
+        "Embedding"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:perplexity:pro-subscription",
@@ -2868,7 +3402,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:perplexity-enterprise-pro"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:microsoft:phi",
@@ -2877,7 +3413,7 @@
         "id": "vendor-level1:microsoft"
       },
       "vendor_key": "microsoft",
-      "title": "Phi 推理与多模态大模型",
+      "title": "Phi Reasoning & Multimodal Models",
       "official_url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft",
       "summary": "微软专为极致推理效率与多模态图表理解打造的 Phi 系列模型，包含 15B 思维链推理模型 Phi-4 Reasoning Vision、高性价比 Phi-4-Mini 与全模态基座。",
       "status": "active",
@@ -2895,7 +3431,15 @@
           "kind": "tool-level3",
           "id": "tool-level3:phi-4-multimodal"
         }
-      ]
+      ],
+      "search_terms": [
+        "Phi 推理与多模态大模型"
+      ],
+      "task_types": [
+        "LLM",
+        "Vision"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:microsoft:mai",
@@ -2904,7 +3448,7 @@
         "id": "vendor-level1:microsoft"
       },
       "vendor_key": "microsoft",
-      "title": "MAI 视觉、语音与推理大模型",
+      "title": "MAI Thinking Models",
       "official_url": "https://azure.microsoft.com/en-us/products/ai-foundry",
       "summary": "微软自研商业多模态模型家族 MAI，涵盖推理模型 MAI-Thinking 1、图像生成模型 MAI-Image 2.5 与 2.6，以及语音生成模型 MAI-Voice 2。",
       "status": "active",
@@ -2913,20 +3457,16 @@
         {
           "kind": "tool-level3",
           "id": "tool-level3:mai-thinking-1"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:mai-image-2-5"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:mai-image-2.6"
-        },
-        {
-          "kind": "tool-level3",
-          "id": "tool-level3:mai-voice-2"
         }
-      ]
+      ],
+      "search_terms": [
+        "MAI Vision, Speech & Reasoning Models",
+        "MAI 视觉、语音与推理大模型"
+      ],
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:microsoft:developer-tools",
@@ -2949,7 +3489,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:azure-ai-foundry"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:microsoft:copilot-subscription",
@@ -2976,7 +3518,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:copilot-enterprise"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:reve:image",
@@ -2985,7 +3529,7 @@
         "id": "vendor-level1:reve"
       },
       "vendor_key": "reve",
-      "title": "Reve 图像生成与编辑",
+      "title": "Reve Image Generation & Editing",
       "official_url": "https://blog.reve.com/posts/launching-reve-2.1",
       "summary": "Reve 官方排版优先架构的原生 4K 图像生成大模型系列，包含全球竞技场位列第二的 Reve 2.1 与前代主力 Reve 2.0，支持低成本局部重绘编辑。",
       "status": "active",
@@ -2999,7 +3543,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:reve-2-0"
         }
-      ]
+      ],
+      "search_terms": [
+        "Reve 图像生成与编辑"
+      ],
+      "task_types": [
+        "Image Generation"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:reve:video",
@@ -3008,7 +3559,7 @@
         "id": "vendor-level1:reve"
       },
       "vendor_key": "reve",
-      "title": "Reve 视频生成",
+      "title": "Reve Video Generation",
       "official_url": "https://blog.reve.com",
       "summary": "Reve 官方高质量图像转视频大模型，支持将静态 4K 创意图像转化为具有电影级流畅运镜和自然动态的短视频。",
       "status": "active",
@@ -3018,7 +3569,14 @@
           "kind": "tool-level3",
           "id": "tool-level3:reve-video"
         }
-      ]
+      ],
+      "search_terms": [
+        "Reve 视频生成"
+      ],
+      "task_types": [
+        "Video Generation"
+      ],
+      "generation_state": "newest"
     },
     {
       "id": "vendor-level2:reve:platform",
@@ -3119,7 +3677,7 @@
         "id": "vendor-level1:luma"
       },
       "vendor_key": "luma",
-      "title": "Luma Ray 视频生成系列",
+      "title": "Luma Ray Video Generation Series",
       "official_url": "https://lumalabs.ai/news",
       "summary": "Luma AI 旗舰视频生成与局部重塑模型家族，涵盖电影级逐帧控制的 Ray 3.2、定向局部微调 Ray 3.2 Edit 与高画质商用基座 Ray 3.14。",
       "status": "active",
@@ -3138,6 +3696,12 @@
           "kind": "tool-level3",
           "id": "tool-level3:luma-ray-3-14"
         }
+      ],
+      "search_terms": [
+        "Luma Ray 视频生成系列"
+      ],
+      "task_types": [
+        "Video Generation"
       ]
     },
     {
@@ -3147,7 +3711,7 @@
         "id": "vendor-level1:luma"
       },
       "vendor_key": "luma",
-      "title": "Luma Uni 视觉生成系列",
+      "title": "Luma Uni Vision Generation Series",
       "official_url": "https://lumalabs.ai/news/uni-1-1-api",
       "summary": "Luma AI 统一视觉智能图像生成与自然语言编辑模型家族，支持品牌参考强约束、超低时延生成与高端商业插画渲染。",
       "status": "active",
@@ -3162,6 +3726,12 @@
           "kind": "tool-level3",
           "id": "tool-level3:luma-uni-1-1-max"
         }
+      ],
+      "search_terms": [
+        "Luma Uni 视觉生成系列"
+      ],
+      "task_types": [
+        "Image Generation"
       ]
     },
     {
@@ -3221,7 +3791,7 @@
         "id": "vendor-level1:black-forest-labs"
       },
       "vendor_key": "black-forest-labs",
-      "title": "FLUX.2 图像生成系列",
+      "title": "FLUX.2 Image Generation Series",
       "official_url": "https://docs.bfl.ai/release-notes",
       "summary": "Black Forest Labs 新一代图像生成模型家族，涵盖联网事实检索生图 FLUX.2 [max]、企业生产级 FLUX.2 [pro]、精准排版 FLUX.2 [flex] 与亚秒级推理 FLUX.2 [klein]。",
       "status": "active",
@@ -3244,6 +3814,12 @@
           "kind": "tool-level3",
           "id": "tool-level3:flux-2-klein"
         }
+      ],
+      "search_terms": [
+        "FLUX.2 图像生成系列"
+      ],
+      "task_types": [
+        "Image Generation"
       ]
     },
     {
@@ -3253,7 +3829,7 @@
         "id": "vendor-level1:black-forest-labs"
       },
       "vendor_key": "black-forest-labs",
-      "title": "FLUX 3 多模态音视频系列",
+      "title": "FLUX.3 Multimodal Audio & Video Series",
       "official_url": "https://bfl.ai/blog/flux-3",
       "summary": "Black Forest Labs 首款多模态世界基座模型，原生同步联合生成长达 20 秒影视级视频与高保真音频，支持物理世界实体动作预测。",
       "status": "active",
@@ -3264,6 +3840,13 @@
           "kind": "tool-level3",
           "id": "tool-level3:flux-3"
         }
+      ],
+      "search_terms": [
+        "FLUX 3 多模态音视频系列"
+      ],
+      "task_types": [
+        "Video Generation",
+        "Audio Generation"
       ]
     },
     {
@@ -3315,7 +3898,7 @@
         "id": "vendor-level1:antgroup"
       },
       "vendor_key": "antgroup",
-      "title": "百灵思考与通用大模型系列",
+      "title": "Bailing General & Reasoning Models",
       "official_url": "https://www.lingguang.com",
       "summary": "蚂蚁集团自主研发的百灵万亿大模型家族，涵盖奥数竞赛金牌级深度思考模型 Ring-2.5-1T、高吞吐通用基座 Ling-2.5-1T 以及首代万亿开源模型 Ring-1T 与 Ling-1T。",
       "status": "active",
@@ -3338,6 +3921,12 @@
           "kind": "tool-level3",
           "id": "tool-level3:bailing-ling-1t"
         }
+      ],
+      "search_terms": [
+        "百灵思考与通用大模型系列"
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -3347,7 +3936,7 @@
         "id": "vendor-level1:antgroup"
       },
       "vendor_key": "antgroup",
-      "title": "百灵全模态模型系列",
+      "title": "Bailing Omni Models",
       "official_url": "https://www.lingguang.com",
       "summary": "蚂蚁集团统一全模态多模态大模型 Ming-omni，原生打通视觉理解、多模态推理与端到端自然对话。",
       "status": "active",
@@ -3358,6 +3947,12 @@
           "kind": "tool-level3",
           "id": "tool-level3:bailing-ming-omni"
         }
+      ],
+      "search_terms": [
+        "百灵全模态模型系列"
+      ],
+      "task_types": [
+        "Omni"
       ]
     },
     {
@@ -3381,7 +3976,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:ling-studio"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:antgroup:subscription",
@@ -3400,7 +3997,9 @@
           "kind": "tool-level3",
           "id": "tool-level3:bailing-api-plan"
         }
-      ]
+      ],
+      "task_types": [],
+      "search_terms": []
     },
     {
       "id": "vendor-level2:meta:muse-image",
@@ -3438,7 +4037,12 @@
           "id": "tool-level3:jev"
         }
       ],
-      "series_kind": "model_series"
+      "series_kind": "model_series",
+      "task_types": [
+        "LLM"
+      ],
+      "generation_state": "newest",
+      "search_terms": []
     },
     {
       "id": "vendor-level2:tencent:workbuddy-plans",
@@ -3466,6 +4070,56 @@
         }
       ],
       "series_kind": "subscription_series"
+    },
+    {
+      "id": "vendor-level2:microsoft:mai-image",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:microsoft"
+      },
+      "vendor_key": "microsoft",
+      "title": "MAI Image Models",
+      "official_url": "",
+      "summary": "",
+      "status": "unknown",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-image-2.6"
+        },
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-image-2-5"
+        }
+      ],
+      "task_types": [
+        "Image Generation"
+      ],
+      "search_terms": [
+        "MAI Image"
+      ]
+    },
+    {
+      "id": "vendor-level2:microsoft:mai-voice",
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:microsoft"
+      },
+      "vendor_key": "microsoft",
+      "title": "MAI Voice",
+      "official_url": "",
+      "summary": "",
+      "status": "unknown",
+      "detail_refs": [
+        {
+          "kind": "tool-level3",
+          "id": "tool-level3:mai-voice-2"
+        }
+      ],
+      "task_types": [
+        "TTS"
+      ],
+      "search_terms": []
     }
   ]
 }

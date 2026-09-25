@@ -166,3 +166,33 @@ test('bundle 携带 base_revisions 与 bridge entries（每个新 api_model 一�
   assert.match(bundle.bundle_id, /^bundle-[0-9a-f]{12}$/);
   assert.match(bundle.bundle_token, /^btk-[0-9a-f]{16}$/);
 });
+
+test('SeriesBundle 将成员名称中的 TTS 与 ASR 别名归一后写入模型详情和工具卡', () => {
+  const result = planSeriesBundle({
+    candidate: { candidate_key: 'qwen-audio', name: 'Qwen Audio 3.1', entity_type: 'series' },
+    verdict: {
+      entity_class: 'series', vendor_key: 'alibaba', model_key: 'alibaba-qwen-audio-3-1',
+      series_title: 'Qwen Audio 3.1', family: 'qwen_audio', modality: 'audio',
+      evidence: { official_url: 'https://www.alibabacloud.com/help/en/model-studio/audio-generation', content_hash: 'sha256:qwen' },
+      reasons: ['official model list'],
+    },
+    subModelVerdicts: [
+      { name: 'Qwen Audio 3.1 TTS-Next', model_key: 'alibaba-qwen-audio-3-1-tts-next' },
+      { name: 'Qwen Audio 3.1 ASR-Next', model_key: 'alibaba-qwen-audio-3-1-asr-next' },
+    ],
+    policy: POLICY,
+    snapshot: emptySnapshot(),
+    now: new Date('2026-09-25T00:00:00Z'),
+  });
+  assert.equal(result.ok, true);
+  const members = new Map(result.bundle.members.map(member => [member.name, member]));
+  assert.deepEqual(members.get('Qwen Audio 3.1 TTS-Next').task_types, ['TTS']);
+  assert.deepEqual(members.get('Qwen Audio 3.1 ASR-Next').task_types, ['STT']);
+  for (const member of members.values()) {
+    if (member.classification !== 'bundled') continue;
+    const detail = result.bundle.layer_patches.find(patch => patch.area === 'tool-level3' && patch.id === member.detail_id);
+    const card = result.bundle.layer_patches.find(patch => patch.area === 'tool-card' && patch.id === member.tool_card_id);
+    assert.deepEqual(detail.record.task_types, member.task_types);
+    assert.deepEqual(card.record.task_types, member.task_types);
+  }
+});

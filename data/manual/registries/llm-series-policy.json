@@ -1,7 +1,7 @@
 {
-  "schema_version": 2,
-  "verified_at": "2026-09-07",
-  "purpose": "厂商系列政策（schema v2）。描述每厂商的主攻方向 direction、模型家族、用途、模态、系列种类、版本代际与允许的目标二级系列及证据状态；可用 member_lineages 限制每代产品线成员唯一，并用 hidden_history_members 声明迁移时归档的成员。系列迁移、SeriesBundle 规划与 AI 分类均以本文件为唯一规则源；未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。可见容量 visible_members=6，第 7 个起按 release_date 最旧转 hidden_history（由 SeriesBundle planner 与迁移 CLI 执行，政策不再定义拆分规则）。",
+  "schema_version": 3,
+  "verified_at": "2026-09-25",
+  "purpose": "厂商系列政策（schema v3）。task_type_registry 统一任务短标签与别名；family.task_types 声明系列能力，任务类型独立于厂商产品线。系列规划按厂商家族决定 existing/create，未知厂商或未覆盖任务 fail-closed；SeriesBundle Apply 后将新系列投影到前端。member_lineages、hidden_history_members 与 visible_members 规则保持不变。",
   "capacity": {
     "visible_members": 6,
     "history_retention_months": 14
@@ -159,9 +159,16 @@
       "thinking-machines",
       "thinking machines",
       "thinking machines lab"
+    ],
+    "elevenlabs": [
+      "elevenlabs",
+      "eleven labs",
+      "elevenlabs ai"
     ]
   },
-  "vendor_direction_suggestions": [],
+  "vendor_direction_suggestions": [
+    "audio"
+  ],
   "vendors": [
     {
       "vendor_key": "openai",
@@ -169,38 +176,116 @@
       "description": "OpenAI：GPT 通用 LLM 为并行主版本，Realtime/Image/Codex 为独立产品家族。",
       "families": [
         {
-          "family": "gpt",
-          "usage_kind": "general_llm",
-          "modality": "text",
+          "family": "openai_tts",
+          "usage_kind": "speech_generation",
+          "modality": "audio",
           "series_kind": "model_series",
-          "version_axis": "dot",
+          "version_axis": "none",
+          "name_patterns": [
+            "gpt-4o-mini-tts",
+            "tts-1",
+            "text-to-speech",
+            "tts"
+          ],
+          "task_types": [
+            "TTS"
+          ],
           "series": [
             {
-              "id": "vendor-level2:openai:gpt-6",
-              "title": "GPT-6/GPT-5.6",
+              "id": "vendor-level2:openai:tts",
+              "title": "OpenAI TTS",
               "generation_state": "newest",
-              "expected_members": [
-                "gpt-6",
-                "gpt-6-sol",
-                "gpt-5.6-sol",
-                "gpt-5.6-terra",
-                "gpt-5.6-luna",
-                "gpt-6-luna"
-              ]
-            },
-            {
-              "id": "vendor-level2:openai:gpt-5-5",
-              "title": "GPT-5.5",
-              "generation_state": "previous",
-              "expected_members": [
-                "gpt-5-5",
-                "gpt-5-5-pro"
-              ]
+              "expected_members": []
             }
           ],
           "evidence": {
-            "url": "https://developers.openai.com/api/docs/models/all",
-            "status": "verified"
+            "status": "verified",
+            "url": "https://platform.openai.com/docs/api-reference/audio/voice-consent-object",
+            "title": "OpenAI TTS"
+          }
+        },
+        {
+          "family": "openai_transcription",
+          "usage_kind": "speech_recognition",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "gpt-transcribe",
+            "gpt-live-transcribe",
+            "gpt-4o-transcribe",
+            "gpt-4o-mini-transcribe"
+          ],
+          "task_types": [
+            "STT"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:openai:transcription",
+              "title": "OpenAI Transcription",
+              "generation_state": "newest",
+              "expected_members": []
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://platform.openai.com/docs/models",
+            "title": "OpenAI Transcription"
+          }
+        },
+        {
+          "family": "openai_embedding",
+          "usage_kind": "embedding",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "text-embedding",
+            "embedding"
+          ],
+          "task_types": [
+            "Embedding"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:openai:embedding",
+              "title": "OpenAI Embeddings",
+              "generation_state": "newest",
+              "expected_members": []
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://platform.openai.com/docs/models",
+            "title": "OpenAI Embeddings"
+          }
+        },
+        {
+          "family": "openai_moderation",
+          "usage_kind": "moderation",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "omni-moderation",
+            "text-moderation",
+            "moderation"
+          ],
+          "task_types": [
+            "Moderation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:openai:moderation",
+              "title": "OpenAI Moderation",
+              "generation_state": "newest",
+              "expected_members": []
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://platform.openai.com/docs/api-reference/moderations",
+            "title": "OpenAI Moderation"
           }
         },
         {
@@ -229,13 +314,20 @@
                 "gpt-realtime-whisper",
                 "gpt-realtime-1-5",
                 "gpt-audio-1-5"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
             "url": "https://developers.openai.com/api/docs/models/all",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Voice",
+            "STT",
+            "TTS",
+            "Translation"
+          ]
         },
         {
           "family": "image",
@@ -256,13 +348,57 @@
                 "gpt-image-2",
                 "gpt-img-2.5",
                 "gpt-images-2.5"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
             "url": "https://developers.openai.com/api/docs/models/all",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Image Generation"
+          ]
+        },
+        {
+          "family": "gpt",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:openai:gpt-6",
+              "title": "GPT-6/GPT-5.6",
+              "generation_state": "newest",
+              "expected_members": [
+                "gpt-6",
+                "gpt-6-sol",
+                "gpt-5.6-sol",
+                "gpt-5.6-terra",
+                "gpt-5.6-luna",
+                "gpt-6-luna"
+              ],
+              "search_terms": []
+            },
+            {
+              "id": "vendor-level2:openai:gpt-5-5",
+              "title": "GPT-5.5",
+              "generation_state": "previous",
+              "expected_members": [
+                "gpt-5-5",
+                "gpt-5-5-pro"
+              ],
+              "search_terms": []
+            }
+          ],
+          "evidence": {
+            "url": "https://developers.openai.com/api/docs/models/all",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "codex",
@@ -277,7 +413,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "openai-codex"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -300,7 +437,8 @@
                 "chatgpt-go",
                 "chatgpt-plus",
                 "chatgpt-pro"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -341,31 +479,40 @@
           "series": [
             {
               "id": "vendor-level2:anthropic:claude",
-              "title": "Claude 最新系列",
+              "title": "Claude Current Generation",
               "generation_state": "newest",
               "expected_members": [
                 "claude-fable-5.1",
                 "claude-opus-5.5",
                 "claude-sonnet-5",
                 "claude-haiku-4.5"
+              ],
+              "search_terms": [
+                "Claude 最新系列"
               ]
             },
             {
               "id": "vendor-level2:anthropic:claude-previous",
-              "title": "Claude 上一世代",
+              "title": "Claude Previous Generation",
               "generation_state": "previous",
               "expected_members": [
                 "claude-fable-5",
                 "claude-opus-5",
                 "claude-sonnet-4.6",
                 "claude-haiku-3.5"
+              ],
+              "search_terms": [
+                "Claude 上一世代"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.claude.com/docs/en/models/overview",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "claude_coding_plan",
@@ -382,7 +529,8 @@
                 "claude-pro",
                 "claude-max-5x",
                 "claude-max-20x"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -398,13 +546,134 @@
       "description": "Google：Gemini 按 Flash/Flash-Lite 与 Pro 产品线分类；Gemini Live 实时语音系列、Nano Banana 图像产品、Coding Plan、Gemini CLI 与 Antigravity 独立维护；Gemma 等纯开源本地模型排除。",
       "families": [
         {
+          "family": "gemini_tts",
+          "usage_kind": "speech_generation",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "gemini-3.8-flash-tts",
+            "gemini-3.8-flash-lite-tts",
+            "tts"
+          ],
+          "task_types": [
+            "TTS"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:google:gemini-tts",
+              "title": "Gemini TTS",
+              "generation_state": "newest",
+              "expected_members": [
+                "gemini-3.8-flash-tts",
+                "gemini-3.8-flash-lite-tts"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://ai.google.dev/gemini-api/docs/models",
+            "title": "Gemini TTS"
+          }
+        },
+        {
+          "family": "gemini_transcribe",
+          "usage_kind": "speech_recognition",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "gemini-3.5-transcribe",
+            "transcribe"
+          ],
+          "task_types": [
+            "STT"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:google:gemini-transcription",
+              "title": "Gemini Transcription",
+              "generation_state": "newest",
+              "expected_members": [
+                "gemini-3.5-transcribe"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://ai.google.dev/gemini-api/docs/models",
+            "title": "Gemini Transcription"
+          }
+        },
+        {
+          "family": "gemini_live",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "name_patterns": [
+            "live"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:google:gemini-live",
+              "title": "Gemini Live Voice Series",
+              "generation_state": "newest",
+              "expected_members": [
+                "gemini-3-8-live"
+              ],
+              "search_terms": [
+                "Gemini Live 实时语音系列"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking",
+            "status": "verified"
+          },
+          "task_types": [
+            "Voice"
+          ]
+        },
+        {
+          "family": "gemini_image",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "nano banana",
+            "image"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:google:gemini-image",
+              "title": "Nano Banana Image Series",
+              "generation_state": "newest",
+              "expected_members": [
+                "nano-banana-2"
+              ],
+              "search_terms": [
+                "Nano Banana 图像产品"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
+            "status": "verified"
+          },
+          "task_types": [
+            "Image Generation"
+          ]
+        },
+        {
           "family": "gemini_flash",
           "usage_kind": "general_llm",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "dot",
           "name_patterns": [
-            "flash",
+            "gemini-flash",
             "flash-lite"
           ],
           "series": [
@@ -417,13 +686,17 @@
                 "gemini-3-7-flash",
                 "gemini-3-6-flash",
                 "gemini-3.5-flash"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
             "url": "https://ai.google.dev/gemini-api/docs/models",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "gemini_pro",
@@ -442,62 +715,17 @@
               "expected_members": [
                 "gemini-3-1-pro",
                 "gemini-3-5-pro"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
             "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-pro-preview",
             "status": "verified"
-          }
-        },
-        {
-          "family": "gemini_live",
-          "usage_kind": "audio_realtime",
-          "modality": "audio",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "name_patterns": [
-            "live"
-          ],
-          "series": [
-            {
-              "id": "vendor-level2:google:gemini-live",
-              "title": "Gemini Live 实时语音系列",
-              "generation_state": "newest",
-              "expected_members": [
-                "gemini-3-8-live"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking",
-            "status": "verified"
-          }
-        },
-        {
-          "family": "gemini_image",
-          "usage_kind": "image",
-          "modality": "image",
-          "series_kind": "model_series",
-          "version_axis": "none",
-          "name_patterns": [
-            "nano banana",
-            "image"
-          ],
-          "series": [
-            {
-              "id": "vendor-level2:google:gemini-image",
-              "title": "Nano Banana 图像产品",
-              "generation_state": "newest",
-              "expected_members": [
-                "nano-banana-2"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-image",
-            "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "gemini_coding_plan",
@@ -514,7 +742,8 @@
                 "google-ai-pro",
                 "google-ai-ultra-5x",
                 "google-ai-ultra-20x"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -535,7 +764,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "gemini-cli"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -563,7 +793,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "antigravity-cli"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -587,20 +818,26 @@
           "series": [
             {
               "id": "vendor-level2:deepseek:deepseek",
-              "title": "DeepSeek 模型",
+              "title": "DeepSeek Models",
               "generation_state": "newest",
               "expected_members": [
                 "deepseek-v4-flash",
                 "deepseek-v4.1-flash",
                 "deepseek-v4-pro",
                 "deepseek-v4-flash-vision-exp"
+              ],
+              "search_terms": [
+                "DeepSeek 模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://api-docs.deepseek.com/api/list-models",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Vision"
+          ]
         },
         {
           "family": "deepseek_harness",
@@ -619,7 +856,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "deepseek-harness"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -635,6 +873,181 @@
       "description": "智谱：GLM 通用与 GLM Flash 分系列维护；GLM-4.7 Flash 纳入 GLM Flash。",
       "families": [
         {
+          "family": "zhipu_image",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "glm-image",
+            "image"
+          ],
+          "task_types": [
+            "Image Generation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:zhipu:image",
+              "title": "Image Generation",
+              "generation_state": "newest",
+              "expected_members": [
+                "glm-image"
+              ],
+              "search_terms": [
+                "Image Generation",
+                "图像生成"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.z.ai/guides/image/glm-image",
+            "title": "Image Generation"
+          }
+        },
+        {
+          "family": "zhipu_video",
+          "usage_kind": "video",
+          "modality": "video",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "cogvideox",
+            "video"
+          ],
+          "task_types": [
+            "Video Generation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:zhipu:video",
+              "title": "Video Generation",
+              "generation_state": "newest",
+              "expected_members": [
+                "cogvideox-3"
+              ],
+              "search_terms": [
+                "Video Generation",
+                "视频生成"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.z.ai/guides/video/cogvideox-3",
+            "title": "Video Generation"
+          }
+        },
+        {
+          "family": "zhipu_vision",
+          "usage_kind": "vision",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "glm-5v",
+            "glm-4-6v",
+            "glm-ocr",
+            "vision"
+          ],
+          "task_types": [
+            "Vision",
+            "OCR"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:zhipu:vision",
+              "title": "Vision Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "glm-5v-turbo",
+                "glm-4-6v",
+                "glm-ocr"
+              ],
+              "search_terms": [
+                "Vision Models",
+                "视觉"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.z.ai/guides/overview/overview",
+            "title": "Vision Models"
+          }
+        },
+        {
+          "family": "zhipu_audio",
+          "usage_kind": "speech_recognition",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "glm-asr",
+            "asr",
+            "tts",
+            "audio"
+          ],
+          "task_types": [
+            "STT"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:zhipu:audio",
+              "title": "Audio Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "glm-asr-2512"
+              ],
+              "search_terms": [
+                "Audio Models",
+                "音频"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.bigmodel.cn/cn/guide/models/sound-and-video/glm-asr-2512",
+            "title": "Audio Models"
+          }
+        },
+        {
+          "family": "zhipu_embedding_rerank",
+          "usage_kind": "retrieval",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "embedding",
+            "rerank",
+            "bce"
+          ],
+          "task_types": [
+            "Embedding",
+            "Rerank"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:zhipu:embedding-rerank",
+              "title": "Embedding / Rerank",
+              "generation_state": "newest",
+              "expected_members": [
+                "embedding-2",
+                "embedding-3",
+                "glm-rerank"
+              ],
+              "search_terms": [
+                "Embedding / Rerank"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.bigmodel.cn/cn/guide/tools/knowledge/price",
+            "title": "Embedding / Rerank"
+          }
+        },
+        {
           "family": "glm",
           "usage_kind": "general_llm",
           "modality": "text",
@@ -649,7 +1062,8 @@
                 "glm-5.1",
                 "glm-5.2",
                 "glm-5-3"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -659,7 +1073,14 @@
               "glm-5.1": "repository_only",
               "glm-5.2": "repository_only"
             }
-          }
+          },
+          "task_types": [
+            "LLM"
+          ],
+          "name_patterns": [
+            "glm-5",
+            "glm-4"
+          ]
         },
         {
           "family": "glm_flash",
@@ -675,13 +1096,20 @@
               "expected_members": [
                 "glm-5-3-flash",
                 "glm-4-7-flash"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
             "url": "https://docs.z.ai/guides/llm/glm-4.7",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ],
+          "name_patterns": [
+            "glm-flash"
+          ]
         }
       ]
     },
@@ -691,6 +1119,142 @@
       "description": "百度：当前正式目录保留 ERNIE 通用系列；新增模态系列需先完成三级详情卡和计费核验。",
       "families": [
         {
+          "family": "baidu_vision",
+          "usage_kind": "vision",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "ernie-4-5-turbo-vl",
+            "vision",
+            "vl"
+          ],
+          "task_types": [
+            "Vision"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:baidu:vision",
+              "title": "Baidu Vision Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "ernie-4-5-turbo-vl"
+              ],
+              "search_terms": [
+                "Baidu Vision Models",
+                "视觉"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+            "title": "Baidu Vision Models"
+          }
+        },
+        {
+          "family": "baidu_image",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "muse",
+            "image"
+          ],
+          "task_types": [
+            "Image Generation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:baidu:image",
+              "title": "Baidu Image Generation",
+              "generation_state": "newest",
+              "expected_members": [
+                "musesteamer-air-image"
+              ],
+              "search_terms": [
+                "Baidu Image Generation",
+                "图像生成"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+            "title": "Baidu Image Generation"
+          }
+        },
+        {
+          "family": "baidu_embedding_rerank",
+          "usage_kind": "retrieval",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "embedding",
+            "rerank",
+            "bce",
+            "tao-8k"
+          ],
+          "task_types": [
+            "Embedding",
+            "Rerank"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:baidu:embedding-rerank",
+              "title": "Embedding / Rerank",
+              "generation_state": "newest",
+              "expected_members": [
+                "embedding-v1",
+                "tao-8k",
+                "bce-reranker-base"
+              ],
+              "search_terms": [
+                "Embedding / Rerank"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a",
+            "title": "Embedding / Rerank"
+          }
+        },
+        {
+          "family": "ernie_x",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "ernie-x"
+          ],
+          "task_types": [
+            "LLM"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:baidu:ernie-x",
+              "title": "ERNIE X",
+              "generation_state": "newest",
+              "expected_members": [
+                "ernie-x1-1",
+                "ernie-x1-1-preview"
+              ],
+              "search_terms": [
+                "ERNIE X"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
+            "title": "ERNIE X"
+          }
+        },
+        {
           "family": "ernie",
           "usage_kind": "general_llm",
           "modality": "text",
@@ -699,18 +1263,28 @@
           "series": [
             {
               "id": "vendor-level2:baidu:ernie",
-              "title": "ERNIE 模型",
+              "title": "ERNIE Models",
               "generation_state": "newest",
               "expected_members": [
                 "ernie-5.1",
                 "ernie-5.0"
+              ],
+              "search_terms": [
+                "ERNIE 模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://cloud.baidu.com/doc/qianfan/s/rmh4stp0j",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ],
+          "name_patterns": [
+            "ernie-4",
+            "ernie-5"
+          ]
         }
       ]
     },
@@ -719,36 +1293,6 @@
       "direction": "llm",
       "description": "MiniMax：M 系列为通用文本模型，Hailuo、Speech 和 Music 分别按模态维护。",
       "families": [
-        {
-          "family": "minimax_m",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "m",
-          "name_patterns": [
-            "minimax-m",
-            "m3",
-            "m2"
-          ],
-          "series": [
-            {
-              "id": "vendor-level2:minimax:m",
-              "title": "MiniMax M 系列",
-              "generation_state": "newest",
-              "expected_members": [
-                "minimax-m3",
-                "minimax-m2.7",
-                "minimax-m2.5",
-                "minimax-m2.1",
-                "minimax-m2"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://platform.minimax.io/docs/guides/models-intro",
-            "status": "verified"
-          }
-        },
         {
           "family": "hailuo_video",
           "usage_kind": "video",
@@ -763,19 +1307,25 @@
           "series": [
             {
               "id": "vendor-level2:minimax:hailuo-video",
-              "title": "Hailuo 视频系列",
+              "title": "Hailuo Video Series",
               "generation_state": "newest",
               "expected_members": [
                 "minimax-h3",
                 "minimax-hailuo-2.3",
                 "minimax-hailuo-2.3-fast"
+              ],
+              "search_terms": [
+                "Hailuo 视频系列"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.minimax.io/docs/api-reference/video-generation",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Video Generation"
+          ]
         },
         {
           "family": "speech",
@@ -789,19 +1339,26 @@
           "series": [
             {
               "id": "vendor-level2:minimax:speech",
-              "title": "Speech 语音系列",
+              "title": "MiniMax Speech Series",
               "generation_state": "newest",
               "expected_members": [
                 "minimax-speech-2.8",
                 "minimax-speech-2.6",
                 "minimax-speech-2.5"
+              ],
+              "search_terms": [
+                "Speech 语音系列"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.minimax.io/docs/api-reference/api-overview",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "TTS",
+            "Voice"
+          ]
         },
         {
           "family": "music",
@@ -815,7 +1372,7 @@
           "series": [
             {
               "id": "vendor-level2:minimax:music",
-              "title": "Music 音乐系列",
+              "title": "MiniMax Music Series",
               "generation_state": "newest",
               "expected_members": [
                 "minimax-music-2.6",
@@ -823,13 +1380,56 @@
                 "minimax-music-2.5",
                 "minimax-music-2.0",
                 "minimax-music-1.5"
+              ],
+              "search_terms": [
+                "Music 音乐系列"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.minimax.io/docs/api-reference/api-overview",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Music",
+            "Audio Generation"
+          ]
+        },
+        {
+          "family": "minimax_m",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "m",
+          "name_patterns": [
+            "minimax-m",
+            "m3",
+            "m2"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:minimax:m",
+              "title": "MiniMax M Series",
+              "generation_state": "newest",
+              "expected_members": [
+                "minimax-m3",
+                "minimax-m2.7",
+                "minimax-m2.5",
+                "minimax-m2.1",
+                "minimax-m2"
+              ],
+              "search_terms": [
+                "MiniMax M 系列"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.minimax.io/docs/guides/models-intro",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         }
       ]
     },
@@ -838,32 +1438,6 @@
       "direction": "llm",
       "description": "xAI：Grok 4 系列为通用模型，Imagine、Voice、Build 和 Bot 为独立商业产品族。",
       "families": [
-        {
-          "family": "grok",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "series": [
-            {
-              "id": "vendor-level2:xai:grok",
-              "title": "Grok 4 系列",
-              "generation_state": "newest",
-              "expected_members": [
-                "grok-4.6",
-                "grok-4.5",
-                "grok-4.3",
-                "grok-4.20-0309-reasoning",
-                "grok-4.20-0309-non-reasoning",
-                "grok-4.20-multi-agent-0309"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://docs.x.ai/developers/models",
-            "status": "verified"
-          }
-        },
         {
           "family": "imagine",
           "usage_kind": "media",
@@ -876,7 +1450,7 @@
           "series": [
             {
               "id": "vendor-level2:xai:grok-imagine",
-              "title": "Grok Imagine 系列",
+              "title": "Grok Imagine Series",
               "generation_state": "newest",
               "expected_members": [
                 "grok-imagine-image-2.0",
@@ -884,34 +1458,20 @@
                 "grok-imagine-image-quality",
                 "grok-imagine-video-1.5",
                 "grok-imagine-video"
+              ],
+              "search_terms": [
+                "Grok Imagine 系列"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.x.ai/developers/pricing",
             "status": "verified"
-          }
-        },
-        {
-          "family": "build",
-          "usage_kind": "tool",
-          "modality": "text",
-          "series_kind": "tool_series",
-          "series": [
-            {
-              "id": "vendor-level2:xai:grok-build",
-              "title": "Grok Build",
-              "generation_state": "newest",
-              "expected_members": [
-                "grok-build-0.1",
-                "grok-build"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://docs.x.ai/build/overview",
-            "status": "verified"
-          }
+          },
+          "task_types": [
+            "Image Generation",
+            "Video Generation"
+          ]
         },
         {
           "family": "voice",
@@ -933,11 +1493,71 @@
                 "grok-voice-transcribe-2.0",
                 "xai-speech-to-text",
                 "xai-text-to-speech"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
             "url": "https://docs.x.ai/developers/model-capabilities/audio/voice",
+            "status": "verified"
+          },
+          "task_types": [
+            "Voice",
+            "STT",
+            "TTS"
+          ]
+        },
+        {
+          "family": "grok",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:xai:grok",
+              "title": "Grok 4 Series",
+              "generation_state": "newest",
+              "expected_members": [
+                "grok-4.6",
+                "grok-4.5",
+                "grok-4.3",
+                "grok-4.20-0309-reasoning",
+                "grok-4.20-0309-non-reasoning",
+                "grok-4.20-multi-agent-0309"
+              ],
+              "search_terms": [
+                "Grok 4 系列"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.x.ai/developers/models",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
+        },
+        {
+          "family": "build",
+          "usage_kind": "tool",
+          "modality": "text",
+          "series_kind": "tool_series",
+          "series": [
+            {
+              "id": "vendor-level2:xai:grok-build",
+              "title": "Grok Build",
+              "generation_state": "newest",
+              "expected_members": [
+                "grok-build-0.1",
+                "grok-build"
+              ],
+              "search_terms": []
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.x.ai/build/overview",
             "status": "verified"
           }
         },
@@ -953,7 +1573,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "grok-bot"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -969,6 +1590,204 @@
       "description": "Mistral：当前正式目录保留通用模型系列；新增模态系列需先完成三级详情卡和计费核验。",
       "families": [
         {
+          "family": "mistral_vision",
+          "usage_kind": "vision",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mistral-small-4",
+            "vision"
+          ],
+          "task_types": [
+            "Vision"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:mistral:vision",
+              "title": "Mistral Vision Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "mistral-small-4"
+              ],
+              "search_terms": [
+                "Mistral Vision Models",
+                "视觉"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.mistral.ai/models",
+            "title": "Mistral Vision Models"
+          }
+        },
+        {
+          "family": "mistral_ocr",
+          "usage_kind": "document_ai",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "ocr"
+          ],
+          "task_types": [
+            "OCR",
+            "Document AI"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:mistral:ocr",
+              "title": "OCR",
+              "generation_state": "newest",
+              "expected_members": [
+                "mistral-ocr-4-1"
+              ],
+              "search_terms": [
+                "OCR"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.mistral.ai/models",
+            "title": "OCR"
+          }
+        },
+        {
+          "family": "mistral_audio",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "voxtral",
+            "transcribe",
+            "tts"
+          ],
+          "task_types": [
+            "STT",
+            "TTS",
+            "Audio Understanding"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:mistral:audio",
+              "title": "Voxtral Audio Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "voxtral-mini-transcribe-2"
+              ],
+              "search_terms": [
+                "Voxtral Audio Models",
+                "音频"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.mistral.ai/inference/pricing",
+            "title": "Voxtral Audio Models"
+          }
+        },
+        {
+          "family": "mistral_code",
+          "usage_kind": "coding",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "codestral",
+            "devstral"
+          ],
+          "task_types": [
+            "Code"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:mistral:code",
+              "title": "Mistral Code Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "codestral"
+              ],
+              "search_terms": [
+                "Mistral Code Models",
+                "代码"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.mistral.ai/inference/pricing",
+            "title": "Mistral Code Models"
+          }
+        },
+        {
+          "family": "mistral_safety",
+          "usage_kind": "moderation",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "moderation",
+            "shieldstral"
+          ],
+          "task_types": [
+            "Moderation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:mistral:safety",
+              "title": "Mistral Safety & Moderation",
+              "generation_state": "newest",
+              "expected_members": [
+                "mistral-moderation-2"
+              ],
+              "search_terms": [
+                "Mistral Safety & Moderation",
+                "安全 / Moderation"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.mistral.ai/models/mistral-moderation-26-03",
+            "title": "Mistral Safety & Moderation"
+          }
+        },
+        {
+          "family": "mistral_embedding",
+          "usage_kind": "embedding",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mistral-embed",
+            "codestral-embed",
+            "embedding"
+          ],
+          "task_types": [
+            "Embedding"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:mistral:embedding",
+              "title": "Mistral Embeddings",
+              "generation_state": "newest",
+              "expected_members": [
+                "mistral-embed",
+                "codestral-embed"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.mistral.ai/models",
+            "title": "Mistral Embeddings"
+          }
+        },
+        {
           "family": "mistral",
           "usage_kind": "general_llm",
           "modality": "text",
@@ -977,18 +1796,29 @@
           "series": [
             {
               "id": "vendor-level2:mistral:mistral",
-              "title": "Mistral 模型",
+              "title": "Mistral Models",
               "generation_state": "newest",
               "expected_members": [
                 "mistral-medium-3.5",
                 "mistral-large-3"
+              ],
+              "search_terms": [
+                "Mistral 模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.mistral.ai/models",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ],
+          "name_patterns": [
+            "mistral-large",
+            "mistral-medium",
+            "ministral"
+          ]
         }
       ]
     },
@@ -998,30 +1828,6 @@
       "description": "Cohere：按模型能力与企业产品类型拆分 Command、Vision、Coding、Embedding、Rerank、Document、Speech、Multilingual 和 Enterprise Products。",
       "families": [
         {
-          "family": "command",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "none",
-          "series": [
-            {
-              "id": "vendor-level2:cohere:command",
-              "title": "Command 文本与推理模型",
-              "generation_state": "newest",
-              "expected_members": [
-                "command-a",
-                "command-a-plus",
-                "command-a-reasoning",
-                "command-a-translate"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://docs.cohere.com/docs/models",
-            "status": "verified"
-          }
-        },
-        {
           "family": "vision",
           "usage_kind": "omni",
           "modality": "omni",
@@ -1030,17 +1836,24 @@
           "series": [
             {
               "id": "vendor-level2:cohere:vision",
-              "title": "Cohere 视觉与多模态模型",
+              "title": "Cohere Vision & Multimodal Models",
               "generation_state": "newest",
               "expected_members": [
                 "command-a-vision"
+              ],
+              "search_terms": [
+                "Cohere 视觉与多模态模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.cohere.com/docs/models",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Vision",
+            "Omni"
+          ]
         },
         {
           "family": "coding",
@@ -1051,82 +1864,107 @@
           "series": [
             {
               "id": "vendor-level2:cohere:coding",
-              "title": "Cohere 编程模型",
+              "title": "Cohere Coding Models",
               "generation_state": "newest",
               "expected_members": [
                 "north-mini-code-1-0"
+              ],
+              "search_terms": [
+                "Cohere 编程模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.cohere.com/docs/north-mini-code-1.0",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Code"
+          ]
         },
         {
           "family": "embedding",
-          "usage_kind": "unknown",
+          "usage_kind": "embedding",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "none",
           "series": [
             {
               "id": "vendor-level2:cohere:embedding",
-              "title": "Cohere Embedding 模型",
+              "title": "Cohere Embedding Models",
               "generation_state": "newest",
               "expected_members": [
                 "embed-v4.0",
                 "embed-multilingual-v3.0"
+              ],
+              "search_terms": [
+                "Cohere Embedding 模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.cohere.com/docs/models",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Embedding"
+          ]
         },
         {
           "family": "rerank",
-          "usage_kind": "unknown",
+          "usage_kind": "rerank",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "none",
           "series": [
             {
               "id": "vendor-level2:cohere:rerank",
-              "title": "Cohere Rerank 模型",
+              "title": "Cohere Rerank Models",
               "generation_state": "newest",
               "expected_members": [
                 "rerank-v4.0-pro",
                 "rerank-v4.0-fast"
+              ],
+              "search_terms": [
+                "Cohere Rerank 模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.cohere.com/v2/docs/rerank",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Rerank"
+          ]
         },
         {
           "family": "document",
-          "usage_kind": "unknown",
+          "usage_kind": "document_ai",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "none",
           "series": [
             {
               "id": "vendor-level2:cohere:document",
-              "title": "Cohere 文档解析模型",
+              "title": "Cohere Document Parsing Models",
               "generation_state": "newest",
               "expected_members": [
                 "parse-v5.0"
+              ],
+              "search_terms": [
+                "Cohere 文档解析模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.cohere.com/v2/docs/parse",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "OCR",
+            "Document AI"
+          ]
         },
         {
           "family": "speech",
@@ -1137,39 +1975,86 @@
           "series": [
             {
               "id": "vendor-level2:cohere:speech",
-              "title": "Cohere 语音模型",
+              "title": "Cohere Speech Models",
               "generation_state": "newest",
               "expected_members": [
                 "cohere-transcribe-03-2026",
                 "cohere-transcribe-arabic-07-2026"
+              ],
+              "search_terms": [
+                "Cohere 语音模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.cohere.com/docs/models",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "STT"
+          ]
         },
         {
           "family": "multilingual",
-          "usage_kind": "unknown",
+          "usage_kind": "multilingual",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "none",
           "series": [
             {
               "id": "vendor-level2:cohere:multilingual",
-              "title": "Cohere 多语言模型",
+              "title": "Cohere Multilingual Models",
               "generation_state": "newest",
               "expected_members": [
                 "tiny-aya-global"
+              ],
+              "search_terms": [
+                "Cohere 多语言模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.cohere.com/docs/models",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Multilingual"
+          ]
+        },
+        {
+          "family": "command",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "series": [
+            {
+              "id": "vendor-level2:cohere:command",
+              "title": "Command Text & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "command-a",
+                "command-a-plus",
+                "command-a-reasoning",
+                "command-a-translate"
+              ],
+              "search_terms": [
+                "Command 文本与推理模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.cohere.com/docs/models",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM",
+            "Translation"
+          ],
+          "name_patterns": [
+            "command-a",
+            "command-r"
+          ]
         },
         {
           "family": "enterprise-products",
@@ -1186,7 +2071,8 @@
                 "cohere-north",
                 "cohere-compass",
                 "cohere-model-vault"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1202,28 +2088,6 @@
       "description": "月之暗面：Kimi 通用/多模态模型、Kimi 编程模型、Kimi Code 与 Kimi Work 官方 Agent 工具、Kimi 会员套餐分别维护，不创建官方产品聚合系列。",
       "families": [
         {
-          "family": "kimi",
-          "usage_kind": "general_llm",
-          "modality": "omni",
-          "series_kind": "model_series",
-          "version_axis": "k",
-          "series": [
-            {
-              "id": "vendor-level2:moonshot:kimi",
-              "title": "Kimi 通用/多模态模型",
-              "generation_state": "newest",
-              "expected_members": [
-                "kimi-k3",
-                "kimi-k2.6"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://platform.kimi.com/docs/models",
-            "status": "verified"
-          }
-        },
-        {
           "family": "kimi_coding_models",
           "usage_kind": "coding",
           "modality": "text",
@@ -1235,18 +2099,52 @@
           "series": [
             {
               "id": "vendor-level2:moonshot:kimi-coding-models",
-              "title": "Kimi 编程模型",
+              "title": "Kimi Coding Models",
               "generation_state": "newest",
               "expected_members": [
                 "kimi-k2.7-code",
                 "kimi-k2.7-code-highspeed"
+              ],
+              "search_terms": [
+                "Kimi 编程模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.kimi.com/",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Code"
+          ]
+        },
+        {
+          "family": "kimi",
+          "usage_kind": "general_llm",
+          "modality": "omni",
+          "series_kind": "model_series",
+          "version_axis": "k",
+          "series": [
+            {
+              "id": "vendor-level2:moonshot:kimi",
+              "title": "Kimi General & Multimodal Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "kimi-k3",
+                "kimi-k2.6"
+              ],
+              "search_terms": [
+                "Kimi 通用/多模态模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.kimi.com/docs/models",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "kimi_code_tool",
@@ -1265,7 +2163,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "kimi-code"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1290,7 +2189,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "kimi-work"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1318,7 +2218,8 @@
                 "kimi-membership-moderato",
                 "kimi-membership-allegretto",
                 "kimi-membership-allegro"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1334,29 +2235,36 @@
       "description": "阿里：Qwen 通用/全模态、视觉、生图视频、翻译、向量与开发者工具。",
       "families": [
         {
-          "family": "qwen",
-          "usage_kind": "general_llm",
-          "modality": "text",
+          "family": "qwen_audio",
+          "usage_kind": "audio_realtime",
+          "modality": "omni",
           "series_kind": "model_series",
-          "version_axis": "qwen",
+          "version_axis": "none",
+          "name_patterns": [
+            "qwen-audio",
+            "qwen3-asr"
+          ],
+          "task_types": [
+            "TTS",
+            "STT",
+            "Voice"
+          ],
           "series": [
             {
-              "id": "vendor-level2:alibaba:qwen",
-              "title": "Qwen 通用/全模态/推理模型",
+              "id": "vendor-level2:alibaba:qwen-audio",
+              "title": "Qwen Audio",
               "generation_state": "newest",
               "expected_members": [
-                "qwen3-8-max",
-                "qwen3-5-omni",
-                "qwen3-7-max",
-                "qwen3-7-plus",
-                "qwen3-8-flash",
-                "qwen3.8-omni-flash"
+                "qwen-audio-3.1-tts-next",
+                "qwen-audio-3.1-asr-flash",
+                "qwen-audio-3.1-realtime-plus"
               ]
             }
           ],
           "evidence": {
-            "url": "https://help.aliyun.com/en/model-studio/newly-released-models",
-            "status": "verified"
+            "status": "verified",
+            "url": "https://help.aliyun.com/zh/model-studio/models",
+            "title": "Qwen Audio"
           }
         },
         {
@@ -1372,24 +2280,31 @@
           "series": [
             {
               "id": "vendor-level2:alibaba:qwen-image",
-              "title": "Qwen 图像与视频生成",
+              "title": "Qwen Image & Video Generation",
               "generation_state": "newest",
               "expected_members": [
                 "qwen-image-3.0-pro",
                 "qwen-image-2-0-pro",
                 "qwen-image-2-1",
                 "wan2.7-t2v"
+              ],
+              "search_terms": [
+                "Qwen 图像与视频生成"
               ]
             }
           ],
           "evidence": {
             "url": "https://www.aliyun.com/product/tongyi",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Image Generation",
+            "Video Generation"
+          ]
         },
         {
           "family": "qwen_embedding_rerank",
-          "usage_kind": "general_llm",
+          "usage_kind": "retrieval",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "none",
@@ -1400,18 +2315,63 @@
           "series": [
             {
               "id": "vendor-level2:alibaba:qwen-embedding-rerank",
-              "title": "Qwen 向量与重排序",
+              "title": "Qwen Embedding & Rerank Models",
               "generation_state": "newest",
               "expected_members": [
                 "text-embedding-v4",
                 "qwen3-rerank"
+              ],
+              "search_terms": [
+                "Qwen 向量与重排序"
               ]
             }
           ],
           "evidence": {
             "url": "https://help.aliyun.com/zh/model-studio/text-embedding-v4",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Embedding",
+            "Rerank"
+          ]
+        },
+        {
+          "family": "qwen",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "qwen",
+          "series": [
+            {
+              "id": "vendor-level2:alibaba:qwen",
+              "title": "Qwen General, Omni & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "qwen3-8-max",
+                "qwen3-5-omni",
+                "qwen3-7-max",
+                "qwen3-7-plus",
+                "qwen3-8-flash",
+                "qwen3.8-omni-flash"
+              ],
+              "search_terms": [
+                "Qwen 通用/全模态/推理模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://help.aliyun.com/en/model-studio/newly-released-models",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM",
+            "Omni"
+          ],
+          "name_patterns": [
+            "qwen3",
+            "qwen-max",
+            "qwen-plus"
+          ]
         },
         {
           "family": "qwen_tools",
@@ -1431,7 +2391,8 @@
               "expected_members": [
                 "qoder",
                 "qwen-code"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1456,7 +2417,8 @@
               "expected_members": [
                 "coding-plan-pro",
                 "coding-plan-lite"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1472,27 +2434,32 @@
       "description": "腾讯：混元通用/推理大模型、翻译、视觉理解、图像视频、向量与 CodeBuddy。",
       "families": [
         {
-          "family": "hunyuan",
-          "usage_kind": "general_llm",
-          "modality": "text",
+          "family": "hunyuan_asr",
+          "usage_kind": "speech_recognition",
+          "modality": "audio",
           "series_kind": "model_series",
-          "version_axis": "hy",
+          "version_axis": "none",
+          "name_patterns": [
+            "hy-asr",
+            "hunyuan-asr"
+          ],
+          "task_types": [
+            "STT"
+          ],
           "series": [
             {
-              "id": "vendor-level2:tencent:hy3",
-              "title": "混元通用/推理大模型",
+              "id": "vendor-level2:tencent:hunyuan-asr",
+              "title": "Hunyuan ASR",
               "generation_state": "newest",
               "expected_members": [
-                "hy4-preview",
-                "hy3",
-                "hunyuan-t1",
-                "hy2-think"
+                "hy-asr-3.0-preview"
               ]
             }
           ],
           "evidence": {
-            "url": "https://cloud.tencent.com/product/tclm",
-            "status": "verified"
+            "status": "verified",
+            "url": "https://cloud.tencent.com/document/product/1093/135476",
+            "title": "Hunyuan ASR"
           }
         },
         {
@@ -1508,18 +2475,55 @@
           "series": [
             {
               "id": "vendor-level2:tencent:hunyuan-image-video",
-              "title": "混元图像与视频生成",
+              "title": "Hunyuan Image & Video Generation",
               "generation_state": "newest",
               "expected_members": [
                 "hunyuan-image-3.0",
                 "hunyuan-video"
+              ],
+              "search_terms": [
+                "混元图像与视频生成"
               ]
             }
           ],
           "evidence": {
             "url": "https://cloud.tencent.com/document/product/1729/105925",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Image Generation",
+            "Video Generation"
+          ]
+        },
+        {
+          "family": "hunyuan",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "hy",
+          "series": [
+            {
+              "id": "vendor-level2:tencent:hy3",
+              "title": "Hunyuan General & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "hy4-preview",
+                "hy3",
+                "hunyuan-t1",
+                "hy2-think"
+              ],
+              "search_terms": [
+                "混元通用/推理大模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://cloud.tencent.com/product/tclm",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "codebuddy",
@@ -1539,7 +2543,8 @@
               "expected_members": [
                 "codebuddy",
                 "workbuddy"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1565,7 +2570,8 @@
               "expected_members": [
                 "codebuddy-pro",
                 "codebuddy-team"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1594,19 +2600,26 @@
           "series": [
             {
               "id": "vendor-level2:meta:muse",
-              "title": "Muse 编程与推理大模型",
+              "title": "Muse Coding & Reasoning Models",
               "generation_state": "newest",
               "expected_members": [
                 "muse-spark-1.3",
                 "muse-spark-1-2",
                 "muse-glimmer"
+              ],
+              "search_terms": [
+                "Muse 编程与推理大模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://developer.meta.com/ai/models/muse-spark",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Code",
+            "LLM"
+          ]
         },
         {
           "family": "meta_tools",
@@ -1624,7 +2637,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "muse-code"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1640,33 +2654,6 @@
       "description": "阶跃星辰：Step 通用与推理模型、Step 图像、StepAudio 语音大模型、Studio 工具及 Step Plan 套餐。",
       "families": [
         {
-          "family": "step",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "dot",
-          "name_patterns": [
-            "step-3"
-          ],
-          "series": [
-            {
-              "id": "vendor-level2:stepfun:step",
-              "title": "Step 通用与推理模型",
-              "generation_state": "newest",
-              "expected_members": [
-                "step-3-7-flash",
-                "step-3-5-flash",
-                "step-3",
-                "stepfun-step-5-preview"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://platform.stepfun.com/docs/zh/guides/models/overview",
-            "status": "verified"
-          }
-        },
-        {
           "family": "step_image",
           "usage_kind": "image",
           "modality": "image",
@@ -1679,18 +2666,24 @@
           "series": [
             {
               "id": "vendor-level2:stepfun:step-image",
-              "title": "Step 图像生成与编辑",
+              "title": "Step Image Generation & Editing",
               "generation_state": "newest",
               "expected_members": [
                 "step-image-edit-2",
                 "step-2x-large"
+              ],
+              "search_terms": [
+                "Step 图像生成与编辑"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Image Generation"
+          ]
         },
         {
           "family": "step_audio",
@@ -1706,19 +2699,60 @@
           "series": [
             {
               "id": "vendor-level2:stepfun:step-audio",
-              "title": "StepAudio 语音大模型",
+              "title": "StepAudio Speech Models",
               "generation_state": "newest",
               "expected_members": [
                 "stepaudio-2.5-tts",
                 "stepaudio-2.5-asr",
                 "stepaudio-3-gen-preview"
+              ],
+              "search_terms": [
+                "StepAudio 语音大模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "TTS",
+            "STT",
+            "Voice"
+          ]
+        },
+        {
+          "family": "step",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "name_patterns": [
+            "step-3"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:stepfun:step",
+              "title": "Step General & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "step-3-7-flash",
+                "step-3-5-flash",
+                "step-3",
+                "stepfun-step-5-preview"
+              ],
+              "search_terms": [
+                "Step 通用与推理模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://platform.stepfun.com/docs/zh/guides/models/overview",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "step_tools",
@@ -1736,7 +2770,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "stepfun-studio"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1763,7 +2798,8 @@
                 "step-plan-flash-plus",
                 "step-plan-flash-pro",
                 "step-plan-flash-max"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1779,29 +2815,6 @@
       "description": "小米：MiMo 通用与推理模型、全模态与多媒体、开发者工具及 Token Plan 套餐。",
       "families": [
         {
-          "family": "mimo",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "mimo",
-          "series": [
-            {
-              "id": "vendor-level2:xiaomi:mimo",
-              "title": "MiMo 通用与推理模型",
-              "generation_state": "newest",
-              "expected_members": [
-                "mimo-v2-5-pro",
-                "mimo-v2-5",
-                "mimo-v2-flash"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://aistudio.xiaomimimo.com/",
-            "status": "verified"
-          }
-        },
-        {
           "family": "mimo_omni_media",
           "usage_kind": "omni",
           "modality": "omni",
@@ -1814,18 +2827,54 @@
           "series": [
             {
               "id": "vendor-level2:xiaomi:mimo-omni-media",
-              "title": "MiMo 全模态与多媒体",
+              "title": "MiMo Omni & Media Models",
               "generation_state": "newest",
               "expected_members": [
                 "mimo-v2-5-omni",
                 "mimo-v2-5-tts"
+              ],
+              "search_terms": [
+                "MiMo 全模态与多媒体"
               ]
             }
           ],
           "evidence": {
             "url": "https://mimo.mi.com",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Omni",
+            "TTS"
+          ]
+        },
+        {
+          "family": "mimo",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "mimo",
+          "series": [
+            {
+              "id": "vendor-level2:xiaomi:mimo",
+              "title": "MiMo General & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "mimo-v2-5-pro",
+                "mimo-v2-5",
+                "mimo-v2-flash"
+              ],
+              "search_terms": [
+                "MiMo 通用与推理模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://aistudio.xiaomimimo.com/",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "mimo_tools",
@@ -1845,7 +2894,8 @@
               "expected_members": [
                 "mimo-code",
                 "xiaomi-mimo-studio"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1872,7 +2922,8 @@
                 "mimo-token-plan-standard",
                 "mimo-token-plan-pro",
                 "mimo-token-plan-max"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1888,31 +2939,92 @@
       "description": "字节跳动：豆包通用与推理模型、图像与视频生成、TRAE AI IDE、Trae 会员及火山资源包。",
       "families": [
         {
-          "family": "doubao",
-          "usage_kind": "general_llm",
-          "modality": "text",
+          "family": "doubao_speech",
+          "usage_kind": "audio_realtime",
+          "modality": "audio",
           "series_kind": "model_series",
           "version_axis": "none",
           "name_patterns": [
-            "doubao",
-            "seed"
+            "doubao-seed-tts",
+            "doubao-seed-asr",
+            "doubao-speech",
+            "seed-live"
+          ],
+          "task_types": [
+            "TTS",
+            "STT",
+            "Voice"
           ],
           "series": [
             {
-              "id": "vendor-level2:bytedance:doubao",
-              "title": "豆包通用与推理模型",
+              "id": "vendor-level2:bytedance:doubao-speech",
+              "title": "Doubao Speech",
               "generation_state": "newest",
               "expected_members": [
-                "doubao-1.5-pro",
-                "doubao-1.5-lite",
-                "doubao-seed-2.0-mini",
-                "doubao-seed-character"
+                "doubao-seed-tts-2-0",
+                "doubao-seed-asr-2-0"
               ]
             }
           ],
           "evidence": {
-            "url": "https://www.volcengine.com/product/doubao",
-            "status": "verified"
+            "status": "verified",
+            "url": "https://docs.volcengine.com/docs/DoubaoVoice/Productdynamics?lang=zh",
+            "title": "Doubao Speech"
+          }
+        },
+        {
+          "family": "doubao_audio_generation",
+          "usage_kind": "audio_generation",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "doubao-audio-gen",
+            "audio-generation"
+          ],
+          "task_types": [
+            "Audio Generation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:bytedance:doubao-audio-generation",
+              "title": "Doubao Audio Generation",
+              "generation_state": "newest",
+              "expected_members": []
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.volcengine.com/docs/DoubaoVoice/Productdynamics?lang=zh",
+            "title": "Doubao Audio Generation"
+          }
+        },
+        {
+          "family": "doubao_translation",
+          "usage_kind": "translation",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "doubao-translation",
+            "machine-translation",
+            "translation"
+          ],
+          "task_types": [
+            "Translation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:bytedance:doubao-translation",
+              "title": "Doubao Translation",
+              "generation_state": "newest",
+              "expected_members": []
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://docs.volcengine.com/docs/DoubaoVoice/Productdynamics?lang=zh",
+            "title": "Doubao Translation"
           }
         },
         {
@@ -1928,19 +3040,61 @@
           "series": [
             {
               "id": "vendor-level2:bytedance:doubao-vision-video",
-              "title": "豆包图像与视频生成",
+              "title": "Doubao Image & Video Generation",
               "generation_state": "newest",
               "expected_members": [
                 "doubao-seedance-2.5",
                 "doubao-seedream-5.0-pro",
                 "doubao-seedream-5.0-lite"
+              ],
+              "search_terms": [
+                "豆包图像与视频生成"
               ]
             }
           ],
           "evidence": {
             "url": "https://ai.volcengine.com/model",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Image Generation",
+            "Video Generation"
+          ]
+        },
+        {
+          "family": "doubao",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "doubao-llm",
+            "doubao-pro",
+            "doubao-seed"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:bytedance:doubao",
+              "title": "Doubao General & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "doubao-1.5-pro",
+                "doubao-1.5-lite",
+                "doubao-seed-2.0-mini",
+                "doubao-seed-character"
+              ],
+              "search_terms": [
+                "豆包通用与推理模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.volcengine.com/product/doubao",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "trae",
@@ -1958,7 +3112,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "trae"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -1987,7 +3142,8 @@
                 "trae-pro",
                 "trae-pro-plus",
                 "trae-ultra"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2013,7 +3169,8 @@
                 "seedance-2-5-creation-package",
                 "doubao-resource-package-10m",
                 "doubao-resource-package-100m"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2029,34 +3186,8 @@
       "description": "Upstage：Solar 通用与推理模型、Document AI、语义向量、Studio 工具与承诺套餐。",
       "families": [
         {
-          "family": "solar",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "none",
-          "name_patterns": [
-            "solar"
-          ],
-          "series": [
-            {
-              "id": "vendor-level2:upstage:solar",
-              "title": "Solar 通用与推理模型",
-              "generation_state": "newest",
-              "expected_members": [
-                "solar-pro-4",
-                "solar-pro-3",
-                "solar-mini"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://console.upstage.ai/docs",
-            "status": "verified"
-          }
-        },
-        {
           "family": "document_ai",
-          "usage_kind": "unknown",
+          "usage_kind": "document_ai",
           "modality": "omni",
           "series_kind": "model_series",
           "version_axis": "none",
@@ -2069,23 +3200,30 @@
           "series": [
             {
               "id": "vendor-level2:upstage:document-ai",
-              "title": "Upstage Document AI 文档智能",
+              "title": "Upstage Document AI Models",
               "generation_state": "newest",
               "expected_members": [
                 "upstage-document-parse",
                 "upstage-document-ocr",
                 "upstage-information-extract"
+              ],
+              "search_terms": [
+                "Upstage Document AI 文档智能"
               ]
             }
           ],
           "evidence": {
             "url": "https://console.upstage.ai/docs",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "OCR",
+            "Document AI"
+          ]
         },
         {
           "family": "upstage_embed",
-          "usage_kind": "general_llm",
+          "usage_kind": "embedding",
           "modality": "text",
           "series_kind": "model_series",
           "version_axis": "none",
@@ -2095,17 +3233,55 @@
           "series": [
             {
               "id": "vendor-level2:upstage:embedding",
-              "title": "Upstage 语义向量模型",
+              "title": "Upstage Embedding Models",
               "generation_state": "newest",
               "expected_members": [
                 "upstage-embed-2"
+              ],
+              "search_terms": [
+                "Upstage 语义向量模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://console.upstage.ai/docs",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Embedding"
+          ]
+        },
+        {
+          "family": "solar",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "solar"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:upstage:solar",
+              "title": "Solar General & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "solar-pro-4",
+                "solar-pro-3",
+                "solar-mini"
+              ],
+              "search_terms": [
+                "Solar 通用与推理模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://console.upstage.ai/docs",
+            "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "upstage_tools",
@@ -2123,7 +3299,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "upstage-studio"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2149,7 +3326,8 @@
               "expected_members": [
                 "upstage-explore-tier",
                 "upstage-build-tier"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2165,6 +3343,134 @@
       "description": "微软：Phi 系列推理与多模态大模型、MAI 商业模型、GitHub Copilot 与 Azure AI Foundry 平台及套餐。",
       "families": [
         {
+          "family": "mai_thinking",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mai-thinking"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:microsoft:mai",
+              "title": "MAI Thinking Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "mai-thinking-1"
+              ],
+              "search_terms": [
+                "MAI Vision, Speech & Reasoning Models",
+                "MAI 视觉、语音与推理大模型"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-mai-thinking",
+            "title": "MAI-Thinking-1"
+          },
+          "task_types": [
+            "LLM"
+          ]
+        },
+        {
+          "family": "mai_image",
+          "usage_kind": "image",
+          "modality": "image",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mai-image"
+          ],
+          "task_types": [
+            "Image Generation"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:microsoft:mai-image",
+              "title": "MAI Image Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "mai-image-2.6",
+                "mai-image-2-6-flash",
+                "mai-image-2-5",
+                "mai-image-2-5-flash",
+                "mai-image-2-5-pro"
+              ],
+              "search_terms": [
+                "MAI Image"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-mai-image",
+            "title": "MAI Image models"
+          }
+        },
+        {
+          "family": "mai_transcribe",
+          "usage_kind": "speech_recognition",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mai-transcribe"
+          ],
+          "task_types": [
+            "STT"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:microsoft:mai-transcribe",
+              "title": "MAI Transcribe",
+              "generation_state": "newest",
+              "expected_members": [
+                "mai-transcribe-2",
+                "mai-transcribe-1-5"
+              ],
+              "search_terms": []
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/mai-transcribe?pivots=ai-foundry",
+            "title": "MAI-Transcribe"
+          }
+        },
+        {
+          "family": "mai_voice",
+          "usage_kind": "speech_generation",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "mai-voice"
+          ],
+          "task_types": [
+            "TTS"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:microsoft:mai-voice",
+              "title": "MAI Voice",
+              "generation_state": "newest",
+              "expected_members": [
+                "mai-voice-2",
+                "mai-voice-2-flash",
+                "mai-voice-1"
+              ],
+              "search_terms": []
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/mai-voices",
+            "title": "MAI-Voice"
+          }
+        },
+        {
           "family": "phi",
           "usage_kind": "general_llm",
           "modality": "text",
@@ -2176,45 +3482,26 @@
           "series": [
             {
               "id": "vendor-level2:microsoft:phi",
-              "title": "Phi 推理与多模态大模型",
+              "title": "Phi Reasoning & Multimodal Models",
               "generation_state": "newest",
               "expected_members": [
                 "phi-4-reasoning-vision",
                 "phi-4-mini",
                 "phi-4-multimodal"
+              ],
+              "search_terms": [
+                "Phi 推理与多模态大模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://azure.microsoft.com/en-us/pricing/details/ai-foundry-models/microsoft",
             "status": "verified"
-          }
-        },
-        {
-          "family": "mai",
-          "usage_kind": "media",
-          "modality": "omni",
-          "series_kind": "model_series",
-          "version_axis": "none",
-          "name_patterns": [
-            "mai"
-          ],
-          "series": [
-            {
-              "id": "vendor-level2:microsoft:mai",
-              "title": "MAI 视觉、语音与推理大模型",
-              "generation_state": "newest",
-              "expected_members": [
-                "mai-thinking-1",
-                "mai-image-2-5",
-                "mai-voice-2"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://azure.microsoft.com/en-us/products/ai-foundry",
-            "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM",
+            "Vision"
+          ]
         },
         {
           "family": "developer_tools",
@@ -2234,7 +3521,8 @@
               "expected_members": [
                 "copilot",
                 "azure-ai-foundry"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2262,7 +3550,8 @@
                 "copilot-individual",
                 "copilot-business",
                 "copilot-enterprise"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2278,34 +3567,33 @@
       "description": "蚂蚁集团：百灵思考与通用大模型、全模态模型、灵光 Coding Agent 应用与开发者服务。",
       "families": [
         {
-          "family": "bailing",
-          "usage_kind": "general_llm",
-          "modality": "text",
+          "family": "ming_image",
+          "usage_kind": "image",
+          "modality": "image",
           "series_kind": "model_series",
-          "version_axis": "dot",
+          "version_axis": "none",
+          "name_patterns": [
+            "ming-image",
+            "ming image"
+          ],
+          "task_types": [
+            "Image Generation"
+          ],
           "series": [
             {
-              "id": "vendor-level2:antgroup:bailing",
-              "title": "百灵思考与通用大模型系列",
+              "id": "vendor-level2:antgroup:ming-image",
+              "title": "Ming Image",
               "generation_state": "newest",
               "expected_members": [
-                "bailing-ring-2-5-1t",
-                "bailing-ling-2-5-1t",
-                "bailing-ring-1t",
-                "bailing-ling-1t"
+                "ming-image-0.1-design"
               ]
             }
           ],
           "evidence": {
-            "url": "https://www.lingguang.com",
-            "status": "verified"
-          },
-          "name_patterns": [
-            "bailing",
-            "ling",
-            "ring",
-            "百灵"
-          ]
+            "status": "verified",
+            "url": "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design",
+            "title": "Ming Image"
+          }
         },
         {
           "family": "bailing-omni",
@@ -2316,10 +3604,13 @@
           "series": [
             {
               "id": "vendor-level2:antgroup:bailing-omni",
-              "title": "百灵全模态模型系列",
+              "title": "Bailing Omni Models",
               "generation_state": "newest",
               "expected_members": [
                 "bailing-ming-omni"
+              ],
+              "search_terms": [
+                "百灵全模态模型系列"
               ]
             }
           ],
@@ -2328,8 +3619,46 @@
             "status": "verified"
           },
           "name_patterns": [
-            "ming",
-            "ming-omni"
+            "ming-omni",
+            "ming-univision"
+          ],
+          "task_types": [
+            "Omni"
+          ]
+        },
+        {
+          "family": "bailing",
+          "usage_kind": "general_llm",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "dot",
+          "series": [
+            {
+              "id": "vendor-level2:antgroup:bailing",
+              "title": "Bailing General & Reasoning Models",
+              "generation_state": "newest",
+              "expected_members": [
+                "bailing-ring-2-5-1t",
+                "bailing-ling-2-5-1t",
+                "bailing-ring-1t",
+                "bailing-ling-1t"
+              ],
+              "search_terms": [
+                "百灵思考与通用大模型系列"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://www.lingguang.com",
+            "status": "verified"
+          },
+          "name_patterns": [
+            "ling",
+            "ring",
+            "bailing"
+          ],
+          "task_types": [
+            "LLM"
           ]
         },
         {
@@ -2346,7 +3675,8 @@
               "expected_members": [
                 "lingguang-app",
                 "ling-studio"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2372,7 +3702,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "bailing-api-plan"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2399,12 +3730,15 @@
           "series": [
             {
               "id": "vendor-level2:kuaishou:kling",
-              "title": "Kling 视频生成模型",
+              "title": "Kling Video Generation Models",
               "generation_state": "newest",
               "expected_members": [
                 "kling-2-6-pro",
                 "kling-3-0",
                 "kling-3-0-omni"
+              ],
+              "search_terms": [
+                "Kling 视频生成模型"
               ]
             }
           ],
@@ -2415,6 +3749,9 @@
           "name_patterns": [
             "kling",
             "可灵"
+          ],
+          "task_types": [
+            "Video Generation"
           ]
         },
         {
@@ -2426,11 +3763,14 @@
           "series": [
             {
               "id": "vendor-level2:kuaishou:kling-image",
-              "title": "Kling 图像生成模型",
+              "title": "Kling Image Generation Models",
               "generation_state": "newest",
               "expected_members": [
                 "kling-image-3-0",
                 "kling-image-3-0-omni"
+              ],
+              "search_terms": [
+                "Kling 图像生成模型"
               ]
             }
           ],
@@ -2442,6 +3782,9 @@
             "kling",
             "可灵",
             "image"
+          ],
+          "task_types": [
+            "Image Generation"
           ]
         },
         {
@@ -2461,7 +3804,8 @@
                 "kling-element-library-3",
                 "kling-sound-generation",
                 "kling-image-to-video"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2493,7 +3837,8 @@
                 "kling-membership-pro",
                 "kling-membership-premier",
                 "kling-membership-ultra"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2517,12 +3862,15 @@
           "series": [
             {
               "id": "vendor-level2:luma:ray",
-              "title": "Luma Ray 视频生成系列",
+              "title": "Luma Ray Video Generation Series",
               "generation_state": "newest",
               "expected_members": [
                 "luma-ray-3-2",
                 "luma-ray-3-2-edit",
                 "luma-ray-3-14"
+              ],
+              "search_terms": [
+                "Luma Ray 视频生成系列"
               ]
             }
           ],
@@ -2533,6 +3881,9 @@
           "name_patterns": [
             "ray",
             "luma-ray"
+          ],
+          "task_types": [
+            "Video Generation"
           ]
         },
         {
@@ -2544,11 +3895,14 @@
           "series": [
             {
               "id": "vendor-level2:luma:uni",
-              "title": "Luma Uni 视觉生成系列",
+              "title": "Luma Uni Vision Generation Series",
               "generation_state": "newest",
               "expected_members": [
                 "luma-uni-1-1",
                 "luma-uni-1-1-max"
+              ],
+              "search_terms": [
+                "Luma Uni 视觉生成系列"
               ]
             }
           ],
@@ -2559,6 +3913,9 @@
           "name_patterns": [
             "uni",
             "luma-uni"
+          ],
+          "task_types": [
+            "Image Generation"
           ]
         },
         {
@@ -2575,7 +3932,8 @@
               "expected_members": [
                 "luma-app",
                 "luma-api"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2602,7 +3960,8 @@
                 "luma-plus",
                 "luma-pro",
                 "luma-ultra"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2631,13 +3990,16 @@
           "series": [
             {
               "id": "vendor-level2:vidu:video",
-              "title": "Vidu 视频与交互模型系列",
+              "title": "Vidu Video & Interactive Models",
               "generation_state": "newest",
               "expected_members": [
                 "vidu-s1",
                 "viduq3-pro",
                 "viduq3-turbo",
                 "vidu-2-0"
+              ],
+              "search_terms": [
+                "Vidu 视频与交互模型系列"
               ]
             }
           ],
@@ -2647,6 +4009,9 @@
           },
           "name_patterns": [
             "vidu"
+          ],
+          "task_types": [
+            "Video Generation"
           ]
         },
         {
@@ -2663,7 +4028,8 @@
               "expected_members": [
                 "vidu-studio",
                 "vidu-platform"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2689,7 +4055,8 @@
               "expected_members": [
                 "vidu-basic",
                 "vidu-pro"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2717,13 +4084,16 @@
           "series": [
             {
               "id": "vendor-level2:black-forest-labs:flux-2",
-              "title": "FLUX.2 图像生成系列",
+              "title": "FLUX.2 Image Generation Series",
               "generation_state": "newest",
               "expected_members": [
                 "flux-2-max",
                 "flux-2-pro",
                 "flux-2-flex",
                 "flux-2-klein"
+              ],
+              "search_terms": [
+                "FLUX.2 图像生成系列"
               ]
             }
           ],
@@ -2734,6 +4104,9 @@
           "name_patterns": [
             "flux-2",
             "flux"
+          ],
+          "task_types": [
+            "Image Generation"
           ]
         },
         {
@@ -2745,10 +4118,13 @@
           "series": [
             {
               "id": "vendor-level2:black-forest-labs:flux-3",
-              "title": "FLUX 3 多模态音视频系列",
+              "title": "FLUX.3 Multimodal Audio & Video Series",
               "generation_state": "newest",
               "expected_members": [
                 "flux-3"
+              ],
+              "search_terms": [
+                "FLUX 3 多模态音视频系列"
               ]
             }
           ],
@@ -2758,6 +4134,10 @@
           },
           "name_patterns": [
             "flux-3"
+          ],
+          "task_types": [
+            "Video Generation",
+            "Audio Generation"
           ]
         },
         {
@@ -2774,7 +4154,8 @@
               "expected_members": [
                 "bfl-playground",
                 "bfl-api"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2799,7 +4180,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "bfl-credits-plan"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2829,18 +4211,24 @@
           "series": [
             {
               "id": "vendor-level2:reve:image",
-              "title": "Reve 图像生成与编辑",
+              "title": "Reve Image Generation & Editing",
               "generation_state": "newest",
               "expected_members": [
                 "reve-2-1",
                 "reve-2-0"
+              ],
+              "search_terms": [
+                "Reve 图像生成与编辑"
               ]
             }
           ],
           "evidence": {
             "url": "https://blog.reve.com/posts/launching-reve-2.1",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Image Generation"
+          ]
         },
         {
           "family": "reve_video",
@@ -2854,17 +4242,23 @@
           "series": [
             {
               "id": "vendor-level2:reve:video",
-              "title": "Reve 视频生成",
+              "title": "Reve Video Generation",
               "generation_state": "newest",
               "expected_members": [
                 "reve-video"
+              ],
+              "search_terms": [
+                "Reve 视频生成"
               ]
             }
           ],
           "evidence": {
             "url": "https://blog.reve.com",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "Video Generation"
+          ]
         },
         {
           "family": "reve_platform",
@@ -2882,7 +4276,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "reve-app"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2910,7 +4305,8 @@
                 "reve-lite",
                 "reve-pro",
                 "reve-teams"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -2926,6 +4322,36 @@
       "description": "Perplexity：Sonar 联网推理大模型、Pplx Embed 网页向量、搜索与工作区平台、会员套餐。",
       "families": [
         {
+          "family": "pplx_embed",
+          "usage_kind": "embedding",
+          "modality": "text",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "pplx-embed"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:perplexity:pplx-embed",
+              "title": "Perplexity Web Retrieval Embeddings",
+              "generation_state": "newest",
+              "expected_members": [
+                "pplx-embed"
+              ],
+              "search_terms": [
+                "Perplexity 网页检索向量"
+              ]
+            }
+          ],
+          "evidence": {
+            "url": "https://docs.perplexity.ai",
+            "status": "verified"
+          },
+          "task_types": [
+            "Embedding"
+          ]
+        },
+        {
           "family": "sonar",
           "usage_kind": "general_llm",
           "modality": "text",
@@ -2937,44 +4363,27 @@
           "series": [
             {
               "id": "vendor-level2:perplexity:sonar",
-              "title": "Sonar 联网推理大模型",
+              "title": "Sonar Search & Reasoning Models",
               "generation_state": "newest",
               "expected_members": [
                 "sonar-pro",
                 "sonar-reasoning-pro",
                 "sonar-deep-research",
                 "sonar"
+              ],
+              "search_terms": [
+                "Sonar 联网推理大模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://docs.perplexity.ai",
             "status": "verified"
-          }
-        },
-        {
-          "family": "pplx_embed",
-          "usage_kind": "general_llm",
-          "modality": "text",
-          "series_kind": "model_series",
-          "version_axis": "none",
-          "name_patterns": [
-            "pplx-embed"
-          ],
-          "series": [
-            {
-              "id": "vendor-level2:perplexity:pplx-embed",
-              "title": "Perplexity 网页检索向量",
-              "generation_state": "newest",
-              "expected_members": [
-                "pplx-embed"
-              ]
-            }
-          ],
-          "evidence": {
-            "url": "https://docs.perplexity.ai",
-            "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM",
+            "Search"
+          ]
         },
         {
           "family": "perplexity_platform",
@@ -2994,7 +4403,8 @@
               "expected_members": [
                 "perplexity-computer",
                 "perplexity"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -3020,7 +4430,8 @@
               "expected_members": [
                 "perplexity-pro",
                 "perplexity-enterprise-pro"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -3044,19 +4455,25 @@
           "series": [
             {
               "id": "vendor-level2:nvidia:nemotron",
-              "title": "Nemotron 模型",
+              "title": "Nemotron Models",
               "generation_state": "newest",
               "expected_members": [
                 "nemotron-3-5",
                 "nemotron-3-ultra",
                 "nemotron-3-super"
+              ],
+              "search_terms": [
+                "Nemotron 模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://developer.nvidia.com/topics/ai/nemotron",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "nim_tools",
@@ -3074,7 +4491,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "nvidia-nim"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -3098,7 +4516,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "nvidia-ai-enterprise-subscription"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -3125,18 +4544,24 @@
           "series": [
             {
               "id": "vendor-level2:thinking-machines:inkling",
-              "title": "Inkling 全模态推理模型",
+              "title": "Inkling Multimodal Reasoning Models",
               "generation_state": "newest",
               "expected_members": [
                 "inkling",
                 "inkling-small"
+              ],
+              "search_terms": [
+                "Inkling 全模态推理模型"
               ]
             }
           ],
           "evidence": {
             "url": "https://thinkingmachines.ai/inkling",
             "status": "verified"
-          }
+          },
+          "task_types": [
+            "LLM"
+          ]
         },
         {
           "family": "tinker_tools",
@@ -3154,7 +4579,8 @@
               "generation_state": "newest",
               "expected_members": [
                 "tinker"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
@@ -3186,15 +4612,259 @@
               "generation_state": "newest",
               "expected_members": [
                 "jev"
-              ]
+              ],
+              "search_terms": []
             }
           ],
           "evidence": {
             "url": "https://typesafe.ai/",
             "status": "verified"
+          },
+          "task_types": [
+            "LLM"
+          ]
+        }
+      ]
+    },
+    {
+      "vendor_key": "elevenlabs",
+      "direction": "audio",
+      "description": "ElevenLabs: speech generation and speech recognition product families.",
+      "families": [
+        {
+          "family": "elevenlabs_tts",
+          "usage_kind": "speech_generation",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "eleven-multilingual",
+            "eleven-turbo",
+            "eleven-flash",
+            "tts"
+          ],
+          "task_types": [
+            "TTS"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:elevenlabs:tts",
+              "title": "ElevenLabs TTS",
+              "generation_state": "newest",
+              "expected_members": [
+                "eleven_multilingual_v2",
+                "eleven_flash_v2_5"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://elevenlabs.io/docs/overview/models",
+            "title": "ElevenLabs TTS"
+          }
+        },
+        {
+          "family": "elevenlabs_scribe",
+          "usage_kind": "speech_recognition",
+          "modality": "audio",
+          "series_kind": "model_series",
+          "version_axis": "none",
+          "name_patterns": [
+            "scribe",
+            "speech-to-text",
+            "transcribe"
+          ],
+          "task_types": [
+            "STT"
+          ],
+          "series": [
+            {
+              "id": "vendor-level2:elevenlabs:scribe",
+              "title": "ElevenLabs Scribe",
+              "generation_state": "newest",
+              "expected_members": [
+                "scribe_v2",
+                "scribe_v2_realtime",
+                "scribe_v2_medical"
+              ]
+            }
+          ],
+          "evidence": {
+            "status": "verified",
+            "url": "https://elevenlabs.io/docs/overview/capabilities/speech-to-text",
+            "title": "ElevenLabs Scribe"
           }
         }
       ]
     }
-  ]
+  ],
+  "task_type_registry": {
+    "LLM": {
+      "aliases": [
+        "language model",
+        "text generation"
+      ],
+      "usage_kind": "general_llm"
+    },
+    "Code": {
+      "aliases": [
+        "coding",
+        "code generation",
+        "coder"
+      ],
+      "usage_kind": "coding"
+    },
+    "Embedding": {
+      "aliases": [
+        "text embedding",
+        "text-embedding",
+        "vector embedding",
+        "embed",
+        "embeddings"
+      ],
+      "usage_kind": "embedding"
+    },
+    "Rerank": {
+      "aliases": [
+        "reranking",
+        "re-ranking",
+        "reranker"
+      ],
+      "usage_kind": "rerank"
+    },
+    "TTS": {
+      "aliases": [
+        "text-to-speech",
+        "text to speech",
+        "speech synthesis"
+      ],
+      "usage_kind": "speech_generation"
+    },
+    "STT": {
+      "aliases": [
+        "ASR",
+        "automatic speech recognition",
+        "speech-to-text",
+        "speech to text",
+        "transcribe",
+        "transcription"
+      ],
+      "usage_kind": "speech_recognition"
+    },
+    "Voice": {
+      "aliases": [
+        "speech-to-speech",
+        "realtime voice",
+        "voice dialogue",
+        "live audio"
+      ],
+      "usage_kind": "audio_realtime"
+    },
+    "Music": {
+      "aliases": [
+        "music generation",
+        "music"
+      ],
+      "usage_kind": "music_generation"
+    },
+    "Vision": {
+      "aliases": [
+        "VLM",
+        "vision-language",
+        "vision language",
+        "image understanding"
+      ],
+      "usage_kind": "vision"
+    },
+    "OCR": {
+      "aliases": [
+        "optical character recognition"
+      ],
+      "usage_kind": "document_ai"
+    },
+    "Document AI": {
+      "aliases": [
+        "document parsing",
+        "document intelligence",
+        "structured extraction",
+        "parse"
+      ],
+      "usage_kind": "document_ai"
+    },
+    "Image Generation": {
+      "aliases": [
+        "text-to-image",
+        "text to image",
+        "image generation",
+        "image editing",
+        "image"
+      ],
+      "usage_kind": "image"
+    },
+    "Video Generation": {
+      "aliases": [
+        "text-to-video",
+        "image-to-video",
+        "video generation",
+        "video editing",
+        "t2v",
+        "i2v",
+        "video"
+      ],
+      "usage_kind": "video"
+    },
+    "Audio Generation": {
+      "aliases": [
+        "text-to-audio",
+        "audio generation",
+        "sound generation",
+        "audio-gen"
+      ],
+      "usage_kind": "audio_generation"
+    },
+    "Audio Understanding": {
+      "aliases": [
+        "audio understanding",
+        "audio reasoning"
+      ],
+      "usage_kind": "audio_understanding"
+    },
+    "Moderation": {
+      "aliases": [
+        "safety",
+        "content moderation"
+      ],
+      "usage_kind": "moderation"
+    },
+    "Translation": {
+      "aliases": [
+        "translate",
+        "machine translation",
+        "speech translation"
+      ],
+      "usage_kind": "translation"
+    },
+    "Multilingual": {
+      "aliases": [
+        "multilingual",
+        "cross-lingual"
+      ],
+      "usage_kind": "multilingual"
+    },
+    "Omni": {
+      "aliases": [
+        "multimodal",
+        "any-to-any"
+      ],
+      "usage_kind": "omni"
+    },
+    "Search": {
+      "aliases": [
+        "web search",
+        "grounded search",
+        "sonar search"
+      ],
+      "usage_kind": "search"
+    }
+  }
 }

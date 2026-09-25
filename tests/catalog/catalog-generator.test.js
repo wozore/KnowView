@@ -292,6 +292,16 @@ test('snapshot validator keeps legacy records free of new-field errors', () => {
   assert.deepEqual(result.errors, []);
 });
 
+test('snapshot validator checks task_types on model details and cards', () => {
+  const badDetail = legacyPair({ detail: { task_types: 'LLM' } });
+  const detailResult = validateCatalogSnapshot(minimalSnapshot(badDetail));
+  assert.ok(detailResult.errors.some(error => error.code === 'TASK_TYPES_INVALID' && error.path === 'tool-level3[0].task_types'));
+
+  const badCard = legacyPair({ card: { task_types: ['TTS', 'TTS'] } });
+  const cardResult = validateCatalogSnapshot(minimalSnapshot(badCard));
+  assert.ok(cardResult.errors.some(error => error.code === 'TASK_TYPES_INVALID' && error.path === 'tool-card[0].task_types'));
+});
+
 test('snapshot validator enforces model key syntax, duplicates, and card mismatch', () => {
   const badSyntax = legacyPair({ detail: { model_key: 'Legacy Tool' }, card: { model_key: 'Legacy Tool' } });
   const syntaxResult = validateCatalogSnapshot(minimalSnapshot(badSyntax));

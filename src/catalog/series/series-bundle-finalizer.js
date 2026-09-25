@@ -56,6 +56,7 @@ function memberSeed(bundle, member) {
     tool_key: cardId,
     detail_key: detailId,
     model_key: member.model_key,
+    task_types: member.task_types || [],
     series_kind: bundle.series.series_kind,
     official_url: officialUrl || urlOrder[0] || '',
     placement: {

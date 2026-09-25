@@ -6,13 +6,13 @@
  * 职责边界：AI 只输出“语义建议”，不拥有最终归属。
  *   - 输入：候选模型、厂商政策、当前该厂商二级系列与成员摘要、已有登记表元数据；
  *     不要求 Research 阶段才获得的正文摘录，避免 placement→plan→research 循环依赖。
- *   - 输出严格结构：usage_kind / modality / canonical_vendor_key / canonical_family /
- *     major_line / release_cohort / rationale。
+ *   - 输出严格结构：usage_kind / task_types / modality / canonical_vendor_key /
+ *     canonical_family / major_line / release_cohort / rationale。
  *   - AI 不直接决定 target ID/标题、不输出 LayerPatch、不负责 split 成员搬迁。
  *
  * 确定性门禁在 catalog-series-policy 的 planSeriesPlacement：
  *   - 已知规则直接由 policy 判定，AI 只处理 usage/family 未知或歧义；
- *   - AI 建议只作为 hint 重跑确定性 planner；低置信、未知家族、跨用途、与政策冲突一律 fail-closed。
+ *   - AI 建议只作为 hint 重跑确定性 planner；未知家族、跨用途、与政策冲突一律 fail-closed。
  *
  * 编排 resolveSeriesPlacement：
  *   人工 placement（existing_level1/2_ref）最高优先，且必须通过引用校验；
@@ -21,6 +21,7 @@
 
 const { getProvider, resolveProvider, apiKeyForProvider, DEFAULT_PROVIDER_NAME } = require('../../shared/providers');
 const { requestStructuredJson } = require('../../shared/llm-gateway');
+const { normalizeTaskTypes } = require('./catalog-series-task-types');
 const {
   normalizeVendorKey,
   policyForVendor,
@@ -31,8 +32,9 @@ const {
 } = require('./catalog-series-policy');
 
 const VALID_USAGE = Object.freeze([
-  'general_llm', 'coding', 'image', 'video', 'audio_realtime',
-  'translation', 'omni', 'media', 'tool', 'subscription', 'unknown',
+  'general_llm', 'coding', 'embedding', 'rerank', 'retrieval', 'image', 'video', 'audio_realtime', 'speech_generation',
+  'speech_recognition', 'music_generation', 'audio_generation', 'audio_understanding', 'vision', 'document_ai', 'moderation', 'translation',
+  'multilingual', 'omni', 'media', 'search', 'tool', 'subscription', 'unknown',
 ]);
 
 function normalizedMemberKey(value) {
@@ -80,14 +82,16 @@ function buildSeriesPlacementInput({ candidate, policy, currentSeries }) {
       vendor_key: candidate.vendor_key || null,
       official_url: candidate.official_url || null,
     },
-    policy_scope: vendorPolicy
+      policy_scope: vendorPolicy
       ? {
           vendor_key: vendorPolicy.vendor_key,
+          task_type_registry: policy.task_type_registry,
           families: vendorPolicy.families.map(f => ({
             family: f.family,
             usage_kind: f.usage_kind,
             version_axis: f.version_axis || null,
             name_patterns: f.name_patterns || [],
+            task_types: f.task_types || [],
           })),
         }
       : null,
@@ -101,7 +105,7 @@ function buildSeriesPlacementInput({ candidate, policy, currentSeries }) {
 }
 
 /** 构建 AI 分类指令（纯函数）。 */
-function buildSeriesPlacementInstructions() {
+function buildSeriesPlacementInstructions(taskTypeRegistry = {}) {
   return '你只负责从候选模型名和厂商政策里给出语义分类建议，不决定最终归属。' +
     '规则：' +
     '1) usage_kind 只能取 ' + VALID_USAGE.join('/') + '；通用大语言模型为 general_llm，' +
@@ -111,16 +115,19 @@ function buildSeriesPlacementInstructions() {
     '4) major_line 是厂商自己的主版本标识（如 glm5、qwen3），不要用全局数字猜测。' +
     '5) release_cohort 只能取 newest（当前代）或 previous（紧邻上一代）；无法判断填 unknown。' +
     '6) rationale 用一句话说明依据，必须引用候选名/政策家族名，不许编造 URL。' +
-    '输出 JSON：{"usage_kind":string,"modality":string,"canonical_vendor_key":string,' +
+    'task_types 只能选政策定义的标准任务标签 ' + Object.keys(taskTypeRegistry).join('/') + '，可多选且必须来自对应 family。' +
+    '输出 JSON：{"usage_kind":string,"task_types":string[],"modality":string,"canonical_vendor_key":string,' +
     '"canonical_family":string,"major_line":string,"release_cohort":string,' +
     '"rationale":string}。字段必须是字符串，禁止额外字段。';
 }
 
 /** 校验 AI 输出结构。 */
-function validateSeriesPlacementValue(value) {
+function validateSeriesPlacementValue(value, taskTypeRegistry) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
-  return ['usage_kind', 'modality', 'canonical_vendor_key', 'canonical_family', 'major_line', 'release_cohort', 'rationale']
-    .every(key => typeof value[key] === 'string');
+  if (!['usage_kind', 'modality', 'canonical_vendor_key', 'canonical_family', 'major_line', 'release_cohort', 'rationale']
+    .every(key => typeof value[key] === 'string') || !Array.isArray(value.task_types)) return false;
+  try { return normalizeTaskTypes(value.task_types, taskTypeRegistry).length === value.task_types.length; }
+  catch { return false; }
 }
 
 /**
@@ -132,11 +139,11 @@ async function suggestSeriesPlacement(input, options = {}) {
   const currentProvider = getProvider(providerName) || getProvider(DEFAULT_PROVIDER_NAME);
   const result = await requestStructuredJson({
     kind: 'series_placement',
-    instructions: buildSeriesPlacementInstructions(),
+    instructions: buildSeriesPlacementInstructions(input.policy_scope?.task_type_registry),
     input: JSON.stringify(input),
     maxOutputTokens: options.maxOutputTokens ?? 600,
     ledger: options.ledger,
-    validate: validateSeriesPlacementValue,
+    validate: value => validateSeriesPlacementValue(value, input.policy_scope?.task_type_registry),
   }, {
     provider: options.provider,
     model: options.model || currentProvider?.defaultModel,
@@ -149,6 +156,7 @@ async function suggestSeriesPlacement(input, options = {}) {
   const value = result.value;
   const hint = {
     usage_kind: VALID_USAGE.includes(value.usage_kind) ? value.usage_kind : 'unknown',
+    task_types: normalizeTaskTypes(value.task_types, input.policy_scope?.task_type_registry),
     canonical_family: value.canonical_family || null,
     release_cohort: ['newest', 'previous'].includes(value.release_cohort) ? value.release_cohort : null,
   };
@@ -194,6 +202,7 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
         source: 'cached',
         vendor: cached.vendor,
         family: cached.family,
+        task_types: cached.task_types || cachedFamily?.task_types || [],
         target_mode: cached.target_mode,
         target_level2_id: cached.target_level2_id,
         target_level2_title: cached.target_level2_title,
@@ -211,6 +220,7 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
       source: 'manual',
       target_level2_id: candidate.placement.existing_level2_ref?.id || null,
       target_level1_id: candidate.placement.existing_level1_ref?.id || null,
+      task_types: snapshot?.['vendor-level2']?.find(item => item.id === candidate.placement.existing_level2_ref?.id)?.task_types || [],
     };
   }
 
@@ -239,6 +249,7 @@ async function resolveSeriesPlacement(policy, snapshot, candidate, options = {})
   // 4. 用 AI hint 重跑确定性 planner（AI 只作 hint，最终归属仍由政策重算）
   const hint = {
     usage_kind: suggestion.hint.usage_kind,
+    task_types: suggestion.hint.task_types,
     canonical_family: suggestion.hint.canonical_family,
     release_cohort: suggestion.hint.release_cohort,
   };
@@ -293,7 +304,11 @@ function applyPlacementToSeed(seed, decision) {
     target_level2_id: decision.target_level2_id,
     target_level2_title: decision.target_level2_title,
     group_key: decision.group_key || null,
+    task_types: decision.task_types || [],
+    candidate_task_types: decision.candidate_task_types || [],
+    search_terms: decision.search_terms || [],
   };
+  if (decision.candidate_task_types?.length) seed.task_types = decision.candidate_task_types;
   return seed;
 }
 

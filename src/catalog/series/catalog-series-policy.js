@@ -4,15 +4,16 @@ const { CATALOG_GENERATOR_FILES } = require('../../shared/paths');
 const { readJson } = require('../../shared/json-store');
 const { REF_TARGETS, emptySnapshot } = require('../core/catalog-contract');
 const { validateFamilyMemberLineages } = require('./catalog-series-policy-member-validation');
+const { resolveTaskTypePlacement, validateResolvedTaskTypes, validateFamilyTaskTypes, validateTaskTypeRegistry, familyForModality, modalityMatches } = require('./catalog-series-task-types');
 
 const USAGE_KINDS = Object.freeze([
-  'general_llm', 'coding', 'image', 'video', 'audio_realtime',
-  'translation', 'omni', 'media', 'subscription', 'tool', 'unknown',
+  'general_llm', 'coding', 'embedding', 'rerank', 'retrieval', 'image', 'video', 'audio_realtime', 'speech_generation',
+  'speech_recognition', 'music_generation', 'audio_generation', 'audio_understanding', 'vision', 'document_ai', 'moderation', 'translation', 'multilingual', 'omni', 'media', 'search', 'subscription', 'tool', 'unknown',
 ]);
 
 const EVIDENCE_STATUS = Object.freeze(['verified', 'repository_only', 'inferred']);
 const GENERATION_STATES = Object.freeze(['newest', 'previous']);
-const VENDOR_DIRECTIONS = Object.freeze(['llm', 'video', 'image', 'search_platform', 'infrastructure']);
+const VENDOR_DIRECTIONS = Object.freeze(['llm', 'audio', 'video', 'image', 'search_platform', 'infrastructure']);
 const FAMILY_MODALITIES = Object.freeze(['text', 'image', 'video', 'audio', 'omni']);
 const FAMILY_SERIES_KINDS = Object.freeze(['model_series', 'subscription_series', 'tool_series']);
 const DETAIL_REF_KIND = 'tool-level3';
@@ -37,7 +38,7 @@ function detailRefIdOf(value) {
   return `${DETAIL_REF_KIND}:${key}`;
 }
 
-const REQUIRED_TOPS = ['schema_version', 'capacity', 'defaults', 'vendor_aliases', 'vendors'];
+const REQUIRED_TOPS = ['schema_version', 'capacity', 'defaults', 'vendor_aliases', 'task_type_registry', 'vendors'];
 
 function validateSeriesPolicy(policy) {
   const errors = [];
@@ -66,6 +67,7 @@ function validateSeriesPolicy(policy) {
   if (!policy.vendor_aliases || typeof policy.vendor_aliases !== 'object' || Array.isArray(policy.vendor_aliases)) {
     errors.push('SERIES_POLICY_VENDOR_ALIASES_INVALID');
   }
+  errors.push(...validateTaskTypeRegistry(policy.task_type_registry, USAGE_KINDS));
 
   if (!Array.isArray(policy.vendors) || !policy.vendors.length) {
     errors.push('SERIES_POLICY_VENDORS_EMPTY');
@@ -105,8 +107,7 @@ function validateSeriesPolicy(policy) {
       if (!FAMILY_SERIES_KINDS.includes(family.series_kind)) errors.push(`SERIES_POLICY_FAMILY_SERIES_KIND_INVALID:${vk}:${family.family}:${family.series_kind}`);
       if (family.version_axis && typeof family.version_axis !== 'string') errors.push(`SERIES_POLICY_VERSION_AXIS_INVALID:${vk}:${family.family}`);
       if (family.name_patterns && !Array.isArray(family.name_patterns)) errors.push(`SERIES_POLICY_NAME_PATTERNS_INVALID:${vk}:${family.family}`);
-      errors.push(...validateFamilyMemberLineages(vk, family, detailKeyOf));
-
+      errors.push(...validateFamilyTaskTypes(vk, family, policy.task_type_registry), ...validateFamilyMemberLineages(vk, family, detailKeyOf));
       if (!Array.isArray(family.series) || !family.series.length) {
         errors.push(`SERIES_POLICY_FAMILY_NO_SERIES:${vk}:${family.family}`);
       } else {
@@ -270,8 +271,7 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
   if (!vendorPolicy) return { kind: 'not_applicable', reason: 'VENDOR_NOT_IN_POLICY' };
   const generalFamilies = vendorPolicy.families.filter(f => f.usage_kind === 'general_llm');
 
-  // 2. 用途/家族判定：pattern 命中（任意家族）/ 显式 modality / AI hint 均视为高置信；
-  //    无任何品牌命中的“默认通用”属歧义，交由 AI 或人工确认。
+  // 2. 名称、显式任务类型、模态或 AI hint 识别用途；无依据的默认通用交给 AI 或人工。
   const lowerName = String(candidate.name || '').toLowerCase();
   if (candidate.modality !== undefined && !FAMILY_MODALITIES.includes(candidate.modality)) {
     return {
@@ -282,8 +282,11 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
     };
   }
   const matched = matchFamily(policy, vendorPolicy, candidate.name);
+  const taskTypeResolution = resolveTaskTypePlacement(policy, vendorPolicy, candidate, hint, matched);
+  if (taskTypeResolution.error) return taskTypeResolution.error;
+  const { taskTypes: candidateTaskTypes, family: taskFamily, usageKind: typeUsage } = taskTypeResolution;
   const modalityUsage = candidate.modality ? usageFromModality(candidate.modality) : null;
-  if (matched && candidate.modality && matched.modality !== candidate.modality) {
+  if (matched && !modalityMatches(matched.modality, candidate.modality)) {
     return {
       kind: 'fail_closed',
       code: 'PLACEMENT_MODALITY_FAMILY_MISMATCH',
@@ -294,9 +297,8 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
   }
   const brandFamily = generalFamilies.find(gf => brandHintsOfFamily(gf).some(h => lowerName.includes(h)))?.family || null;
   const hintUsage = hint && VALID_USAGE_KIND_FOR_PLACEMENT.includes(hint.usage_kind) ? hint.usage_kind : null;
-
-  let usage = matched?.usage_kind || modalityUsage || hintUsage || (brandFamily ? 'general_llm' : null);
-  const confident = Boolean(matched || modalityUsage || hintUsage || brandFamily);
+  let usage = matched?.usage_kind || taskFamily?.usage_kind || typeUsage || modalityUsage || hintUsage || (brandFamily ? 'general_llm' : null);
+  const confident = Boolean(matched || taskFamily || candidateTaskTypes.length || modalityUsage || hintUsage || brandFamily);
 
   if (!usage) return { kind: 'needs_ai', reason: 'USAGE_AMBIGUOUS_DEFAULT' };
   if (usage === 'uncovered' || usage === 'unknown') return { kind: 'needs_ai', reason: `USAGE_UNKNOWN:${usage}` };
@@ -304,20 +306,17 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
 
   // 3. 家族判定：pattern 命中优先；其次 hint 指定家族；再次 modality 同族；再次通用品牌；最后通用默认
   let family = matched?.family || null;
+  if (!family && taskFamily) family = taskFamily.family;
   if (!family && hint?.canonical_family) {
     const hinted = vendorPolicy.families.find(f => f.family === hint.canonical_family);
     if (hinted && (hinted.usage_kind === usage || !matched)) family = hint.canonical_family;
   }
+  if (!family && candidate.modality === 'text' && brandFamily) family = brandFamily;
   if (!family && candidate.modality) {
-    family = vendorPolicy.families.find(f => f.modality === candidate.modality)?.family || null;
-    if (!family) {
-      return {
-        kind: 'fail_closed',
-        code: 'PLACEMENT_MODALITY_UNSUPPORTED',
-        vendor: vendorKey,
-        modality: candidate.modality,
-      };
-    }
+    const modalityFamily = familyForModality(vendorPolicy, candidate.modality);
+    if (modalityFamily.family) family = modalityFamily.family.family;
+    else if (modalityFamily.ambiguous) return { kind: 'needs_ai', reason: 'TASK_TYPE_AMBIGUOUS_BY_MODALITY' };
+    else return { kind: 'fail_closed', code: 'PLACEMENT_MODALITY_UNSUPPORTED', vendor: vendorKey, modality: candidate.modality };
   }
   if (!family) family = brandFamily;
   if (!family) {
@@ -333,6 +332,7 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
   if (!familyDef) {
     return { kind: 'fail_closed', code: 'PLACEMENT_FAMILY_NOT_IN_POLICY', vendor: vendorKey, family };
   }
+  const taskFamilyError = validateResolvedTaskTypes(candidateTaskTypes, familyDef, candidate.modality, vendorKey); if (taskFamilyError) return taskFamilyError;
   usage = familyDef.usage_kind;
 
   // 4. 目标系列：按 generation_state 选目标（AI hint 的 release_cohort 作软提示）
@@ -343,7 +343,6 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
     || seriesList.find(s => s.generation_state === 'newest')
     || seriesList[0];
 
-  // 5. 结构对齐检查：目标不在快照，且同厂商存在占用政策成员的非政策系列 → 需迁移对齐
   const exists = (snapshot['vendor-level2'] || []).some(l2 => l2.id === target.id);
   if (!exists) {
     const targetMemberIds = new Set((target.expected_members || []).map(memberRef => detailKeyOf(memberRef)).filter(Boolean));
@@ -374,13 +373,13 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
     target_level2_id: target.id,
     target_level2_title: target.title,
     group_key: groupKeyOfSeriesId(target.id),
-    source: hint ? 'ai' : 'policy',
-    evidence: [target.id],
+    source: hint ? 'ai' : 'policy', evidence: [target.id], task_types: familyDef.task_types || [],
+    candidate_task_types: candidateTaskTypes.length ? candidateTaskTypes : (familyDef.task_types?.length === 1 ? familyDef.task_types : []), search_terms: target.search_terms || [],
   };
 }
 const VALID_USAGE_KIND_FOR_PLACEMENT = Object.freeze([
-  'general_llm', 'coding', 'image', 'video', 'audio_realtime',
-  'translation', 'omni', 'media', 'tool', 'subscription',
+  'general_llm', 'coding', 'embedding', 'rerank', 'retrieval', 'image', 'video', 'audio_realtime', 'speech_generation',
+  'speech_recognition', 'music_generation', 'audio_generation', 'audio_understanding', 'vision', 'document_ai', 'moderation', 'translation', 'multilingual', 'omni', 'media', 'search', 'tool', 'subscription',
 ]);
 
 module.exports = {

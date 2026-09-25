@@ -748,7 +748,10 @@
           "url": "https://developers.openai.com/api/docs/pricing"
         }
       ],
-      "model_key": "openai-gpt-5.6-sol"
+      "model_key": "openai-gpt-5.6-sol",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:gpt-5.6-terra",
@@ -815,7 +818,10 @@
           "url": "https://developers.openai.com/api/docs/pricing"
         }
       ],
-      "model_key": "openai-gpt-5.6-terra"
+      "model_key": "openai-gpt-5.6-terra",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:gpt-5.6-luna",
@@ -882,7 +888,10 @@
           "url": "https://developers.openai.com/api/docs/pricing"
         }
       ],
-      "model_key": "openai-gpt-5.6-luna"
+      "model_key": "openai-gpt-5.6-luna",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:chatgpt-go",
@@ -1112,6 +1121,9 @@
           "title": "Claude Fable 5",
           "url": "https://www.anthropic.com/claude/fable"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -1245,6 +1257,9 @@
           "title": "Claude Sonnet 5",
           "url": "https://www.anthropic.com/claude/sonnet"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -1306,6 +1321,9 @@
           "title": "Context windows",
           "url": "https://docs.anthropic.com/en/docs/build-with-claude/context-windows"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -1528,7 +1546,10 @@
         }
       ],
       "release_date": "2026-05-19",
-      "model_key": "google-gemini-3.5-flash"
+      "model_key": "google-gemini-3.5-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:google-ai-pro",
@@ -1739,6 +1760,9 @@
           "title": "Context Caching",
           "url": "https://api-docs.deepseek.com/guides/kv_cache"
         }
+      ],
+      "task_types": [
+        "Vision"
       ]
     },
     {
@@ -1814,7 +1838,10 @@
           "url": "https://deepseek.com/en/news/v4-preview/"
         }
       ],
-      "release_date": "2026-04-24"
+      "release_date": "2026-04-24",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-level3:glm-5.2",
@@ -1871,6 +1898,9 @@
           "title": "模型概览",
           "url": "https://docs.bigmodel.cn/cn/guide/start/model-overview"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -1937,6 +1967,9 @@
           "title": "模型概览",
           "url": "https://docs.bigmodel.cn/cn/guide/start/model-overview"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -1989,6 +2022,9 @@
           "title": "百度千帆 — 模型服务计费",
           "url": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -2041,6 +2077,9 @@
           "title": "百度千帆 — 模型服务计费",
           "url": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -2093,6 +2132,9 @@
           "title": "Mistral API Pricing",
           "url": "https://mistral.ai/pricing/api/"
         }
+      ],
+      "task_types": [
+        "LLM"
       ]
     },
     {
@@ -2150,7 +2192,10 @@
           "url": "https://mistral.ai/fr/news/mistral-3/"
         }
       ],
-      "release_date": "2025-12-02"
+      "release_date": "2025-12-02",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:command-a",
@@ -2411,7 +2456,10 @@
       "release_date": "2026-04-23",
       "theme": "general",
       "id": "tool-level3:gpt-5-5",
-      "model_key": "openai-gpt-5.5"
+      "model_key": "openai-gpt-5.5",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "anthropic",
@@ -2482,7 +2530,10 @@
       ],
       "release_date": "2026-07-24",
       "theme": "general",
-      "id": "tool-level3:claude-opus-5"
+      "id": "tool-level3:claude-opus-5",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "google",
@@ -2646,7 +2697,10 @@
       "release_date": "2026-02-19",
       "theme": "general",
       "id": "tool-level3:gemini-3-1-pro",
-      "model_key": "google-gemini-3.1-pro"
+      "model_key": "google-gemini-3.1-pro",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "cohere",
@@ -3005,7 +3059,10 @@
       "release_date": "2026-04-21",
       "theme": "general",
       "id": "tool-level3:gpt-image-2",
-      "model_key": "openai-gpt-image-2"
+      "model_key": "openai-gpt-image-2",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "kuaishou",
@@ -3268,7 +3325,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:glm-5-3"
+      "id": "tool-level3:glm-5-3",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "google",
@@ -3370,7 +3430,10 @@
       "release_date": "2026-08-13",
       "theme": "general",
       "id": "tool-level3:gemini-3-7-flash",
-      "model_key": "google-gemini-3.7-flash"
+      "model_key": "google-gemini-3.7-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "google",
@@ -3466,7 +3529,10 @@
       "release_date": "2026-07-21",
       "theme": "general",
       "id": "tool-level3:gemini-3-6-flash",
-      "model_key": "google-gemini-3.6-flash"
+      "model_key": "google-gemini-3.6-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "moonshot",
@@ -3575,7 +3641,10 @@
       "theme": "general",
       "id": "tool-level3:kimi-k3",
       "release_date": "2026-07-16",
-      "model_key": "moonshot-kimi-k3"
+      "model_key": "moonshot-kimi-k3",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "moonshot",
@@ -3663,7 +3732,10 @@
       "theme": "general",
       "id": "tool-level3:kimi-k2.6",
       "release_date": "2026-04-20",
-      "model_key": "moonshot-kimi-k2.6"
+      "model_key": "moonshot-kimi-k2.6",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "moonshot",
@@ -3743,7 +3815,10 @@
       "theme": "general",
       "id": "tool-level3:kimi-k2.7-code",
       "release_date": "2026-06-12",
-      "model_key": "moonshot-kimi-k2.7-code"
+      "model_key": "moonshot-kimi-k2.7-code",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "vendor_key": "moonshot",
@@ -3827,7 +3902,10 @@
       "theme": "general",
       "id": "tool-level3:kimi-k2.7-code-highspeed",
       "release_date": "2026-07-09",
-      "model_key": "moonshot-kimi-k2.7-code-highspeed"
+      "model_key": "moonshot-kimi-k2.7-code-highspeed",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "vendor_key": "moonshot",
@@ -4496,7 +4574,7 @@
     {
       "vendor_key": "tencent",
       "detail_kind": "api_model",
-      "title": "混元 Hy3",
+      "title": "Hy3",
       "vendor_label": "腾讯（混元）",
       "icon": "🤖",
       "official_url": "https://cloud.tencent.com.cn/product/tclm",
@@ -4560,7 +4638,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:hy3",
-      "release_date": "2025-10-15"
+      "release_date": "2025-10-15",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "meta",
@@ -4802,7 +4883,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:step-3-5-flash",
-      "release_date": "2026-02-02"
+      "release_date": "2026-02-02",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "stepfun",
@@ -4884,7 +4968,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:step-3-7-flash",
-      "release_date": "2026-05-29"
+      "release_date": "2026-05-29",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xiaomi",
@@ -4962,7 +5049,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:mimo-v2-5",
-      "release_date": "2026-03-19"
+      "release_date": "2026-03-19",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "nvidia",
@@ -5047,7 +5137,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:nemotron-3-ultra",
-      "release_date": "2026-06-04"
+      "release_date": "2026-06-04",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "nvidia",
@@ -5140,7 +5233,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:nemotron-3-super",
-      "release_date": "2026-03-11"
+      "release_date": "2026-03-11",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "nvidia",
@@ -5225,7 +5321,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:nemotron-3-5",
-      "release_date": "2026-07-28"
+      "release_date": "2026-07-28",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xiaomi",
@@ -5319,7 +5418,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:mimo-v2-5-pro",
-      "release_date": "2026-04-22"
+      "release_date": "2026-04-22",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "bytedance",
@@ -5393,7 +5495,10 @@
       ],
       "theme": "general",
       "id": "tool-level3:doubao-seed-character",
-      "release_date": "2026-06-28"
+      "release_date": "2026-06-28",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "deepseek",
@@ -5496,7 +5601,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:deepseek-v4-flash-vision-exp"
+      "id": "tool-level3:deepseek-v4-flash-vision-exp",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "vendor_key": "alibaba",
@@ -5899,7 +6007,10 @@
       ],
       "release_date": "2026-03-15",
       "theme": "general",
-      "id": "tool-level3:qwen3-5-omni"
+      "id": "tool-level3:qwen3-5-omni",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "vendor_key": "alibaba",
@@ -6140,7 +6251,10 @@
       ],
       "theme": "vision",
       "id": "tool-level3:qwen-image-2-0-pro",
-      "release_date": "2025-08-12"
+      "release_date": "2025-08-12",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "vidu",
@@ -7877,7 +7991,10 @@
       "theme": "general",
       "release_date": "2025-11-18",
       "id": "tool-level3:gemini-3-5-pro",
-      "model_key": "google-gemini-3.5-pro"
+      "model_key": "google-gemini-3.5-pro",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -7993,7 +8110,10 @@
       ],
       "theme": "general",
       "release_date": "2026-07-30",
-      "id": "tool-level3:glm-5-3-flash"
+      "id": "tool-level3:glm-5-3-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -8048,7 +8168,10 @@
       ],
       "theme": "general",
       "release_date": "2025-12-22",
-      "id": "tool-level3:glm-4-7-flash"
+      "id": "tool-level3:glm-4-7-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -8104,7 +8227,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:glm-image"
+      "id": "tool-level3:glm-image",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "alibaba",
@@ -8307,7 +8433,10 @@
       "theme": "general",
       "release_date": "2025-12-17",
       "id": "tool-level3:gemini-3-8-flash",
-      "model_key": "google-gemini-3.8-flash"
+      "model_key": "google-gemini-3.8-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "google",
@@ -8390,7 +8519,10 @@
       "theme": "general",
       "release_date": "2026-09-15",
       "id": "tool-level3:gemini-3-8-live",
-      "model_key": "google-gemini-3.8-live"
+      "model_key": "google-gemini-3.8-live",
+      "task_types": [
+        "Voice"
+      ]
     },
     {
       "id": "tool-level3:gpt-6",
@@ -8463,7 +8595,10 @@
         }
       ],
       "model_key": "openai-gpt-6-astra",
-      "release_date": "2026-09-03"
+      "release_date": "2026-09-03",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:gpt-5-5-pro",
@@ -8531,7 +8666,10 @@
         }
       ],
       "model_key": "openai-gpt-5.5-pro",
-      "release_date": "2026-04-23"
+      "release_date": "2026-04-23",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:gpt-realtime-2-1",
@@ -8814,7 +8952,10 @@
         }
       ],
       "model_key": "openai-gpt-realtime-translate",
-      "release_date": "2026-05-07"
+      "release_date": "2026-05-07",
+      "task_types": [
+        "Translation"
+      ]
     },
     {
       "id": "tool-level3:gpt-live-transcribe",
@@ -8877,7 +9018,10 @@
         }
       ],
       "model_key": "openai-gpt-live-transcribe",
-      "release_date": "2026-07-29"
+      "release_date": "2026-07-29",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-level3:gpt-realtime-whisper",
@@ -9194,7 +9338,10 @@
         }
       ],
       "model_key": "anthropic-claude-fable-5.1",
-      "release_date": "2026-09-01"
+      "release_date": "2026-09-01",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:claude-sonnet-4.6",
@@ -9249,7 +9396,10 @@
         }
       ],
       "model_key": "anthropic-claude-sonnet-4.6",
-      "release_date": "2026-02-17"
+      "release_date": "2026-02-17",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:claude-haiku-3.5",
@@ -9760,7 +9910,10 @@
       "id": "tool-level3:minimax-m3",
       "model_key": "minimax-minimax-m3",
       "visibility": "visible",
-      "release_date": "2026-06-01"
+      "release_date": "2026-06-01",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -9829,7 +9982,10 @@
       "id": "tool-level3:minimax-m2.7",
       "model_key": "minimax-minimax-m2.7",
       "visibility": "visible",
-      "release_date": "2026-03-18"
+      "release_date": "2026-03-18",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -9898,7 +10054,10 @@
       "id": "tool-level3:minimax-m2.5",
       "model_key": "minimax-minimax-m2.5",
       "visibility": "visible",
-      "release_date": "2026-02-01"
+      "release_date": "2026-02-01",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -9967,7 +10126,10 @@
       "id": "tool-level3:minimax-m2.1",
       "model_key": "minimax-minimax-m2.1",
       "visibility": "visible",
-      "release_date": "2025-12-22"
+      "release_date": "2025-12-22",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10036,7 +10198,10 @@
       "id": "tool-level3:minimax-m2",
       "model_key": "minimax-minimax-m2",
       "visibility": "visible",
-      "release_date": "2025-10-27"
+      "release_date": "2025-10-27",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10104,7 +10269,10 @@
       "id": "tool-level3:minimax-h3",
       "model_key": "minimax-minimax-h3",
       "visibility": "visible",
-      "release_date": "2026-07-31"
+      "release_date": "2026-07-31",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10172,7 +10340,10 @@
       "id": "tool-level3:minimax-hailuo-2.3",
       "model_key": "minimax-minimax-hailuo-2.3",
       "visibility": "visible",
-      "release_date": "2025-10-28"
+      "release_date": "2025-10-28",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10240,7 +10411,10 @@
       "id": "tool-level3:minimax-hailuo-2.3-fast",
       "model_key": "minimax-minimax-hailuo-2.3-fast",
       "visibility": "visible",
-      "release_date": "2025-10-28"
+      "release_date": "2025-10-28",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10502,7 +10676,10 @@
       "id": "tool-level3:minimax-music-2.6",
       "model_key": "minimax-minimax-music-2.6",
       "visibility": "visible",
-      "release_date": "2026-04-01"
+      "release_date": "2026-04-01",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10565,7 +10742,10 @@
       "id": "tool-level3:minimax-music-2.5-plus",
       "model_key": "minimax-minimax-music-2.5-plus",
       "visibility": "visible",
-      "release_date": "2026-03-01"
+      "release_date": "2026-03-01",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10628,7 +10808,10 @@
       "id": "tool-level3:minimax-music-2.5",
       "model_key": "minimax-minimax-music-2.5",
       "visibility": "visible",
-      "release_date": "2026-01-16"
+      "release_date": "2026-01-16",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10691,7 +10874,10 @@
       "id": "tool-level3:minimax-music-2.0",
       "model_key": "minimax-minimax-music-2.0",
       "visibility": "visible",
-      "release_date": "2025-10-29"
+      "release_date": "2025-10-29",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "vendor_key": "minimax",
@@ -10754,7 +10940,10 @@
       "id": "tool-level3:minimax-music-1.5",
       "model_key": "minimax-minimax-music-1.5",
       "visibility": "visible",
-      "release_date": "2025-09-11"
+      "release_date": "2025-09-11",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -10994,7 +11183,10 @@
       "id": "tool-level3:grok-4.6",
       "model_key": "xai-grok-4.6",
       "visibility": "visible",
-      "release_date": "2026-08-12"
+      "release_date": "2026-08-12",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11068,7 +11260,10 @@
       "id": "tool-level3:grok-4.5",
       "model_key": "xai-grok-4.5",
       "visibility": "visible",
-      "release_date": "2026-07-08"
+      "release_date": "2026-07-08",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11137,7 +11332,10 @@
       "id": "tool-level3:grok-4.3",
       "model_key": "xai-grok-4.3",
       "visibility": "visible",
-      "release_date": "2026-03-01"
+      "release_date": "2026-03-01",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11206,7 +11404,10 @@
       "id": "tool-level3:grok-4.20-0309-reasoning",
       "model_key": "xai-grok-4.20-0309-reasoning",
       "visibility": "visible",
-      "release_date": "2026-03-10"
+      "release_date": "2026-03-10",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11275,7 +11476,10 @@
       "id": "tool-level3:grok-4.20-0309-non-reasoning",
       "model_key": "xai-grok-4.20-0309-non-reasoning",
       "visibility": "visible",
-      "release_date": "2026-03-10"
+      "release_date": "2026-03-10",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11344,7 +11548,10 @@
       "id": "tool-level3:grok-4.20-multi-agent-0309",
       "model_key": "xai-grok-4.20-multi-agent-0309",
       "visibility": "visible",
-      "release_date": "2026-03-10"
+      "release_date": "2026-03-10",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11412,7 +11619,10 @@
       "id": "tool-level3:grok-imagine-image-2.0",
       "model_key": "xai-grok-imagine-image-2.0",
       "visibility": "visible",
-      "release_date": "2026-03-02"
+      "release_date": "2026-03-02",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11475,7 +11685,10 @@
       "id": "tool-level3:grok-imagine-image",
       "model_key": "xai-grok-imagine-image",
       "visibility": "visible",
-      "release_date": "2026-03-02"
+      "release_date": "2026-03-02",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11543,7 +11756,10 @@
       "id": "tool-level3:grok-imagine-image-quality",
       "model_key": "xai-grok-imagine-image-quality",
       "visibility": "visible",
-      "release_date": "2026-03-02"
+      "release_date": "2026-03-02",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11616,7 +11832,10 @@
       "id": "tool-level3:grok-imagine-video-1.5",
       "model_key": "xai-grok-imagine-video-1.5",
       "visibility": "visible",
-      "release_date": "2026-03-02"
+      "release_date": "2026-03-02",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11684,7 +11903,10 @@
       "id": "tool-level3:grok-imagine-video",
       "model_key": "xai-grok-imagine-video",
       "visibility": "visible",
-      "release_date": "2026-03-02"
+      "release_date": "2026-03-02",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -11825,7 +12047,10 @@
       "id": "tool-level3:grok-voice-think-fast-2.0",
       "model_key": "xai-grok-voice-think-fast-2.0",
       "visibility": "visible",
-      "release_date": "2026-07-29"
+      "release_date": "2026-07-29",
+      "task_types": [
+        "Voice"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -12297,7 +12522,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:cogvideox-3"
+      "id": "tool-level3:cogvideox-3",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -12480,7 +12708,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:glm-ocr"
+      "id": "tool-level3:glm-ocr",
+      "task_types": [
+        "OCR"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -12536,7 +12767,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:glm-asr-2512"
+      "id": "tool-level3:glm-asr-2512",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -12592,7 +12826,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:embedding-2"
+      "id": "tool-level3:embedding-2",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -12648,7 +12885,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:embedding-3"
+      "id": "tool-level3:embedding-3",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -12704,7 +12944,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:glm-rerank"
+      "id": "tool-level3:glm-rerank",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "vendor_key": "baidu",
@@ -12765,7 +13008,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:ernie-x1-1"
+      "id": "tool-level3:ernie-x1-1",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "baidu",
@@ -12826,7 +13072,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:ernie-x1-1-preview"
+      "id": "tool-level3:ernie-x1-1-preview",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "baidu",
@@ -12887,7 +13136,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:ernie-4-5-turbo-vl"
+      "id": "tool-level3:ernie-4-5-turbo-vl",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "vendor_key": "baidu",
@@ -12943,7 +13195,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:musesteamer-air-image"
+      "id": "tool-level3:musesteamer-air-image",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "baidu",
@@ -12999,7 +13254,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:embedding-v1"
+      "id": "tool-level3:embedding-v1",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "vendor_key": "baidu",
@@ -13111,7 +13369,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:bce-reranker-base"
+      "id": "tool-level3:bce-reranker-base",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "vendor_key": "mistral",
@@ -13177,7 +13438,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:mistral-small-4"
+      "id": "tool-level3:mistral-small-4",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "vendor_key": "mistral",
@@ -13238,7 +13502,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:mistral-ocr-4-1"
+      "id": "tool-level3:mistral-ocr-4-1",
+      "task_types": [
+        "OCR"
+      ]
     },
     {
       "vendor_key": "mistral",
@@ -13299,7 +13566,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:voxtral-mini-transcribe-2"
+      "id": "tool-level3:voxtral-mini-transcribe-2",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "vendor_key": "mistral",
@@ -13365,7 +13635,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:codestral"
+      "id": "tool-level3:codestral",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "vendor_key": "mistral",
@@ -13421,7 +13694,10 @@
         }
       ],
       "theme": "general",
-      "id": "tool-level3:mistral-moderation-2"
+      "id": "tool-level3:mistral-moderation-2",
+      "task_types": [
+        "Moderation"
+      ]
     },
     {
       "vendor_key": "zhipu",
@@ -14632,7 +14908,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-command-a-translate"
+      "model_key": "cohere-command-a-translate",
+      "task_types": [
+        "Translation"
+      ]
     },
     {
       "id": "tool-level3:command-a-vision",
@@ -14678,7 +14957,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-command-a-vision"
+      "model_key": "cohere-command-a-vision",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-level3:north-mini-code-1-0",
@@ -14724,7 +15006,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-north-mini-code-1-0"
+      "model_key": "cohere-north-mini-code-1-0",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "id": "tool-level3:embed-v4.0",
@@ -14770,7 +15055,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-embed-v4.0"
+      "model_key": "cohere-embed-v4.0",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-level3:embed-multilingual-v3.0",
@@ -14816,7 +15104,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-embed-multilingual-v3.0"
+      "model_key": "cohere-embed-multilingual-v3.0",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-level3:rerank-v4.0-pro",
@@ -14862,7 +15153,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-rerank-v4.0-pro"
+      "model_key": "cohere-rerank-v4.0-pro",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-level3:rerank-v4.0-fast",
@@ -14908,7 +15202,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-rerank-v4.0-fast"
+      "model_key": "cohere-rerank-v4.0-fast",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-level3:parse-v5.0",
@@ -14954,7 +15251,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-parse-v5.0"
+      "model_key": "cohere-parse-v5.0",
+      "task_types": [
+        "Document AI"
+      ]
     },
     {
       "id": "tool-level3:cohere-transcribe-03-2026",
@@ -15000,7 +15300,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-transcribe-03-2026"
+      "model_key": "cohere-transcribe-03-2026",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-level3:cohere-transcribe-arabic-07-2026",
@@ -15046,7 +15349,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-transcribe-arabic-07-2026"
+      "model_key": "cohere-transcribe-arabic-07-2026",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-level3:tiny-aya-global",
@@ -15092,7 +15398,10 @@
         }
       ],
       "theme": "general",
-      "model_key": "cohere-tiny-aya-global"
+      "model_key": "cohere-tiny-aya-global",
+      "task_types": [
+        "Multilingual"
+      ]
     },
     {
       "id": "tool-level3:cohere-north",
@@ -15277,7 +15586,10 @@
         }
       ],
       "release_date": "2026-04-18",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-level3:wan2.7-t2v",
@@ -15327,7 +15639,10 @@
         }
       ],
       "release_date": "2026-05-10",
-      "theme": "media"
+      "theme": "media",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-level3:text-embedding-v4",
@@ -15382,7 +15697,10 @@
         }
       ],
       "release_date": "2026-03-12",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-level3:qwen3-rerank",
@@ -15432,7 +15750,10 @@
         }
       ],
       "release_date": "2026-03-15",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-level3:qwen-code",
@@ -15621,7 +15942,10 @@
         }
       ],
       "release_date": "2026-08-28",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:hunyuan-t1",
@@ -15676,7 +16000,10 @@
         }
       ],
       "release_date": "2025-08-15",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:hy2-think",
@@ -15748,13 +16075,16 @@
         }
       ],
       "release_date": "2025-11-10",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:hunyuan-image-3.0",
       "vendor_key": "tencent",
       "detail_kind": "api_model",
-      "title": "混元图像 3.0",
+      "title": "HunyuanImage-3.0",
       "vendor_label": "腾讯（混元）",
       "icon": "🎨",
       "official_url": "https://cloud.tencent.com/document/product/1729/105925",
@@ -15813,7 +16143,7 @@
       "id": "tool-level3:hunyuan-video",
       "vendor_key": "tencent",
       "detail_kind": "api_model",
-      "title": "混元生视频",
+      "title": "Hunyuan Video",
       "vendor_label": "腾讯（混元）",
       "icon": "🎬",
       "official_url": "https://cloud.tencent.com/product/vclm",
@@ -15858,7 +16188,10 @@
         }
       ],
       "release_date": "2025-12-10",
-      "theme": "media"
+      "theme": "media",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "vendor_key": "tencent",
@@ -16230,7 +16563,10 @@
         }
       ],
       "release_date": "2025-07-31",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:step-image-edit-2",
@@ -16280,7 +16616,10 @@
         }
       ],
       "release_date": "2026-04-10",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-level3:step-2x-large",
@@ -16330,7 +16669,10 @@
         }
       ],
       "release_date": "2026-06-12",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-level3:stepaudio-2.5-tts",
@@ -16380,7 +16722,10 @@
         }
       ],
       "release_date": "2026-03-25",
-      "theme": "media"
+      "theme": "media",
+      "task_types": [
+        "TTS"
+      ]
     },
     {
       "id": "tool-level3:stepaudio-2.5-asr",
@@ -16435,7 +16780,10 @@
         }
       ],
       "release_date": "2026-03-25",
-      "theme": "media"
+      "theme": "media",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-level3:stepfun-studio",
@@ -16703,7 +17051,10 @@
         }
       ],
       "release_date": "2025-12-16",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:mimo-v2-5-omni",
@@ -16758,7 +17109,10 @@
         }
       ],
       "release_date": "2026-03-19",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "id": "tool-level3:mimo-v2-5-tts",
@@ -16808,7 +17162,10 @@
         }
       ],
       "release_date": "2026-03-19",
-      "theme": "media"
+      "theme": "media",
+      "task_types": [
+        "TTS"
+      ]
     },
     {
       "id": "tool-level3:mimo-code",
@@ -17220,7 +17577,10 @@
         }
       ],
       "release_date": "2025-07-15",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:doubao-1.5-lite",
@@ -17275,7 +17635,10 @@
         }
       ],
       "release_date": "2025-07-15",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:doubao-seed-2.0-mini",
@@ -17330,7 +17693,10 @@
         }
       ],
       "release_date": "2026-04-28",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:doubao-seedream-5.0-pro",
@@ -17789,7 +18155,10 @@
         }
       ],
       "release_date": "2026-04-15",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:inkling-small",
@@ -17871,7 +18240,10 @@
         }
       ],
       "release_date": "2026-08-12",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:tinker",
@@ -18084,7 +18456,10 @@
         }
       ],
       "release_date": "2026-08-11",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:solar-pro-3",
@@ -18144,7 +18519,10 @@
         }
       ],
       "release_date": "2026-05-15",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:solar-mini",
@@ -18199,7 +18577,10 @@
         }
       ],
       "release_date": "2025-07-20",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:upstage-document-parse",
@@ -18255,7 +18636,10 @@
         }
       ],
       "release_date": "2025-08-01",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Document AI"
+      ]
     },
     {
       "id": "tool-level3:upstage-document-ocr",
@@ -18305,7 +18689,10 @@
         }
       ],
       "release_date": "2025-08-01",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "OCR"
+      ]
     },
     {
       "id": "tool-level3:upstage-information-extract",
@@ -18410,7 +18797,10 @@
         }
       ],
       "release_date": "2026-06-18",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-level3:upstage-studio",
@@ -18814,7 +19204,10 @@
         }
       ],
       "release_date": "2026-08-15",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-level3:perplexity-computer",
@@ -19000,7 +19393,10 @@
         }
       ],
       "release_date": "2026-03-18",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-level3:phi-4-mini",
@@ -19174,7 +19570,10 @@
         }
       ],
       "release_date": "2026-05-20",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:mai-image-2-5",
@@ -19224,7 +19623,10 @@
         }
       ],
       "release_date": "2026-05-20",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-level3:mai-voice-2",
@@ -19274,7 +19676,10 @@
         }
       ],
       "release_date": "2026-05-20",
-      "theme": "media"
+      "theme": "media",
+      "task_types": [
+        "TTS"
+      ]
     },
     {
       "id": "tool-level3:azure-ai-foundry",
@@ -20613,7 +21018,10 @@
         }
       ],
       "release_date": "2026-02-18",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:bailing-ling-2-5-1t",
@@ -20669,7 +21077,10 @@
         }
       ],
       "release_date": "2026-02-18",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:bailing-ring-1t",
@@ -20724,7 +21135,10 @@
         }
       ],
       "release_date": "2025-11-06",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:bailing-ling-1t",
@@ -20779,7 +21193,10 @@
         }
       ],
       "release_date": "2025-11-06",
-      "theme": "general"
+      "theme": "general",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-level3:bailing-ming-omni",
@@ -20834,7 +21251,10 @@
         }
       ],
       "release_date": "2025-11-06",
-      "theme": "vision"
+      "theme": "vision",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "id": "tool-level3:lingguang-app",
@@ -21325,7 +21745,10 @@
       "theme": "general",
       "release_date": "2026-09-10",
       "model_key": "deepseek-deepseek-v4.1-flash",
-      "id": "tool-level3:deepseek-v4.1-flash"
+      "id": "tool-level3:deepseek-v4.1-flash",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "vendor_key": "meta",
@@ -21492,7 +21915,10 @@
       "theme": "vision",
       "release_date": "2026-08-10",
       "model_key": "microsoft-mai-image-2.6",
-      "id": "tool-level3:mai-image-2.6"
+      "id": "tool-level3:mai-image-2.6",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "alibaba",
@@ -21608,7 +22034,10 @@
       "theme": "general",
       "release_date": "2026-09-18",
       "model_key": "alibaba-qwen3.8-omni-flash",
-      "id": "tool-level3:qwen3.8-omni-flash"
+      "id": "tool-level3:qwen3.8-omni-flash",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "vendor_key": "xai",
@@ -21735,7 +22164,11 @@
       "theme": "general",
       "release_date": "2026-09-17",
       "model_key": "xai-grok-voice-transcribe-2.0",
-      "id": "tool-level3:grok-voice-transcribe-2.0"
+      "id": "tool-level3:grok-voice-transcribe-2.0",
+      "task_types": [
+        "STT",
+        "Voice"
+      ]
     },
     {
       "vendor_key": "openai",
@@ -21825,7 +22258,10 @@
       "theme": "vision",
       "release_date": "2026-09-08",
       "model_key": "openai-gpt-images-2.5",
-      "id": "tool-level3:gpt-images-2.5"
+      "id": "tool-level3:gpt-images-2.5",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "vendor_key": "typesafe",
@@ -21887,7 +22323,10 @@
       "theme": "general",
       "release_date": "2026-09-16",
       "model_key": "typesafe-jev",
-      "id": "tool-level3:jev"
+      "id": "tool-level3:jev",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "vidu",
@@ -22492,7 +22931,10 @@
       "theme": "general",
       "release_date": "2025-10-15",
       "model_key": "stepfun-step-5-preview",
-      "id": "tool-level3:stepfun-step-5-preview"
+      "id": "tool-level3:stepfun-step-5-preview",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "openai",
@@ -22663,7 +23105,10 @@
       "theme": "general",
       "release_date": "2026-09-22",
       "model_key": "openai-gpt-6-sol",
-      "id": "tool-level3:gpt-6-sol"
+      "id": "tool-level3:gpt-6-sol",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "openai",
@@ -22781,7 +23226,10 @@
       "theme": "general",
       "release_date": "2026-09-22",
       "model_key": "openai-gpt-6-luna",
-      "id": "tool-level3:gpt-6-luna"
+      "id": "tool-level3:gpt-6-luna",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "anthropic",
@@ -22926,7 +23374,10 @@
       "theme": "general",
       "release_date": "2026-09-22",
       "model_key": "anthropic-claude-opus-5.5",
-      "id": "tool-level3:claude-opus-5.5"
+      "id": "tool-level3:claude-opus-5.5",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "vendor_key": "stepfun",

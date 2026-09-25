@@ -321,26 +321,39 @@ test('集成：真实五模块快照迁移后校验通过，关键目标系列�
   expect('vendor-level2:nvidia:nemotron', ['nemotron-3-5', 'nemotron-3-ultra', 'nemotron-3-super']);
 });
 
-test('真实 Catalog 将 Microsoft AI 并入 Microsoft 且将 MAI-Image-2.6 归入 MAI 系列', () => {
-  const snapshot = realSnapshot();
+test('真实 Catalog 将 MAI Thinking、Image 与 Voice 分入对应产品系列', () => {
+  const snapshot = planSeriesMigration(loadSeriesPolicy(), realSnapshot()).snapshot;
   const vendor = snapshot['vendor-card'].find(item => item.vendor_key === 'microsoft');
   const microsoftAiCards = snapshot['vendor-card'].filter(item => item.vendor_key === 'microsoft-ai');
   const level1 = snapshot['vendor-level1'].find(item => item.id === 'vendor-level1:microsoft');
-  const maiSeries = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:microsoft:mai');
-  const detail = snapshot['tool-level3'].find(item => item.id === 'tool-level3:mai-image-2.6');
-  const card = snapshot['tool-card'].find(item => item.id === 'tool-card:mai-image-2.6');
+  const thinkingSeries = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:microsoft:mai');
+  const imageSeries = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:microsoft:mai-image');
+  const voiceSeries = snapshot['vendor-level2'].find(item => item.id === 'vendor-level2:microsoft:mai-voice');
+  const thinking = snapshot['tool-level3'].find(item => item.id === 'tool-level3:mai-thinking-1');
+  const image = snapshot['tool-level3'].find(item => item.id === 'tool-level3:mai-image-2.6');
+  const voice = snapshot['tool-level3'].find(item => item.id === 'tool-level3:mai-voice-2');
+  const imageCard = snapshot['tool-card'].find(item => item.id === 'tool-card:mai-image-2.6');
 
   assert.ok(vendor);
   assert.deepEqual(microsoftAiCards, []);
   assert.equal(snapshot['vendor-level1'].some(item => item.id === 'vendor-level1:microsoft-ai'), false);
-  assert.ok(level1.level2_refs.some(ref => ref.id === maiSeries.id));
-  assert.equal(level1.level2_refs.some(ref => ref.id === 'vendor-level2:microsoft:mai-image-2-6'), false);
-  assert.equal(snapshot['vendor-level2'].some(item => item.id === 'vendor-level2:microsoft:mai-image-2-6'), false);
-  assert.equal(maiSeries.level1_ref.id, level1.id);
-  assert.equal(maiSeries.vendor_key, 'microsoft');
-  assert.ok(maiSeries.detail_refs.some(ref => ref.id === detail.id));
-  assert.equal(detail.vendor_key, 'microsoft');
-  assert.equal(card.vendor_key, 'microsoft');
+  assert.deepEqual(level1.level2_refs.map(ref => ref.id).filter(id => id.includes(':mai')), [
+    'vendor-level2:microsoft:mai',
+    'vendor-level2:microsoft:mai-image',
+    'vendor-level2:microsoft:mai-voice',
+  ]);
+  assert.ok(thinkingSeries.detail_refs.some(ref => ref.id === thinking.id));
+  assert.ok(imageSeries.detail_refs.some(ref => ref.id === image.id));
+  assert.ok(voiceSeries.detail_refs.some(ref => ref.id === voice.id));
+  assert.deepEqual(thinkingSeries.task_types, ['LLM']);
+  assert.deepEqual(imageSeries.task_types, ['Image Generation']);
+  assert.deepEqual(voiceSeries.task_types, ['TTS']);
+  assert.deepEqual(thinking.task_types, ['LLM']);
+  assert.deepEqual(image.task_types, ['Image Generation']);
+  assert.deepEqual(imageCard.task_types, ['Image Generation']);
+  assert.deepEqual(voice.task_types, ['TTS']);
+  assert.equal(snapshot['vendor-level2'].some(item => item.id === 'vendor-level2:microsoft:mai-transcribe'), false);
+  assert.equal(imageCard.vendor_key, 'microsoft');
   assert.ok(vendor.search_terms.some(term => /microsoft ai/i.test(term)));
 });
 
@@ -360,7 +373,7 @@ test('真实 Catalog 校验 Hy Image 3.5 Preview 信息与发布时间并移除�
   assert.ok(preview.sources.some(source => source.url === 'https://cloud.tencent.com/document/product/1823/130055'));
 });
 
-test('集成：仅政策指定历史成员更新详情和卡片可见性', () => {
+test('集成：迁移只写规范任务标签与政策指定历史可见性', () => {
   const policy = loadSeriesPolicy();
   const before = realSnapshot();
   const plan = planSeriesMigration(policy, before);
@@ -372,6 +385,8 @@ test('集成：仅政策指定历史成员更新详情和卡片可见性', () =>
     const afterDetail = after['tool-level3'].find(x => x.id === d.id);
     if (d.id === 'tool-level3:claude-opus-4.8') {
       assert.deepEqual(afterDetail, { ...d, visibility: 'hidden_history', historical_since: '2026-09-24' });
+    } else if (afterDetail.task_types !== undefined && JSON.stringify(afterDetail.task_types) !== JSON.stringify(d.task_types)) {
+      assert.deepEqual(afterDetail, { ...d, task_types: afterDetail.task_types }, `tool-level3:${d.id} 仅可补标准 task_types`);
     } else {
       assert.deepEqual(afterDetail, d, `tool-level3:${d.id} 不应被修改`);
     }
@@ -380,6 +395,8 @@ test('集成：仅政策指定历史成员更新详情和卡片可见性', () =>
     const afterCard = after['tool-card'].find(x => x.id === c.id);
     if (c.id === 'tool-card:claude-opus-4.8') {
       assert.deepEqual(afterCard, { ...c, visibility: 'hidden_history', historical_since: '2026-09-24' });
+    } else if (afterCard.task_types !== undefined && JSON.stringify(afterCard.task_types) !== JSON.stringify(c.task_types)) {
+      assert.deepEqual(afterCard, { ...c, task_types: afterCard.task_types }, `tool-card:${c.id} 仅可补标准 task_types`);
     } else {
       assert.deepEqual(afterCard, c, `tool-card:${c.id} 不应被修改`);
     }

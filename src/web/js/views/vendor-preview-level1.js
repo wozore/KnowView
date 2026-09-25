@@ -1,4 +1,4 @@
-import { escapeHtml, safeExternalUrl } from '../ui/ui-helpers.js';
+import { escapeHtml, safeExternalUrl, renderTaskTypeBadges } from '../ui/ui-helpers.js';
 import { ICON_EXTERNAL } from '../ui/ui-icons.js';
 import { brandIconHtml } from '../ui/brand-icons.js';
 
@@ -13,7 +13,7 @@ function renderVendorLevel1(request = {}) {
     '<section class="model-tool-panel"><div class="intelligence-heading"><h3>模型与工具</h3><span class="intelligence-status status-' + escapeHtml(preview.status === 'unknown' ? 'partial' : preview.status) + '">' + escapeHtml(statusText) + '</span></div>' +
     '<div class="model-tree-grid">' + level2.map(item =>
       '<button class="model-tree-card" type="button" onclick="openDetail(\'' + escapeHtml(item.id) + '\')">' +
-        '<span class="node-kind-badge group">分类</span><strong>' + escapeHtml(item.title) + '</strong>' +
+        '<span class="node-kind-badge group">系列</span><strong>' + escapeHtml(item.title) + '</strong>' + renderTaskTypeBadges(item.task_types) +
         '<p>' + escapeHtml(item.summary || '') + '</p>' +
         '<small class="intelligence-status status-' + escapeHtml(item.status === 'unknown' ? 'partial' : item.status) + '">' + escapeHtml(item.status === 'active' ? '已核实' : item.status === 'partial' ? '部分核实' : item.status === 'unknown' ? '官方资料待核验' : '资料状态未知') + '</small>' +
         '<span class="model-tree-action">进入分类 ›</span></button>'

@@ -46,7 +46,7 @@ test('厂商矩阵：每个厂商有方向与目标系列，不依赖固定厂�
   assert.ok(vendors.length > 0);
   assert.equal(new Set(vendors).size, vendors.length);
   for (const vendor of p.vendors) {
-    assert.ok(['llm', 'video', 'image', 'search_platform', 'infrastructure'].includes(vendor.direction), `${vendor.vendor_key} direction 非法`);
+    assert.ok(['llm', 'audio', 'video', 'image', 'search_platform', 'infrastructure'].includes(vendor.direction), `${vendor.vendor_key} direction 非法`);
     assert.ok(Array.isArray(vendor.families), `${vendor.vendor_key} families 非法`);
     if (vendor.direction === 'llm' && vendor.families.length && !['upstage', 'microsoft', 'antgroup'].includes(vendor.vendor_key)) assert.ok(vendor.families.some(f => f.usage_kind === 'general_llm'), `${vendor.vendor_key} 缺 general_llm 家族`);
     for (const family of vendor.families) {
@@ -70,6 +70,7 @@ function basePolicy() {
     capacity: { visible_members: 6, history_retention_months: 14 },
     defaults: { unknown_vendor_policy: 'fail_closed' },
     vendor_aliases: { openai: ['openai', 'open ai'] },
+    task_type_registry: { LLM: { aliases: ['language model'], usage_kind: 'general_llm' } },
     vendors: [
       {
         vendor_key: 'openai', families: [

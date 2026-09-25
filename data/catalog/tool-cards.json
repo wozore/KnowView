@@ -496,7 +496,10 @@
         "id": "tool-level3:gpt-5.6-sol"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-5.6-sol"
+      "model_key": "openai-gpt-5.6-sol",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gpt-5.6-terra",
@@ -532,7 +535,10 @@
         "id": "tool-level3:gpt-5.6-terra"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-5.6-terra"
+      "model_key": "openai-gpt-5.6-terra",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gpt-5.6-luna",
@@ -568,7 +574,10 @@
         "id": "tool-level3:gpt-5.6-luna"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-5.6-luna"
+      "model_key": "openai-gpt-5.6-luna",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:claude-fable-5",
@@ -603,7 +612,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:claude-fable-5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:claude-opus-4.8",
@@ -675,7 +687,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:claude-sonnet-5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:claude-haiku-4.5",
@@ -709,7 +724,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:claude-haiku-4.5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gemini-3.5-flash",
@@ -746,7 +764,10 @@
         "id": "tool-level3:gemini-3.5-flash"
       },
       "detail_kind": "api_model",
-      "model_key": "google-gemini-3.5-flash"
+      "model_key": "google-gemini-3.5-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:deepseek-v4-flash",
@@ -780,7 +801,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:deepseek-v4-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:deepseek-v4-pro",
@@ -816,7 +840,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:deepseek-v4-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:glm-5.2",
@@ -852,7 +879,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-5.2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:glm-5.1",
@@ -886,7 +916,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-5.1"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:ernie-5.1",
@@ -920,7 +953,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:ernie-5.1"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:ernie-5.0",
@@ -955,7 +991,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:ernie-5.0"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:mistral-medium-3.5",
@@ -986,7 +1025,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mistral-medium-3.5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:mistral-large-3",
@@ -1017,7 +1059,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mistral-large-3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:command-a",
@@ -1129,7 +1174,10 @@
         "id": "tool-level3:gpt-5-5"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-5.5"
+      "model_key": "openai-gpt-5.5",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:claude-opus-5",
@@ -1167,7 +1215,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:claude-opus-5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gemini-3-1-pro",
@@ -1212,7 +1263,10 @@
         "id": "tool-level3:gemini-3-1-pro"
       },
       "detail_kind": "api_model",
-      "model_key": "google-gemini-3.1-pro"
+      "model_key": "google-gemini-3.1-pro",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:command-a-plus",
@@ -1317,7 +1371,10 @@
         "id": "tool-level3:gpt-image-2"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-image-2"
+      "model_key": "openai-gpt-image-2",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:kling-3-0",
@@ -1385,7 +1442,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-5-3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gemini-3-7-flash",
@@ -1418,7 +1478,10 @@
         "id": "tool-level3:gemini-3-7-flash"
       },
       "detail_kind": "api_model",
-      "model_key": "google-gemini-3.7-flash"
+      "model_key": "google-gemini-3.7-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gemini-3-6-flash",
@@ -1451,7 +1514,10 @@
         "id": "tool-level3:gemini-3-6-flash"
       },
       "detail_kind": "api_model",
-      "model_key": "google-gemini-3.6-flash"
+      "model_key": "google-gemini-3.6-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:kimi-k3",
@@ -1494,7 +1560,10 @@
         "id": "tool-level3:kimi-k3"
       },
       "detail_kind": "api_model",
-      "model_key": "moonshot-kimi-k3"
+      "model_key": "moonshot-kimi-k3",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:kimi-k2.6",
@@ -1534,7 +1603,10 @@
         "id": "tool-level3:kimi-k2.6"
       },
       "detail_kind": "api_model",
-      "model_key": "moonshot-kimi-k2.6"
+      "model_key": "moonshot-kimi-k2.6",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:kimi-k2.7-code",
@@ -1567,7 +1639,10 @@
         "id": "tool-level3:kimi-k2.7-code"
       },
       "detail_kind": "api_model",
-      "model_key": "moonshot-kimi-k2.7-code"
+      "model_key": "moonshot-kimi-k2.7-code",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "id": "tool-card:kimi-k2.7-code-highspeed",
@@ -1606,7 +1681,10 @@
         "id": "tool-level3:kimi-k2.7-code-highspeed"
       },
       "detail_kind": "api_model",
-      "model_key": "moonshot-kimi-k2.7-code-highspeed"
+      "model_key": "moonshot-kimi-k2.7-code-highspeed",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "id": "tool-card:kimi-code",
@@ -1709,7 +1787,7 @@
       "id": "tool-card:hy3",
       "tool_key": "hy3",
       "vendor_key": "tencent",
-      "title": "混元 Hy3",
+      "title": "Hy3",
       "vendor_label": "腾讯（混元）",
       "icon": "🤖",
       "summary": "腾讯混元大模型是由腾讯公司全链路自研的通用与多模态大模型家族，覆盖文本、图像、视频、语音、3D等模态，面向内容生产、知识问答、业务自动化等场景提供企业级服务。",
@@ -1735,7 +1813,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:hy3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:muse-spark-1-2",
@@ -1805,7 +1886,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:step-3-5-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:step-3-7-flash",
@@ -1841,7 +1925,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:step-3-7-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:mimo-v2-5",
@@ -1871,7 +1958,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mimo-v2-5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:nemotron-3-ultra",
@@ -1907,7 +1997,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:nemotron-3-ultra"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:nemotron-3-super",
@@ -1939,7 +2032,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:nemotron-3-super"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:nemotron-3-5",
@@ -1975,7 +2071,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:nemotron-3-5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:mimo-v2-5-pro",
@@ -2009,7 +2108,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mimo-v2-5-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:doubao-seed-character",
@@ -2036,7 +2138,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:doubao-seed-character"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:deepseek-v4-flash-vision-exp",
@@ -2068,7 +2173,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:deepseek-v4-flash-vision-exp"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:qwen3-7-max",
@@ -2140,7 +2248,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:qwen3-5-omni"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "id": "tool-card:qwen3-7-plus",
@@ -2210,7 +2321,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:qwen-image-2-0-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:viduq3-pro",
@@ -2842,7 +2956,10 @@
         "id": "tool-level3:gemini-3-5-pro"
       },
       "detail_kind": "api_model",
-      "model_key": "google-gemini-3.5-pro"
+      "model_key": "google-gemini-3.5-pro",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:glm-5-3-flash",
@@ -2876,7 +2993,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-5-3-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:glm-4-7-flash",
@@ -2908,7 +3028,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-4-7-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:glm-image",
@@ -2936,7 +3059,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-image"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:qwen3-8-flash",
@@ -3001,7 +3127,10 @@
         "id": "tool-level3:gemini-3-8-flash"
       },
       "detail_kind": "api_model",
-      "model_key": "google-gemini-3.8-flash"
+      "model_key": "google-gemini-3.8-flash",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gemini-3-8-live",
@@ -3035,7 +3164,10 @@
         "id": "tool-level3:gemini-3-8-live"
       },
       "detail_kind": "api_model",
-      "model_key": "google-gemini-3.8-live"
+      "model_key": "google-gemini-3.8-live",
+      "task_types": [
+        "Voice"
+      ]
     },
     {
       "id": "tool-card:gpt-6",
@@ -3063,7 +3195,10 @@
         "id": "tool-level3:gpt-6"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-6-astra"
+      "model_key": "openai-gpt-6-astra",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gpt-5-5-pro",
@@ -3091,7 +3226,10 @@
         "id": "tool-level3:gpt-5-5-pro"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-5.5-pro"
+      "model_key": "openai-gpt-5.5-pro",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gpt-realtime-2-1",
@@ -3175,7 +3313,10 @@
         "id": "tool-level3:gpt-realtime-translate"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-realtime-translate"
+      "model_key": "openai-gpt-realtime-translate",
+      "task_types": [
+        "Translation"
+      ]
     },
     {
       "id": "tool-card:gpt-live-transcribe",
@@ -3203,7 +3344,10 @@
         "id": "tool-level3:gpt-live-transcribe"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-live-transcribe"
+      "model_key": "openai-gpt-live-transcribe",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-card:gpt-realtime-whisper",
@@ -3320,7 +3464,10 @@
         "id": "tool-level3:claude-fable-5.1"
       },
       "detail_kind": "api_model",
-      "model_key": "anthropic-claude-fable-5.1"
+      "model_key": "anthropic-claude-fable-5.1",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:claude-sonnet-4.6",
@@ -3349,7 +3496,10 @@
         "id": "tool-level3:claude-sonnet-4.6"
       },
       "detail_kind": "api_model",
-      "model_key": "anthropic-claude-sonnet-4.6"
+      "model_key": "anthropic-claude-sonnet-4.6",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:claude-haiku-3.5",
@@ -3510,7 +3660,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-m3"
+      "model_key": "minimax-minimax-m3",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:minimax-m2.7",
@@ -3542,7 +3695,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-m2.7"
+      "model_key": "minimax-minimax-m2.7",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:minimax-m2.5",
@@ -3574,7 +3730,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-m2.5"
+      "model_key": "minimax-minimax-m2.5",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:minimax-m2.1",
@@ -3606,7 +3765,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-m2.1"
+      "model_key": "minimax-minimax-m2.1",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:minimax-m2",
@@ -3638,7 +3800,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-m2"
+      "model_key": "minimax-minimax-m2",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:minimax-h3",
@@ -3670,7 +3835,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-h3"
+      "model_key": "minimax-minimax-h3",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:minimax-hailuo-2.3",
@@ -3702,7 +3870,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-hailuo-2.3"
+      "model_key": "minimax-minimax-hailuo-2.3",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:minimax-hailuo-2.3-fast",
@@ -3734,7 +3905,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-hailuo-2.3-fast"
+      "model_key": "minimax-minimax-hailuo-2.3-fast",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:minimax-speech-2.8",
@@ -3862,7 +4036,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-music-2.6"
+      "model_key": "minimax-minimax-music-2.6",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "id": "tool-card:minimax-music-2.5-plus",
@@ -3894,7 +4071,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-music-2.5-plus"
+      "model_key": "minimax-minimax-music-2.5-plus",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "id": "tool-card:minimax-music-2.5",
@@ -3926,7 +4106,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-music-2.5"
+      "model_key": "minimax-minimax-music-2.5",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "id": "tool-card:minimax-music-2.0",
@@ -3958,7 +4141,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-music-2.0"
+      "model_key": "minimax-minimax-music-2.0",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "id": "tool-card:minimax-music-1.5",
@@ -3990,7 +4176,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "minimax-minimax-music-1.5"
+      "model_key": "minimax-minimax-music-1.5",
+      "task_types": [
+        "Music"
+      ]
     },
     {
       "id": "tool-card:grok-4.6",
@@ -4022,7 +4211,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-4.6"
+      "model_key": "xai-grok-4.6",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:grok-4.5",
@@ -4054,7 +4246,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-4.5"
+      "model_key": "xai-grok-4.5",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:grok-4.3",
@@ -4086,7 +4281,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-4.3"
+      "model_key": "xai-grok-4.3",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:grok-4.20-0309-reasoning",
@@ -4118,7 +4316,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-4.20-0309-reasoning"
+      "model_key": "xai-grok-4.20-0309-reasoning",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:grok-4.20-0309-non-reasoning",
@@ -4150,7 +4351,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-4.20-0309-non-reasoning"
+      "model_key": "xai-grok-4.20-0309-non-reasoning",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:grok-4.20-multi-agent-0309",
@@ -4182,7 +4386,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-4.20-multi-agent-0309"
+      "model_key": "xai-grok-4.20-multi-agent-0309",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:grok-imagine-image-2.0",
@@ -4214,7 +4421,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-imagine-image-2.0"
+      "model_key": "xai-grok-imagine-image-2.0",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:grok-imagine-image",
@@ -4246,7 +4456,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-imagine-image"
+      "model_key": "xai-grok-imagine-image",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:grok-imagine-image-quality",
@@ -4278,7 +4491,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-imagine-image-quality"
+      "model_key": "xai-grok-imagine-image-quality",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:grok-imagine-video-1.5",
@@ -4310,7 +4526,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-imagine-video-1.5"
+      "model_key": "xai-grok-imagine-video-1.5",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:grok-imagine-video",
@@ -4342,7 +4561,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-imagine-video"
+      "model_key": "xai-grok-imagine-video",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:grok-build-0.1",
@@ -4406,7 +4628,10 @@
       },
       "detail_kind": "api_model",
       "visibility": "visible",
-      "model_key": "xai-grok-voice-think-fast-2.0"
+      "model_key": "xai-grok-voice-think-fast-2.0",
+      "task_types": [
+        "Voice"
+      ]
     },
     {
       "id": "tool-card:xai-speech-to-text",
@@ -4708,7 +4933,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:cogvideox-3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:glm-5v-turbo",
@@ -4795,7 +5023,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-ocr"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "OCR"
+      ]
     },
     {
       "id": "tool-card:glm-asr-2512",
@@ -4824,7 +5055,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-asr-2512"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-card:embedding-2",
@@ -4853,7 +5087,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:embedding-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:embedding-3",
@@ -4882,7 +5119,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:embedding-3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:glm-rerank",
@@ -4911,7 +5151,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:glm-rerank"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-card:ernie-x1-1",
@@ -4941,7 +5184,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:ernie-x1-1"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:ernie-x1-1-preview",
@@ -4971,7 +5217,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:ernie-x1-1-preview"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:ernie-4-5-turbo-vl",
@@ -5001,7 +5250,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:ernie-4-5-turbo-vl"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:musesteamer-air-image",
@@ -5031,7 +5283,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:musesteamer-air-image"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:embedding-v1",
@@ -5061,7 +5316,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:embedding-v1"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:tao-8k",
@@ -5121,7 +5379,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:bce-reranker-base"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-card:mistral-small-4",
@@ -5150,7 +5411,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mistral-small-4"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:mistral-ocr-4-1",
@@ -5179,7 +5443,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mistral-ocr-4-1"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "OCR"
+      ]
     },
     {
       "id": "tool-card:voxtral-mini-transcribe-2",
@@ -5208,7 +5475,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:voxtral-mini-transcribe-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-card:codestral",
@@ -5237,7 +5507,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:codestral"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "id": "tool-card:mistral-moderation-2",
@@ -5266,7 +5539,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mistral-moderation-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Moderation"
+      ]
     },
     {
       "id": "tool-card:kling-3-0-omni",
@@ -5559,7 +5835,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:command-a-translate"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Translation"
+      ]
     },
     {
       "id": "tool-card:command-a-vision",
@@ -5586,7 +5865,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:command-a-vision"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:north-mini-code-1-0",
@@ -5613,7 +5895,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:north-mini-code-1-0"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Code"
+      ]
     },
     {
       "id": "tool-card:embed-v4.0",
@@ -5640,7 +5925,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:embed-v4.0"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:embed-multilingual-v3.0",
@@ -5667,7 +5955,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:embed-multilingual-v3.0"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:rerank-v4.0-pro",
@@ -5694,7 +5985,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:rerank-v4.0-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-card:rerank-v4.0-fast",
@@ -5721,7 +6015,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:rerank-v4.0-fast"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-card:parse-v5.0",
@@ -5748,7 +6045,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:parse-v5.0"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Document AI"
+      ]
     },
     {
       "id": "tool-card:cohere-transcribe-03-2026",
@@ -5775,7 +6075,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:cohere-transcribe-03-2026"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-card:cohere-transcribe-arabic-07-2026",
@@ -5802,7 +6105,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:cohere-transcribe-arabic-07-2026"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-card:tiny-aya-global",
@@ -5829,7 +6135,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:tiny-aya-global"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Multilingual"
+      ]
     },
     {
       "id": "tool-card:cohere-north",
@@ -5937,7 +6246,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:qwen-image-3.0-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:wan2.7-t2v",
@@ -5964,7 +6276,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:wan2.7-t2v"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:text-embedding-v4",
@@ -5991,7 +6306,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:text-embedding-v4"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:qwen3-rerank",
@@ -6018,7 +6336,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:qwen3-rerank"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Rerank"
+      ]
     },
     {
       "id": "tool-card:qwen-code",
@@ -6072,7 +6393,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:hy4-preview"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:hunyuan-t1",
@@ -6099,7 +6423,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:hunyuan-t1"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:hy2-think",
@@ -6126,13 +6453,16 @@
         "kind": "tool-level3",
         "id": "tool-level3:hy2-think"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:hunyuan-image-3.0",
       "tool_key": "hunyuan-image-3.0",
       "vendor_key": "tencent",
-      "title": "混元图像 3.0",
+      "title": "HunyuanImage-3.0",
       "vendor_label": "腾讯（混元）",
       "icon": "🎨",
       "summary": "混元图像 3.0 是腾讯混元开源与商业部署的 80B MoE 原生多模态生图与图生图模型，支持思维链推理修图、多图融合与精美排版。",
@@ -6159,7 +6489,7 @@
       "id": "tool-card:hunyuan-video",
       "tool_key": "hunyuan-video",
       "vendor_key": "tencent",
-      "title": "混元生视频",
+      "title": "Hunyuan Video",
       "vendor_label": "腾讯（混元）",
       "icon": "🎬",
       "summary": "腾讯混元生视频（Tencent HY Video）提供高质量图生视频与文生视频 API，生成画面流畅自然，时序一致性强。",
@@ -6180,7 +6510,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:hunyuan-video"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Video Generation"
+      ]
     },
     {
       "id": "tool-card:workbuddy",
@@ -6316,7 +6649,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:step-3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:step-image-edit-2",
@@ -6343,7 +6679,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:step-image-edit-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:step-2x-large",
@@ -6370,7 +6709,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:step-2x-large"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:stepaudio-2.5-tts",
@@ -6397,7 +6739,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:stepaudio-2.5-tts"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "TTS"
+      ]
     },
     {
       "id": "tool-card:stepaudio-2.5-asr",
@@ -6424,7 +6769,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:stepaudio-2.5-asr"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "STT"
+      ]
     },
     {
       "id": "tool-card:stepfun-studio",
@@ -6478,7 +6826,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mimo-v2-flash"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:mimo-v2-5-omni",
@@ -6505,7 +6856,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mimo-v2-5-omni"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "id": "tool-card:mimo-v2-5-tts",
@@ -6532,7 +6886,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mimo-v2-5-tts"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "TTS"
+      ]
     },
     {
       "id": "tool-card:mimo-code",
@@ -6640,7 +6997,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:doubao-1.5-pro"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:doubao-1.5-lite",
@@ -6667,7 +7027,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:doubao-1.5-lite"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:doubao-seed-2.0-mini",
@@ -6694,7 +7057,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:doubao-seed-2.0-mini"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:doubao-seedream-5.0-pro",
@@ -6775,7 +7141,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:inkling"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:inkling-small",
@@ -6802,7 +7171,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:inkling-small"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:tinker",
@@ -6886,7 +7258,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:solar-pro-4"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:solar-pro-3",
@@ -6913,7 +7288,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:solar-pro-3"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:solar-mini",
@@ -6940,7 +7318,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:solar-mini"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:upstage-document-parse",
@@ -6967,7 +7348,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:upstage-document-parse"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Document AI"
+      ]
     },
     {
       "id": "tool-card:upstage-document-ocr",
@@ -6994,7 +7378,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:upstage-document-ocr"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "OCR"
+      ]
     },
     {
       "id": "tool-card:upstage-information-extract",
@@ -7048,7 +7435,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:upstage-embed-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:upstage-studio",
@@ -7210,7 +7600,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:pplx-embed"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Embedding"
+      ]
     },
     {
       "id": "tool-card:perplexity-computer",
@@ -7264,7 +7657,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:phi-4-reasoning-vision"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:phi-4-mini",
@@ -7345,7 +7741,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mai-thinking-1"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:mai-image-2-5",
@@ -7372,7 +7771,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mai-image-2-5"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:mai-voice-2",
@@ -7399,7 +7801,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:mai-voice-2"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "TTS"
+      ]
     },
     {
       "id": "tool-card:azure-ai-foundry",
@@ -7935,7 +8340,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:bailing-ring-2-5-1t"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:bailing-ling-2-5-1t",
@@ -7964,7 +8372,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:bailing-ling-2-5-1t"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:bailing-ring-1t",
@@ -7992,7 +8403,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:bailing-ring-1t"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:bailing-ling-1t",
@@ -8020,7 +8434,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:bailing-ling-1t"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:bailing-ming-omni",
@@ -8049,7 +8466,10 @@
         "kind": "tool-level3",
         "id": "tool-level3:bailing-ming-omni"
       },
-      "detail_kind": "api_model"
+      "detail_kind": "api_model",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "id": "tool-card:lingguang-app",
@@ -8255,7 +8675,10 @@
         "id": "tool-level3:deepseek-v4.1-flash"
       },
       "detail_kind": "api_model",
-      "model_key": "deepseek-deepseek-v4.1-flash"
+      "model_key": "deepseek-deepseek-v4.1-flash",
+      "task_types": [
+        "Vision"
+      ]
     },
     {
       "id": "tool-card:muse-image",
@@ -8328,7 +8751,10 @@
         "id": "tool-level3:mai-image-2.6"
       },
       "detail_kind": "api_model",
-      "model_key": "microsoft-mai-image-2.6"
+      "model_key": "microsoft-mai-image-2.6",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:qwen3.8-omni-flash",
@@ -8363,7 +8789,10 @@
         "id": "tool-level3:qwen3.8-omni-flash"
       },
       "detail_kind": "api_model",
-      "model_key": "alibaba-qwen3.8-omni-flash"
+      "model_key": "alibaba-qwen3.8-omni-flash",
+      "task_types": [
+        "Omni"
+      ]
     },
     {
       "id": "tool-card:grok-voice-transcribe-2.0",
@@ -8402,7 +8831,11 @@
         "id": "tool-level3:grok-voice-transcribe-2.0"
       },
       "detail_kind": "api_model",
-      "model_key": "xai-grok-voice-transcribe-2.0"
+      "model_key": "xai-grok-voice-transcribe-2.0",
+      "task_types": [
+        "STT",
+        "Voice"
+      ]
     },
     {
       "id": "tool-card:gpt-images-2.5",
@@ -8441,7 +8874,10 @@
         "id": "tool-level3:gpt-images-2.5"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-images-2.5"
+      "model_key": "openai-gpt-images-2.5",
+      "task_types": [
+        "Image Generation"
+      ]
     },
     {
       "id": "tool-card:jev",
@@ -8476,7 +8912,10 @@
         "id": "tool-level3:jev"
       },
       "detail_kind": "api_model",
-      "model_key": "typesafe-jev"
+      "model_key": "typesafe-jev",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:vidu-s2-avatar",
@@ -8614,7 +9053,10 @@
         "id": "tool-level3:stepfun-step-5-preview"
       },
       "detail_kind": "api_model",
-      "model_key": "stepfun-step-5-preview"
+      "model_key": "stepfun-step-5-preview",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gpt-6-sol",
@@ -8651,7 +9093,10 @@
         "id": "tool-level3:gpt-6-sol"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-6-sol"
+      "model_key": "openai-gpt-6-sol",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:gpt-6-luna",
@@ -8684,7 +9129,10 @@
         "id": "tool-level3:gpt-6-luna"
       },
       "detail_kind": "api_model",
-      "model_key": "openai-gpt-6-luna"
+      "model_key": "openai-gpt-6-luna",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:claude-opus-5.5",
@@ -8721,7 +9169,10 @@
         "id": "tool-level3:claude-opus-5.5"
       },
       "detail_kind": "api_model",
-      "model_key": "anthropic-claude-opus-5.5"
+      "model_key": "anthropic-claude-opus-5.5",
+      "task_types": [
+        "LLM"
+      ]
     },
     {
       "id": "tool-card:stepaudio-3-asr",

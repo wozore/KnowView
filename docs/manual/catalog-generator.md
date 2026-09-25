@@ -608,9 +608,9 @@ node scripts/catalog-generator.js batch --file data/manual/tools/tool-cards-pend
 
 通用 LLM 模型（`detail_kind=api_model` 且属于政策中的 `general_llm` 家族）在批量 prepare 前由「LLM 二级系列分类政策」决定归属，不再默认以模型名建组：
 
-1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v2）声明厂商模型家族、用途、版本轴、允许的目标二级系列、容量与证据状态。`member_lineages` 可声明成员所属产品线，校验每个 newest/previous 系列中同一产品线最多一个成员；`hidden_history_members` 声明迁移时转入历史的详情及日期。同系列可见成员上限 `visible_members` 为 6，第 7 个起按 `release_date` 最旧转入 `hidden_history`。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
-2. **确定性判定**：`src/catalog/series/catalog-series-policy.js` 的 `planSeriesPlacement` 用品牌提示/家族 pattern 识别已知 LLM，直接产出 `existing`（加入已有系列）或 `create`（用政策稳定 id/标题新建）。已知模型不需要 AI，零成本。
-3. **AI 只作 hint**：仅当候选用途/家族无法确定性判定（`needs_ai`，如无任何品牌命中的新模型）且显式放行 `allowAiPlacement` 时，才调用 `catalog-series-placement-ai` 输出 `usage_kind/family/cohort/confidence` 建议，再由政策重算最终归属。AI 低置信、未知家族、与政策冲突一律 fail-closed；缺账本、未放行时直接 `PLACEMENT_MANUAL_REQUIRED`，绝不静默建组。
+1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v3）声明 `task_type_registry`、厂商模型家族、用途、模态、目标二级系列及证据状态。任务类型统一为英文标签并按标准短名和别名归一（如 ASR / speech-to-text → STT、Text-to-Speech → TTS）；`family.task_types` 声明该产品线的能力，型号明确任务时将标准标签写入 L3 与工具卡；系列英文标题的旧名称保存在 `search_terms`。`member_lineages` 和 `hidden_history_members` 继续负责代际唯一与历史转移。
+2. **确定性判定**：`planSeriesPlacement` 优先匹配显式任务类型和厂商家族 pattern，再核对模态；只凭 `audio` 或 `text` 不会把任务自动判成实时语音或通用 LLM。规则命中后直接产出 `existing` 或 `create`，任务标签随 SeriesBundle 写入二级系列。
+3. **AI 只作 hint**：仅当候选家族无法确定（`needs_ai`）且显式放行 `allowAiPlacement` 时，才调用 placement AI 建议 `usage_kind/task_types/family/cohort`，再由政策重算归属。未登记任务类型、未知厂商或任务与家族冲突一律 fail-closed；缺账本、未放行时直接 `PLACEMENT_MANUAL_REQUIRED`，不静默建组。
 4. **名册满员触发迁移**：目标系列 `expected_members` 名册成员已全部在快照且候选不在名册时，新候选返回 `PLACEMENT_MIGRATION_REQUIRED` 并阻断该 seed，**不自动重排既有成员**。需要扩容时由维护者更新政策（声明 newest/previous 代际与名册）后执行系列迁移（见下）。
 5. **人工 placement 仍最高优先**：Seed/待补卡显式指定 `existing_level2_ref` 时直接采用，但必须通过引用 kind/存在性/厂商归属校验，非法即 fail-closed。
 6. **单模型不得充当二级系列卡片**：`model_series` 只有一个 API 模型成员且二级标题与该模型同名时，Catalog 快照校验拒绝落盘；模型应并入更广系列，或使用有来源依据的家族/用途标题。
