@@ -129,6 +129,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:google:antigravity"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:google:gemini-tts"
         }
       ]
     },
@@ -679,6 +683,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:alibaba:bailian-coding-plan"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:alibaba:qwen-audio"
         }
       ]
     },
@@ -900,6 +908,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:nvidia:nemotron"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:nvidia:isaac-ros-5-0"
         }
       ]
     },
@@ -1245,6 +1257,10 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:antgroup:subscription"
+        },
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:antgroup:ming-image"
         }
       ]
     },
@@ -1315,6 +1331,88 @@
         {
           "kind": "vendor-level2",
           "id": "vendor-level2:typesafe:system-one"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level1:suno-inc",
+      "vendor_key": "suno-inc",
+      "title": "Suno Inc.",
+      "icon": "🧩",
+      "official_url": "https://suno.com/",
+      "description": "Suno 成立于 2022 年，致力于让音乐创作更具参与性，产品包括 Suno Studio 浏览器端生成式音频工作站、世界级音乐模型（v6 等）、Voices & Personas，覆盖 web、iOS 和 Android。公司融资超过 $775M，超过 100M 的人使用 Suno 创作音乐。",
+      "status": "verified",
+      "features": [
+        {
+          "tone": "positive",
+          "text": "浏览器端生成式工作站 Suno Studio 集成传统 DAW 与 AI 创作"
+        },
+        {
+          "tone": "positive",
+          "text": "付费订阅者拥有歌曲的完整商用权利"
+        },
+        {
+          "tone": "positive",
+          "text": "支持 Voices、Inspo、排除项与人声性别等精细风格控制"
+        },
+        {
+          "tone": "positive",
+          "text": "可导出最多 12 条时间对齐的 WAV 分轨用于专业 DAW 工作流"
+        },
+        {
+          "tone": "positive",
+          "text": "网页、iOS 和 Android 均提供完整创作体验"
+        },
+        {
+          "tone": "positive",
+          "text": "免费用户每天可创作最多 10 首歌曲，无需信用卡"
+        }
+      ],
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:suno-inc:suno-studio"
+        }
+      ]
+    },
+    {
+      "id": "vendor-level1:elevenlabs",
+      "vendor_key": "elevenlabs",
+      "title": "ElevenLabs",
+      "icon": "🤖",
+      "official_url": "https://elevenlabs.io/docs/overview/intro",
+      "description": "ElevenLabs 通过 ElevenCreative、ElevenAgents、ElevenAPI 与 Reception AI 四种方式提供语音技术：ElevenAPI 以 REST 接口及官方 Python、TypeScript SDK 将全部能力开放给开发者，包括 Scribe v2 系列语音转文本模型。",
+      "status": "verified",
+      "features": [
+        {
+          "tone": "positive",
+          "text": "Scribe v2 在 90+ 语言上实现业界领先的转写准确率"
+        },
+        {
+          "tone": "positive",
+          "text": "支持最多 1000 个关键词提示提升识别精度"
+        },
+        {
+          "tone": "positive",
+          "text": "支持词级时间戳与最多 32 说话人分离"
+        },
+        {
+          "tone": "positive",
+          "text": "支持 65 类实体检测与自然语言转写编辑"
+        },
+        {
+          "tone": "positive",
+          "text": "提供实时版 Scribe v2 Realtime，延迟约 150ms"
+        },
+        {
+          "tone": "positive",
+          "text": "Scribe v2 Medical 针对临床音频优化，错误更少"
+        }
+      ],
+      "level2_refs": [
+        {
+          "kind": "vendor-level2",
+          "id": "vendor-level2:elevenlabs:scribe"
         }
       ]
     }

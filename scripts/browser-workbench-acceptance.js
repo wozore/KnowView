@@ -121,6 +121,7 @@ async function runWorkbenchBrowserAcceptance() {
     client = cdp(page.webSocketDebuggerUrl);
     await client.command('Runtime.enable');
     await client.command('Page.enable');
+    await client.command('Page.addScriptToEvaluateOnNewDocument', { source: "window.__cspViolations=[];document.addEventListener('securitypolicyviolation',e=>window.__cspViolations.push({directive:e.effectiveDirective,source:e.sourceFile,line:e.lineNumber}))" });
     await client.command('Emulation.setDeviceMetricsOverride', { width: 1440, height: 960, deviceScaleFactor: 1, mobile: false });
 
     const uncaughtErrors = [];
@@ -134,6 +135,8 @@ async function runWorkbenchBrowserAcceptance() {
 
     // 1. 验证基础加载与状态 Tab
     await assertBrowser(client, '工作台加载完成', `document.title.includes('知览') && document.querySelectorAll('#overviewCards .overview-card').length >= 4`);
+    await assertBrowser(client, 'CSP 下隐藏辅助按钮保持隐藏', `(()=>{const button=document.querySelector('#keywordGenerateButton');return Boolean(button)&&getComputedStyle(button).display==='none'})()`);
+    await assertBrowser(client, '工作台加载无 CSP 违规', `Boolean(window.__cspViolations)&&window.__cspViolations.length===0`);
     await assertBrowser(client, '新闻状态 Tab 渲染完整', `Boolean(document.querySelector('#newsStatusTabs')) && Boolean(document.querySelector('#newsTabApproved'))`);
 
     // 2. 验证状态 Tab 切换与条目加载

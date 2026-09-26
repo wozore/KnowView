@@ -79,7 +79,8 @@ test('synthesis input preserves seed-source role and repair context', () => {
     layers: ['tool-level3'],
     note: '修复 detail.release_date 为 2025-07-07。',
   });
-  assert.match(buildSynthesisInstructions(plan), /source_role=seed_official_hint/);
+  assert.match(buildSynthesisInstructions(plan), /正文没有明确首次发布\/GA 日期时/);
+  assert.match(buildSynthesisInstructions(plan), /updated_date/);
 });
 
 test('synthesis input skips sources without content or excerpt', () => {
@@ -92,6 +93,24 @@ test('synthesis input skips sources without content or excerpt', () => {
   assert.equal(input.layers.vendor.sources.length, 0);
 });
 
+test('synthesis detail input carries validated official page update metadata only', () => {
+  const plan = planCatalogResearch(seed(), emptySnapshot());
+  const detailScope = plan.research_scopes.find(scope => scope.kind === 'detail');
+  const research = {
+    official_sources: [{
+      source_id: 'source-page-update', url: 'https://kling.ai/models/kling-2-6-pro', title: 'Kling 2.6 Pro',
+      content: 'Kling 2.6 Pro documentation.', discovered_for: [`detail:${detailScope.subject.key}`],
+      updated_date: '2026-09-21', updated_date_kind: 'official_page_update', updated_date_field: 'dateModified',
+    }],
+  };
+  const input = buildSynthesisInput({ research, plan, expected_layer_fields: { detail: ['release_date'] } });
+  assert.equal(input.layers.detail.sources[0].updated_date, '2026-09-21');
+  assert.equal(input.layers.detail.sources[0].updated_date_kind, 'official_page_update');
+  assert.equal(input.layers.detail.sources[0].updated_date_field, 'dateModified');
+  assert.match(buildSynthesisInstructions(plan), /updated_date_kind/);
+  assert.match(buildSynthesisInstructions(plan), /page-update basis/);
+});
+
 test('synthesis instructions cover field rules, enums, and provenance requirements', () => {
   const instructions = buildSynthesisInstructions(planCatalogResearch(seed(), emptySnapshot()));
   assert.match(instructions, /expected_layer_fields/);
@@ -100,7 +119,9 @@ test('synthesis instructions cover field rules, enums, and provenance requiremen
   assert.match(instructions, /missing/);
   assert.match(instructions, /api_pricing/);
   assert.match(instructions, /access_level/);
-  assert.match(instructions, /release_date 必须是官方来源明确给出的当前实体首次公开发布日期或 GA 发布日/);
+  assert.match(instructions, /release_date 优先使用官方来源正文明确给出的当前实体首次公开或 GA 日期/);
+  assert.match(instructions, /integrated_release_date/);
+  assert.match(instructions, /URL path 包含当前 tool_key\/detail_key 的 detail 官方来源选 updated_date/);
   assert.match(instructions, /unknown/);
   assert.match(instructions, /features 是数组/);
   assert.match(instructions, /字段名必须逐字复制/);

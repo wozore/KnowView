@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "kind": "identity_receipts",
-  "count": 36,
-  "generated_at": "2026-09-25T06:48:21.533Z",
+  "count": 42,
+  "generated_at": "2026-09-25T14:58:18.563Z",
   "receipts": [
     {
       "receipt_id": "receipt-02596f6e08d2",
@@ -262,6 +262,49 @@
       "verified_at": "2026-09-24T05:37:13.647Z"
     },
     {
+      "receipt_id": "receipt-20f9edf7f4a1",
+      "candidate_name": "Ming-Image-0.1-Design",
+      "identity_key": "ming-image-0.1-design",
+      "entity_class": "model",
+      "vendor_key": "antgroup",
+      "model_key": "antgroup-ming-image-0.1-design",
+      "series_title": "Ming",
+      "family": "ming-image",
+      "evidence": {
+        "official_url": "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design",
+        "official_urls": [
+          "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design",
+          "https://www.antgroup.com/technology/new-tech-Technology-Antfocuses-Tabcomnent-detail/20241028001"
+        ],
+        "content_hash": "sha256:362d686341800b6f08b1e03ad31bf94df04931bbce2adb8a28c48beb3cee1e0f",
+        "sources": [
+          {
+            "url": "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:362d686341800b6f08b1e03ad31bf94df04931bbce2adb8a28c48beb3cee1e0f"
+          },
+          {
+            "url": "https://www.antgroup.com/technology/new-tech-Technology-Antfocuses-Tabcomnent-detail/20241028001",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:0d45977417bca4e889f8d935d96b4950baadedcda1bceda949eda0ad29a442af"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design",
+        "https://www.antgroup.com/technology/new-tech-Technology-Antfocuses-Tabcomnent-detail/20241028001"
+      ],
+      "identity_aliases": [
+        "inclusionAI/Ming-Image-0.1-Design"
+      ],
+      "catalog_revision": "sha256:a4db3c932cc674245d338306794edfcee7c3efc0fcc3394a0f2df42c8087eae2",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-25T12:36:18.976Z"
+    },
+    {
       "receipt_id": "receipt-249bbb351ae6",
       "candidate_name": "Qwen3.8-Omni-Flash",
       "identity_key": "qwen3.8-omni-flash",
@@ -324,6 +367,55 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": null,
       "verified_at": "2026-09-22T05:47:04.178Z"
+    },
+    {
+      "receipt_id": "receipt-30984891450a",
+      "candidate_name": "Qwen-Audio-3.1",
+      "identity_key": "qwen-audio-3.1",
+      "entity_class": "series",
+      "vendor_key": "alibaba",
+      "model_key": "alibaba-qwen-audio-3.1",
+      "series_title": "Qwen-Audio-3.1",
+      "family": "qwen-audio",
+      "evidence": {
+        "official_url": "https://help.aliyun.com/zh/model-studio/models",
+        "official_urls": [
+          "https://help.aliyun.com/zh/model-studio",
+          "https://help.aliyun.com/zh/model-studio/coding-plan",
+          "https://help.aliyun.com/zh/model-studio/models"
+        ],
+        "content_hash": "sha256:4ce6ea667125247cbea8c5e843bd163c437581874843e1617467f0918f5284aa",
+        "sources": [
+          {
+            "url": "https://help.aliyun.com/zh/model-studio",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:3d420bb77f03f67a7988ffa24b07461798ee9429f8f4048053523330d90e72d6"
+          },
+          {
+            "url": "https://help.aliyun.com/zh/model-studio/coding-plan",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:1228c390e007c8ede1826cf7b3cfb98952686da59ad26a7cfc208012b8c724ac"
+          },
+          {
+            "url": "https://help.aliyun.com/zh/model-studio/models",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:4ce6ea667125247cbea8c5e843bd163c437581874843e1617467f0918f5284aa"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://help.aliyun.com/zh/model-studio",
+        "https://help.aliyun.com/zh/model-studio/coding-plan",
+        "https://help.aliyun.com/zh/model-studio/models"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:3c28e7eb270abd1af4e3af60d7e409fdcbafc2149cdf64a117c7a67192208129",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-25T14:57:57.475Z"
     },
     {
       "receipt_id": "receipt-39b449e64915",
@@ -534,6 +626,70 @@
       "verified_at": "2026-09-24T05:36:33.076Z"
     },
     {
+      "receipt_id": "receipt-420b679cea93",
+      "candidate_name": "Gemini 3.8 Flash TTS",
+      "identity_key": "gemini-3.8-flash-tts",
+      "entity_class": "model",
+      "vendor_key": "google",
+      "model_key": "google-gemini-3.8-flash-tts",
+      "series_title": null,
+      "family": "gemini",
+      "evidence": {
+        "official_url": "https://ai.google.dev/gemini-api/docs/changelog?gspk=a2VpdGhoYWFnNjU3&gsxid=wt0LVmIYTFsea3&ps_partner_key=a2VpdGhoYWFnNjU3&ps_xid=wt0LVmIYTFsea3&pscd=get.youai.ai",
+        "official_urls": [
+          "https://ai.google.dev/gemini-api/docs",
+          "https://ai.google.dev/gemini-api/docs/changelog?gspk=a2VpdGhoYWFnNjU3&gsxid=wt0LVmIYTFsea3&ps_partner_key=a2VpdGhoYWFnNjU3&ps_xid=wt0LVmIYTFsea3&pscd=get.youai.ai",
+          "https://ai.google.dev/gemini-api/docs/latest-model",
+          "https://ai.google.dev/gemini-api/docs/models",
+          "https://ai.google.dev/gemini-api/docs/pricing"
+        ],
+        "content_hash": "sha256:3e993ad87c57f0f01a6fb4368b3211762ec514cfdcaa8ddd4457d99fe8ad912d",
+        "sources": [
+          {
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:9623b07e926ed962ddd7c6ead8f91f0a068461de3f19292a7fd0638c79d0f92c"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs/changelog?gspk=a2VpdGhoYWFnNjU3&gsxid=wt0LVmIYTFsea3&ps_partner_key=a2VpdGhoYWFnNjU3&ps_xid=wt0LVmIYTFsea3&pscd=get.youai.ai",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:3e993ad87c57f0f01a6fb4368b3211762ec514cfdcaa8ddd4457d99fe8ad912d"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs/latest-model",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:c70a1ccdc35a339212a77827d2ac1d90a862b7cbfd226b3c83ed5d596c4b2c19"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs/models",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:b70c6b1ed34854143f46b6d8652b76f139b05a098577e9cb6b43642bddecc525"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs/pricing",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:4f5208e2ec5b623548daf178b5dd4ee70e048a8fa9ed0b616fba911494fc9c37"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://ai.google.dev/gemini-api/docs",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
+        "https://ai.google.dev/gemini-api/docs/models",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:a4db3c932cc674245d338306794edfcee7c3efc0fcc3394a0f2df42c8087eae2",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-25T10:09:07.132Z"
+    },
+    {
       "receipt_id": "receipt-56acb772c227",
       "candidate_name": "Qwen3.8-Omni-Flash",
       "identity_key": "qwen3.8-omni-flash",
@@ -551,6 +707,71 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": null,
       "verified_at": "2026-09-21T05:40:40.603Z"
+    },
+    {
+      "receipt_id": "receipt-59a5e9334811",
+      "candidate_name": "MiMo-V2.6-Pro",
+      "identity_key": "mimo-v2.6-pro",
+      "entity_class": "model",
+      "vendor_key": "xiaomi",
+      "model_key": "xiaomi-mimo-v2.6-pro",
+      "series_title": "MiMo-V2.6 Series",
+      "family": "mimo",
+      "evidence": {
+        "official_url": "https://mimo.mi.com/docs/tokenplan",
+        "official_urls": [
+          "https://mimo.mi.com/docs",
+          "https://mimo.mi.com/docs/price/pay-as-you-go",
+          "https://mimo.mi.com/docs/quick-start/summary/model",
+          "https://mimo.mi.com/docs/tokenplan",
+          "https://mimo.mi.com/docs/updates/model"
+        ],
+        "content_hash": "sha256:27b415bd41766d65e31bf53bd1ef83c3d159af5f7b245af05666e4f76b2ff0ae",
+        "sources": [
+          {
+            "url": "https://mimo.mi.com/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:2c74ec09b3bc97055e1d75f7a4bbf6ba98c9df3f90f383ed7e0079584bfb50d2"
+          },
+          {
+            "url": "https://mimo.mi.com/docs/price/pay-as-you-go",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:e2310f43f9e75861f52ffc8074c3f2c3453499b14cbca895e48085edf84f0231"
+          },
+          {
+            "url": "https://mimo.mi.com/docs/quick-start/summary/model",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:ce64f83f65ee7fb54b811476739504902a62b3c349d0e03127580558c85620e6"
+          },
+          {
+            "url": "https://mimo.mi.com/docs/tokenplan",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:27b415bd41766d65e31bf53bd1ef83c3d159af5f7b245af05666e4f76b2ff0ae"
+          },
+          {
+            "url": "https://mimo.mi.com/docs/updates/model",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:428f6de231589b7760d7c3eb9d63fa3e5bb65a42f6e22d0f7bbcf211bf81be21"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://mimo.mi.com/docs",
+        "https://mimo.mi.com/docs/price/pay-as-you-go",
+        "https://mimo.mi.com/docs/quick-start/summary/model",
+        "https://mimo.mi.com/docs/tokenplan",
+        "https://mimo.mi.com/docs/updates/model"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:a4db3c932cc674245d338306794edfcee7c3efc0fcc3394a0f2df42c8087eae2",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-25T10:12:13.586Z"
     },
     {
       "receipt_id": "receipt-59c61944f433",
@@ -802,6 +1023,49 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
       "verified_at": "2026-09-24T06:22:40.127Z"
+    },
+    {
+      "receipt_id": "receipt-9aba1f34a248",
+      "candidate_name": "Scribe v2",
+      "identity_key": "scribe-v2",
+      "entity_class": "model",
+      "vendor_key": "elevenlabs",
+      "model_key": "elevenlabs-scribe-v2",
+      "series_title": null,
+      "family": "scribe",
+      "evidence": {
+        "official_url": "https://elevenlabs.io/docs/api-reference/speech-to-text/convert",
+        "official_urls": [
+          "https://elevenlabs.io/docs/api-reference/speech-to-text/convert",
+          "https://elevenlabs.io/docs/overview/capabilities/speech-to-text"
+        ],
+        "content_hash": "sha256:3ba1e318894d864b721411f7663c4518e41c966cc071ff888907b09434a68f1c",
+        "sources": [
+          {
+            "url": "https://elevenlabs.io/docs/api-reference/speech-to-text/convert",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:3ba1e318894d864b721411f7663c4518e41c966cc071ff888907b09434a68f1c"
+          },
+          {
+            "url": "https://elevenlabs.io/docs/overview/capabilities/speech-to-text",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:24f573be5ac5eb1a66f47a5ef261710316a24af5f0b1c1994bf591c34865d40c"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://elevenlabs.io/docs/api-reference/speech-to-text/convert",
+        "https://elevenlabs.io/docs/overview/capabilities/speech-to-text"
+      ],
+      "identity_aliases": [
+        "scribe_v2"
+      ],
+      "catalog_revision": "sha256:a4db3c932cc674245d338306794edfcee7c3efc0fcc3394a0f2df42c8087eae2",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-25T12:35:30.156Z"
     },
     {
       "receipt_id": "receipt-9f4cc9d54e0c",
@@ -1067,6 +1331,70 @@
       "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
       "bridge_revision": null,
       "verified_at": "2026-09-21T08:07:43.643Z"
+    },
+    {
+      "receipt_id": "receipt-e1ebe47f21c6",
+      "candidate_name": "Gemini 3.8 Flash-Lite TTS",
+      "identity_key": "gemini-3.8-flash-lite-tts",
+      "entity_class": "model",
+      "vendor_key": "google",
+      "model_key": "google-gemini-3.8-flash-lite-tts",
+      "series_title": "Gemini 3",
+      "family": "Gemini",
+      "evidence": {
+        "official_url": "http://ai.google.dev/gemini-api/docs/models/gemini?hl=zh-tw",
+        "official_urls": [
+          "http://ai.google.dev/gemini-api/docs/models/gemini?hl=zh-tw",
+          "https://ai.google.dev/gemini-api/docs",
+          "https://ai.google.dev/gemini-api/docs/latest-model",
+          "https://ai.google.dev/gemini-api/docs/models",
+          "https://ai.google.dev/gemini-api/docs/pricing"
+        ],
+        "content_hash": "sha256:427bd9a89013ec04fcfa5bc35e7553bf67682a2aee1d65f5fda2dd237ea268f8",
+        "sources": [
+          {
+            "url": "http://ai.google.dev/gemini-api/docs/models/gemini?hl=zh-tw",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:427bd9a89013ec04fcfa5bc35e7553bf67682a2aee1d65f5fda2dd237ea268f8"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:6a742a836e8254fe083684cd3259ed424914cb226eea2856b8ca84bb52b0a069"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs/latest-model",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:3fa692f2552b77fb655c0b36061aac45821d20b48d13e5e07666bbca76d55afd"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs/models",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:8edf8755a7deecb84b4f5e43acab1d919bfc7721790a49ad295ac7c348a7ce78"
+          },
+          {
+            "url": "https://ai.google.dev/gemini-api/docs/pricing",
+            "source_kind": "identity_verified",
+            "source_role": "identity_evidence",
+            "content_hash": "sha256:806f11dbcd46c90f366598eeeeefadc4c7dc710b8c443f4022ee3ea84e23008c"
+          }
+        ]
+      },
+      "candidate_official_urls": [
+        "https://ai.google.dev/gemini-api/docs",
+        "https://ai.google.dev/gemini-api/docs/latest-model",
+        "https://ai.google.dev/gemini-api/docs/models",
+        "https://ai.google.dev/gemini-api/docs/pricing"
+      ],
+      "identity_aliases": [],
+      "catalog_revision": "sha256:a4db3c932cc674245d338306794edfcee7c3efc0fcc3394a0f2df42c8087eae2",
+      "policy_revision": "sha256:ff0ad365d03a0d32514d0ef0e32ffde3c82dd84775b255c8106f32df04c136ef",
+      "bridge_revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
+      "verified_at": "2026-09-25T10:10:27.651Z"
     },
     {
       "receipt_id": "receipt-eb19a6fe0da0",

@@ -23638,6 +23638,1090 @@
       "release_date": "2026-09-20",
       "model_key": "alibaba-qwen-image-2.1",
       "id": "tool-level3:qwen-image-2.1"
+    },
+    {
+      "vendor_key": "nvidia",
+      "detail_kind": "tool",
+      "title": "Isaac ROS 5.0",
+      "vendor_label": "NVIDIA",
+      "icon": "🧩",
+      "official_url": "https://nvidia-isaac-ros.github.io/",
+      "status": "active",
+      "summary": "Isaac ROS 提供基于 CUDA 加速的 ROS 2 计算包和 AI 模型，帮助开发者加速先进 AI 机器人应用的开发与部署，最新版本为 Isaac ROS 5.0.0。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "Jetson 平台自主机器人开发",
+          "description": "在 Jetson Thor（T5000/T4000）或 Jetson Orin 上配合 JetPack 7.2 使用 Isaac ROS 构建自主机器人。"
+        },
+        {
+          "title": "x86_64 GPU 机器人开发",
+          "description": "在 Ampere 及以上 NVIDIA GPU、Ubuntu 24.04、CUDA 13.2+ 环境中开发 AI 机器人应用。"
+        },
+        {
+          "title": "DGX Spark 开发",
+          "description": "使用 DGX Spark 配合 DGX OS 7.2.3 进行 AI 机器人开发。"
+        },
+        {
+          "title": "ROS 2 Lyrical 机器人项目",
+          "description": "所有 Isaac ROS 软件包均针对 ROS 2 Lyrical 设计并经过兼容性测试。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "非 NVIDIA 硬件平台",
+          "description": "官方仅测试并支持 Jetson、x86_64 NVIDIA GPU 和 DGX Spark 平台，其他组合不受官方支持。"
+        },
+        {
+          "title": "依赖已移除 NITROS 包的旧代码",
+          "description": "Isaac ROS 5.0.0 已移除 isaac_ros_nitros 等包，直接调用 NITROS API 的代码需进行源码级迁移。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://nvidia-isaac-ros.github.io/",
+          "url": "https://nvidia-isaac-ros.github.io/"
+        },
+        {
+          "title": "Release Notes#",
+          "url": "https://nvidia-isaac-ros.github.io/v/release-5.0/releases/index.html"
+        },
+        {
+          "title": "Release Notes#",
+          "url": "https://nvidia-isaac-ros.github.io/releases/index"
+        },
+        {
+          "title": "Getting Started#",
+          "url": "https://nvidia-isaac-ros.github.io/v/release-5.0/getting_started/index.html"
+        },
+        {
+          "title": "isaac_ros_nvblox#",
+          "url": "https://nvidia-isaac-ros.github.io/v/release-5.0/repositories_and_packages/isaac_ros_nvblox/isaac_ros_nvblox/index.html"
+        },
+        {
+          "title": "isaac_ros_tensor_rt#",
+          "url": "https://nvidia-isaac-ros.github.io/v/release-5.0/repositories_and_packages/isaac_ros_dnn_inference/isaac_ros_tensor_rt/index.html"
+        }
+      ],
+      "theme": "general",
+      "last_updated_date": "2026-09-21",
+      "id": "tool-level3:isaac-ros-5.0"
+    },
+    {
+      "vendor_key": "google",
+      "detail_kind": "api_model",
+      "title": "Gemini 3.8 Flash TTS",
+      "vendor_label": "Google",
+      "icon": "🎵",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models",
+      "status": "active",
+      "summary": "Gemini 3.8 Live 是 Live API 的默认低延迟音频到音频模型，适用于大多数实时语音代理和实时对话场景，无推理延迟。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Standard",
+            "pricing_basis": "usage_based",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "按官方定价页 Standard 档计费",
+                "amount": 0,
+                "unit": "详见官方定价页"
+              }
+            ],
+            "conditions": "gemini-3.8-live 在 Gemini Developer API 定价页的 Standard 服务层级下计费，可在 Google AI Studio 中测试"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "实时语音代理",
+          "description": "作为 Live API 默认模型，为大多数语音代理体验提供低延迟音频到音频对话。"
+        },
+        {
+          "title": "实时语音对话应用",
+          "description": "在没有推理延迟需求时，适合构建实时对话类语音应用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "高推理实时交互",
+          "description": "需要在实时交互中进行更强背景推理时，应改用 Gemini 3.8 Live Extended Thinking。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://ai.google.dev/gemini-api/docs/changelog?gspk=a2VpdGhoYWFnNjU3&gsxid=wt0LVmIYTFsea3&ps_partner_key=a2VpdGhoYWFnNjU3&ps_xid=wt0LVmIYTFsea3&pscd=get.youai.ai",
+          "url": "https://ai.google.dev/gemini-api/docs/changelog?gspk=a2VpdGhoYWFnNjU3&gsxid=wt0LVmIYTFsea3&ps_partner_key=a2VpdGhoYWFnNjU3&ps_xid=wt0LVmIYTFsea3&pscd=get.youai.ai"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs",
+          "url": "https://ai.google.dev/gemini-api/docs"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs/models",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs/pricing",
+          "url": "https://ai.google.dev/gemini-api/docs/pricing"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs/latest-model",
+          "url": "https://ai.google.dev/gemini-api/docs/latest-model"
+        },
+        {
+          "title": "版本資訊",
+          "url": "https://ai.google.dev/gemini-api/docs/changelog?hl=zh-tw&trk=article-ssr-frontend-pulse_little-text-block"
+        },
+        {
+          "title": "模型    Gemini API    Google AI for Developers",
+          "url": "https://ai.google.dev/gemini-api/docs/models?hl=zh-tw"
+        },
+        {
+          "title": "版本说明    Gemini API    Google AI for Developers",
+          "url": "https://ai.google.dev/gemini-api/docs/changelog%253Fhl%253Dzh-cn"
+        },
+        {
+          "title": "生成文字轉語音檔案 (TTS)    Gemini API    Google AI for Developers",
+          "url": "https://ai.google.dev/gemini-api/docs/speech-generation?hl=zh-tw"
+        }
+      ],
+      "theme": "media",
+      "release_date": "2026-09-15",
+      "model_key": "google-gemini-3.8-flash-tts",
+      "task_types": [
+        "TTS"
+      ],
+      "id": "tool-level3:gemini-3.8-flash-tts"
+    },
+    {
+      "vendor_key": "google",
+      "detail_kind": "api_model",
+      "title": "Gemini 3.8 Flash-Lite TTS",
+      "vendor_label": "Google",
+      "icon": "🎵",
+      "official_url": "https://ai.google.dev/gemini-api/docs/models",
+      "status": "active",
+      "summary": "Gemini 3.8 Live 是面向大多数低延迟语音代理体验的默认 Live API 音频模型，支持无推理延迟的实时对话；另有高推理版本 Gemini 3.8 Live Extended Thinking 适用于需要更强背景推理的实时语音互动。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "Paid Tier（按 token 计费）",
+            "pricing_basis": "per_1m_tokens",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "Input price (audio)",
+                "amount": 0.5,
+                "unit": "USD / 1M tokens"
+              },
+              {
+                "label": "Input price (text / image / video)",
+                "amount": 0.15,
+                "unit": "USD / 1M tokens"
+              },
+              {
+                "label": "Output price (including thinking tokens)",
+                "amount": 1.25,
+                "unit": "USD / 1M tokens"
+              },
+              {
+                "label": "Context caching price (audio)",
+                "amount": 0.1,
+                "unit": "USD / 1M tokens"
+              },
+              {
+                "label": "Context caching storage price",
+                "amount": 1,
+                "unit": "USD / 1M tokens per hour"
+              }
+            ],
+            "conditions": "仅付费层级可用（Free Tier 不可用），按每 100 万 token 以美元计费，含文本、音频输入及缓存存储费用。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "低延迟语音代理",
+          "description": "Gemini 3.8 Live 是大多数低延迟语音代理体验的默认 Live API 模型。"
+        },
+        {
+          "title": "实时语音对话",
+          "description": "支持无推理延迟的实时对话，适合交互式语音应用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要高背景推理的语音互动",
+          "description": "建议改用 Gemini 3.8 Live Extended Thinking 获得更高推理能力。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "http://ai.google.dev/gemini-api/docs/models/gemini?hl=zh-tw",
+          "url": "http://ai.google.dev/gemini-api/docs/models/gemini?hl=zh-tw"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs",
+          "url": "https://ai.google.dev/gemini-api/docs"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs/models",
+          "url": "https://ai.google.dev/gemini-api/docs/models"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs/pricing",
+          "url": "https://ai.google.dev/gemini-api/docs/pricing"
+        },
+        {
+          "title": "https://ai.google.dev/gemini-api/docs/latest-model",
+          "url": "https://ai.google.dev/gemini-api/docs/latest-model"
+        },
+        {
+          "title": "模型",
+          "url": "https://ai.google.dev/gemini-api/docs/models?%253Bhl=it&hl=zh-tw"
+        },
+        {
+          "title": "What's new in Gemini 3.8 Flash    Gemini API    Google AI for Developers",
+          "url": "http://ai.google.dev/gemini-api/docs/latest-model?trk=public_post_comment-text"
+        },
+        {
+          "title": "Novità di Gemini 3.8 Flash",
+          "url": "https://ai.google.dev/gemini-api/docs/latest-model?hl=it"
+        },
+        {
+          "title": "관리 에이전트 빌드 | Gemini API",
+          "url": "https://ai.google.dev/gemini-api/docs/custom-agents?hl=ko"
+        },
+        {
+          "title": "Gemini API를 사용한 함수 호출",
+          "url": "https://ai.google.dev/gemini-api/docs/generate-content/function-calling?hl=ko"
+        },
+        {
+          "title": "Gemini API  |  Google AI for Developers",
+          "url": "https://ai.google.dev/api/interactions-api?hl=zh-cn"
+        },
+        {
+          "title": "Gemini API  |  Google AI for Developers",
+          "url": "https://ai.google.dev/api/interactions-api?hl=ko"
+        },
+        {
+          "title": "Gemini API  |  Google AI for Developers",
+          "url": "https://ai.google.dev/api/interactions-api?hl=pl"
+        },
+        {
+          "title": "Release notes  |  Gemini API  |  Google AI for Developers",
+          "url": "https://ai.google.dev/gemini-api/docs/changelog"
+        }
+      ],
+      "theme": "media",
+      "release_date": "2025-01-01",
+      "model_key": "google-gemini-3.8-flash-lite-tts",
+      "task_types": [
+        "TTS"
+      ],
+      "id": "tool-level3:gemini-3.8-flash-lite-tts"
+    },
+    {
+      "vendor_key": "suno-inc",
+      "detail_kind": "tool",
+      "title": "Suno Studio",
+      "vendor_label": "Suno Inc.",
+      "icon": "🧩",
+      "official_url": "https://suno.com/",
+      "status": "active",
+      "summary": "Suno 是一款 AI 音乐生成工具，支持文本生成歌曲、歌词改写、混音、音频上传与分轨导出，免费档每日可创作歌曲，付费 Pro/Premier 档解锁商用权利、Suno Studio 工作站与更多下载量。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用此类 API 计价字段。"
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "内容创作配乐",
+          "description": "为 YouTube、播客、广告等商业项目生成免版税背景音乐，Pro 及以上套餐拥有商用权利。"
+        },
+        {
+          "title": "专业音乐制作",
+          "description": "使用 Suno Studio 进行多轨编辑、MIDI 导出与分轨分离，将 WAV 分轨导入 Ableton、Logic 等 DAW 继续制作。"
+        },
+        {
+          "title": "日常音乐创作",
+          "description": "免费用户每天可创作最多 10 首歌曲，快速尝试不同风格与人声设定。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "免费商用需求",
+          "description": "免费套餐不含商用权利，商业项目需升级到付费套餐。"
+        },
+        {
+          "title": "传统录音棚录音",
+          "description": "Suno 以 AI 生成与编辑为核心，不提供真实乐器录音或现场录音能力。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://suno.com/",
+          "url": "https://suno.com/"
+        },
+        {
+          "title": "https://about.suno.com/release-notes",
+          "url": "https://about.suno.com/release-notes"
+        },
+        {
+          "title": "https://suno.com/pricing",
+          "url": "https://suno.com/pricing"
+        },
+        {
+          "title": "Suno  About",
+          "url": "http://suno.com/about"
+        },
+        {
+          "title": "Make any song you can imagine",
+          "url": "https://www.suno.com/?utm_source=navtools/"
+        },
+        {
+          "title": "Make a house song about quitting your job",
+          "url": "https://suno.com/?ref=aimonstr/"
+        },
+        {
+          "title": "Advanced Music Producer Tools: Create Pro Tracks Faster",
+          "url": "https://suno.com/l/music-producer"
+        },
+        {
+          "title": "Suno  Générateur de musique IA",
+          "url": "https://suno.com/fr"
+        }
+      ],
+      "theme": "general",
+      "last_updated_date": "2026-01-01",
+      "id": "tool-level3:suno-studio"
+    },
+    {
+      "vendor_key": "xiaomi",
+      "detail_kind": "api_model",
+      "title": "MiMo-V2.6-Pro",
+      "vendor_label": "小米（MiMo）",
+      "icon": "🤖",
+      "official_url": "https://mimo.mi.com/docs/welcome",
+      "status": "active",
+      "summary": "Xiaomi MiMo-V2.6 系列模型已上线，包含旗舰推理模型 mimo-v2.6-pro 与高性价比全模态模型 mimo-v2.6-flash，可通过按量付费 API 或 Token Plan 订阅调用。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "给定官方来源未提及该模型支持 1M 上下文。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "mimo-v2.6-pro",
+            "pricing_basis": "per_token",
+            "currency": "Credits",
+            "metrics": [
+              {
+                "label": "输入（缓存命中）",
+                "amount": 2.5,
+                "unit": "Credits/Token"
+              },
+              {
+                "label": "输入（缓存未命中）",
+                "amount": 300,
+                "unit": "Credits/Token"
+              },
+              {
+                "label": "输出",
+                "amount": 600,
+                "unit": "Credits/Token"
+              }
+            ],
+            "conditions": "按 Token 数量扣减 Credits 配额，夜间时段（北京时间 00:00–08:00）消耗系数为 0.8x"
+          },
+          {
+            "label": "mimo-v2.6-flash",
+            "pricing_basis": "per_token",
+            "currency": "Credits",
+            "metrics": [
+              {
+                "label": "输入（缓存命中）",
+                "amount": 2,
+                "unit": "Credits/Token"
+              },
+              {
+                "label": "输入（缓存未命中）",
+                "amount": 100,
+                "unit": "Credits/Token"
+              },
+              {
+                "label": "输出",
+                "amount": 200,
+                "unit": "Credits/Token"
+              }
+            ],
+            "conditions": "按 Token 数量扣减 Credits 配额，夜间时段（北京时间 00:00–08:00）消耗系数为 0.8x"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "复杂项目与高风险工作",
+          "description": "mimo-v2.6-pro 为最强旗舰推理模型，适合复杂项目、长周期任务、高要求工作、安全与研究场景。"
+        },
+        {
+          "title": "高频调用场景",
+          "description": "mimo-v2.6-flash 为全模态低成本推理模型，是高频调用的最佳平衡选择。"
+        },
+        {
+          "title": "AI 开发工具链集成",
+          "description": "Token Plan 兼容 OpenCode、OpenClaw、Claude Code 等主流开发工具。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "超长期免费使用",
+          "description": "平台按 Credits 计量扣费，月度配额耗尽后将暂停服务，不适合期望完全免费不限量使用的用户。"
+        },
+        {
+          "title": "低强度轻度使用",
+          "description": "Lite 及以上订阅包面向高频使用与专业生产力场景，极轻度用户按量付费或 Lite 档更合适。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://mimo.mi.com/docs/tokenplan",
+          "url": "https://mimo.mi.com/docs/tokenplan"
+        },
+        {
+          "title": "https://mimo.mi.com/docs",
+          "url": "https://mimo.mi.com/docs"
+        },
+        {
+          "title": "https://mimo.mi.com/docs/quick-start/summary/model",
+          "url": "https://mimo.mi.com/docs/quick-start/summary/model"
+        },
+        {
+          "title": "https://mimo.mi.com/docs/price/pay-as-you-go",
+          "url": "https://mimo.mi.com/docs/price/pay-as-you-go"
+        },
+        {
+          "title": "https://mimo.mi.com/docs/updates/model",
+          "url": "https://mimo.mi.com/docs/updates/model"
+        },
+        {
+          "title": "Token Plan",
+          "url": "https://mimo.mi.com/docs/en-US/price/token-plan"
+        },
+        {
+          "title": "Xiaomi MiMo-V2.6 goes global — smarter, faster, more ...",
+          "url": "https://mimo.mi.com/docs/welcome"
+        },
+        {
+          "title": "Xiaomi MiMo-V2.6 Series: 3 New Models Officially Released",
+          "url": "https://mimo.mi.com/docs/quick-start/first-api-call"
+        },
+        {
+          "title": "Xiaomi MiMo Home",
+          "url": "https://mimo.mi.com/docs/en-US/quick-start/faq/token-plan/Usage&Quota"
+        },
+        {
+          "title": "Xiaomi MiMo Home",
+          "url": "https://mimo.mi.com/models/en-US/mimo-v2.5-pro"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-21",
+      "model_key": "xiaomi-mimo-v2.6-pro",
+      "task_types": [
+        "LLM"
+      ],
+      "id": "tool-level3:mimo-v2.6-pro"
+    },
+    {
+      "vendor_key": "antgroup",
+      "detail_kind": "api_model",
+      "title": "Ming-Image-0.1-Design",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "🖼️",
+      "official_url": "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design",
+      "status": "active",
+      "summary": "Ming-Image-0.1-Design 是蚂蚁集团 inclusionAI 开源的 6B 参数文生图模型，专为 UI、信息图、海报等富含文字的视觉设计而生，支持完整视觉构图与透明背景 RGBA 输出。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "开源权重自部署",
+            "pricing_basis": "开源模型权重本地部署，无官方按量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "模型权重下载",
+                "amount": 0,
+                "unit": "元"
+              }
+            ],
+            "conditions": "模型以 MIT 许可证在 Hugging Face 开源，可自行下载权重并使用 Diffusers 等框架推理，官方未提供按量计费的托管 API 定价。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "UI/UX 设计稿生成",
+          "description": "快速生成移动应用屏幕等完整界面视觉构图，可在 Hugging Face Space Demo 中输入描述直接产出整图。"
+        },
+        {
+          "title": "海报与信息图制作",
+          "description": "针对海报、信息图表等文字丰富的视觉设计生成完整图像，支持 1024 或 2048 分辨率。"
+        },
+        {
+          "title": "透明背景素材生成",
+          "description": "通过前置推荐的 RGBA 提示词生成带透明背景的 RGBA 图像，便于设计素材直接使用。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "通用摄影写实图生成",
+          "description": "模型定位于 UI、信息图、海报等设计类富文本视觉，而非写实摄影图像创作。"
+        },
+        {
+          "title": "视频或音频内容创作",
+          "description": "该模型仅支持文本到图像生成，不支持视频或音频输出。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "inclusionAI/Ming-Image-0.1-Design · Hugging Face",
+          "url": "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design"
+        },
+        {
+          "title": "https://www.antgroup.com/technology/new-tech-Technology-Antfocuses-Tabcomnent-detail/20241028001",
+          "url": "https://www.antgroup.com/technology/new-tech-Technology-Antfocuses-Tabcomnent-detail/20241028001"
+        },
+        {
+          "title": "Publish Ming-Image-0.1-Design release package",
+          "url": "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design/commit/b90fed9735d85ef5715e4dde0aa358ee407ea743"
+        },
+        {
+          "title": "Ming-Image 0.1 Design",
+          "url": "https://huggingface.co/spaces/inclusionAI/ming-image-0-1-design-demo"
+        },
+        {
+          "title": "inclusionAI/Ming-Image-0.1-Design-Layer · Hugging Face",
+          "url": "https://huggingface.co/inclusionAI/Ming-Image-0.1-Design-Layer"
+        }
+      ],
+      "theme": "vision",
+      "release_date": "2025-01-01",
+      "model_key": "antgroup-ming-image-0.1-design",
+      "task_types": [
+        "Image Generation"
+      ],
+      "id": "tool-level3:ming-image-0.1-design"
+    },
+    {
+      "vendor_key": "elevenlabs",
+      "detail_kind": "api_model",
+      "title": "Scribe v2",
+      "vendor_label": "ElevenLabs",
+      "icon": "🤖",
+      "official_url": "https://elevenlabs.io/docs/overview/capabilities/speech-to-text",
+      "status": "active",
+      "summary": "Scribe v2 是 ElevenLabs 的旗舰语音转文本模型，支持 90+ 语言的准确转写，提供关键词提示、词级时间戳、说话人分离、实体检测与动态音频标记。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "Scribe v2 是语音转文本模型，不支持文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "按音频用量计费",
+            "pricing_basis": "per_second_audio",
+            "currency": "USD",
+            "metrics": [
+              {
+                "label": "计费单位",
+                "amount": 1,
+                "unit": "credit_per_second_of_audio"
+              }
+            ],
+            "conditions": "语音转写按处理的音频时长以积分计费，积分每月重置，未用完的积分可结转最多两个月"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "批量媒体转写",
+          "description": "Scribe v2 支持最长 10 小时的异步转写，通过 webhook 通知处理大批量音视频文件。"
+        },
+        {
+          "title": "医疗临床转写",
+          "description": "Scribe v2 Medical 在临床音频上比 Scribe v2 减少 35% 转写错误，且日常语音准确率相同。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "纯文本大语言模型任务",
+          "description": "Scribe v2 是语音识别模型，不提供文本上下文窗口，不适合文本生成类任务。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://elevenlabs.io/docs/api-reference/speech-to-text/convert",
+          "url": "https://elevenlabs.io/docs/api-reference/speech-to-text/convert"
+        },
+        {
+          "title": "Transcription | ElevenLabs Documentation",
+          "url": "https://elevenlabs.io/docs/overview/capabilities/speech-to-text"
+        },
+        {
+          "title": "Models | ElevenLabs Documentation",
+          "url": "https://elevenlabs.io/docs/overview/models"
+        },
+        {
+          "title": "Transcription (STT) API - ElevenLabs",
+          "url": "https://elevenlabs.io/speech-to-text-api"
+        },
+        {
+          "title": "ElevenLabs Documentation",
+          "url": "https://elevenlabs.io/docs/overview/intro"
+        },
+        {
+          "title": "Scribe v2 just got an upgrade - four new features",
+          "url": "https://elevenlabs.io/blog/scribe-v2-just-got-an-upgrade"
+        },
+        {
+          "title": "Speech to Text API integration: Developer guide",
+          "url": "https://elevenlabs.io/insights/speech-to-text-api-integration"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2025-01-01",
+      "model_key": "elevenlabs-scribe-v2",
+      "task_types": [
+        "STT"
+      ],
+      "id": "tool-level3:scribe-v2"
+    },
+    {
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "qwen-audio-3.1-asr-flash-streaming",
+      "vendor_label": "alibaba",
+      "icon": "🎵",
+      "official_url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-streaming",
+      "status": "active",
+      "summary": "qwen-audio-3.1 系列语音识别模型面向实时会议、直播字幕、语音消息等场景，提供低延迟流式转写与高准确率识别。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "中国（北京）",
+            "pricing_basis": "按 token 计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 6,
+                "unit": "每百万 token"
+              },
+              {
+                "label": "输出",
+                "amount": 4.5,
+                "unit": "每百万 token"
+              }
+            ],
+            "conditions": "模型 API 调用原价，不含限时促销，区域为中国（北京）"
+          },
+          {
+            "label": "Singapore（国际）",
+            "pricing_basis": "按 token 计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 6.781,
+                "unit": "每百万 token"
+              },
+              {
+                "label": "输出",
+                "amount": 5.104,
+                "unit": "每百万 token"
+              }
+            ],
+            "conditions": "国际计费范围（Singapore Scope: International）的模型 API 调用原价"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "实时会议与直播字幕",
+          "description": "端到端实时语音识别模型，流式转写延迟低、准确率高，适合实时会议、直播字幕和智能交互场景。"
+        },
+        {
+          "title": "多语言多方言识别",
+          "description": "支持多语言与多地区中文方言识别，中英文无缝切换，并支持热词与上下文增强、标点预测与文本规整。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "需要函数调用或联网搜索的任务",
+          "description": "该模型不支持 Function Calling、联网搜索与前缀补全，不适合作为通用文本任务模型使用。"
+        },
+        {
+          "title": "微调与批处理场景",
+          "description": "该模型不支持微调、上下文缓存与批处理推理，无法满足定制训练或离线批量处理需求。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://help.aliyun.com/zh/model-studio",
+          "url": "https://help.aliyun.com/zh/model-studio"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/coding-plan",
+          "url": "https://help.aliyun.com/zh/model-studio/coding-plan"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/models",
+          "url": "https://help.aliyun.com/zh/model-studio/models"
+        },
+        {
+          "title": "qwen-audio-3.1-asr-flash-streaming Model Info-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-streaming"
+        },
+        {
+          "title": "Qwen-Audio-3.x-ASR-Flash-Streaming/Qwen-Audio-3.1-ASR-Flash-Message/Fun-ASR-Realtime-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/realtime-websocket-fun-asr"
+        },
+        {
+          "title": "qwen-audio-3.1-asr-flash-message - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-message"
+        },
+        {
+          "title": "qwen-audio-3.1-asr-flash - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash"
+        },
+        {
+          "title": "qwen-audio-3.1-asr-flash-filetrans Model Info-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-filetrans"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-21",
+      "model_key": "alibaba-qwen-audio-3.1-asr-flash-streaming",
+      "task_types": [
+        "STT"
+      ],
+      "id": "tool-level3:qwen-audio-3-1-asr-flash-streaming"
+    },
+    {
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "qwen-audio-3.1-asr-flash-filetrans",
+      "vendor_label": "alibaba",
+      "icon": "🎵",
+      "official_url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-filetrans",
+      "status": "active",
+      "summary": "qwen-audio-3.1-asr-flash-filetrans 是端到端离线语音识别模型，适用于会议转写、内容生产、通话分析等场景，支持多语种及多地区中文方言识别，具备高精度转写、热词与上下文增强、说话人分离、标点预测与文本规整能力，在复杂噪声环境下表现稳定，是长音频转写的首选方案。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "中国（北京）",
+            "pricing_basis": "按输入/输出 Token 用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 0.8,
+                "unit": "元/百万 Token"
+              },
+              {
+                "label": "输出",
+                "amount": 2.7,
+                "unit": "元/百万 Token"
+              }
+            ],
+            "conditions": "中国（北京）地域按量计费原始价格，不含限时促销，输入 0.8 元/百万 Token、输出 2.7 元/百万 Token。"
+          },
+          {
+            "label": "新加坡（国际）",
+            "pricing_basis": "按输入/输出 Token 用量计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "输入",
+                "amount": 1.094,
+                "unit": "元/百万 Token"
+              },
+              {
+                "label": "输出",
+                "amount": 3.427,
+                "unit": "元/百万 Token"
+              }
+            ],
+            "conditions": "新加坡地域国际计费范围按量计费原始价格，不含限时促销，输入 1.094 元/百万 Token、输出 3.427 元/百万 Token。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "会议与通话转写",
+          "description": "利用高精度转写、说话人分离与标点预测能力，将会议录音或通话音频转写为文本。"
+        },
+        {
+          "title": "多方言语音识别",
+          "description": "支持多语种及多地区中文方言的 ASR/AST 可控输出，覆盖方言口音场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "实时流式识别",
+          "description": "该模型为离线文件转写模型，不适用于需要实时出字的流式语音识别场景。"
+        },
+        {
+          "title": "函数调用与结构化输出",
+          "description": "模型不支持 Function Calling、结构化输出、联网搜索等能力，不适合这些任务。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://help.aliyun.com/zh/model-studio",
+          "url": "https://help.aliyun.com/zh/model-studio"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/coding-plan",
+          "url": "https://help.aliyun.com/zh/model-studio/coding-plan"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/models",
+          "url": "https://help.aliyun.com/zh/model-studio/models"
+        },
+        {
+          "title": "qwen-audio-3.1-asr-flash-filetrans - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-filetrans"
+        },
+        {
+          "title": "qwen-audio-3.1-asr-flash - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash"
+        },
+        {
+          "title": "Fun-ASR RESTful API audio file transcription DashScope-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/fun-asr-recorded-speech-recognition-http-api"
+        },
+        {
+          "title": "qwen-audio-3.1-asr-flash-message - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-message"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-21",
+      "model_key": "alibaba-qwen-audio-3.1-asr-flash-filetrans",
+      "task_types": [
+        "STT"
+      ],
+      "id": "tool-level3:qwen-audio-3-1-asr-flash-filetrans"
+    },
+    {
+      "vendor_key": "alibaba",
+      "detail_kind": "api_model",
+      "title": "qwen-audio-3.1-realtime-plus",
+      "vendor_label": "alibaba",
+      "icon": "🎵",
+      "official_url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-realtime-plus",
+      "status": "active",
+      "summary": "qwen-audio-3.1-realtime-plus 是阿里云百炼提供的实时双工语音转语音模型，支持文本与音频输入输出、Function Calling、联网搜索与声音克隆，推理服务由阿里云百炼提供。",
+      "one_m_context": {
+        "status": "not_applicable",
+        "reason": "当前 CatalogProfile 不使用文本上下文窗口。"
+      },
+      "api_pricing": {
+        "status": "available",
+        "rate_cards": [
+          {
+            "label": "中国（北京）",
+            "pricing_basis": "按每百万 token 计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "文本输入",
+                "amount": 5,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "音频输入",
+                "amount": 40,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "文本输出",
+                "amount": 40,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "音频输出",
+                "amount": 150,
+                "unit": "CNY/百万token"
+              }
+            ],
+            "conditions": "中国大陆北京地域按量付费，限流为 60 RPM 与 100,000 TPM。"
+          },
+          {
+            "label": "新加坡",
+            "pricing_basis": "按每百万 token 计费",
+            "currency": "CNY",
+            "metrics": [
+              {
+                "label": "文本输入",
+                "amount": 5.995,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "音频输入",
+                "amount": 47.963,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "文本输出",
+                "amount": 47.963,
+                "unit": "CNY/百万token"
+              },
+              {
+                "label": "音频输出",
+                "amount": 179.861,
+                "unit": "CNY/百万token"
+              }
+            ],
+            "conditions": "新加坡地域按量付费，限流为 60 RPM 与 100,000 TPM。"
+          }
+        ]
+      },
+      "plan": {
+        "status": "not_applicable",
+        "reason": "当前记录不是订阅套餐。"
+      },
+      "applicable_scenarios": [
+        {
+          "title": "实时语音助手",
+          "description": "支持双工实时语音对话，文本与音频输入输出，可直接构建语音交互应用。"
+        },
+        {
+          "title": "声音克隆播报",
+          "description": "支持声音克隆与多音色，适合有声阅读、语音播报等场景。"
+        }
+      ],
+      "inapplicable_scenarios": [
+        {
+          "title": "搜索与工具同时启用",
+          "description": "联网搜索与 Function Calling 不能同时开启，需要二者并用的场景不适用。"
+        },
+        {
+          "title": "非交互式批量调用",
+          "description": "平台条款禁止将实时交互类服务用于自动化脚本等非交互式批量调用。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "https://help.aliyun.com/zh/model-studio",
+          "url": "https://help.aliyun.com/zh/model-studio"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/coding-plan",
+          "url": "https://help.aliyun.com/zh/model-studio/coding-plan"
+        },
+        {
+          "title": "https://help.aliyun.com/zh/model-studio/models",
+          "url": "https://help.aliyun.com/zh/model-studio/models"
+        },
+        {
+          "title": "qwen-audio-3.1-realtime-plus-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-realtime-plus"
+        },
+        {
+          "title": "Qwen-Audio-ASR-Message Python SDK-Alibaba Cloud Model Studio(Model Studio)-阿里云帮助中心",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-asr-message-python-sdk"
+        },
+        {
+          "title": "Qwen-Audio real-time voice model - 阿里云文档",
+          "url": "https://help.aliyun.com/en/model-studio/qwen-audio-realtime-user-guides"
+        }
+      ],
+      "theme": "general",
+      "release_date": "2026-09-20",
+      "model_key": "alibaba-qwen-audio-3.1-realtime-plus",
+      "task_types": [
+        "Voice"
+      ],
+      "id": "tool-level3:qwen-audio-3-1-realtime-plus"
     }
   ]
 }

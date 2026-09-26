@@ -2,7 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { buildCatalogDraftEnvelope, validateCatalogDraftEnvelope, classifyFailure } = require('../../src/catalog/draft/index');
+const { buildCatalogDraftEnvelope, validateCatalogDraftEnvelope, classifyFailure, normalizeGatewayErrorCode } = require('../../src/catalog/draft/index');
 
 function plan() {
   return {
@@ -121,6 +121,39 @@ test('search auth and provider config failures remain config-recoverable', () =>
   for (const code of ['TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED']) {
     assert.equal(classifyFailure({ ok: false, code }, null).recovery_kind, 'config_required', code);
   }
+});
+
+test('provider transport and research/planner failures retain a recovery path', () => {
+  for (const code of ['OPENROUTER_TIMEOUT', 'CUSTOM_GATEWAY_RATE_LIMITED', 'LOCAL_AI_PROVIDER_ERROR', 'OPENAI_COMPAT_SCHEMA_INVALID', 'RESEARCH_FAILED', 'RESEARCH_DISCOVER_FAILED', 'RESEARCH_ACQUIRE_FAILED', 'PLANNER_FAILED']) {
+    assert.equal(classifyFailure({ ok: false, code }, null).recovery_kind, 'retryable', code);
+  }
+  assert.equal(normalizeGatewayErrorCode('OPENROUTER_TIMEOUT'), 'TIMEOUT');
+  assert.equal(normalizeGatewayErrorCode('CUSTOM_GATEWAY_RATE_LIMITED'), 'RATE_LIMITED');
+  assert.equal(normalizeGatewayErrorCode('OPENAI_COMPAT_SCHEMA_INVALID'), 'SCHEMA_INVALID');
+  assert.equal(normalizeGatewayErrorCode('TAVILY_EXTRACT_RATE_LIMITED'), 'TAVILY_EXTRACT_RATE_LIMITED');
+  assert.equal(classifyFailure({ ok: false, code: 'WEB_SEARCH_REQUEST_BUDGET_EXCEEDED' }, null).recovery_kind, 'config_required');
+
+  const budgetBlocked = buildCatalogDraftEnvelope({
+    seed: plan().seed,
+    baseRevision: 'rev-1',
+    researchPlan: plan(),
+    research: { ok: false, code: 'WEB_SEARCH_REQUEST_BUDGET_EXCEEDED', error: '搜索请求预算不足' },
+    synthesis: null,
+  });
+  assert.equal(budgetBlocked.last_error.recovery_kind, 'config_required');
+  assert.deepEqual(budgetBlocked.last_error.missing_config_fields, ['max_search_queries']);
+
+  const pageBudgetBlocked = buildCatalogDraftEnvelope({
+    seed: plan().seed,
+    baseRevision: 'rev-1',
+    researchPlan: plan(),
+    research: { ok: false, code: 'COST_BUDGET_EXHAUSTED', category: 'pages', requested: 2, remaining: 0, error: 'pages 成本预算不足' },
+    synthesis: null,
+  });
+  assert.deepEqual(pageBudgetBlocked.last_error.missing_config_fields, ['max_pages']);
+  assert.equal(pageBudgetBlocked.last_error.category, 'pages');
+  assert.equal(classifyFailure({ ok: false, code: 'SYNTHESIS_INVALID', error: 'detail.release_date: 派生字段必须引用至少一个官方来源' }, null).recovery_kind, 'retryable');
+  assert.equal(classifyFailure({ ok: false, code: 'SYNTHESIS_INVALID', error: 'tool-level3.pricing_disclosure.source_urls: 价格说明来源必须匹配 ResearchResult 官方来源' }, null).recovery_kind, 'manual_required');
 });
 
 test('draft envelope rejects missing or duplicate source_ids', () => {

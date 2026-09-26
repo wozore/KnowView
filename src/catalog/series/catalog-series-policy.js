@@ -373,7 +373,7 @@ function planSeriesPlacement(policy, snapshot, candidate, hint) {
     target_level2_id: target.id,
     target_level2_title: target.title,
     group_key: groupKeyOfSeriesId(target.id),
-    source: hint ? 'ai' : 'policy', evidence: [target.id], task_types: familyDef.task_types || [],
+    source: hint ? 'ai' : 'policy', evidence: [target.id], series_kind: familyDef.series_kind, task_types: familyDef.task_types || [],
     candidate_task_types: candidateTaskTypes.length ? candidateTaskTypes : (familyDef.task_types?.length === 1 ? familyDef.task_types : []), search_terms: target.search_terms || [],
   };
 }

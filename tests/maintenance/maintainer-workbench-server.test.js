@@ -30,6 +30,7 @@ test('server binds localhost, provides GET API security headers, and protects mu
   assert.equal(get.status, 200); assert.equal(JSON.parse(get.body).ok, 'overview');
   assert.equal(get.headers['cache-control'], 'no-store'); assert.equal(get.headers['x-content-type-options'], 'nosniff');
   assert.match(get.headers['content-security-policy'], /frame-ancestors 'none'/);
+  assert.equal((await request(started.port, 'GET', '/favicon.ico')).status, 204);
   assert.equal((await request(started.port, 'POST', '/api/workbench/v1/news/review', { body: { ids: ['x'], decision: 'approved' } })).status, 403);
   const allowed = await request(started.port, 'POST', '/api/workbench/v1/news/review', { body: { ids: ['x'], decision: 'approved', expected_revision: 'news-r1' }, headers: { Authorization: 'Bearer test-token', Origin: `http://127.0.0.1:${started.port}` } });
   assert.equal(allowed.status, 200); assert.deepEqual(JSON.parse(allowed.body).body, { ids: ['x'], decision: 'approved', expected_revision: 'news-r1' });
@@ -343,6 +344,29 @@ test('Bundle prepare 端点支持 enrichment_confirmation_token 二阶段确认�
   assert.equal(okReq.status, 200);
   assert.equal(JSON.parse(okReq.body).ok, true);
   assert.equal(prepareInput.enrichment_confirmation_token, 'enrich-token-999');
+
+  const blockedService = {
+    ...service,
+    catalogBundlePrepare: () => ({
+      ok: false,
+      status: 'bundles_blocked',
+      code: 'BUNDLE_MEMBER_ENRICHMENT_FAILED',
+      counts: { ready: 0, blocked: 1, blocked_drafts: 1, blocked_candidates: 0 },
+      drafts: [{ draft_id: 'bundle-blocked', members: [{ enrichment_status: 'failed', enrichment_error: { code: 'SOURCE_RESOLUTION_FAILED' } }] }],
+    }),
+  };
+  const blockedApp = createMaintainerWorkbenchServer({ service: blockedService, token: 'test-token' });
+  t.after(() => blockedApp.close());
+  const blockedPort = (await blockedApp.start()).port;
+  const blockedResponse = await request(blockedPort, 'POST', '/api/workbench/v1/catalog/bundle-prepare', {
+    body: { pending_revision: 'p-r1', catalog_revision: 'c-r1', plan_hash: 'ph', confirm_cost: true },
+    headers: { Authorization: 'Bearer test-token', Origin: `http://127.0.0.1:${blockedPort}` },
+  });
+  assert.equal(blockedResponse.status, 400);
+  const blockedBody = JSON.parse(blockedResponse.body);
+  assert.equal(blockedBody.status, 'bundles_blocked');
+  assert.deepEqual(blockedBody.counts, { ready: 0, blocked: 1, blocked_drafts: 1, blocked_candidates: 0 });
+  assert.equal(blockedBody.drafts[0].members[0].enrichment_error.code, 'SOURCE_RESOLUTION_FAILED');
 });
 
 test('所有工作台 GET 在调用 service 前要求 Bearer，配置读取失败不泄露内部信息', async t => {

@@ -178,7 +178,7 @@ test('suggest：合法输出 → {ok,value}；input 按 candidate/pages(截断40
   };
   const suggest = createIdentitySuggestAdapter({ provider: 'zhipu', model: 'glm-test', apiKey: 'zk', fetchImpl, timeoutMs: 1234 });
   const result = await suggest({
-    candidate: { name: 'GPT-5.6', entity_type: 'model' },
+    candidate: { name: 'GPT-5.6', entity_type: 'model', vendor_hint: 'openai' },
     pages: [{ url: 'https://openai.com/a', body_text: 'x'.repeat(5000) }],
     instructions: '按规则判断',
   });
@@ -190,7 +190,7 @@ test('suggest：合法输出 → {ok,value}；input 按 candidate/pages(截断40
   assert.equal(calls[0].body.max_tokens, 2000);
   assert.equal(calls[0].body.system, '按规则判断');
   const input = JSON.parse(calls[0].body.messages[0].content);
-  assert.deepEqual(input.candidate, { name: 'GPT-5.6', entity_type: 'model' });
+  assert.deepEqual(input.candidate, { name: 'GPT-5.6', entity_type: 'model', vendor_hint: 'openai' });
   assert.equal(input.pages.length, 1);
   assert.equal(input.pages[0].url, 'https://openai.com/a');
   assert.equal(input.pages[0].body_text.length, 4000, 'body_text 截断到 4000 字符');

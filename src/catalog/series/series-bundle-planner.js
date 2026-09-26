@@ -22,9 +22,30 @@ const {
 const { revisionOf } = require('../core/catalog-revision');
 const { catalogModelKeyIndex } = require('../intake/model-identity-verification');
 const { planSeriesPlacement } = require('./catalog-series-policy');
-const { taskTypesForMember } = require('./catalog-series-task-types');
+const { taskTypesForMember, withSeriesRecordMetadata } = require('./catalog-series-task-types');
 const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { bundleTokenOf, bundlePreviewHashOf, validateSeriesBundle, hash12Of, BUNDLE_SCHEMA_VERSION } = require('./series-bundle-contract');
+const PROFILE_MODALITIES = new Set(['audio', 'image', 'text', 'video']);
+const USAGE_MODALITIES = Object.freeze({
+  audio_generation: 'audio', audio_realtime: 'audio', audio_understanding: 'audio',
+  image: 'image', music_generation: 'audio', speech_generation: 'audio',
+  speech_recognition: 'audio', video: 'video',
+});
+
+function modalityForTaskTypes(taskTypes, registry) {
+  if (!taskTypes?.length) return null;
+  const modalities = taskTypes.map(type => USAGE_MODALITIES[registry?.[type]?.usage_kind]);
+  if (modalities.some(modality => !modality) || new Set(modalities).size !== 1) return null;
+  return modalities[0];
+}
+
+function profileModalityForFamily(family, registry, candidateModality) {
+  if (PROFILE_MODALITIES.has(family?.modality)) return family.modality;
+  const usageModality = USAGE_MODALITIES[family?.usage_kind];
+  if (usageModality) return usageModality;
+  return modalityForTaskTypes(family?.task_types, registry)
+    || (PROFILE_MODALITIES.has(candidateModality) ? candidateModality : null);
+}
 
 function detailKeyOf(value) {
   const text = String(value || '').trim();
@@ -143,7 +164,11 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
       continue;
     }
     const identityKey = slugify(name, 'member_name');
-    const taskTypes = taskTypesForMember(name, familyDef.task_types, policy.task_type_registry);
+    const taskTypes = taskTypesForMember(name, familyDef.task_types, policy.task_type_registry, sub.task_types);
+    if (!taskTypes.length) {
+      return { ok: false, code: 'BUNDLE_MEMBER_TASK_TYPES_UNRESOLVED', blockers: [`BUNDLE_MEMBER_TASK_TYPES_UNRESOLVED:${modelKey || name}`] };
+    }
+    const profileModality = modalityForTaskTypes(taskTypes, policy.task_type_registry);
     members.push({
       name,
       model_key: modelKey,
@@ -151,6 +176,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
       tool_card_id: `tool-card:${identityKey}`,
       classification: 'bundled',
       ...(taskTypes.length ? { task_types: taskTypes } : {}),
+      ...(profileModality ? { profile_modality: profileModality } : {}),
       evidence: sub.evidence || null,
     });
   }
@@ -205,7 +231,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
     }
   }
   const level2Record = existingL2
-    ? { ...existingL2, title: target.title, detail_refs: visibleDetailRefs, series_kind: familyDef.series_kind, generation_state: target.generation_state, task_types: familyDef.task_types || [], search_terms: target.search_terms || [] }
+    ? withSeriesRecordMetadata({ ...existingL2, title: target.title, detail_refs: visibleDetailRefs, series_kind: familyDef.series_kind, generation_state: target.generation_state }, familyDef, target)
     : buildLevel2({
       vendorKey: placement.vendor,
       level1Id: `vendor-level1:${placement.vendor}`,
@@ -228,7 +254,7 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
     const l1Record = l1
       ? { ...l1, level2_refs: [...(l1.level2_refs || []), { kind: 'vendor-level2', id: level2Record.id }] }
       : buildLevel1({ vendorKey: placement.vendor, title: placement.vendor, level2Refs: [{ kind: 'vendor-level2', id: level2Record.id }] });
-    patches.push({ area: 'vendor-level1', id: l1Record.id, operation: 'replace', record: l1Record });
+    patches.push({ area: 'vendor-level1', id: l1Record.id, operation: l1 ? 'replace' : 'create', record: l1Record });
   }
 
   const bridgeEntries = [];
@@ -305,8 +331,9 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
   const baseRevisions = {
     catalog: baseCatalogRevision,
     policy: revisionOf(policy),
-    bridge: bridgeRevision ?? readModelIdentityBridge().revision,
+    bridge: bridgeRevision === undefined ? readModelIdentityBridge().revision : bridgeRevision,
   };
+  const profileModality = profileModalityForFamily(familyDef, policy.task_type_registry, candidate.modality);
   const bundle = {
     schema_version: BUNDLE_SCHEMA_VERSION,
     bundle_id: `bundle-${hash12Of({ vendor: placement.vendor, series_id: target.id, members: members.map(member => member.model_key || member.name) })}`,
@@ -316,6 +343,8 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
       level2_id: target.id,
       title: target.title,
       series_kind: familyDef.series_kind,
+      modality: familyDef.modality,
+      ...(profileModality ? { profile_modality: profileModality } : {}),
       generation_state: target.generation_state,
       task_types: familyDef.task_types || [],
       search_terms: target.search_terms || [],
@@ -355,4 +384,4 @@ function planSeriesBundle({ candidate, verdict, subModelVerdicts, policy, snapsh
   return { ok: true, bundle };
 }
 
-module.exports = { planSeriesBundle, planHistoryTransitions };
+module.exports = { planSeriesBundle, planHistoryTransitions, profileModalityForFamily };

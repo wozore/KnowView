@@ -26,7 +26,7 @@ function approvedCatalogCandidates(pending, snapshot, options) {
   for (const card of pending.cards) {
     if (card.review_status !== 'approved' || card.entity_type === 'series'
       || card.intake_outcome === 'committed') continue;
-    if (alreadyCompleteInCatalog(card, options, modelIndex, lookupRegistryForCard)) {
+    if (alreadyCompleteInCatalog(card, options, modelIndex, lookupRegistryForCard, snapshot.snapshot)) {
       completed.push({ candidate_key: card.candidate_key, name: card.name, outcome: 'already_complete' });
       continue;
     }

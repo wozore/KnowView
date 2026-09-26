@@ -149,7 +149,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 - 如果 `name` 无法稳定转成 ASCII 业务键，需要手工填写 `tool_key`；如果 `vendor_name` 无法稳定转成 ASCII 业务键，需要手工填写 `vendor_key`。
 - `modality` 与 `detail_kind` 共同决定 CatalogProfile。API 模型必须明确 `text`、`video`、`image` 或 `audio`，不能让视频模型落入文本 token/context 假设。
 - `model_key`：`api_model` 类 detail 必填，格式为 `<vendor_key>-<identity>` 的单横线小写键（如 `deepseek-deepseek-v4.1-flash`）；缺失时报 `MODEL_KEY_REQUIRED`，非 `api_model` 携带时报 `MODEL_KEY_NOT_APPLICABLE`。
-- `known_fields` 只放维护者已经确定的结构提示；支持 `theme`、`icon`、`integrated_release_date`、`subscription_plan_refs` 和 `pricing_disclosure`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），合成时仅在模型未给出 `release_date` 且记录不是 `tool` 时作为确定性兜底填入。`subscription_plan_refs` 是显式的同厂商 `subscription_plan` 三级详情引用；`pricing_disclosure` 使用 `{status, text, source_urls}`，状态为 `not_published` 或 `external_usage_cost`，每个 URL 必须与 ResearchResult 中的官方来源匹配。套餐关系不能推断，价格说明不能缺少官方证据；摘要、直接价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
+- `known_fields` 只放维护者已经确定的结构提示；支持 `theme`、`icon`、`integrated_release_date`、`subscription_plan_refs` 和 `pricing_disclosure`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），只在没有有效的官方首次发布/GA 日期时作为第二顺位确定性来源；若仍无此值，API model/product_variant 可使用模型专属官方 detail 页明确标注的 `updated_date` 作为更新时间替代。`subscription_plan_refs` 是显式的同厂商 `subscription_plan` 三级详情引用；`pricing_disclosure` 使用 `{status, text, source_urls}`，状态为 `not_published` 或 `external_usage_cost`，每个 URL 必须与 ResearchResult 中的官方来源匹配。套餐关系不能推断，价格说明不能缺少官方证据；摘要、直接价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
 - `repair_layers` 用于声明本次确实需要替换的污染层；未列入且已存在的健康层为 `noop`，不会因新增一个模型而重写厂商资料。
 
 生成器对本次新建或替换的记录执行严格完整性校验：每个适用契约字段都必须是非空、类型正确的明确值，禁止 `null`、空字符串、空数组、`unknown/未知` 等占位值。`one_m_context`、`api_pricing` 或 `plan` 确实不适用时，必须使用：
@@ -161,7 +161,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 }
 ```
 
-官方来源正文直接支撑字段合成：合成模型一次调用按层生成全部字段，每个字段引用一个或多个 `source_id` 作为 provenance。摘要、特点、场景和适合/不适合说明属于 `DerivedField`，必须保留来源 IDs。官方资料未覆盖任一适用字段时，FieldCoverage 会保持 missing，Draft 不能 Apply。
+官方来源正文直接支撑字段合成：合成模型一次调用按层生成全部字段，每个字段引用一个或多个 `source_id` 作为 provenance。官方页面显式 `dateModified`、`article:modified_time`、`og:updated_time`、语义化 `<time datetime>`、Aliyun `lastModifiedTime` 或可见 `Updated at/更新时间` 会作为 OfficialSource 的 `updated_date` metadata 持久化，并记录 `updated_date_kind` 与 `updated_date_field`；Aliyun Unix 毫秒值按 UTC 日期归一。`release_date` 先取正文支持的首次发布/GA 日期；没有时先取已匹配的 `integrated_release_date`，再取当前模型专属 detail 官方来源的更新时间。该回退 provenance 指向 source ID 和 metadata 字段；不使用 HTTP Date、抓取时间或通用模型目录页。其他摘要、特点、场景和适合/不适合说明属于 `DerivedField`，必须保留来源 IDs。官方资料与允许的日期回退都未覆盖适用字段时，FieldCoverage 保持 missing，Draft 不能 Apply。
 
 ### 普通工具
 
@@ -317,8 +317,8 @@ bat\catalog-generator.bat new --seed data\manual\catalog-seed.json --confirm-cos
 1. 根据 `detail_kind + modality` 选择 CatalogProfile，并计算需要研究的 vendor/group/detail scope；
 2. 使用智谱 Web Search 首选、Tavily Search 备用，按官方域名和谓词联想搜索 developer/API/OpenAPI/pricing/credits/specifications 等资料；
 3. `detail` scope 还会把 Seed 的 `official_url` 与 `discovery_sources[kind=official_hint]` 作为指定官方来源直接加入待提取列表；它们不只是信任根，适用于用户已核验的具体 release notes、定价页或产品文档；
-4. canonicalize URL、过滤非官方域名，先直连官方 URL 获取正文，失败时再用 Tavily Extract；
-5. 合成模型不使用 web tools，单段式直接基于各层官方来源正文合成全部层字段与来源 provenance；
+4. canonicalize URL、过滤非官方域名，先直连官方 URL 获取正文和显式页面更新时间 metadata，失败时再用 Tavily Extract；
+5. 合成模型不使用 web tools，单段式直接基于各层官方来源正文合成字段；`release_date` 优先首次发布/GA，之后依次使用匹配的 integrated date 和模型专属官方 detail 页更新时间，并记录来源 provenance；
 6. 计算 FieldCoverage；任一适用字段缺值、占位或未引用官方来源时保持 blocked；
 7. 验证每个字段引用的 source_id 真实存在，并校验记录完整性；
 8. 本地生成每层完整的 `create/replace/noop` LayerPatch，禁止空值、`null`、空数组和 `unknown/未知`；
@@ -344,7 +344,7 @@ bat\catalog-generator.bat new --seed data\manual\catalog-seed.json --confirm-cos
 bat\catalog-generator.bat resume draft-xxxxxxxxxxxx-xxxxxxxx --confirm-cost --tavily-access-mode keyed
 ```
 
-`resume` 只重新研究 FieldCoverage 中仍 missing 字段对应的层 scope，并重新合成，保留已有来源和累计成本账本。即使前一次因网络错误或 `COST_BUDGET_EXHAUSTED` 中断，已完成的 OfficialSources 也会写入失败 Draft，后续不会从已覆盖的 scope 重新开始。
+`resume` 只重新研究 FieldCoverage 中仍 missing 字段对应的层 scope，并重新合成，保留已有来源和累计成本账本。若 `release_date` 仍缺失且模型专属 detail 来源没有可复用的 `updated_date`，会在新增确认的页面额度内重新获取该官方产品页 metadata。即使前一次因网络错误或 `COST_BUDGET_EXHAUSTED` 中断，已完成的 OfficialSources 也会写入失败 Draft，后续不会从已覆盖的 scope 重新开始。
 
 ## 6. 查看草案
 
@@ -727,7 +727,7 @@ node scripts/refresh-vibe-hub-cache.js
 - 搜索或正文提取失败时不允许模型凭记忆猜价格和日期；
 - `api_model` 的 API 可用性、访问条件和价格不能用 `not_applicable` 掩盖；缺失时必须 blocked，并只建议人工考虑 `product_variant`；
 - `resume` 只补 missing 字段对应的层来源，但每次仍需 `--confirm-cost` 授权新的增量硬预算；
-- `retrieved_at` 不是 `release_date` 或 `last_updated_date`；
+- `retrieved_at`、HTTP Date 不是 `release_date` 或 `last_updated_date`；`release_date` 的更新时间替代必须来自模型专属官方页面的显式 metadata，不能从通用页面或抓取时间推导；
 - API 模型要有工具卡；
 - 订阅套餐不能有工具卡；
 - 正式 Apply 前必须人工确认；

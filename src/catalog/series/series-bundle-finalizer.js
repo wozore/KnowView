@@ -5,9 +5,16 @@ const {
   researchCatalog,
   synthesizeCatalog,
   createCostLedger,
+  DEFAULT_LIMITS,
 } = require('../core');
 const { createCatalogAiAdapters } = require('../intake/catalog-adapters');
 const { bundlePreviewHashOf, bundleTokenOf } = require('./series-bundle-contract');
+const {
+  allocateMemberBudgets,
+  legacySpendOf,
+  bundleEnrichmentCost,
+} = require('./series-bundle-enrichment');
+const { finalizeBundleMembers } = require('./series-bundle-finalizer-members');
 const { loadSharedReleaseIndex, buildIntegratedLookup, lookupReleaseDateForSeed } = require('../catalog-integrated-lookup');
 
 let cachedLookup = null;
@@ -45,10 +52,11 @@ function memberSeed(bundle, member) {
   const knownFields = { theme: 'general' };
   const hit = lookupReleaseDateForSeed({ name: member.name, tool_key: cardId, detail_kind: 'api_model' }, getIntegratedLookup());
   if (hit && hit.date) knownFields.integrated_release_date = hit.date;
-  const defaultModality = bundle.vendor_key === 'vidu' ? 'video' : 'text';
+  const modality = member.profile_modality || bundle.series.profile_modality
+    || bundle.candidate?.modality || bundle.series.modality;
   return {
     detail_kind: 'api_model',
-    modality: bundle.series.modality || bundle.candidate?.modality || defaultModality,
+    ...(modality ? { modality } : {}),
     repair_layers: ['tool-level3', 'tool-card'],
     name: member.name,
     vendor_name: bundle.vendor_key,
@@ -72,13 +80,37 @@ function patchFor(result, area) {
   return (result?.layer_patches || []).find(patch => patch.area === area && patch.operation !== 'noop') || null;
 }
 
+function memberResearchSnapshot(bundle, member, snapshot) {
+  const targets = [
+    ['vendor-level2', bundle.series?.level2_id],
+    ['tool-level3', member.detail_id],
+    ['tool-card', member.tool_card_id],
+  ];
+  const patches = bundle.layer_patches || [];
+  const targetsPlanned = targets.every(([area, id]) => patches.some(patch =>
+    patch.area === area && patch.id === id && patch.record?.id === id && ['create', 'replace'].includes(patch.operation)));
+  if (!targetsPlanned) return null;
+  // ResearchPlan sees Bundle-owned layers as staged; the final Bundle still validates against its base snapshot.
+  const projected = futureSnapshotOf(snapshot, patches);
+  return targets.every(([area, id]) => (projected[area] || []).some(record => record.id === id)) ? projected : null;
+}
+
 async function enrichOne(bundle, member, input) {
   const seed = memberSeed(bundle, member);
+  try { planCatalogResearch(seed, input.snapshot); }
+  catch (error) { return { ok: false, code: 'BUNDLE_ENRICHMENT_PLAN_FAILED', error: error.message }; }
+  const preset = input.memberEnrichment?.[member.model_key] || input.memberEnrichment?.[member.name];
+  if (preset?.ok === false) return preset;
+  const researchSnapshot = memberResearchSnapshot(bundle, member, input.snapshot);
+  if (!researchSnapshot) return { ok: false, code: 'BUNDLE_MEMBER_PATCH_MISSING' };
   const direct = typeof input.enrichMember === 'function'
-    ? await input.enrichMember({ bundle, member, seed })
-    : input.memberEnrichment?.[member.model_key] || input.memberEnrichment?.[member.name];
+    ? await input.enrichMember({ bundle, member, seed, existingResearch: input.existingResearch, missingFields: input.missingFields, limits: input.limits })
+    : preset;
   if (direct?.ok === false) return direct;
-  if (direct?.layer_patches) return { ok: true, layer_patches: direct.layer_patches, research: direct.research || null, cost: direct.cost || null };
+  if (direct?.layer_patches) return { ok: true, layer_patches: direct.layer_patches, research: direct.research || null, cost: direct.cost || null, cost_mode: direct.cost_mode || 'incremental' };
+  if (!Array.isArray(member.task_types) || !member.task_types.length) {
+    return { ok: false, code: 'BUNDLE_MEMBER_TASK_TYPES_UNRESOLVED' };
+  }
 
   const adapters = input.adapters || input.catalogAdapters;
   if (!adapters?.discover || !adapters?.acquire || !adapters?.synthesize) {
@@ -86,26 +118,29 @@ async function enrichOne(bundle, member, input) {
   }
   const effectiveAdapters = adapters || createCatalogAiAdapters(input.generatorOptions || input);
   let plan;
-  try { plan = planCatalogResearch(seed, input.snapshot); }
+  try { plan = planCatalogResearch(seed, researchSnapshot); }
   catch (error) { return { ok: false, code: 'BUNDLE_ENRICHMENT_PLAN_FAILED', error: error.message }; }
+  if (plan.research_scopes.some(scope => scope.kind === 'group')) return { ok: false, code: 'BUNDLE_MEMBER_PLAN_INVALID' };
 
   let research = direct?.research || null;
   if (!research) {
     try {
       research = await researchCatalog(plan, effectiveAdapters, {
         limits: input.limits || input.enrichmentLimits || input.costPlan?.hard_limits,
-        existingResearch: direct?.existingResearch,
+        existingResearch: direct?.existingResearch || input.existingResearch,
+        missingFields: input.missingFields,
       });
     } catch (error) {
       return { ok: false, code: error?.code || 'BUNDLE_ENRICHMENT_RESEARCH_FAILED', error: error?.message || String(error) };
     }
   }
-  if (!research?.ok) return { ok: false, code: research?.code || 'BUNDLE_ENRICHMENT_RESEARCH_FAILED', error: research?.error, cost: research?.cost || null };
+  if (typeof input.onResearchCheckpoint === 'function') await input.onResearchCheckpoint(research);
+  if (!research?.ok) return { ok: false, code: research?.code || 'BUNDLE_ENRICHMENT_RESEARCH_FAILED', error: research?.error, research, cost: research?.cost || null, cost_mode: 'cumulative' };
   let synthesis;
   try { synthesis = await synthesizeCatalog(research, plan, effectiveAdapters); }
-  catch (error) { return { ok: false, code: error?.code || 'BUNDLE_ENRICHMENT_SYNTHESIS_FAILED', error: error?.message || String(error) }; }
-  if (!synthesis?.ok) return { ok: false, code: synthesis?.code || 'BUNDLE_ENRICHMENT_SYNTHESIS_FAILED', error: synthesis?.error, synthesis, research, cost: synthesis?.cost || research?.cost || null };
-  return { ok: true, layer_patches: synthesis.layer_patches, research, synthesis, cost: synthesis.cost || research.cost || null };
+  catch (error) { return { ok: false, code: error?.code || 'BUNDLE_ENRICHMENT_SYNTHESIS_FAILED', error: error?.message || String(error), research, cost: research._cost_ledger?.snapshot?.() || research.cost || null, cost_mode: 'cumulative' }; }
+  if (!synthesis?.ok) return { ok: false, code: synthesis?.code || 'BUNDLE_ENRICHMENT_SYNTHESIS_FAILED', error: synthesis?.error, synthesis, research, cost: synthesis?.cost || research?.cost || null, cost_mode: 'cumulative' };
+  return { ok: true, layer_patches: synthesis.layer_patches, research, synthesis, cost: synthesis.cost || research.cost || null, cost_mode: 'cumulative' };
 }
 
 function enrichmentDiagnostic(result) {
@@ -120,15 +155,6 @@ function enrichmentDiagnostic(result) {
     research_error: research.error || null,
     official_source_count: Array.isArray(research.official_sources) ? research.official_sources.length : 0,
   };
-}
-
-function accountMemberCost(ledger, cost) {
-  const spent = cost?.spent || {};
-  for (const [category, amount] of Object.entries(spent)) {
-    const reservation = ledger.reserve(category, Number(amount || 0));
-    if (!reservation.ok) return reservation;
-  }
-  return { ok: true };
 }
 
 function replacePatch(patches, replacement) {
@@ -188,51 +214,13 @@ function rebuildBridgeEntries(bundle, futureSnapshot) {
 }
 
 /** Enriches all new members in memory; never creates or applies a v3 Draft. */
-async function finalizeSeriesBundle(bundle, input = {}) {
-  const working = clone(bundle);
-  const snapshot = input.snapshot || {};
-  const errors = [];
-  const sharedLedger = input.sharedLedger || createCostLedger(input.enrichmentLimits || input.costPlan?.hard_limits);
-  for (const member of working.members || []) {
-    if (member.classification !== 'bundled') continue;
-    let result;
-    try { result = await enrichOne(working, member, { ...input, limits: sharedLedger.snapshot().remaining }); }
-    catch (error) { result = { ok: false, code: error?.code || 'BUNDLE_ENRICHMENT_FAILED', error: error?.message || String(error) }; }
-    if (!result?.ok) {
-      if (result?.cost) accountMemberCost(sharedLedger, result.cost);
-      errors.push({ model_key: member.model_key, name: member.name, ...enrichmentDiagnostic(result) });
-      continue;
-    }
-    const detailPatch = patchFor(result, 'tool-level3');
-    const cardPatch = patchFor(result, 'tool-card');
-    if (!detailPatch || detailPatch.id !== member.detail_id || !detailPatch.record
-      || !cardPatch || cardPatch.id !== member.tool_card_id || !cardPatch.record) {
-      errors.push({ model_key: member.model_key, name: member.name, code: 'BUNDLE_ENRICHMENT_PATCH_INVALID' });
-      continue;
-    }
-    const accounted = accountMemberCost(sharedLedger, result.cost);
-    if (!accounted.ok) {
-      errors.push({ model_key: member.model_key, name: member.name, code: accounted.code || 'BUNDLE_ENRICHMENT_COST_EXHAUSTED' });
-      continue;
-    }
-    const cardRef = cardPatch.record.detail_ref?.id;
-    const shortDetailId = member.detail_id.slice('tool-level3:'.length);
-    if (cardRef && cardRef !== member.detail_id && cardRef !== shortDetailId) {
-      errors.push({ model_key: member.model_key, name: member.name, code: 'BUNDLE_ENRICHMENT_DETAIL_REF_INVALID' });
-      continue;
-    }
-    cardPatch.record = { ...cardPatch.record, detail_ref: { kind: 'tool-level3', id: member.detail_id } };
-    replacePatch(working.layer_patches, detailPatch);
-    replacePatch(working.layer_patches, cardPatch);
-  }
-
-  working.cost = { ...(working.cost || {}), enrichment: sharedLedger.snapshot() };
+function finalizeBundleReadiness(working, snapshot, input, sharedLedger, legacySpend, errors) {
+  bundleEnrichmentCost(working, working.enrichment_hard_limits || sharedLedger.snapshot().limits, legacySpend);
   working.future_snapshot = futureSnapshotOf(snapshot, working.layer_patches);
-  const rebuiltBridge = rebuildBridgeEntries(working, working.future_snapshot);
-  working.bridge_entries = rebuiltBridge.entries;
-  errors.push(...rebuiltBridge.errors);
+  const rebuilt = rebuildBridgeEntries(working, working.future_snapshot);
+  working.bridge_entries = rebuilt.entries;
+  errors.push(...rebuilt.errors);
   working.preview_hash = bundlePreviewHashOf(working);
-  working.bundle_token = bundleTokenOf(working);
   if (errors.length) {
     working.blockers = ['BUNDLE_MEMBERS_NEED_ENRICHMENT', 'BUNDLE_MEMBER_ENRICHMENT_FAILED'];
     working.enrichment_errors = errors;
@@ -240,11 +228,8 @@ async function finalizeSeriesBundle(bundle, input = {}) {
     working.bundle_token = bundleTokenOf(working);
     return { ok: false, code: 'BUNDLE_MEMBER_ENRICHMENT_FAILED', bundle: working, errors };
   }
-
   working.blockers = [];
-  const checked = input.validate
-    ? input.validate(working)
-    : { ok: true, blockers: [] };
+  const checked = input.validate ? input.validate(working) : { ok: true, blockers: [] };
   if (!checked.ok) {
     working.blockers = [...checked.blockers];
     working.readiness = 'blocked';
@@ -256,18 +241,32 @@ async function finalizeSeriesBundle(bundle, input = {}) {
   return { ok: true, bundle: working };
 }
 
+async function finalizeSeriesBundle(bundle, input = {}) {
+  const working = clone(bundle);
+  const limits = input.enrichmentLimits || input.costPlan?.hard_limits || DEFAULT_LIMITS;
+  const budgets = input.memberBudgets || allocateMemberBudgets([{ bundle: working }], limits);
+  const sharedLedger = input.sharedLedger || createCostLedger(limits, input.enrichmentSpent || {});
+  const legacySpend = legacySpendOf(working);
+  const memberInput = { ...input, sharedLedger, enrichmentLimits: limits, enrichOne, enrichmentDiagnostic, patchFor, replacePatch };
+  const errors = await finalizeBundleMembers(working, memberInput, legacySpend, budgets);
+  return finalizeBundleReadiness(working, input.snapshot || {}, input, sharedLedger, legacySpend, errors);
+}
 async function finalizeSeriesBundles(entries, input = {}) {
   const members = entries.flatMap(entry => (entry.bundle.members || []).filter(member => member.classification === 'bundled'));
-  const limits = input.enrichmentLimits || {};
+  const limits = input.enrichmentLimits || DEFAULT_LIMITS;
   const sharedLedger = input.sharedLedger || createCostLedger(limits, input.enrichmentSpent || {});
+  const memberBudgets = allocateMemberBudgets(entries, limits);
   const results = [];
   for (const entry of entries) {
-    entry.bundle.enrichment_hard_limits = limits;
+    entry.bundle.enrichment_hard_limits ||= limits;
     entry.bundle.enrichment_confirmation_token = input.enrichmentConfirmationToken || null;
-    const finalized = await finalizeSeriesBundle(entry.bundle, { ...input, sharedLedger, enrichmentLimits: limits });
+    const onCheckpoint = typeof input.onCheckpoint === 'function'
+      ? checkpoint => input.onCheckpoint({ ...checkpoint, entry })
+      : null;
+    const finalized = await finalizeSeriesBundle(entry.bundle, { ...input, sharedLedger, memberBudgets, onCheckpoint, enrichmentLimits: limits });
     results.push({ ...entry, finalized });
   }
   return { results, sharedLedger, memberCount: members.length };
 }
 
-module.exports = { finalizeSeriesBundle, finalizeSeriesBundles, futureSnapshotOf };
+module.exports = { allocateMemberBudgets, finalizeSeriesBundle, finalizeSeriesBundles, futureSnapshotOf };

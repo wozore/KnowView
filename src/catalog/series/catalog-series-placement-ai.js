@@ -304,10 +304,15 @@ function applyPlacementToSeed(seed, decision) {
     target_level2_id: decision.target_level2_id,
     target_level2_title: decision.target_level2_title,
     group_key: decision.group_key || null,
+    series_kind: decision.series_kind || null,
+    generation_state: decision.series_kind === 'model_series' ? decision.generation_state || null : null,
     task_types: decision.task_types || [],
     candidate_task_types: decision.candidate_task_types || [],
     search_terms: decision.search_terms || [],
   };
+  if (decision.series_kind) seed.series_kind = decision.series_kind;
+  if (decision.series_kind === 'model_series') seed.generation_state = decision.generation_state;
+  else delete seed.generation_state;
   if (decision.candidate_task_types?.length) seed.task_types = decision.candidate_task_types;
   return seed;
 }

@@ -253,7 +253,7 @@ test('product identity_aliases 优先用于模型登记并传入身份核验', a
   await resolveBatchCandidates([{ name: 'Hy Image 3.5', vendor_key: 'tencent', entity_type: 'model', detail_kind_hint: 'api_model' }], {
     registry,
     productRegistry,
-    identityContext: mockIdentityContext(),
+    identityContext: { ...mockIdentityContext(), policy: require('../../src/catalog/series').loadSeriesPolicy() },
     verifyModelIdentity: async candidate => {
       verifiedCandidate = candidate;
       return { ok: false, code: 'IDENTITY_CANDIDATE_MISMATCH', error: 'test only' };
@@ -262,6 +262,7 @@ test('product identity_aliases 优先用于模型登记并传入身份核验', a
     setIntakeOutcome: null,
   });
   assert.deepEqual(verifiedCandidate.identity_aliases, ['Hy-Image-3.5-Preview']);
+  assert.equal(verifiedCandidate.registered_vendor_hint, 'tencent');
 });
 
 test('resolveBatchCandidates 兼容旧待补卡：带版本号模型误标 tool 时回退 api_model 登记表', async () => {
@@ -700,6 +701,17 @@ test('official-url-registry detailKind 决定产品与厂商模型的优先级',
   assert.equal(lookupOfficialUrl('Cursorless', { registry, productRegistry, detailKind: 'tool' }).ok, false);
 });
 
+test('approved identity sources resolve Scribe v2 and Ming Image to registered vendors', () => {
+  const registry = require('../../data/manual/registries/official-url-registry.json');
+  const productRegistry = loadProductUrlRegistry();
+  const scribe = lookupOfficialUrl('Scribe v2', { registry, productRegistry, detailKind: 'api_model' });
+  const ming = lookupOfficialUrl('Ming-Image-0.1-Design', { registry, productRegistry, detailKind: 'api_model' });
+  assert.equal(scribe.vendor_key, 'elevenlabs');
+  assert.deepEqual(scribe.identity_aliases, ['scribe_v2']);
+  assert.equal(ming.vendor_key, 'antgroup');
+  assert.deepEqual(ming.identity_aliases, ['inclusionAI/Ming-Image-0.1-Design']);
+});
+
 test('official-product-url-registry 双表契约：产品引用厂商、生命周期和官方 URL 校验', () => {
   const registry = loadProductUrlRegistry();
   const validation = validateProductUrlRegistry(registry);
@@ -1060,6 +1072,21 @@ test('resolveBatchPlacements：from-preview/resume 复用 placement_decision，�
     suggestSeriesPlacement: async () => { aiCalls += 1; throw new Error('resume 不应重复调用 AI'); },
   });
   assert.equal(aiCalls, 0, '已持久化 decision 的 seed 应短路，不重复调 AI');
+});
+
+test('same-batch models for an uncommitted target all retain create placement', async () => {
+  const seeds = ['Gemini 3.8 Flash TTS', 'Gemini 3.8 Flash-Lite TTS'].map(name => ({
+    name, vendor_key: 'google', vendor_name: 'Google', detail_kind: 'api_model', modality: 'audio',
+  }));
+  const result = await resolveBatchPlacements(seeds, { snapshotOf: () => require('../../src/catalog/core/index').emptySnapshot() });
+  assert.deepEqual(result.blocked, []);
+  for (const seed of seeds) {
+    assert.equal(seed.placement_decision.target_level2_id, 'vendor-level2:google:gemini-tts');
+    assert.equal(seed.placement_decision.target_mode, 'create');
+    assert.equal(seed.placement.existing_level2_ref, null);
+    assert.equal(seed.placement.new_group_title, 'Gemini TTS');
+    assert.equal(seed.group_key, 'gemini-tts');
+  }
 });
 
 test('runBatchFromCards --dry-run：写 placement_decision 进 preview，from-preview 复用', async () => {

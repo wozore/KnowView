@@ -53,7 +53,7 @@ function buildIdentitySuggestInstructions() {
   return '你只负责依据官方正文判断候选名是否为真实可调用的 AI 实体，并给出身份建议，不决定最终归属。硬性规则：' +
     '1) entity_class 只能取 model（官方以独立可调用型号发布的具体模型）或 series（版本代际/产品线，其下可有具体型号）。' +
     '2) 判断是否独立实体只依据官方可调用性/能力/价格/状态证据（官方模型列表、API 文档、定价页），禁止按名称后缀或档位词猜测。' +
-    '3) vendor_key 只能取候选官方域名归属的厂商小写 slug；无法确定填 unknown。' +
+    '3) vendor_hint 只是登记或候选提示，必须由正文证据确认；vendor_key 只能取正文与官方域名支持的厂商小写 slug，无法确认填 unknown。' +
     '4) identity 是候选名归一化形态（小写、连字符分隔），必须来自官方正文原词，禁止编造。' +
     '5) reasons 说明官方正文中支持实体、厂商与具体型号/系列判定的原文线索。' +
     '输出 JSON：{"entity_class":string,"vendor_key":string,"identity":string,"series_title":string|null,"family":string|null,"reasons":string[]}，禁止额外字段。';
@@ -169,7 +169,11 @@ async function verifyModelIdentity(candidate, context, adapters) {
   if (!validateIdentitySuggestionValue(value)) return fail('IDENTITY_AI_UNAVAILABLE', '身份建议结构非法');
 
   // 4. 确定性核验：AI 只建议，一切关键字段程序重算
-  const vendorKey = vendorKeyViaPolicy(context?.policy, value.vendor_key, context?.normalizeVendorKey);
+  const suggestedVendorKey = vendorKeyViaPolicy(context?.policy, value.vendor_key, context?.normalizeVendorKey);
+  const registeredVendorHint = candidate?.registered_vendor_hint
+    ? vendorKeyViaPolicy(context?.policy, candidate.registered_vendor_hint, context?.normalizeVendorKey)
+    : null;
+  const vendorKey = suggestedVendorKey || (String(value.vendor_key).trim().toLowerCase() === 'unknown' ? registeredVendorHint : null);
   if (!vendorKey) return fail('IDENTITY_VENDOR_UNRESOLVED', `厂商未通过政策归一化: ${value.vendor_key}`);
   const hintedVendorKey = candidate.vendor_hint
     ? vendorKeyViaPolicy(context?.policy, candidate.vendor_hint, context?.normalizeVendorKey)

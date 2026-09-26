@@ -79,17 +79,21 @@ test('合法基线 bundle：校验通过（骨架富化门禁除外），token �
   assert.notEqual(bundleTokenOf(mutated), token, 'patch 变化 → token 变化');
 });
 
-test('规则 1：新建 L2 必须携带父 L1 replace patch', () => {
+test('规则 1：新建 L2 必须携带与 base snapshot 匹配的父 L1 patch', () => {
   const bundle = baseBundle();
   bundle.series.mode = 'create';
   const result = validateSeriesBundle(bundle, {});
   assert.ok(result.blockers.includes('BUNDLE_L1_PATCH_MISSING'));
-  // 补上 L1 replace → blocker 消失
+  // 没有 base snapshot 时父 patch 可以是 create 或 replace。
   bundle.layer_patches.push({
-    area: 'vendor-level1', id: 'vendor-level1:zhipu', operation: 'replace',
+    area: 'vendor-level1', id: 'vendor-level1:zhipu', operation: 'create',
     record: { id: 'vendor-level1:zhipu', vendor_key: 'zhipu', title: '智谱', level2_refs: [{ kind: 'vendor-level2', id: bundle.series.level2_id }] },
   });
   assert.ok(!validateSeriesBundle(bundle, {}).blockers.includes('BUNDLE_L1_PATCH_MISSING'));
+  const existingParent = { 'vendor-level1': [{ id: 'vendor-level1:zhipu' }] };
+  assert.ok(validateSeriesBundle(bundle, { snapshot: existingParent }).blockers.includes('BUNDLE_L1_PATCH_MISSING'));
+  bundle.layer_patches.at(-1).operation = 'replace';
+  assert.ok(!validateSeriesBundle(bundle, { snapshot: existingParent }).blockers.includes('BUNDLE_L1_PATCH_MISSING'));
 });
 
 test('规则 2：L2 detail_refs 必须覆盖全部可见 bundled 成员', () => {

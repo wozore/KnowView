@@ -36,10 +36,31 @@ function taskTypesFromName(value, registry) {
   return result;
 }
 
-function taskTypesForMember(name, familyTaskTypes, registry) {
+function taskTypesForMember(name, familyTaskTypes, registry, explicitTaskTypes) {
   const familyTypes = Array.isArray(familyTaskTypes) ? familyTaskTypes : [];
-  const inferred = taskTypesFromName(name, registry).filter(type => familyTypes.includes(type));
+  if (Array.isArray(explicitTaskTypes) && explicitTaskTypes.length) {
+    const declared = normalizeTaskTypes(explicitTaskTypes, registry);
+    if (!declared || declared.some(type => !familyTypes.includes(type))) return [];
+    return declared;
+  }
+  const normalizedName = String(name || '').toLocaleLowerCase('en-US').normalize('NFKC').replace(/[_./-]+/g, ' ');
+  const realtimeVoice = familyTypes.includes('Voice')
+    && registry?.Voice?.usage_kind === 'audio_realtime'
+    && /(?:^|\s)realtime(?:$|\s)/.test(normalizedName);
+  const inferred = [...new Set([
+    ...taskTypesFromName(name, registry),
+    ...(realtimeVoice ? ['Voice'] : []),
+  ])].filter(type => familyTypes.includes(type));
   return inferred.length ? inferred : familyTypes.length === 1 ? [...familyTypes] : [];
+}
+
+function withSeriesRecordMetadata(record, family, series) {
+  const normalized = { ...record };
+  delete normalized.task_types;
+  delete normalized.search_terms;
+  if (Array.isArray(family?.task_types) && family.task_types.length) normalized.task_types = [...new Set(family.task_types)];
+  if (Array.isArray(series?.search_terms) && series.search_terms.length) normalized.search_terms = [...new Set(series.search_terms)];
+  return normalized;
 }
 
 function usageKindForTaskTypes(taskTypes, registry) {
@@ -139,6 +160,7 @@ module.exports = {
   normalizeTaskTypes,
   taskTypesFromName,
   taskTypesForMember,
+  withSeriesRecordMetadata,
   usageKindForTaskTypes,
   familyForTaskTypes,
   familyForModality,

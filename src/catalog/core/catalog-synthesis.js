@@ -1,8 +1,9 @@
 'use strict';
 
-const { buildVendorCard, buildLevel1, buildLevel2, buildDetail, buildToolCard, ref } = require('./catalog-record-builders');
+const { buildVendorCard, buildLevel1, buildLevel2, buildDetail, buildToolCard, deriveKeys, ref } = require('./catalog-record-builders');
 const { DATE_FIELDS } = require('./catalog-contract');
 const { validatePlannedRecords, isExplicitValue } = require('./catalog-record-completeness');
+const { pageUpdateMetadataOf, sourceUrlMatchesModelIdentity } = require('./catalog-research');
 
 const DETAIL_MISMATCH_FIELDS = Object.freeze(['access_level', 'price_badge', 'api_pricing']);
 
@@ -123,6 +124,61 @@ function validateSynthesisOutput(output, research) {
   return { ok: errors.length === 0, errors };
 }
 
+function releaseDateProvenanceIsValid(value, refs, research, integratedDate) {
+  if (!isIsoDate(value) || !Array.isArray(refs) || !refs.length) return false;
+  const sources = new Set((research.official_sources || []).map(source => source.source_id));
+  if (refs.every(ref => ref && typeof ref === 'object' && ref.kind === 'deterministic')) {
+    return value === integratedDate && refs.every(ref => ref.basis === 'comparison_integrated');
+  }
+  return refs.every(ref => typeof ref === 'string' && sources.has(ref));
+}
+
+function releaseDateUpdateSource(research, plan) {
+  const scope = plan.research_scopes.find(item => item.kind === 'detail');
+  if (!scope) return null;
+  const scopeRef = `detail:${scope.subject?.key || ''}`;
+  return (research.official_sources || []).find(source => {
+    const refs = Array.isArray(source.discovered_for) ? source.discovered_for : [source.discovered_for];
+    return refs.includes(scopeRef) && pageUpdateMetadataOf(source) && sourceUrlMatchesModelIdentity(source, plan.seed);
+  }) || null;
+}
+
+function setReleaseDateOutput(output, value, refs, fallback) {
+  const layerFields = { ...(output.layer_fields || {}) };
+  const detail = { ...(layerFields.detail || {}) };
+  const provenance = { ...(output.provenance || {}) };
+  if (value) {
+    detail.release_date = value;
+    provenance['detail.release_date'] = refs;
+  } else {
+    delete detail.release_date;
+    delete provenance['detail.release_date'];
+  }
+  layerFields.detail = detail;
+  const normalized = { ...output, layer_fields: layerFields, provenance };
+  if (fallback) Object.defineProperty(normalized, '_catalog_release_date_fallback', { value: fallback });
+  return normalized;
+}
+
+function applyReleaseDateFallback(output, research, plan) {
+  if (!output?.layer_fields || dateFieldFor(plan) !== 'release_date') return output;
+  const current = output.layer_fields.detail?.release_date;
+  const refs = output.provenance?.['detail.release_date'];
+  const integratedDate = plan.seed?.known_fields?.integrated_release_date;
+  if (releaseDateProvenanceIsValid(current, refs, research, integratedDate)) return output;
+  if (isIsoDate(integratedDate)) {
+    return setReleaseDateOutput(output, integratedDate, [{ kind: 'deterministic', basis: 'comparison_integrated', source_ids: [] }]);
+  }
+  const source = releaseDateUpdateSource(research, plan);
+  if (source) {
+    return setReleaseDateOutput(output, source.updated_date, [source.source_id], {
+      source_id: source.source_id,
+      source_field: source.updated_date_field,
+    });
+  }
+  return setReleaseDateOutput(output, null, []);
+}
+
 function deterministic(basis) {
   return { kind: 'deterministic', basis, source_ids: [] };
 }
@@ -159,13 +215,28 @@ function fieldSourceIds(output, layer, field) {
   return output.provenance?.[`${layer}.${field}`] || [];
 }
 
+function fieldProvenance(output, layer, field) {
+  const fallback = output?._catalog_release_date_fallback;
+  if (layer === 'tool-level3' && field === 'release_date' && fallback) {
+    return {
+      kind: 'derived',
+      basis: 'official_page_update',
+      source_ids: [fallback.source_id],
+      source_field: fallback.source_field,
+    };
+  }
+  const sourceIds = fieldSourceIds(output, layer === 'tool-level3' ? 'detail' : layer, field);
+  if (sourceIds.length === 1 && sourceIds[0]?.kind === 'deterministic') return sourceIds[0];
+  return fromSources(sourceIds);
+}
+
 function fullProvenance(record, mappings = {}) {
   return Object.fromEntries(Object.keys(record).map(field => [field, mappings[field] || deterministic('record structure')]));
 }
 
 function buildPatches(plan, research, output) {
   const patches = [];
-  const keys = plan.keys;
+  const keys = deriveKeys(plan.seed);
   const ids = plan.target_ids;
   const vendor = output.layer_fields?.vendor || {};
   const vendorFeatures = normalizeFeaturePreview(vendor.features);
@@ -208,8 +279,8 @@ function buildPatches(plan, research, output) {
   const defaultSeriesKind = plan.profile.detail_kind === 'api_model'
     ? 'model_series'
     : (plan.profile.detail_kind === 'subscription_plan' ? 'subscription_series' : 'tool_series');
-  const seriesKind = plan.seed.series_kind || defaultSeriesKind;
-  if (hasActive(plan, ['vendor-level2'])) records['vendor-level2'] = buildLevel2({ vendorKey: keys.vendorKey, level1Id: ids['vendor-level1'], groupKey: keys.groupKey, title: plan.seed.placement?.new_group_title || plan.seed.name, officialUrl: group.group_official_url, summary: group.group_summary, status: group.group_status, detailRefs, seriesKind, generationState: plan.seed.generation_state, taskTypes: plan.seed.placement_decision?.task_types || plan.seed.task_types, searchTerms: plan.seed.placement_decision?.search_terms || plan.seed.search_terms });
+  const seriesKind = plan.seed.series_kind || plan.seed.placement_decision?.series_kind || defaultSeriesKind;
+  if (hasActive(plan, ['vendor-level2'])) records['vendor-level2'] = buildLevel2({ vendorKey: keys.vendorKey, level1Id: ids['vendor-level1'], groupKey: keys.groupKey, title: plan.seed.placement?.new_group_title || plan.seed.placement_decision?.target_level2_title || plan.seed.name, officialUrl: group.group_official_url, summary: group.group_summary, status: group.group_status, detailRefs, seriesKind, generationState: plan.seed.placement_decision?.generation_state || plan.seed.generation_state, taskTypes: plan.seed.placement_decision?.task_types || plan.seed.task_types, searchTerms: plan.seed.placement_decision?.search_terms || plan.seed.search_terms });
   if (hasActive(plan, ['tool-level3', 'tool-card'])) {
     const dateField = dateFieldFor(plan);
     const detail = buildDetail({ vendorKey: keys.vendorKey, detailKind: plan.profile.detail_kind, theme, title: plan.seed.name, vendorLabel: plan.seed.vendor_name, icon, officialUrl: detailFields.official_url, status: detailFields.detail_status, summary: detailFields.summary, oneMContext, apiPricing, plan: planValue, applicableScenarios: detailFields.applicable_scenarios, inapplicableScenarios: detailFields.inapplicable_scenarios, sources, releaseDate: dateField === 'release_date' ? detailFields.release_date : undefined, lastUpdatedDate: dateField === 'last_updated_date' ? detailFields.last_updated_date : undefined, modelKey: plan.seed.model_key, visibility: plan.seed.visibility, historicalSince: plan.seed.historical_since, subscriptionPlanRefs: knownFields.subscription_plan_refs, pricingDisclosure: knownFields.pricing_disclosure, taskTypes: plan.seed.task_types });
@@ -224,6 +295,11 @@ function buildPatches(plan, research, output) {
     records[area] = area === 'vendor-level1'
       ? { ...current, level2_refs: level2Refs }
       : { ...current, detail_refs: detailRefs };
+    if (area === 'vendor-level2') {
+      for (const field of ['task_types', 'search_terms']) {
+        if (Array.isArray(records[area][field]) && !records[area][field].length) delete records[area][field];
+      }
+    }
   }
 
   const valueMappings = {
@@ -238,7 +314,7 @@ function buildPatches(plan, research, output) {
       subscription_plan_refs: knownFields.subscription_plan_refs ? deterministic('explicit CatalogSeed references') : undefined,
       pricing_disclosure: disclosureSourceIds.length ? fromSources(disclosureSourceIds) : undefined,
       applicable_scenarios: fromSources(fieldSourceIds(output, 'detail', 'applicable_scenarios')), inapplicable_scenarios: fromSources(fieldSourceIds(output, 'detail', 'inapplicable_scenarios')),
-      sources: { kind: 'official_sources', source_ids: research.official_sources.map(source => source.source_id) }, release_date: fromSources(fieldSourceIds(output, 'detail', 'release_date')), last_updated_date: fromSources(fieldSourceIds(output, 'detail', 'last_updated_date')),
+      sources: { kind: 'official_sources', source_ids: research.official_sources.map(source => source.source_id) }, release_date: fieldProvenance(output, 'tool-level3', 'release_date'), last_updated_date: fromSources(fieldSourceIds(output, 'detail', 'last_updated_date')),
     },
     'tool-card': { summary: fromSources(fieldSourceIds(output, 'detail', 'summary')), scenes: fromSources(fieldSourceIds(output, 'detail', 'scenes')), best_for_preview: fromSources(fieldSourceIds(output, 'detail', 'best_for_preview')), not_for_preview: fromSources(fieldSourceIds(output, 'detail', 'not_for_preview')), price_badge: fromSources(fieldSourceIds(output, 'detail', 'price_badge')), access_level: fromSources(fieldSourceIds(output, 'detail', 'access_level')) },
   };
@@ -286,11 +362,11 @@ async function synthesizeCatalog(research, plan, adapter) {
     return { ok: true, layer_patches: patches, synthesis: { ...output, coverage }, coverage, cost: research._cost_ledger?.snapshot ? research._cost_ledger.snapshot() : research.cost };
   }
   if (!adapter?.synthesize) return { ok: false, code: 'SYNTHESIS_ADAPTER_REQUIRED', error: '缺少 synthesize adapter' };
-  const output = await adapter.synthesize({ research, plan, expected_layer_fields: expected, ledger: research._cost_ledger });
+  const output = applyReleaseDateFallback(await adapter.synthesize({ research, plan, expected_layer_fields: expected, ledger: research._cost_ledger }), research, plan);
   const cost = research._cost_ledger?.snapshot ? research._cost_ledger.snapshot() : research.cost;
   if (output?.ok === false) return { ...output, cost };
   const validation = validateSynthesisOutput(output, research);
-  if (!validation.ok) return { ok: false, code: 'SYNTHESIS_INVALID', errors: validation.errors, cost };
+  if (!validation.ok) return { ok: false, code: 'SYNTHESIS_PROVENANCE_INVALID', errors: validation.errors, cost };
   const coverage = fieldCoverageOf(output, plan);
   if (coverage.missing.length) return { ...missingCoverageFailure(coverage, plan), cost };
   const patches = buildPatches(plan, research, output);

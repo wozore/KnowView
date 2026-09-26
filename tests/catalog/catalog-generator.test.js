@@ -20,6 +20,7 @@ test('deriveKeys 保留数字版本点号', () => {
   const keys = deriveKeys({ vendor_name: 'Anthropic', name: 'Claude Fable 5.1', group_key: 'Claude 最新系列', detail_key: 'claude-fable-5.1' });
   assert.equal(keys.toolKey, 'claude-fable-5.1');
   assert.equal(keys.detailKey, 'claude-fable-5.1');
+  assert.equal(deriveKeys({ vendor_key: 'google', name: 'Gemini 3.8 Flash-Lite TTS', placement_decision: { group_key: 'gemini-tts' } }).groupKey, 'gemini-tts');
 });
 
 function fakeResponse(data, ok = true, status = 200) {
@@ -223,6 +224,9 @@ test('buildLevel2 requires valid series_kind and gates generation_state to model
   const level2 = buildLevel2({ ...base, seriesKind: 'model_series', generationState: 'newest' });
   assert.equal(level2.series_kind, 'model_series');
   assert.equal(level2.generation_state, 'newest');
+  const withoutOptionalLists = buildLevel2({ ...base, seriesKind: 'model_series', taskTypes: [], searchTerms: [] });
+  assert.equal('task_types' in withoutOptionalLists, false);
+  assert.equal('search_terms' in withoutOptionalLists, false);
   const plain = buildLevel2({ ...base, seriesKind: 'tool_series' });
   assert.equal(plain.series_kind, 'tool_series');
   assert.equal('generation_state' in plain, false);

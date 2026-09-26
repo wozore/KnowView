@@ -9294,6 +9294,387 @@
       },
       "detail_kind": "api_model",
       "model_key": "alibaba-qwen-image-2.1"
+    },
+    {
+      "id": "tool-card:isaac-ros-5.0",
+      "tool_key": "isaac-ros-5.0",
+      "vendor_key": "nvidia",
+      "title": "Isaac ROS 5.0",
+      "vendor_label": "NVIDIA",
+      "icon": "🧩",
+      "summary": "Isaac ROS 提供基于 CUDA 加速的 ROS 2 计算包和 AI 模型，帮助开发者加速先进 AI 机器人应用的开发与部署，最新版本为 Isaac ROS 5.0.0。",
+      "theme": "general",
+      "scenes": [
+        "在 Jetson 或 x86 GPU 平台上开发 AI 机器人应用",
+        "使用 ROS 2 构建视觉 SLAM 与建图系统",
+        "机器人感知：目标检测、姿态估计与图像分割",
+        "机械臂运动规划与操作（cuMotion）"
+      ],
+      "best_for_preview": "需要在 NVIDIA Jetson、x86 GPU 或 DGX 平台上基于 ROS 2 快速开发与部署 AI 机器人应用的开发者。",
+      "not_for_preview": "不使用 NVIDIA GPU 硬件或不需要 ROS 2 生态的机器人项目，以及依赖已移除的 NITROS 包且无法迁移的旧代码。",
+      "price_badge": "free",
+      "access_level": "开放",
+      "search_terms": [
+        "Isaac ROS 5.0",
+        "NVIDIA",
+        "isaac-ros-5.0",
+        "在 Jetson 或 x86 GPU 平台上开发 AI 机器人应用",
+        "使用 ROS 2 构建视觉 SLAM 与建图系统",
+        "机器人感知：目标检测、姿态估计与图像分割",
+        "机械臂运动规划与操作（cuMotion）"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:isaac-ros-5.0"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:gemini-3.8-flash-tts",
+      "tool_key": "gemini-3.8-flash-tts",
+      "vendor_key": "google",
+      "title": "Gemini 3.8 Flash TTS",
+      "vendor_label": "Google",
+      "icon": "🎵",
+      "summary": "Gemini 3.8 Live 是 Live API 的默认低延迟音频到音频模型，适用于大多数实时语音代理和实时对话场景，无推理延迟。",
+      "theme": "media",
+      "scenes": [
+        "构建实时语音代理",
+        "低延迟实时语音对话",
+        "通过 Live API 开发语音交互应用"
+      ],
+      "best_for_preview": "需要在无推理延迟下进行低延迟实时语音对话和语音代理体验的场景。",
+      "not_for_preview": "需要高背景推理能力的实时语音交互场景，官方建议改用 Gemini 3.8 Live Extended Thinking。",
+      "price_badge": "paid",
+      "access_level": "受限",
+      "search_terms": [
+        "Gemini 3.8 Flash TTS",
+        "Google",
+        "gemini-3.8-flash-tts",
+        "构建实时语音代理",
+        "低延迟实时语音对话",
+        "通过 Live API 开发语音交互应用"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gemini-3.8-flash-tts"
+      },
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.8-flash-tts",
+      "task_types": [
+        "TTS"
+      ]
+    },
+    {
+      "id": "tool-card:gemini-3.8-flash-lite-tts",
+      "tool_key": "gemini-3.8-flash-lite-tts",
+      "vendor_key": "google",
+      "title": "Gemini 3.8 Flash-Lite TTS",
+      "vendor_label": "Google",
+      "icon": "🎵",
+      "summary": "Gemini 3.8 Live 是面向大多数低延迟语音代理体验的默认 Live API 音频模型，支持无推理延迟的实时对话；另有高推理版本 Gemini 3.8 Live Extended Thinking 适用于需要更强背景推理的实时语音互动。",
+      "theme": "media",
+      "scenes": [
+        "低延迟语音代理实时对话",
+        "实时语音互动应用"
+      ],
+      "best_for_preview": "适合大多数低延迟语音代理体验和无推理延迟的实时对话场景。",
+      "not_for_preview": "不适合离线批量语音生成或需要极高背景推理的语音互动（后者建议使用 Extended Thinking 版本）。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "Gemini 3.8 Flash-Lite TTS",
+        "Google",
+        "gemini-3.8-flash-lite-tts",
+        "低延迟语音代理实时对话",
+        "实时语音互动应用"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:gemini-3.8-flash-lite-tts"
+      },
+      "detail_kind": "api_model",
+      "model_key": "google-gemini-3.8-flash-lite-tts",
+      "task_types": [
+        "TTS"
+      ]
+    },
+    {
+      "id": "tool-card:suno-studio",
+      "tool_key": "suno-studio",
+      "vendor_key": "suno-inc",
+      "title": "Suno Studio",
+      "vendor_label": "Suno Inc.",
+      "icon": "🧩",
+      "summary": "Suno 是一款 AI 音乐生成工具，支持文本生成歌曲、歌词改写、混音、音频上传与分轨导出，免费档每日可创作歌曲，付费 Pro/Premier 档解锁商用权利、Suno Studio 工作站与更多下载量。",
+      "theme": "general",
+      "scenes": [
+        "为 YouTube、播客、广告等项目生成免版税背景音乐",
+        "创作并导出分轨用于专业 DAW 制作",
+        "上传自有音频进行混音、改写与再创作",
+        "创作个人原创歌曲并发布专辑"
+      ],
+      "best_for_preview": "需要免版税音乐的内容创作者、词曲作者与独立音乐制作人。",
+      "not_for_preview": "需要完全无限制商用或离线工作站能力的用户；免费档无商用权利。",
+      "price_badge": "freemium",
+      "access_level": "开放",
+      "search_terms": [
+        "Suno Studio",
+        "Suno Inc.",
+        "suno-studio",
+        "为 YouTube、播客、广告等项目生成免版税背景音乐",
+        "创作并导出分轨用于专业 DAW 制作",
+        "上传自有音频进行混音、改写与再创作",
+        "创作个人原创歌曲并发布专辑"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:suno-studio"
+      },
+      "detail_kind": "tool"
+    },
+    {
+      "id": "tool-card:mimo-v2.6-pro",
+      "tool_key": "mimo-v2.6-pro",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.6-Pro",
+      "vendor_label": "小米（MiMo）",
+      "icon": "🤖",
+      "summary": "Xiaomi MiMo-V2.6 系列模型已上线，包含旗舰推理模型 mimo-v2.6-pro 与高性价比全模态模型 mimo-v2.6-flash，可通过按量付费 API 或 Token Plan 订阅调用。",
+      "theme": "general",
+      "scenes": [
+        "复杂项目与长周期任务等高强度推理场景",
+        "高频调用的高性价比生产场景",
+        "主流 AI 编程工具链中的开发辅助场景",
+        "办公效率提升场景"
+      ],
+      "best_for_preview": "需要旗舰推理能力处理复杂项目、长周期任务与高风险工作的专业开发者。",
+      "not_for_preview": "暂无明确官方不适用说明；超长上下文需求需先确认模型上下文上限。",
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "MiMo-V2.6-Pro",
+        "小米（MiMo）",
+        "mimo-v2.6-pro",
+        "复杂项目与长周期任务等高强度推理场景",
+        "高频调用的高性价比生产场景",
+        "主流 AI 编程工具链中的开发辅助场景",
+        "办公效率提升场景"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:mimo-v2.6-pro"
+      },
+      "detail_kind": "api_model",
+      "model_key": "xiaomi-mimo-v2.6-pro",
+      "task_types": [
+        "LLM"
+      ]
+    },
+    {
+      "id": "tool-card:ming-image-0.1-design",
+      "tool_key": "ming-image-0.1-design",
+      "vendor_key": "antgroup",
+      "title": "Ming-Image-0.1-Design",
+      "vendor_label": "灵光（蚂蚁集团）",
+      "icon": "🖼️",
+      "summary": "Ming-Image-0.1-Design 是蚂蚁集团 inclusionAI 开源的 6B 参数文生图模型，专为 UI、信息图、海报等富含文字的视觉设计而生，支持完整视觉构图与透明背景 RGBA 输出。",
+      "theme": "vision",
+      "scenes": [
+        "UI/UX 界面设计图生成",
+        "信息图表设计",
+        "海报设计",
+        "透明背景素材生成"
+      ],
+      "best_for_preview": "适合需要精确文字渲染与透明背景的 UI、信息图和海报等富文本视觉设计场景。",
+      "not_for_preview": "不适合摄影级写实图像生成或视频内容创作等非设计类场景。",
+      "price_badge": "free",
+      "access_level": "开放",
+      "search_terms": [
+        "Ming-Image-0.1-Design",
+        "灵光（蚂蚁集团）",
+        "ming-image-0.1-design",
+        "UI/UX 界面设计图生成",
+        "信息图表设计",
+        "海报设计",
+        "透明背景素材生成"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:ming-image-0.1-design"
+      },
+      "detail_kind": "api_model",
+      "model_key": "antgroup-ming-image-0.1-design",
+      "task_types": [
+        "Image Generation"
+      ]
+    },
+    {
+      "id": "tool-card:scribe-v2",
+      "tool_key": "scribe-v2",
+      "vendor_key": "elevenlabs",
+      "title": "Scribe v2",
+      "vendor_label": "ElevenLabs",
+      "icon": "🤖",
+      "summary": "Scribe v2 是 ElevenLabs 的旗舰语音转文本模型，支持 90+ 语言的准确转写，提供关键词提示、词级时间戳、说话人分离、实体检测与动态音频标记。",
+      "theme": "general",
+      "scenes": [
+        "批量转写播客、视频与访谈内容",
+        "实时语音转写与语音代理场景",
+        "医疗临床语音转写"
+      ],
+      "best_for_preview": "需要高精度批量转写多语言音视频内容的开发者。",
+      "not_for_preview": "需要 1M 文本上下文的纯文本大模型场景，该模型为语音转写模型，不适用。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "Scribe v2",
+        "ElevenLabs",
+        "scribe-v2",
+        "批量转写播客、视频与访谈内容",
+        "实时语音转写与语音代理场景",
+        "医疗临床语音转写"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:scribe-v2"
+      },
+      "detail_kind": "api_model",
+      "model_key": "elevenlabs-scribe-v2",
+      "task_types": [
+        "STT"
+      ]
+    },
+    {
+      "id": "tool-card:qwen-audio-3-1-asr-flash-streaming",
+      "tool_key": "qwen-audio-3-1-asr-flash-streaming",
+      "vendor_key": "alibaba",
+      "title": "qwen-audio-3.1-asr-flash-streaming",
+      "vendor_label": "alibaba",
+      "icon": "🎵",
+      "summary": "qwen-audio-3.1 系列语音识别模型面向实时会议、直播字幕、语音消息等场景，提供低延迟流式转写与高准确率识别。",
+      "theme": "general",
+      "scenes": [
+        "实时会议转写",
+        "直播字幕",
+        "语音消息转写",
+        "智能语音交互"
+      ],
+      "best_for_preview": [
+        "实时会议与直播字幕等低延迟流式语音识别场景",
+        "多语言多方言识别与中英混说切换"
+      ],
+      "not_for_preview": [
+        "Function Calling 与结构化输出等文本任务能力",
+        "微调与批处理推理"
+      ],
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "qwen-audio-3.1-asr-flash-streaming",
+        "alibaba",
+        "qwen-audio-3-1-asr-flash-streaming",
+        "实时会议转写",
+        "直播字幕",
+        "语音消息转写",
+        "智能语音交互"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:qwen-audio-3-1-asr-flash-streaming"
+      },
+      "detail_kind": "api_model",
+      "model_key": "alibaba-qwen-audio-3.1-asr-flash-streaming",
+      "task_types": [
+        "STT"
+      ]
+    },
+    {
+      "id": "tool-card:qwen-audio-3-1-asr-flash-filetrans",
+      "tool_key": "qwen-audio-3-1-asr-flash-filetrans",
+      "vendor_key": "alibaba",
+      "title": "qwen-audio-3.1-asr-flash-filetrans",
+      "vendor_label": "alibaba",
+      "icon": "🎵",
+      "summary": "qwen-audio-3.1-asr-flash-filetrans 是端到端离线语音识别模型，适用于会议转写、内容生产、通话分析等场景，支持多语种及多地区中文方言识别，具备高精度转写、热词与上下文增强、说话人分离、标点预测与文本规整能力，在复杂噪声环境下表现稳定，是长音频转写的首选方案。",
+      "theme": "general",
+      "scenes": [
+        "会议转写",
+        "内容生产",
+        "通话分析",
+        "长音频转写",
+        "方言语音识别"
+      ],
+      "best_for_preview": [
+        "长音频转写",
+        "会议转写",
+        "通话分析"
+      ],
+      "not_for_preview": [
+        "Function Calling",
+        "结构化输出",
+        "联网搜索",
+        "上下文缓存",
+        "批处理推理",
+        "微调"
+      ],
+      "price_badge": "paid",
+      "access_level": "开放",
+      "search_terms": [
+        "qwen-audio-3.1-asr-flash-filetrans",
+        "alibaba",
+        "qwen-audio-3-1-asr-flash-filetrans",
+        "会议转写",
+        "内容生产",
+        "通话分析",
+        "长音频转写",
+        "方言语音识别"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:qwen-audio-3-1-asr-flash-filetrans"
+      },
+      "detail_kind": "api_model",
+      "model_key": "alibaba-qwen-audio-3.1-asr-flash-filetrans",
+      "task_types": [
+        "STT"
+      ]
+    },
+    {
+      "id": "tool-card:qwen-audio-3-1-realtime-plus",
+      "tool_key": "qwen-audio-3-1-realtime-plus",
+      "vendor_key": "alibaba",
+      "title": "qwen-audio-3.1-realtime-plus",
+      "vendor_label": "alibaba",
+      "icon": "🎵",
+      "summary": "qwen-audio-3.1-realtime-plus 是阿里云百炼提供的实时双工语音转语音模型，支持文本与音频输入输出、Function Calling、联网搜索与声音克隆，推理服务由阿里云百炼提供。",
+      "theme": "general",
+      "scenes": [
+        "实时语音对话",
+        "语音客服",
+        "有声交互应用"
+      ],
+      "best_for_preview": "需要端到端实时语音对话、无需分别调用 ASR 和 TTS 的场景。",
+      "not_for_preview": "需要同时启用联网搜索与 Function Calling 的场景，二者不可同时开启。",
+      "price_badge": "usage_based",
+      "access_level": "开放",
+      "search_terms": [
+        "qwen-audio-3.1-realtime-plus",
+        "alibaba",
+        "qwen-audio-3-1-realtime-plus",
+        "实时语音对话",
+        "语音客服",
+        "有声交互应用"
+      ],
+      "detail_ref": {
+        "kind": "tool-level3",
+        "id": "tool-level3:qwen-audio-3-1-realtime-plus"
+      },
+      "detail_kind": "api_model",
+      "model_key": "alibaba-qwen-audio-3.1-realtime-plus",
+      "task_types": [
+        "Voice"
+      ]
     }
   ]
 }

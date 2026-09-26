@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-25T09:17:22.938Z",
+  "generated_at": "2026-09-26T10:04:24.516Z",
   "entries": [
     {
       "detail_id": "tool-level3:bailing-ling-1t",
@@ -265,6 +265,22 @@
       "title": "Gemini 3.5 Flash",
       "tool_key": "gemini-3.5-flash",
       "release_date": "2026-05-19"
+    },
+    {
+      "detail_id": "tool-level3:gemini-3.8-flash-lite-tts",
+      "detail_kind": "api_model",
+      "vendor_key": "google",
+      "title": "Gemini 3.8 Flash-Lite TTS",
+      "tool_key": "gemini-3.8-flash-lite-tts",
+      "release_date": "2025-01-01"
+    },
+    {
+      "detail_id": "tool-level3:gemini-3.8-flash-tts",
+      "detail_kind": "api_model",
+      "vendor_key": "google",
+      "title": "Gemini 3.8 Flash TTS",
+      "tool_key": "gemini-3.8-flash-tts",
+      "release_date": "2026-09-15"
     },
     {
       "detail_id": "tool-level3:glm-4-7-flash",
@@ -771,6 +787,22 @@
       "release_date": "2025-12-16"
     },
     {
+      "detail_id": "tool-level3:mimo-v2.6-pro",
+      "detail_kind": "api_model",
+      "vendor_key": "xiaomi",
+      "title": "MiMo-V2.6-Pro",
+      "tool_key": "mimo-v2.6-pro",
+      "release_date": "2026-09-21"
+    },
+    {
+      "detail_id": "tool-level3:ming-image-0.1-design",
+      "detail_kind": "api_model",
+      "vendor_key": "antgroup",
+      "title": "Ming-Image-0.1-Design",
+      "tool_key": "ming-image-0.1-design",
+      "release_date": "2025-01-01"
+    },
+    {
       "detail_id": "tool-level3:minimax-h3",
       "detail_kind": "api_model",
       "vendor_key": "minimax",
@@ -987,6 +1019,30 @@
       "release_date": "2026-08-15"
     },
     {
+      "detail_id": "tool-level3:qwen-audio-3-1-asr-flash-filetrans",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "qwen-audio-3.1-asr-flash-filetrans",
+      "tool_key": "qwen-audio-3-1-asr-flash-filetrans",
+      "release_date": "2026-09-21"
+    },
+    {
+      "detail_id": "tool-level3:qwen-audio-3-1-asr-flash-streaming",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "qwen-audio-3.1-asr-flash-streaming",
+      "tool_key": "qwen-audio-3-1-asr-flash-streaming",
+      "release_date": "2026-09-21"
+    },
+    {
+      "detail_id": "tool-level3:qwen-audio-3-1-realtime-plus",
+      "detail_kind": "api_model",
+      "vendor_key": "alibaba",
+      "title": "qwen-audio-3.1-realtime-plus",
+      "tool_key": "qwen-audio-3-1-realtime-plus",
+      "release_date": "2026-09-20"
+    },
+    {
       "detail_id": "tool-level3:qwen-image-2-0-pro",
       "detail_kind": "api_model",
       "vendor_key": "alibaba",
@@ -1089,6 +1145,14 @@
       "title": "Reve Video",
       "tool_key": "reve-video",
       "release_date": "2025-11-18"
+    },
+    {
+      "detail_id": "tool-level3:scribe-v2",
+      "detail_kind": "api_model",
+      "vendor_key": "elevenlabs",
+      "title": "Scribe v2",
+      "tool_key": "scribe-v2",
+      "release_date": "2025-01-01"
     },
     {
       "detail_id": "tool-level3:solar-mini",

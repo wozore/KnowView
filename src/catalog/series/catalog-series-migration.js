@@ -29,6 +29,7 @@ const { normalizeSnapshot, emptySnapshot } = require('../core/catalog-contract')
 const { detailKeyOf, detailRefIdOf } = require('./catalog-series-policy');
 const { validateCatalogSnapshot } = require('../core/catalog-snapshot-validator');
 const { applyMemberTaskTypes } = require('./catalog-series-migration-task-types');
+const { withSeriesRecordMetadata } = require('./catalog-series-task-types');
 
 /** 归一化成员引用：统一为完整 detail ref id；hidden_history 成员不参与可见系列重组。 */
 function memberRef(value) {
@@ -101,7 +102,7 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
             ])
       : (base ? (base.detail_refs || []).map(ref => ({ kind: 'tool-level3', id: ref.id })) : []);
 
-    const record = base
+    const record = withSeriesRecordMetadata(base
       ? {
           ...base,
           id,
@@ -109,8 +110,6 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
           vendor_key: vendor.vendor_key,
           title: series.title,
           detail_refs: effectiveMembers,
-          task_types: family.task_types || [],
-          search_terms: series.search_terms || [],
         }
       : {
           id,
@@ -121,9 +120,7 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
           summary: '',
           status: 'unknown',
           detail_refs: effectiveMembers,
-          task_types: family.task_types || [],
-          search_terms: series.search_terms || [],
-        };
+        }, family, series);
 
     plan.push({
       id,

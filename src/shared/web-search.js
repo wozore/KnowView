@@ -150,7 +150,7 @@ async function searchWebWithFallback(options = {}) {
         return {
           ...primary,
           fallback_used: false,
-          fallback_error: { provider: fallbackProvider, code: 'COST_BUDGET_EXHAUSTED', error: '备用 Web Search 的成本预算不足' },
+          fallback_error: { provider: fallbackProvider, code: 'COST_BUDGET_EXHAUSTED', category: 'search_queries', error: '备用 Web Search 的成本预算不足' },
           attempts: [primaryAttempt, { provider: fallbackProvider, ok: false, code: 'COST_BUDGET_EXHAUSTED', source_count: 0, requests: 0 }],
         };
       }
@@ -158,6 +158,7 @@ async function searchWebWithFallback(options = {}) {
         ok: false,
         provider: fallbackProvider,
         code: 'COST_BUDGET_EXHAUSTED',
+        category: 'search_queries',
         error: '备用 Web Search 的成本预算不足',
         sources: [],
         usage: primary.usage || usageOf(0),

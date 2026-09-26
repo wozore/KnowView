@@ -10,7 +10,7 @@
 
 ## OfficialSource
 
-可由官方根域、官方链接关系或维护者确认来源证明归属的产品页、开发文档、定价页、公告或更新日志。模型自行声称某来源是官方，不足以建立 OfficialSource。OfficialSource 保留清洗后的正文（`content`），直接作为字段合成的证据。
+可由官方根域、官方链接关系或维护者确认来源证明归属的产品页、开发文档、定价页、公告或更新日志。模型自行声称某来源是官方，不足以建立 OfficialSource。OfficialSource 保留清洗后的正文（`content`），直接作为字段合成的证据；可选 `updated_date`（`YYYY-MM-DD`）、`updated_date_kind: "official_page_update"` 与 `updated_date_field` 记录官方 HTML 显式页面更新时间及其元数据字段，不读取 HTTP Date 或抓取时间。
 
 ## UpdateSource
 
@@ -24,7 +24,7 @@
 
 独立于五模块 catalog 的人工审核 JSON 清单。条目按 `product_key + source_url + proposed_date + content_hash` 稳定去重，重复扫描保留人工 `approved/rejected`；同一发布的 evidence hash 变化替换为新的 pending 条目。只落盘完整官方 URL、证据摘录、内容 hash、日期和五字段 AI 建议，不落盘整页正文或凭据。
 
-`release_date` 表示实体首次公开或 GA 日期，`last_updated_date` 表示有官方证据的产品级最近更新日期；订阅套餐不保存这两类日期。抓取时间或无关页面更新时间不属于日期事实；证据不足时保持日期缺失并显示待核验。
+`release_date` 优先表示实体首次公开或 GA 日期；找不到明确首发证据时，允许使用当前模型专属 OfficialSource 页面明确标注的更新时间作为替代，并在字段 provenance 中指向该页面来源及 metadata 字段。确定性顺序为正文支持的首次发布/GA 日期、已匹配的 `integrated_release_date`、模型专属 detail source 的 `updated_date`。`last_updated_date` 表示有官方证据的产品级最近更新日期；订阅套餐不保存这两类日期。HTTP Date、抓取时间与无关页面更新时间均不是日期事实；没有可匹配的官方更新时间时保持日期缺失并显示待核验。
 
 
 ## DerivedField

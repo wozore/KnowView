@@ -174,7 +174,11 @@ function createIdentitySuggestAdapter(options = {}) {
       kind: 'identity_suggest',
       instructions,
       input: JSON.stringify({
-        candidate: { name: candidate?.name || '', entity_type: candidate?.entity_type || '' },
+        candidate: {
+          name: candidate?.name || '',
+          entity_type: candidate?.entity_type || '',
+          ...(candidate?.vendor_hint ? { vendor_hint: candidate.vendor_hint } : {}),
+        },
         pages: (Array.isArray(pages) ? pages : []).map(page => ({ url: page?.url, body_text: String(page?.body_text || '').slice(0, 4000) })),
       }),
       maxOutputTokens: 2000,

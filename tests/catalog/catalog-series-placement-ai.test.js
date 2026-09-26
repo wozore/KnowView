@@ -243,6 +243,24 @@ test('resolve：明确的图像与检索任务使用统一英文类型标签', a
   assert.deepEqual(transcribe.candidate_task_types, ['STT']);
 });
 
+test('MiMo V2.6 Pro 已列入厂商名册后进入现有 MiMo 系列', async () => {
+  const policy = loadSeriesPolicy();
+  const snap = emptySnapshot();
+  snap['vendor-level2'].push({
+    id: 'vendor-level2:xiaomi:mimo',
+    vendor_key: 'xiaomi',
+    title: 'MiMo General & Reasoning Models',
+    detail_refs: ['mimo-v2-5-pro', 'mimo-v2-5', 'mimo-v2-flash']
+      .map(id => ({ kind: 'tool-level3', id: `tool-level3:${id}` })),
+  });
+  const result = await resolveSeriesPlacement(policy, snap,
+    candidate({ vendor_key: 'xiaomi', vendor_name: 'Xiaomi', name: 'MiMo-V2.6-Pro', modality: 'text' }), {});
+  assert.equal(result.kind, 'decision');
+  assert.equal(result.family, 'mimo');
+  assert.equal(result.target_mode, 'existing');
+  assert.deepEqual(result.candidate_task_types, ['LLM']);
+});
+
 test('resolve：OpenAI 不匹配 Kling，Kuaishou Kling 进入自身系列', async () => {
   const policy = loadSeriesPolicy();
   const openai = await resolveSeriesPlacement(policy, emptySnapshot(),

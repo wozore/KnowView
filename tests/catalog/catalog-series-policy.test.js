@@ -154,6 +154,7 @@ test('normalizeVendorKey：别名/大小写/未命中', () => {
   assert.equal(normalizeVendorKey(p, 'Google'), 'google');
   assert.equal(normalizeVendorKey(p, 'google'), 'google');
   assert.equal(normalizeVendorKey(p, 'z.ai'), 'zhipu');
+  assert.equal(normalizeVendorKey(p, 'InclusionAI'), 'antgroup');
   assert.equal(normalizeVendorKey(p, 'unknown vendor'), null);
   assert.equal(normalizeVendorKey(p, '   '), null);
 });

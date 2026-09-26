@@ -101,16 +101,20 @@ async function resolveBatchPlacements(seeds, options = {}) {
   const policy = loadSeriesPolicy();
   const base = options.snapshotOf ? options.snapshotOf() : loadCatalogSnapshot().snapshot;
   const projected = cloneSnapshot(base);
+  const committedTargets = new Set((base['vendor-level2'] || []).map(item => item.id));
   const resolve = options.resolveSeriesPlacement || resolveSeriesPlacement;
   const blocked = [];
   for (const seed of seeds || []) {
     if (!seed || seed.detail_kind !== 'api_model') continue;
-    const placement = await resolve(policy, projected, seed, {
+    let placement = await resolve(policy, projected, seed, {
       allowAi: options.allowAiPlacement === true,
       ledger: options.placementLedger,
       suggestPlacement: options.suggestSeriesPlacement,
     });
     if (placement.kind === 'decision') {
+      if (placement.target_mode === 'existing' && !committedTargets.has(placement.target_level2_id)) {
+        placement = { ...placement, target_mode: 'create' };
+      }
       applyPlacementToSeed(seed, placement);
       bumpProjectedSeries(projected, placement, seed);
     } else if (placement.kind === 'migration_required' || placement.kind === 'fail_closed') {
@@ -280,8 +284,9 @@ async function resolveBatchCandidates(cards, options = {}) {
         ...(registryHit?.ok && registryHit.official_url ? [registryHit.official_url] : []),
       ].filter(Boolean);
       const registryVendorHint = registryHit?.ok && context?.policy
-        ? normalizeVendorKey(context.policy, registryHit.vendor_name)
+        ? normalizeVendorKey(context.policy, registryHit.vendor_key || registryHit.vendor_name)
         : null;
+      const registeredVendorHint = registryHit?.matched_entry_kind === 'product' ? registryVendorHint : null;
       const identityAliases = [...new Set([
         ...(Array.isArray(card.identity_aliases) ? card.identity_aliases : []),
         ...(Array.isArray(registryHit?.identity_aliases) ? registryHit.identity_aliases : []),
@@ -290,6 +295,7 @@ async function resolveBatchCandidates(cards, options = {}) {
         name,
         entity_type: card.entity_type || 'model',
         vendor_hint: card.vendor_key || card.vendor_hint || registryVendorHint || registryHit.matched_key || registryHit.vendor_key,
+        ...(registeredVendorHint ? { registered_vendor_hint: registeredVendorHint } : {}),
         official_urls: officialUrls,
         ...(card.identity_key ? { identity_key: card.identity_key } : {}),
         ...(identityAliases.length ? { identity_aliases: identityAliases } : {}),

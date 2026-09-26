@@ -8,6 +8,7 @@ const {
   probeCatalogCapabilities,
   createCatalogAiAdapters,
 } = require('../../src/catalog/intake/index');
+const { fetchOfficialSources } = require('../../src/catalog/intake/official-source-fetch');
 
 function response(data, ok = true, status = 200) {
   return { ok, status, json: async () => data, text: async () => JSON.stringify(data) };
@@ -23,6 +24,38 @@ function plan() {
     },
   };
 }
+
+test('official HTML update metadata covers Aliyun, JSON-LD, OpenGraph, semantic time and visible dates', async () => {
+  const cases = [
+    ['Aliyun lastModifiedTime', '<script>window.page={"lastModifiedTime":1790010126000}</script><body>Kling 2.6</body>', '2026-09-21', 'lastModifiedTime'],
+    ['JSON-LD dateModified', '<script type="application/ld+json">{"@type":"Product","dateModified":"2026-09-22T01:00:00+08:00"}</script><body>Kling 2.6</body>', '2026-09-22', 'dateModified'],
+    ['article modified metadata', '<meta property="article:modified_time" content="2026-09-21T00:30:00Z"><body>Kling 2.6</body>', '2026-09-21', 'article:modified_time'],
+    ['OpenGraph updated metadata', '<meta property="og:updated_time" content="2026-09-22"><body>Kling 2.6</body>', '2026-09-22', 'og:updated_time'],
+    ['semantic time datetime', '<time itemprop="dateModified" datetime="2026-09-22T01:00:00+08:00">Updated</time><body>Kling 2.6</body>', '2026-09-22', 'time.datetime'],
+    ['visible Updated at', '<body>Kling 2.6 · Updated at: 2026-09-21</body>', '2026-09-21', 'visible_updated_at'],
+    ['visible Chinese update date', '<body>Kling 2.6 · 更新时间：2026-09-21</body>', '2026-09-21', 'visible_updated_date'],
+  ];
+  for (const [label, html, date, field] of cases) {
+    const result = await fetchOfficialSources([{ url: 'https://kling.ai/model' }], {
+      fetchImpl: async () => ({ ok: true, status: 200, text: async () => html }),
+    });
+    assert.equal(result.ok, true, label);
+    assert.equal(result.pages[0].updated_date, date, label);
+    assert.equal(result.pages[0].updated_date_kind, 'official_page_update', label);
+    assert.equal(result.pages[0].updated_date_field, field, label);
+  }
+});
+
+test('official source fetch ignores HTTP Date headers as update evidence', async () => {
+  const result = await fetchOfficialSources([{ url: 'https://kling.ai/models' }], {
+    fetchImpl: async () => ({
+      ok: true, status: 200, headers: { get: name => name.toLowerCase() === 'date' ? 'Mon, 21 Sep 2026 00:00:00 GMT' : null },
+      text: async () => '<html><body>Models</body></html>',
+    }),
+  });
+  assert.equal(result.ok, true);
+  assert.equal('updated_date' in result.pages[0], false);
+});
 
 test('catalog discovery propagates keyed Tavily mode without keyless headers', async () => {
   let request;
@@ -233,6 +266,50 @@ test('catalog acquire skips Tavily when direct official fetch returns body text'
   assert.equal(result.contents[0].content_origin, 'direct_fetch');
   assert.match(result.contents[0].content, /Kling 2.6 Official API/);
   assert.deepEqual(calls, ['https://kling.ai/model']);
+});
+
+test('catalog acquire preserves normalized official page update metadata', async () => {
+  const result = await acquireOfficialSources({
+    plan: {
+      ...plan(),
+      seed: { ...plan().seed, detail_kind: 'api_model', name: 'Kling 2.6', vendor_key: 'kuaishou', model_key: 'kuaishou-kling-2-6' },
+    },
+    scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-2-6' }, predicates: ['release_date'] },
+    sources: [{ url: 'https://kling.ai/model', title: 'Kling 2.6' }],
+  }, {
+    fetchImpl: async () => ({
+      ok: true, status: 200,
+      text: async () => '<script>window.model={"lastModifiedTime":1790010126000}</script><body><h1>Kling 2.6</h1><p>Official model details.</p></body>',
+    }),
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.contents[0].content_origin, 'direct_fetch');
+  assert.equal(result.contents[0].updated_date, '2026-09-21');
+  assert.equal(result.contents[0].updated_date_kind, 'official_page_update');
+  assert.equal(result.contents[0].updated_date_field, 'lastModifiedTime');
+});
+
+test('detail metadata-only fetch requires model-specific URL when the HTML body has no identity', async () => {
+  const input = {
+    plan: {
+      ...plan(),
+      seed: { ...plan().seed, detail_kind: 'api_model', name: 'Kling 2.6 Pro', vendor_key: 'kuaishou', tool_key: 'kling-2-6-pro', model_key: 'kuaishou-kling-2-6-pro' },
+    },
+    scope: { kind: 'detail', subject: { kind: 'detail', key: 'kling-2-6-pro' }, predicates: ['release_date'] },
+  };
+  const html = '<script>window.model={"lastModifiedTime":1790010126000}</script><div id="root"></div>';
+  const modelPage = await acquireOfficialSources({
+    ...input, sources: [{ url: 'https://kling.ai/models/kling-2-6-pro', title: 'Kling model' }],
+  }, { extractFallbackProvider: 'disabled', fetchImpl: async () => ({ ok: true, status: 200, text: async () => html }) });
+  assert.equal(modelPage.ok, true);
+  assert.equal(modelPage.contents[0].updated_date, '2026-09-21');
+  assert.equal(modelPage.contents[0].content, undefined, 'metadata-only capture must not fabricate body evidence');
+
+  const genericPage = await acquireOfficialSources({
+    ...input, sources: [{ url: 'https://kling.ai/models', title: 'Models' }],
+  }, { extractFallbackProvider: 'disabled', fetchImpl: async () => ({ ok: true, status: 200, text: async () => html }) });
+  assert.equal(genericPage.ok, false);
+  assert.equal(genericPage.contents, undefined, 'generic list metadata cannot stand in for a model page');
 });
 
 test('catalog acquire uses Tavily when a direct API-model page has no candidate name', async () => {

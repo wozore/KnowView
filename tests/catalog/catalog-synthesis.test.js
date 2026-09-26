@@ -64,6 +64,23 @@ function researchFor(plan) {
   };
 }
 
+function modelUpdatedSource(plan, overrides = {}) {
+  const detail = plan.research_scopes.find(scope => scope.kind === 'detail');
+  return {
+    source_id: 'source-1',
+    url: 'https://kling.ai/models/kling-2-6-pro',
+    title: 'Kling 2.6 Pro',
+    excerpt: 'Kling 2.6 Pro official model page.',
+    content: 'Kling 2.6 Pro official model page.',
+    content_origin: 'direct_fetch',
+    discovered_for: [`detail:${detail.subject.key}`],
+    updated_date: '2026-09-21',
+    updated_date_kind: 'official_page_update',
+    updated_date_field: 'dateModified',
+    ...overrides,
+  };
+}
+
 function adapter(missingFields = []) {
   return {
     synthesize: async ({ research, plan }) => {
@@ -128,7 +145,7 @@ test('orphan relation repair bypasses model synthesis when every record already 
   snapshot['vendor-level1'][0].level2_refs = [{ kind: 'vendor-level2', id: 'vendor-level2:kuaishou:kling' }];
   snapshot['vendor-level2'].push({
     id: 'vendor-level2:kuaishou:kling', level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:kuaishou' }, vendor_key: 'kuaishou',
-    title: 'Kling', official_url: 'https://kling.ai', summary: '已有模型分组。', status: 'active', detail_refs: [],
+    title: 'Kling', official_url: 'https://kling.ai', summary: '已有模型分组。', status: 'active', detail_refs: [], task_types: [], search_terms: [],
   });
   const detail = { id: 'tool-level3:kling-2-6-pro', vendor_key: 'kuaishou', detail_kind: 'api_model', theme: 'media', title: 'Kling 2.6 Pro', vendor_label: '可灵', icon: '🎬', official_url: 'https://kling.ai', status: 'active', summary: '已有模型详情。', one_m_context: { status: 'not_applicable', reason: '视频模型。' }, api_pricing: { status: 'available', rate_cards: [{ label: '生成', pricing_basis: 'generation', currency: 'CREDIT', metrics: [{ label: '生成', amount: 1, unit: 'generation' }], conditions: '官方计费。' }] }, plan: { status: 'not_applicable', reason: '不是套餐。' }, applicable_scenarios: [{ title: '视频', description: '生成视频。' }], inapplicable_scenarios: [{ title: '长视频', description: '不适合长视频。' }], sources: [{ title: '官方', url: 'https://kling.ai' }], release_date: '2025-12-03' };
   snapshot['tool-level3'].push(detail);
@@ -139,7 +156,52 @@ test('orphan relation repair bypasses model synthesis when every record already 
   assert.deepEqual(result.coverage.entries, []);
   const groupPatch = result.layer_patches.find(patch => patch.area === 'vendor-level2');
   assert.deepEqual(groupPatch.record.detail_refs, [{ kind: 'tool-level3', id: detail.id }]);
+  assert.equal('task_types' in groupPatch.record, false);
+  assert.equal('search_terms' in groupPatch.record, false);
   assert.equal(groupPatch.provenance.summary.kind, 'deterministic');
+});
+
+test('recovery synthesis rebuilds the policy group key from placement decision metadata', async () => {
+  const snapshot = healthyExistingVendorSnapshot();
+  snapshot['vendor-card'][0].id = 'vendor-card:google';
+  snapshot['vendor-card'][0].vendor_key = 'google';
+  snapshot['vendor-card'][0].title = 'Google';
+  snapshot['vendor-level1'][0].id = 'vendor-level1:google';
+  snapshot['vendor-level1'][0].vendor_key = 'google';
+  snapshot['vendor-level1'][0].title = 'Google';
+  const candidate = seed({
+    name: 'Gemini 3.8 Flash-Lite TTS',
+    vendor_name: 'Google',
+    vendor_key: 'google',
+    modality: 'audio',
+    tool_key: 'gemini-3.8-flash-lite-tts',
+    detail_key: 'gemini-3.8-flash-lite-tts',
+    model_key: 'google-gemini-3-8-flash-lite-tts',
+    placement: {
+      existing_level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:google' },
+      existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:google:gemini-tts' },
+    },
+    placement_decision: {
+      target_mode: 'existing',
+      target_level2_id: 'vendor-level2:google:gemini-tts',
+      target_level2_title: 'Gemini TTS',
+      group_key: 'gemini-tts',
+      series_kind: 'model_series',
+      generation_state: 'newest',
+      task_types: ['TTS'],
+      search_terms: [],
+    },
+  });
+  const plan = planCatalogResearch(candidate, snapshot);
+  plan.keys.groupKey = 'gemini-3-8-flash-lite-tts';
+  const result = await synthesizeCatalog(researchFor(plan), plan, adapter());
+  assert.equal(result.ok, true, JSON.stringify(result.errors));
+  const groupPatch = result.layer_patches.find(patch => patch.area === 'vendor-level2');
+  assert.equal(groupPatch.id, 'vendor-level2:google:gemini-tts');
+  assert.equal(groupPatch.record.id, groupPatch.id);
+  assert.equal(groupPatch.record.title, 'Gemini TTS');
+  assert.deepEqual(groupPatch.record.task_types, ['TTS']);
+  assert.equal('search_terms' in groupPatch.record, false);
 });
 test('every active layer becomes a complete non-default patch with source provenance', async () => {
   const plan = planCatalogResearch(seed({ repair_layers: ['vendor-card', 'vendor-level1', 'vendor-level2', 'tool-level3', 'tool-card'] }), repairedSnapshot());
@@ -153,6 +215,85 @@ test('every active layer becomes a complete non-default patch with source proven
   assert.equal(detailPatch.record.one_m_context.status, 'not_applicable');
   assert.deepEqual(detailPatch.provenance.summary.source_ids, ['source-1']);
   assert.equal(detailPatch.record.api_pricing.rate_cards[0].pricing_basis, 'generation');
+});
+
+test('API release_date prefers supported synthesis and integrated dates, then uses model page update metadata', async () => {
+  const plan = planCatalogResearch(seed(), emptySnapshot());
+  const research = researchFor(plan);
+  research.official_sources = [modelUpdatedSource(plan)];
+  const explicit = await synthesizeCatalog(research, plan, adapter());
+  assert.equal(explicit.ok, true, JSON.stringify(explicit.errors));
+  const explicitPatch = explicit.layer_patches.find(patch => patch.area === 'tool-level3');
+  assert.equal(explicitPatch.record.release_date, '2025-12-03');
+  assert.deepEqual(explicitPatch.provenance.release_date, { kind: 'derived', source_ids: ['source-1'] });
+
+  const integratedPlan = planCatalogResearch(seed({
+    known_fields: { theme: 'media', integrated_release_date: '2024-10-01' },
+  }), emptySnapshot());
+  const integrated = await synthesizeCatalog(researchFor(integratedPlan), integratedPlan, adapter(['detail.release_date']));
+  assert.equal(integrated.ok, true, JSON.stringify(integrated.errors));
+  const integratedPatch = integrated.layer_patches.find(patch => patch.area === 'tool-level3');
+  assert.equal(integratedPatch.record.release_date, '2024-10-01');
+  assert.equal(integratedPatch.provenance.release_date.basis, 'comparison_integrated');
+
+  const variantPlan = planCatalogResearch(seed({
+    detail_kind: 'product_variant', modality: undefined, model_key: undefined,
+    known_fields: { theme: 'general' },
+  }), emptySnapshot());
+  const variantResearch = researchFor(variantPlan);
+  variantResearch.official_sources = [modelUpdatedSource(variantPlan)];
+  const variant = await synthesizeCatalog(variantResearch, variantPlan, adapter(['detail.release_date']));
+  assert.equal(variant.ok, true, JSON.stringify(variant.errors));
+  const variantPatch = variant.layer_patches.find(patch => patch.area === 'tool-level3');
+  assert.equal(variantPatch.record.release_date, '2026-09-21');
+  assert.equal(variantPatch.provenance.release_date.source_field, 'dateModified');
+
+  for (const invalid of ['missing', 'invalid']) {
+    const currentPlan = planCatalogResearch(seed(), emptySnapshot());
+    const currentResearch = researchFor(currentPlan);
+    currentResearch.official_sources = [modelUpdatedSource(currentPlan)];
+    const sourceAdapter = adapter();
+    const synthesize = sourceAdapter.synthesize;
+    sourceAdapter.synthesize = async input => {
+      const value = await synthesize(input);
+      if (invalid === 'missing') {
+        delete value.layer_fields.detail.release_date;
+        delete value.provenance['detail.release_date'];
+      } else value.provenance['detail.release_date'] = ['source-does-not-exist'];
+      return value;
+    };
+    const result = await synthesizeCatalog(currentResearch, currentPlan, sourceAdapter);
+    assert.equal(result.ok, true, JSON.stringify(result.errors));
+    const patch = result.layer_patches.find(item => item.area === 'tool-level3');
+    assert.equal(patch.record.release_date, '2026-09-21');
+    assert.deepEqual(patch.provenance.release_date, {
+      kind: 'derived', basis: 'official_page_update', source_ids: ['source-1'], source_field: 'dateModified',
+    });
+  }
+});
+
+test('API release_date does not use generic model indexes or sources without page update metadata', async () => {
+  for (const source of [
+    modelUpdatedSource(planCatalogResearch(seed(), emptySnapshot()), {
+      url: 'https://kling.ai/models', title: 'Models', content: 'Kling 2.6 Pro appears in the official model list.',
+    }),
+    (() => {
+      const plan = planCatalogResearch(seed(), emptySnapshot());
+      const page = modelUpdatedSource(plan);
+      delete page.updated_date;
+      delete page.updated_date_kind;
+      delete page.updated_date_field;
+      return page;
+    })(),
+  ]) {
+    const plan = planCatalogResearch(seed(), emptySnapshot());
+    const research = researchFor(plan);
+    research.official_sources = [source];
+    const result = await synthesizeCatalog(research, plan, adapter(['detail.release_date']));
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'SYNTHESIS_COVERAGE_INCOMPLETE');
+    assert.deepEqual(result.missing_fields, ['detail.release_date']);
+  }
 });
 
 test('seed pricing refs and disclosures retain deterministic and source provenance', async () => {
@@ -241,7 +382,7 @@ test('provenance referencing a nonexistent source_id is rejected', async () => {
   };
   const result = await synthesizeCatalog(research, plan, bad);
   assert.equal(result.ok, false);
-  assert.equal(result.code, 'SYNTHESIS_INVALID');
+  assert.equal(result.code, 'SYNTHESIS_PROVENANCE_INVALID');
   assert.ok(result.errors.some(error => error.path === 'detail.summary'));
 });
 

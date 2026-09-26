@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "revision": "sha256:03a495fb429b23a7362eb158c21397d8a1d7d91edbbbda9e60099ff62f963ed1",
-  "generated_at": "2026-09-22T08:19:56.748Z",
+  "revision": "sha256:fc19b0a0fcb181676d2c7afa59e23e908dcfcfc35878f9ff3acc14d3a90a64c7",
+  "generated_at": "2026-09-26T10:04:24.036Z",
   "entries": [
     {
       "model_key": "vidu-vidu-s2-avatar",
@@ -13,7 +13,7 @@
       "official_url": "https://platform.vidu.cn/docs/vidu-s2",
       "content_hash": "sha256:22e50c8103024de394a04f9f4bdc4eff502f32130c3b4c939e97e10084e1632b",
       "verified_at": "2026-09-22T05:48:11.301Z",
-      "catalog_revision": "sha256:80381c41c741811279f885ce4849bd1fe28c18c6cc32b9301c32a94ff9bd657b"
+      "catalog_revision": "sha256:7f480bd9777c76bebfe19c916d190ca0b7c0e9bc9354eb52833a0e9d61fc9b9d"
     },
     {
       "model_key": "vidu-vidu-s2-editing",
@@ -25,7 +25,7 @@
       "official_url": "https://platform.vidu.cn/docs/vidu-s2",
       "content_hash": "sha256:22e50c8103024de394a04f9f4bdc4eff502f32130c3b4c939e97e10084e1632b",
       "verified_at": "2026-09-22T05:48:11.301Z",
-      "catalog_revision": "sha256:80381c41c741811279f885ce4849bd1fe28c18c6cc32b9301c32a94ff9bd657b"
+      "catalog_revision": "sha256:7f480bd9777c76bebfe19c916d190ca0b7c0e9bc9354eb52833a0e9d61fc9b9d"
     },
     {
       "model_key": "stepfun-stepaudio-3-gen-preview",
@@ -37,7 +37,43 @@
       "official_url": "https://platform.stepfun.ai/docs/en/guides/models/stepaudio-3-gen",
       "content_hash": "sha256:ac2e391dce538b69250ee116e2b9c6b321dc87e0346581c5610766b25e593714",
       "verified_at": "2026-09-22T08:10:07.997Z",
-      "catalog_revision": "sha256:80381c41c741811279f885ce4849bd1fe28c18c6cc32b9301c32a94ff9bd657b"
+      "catalog_revision": "sha256:7f480bd9777c76bebfe19c916d190ca0b7c0e9bc9354eb52833a0e9d61fc9b9d"
+    },
+    {
+      "model_key": "alibaba-qwen-audio-3.1-asr-flash-streaming",
+      "title": "qwen-audio-3.1-asr-flash-streaming",
+      "vendor_key": "alibaba",
+      "detail_id": "tool-level3:qwen-audio-3-1-asr-flash-streaming",
+      "tool_card_id": "tool-card:qwen-audio-3-1-asr-flash-streaming",
+      "series_id": "vendor-level2:alibaba:qwen-audio",
+      "official_url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-streaming",
+      "content_hash": "sha256:4ce6ea667125247cbea8c5e843bd163c437581874843e1617467f0918f5284aa",
+      "verified_at": "2026-09-25T15:03:15.742Z",
+      "catalog_revision": "sha256:7f480bd9777c76bebfe19c916d190ca0b7c0e9bc9354eb52833a0e9d61fc9b9d"
+    },
+    {
+      "model_key": "alibaba-qwen-audio-3.1-asr-flash-filetrans",
+      "title": "qwen-audio-3.1-asr-flash-filetrans",
+      "vendor_key": "alibaba",
+      "detail_id": "tool-level3:qwen-audio-3-1-asr-flash-filetrans",
+      "tool_card_id": "tool-card:qwen-audio-3-1-asr-flash-filetrans",
+      "series_id": "vendor-level2:alibaba:qwen-audio",
+      "official_url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-asr-flash-filetrans",
+      "content_hash": "sha256:4ce6ea667125247cbea8c5e843bd163c437581874843e1617467f0918f5284aa",
+      "verified_at": "2026-09-25T15:03:15.742Z",
+      "catalog_revision": "sha256:7f480bd9777c76bebfe19c916d190ca0b7c0e9bc9354eb52833a0e9d61fc9b9d"
+    },
+    {
+      "model_key": "alibaba-qwen-audio-3.1-realtime-plus",
+      "title": "qwen-audio-3.1-realtime-plus",
+      "vendor_key": "alibaba",
+      "detail_id": "tool-level3:qwen-audio-3-1-realtime-plus",
+      "tool_card_id": "tool-card:qwen-audio-3-1-realtime-plus",
+      "series_id": "vendor-level2:alibaba:qwen-audio",
+      "official_url": "https://help.aliyun.com/en/model-studio/qwen-audio-3-1-realtime-plus",
+      "content_hash": "sha256:4ce6ea667125247cbea8c5e843bd163c437581874843e1617467f0918f5284aa",
+      "verified_at": "2026-09-25T15:03:15.742Z",
+      "catalog_revision": "sha256:7f480bd9777c76bebfe19c916d190ca0b7c0e9bc9354eb52833a0e9d61fc9b9d"
     }
   ]
 }

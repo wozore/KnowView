@@ -5,7 +5,7 @@ const { canonicalizeUrl } = require('../../shared/web-source-contract');
 const { searchWebWithFallback, plannedWebSearchRequests, probeWebSearch } = require('../../shared/web-search');
 const { extractTavily } = require('../../shared/tavily-client');
 const { LOCAL_API_BASE } = require('../../shared/llm-endpoints');
-const { registrableHostOf, synthesizeLayerFields } = require('../core');
+const { registrableHostOf, sourceUrlMatchesModelIdentity, synthesizeLayerFields } = require('../core');
 const { requestStructuredJson } = require('../../shared/llm-gateway');
 const { fetchOfficialSources } = require('./official-source-fetch');
 const { identityAppearsInBody } = require('./model-identity-verification');
@@ -76,7 +76,7 @@ async function discoverOfficialSources(input, options = {}) {
   const plannedRequests = plannedWebSearchRequests({ provider, includeDomains });
   if (plannedRequests > 1 && input.ledger?.reserve) {
     const reservation = input.ledger.reserve('search_queries', plannedRequests - 1);
-    if (!reservation.ok) return { ok: false, code: 'COST_BUDGET_EXHAUSTED', error: 'search_queries 成本预算不足以覆盖多域搜索' };
+    if (!reservation.ok) return { ok: false, code: 'COST_BUDGET_EXHAUSTED', category: 'search_queries', error: 'search_queries 成本预算不足以覆盖多域搜索' };
   }
   const result = await searchWebWithFallback({
     provider,
@@ -138,8 +138,21 @@ async function acquireOfficialSources(input, options = {}) {
     fetchImpl: options.searchFetchImpl || options.fetchImpl,
     timeoutMs: options.searchTimeoutMs || options.timeoutMs,
   });
-  const directContents = direct.pages.filter(page => relevant(page.body_text))
-    .map(page => ({ url: page.url, content: page.body_text, content_origin: 'direct_fetch' }));
+  const sourceByUrl = new Map(sources.map(source => [source.url, source]));
+  const directContents = direct.pages.filter(page => relevant(page.body_text)
+    || (page.updated_date && detailModel && sourceUrlMatchesModelIdentity(sourceByUrl.get(page.url), seed)))
+    .map(page => {
+      const bodyRelevant = relevant(page.body_text);
+      return {
+        url: page.url,
+        ...(bodyRelevant ? { content: page.body_text, content_origin: 'direct_fetch' } : {}),
+        ...(page.updated_date ? {
+          updated_date: page.updated_date,
+          updated_date_kind: page.updated_date_kind,
+          updated_date_field: page.updated_date_field,
+        } : {}),
+      };
+    });
   const relevantDirectUrls = new Set(directContents.map(page => page.url));
   const pending = sources.filter(source => !relevantDirectUrls.has(source.url));
   if (!pending.length) return { ok: true, contents: directContents, failed: direct.failed, usage: { requests: 0 } };
