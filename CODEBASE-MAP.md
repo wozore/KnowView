@@ -46,7 +46,7 @@
 ## src/shared/ — 跨模块基础能力
 - [beijing-time.js](src/shared/beijing-time.js) — 固定 UTC+8 北京时间日期键、自然日键与当天零点 ISO 工具，避免本地 Windows 与 CI 时区差异。导出: `BEIJING_OFFSET_MS, beijingDateKey, beijingDayKey, beijingMidnightIso`
 - [env.js](src/shared/env.js) — dotenv 子集解析 + 项目根目录。导出: `loadDotEnv, PROJECT_DIR`
-- [paths.js](src/shared/paths.js) — 目录、catalog 文件、登记表与生成器事务路径常量，以及统一 AI 配置文件路径（全仓唯一数据登记点；`data/manual/registries/` 为官方登记表与政策，`data/manual/tools/` 为工具链路工作目录，`data/manual/concepts/` 为概念链路工作目录）。导出: `DIRS, CATALOG_FILES, CATALOG_GENERATOR_FILES, CONCEPT_FILES, AI_CONFIG_FILES, NEWS_FILES, COMPARISON_FILES, SHARED_FILES, REGISTRIES_FILES, DATA_FILES, RSS_FEED_PATH`
+- [paths.js](src/shared/paths.js) — 目录、catalog 文件、登记表与生成器事务路径常量，以及统一 AI 配置文件路径（全仓唯一数据登记点；`data/manual/registries/` 为官方登记表与政策，`data/manual/tools/` 为工具链路工作目录，`data/manual/concepts/` 为概念链路工作目录）。导出: `DIRS, CATALOG_FILES, CATALOG_BRAND_ICON_FILES, CATALOG_GENERATOR_FILES, CONCEPT_FILES, AI_CONFIG_FILES, NEWS_FILES, COMPARISON_FILES, SHARED_FILES, REGISTRIES_FILES, DATA_FILES, RSS_FEED_PATH`
 - [providers/](src/shared/providers/) — 外部 AI 提供商独立目录，各厂商独立拥有自身元数据、端点与默认模型（开闭原则），由 `index.js` 统一汇聚导出。
   - [protocols.js](src/shared/providers/protocols.js) — 传输协议常量定义（RESPONSES / MESSAGES / CHAT）。导出: `AI_PROTOCOLS`
   - [zhipu.js](src/shared/providers/zhipu.js) — 智谱 ZhipuAI 提供方独立配置（Anthropic Messages、Chat Completions 与 Web Search 端点，glm-5.3-flash）。
@@ -79,6 +79,7 @@
 - [catalog-workbench-prepare.js](src/catalog/catalog-workbench-prepare.js) — Catalog Draft 准备流水线：候选/Draft 复用、规范 model_key 查重、身份解析、模型 placement 解析与逐卡草稿准备。导出: `createCatalogPrepareHandler`
 - [catalog-workbench-view.js](src/catalog/catalog-workbench-view.js) — Catalog 工作台视图 DTO、失败阶段诊断、provider/research/planner/provenance 错误恢复分类与恢复模式推导。
 - [catalog-workbench-draft-batch.js](src/catalog/catalog-workbench-draft-batch.js) — Catalog 批量预览按当前 base revision 选择可预览 Draft，标记过期项并忽略已有当前版替代的旧重复项。
+- [catalog-brand-icons.js](src/catalog/catalog-brand-icons.js) — Catalog 新增厂商与工具卡的品牌图标覆盖检查；遵循前端模型、系列、工具、厂商继承顺序并确认资源文件存在。导出: `auditNewCatalogBrandIcons`
 - [catalog-workbench-bundle-list.js](src/catalog/catalog-workbench-bundle-list.js) — Workbench Bundle 列表按共享候选选择器取同当前版本最新 Draft，同时间冲突 fail-closed 并附带 superseded IDs。
 - [catalog-generator-commands.js](src/catalog/catalog-generator-commands.js) — 目录生成器各子命令纯逻辑编排。
 - [catalog-retention-prune.js](src/catalog/catalog-retention-prune.js) — Catalog 五模块滚动保留与级联删除协调。

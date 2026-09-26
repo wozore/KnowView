@@ -137,6 +137,52 @@ test('commitSnapshotChange injects the builder and atomically updates the fixtur
   }
 });
 
+test('catalog transaction refuses new vendor and tool cards without displayable brand icons', () => {
+  const context = makeTransactionFixture();
+  try {
+    const target = JSON.parse(JSON.stringify(context.snapshot));
+    const vendorKey = 'new-vendor';
+    const toolKey = 'new-tool';
+    const level1Id = `vendor-level1:${vendorKey}`;
+    const level2Id = `vendor-level2:${vendorKey}:tools`;
+    const detailId = `tool-level3:${toolKey}`;
+    target['vendor-card'].push({
+      ...target['vendor-card'][0], id: `vendor-card:${vendorKey}`, vendor_key: vendorKey,
+      title: 'New Vendor', level1_ref: { kind: 'vendor-level1', id: level1Id },
+    });
+    target['vendor-level1'].push({
+      ...target['vendor-level1'][0], id: level1Id, vendor_key: vendorKey, title: 'New Vendor',
+      level2_refs: [{ kind: 'vendor-level2', id: level2Id }],
+    });
+    target['vendor-level2'].push({
+      ...target['vendor-level2'][0], id: level2Id, vendor_key: vendorKey,
+      level1_ref: { kind: 'vendor-level1', id: level1Id }, title: 'Tools',
+      detail_refs: [{ kind: 'tool-level3', id: detailId }],
+    });
+    target['tool-level3'].push({
+      ...target['tool-level3'][0], id: detailId, vendor_key: vendorKey,
+      title: 'New Tool', vendor_label: 'New Vendor',
+    });
+    target['tool-card'].push({
+      ...target['tool-card'][0], id: `tool-card:${toolKey}`, tool_key: toolKey,
+      vendor_key: vendorKey, title: 'New Tool', vendor_label: 'New Vendor',
+      detail_ref: { kind: 'tool-level3', id: detailId },
+    });
+    const result = commitSnapshotChange(target, {
+      ...context.options,
+      expectedRevision: revisionOf(context.snapshot),
+      brandIconManifest: { vendor: {}, tool: {}, series: {}, model: {} },
+      runId: 'fixture-brand-icons-missing',
+    });
+    assert.equal(result.ok, false);
+    assert.equal(result.code, 'CATALOG_BRAND_ICON_MISSING');
+    assert.deepEqual(result.errors.map(item => item.area).sort(), ['tool-card', 'vendor-card']);
+    assert.equal(context.loadCatalogSnapshot().revision, revisionOf(context.snapshot));
+  } finally {
+    clean(context.root);
+  }
+});
+
 test('commitCatalogChange and replaceToolLevel3 use the same injected transaction builder', () => {
   const context = makeTransactionFixture();
   const calls = [];

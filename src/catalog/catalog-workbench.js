@@ -16,6 +16,7 @@ const draftStore = require('./draft/index');
 const bundleDraft = require('./draft/catalog-bundle');
 const { listBundleDraftsForWorkbench } = require('./catalog-workbench-bundle-list');
 const { codeError, planHashOf, projectDraft, normalizeRecoveryOptions, assertRequestFields, bundleReviewDto, bundleApplyDto } = require('./catalog-workbench-view');
+const { auditNewCatalogBrandIcons } = require('./catalog-brand-icons');
 const { createCatalogBatchPreview, staleDraftProjection, supersedeStaleDraftFiles } = require('./catalog-workbench-draft-batch');
 const { approvedCatalogCandidates, createCatalogPrepareHandler } = require('./catalog-workbench-prepare');
 
@@ -59,6 +60,7 @@ function createCatalogWorkbench(options = {}) {
     reviewCatalogDraftBatch: batchReviewFn,
     isCatalogDraft,
     projectDraft,
+    inspectNewBrandIcons: (before, after) => auditNewCatalogBrandIcons(before, after, options.brandIconOptions),
   });
   const bundlePlanFn = options.planCatalogBundles || bundleDraft.planCatalogBundles;
   const bundlePrepareFn = options.prepareCatalogBundles || bundleDraft.prepareCatalogBundles;

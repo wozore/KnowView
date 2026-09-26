@@ -84,7 +84,7 @@ function renderSearchToolMinis(tools, layer = null) {
   if (faint) faint.hidden = false;
 
   list.innerHTML = tools.slice(0, SEARCH_TOOL_MINIS_LIMIT).map((tool, index) => {
-    const cardIcon = brandIconHtml({ vendorKey: tool.vendor_key, toolKey: tool.tool_key, modelKey: tool.detail_kind === 'api_model' ? tool.tool_key : null, emoji: tool.icon });
+    const cardIcon = brandIconHtml({ vendorKey: tool.vendor_key, toolKey: tool.tool_key, detailId: tool.detail_ref?.id, detailKind: tool.detail_kind, emoji: tool.icon });
     const scenes = (tool.scenes || []).slice(0, 2).map(scene => '<span class="tag">' + escapeHtml(scene) + '</span>').join('');
     return '<article class="search-tool-mini" data-search-tool="' + escapeHtml(tool.tool_key) + '" data-search-source="source-' + (index + 1) + '" tabindex="0" role="button" aria-label="查看工具详情：' + escapeHtml(tool.title) + '">' +
       '<div class="search-tool-mini-head">' +

@@ -36,9 +36,10 @@ function staleDraftProjection(draft, currentRevision, projectDraft) {
   });
 }
 
-function createCatalogBatchPreview({ currentSnapshot, pendingRevision, listDrafts, reviewCatalogDraftBatch, isCatalogDraft, projectDraft }) {
+function createCatalogBatchPreview({ currentSnapshot, pendingRevision, listDrafts, reviewCatalogDraftBatch, isCatalogDraft, projectDraft, inspectNewBrandIcons }) {
   return function batchPreview() {
-    const currentRevision = currentSnapshot().revision;
+    const current = currentSnapshot();
+    const currentRevision = current.revision;
     const sourcePendingRevision = pendingRevision();
     const allDrafts = listDrafts().filter(draft => isCatalogDraft(draft) && draft.state !== 'cleanup_pending');
     const staleDrafts = allDrafts.filter(draft => draft.base_revision !== currentRevision);
@@ -70,6 +71,35 @@ function createCatalogBatchPreview({ currentSnapshot, pendingRevision, listDraft
             ? `Draft 与当前 Catalog revision 不一致（当前 ${checked.currentRevision || currentRevision}）。`
             : checked.error || checked.code || '批量 Draft 审核检查失败。'],
         }],
+      };
+    }
+    let iconAudit;
+    try { iconAudit = inspectNewBrandIcons(current.snapshot, checked.plan?.snapshot); }
+    catch (error) {
+      iconAudit = { ok: false, issues: [{ code: 'CATALOG_BRAND_ICON_CHECK_FAILED', reason: error.message }] };
+    }
+    if (!current.snapshot || !checked.plan?.snapshot || !iconAudit?.ok) {
+      const iconIssues = iconAudit?.issues?.length ? iconAudit.issues : [{
+        code: 'CATALOG_BRAND_ICON_CHECK_FAILED', reason: '无法确认本批新增卡片的品牌图标。',
+      }];
+      const checkFailed = !current.snapshot || !checked.plan?.snapshot
+        || iconIssues.some(issue => ['CATALOG_BRAND_ICON_MANIFEST_INVALID', 'CATALOG_BRAND_ICON_CHECK_FAILED'].includes(issue.code));
+      return {
+        ok: false,
+        code: checkFailed ? 'CATALOG_BRAND_ICON_CHECK_FAILED' : 'CATALOG_BRAND_ICON_MISSING',
+        status: 'blocked',
+        draft_count: checked.draft_ids.length,
+        catalog_revision: currentRevision,
+        source_pending_revision: sourcePendingRevision,
+        blockers: [
+          ...blockers,
+          ...iconIssues.map(issue => ({
+            candidate_name: issue.title || issue.id || '品牌图标',
+            code: issue.code,
+            blocking_reasons: [issue.reason || '新增卡片缺少有效品牌图标。'],
+          })),
+        ],
+        missing_brand_icons: iconIssues,
       };
     }
     return {

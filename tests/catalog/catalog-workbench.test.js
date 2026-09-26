@@ -384,12 +384,13 @@ test('catalog workbench batches drafts from same vendor by merging relation patc
   const level1PatchB = { area: 'vendor-level1', id: 'vendor-level1:v1', operation: 'replace', record: { id: 'vendor-level1:v1', level2_refs: [{ id: 'ref-2' }] }, provenance: {} };
   const d1 = { draft_id: 'draft-1', schema_version: 4, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchA] };
   const d2 = { draft_id: 'draft-2', schema_version: 4, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchB] };
+  const snapshot = { 'vendor-card': [{ id: 'vendor-card:v1' }], 'vendor-level1': [{ id: 'vendor-level1:v1', level2_refs: [] }] };
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'p-r1', cards: [card1, card2] }),
-    loadCatalog: () => ({ revision: 'c-r1', snapshot: { 'vendor-card': [{ id: 'vendor-card:v1' }], 'vendor-level1': [{ id: 'vendor-level1:v1', level2_refs: [] }] } }),
+    loadCatalog: () => ({ revision: 'c-r1', snapshot }),
     listDrafts: () => [d1, d2],
     reviewCatalogDraftBatch: (ids) => {
-      const plan = { changePreview: { creates: {}, updates: [], noops: [] } };
+      const plan = { snapshot, changePreview: { creates: {}, updates: [], noops: [] } };
       const reviews = [d1, d2].map(d => ({ draft: d, previewHash: 'h', plan }));
       return { ok: true, draft_ids: ids, currentRevision: 'c-r1', batchToken: 'token', reviews, plan };
     },
@@ -402,12 +403,17 @@ test('catalog workbench batches drafts from same vendor by merging relation patc
 test('catalog workbench batches drafts through one preview and one apply', () => {
   const card = { name: 'Batch Tool', candidate_key: candidateKeyOf('tools', 'Batch Tool'), review_status: 'approved' };
   const calls = [];
+  const snapshot = emptySnapshot();
   const drafts = [{ draft_id: 'draft-b', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', seed: { name: 'Batch Tool', candidate_key: card.candidate_key }, readiness: { status: 'ready' } }];
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'pending-r1', cards: [card] }),
-    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
     listDrafts: () => drafts,
-    reviewCatalogDraftBatch: ids => ({ ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews: drafts.map(draft => ({ draft, plan: { changePreview: { creates: { 'tool-card': ['tool-1'] }, updates: [], noops: [] } } })), plan: { changePreview: { creates: { 'tool-card': ['tool-1'] }, updates: [], noops: [] } } }),
+    reviewCatalogDraftBatch: ids => {
+      const plan = { snapshot, changePreview: { creates: { 'tool-card': ['tool-1'] }, updates: [], noops: [] } };
+      const reviews = drafts.map(draft => ({ draft, plan }));
+      return { ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews, plan };
+    },
     applyCatalogDrafts: input => { calls.push(input); return { ok: true, status: 'completed', targetRevision: 'catalog-r2', appliedDraftIds: input.draftIds }; },
   });
   const preview = coordinator.batchPreview();
@@ -420,6 +426,7 @@ test('catalog workbench batches drafts through one preview and one apply', () =>
 
 
 test('catalog batch preview keeps ready drafts usable when other drafts are blocked', () => {
+  const snapshot = emptySnapshot();
   const ready = { draft_id: 'draft-ready', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' }, seed: { name: 'Ready', candidate_key: 'ready-key' } };
   const blocked = { draft_id: 'draft-blocked', schema_version: 4, state: 'preview_blocked', base_revision: 'catalog-r1', readiness: { status: 'blocked', blocking_reasons: ['missing source'] }, seed: { name: 'Blocked', candidate_key: 'blocked-key' } };
   const staleDuplicate = { draft_id: 'draft-ready-old', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-old', readiness: { status: 'ready' }, seed: { name: 'Ready', candidate_key: 'ready-key' } };
@@ -427,11 +434,11 @@ test('catalog batch preview keeps ready drafts usable when other drafts are bloc
   let reviewed;
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'pending-r1', cards: [] }),
-    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
     listDrafts: () => [ready, blocked, staleDuplicate, staleDistinct],
     reviewCatalogDraftBatch: ids => {
       reviewed = ids;
-      return { ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews: [{ draft: ready, plan: { changePreview: { creates: {}, updates: [], noops: [] } } }], plan: { changePreview: { creates: {}, updates: [], noops: [] } } };
+      return { ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews: [{ draft: ready, plan: { snapshot, changePreview: { creates: {}, updates: [], noops: [] } } }], plan: { snapshot, changePreview: { creates: {}, updates: [], noops: [] } } };
     },
   });
   const preview = coordinator.batchPreview();
@@ -443,6 +450,28 @@ test('catalog batch preview keeps ready drafts usable when other drafts are bloc
   assert.equal(staleBlocker.error_code, 'DRAFT_BASE_REVISION_STALE');
   assert.match(staleBlocker.blocking_reasons[0], /catalog-old.*catalog-r1/);
   assert.equal(preview.blockers.some(blocker => blocker.draft_id === 'draft-ready-old'), false, 'a stale duplicate cannot block a current draft for the same candidate');
+});
+
+test('catalog batch preview blocks new vendor cards that cannot display a brand icon', () => {
+  const snapshot = emptySnapshot();
+  const target = emptySnapshot();
+  target['vendor-card'].push({ id: 'vendor-card:new-vendor', vendor_key: 'new-vendor', title: 'New Vendor' });
+  const draft = { draft_id: 'draft-icon', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' }, seed: { name: 'New Vendor', candidate_key: 'new-vendor' } };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
+    listDrafts: () => [draft],
+    brandIconOptions: { manifest: { vendor: {}, tool: {}, series: {}, model: {} }, assetExists: () => false },
+    reviewCatalogDraftBatch: ids => ({
+      ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-icon',
+      reviews: [{ draft, plan: { snapshot: target, changePreview: { creates: { 'vendor-card': [target['vendor-card'][0].id] }, updates: [], noops: [] } } }],
+      plan: { snapshot: target, changePreview: { creates: { 'vendor-card': [target['vendor-card'][0].id] }, updates: [], noops: [] } },
+    }),
+  });
+  const preview = coordinator.batchPreview();
+  assert.equal(preview.ok, false);
+  assert.equal(preview.code, 'CATALOG_BRAND_ICON_MISSING');
+  assert.match(preview.blockers[0].blocking_reasons[0], /New Vendor/);
 });
 
 test('catalog draft list labels a ready draft from an old base revision as stale', () => {
