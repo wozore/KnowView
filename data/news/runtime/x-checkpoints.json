@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-27T05:38:50.633Z",
+  "updated_at": "2026-09-27T17:15:51.537Z",
   "checkpoints": {
     "2026-09-14T20:00:00+08:00__2026-09-15T08:00:00+08:00::account_group::g1::782d989e625de0f2": {
       "schema_version": 1,
@@ -3585,6 +3585,118 @@
       "credits_used": 0,
       "retained_items": 0,
       "updated_at": "2026-09-27T05:38:50.633Z"
+    },
+    "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00::account_group::g4::c95acee6a46a8e21": {
+      "schema_version": 1,
+      "window_id": "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g4",
+      "group_id": "g4",
+      "query_hash": "c95acee6a46a8e21",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTMn4--bUQMKAAIdMxi0C5ewrAAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdM9QtucAnEAoABh0z1C25v9jwCwAHAAAAMEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFBSWRNeWZqNzV0UkF4MHpHTFFMbDdDcwAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 30,
+      "retained_items": 2,
+      "updated_at": "2026-09-27T17:15:51.537Z"
+    },
+    "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00::account_group::g6::38a9549adcef7fdd": {
+      "schema_version": 1,
+      "window_id": "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g6",
+      "group_id": "g6",
+      "query_hash": "38a9549adcef7fdd",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTOBccLWwH0KAAIdMujpZpsxYwAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdM9QvSUAnEAoABh0z1C9JP9jwCwAHAAAASEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFBUWRNNEZ4d3RiQWZSMHk2NmRFV3NBcEhUTG82V2FiTVdNZE11dEFHOXJnbGc9PQAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 60,
+      "retained_items": 2,
+      "updated_at": "2026-09-27T17:15:51.537Z"
+    },
+    "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00::account_group::g7::74a9dfc5cb03481f": {
+      "schema_version": 1,
+      "window_id": "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "account_group",
+      "query_id": "g7",
+      "group_id": "g7",
+      "query_hash": "74a9dfc5cb03481f",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTMuZ2kXkNIKAAIdMwBppRfR0wAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdM9Qv70AnEAoABh0z1C_vP9jwCwAHAAAAXEVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFBWWRNd1paT2xveFZoMHpMQkxBVjZGN0hUTXVaMmtYa05JZE13QnBwUmZSMHgwekNvSkoyckJ1SFRNTVhrMlcwYmc9AAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 90,
+      "retained_items": 3,
+      "updated_at": "2026-09-27T17:15:51.537Z"
+    },
+    "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00::discovery::release-events::6fcf90853d32880b": {
+      "schema_version": 1,
+      "window_id": "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "release-events",
+      "group_id": null,
+      "query_hash": "6fcf90853d32880b",
+      "status": "partial",
+      "pages_completed": 1,
+      "next_cursor": "DAADDAABCgABHTOLl0QbAVAKAAIdM4mDfxoBEwAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUdM9Q2_8AnEAoABh0z1Db_v9jwCwAHAAAA8EVtUEM2d0FBQWZRL2dHSk4wdkdwL0FBQUFCUWRNNHBqMlpwQi9CMHppaTVVRnBCZkhUT0xVR0JXVURVZE00citHUmVReUIwemliWVkxekFxSFRPSi9kU1dJSmdkTTRtZ1VWcWd4aDB6aWZ1NjF5RnpIVE9LMTZiYVlWRWRNNHN2VDlmUVloMHppNWRFR3dGUUhUT0s4UW1hc1h3ZE00bXZEbFlSekIweml3RTMyb0NDSFRPSmczOGFBUk1kTTRxbnBsYmhQaDB6aWZXSlY2Q29IVE9Lc1ZmVzhKQWRNNHJUdHBzZ2FoMHppZmw5bDhHQwAA",
+      "reason_code": "NEWS_MAX_PAGES_REACHED",
+      "credits_used": 300,
+      "retained_items": 16,
+      "updated_at": "2026-09-27T17:15:51.537Z"
+    },
+    "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00::discovery::open-source-models::1878ea8bb57f01d2": {
+      "schema_version": 1,
+      "window_id": "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "open-source-models",
+      "group_id": null,
+      "query_hash": "1878ea8bb57f01d2",
+      "status": "partial",
+      "pages_completed": 0,
+      "next_cursor": null,
+      "reason_code": "NEWS_BUDGET_EXHAUSTED",
+      "credits_used": 0,
+      "retained_items": 0,
+      "updated_at": "2026-09-27T17:15:51.537Z"
+    },
+    "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00::discovery::benchmarks-eval::a1142bd8c7046eaa": {
+      "schema_version": 1,
+      "window_id": "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "benchmarks-eval",
+      "group_id": null,
+      "query_hash": "a1142bd8c7046eaa",
+      "status": "partial",
+      "pages_completed": 0,
+      "next_cursor": null,
+      "reason_code": "NEWS_BUDGET_EXHAUSTED",
+      "credits_used": 0,
+      "retained_items": 0,
+      "updated_at": "2026-09-27T17:15:51.537Z"
+    },
+    "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00::discovery::frontier-agents::c61fe240dae36d5f": {
+      "schema_version": 1,
+      "window_id": "2026-09-27T08:00:00+08:00__2026-09-27T20:00:00+08:00",
+      "half": "cold",
+      "query_kind": "discovery",
+      "query_id": "frontier-agents",
+      "group_id": null,
+      "query_hash": "c61fe240dae36d5f",
+      "status": "partial",
+      "pages_completed": 0,
+      "next_cursor": null,
+      "reason_code": "NEWS_BUDGET_EXHAUSTED",
+      "credits_used": 0,
+      "retained_items": 0,
+      "updated_at": "2026-09-27T17:15:51.537Z"
     }
   },
   "tail_recheck_observations": [
@@ -4873,6 +4985,62 @@
       "half": "hot",
       "group_id": "g7",
       "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-27T17:15:51.537Z",
+      "half": "cold",
+      "group_id": "g1",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-27T17:15:51.537Z",
+      "half": "cold",
+      "group_id": "g2",
+      "recovered_new_count": 0,
+      "credits_used": 45,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-27T17:15:51.537Z",
+      "half": "cold",
+      "group_id": "g3",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-27T17:15:51.537Z",
+      "half": "cold",
+      "group_id": "g4",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-27T17:15:51.537Z",
+      "half": "cold",
+      "group_id": "g5",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-27T17:15:51.537Z",
+      "half": "cold",
+      "group_id": "g6",
+      "recovered_new_count": 0,
+      "credits_used": 15,
+      "recovered_approved_count": 0
+    },
+    {
+      "recorded_at": "2026-09-27T17:15:51.537Z",
+      "half": "cold",
+      "group_id": "g7",
+      "recovered_new_count": 1,
       "credits_used": 15,
       "recovered_approved_count": 0
     }
