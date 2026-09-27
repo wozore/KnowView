@@ -204,6 +204,7 @@
 - [data/catalog-interface.js](src/web/js/data/catalog-interface.js) — 浏览器侧五模块目录 Interface。导出: `catalog`
 - [data/data-catalog.js](src/web/js/data/data-catalog.js) — 前端目录 Interface 统一读取适配层；hidden_history 工具卡可见过滤（undefined 视为 visible）与模型系列索引构建入口。
 - [data/model-series-index.mjs](src/web/js/data/model-series-index.mjs) — 前端模型系列索引与匹配纯逻辑：系列判定（model_series 或存量任一成员 api_model 回退）、系列标题及 search_terms 词形索引、byMemberWord 词形索引、matchSeries 最长词决定。导出: `isHiddenHistory, buildSeriesIndex, matchSeries, normalizeWord, deriveWordForms`
+- [data/vendor-series-order.mjs](src/web/js/data/vendor-series-order.mjs) — 厂商页模型系列/工具/套餐分组，组内按一级目录引用排序；系列成员按发布日期排序。导出: `groupKind, sortVendorGroups, sortSeriesMembers`
 - [data/data-comparison.js](src/web/js/data/data-comparison.js) — 前端模型对比数据加载与索引桥接。
 - [data/data-filters.js](src/web/js/data/data-filters.js) — 前端工具、场景与概念内存过滤管线。
 - [data/data-loader.js](src/web/js/data/data-loader.js) — 前端静态数据异步加载与骨架屏控制器；state.tools 采用 hidden_history 可见过滤。
@@ -359,6 +360,7 @@
 - [brand-icons.test.js](tests/web/brand-icons.test.js) — 品牌图标继承与本地资产登记回归。
 - [catalog-pricing.test.js](tests/web/catalog-pricing.test.js) — 套餐引用的卡片摘要、完整价格详情、回跳、价格披露和模型任务类型徽标回归；核对 GPT Images 2.5、MAI-Image-2.6 API 费率、Hy Image 3.5 token 用量与 MiMo 文本型价格说明。
 - [model-series-index.test.js](tests/web/model-series-index.test.js) — 前端系列索引与对比选择器回归：hidden_history、旧中文标题搜索别名、系列回退、最长词匹配、全角归一化及 Microsoft AI 对比展示名保留。
+- [vendor-series-order.test.js](tests/web/vendor-series-order.test.js) — 厂商页组别与模型排序回归：模型系列/工具/套餐分组、一级引用顺序、系列成员发布日期排序、存量未标记模型系列及输入不变。
 - [catalog-interface.test.js](tests/catalog/catalog-interface.test.js) — 五模块目录 Interface、字段所有权（含任务标签）、稳定引用、工具卡→三级详情以及场景/精选详情引用回归。
 - [catalog-date-audit.test.js](tests/catalog/catalog-date-audit.test.js) — 日期语义审计保守分类、目标字段和输入不变回归。
 - [catalog-date-repair.test.js](tests/catalog/catalog-date-repair.test.js) — 日期字段级修补与 `advance_update` 回归：目标类型、官方 metadata/正文/根域门禁、向前日期、批量 preview、approved queue、revision/preview 冲突、字段零漂移和 atomic commit。

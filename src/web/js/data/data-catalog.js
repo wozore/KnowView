@@ -5,6 +5,7 @@
 
 import { catalog } from './catalog-interface.js';
 import { isHiddenHistory, buildSeriesIndex } from './model-series-index.mjs';
+import { sortVendorGroups } from './vendor-series-order.mjs';
 
 export function getCatalogItems(area) {
   const result = catalog({ area, operation: 'list' });
@@ -54,7 +55,9 @@ export function getVendorLevel2Item(vendorKey, groupKey) {
 }
 
 export function getVendorLevel2Items(vendorKey) {
-  return getCatalogItems('vendor-level2').filter(item => item.vendor_key === vendorKey);
+  const groups = getCatalogItems('vendor-level2').filter(item => item.vendor_key === vendorKey);
+  const level1 = getVendorLevel1Item(vendorKey);
+  return sortVendorGroups(groups, level1?.level2_refs, getCatalogItems('tool-level3'));
 }
 
 export function getToolLevel3Item(vendorKey, itemKey) {
