@@ -1,6 +1,47 @@
 {
-  "fetched_at": "2026-09-24T23:52:12.010Z",
+  "fetched_at": "2026-09-27T23:47:42.114Z",
   "data": [
+    {
+      "id": "typesafe/jev-router",
+      "name": "TypeSafe: Jev Router",
+      "created": 1790363560,
+      "hugging_face_id": null,
+      "context_length": 1000000,
+      "modality": "text+image+file+audio+video->text",
+      "input_modalities": [
+        "audio",
+        "file",
+        "image",
+        "text",
+        "video"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": -1,
+      "completion": -1,
+      "input_cache_read": null
+    },
+    {
+      "id": "perceptron/perceptron-mk1.5",
+      "name": "Perceptron: Perceptron Mk1.5",
+      "created": 1790352661,
+      "hugging_face_id": null,
+      "context_length": 36864,
+      "modality": "text+image+audio+video->text",
+      "input_modalities": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 1.5e-7,
+      "completion": 0.0000015,
+      "input_cache_read": null
+    },
     {
       "id": "fireworks/ember-1",
       "name": "Fireworks: Ember-1",
@@ -378,7 +419,7 @@
       "name": "Xiaomi: MiMo-V2.6-Pro",
       "created": 1790021259,
       "hugging_face_id": "XiaomiMiMo/MiMo-V2.6-Pro-RL",
-      "context_length": 1048576,
+      "context_length": 1050000,
       "modality": "text+image+audio+video->text",
       "input_modalities": [
         "text",
@@ -500,9 +541,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3.894e-7,
-      "completion": 0.0000011682,
-      "input_cache_read": 1.239e-8
+      "prompt": 2.4298e-7,
+      "completion": 0.0000035,
+      "input_cache_read": 1.72e-7
     },
     {
       "id": "~deepseek/deepseek-flash-latest",
@@ -518,9 +559,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4e-8,
-      "completion": 0.000001,
-      "input_cache_read": 1e-8
+      "prompt": 3.483e-8,
+      "completion": 6e-7,
+      "input_cache_read": 3.135e-8
     },
     {
       "id": "inference-net/schematron-v2-turbo",
@@ -685,9 +726,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6e-8,
-      "completion": 1.8e-7,
-      "input_cache_read": 1.2e-8
+      "prompt": 2.1e-8,
+      "completion": 6.16e-8,
+      "input_cache_read": 4.2e-9
     },
     {
       "id": "deepseek/deepseek-v4.1-flash",
@@ -703,9 +744,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.5e-7,
+      "prompt": 3.483e-8,
       "completion": 6e-7,
-      "input_cache_read": 3e-9
+      "input_cache_read": 3.135e-8
     },
     {
       "id": "deepseek/deepseek-v4.1-flash:batch",
@@ -741,42 +782,6 @@
       "prompt": 4e-8,
       "completion": 1.5e-7,
       "input_cache_read": 4e-9
-    },
-    {
-      "id": "nex-agi/nex-n2.5-mini:free",
-      "name": "Nex AGI: Nex-N2.5-Mini (free)",
-      "created": 1788890061,
-      "hugging_face_id": "nex-agi/Nex-N2.5-mini",
-      "context_length": 262144,
-      "modality": "text+image->text",
-      "input_modalities": [
-        "text",
-        "image"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0,
-      "completion": 0,
-      "input_cache_read": null
-    },
-    {
-      "id": "nex-agi/nex-n2.5-pro:free",
-      "name": "Nex AGI: Nex-N2.5-Pro (free)",
-      "created": 1788890050,
-      "hugging_face_id": "nex-agi/Nex-N2.5-Pro",
-      "context_length": 262144,
-      "modality": "text+image->text",
-      "input_modalities": [
-        "text",
-        "image"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0,
-      "completion": 0,
-      "input_cache_read": null
     },
     {
       "id": "openai/gpt-6-astra",
@@ -1134,8 +1139,8 @@
         "text"
       ],
       "prompt": 4.5e-8,
-      "completion": 6e-7,
-      "input_cache_read": 2.85e-8
+      "completion": 1.4e-7,
+      "input_cache_read": 1e-8
     },
     {
       "id": "z-ai/glm-5.3-flash:batch",
@@ -1191,9 +1196,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2.2e-7,
-      "completion": 6.6e-7,
-      "input_cache_read": 7e-9
+      "prompt": 2.156e-7,
+      "completion": 6.468e-7,
+      "input_cache_read": 6.86e-9
     },
     {
       "id": "tencent/hy-mt2-1.8b",
@@ -1242,9 +1247,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 5.614e-7,
-      "completion": 0.0000017644,
-      "input_cache_read": 1.0426e-7
+      "prompt": 3.556e-7,
+      "completion": 0.000002574,
+      "input_cache_read": 6.604e-8
     },
     {
       "id": "tencent/hy-mt2-7b",
@@ -1276,9 +1281,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000014,
-      "completion": 0.0000044,
-      "input_cache_read": 2.6e-7
+      "prompt": 3.556e-7,
+      "completion": 0.000002574,
+      "input_cache_read": 6.604e-8
     },
     {
       "id": "z-ai/glm-5.3:batch",
@@ -1463,9 +1468,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4.62e-7,
-      "completion": 0.000001386,
-      "input_cache_read": 1.54e-8
+      "prompt": 2.4298e-7,
+      "completion": 0.0000035,
+      "input_cache_read": 1.72e-7
     },
     {
       "id": "x-ai/grok-4.6",
@@ -1508,7 +1513,7 @@
       "name": "NVIDIA: Nemotron 3.5 Lightning",
       "created": 1786452751,
       "hugging_face_id": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16",
-      "context_length": 262144,
+      "context_length": 1000000,
       "modality": "text->text",
       "input_modalities": [
         "text"
@@ -1625,7 +1630,7 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3e-8,
+      "prompt": 2.1e-8,
       "completion": 3.2e-7,
       "input_cache_read": 1.6e-8
     },
@@ -1642,7 +1647,7 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3e-8,
+      "prompt": 2.1e-8,
       "completion": 3.2e-7,
       "input_cache_read": 1.6e-8
     },
@@ -1651,7 +1656,7 @@
       "name": "Thinking Machines: Inkling Small",
       "created": 1785443117,
       "hugging_face_id": "thinkingmachines/Inkling-Small",
-      "context_length": 1048576,
+      "context_length": 524288,
       "modality": "text+image+audio->text",
       "input_modalities": [
         "text",
@@ -1898,7 +1903,7 @@
       "name": "Thinking Machines: Inkling",
       "created": 1784325956,
       "hugging_face_id": "thinkingmachines/Inkling",
-      "context_length": 1048576,
+      "context_length": 524288,
       "modality": "text+image+audio->text",
       "input_modalities": [
         "text",
@@ -2528,23 +2533,6 @@
       "input_cache_read": 1.2064e-7
     },
     {
-      "id": "z-ai/glm-5.2:free",
-      "name": "Z.ai: GLM 5.2 (free)",
-      "created": 1781631930,
-      "hugging_face_id": "zai-org/GLM-5.2",
-      "context_length": 32768,
-      "modality": "text->text",
-      "input_modalities": [
-        "text"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0,
-      "completion": 0,
-      "input_cache_read": null
-    },
-    {
       "id": "openrouter/fusion",
       "name": "OpenRouter: Fusion",
       "created": 1781371647,
@@ -3128,8 +3116,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000013,
-      "completion": 0.0000114,
+      "prompt": 9.95e-7,
+      "completion": 0.000009,
       "input_cache_read": 3e-7
     },
     {
@@ -3262,8 +3250,8 @@
         "text"
       ],
       "prompt": 3.2e-7,
-      "completion": 0.0000027,
-      "input_cache_read": 1.5e-7
+      "completion": 0.0000032,
+      "input_cache_read": null
     },
     {
       "id": "openai/gpt-5.5-pro",
@@ -3354,9 +3342,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 8.4825e-7,
-      "completion": 0.0000016965,
-      "input_cache_read": 7.06875e-8
+      "prompt": 9.483e-7,
+      "completion": 0.0000018966,
+      "input_cache_read": 7.9025e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash",
@@ -3371,9 +3359,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4.9e-8,
-      "completion": 9.8e-8,
-      "input_cache_read": 9.8e-9
+      "prompt": 1.4e-7,
+      "completion": 2.8e-7,
+      "input_cache_read": 2.8e-8
     },
     {
       "id": "tencent/hy3-preview",
@@ -3554,9 +3542,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 9.66e-7,
-      "completion": 0.000003036,
-      "input_cache_read": 1.794e-7
+      "prompt": 0.0000014,
+      "completion": 0.0000044,
+      "input_cache_read": 2.6e-7
     },
     {
       "id": "google/gemma-4-26b-a4b-it",
@@ -3573,9 +3561,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 9e-8,
-      "completion": 3e-7,
-      "input_cache_read": 5e-8
+      "prompt": 6.75e-8,
+      "completion": 2.25e-7,
+      "input_cache_read": 3.75e-8
     },
     {
       "id": "google/gemma-4-26b-a4b-it:free",
@@ -3797,9 +3785,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3e-7,
-      "completion": 0.0000012,
-      "input_cache_read": 6e-8
+      "prompt": 2.1e-7,
+      "completion": 8.4e-7,
+      "input_cache_read": 4.2e-8
     },
     {
       "id": "openai/gpt-5.4-nano",
@@ -4756,9 +4744,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4e-7,
-      "completion": 0.00000175,
-      "input_cache_read": 8e-8
+      "prompt": 6e-7,
+      "completion": 0.0000022,
+      "input_cache_read": 1.1e-7
     },
     {
       "id": "google/gemini-3-flash-preview",
@@ -5587,8 +5575,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.3e-7,
-      "completion": 5.2e-7,
+      "prompt": 1.5e-7,
+      "completion": 6e-7,
       "input_cache_read": null
     },
     {
@@ -7566,8 +7554,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3.2e-7,
-      "completion": 8.9e-7,
+      "prompt": 2.574e-7,
+      "completion": 0.0000010287,
       "input_cache_read": null
     },
     {
@@ -8222,24 +8210,6 @@
       "prompt": 0.000005,
       "completion": 0.000015,
       "input_cache_read": null
-    },
-    {
-      "id": "anthropic/claude-3-haiku",
-      "name": "Anthropic: Claude 3 Haiku",
-      "created": 1710288000,
-      "hugging_face_id": null,
-      "context_length": 200000,
-      "modality": "text+image->text",
-      "input_modalities": [
-        "text",
-        "image"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 2.5e-7,
-      "completion": 0.00000125,
-      "input_cache_read": 3e-8
     },
     {
       "id": "mistralai/mistral-large",

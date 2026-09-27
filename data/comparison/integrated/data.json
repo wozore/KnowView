@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-26T23:35:50.912Z",
+  "generated_at": "2026-09-27T23:47:41.921Z",
   "models": [
     {
       "canonical": "amazon--nova-2-lite",
@@ -34,9 +34,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 48.6,
+          "value": 46.6,
           "source": "lmarena",
-          "raw": 1362.620213087203
+          "raw": 1361.9794492680603
         },
         "reasoning": {
           "value": 58.7,
@@ -108,8 +108,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1362.620213087203,
-            "rank": 182
+            "score": 1361.9794492680603,
+            "rank": 189
           }
         }
       },
@@ -414,8 +414,8 @@
         ],
         "lmarena": [
           "Claude Fable 5 (High)",
-          "claude-fable-5",
-          "claude-fable-5-high"
+          "claude-fable-5-high",
+          "claude-fable-5"
         ],
         "livebench": [
           "claude-fable-5-max-effort"
@@ -449,49 +449,54 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 79.5,
+        "score": 78.8,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 77.6275563647832,
+          "lmarena": 76.5595081019415,
           "livebench": 82.97079761904762,
           "llm_stats": 92.4375
         },
         "note": null
       },
       "dimensions": {
-        "webdev": {
-          "value": 74,
+        "text": {
+          "value": 90.9,
           "source": "lmarena",
-          "raw": 1626.8275806213235
+          "raw": 1491.1801266546056
+        },
+        "webdev": {
+          "value": 73.4,
+          "source": "lmarena",
+          "raw": 1626.9800153815763
         },
         "agent_praise_complaint": {
-          "value": 96.1,
+          "value": 94.8,
           "source": "lmarena",
-          "raw": 0.18070851258291643
+          "raw": 0.1741917101177598
         },
         "agent_steerability": {
-          "value": 81.2,
+          "value": 83.1,
           "source": "lmarena",
-          "raw": 0.10595199365299846
+          "raw": 0.11547952924473076
         },
         "agent_bash_recovery_steps": {
-          "value": 78.1,
+          "value": 77,
           "source": "lmarena",
-          "raw": 0.09062335309997827
+          "raw": 0.0852126095093999
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.0036937277999484763
+          "raw": 0.003568934810260771
         },
         "agent_task_outcome_explicit": {
-          "value": 71.9,
+          "value": 67.1,
           "source": "lmarena",
-          "raw": 0.05971132198373852
+          "raw": 0.03553491886638649
         },
         "reasoning": {
           "value": 89.7,
@@ -567,22 +572,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 79.5,
+          "value": 78.8,
           "source": "composite",
-          "raw": 79.5
+          "raw": 78.8
         }
       },
       "lmarena_scores": {
         "agent": {
           "high": {
-            "score": 0.08813778182391603,
+            "score": 0.08279754050970754,
             "rank": 5
           }
         },
         "text": {
-          "base": {
-            "score": 1492.62585065081,
-            "rank": 7
+          "high": {
+            "score": 1491.1801266546056,
+            "rank": 8
           }
         },
         "vision": {
@@ -593,7 +598,7 @@
         },
         "webdev": {
           "high": {
-            "score": 1626.8275806213235,
+            "score": 1626.9800153815763,
             "rank": 14
           }
         },
@@ -605,32 +610,32 @@
         },
         "agent_praise_complaint": {
           "high": {
-            "score": 0.18070851258291643,
-            "rank": 6
+            "score": 0.1741917101177598,
+            "rank": 5
           }
         },
         "agent_steerability": {
           "high": {
-            "score": 0.10595199365299846,
-            "rank": 3
+            "score": 0.11547952924473076,
+            "rank": 2
           }
         },
         "agent_bash_recovery_steps": {
           "high": {
-            "score": 0.09062335309997827,
+            "score": 0.0852126095093999,
             "rank": 5
           }
         },
         "agent_tool_hallucination": {
           "high": {
-            "score": 0.0036937277999484763,
-            "rank": 15
+            "score": 0.003568934810260771,
+            "rank": 14
           }
         },
         "agent_task_outcome_explicit": {
           "high": {
-            "score": 0.05971132198373852,
-            "rank": 15
+            "score": 0.03553491886638649,
+            "rank": 19
           }
         }
       },
@@ -663,7 +668,7 @@
       "release_date_provenance": "llm_stats",
       "value": {
         "score": 0,
-        "raw": 0.9745596399981309,
+        "raw": 0.9657156152016779,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "anthropic--claude-fable",
@@ -727,14 +732,14 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 86,
+        "score": 86.1,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 87.41058537219105,
+          "lmarena": 87.60255724628885,
           "livebench": 83.41415476190477,
           "llm_stats": 93.17499999999998
         },
@@ -742,9 +747,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 100,
+          "value": 97.6,
           "source": "lmarena",
-          "raw": 1507.5817496991563
+          "raw": 1510.8335549676824
         },
         "vision": {
           "value": 99.1,
@@ -752,34 +757,34 @@
           "raw": 1322.3403440993363
         },
         "webdev": {
-          "value": 91.4,
+          "value": 90,
           "source": "lmarena",
-          "raw": 1754.6666028244922
+          "raw": 1751.4867509630722
         },
         "agent_praise_complaint": {
           "value": 100,
           "source": "lmarena",
-          "raw": 0.31829833005259023
+          "raw": 0.32314530216391923
         },
         "agent_steerability": {
-          "value": 67.8,
+          "value": 74.9,
           "source": "lmarena",
-          "raw": 0.03883961830041088
+          "raw": 0.0743055164228213
         },
         "agent_bash_recovery_steps": {
-          "value": 85.2,
+          "value": 83.3,
           "source": "lmarena",
-          "raw": 0.1261855545554491
+          "raw": 0.11651405110385693
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.0036626780680819593
+          "raw": 0.0035263797107631945
         },
         "agent_task_outcome_explicit": {
-          "value": 99.7,
+          "value": 94.5,
           "source": "lmarena",
-          "raw": 0.19827845332824412
+          "raw": 0.17257268175586038
         },
         "reasoning": {
           "value": 91.7,
@@ -843,22 +848,22 @@
           "note": "index_vision"
         },
         "composite": {
-          "value": 86,
+          "value": 86.1,
           "source": "composite",
-          "raw": 86
+          "raw": 86.1
         }
       },
       "lmarena_scores": {
         "agent": {
           "max": {
-            "score": 0.13705292686095527,
+            "score": 0.13801278623144422,
             "rank": 1
           }
         },
         "text": {
           "max": {
-            "score": 1507.5817496991563,
-            "rank": 1
+            "score": 1510.8335549676824,
+            "rank": 2
           }
         },
         "vision": {
@@ -869,37 +874,37 @@
         },
         "webdev": {
           "max": {
-            "score": 1754.6666028244922,
+            "score": 1751.4867509630722,
             "rank": 3
           }
         },
         "agent_praise_complaint": {
           "max": {
-            "score": 0.31829833005259023,
+            "score": 0.32314530216391923,
             "rank": 2
           }
         },
         "agent_steerability": {
           "max": {
-            "score": 0.03883961830041088,
-            "rank": 12
+            "score": 0.0743055164228213,
+            "rank": 6
           }
         },
         "agent_bash_recovery_steps": {
           "max": {
-            "score": 0.1261855545554491,
-            "rank": 2
+            "score": 0.11651405110385693,
+            "rank": 3
           }
         },
         "agent_tool_hallucination": {
           "max": {
-            "score": 0.0036626780680819593,
-            "rank": 17
+            "score": 0.0035263797107631945,
+            "rank": 18
           }
         },
         "agent_task_outcome_explicit": {
           "max": {
-            "score": 0.19827845332824412,
+            "score": 0.17257268175586038,
             "rank": 1
           }
         }
@@ -932,8 +937,8 @@
       "release_date": "2026-09-01",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 2.2,
-        "raw": 1.0531499145913523,
+        "score": 2.5,
+        "raw": 1.0543120297715296,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "anthropic--claude-fable",
@@ -1033,14 +1038,14 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 60.6,
+          "value": 58.4,
           "source": "lmarena",
-          "raw": 1396.6367998746723
+          "raw": 1396.3018483477856
         },
         "webdev": {
-          "value": 33.6,
+          "value": 33.8,
           "source": "lmarena",
-          "raw": 1329.2978151886969
+          "raw": 1329.545619927862
         },
         "reasoning": {
           "value": 56.6,
@@ -1112,14 +1117,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1396.6367998746723,
-            "rank": 147
+            "score": 1396.3018483477856,
+            "rank": 151
           }
         },
         "webdev": {
           "base": {
-            "score": 1329.2978151886969,
-            "rank": 107
+            "score": 1329.545619927862,
+            "rank": 110
           }
         }
       },
@@ -1434,16 +1439,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 68.6,
+          "value": 66.2,
           "source": "lmarena",
-          "raw": 1419.1516567254375
+          "raw": 1419.1513308992705
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1419.1516567254375,
-            "rank": 111
+            "score": 1419.1513308992705,
+            "rank": 115
           }
         }
       },
@@ -1493,14 +1498,14 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 68.2,
+          "value": 66,
           "source": "lmarena",
-          "raw": 1418.0927370682243
+          "raw": 1418.499852266215
         },
         "webdev": {
-          "value": 41.8,
+          "value": 41.9,
           "source": "lmarena",
-          "raw": 1389.116727131408
+          "raw": 1389.882452681175
         },
         "reasoning": {
           "value": 62.4,
@@ -1560,14 +1565,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1418.0927370682243,
-            "rank": 112
+            "score": 1418.499852266215,
+            "rank": 116
           }
         },
         "webdev": {
           "base": {
-            "score": 1389.116727131408,
-            "rank": 85
+            "score": 1389.882452681175,
+            "rank": 88
           }
         }
       },
@@ -1668,27 +1673,27 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 78.5,
+          "value": 76.1,
           "source": "lmarena",
-          "raw": 1447.0818203958963
+          "raw": 1448.0694029281399
         },
         "webdev": {
-          "value": 56.1,
+          "value": 55.6,
           "source": "lmarena",
-          "raw": 1494.8233697440894
+          "raw": 1493.3335857869101
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1447.0818203958963,
-            "rank": 49
+            "score": 1448.0694029281399,
+            "rank": 52
           }
         },
         "webdev": {
           "base": {
-            "score": 1494.8233697440894,
-            "rank": 48
+            "score": 1493.3335857869101,
+            "rank": 51
           }
         }
       },
@@ -1881,14 +1886,14 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 79.7,
+          "value": 77.1,
           "source": "lmarena",
-          "raw": 1450.4590546195989
+          "raw": 1450.8613628637167
         },
         "webdev": {
-          "value": 52.5,
+          "value": 52.3,
           "source": "lmarena",
-          "raw": 1468.0925361068755
+          "raw": 1468.3730823076223
         },
         "reasoning": {
           "value": 74.9,
@@ -1948,14 +1953,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1450.4590546195989,
-            "rank": 44
+            "score": 1450.8613628637167,
+            "rank": 46
           }
         },
         "webdev": {
           "base": {
-            "score": 1468.0925361068755,
-            "rank": 55
+            "score": 1468.3730823076223,
+            "rank": 58
           }
         }
       },
@@ -2027,14 +2032,14 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 76.3,
+        "score": 75.2,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 76.37701300146793,
+          "lmarena": 74.61902264726203,
           "livebench": 76.22398809523808,
           "llm_stats": 87.8375
         },
@@ -2042,9 +2047,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 83.4,
+          "value": 80.1,
           "source": "lmarena",
-          "raw": 1460.8015951584546
+          "raw": 1459.83937315631
         },
         "vision": {
           "value": 91.4,
@@ -2052,34 +2057,34 @@
           "raw": 1291.6819998948467
         },
         "webdev": {
-          "value": 64.3,
+          "value": 63.8,
           "source": "lmarena",
-          "raw": 1555.1694974361722
+          "raw": 1554.5327535043832
         },
         "agent_praise_complaint": {
-          "value": 92.5,
+          "value": 91.9,
           "source": "lmarena",
-          "raw": 0.16228885628603495
+          "raw": 0.15969037133993202
         },
         "agent_steerability": {
-          "value": 82.1,
+          "value": 80.1,
           "source": "lmarena",
-          "raw": 0.11058304510133388
+          "raw": 0.10056377336992595
         },
         "agent_bash_recovery_steps": {
-          "value": 75,
+          "value": 71.9,
           "source": "lmarena",
-          "raw": 0.07489763327901233
+          "raw": 0.05938324735098632
         },
         "agent_tool_hallucination": {
-          "value": 59.8,
+          "value": 59.9,
           "source": "lmarena",
-          "raw": -0.0011880253725422563
+          "raw": -0.0005672640054186218
         },
         "agent_task_outcome_explicit": {
-          "value": 72.6,
+          "value": 69.3,
           "source": "lmarena",
-          "raw": 0.06284381574285924
+          "raw": 0.0464054381261253
         },
         "reasoning": {
           "value": 89.2,
@@ -2155,26 +2160,26 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 76.3,
+          "value": 75.2,
           "source": "composite",
-          "raw": 76.3
+          "raw": 75.2
         }
       },
       "lmarena_scores": {
         "agent": {
           "high": {
-            "score": 0.08188506500733964,
-            "rank": 6
+            "score": 0.0730951132363102,
+            "rank": 7
           }
         },
         "text": {
           "high": {
-            "score": 1460.8015951584546,
-            "rank": 34
+            "score": 1459.83937315631,
+            "rank": 37
           },
           "base": {
-            "score": 1452.6615389407498,
-            "rank": 40
+            "score": 1453.4644060477845,
+            "rank": 44
           }
         },
         "vision": {
@@ -2189,12 +2194,12 @@
         },
         "webdev": {
           "high": {
-            "score": 1555.1694974361722,
-            "rank": 29
+            "score": 1554.5327535043832,
+            "rank": 32
           },
           "base": {
-            "score": 1536.6618620646539,
-            "rank": 36
+            "score": 1534.9821819734377,
+            "rank": 39
           }
         },
         "search": {
@@ -2205,32 +2210,32 @@
         },
         "agent_praise_complaint": {
           "high": {
-            "score": 0.16228885628603495,
-            "rank": 7
+            "score": 0.15969037133993202,
+            "rank": 6
           }
         },
         "agent_steerability": {
           "high": {
-            "score": 0.11058304510133388,
-            "rank": 1
+            "score": 0.10056377336992595,
+            "rank": 4
           }
         },
         "agent_bash_recovery_steps": {
           "high": {
-            "score": 0.07489763327901233,
-            "rank": 7
+            "score": 0.05938324735098632,
+            "rank": 13
           }
         },
         "agent_tool_hallucination": {
           "high": {
-            "score": -0.0011880253725422563,
-            "rank": 34
+            "score": -0.0005672640054186218,
+            "rank": 31
           }
         },
         "agent_task_outcome_explicit": {
           "high": {
-            "score": 0.06284381574285924,
-            "rank": 14
+            "score": 0.0464054381261253,
+            "rank": 16
           }
         }
       },
@@ -2262,8 +2267,8 @@
       "release_date": "2026-05-28",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 18.4,
-        "raw": 1.6266227371882014,
+        "score": 18.2,
+        "raw": 1.612101029853584,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "anthropic--claude-opus-4.8",
@@ -2330,14 +2335,14 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 80.4,
+        "score": 79.8,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 80.49631359619343,
+          "lmarena": 79.60661921283038,
           "livebench": 80.08497619047618,
           "llm_stats": 93.4375
         },
@@ -2345,9 +2350,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 99.1,
+          "value": 95.1,
           "source": "lmarena",
-          "raw": 1504.9163367198241
+          "raw": 1503.5160004620236
         },
         "vision": {
           "value": 98.8,
@@ -2355,34 +2360,34 @@
           "raw": 1321.2117571301064
         },
         "webdev": {
-          "value": 78.7,
+          "value": 78.1,
           "source": "lmarena",
-          "raw": 1661.6885872728221
+          "raw": 1661.8817615282483
         },
         "agent_praise_complaint": {
-          "value": 97.3,
+          "value": 95.7,
           "source": "lmarena",
-          "raw": 0.18656174190221408
+          "raw": 0.17852582568649678
         },
         "agent_steerability": {
-          "value": 82.1,
+          "value": 82.4,
           "source": "lmarena",
-          "raw": 0.11042474686094123
+          "raw": 0.11191790025180065
         },
         "agent_bash_recovery_steps": {
-          "value": 84,
+          "value": 83.9,
           "source": "lmarena",
-          "raw": 0.11979780311883759
+          "raw": 0.11969988328788195
         },
         "agent_tool_hallucination": {
-          "value": 60.7,
+          "value": 60.6,
           "source": "lmarena",
-          "raw": 0.003251313400355116
+          "raw": 0.0032006841939988817
         },
         "agent_task_outcome_explicit": {
-          "value": 78.5,
+          "value": 75.4,
           "source": "lmarena",
-          "raw": 0.09237223462248767
+          "raw": 0.0768211869005816
         },
         "reasoning": {
           "value": 91.2,
@@ -2446,30 +2451,30 @@
           "note": "index_vision"
         },
         "composite": {
-          "value": 80.4,
+          "value": 79.8,
           "source": "composite",
-          "raw": 80.4
+          "raw": 79.8
         }
       },
       "lmarena_scores": {
         "agent": {
           "high": {
-            "score": 0.10248156798096714,
+            "score": 0.09803309606415198,
             "rank": 3
           },
           "max": {
-            "score": 0.10162856287836407,
+            "score": 0.09505749158203347,
             "rank": 4
           }
         },
         "text": {
           "max": {
-            "score": 1504.959276878543,
-            "rank": 2
+            "score": 1505.5506760064147,
+            "rank": 3
           },
           "high": {
-            "score": 1504.9163367198241,
-            "rank": 3
+            "score": 1503.5160004620236,
+            "rank": 5
           }
         },
         "vision": {
@@ -2480,62 +2485,62 @@
         },
         "webdev": {
           "max": {
-            "score": 1692.4435144973606,
+            "score": 1692.5373139199987,
             "rank": 4
           },
           "high": {
-            "score": 1661.6885872728221,
+            "score": 1661.8817615282483,
             "rank": 7
           }
         },
         "agent_praise_complaint": {
           "high": {
-            "score": 0.18656174190221408,
+            "score": 0.17852582568649678,
             "rank": 4
           },
           "max": {
-            "score": 0.18147872805609844,
-            "rank": 5
+            "score": 0.15768187956299973,
+            "rank": 7
           }
         },
         "agent_steerability": {
           "high": {
-            "score": 0.11042474686094123,
-            "rank": 2
+            "score": 0.11191790025180065,
+            "rank": 3
           },
           "max": {
-            "score": 0.06832044806912474,
+            "score": 0.08286712257200035,
             "rank": 5
           }
         },
         "agent_bash_recovery_steps": {
           "max": {
-            "score": 0.13076939364988327,
+            "score": 0.12576431289277945,
             "rank": 1
           },
           "high": {
-            "score": 0.11979780311883759,
-            "rank": 3
+            "score": 0.11969988328788195,
+            "rank": 2
           }
         },
         "agent_tool_hallucination": {
           "max": {
-            "score": 0.003500753600256701,
+            "score": 0.003426024173343478,
             "rank": 20
           },
           "high": {
-            "score": 0.003251313400355116,
+            "score": 0.0032006841939988817,
             "rank": 23
           }
         },
         "agent_task_outcome_explicit": {
           "max": {
-            "score": 0.12407349101645715,
-            "rank": 4
+            "score": 0.10554811870904435,
+            "rank": 5
           },
           "high": {
-            "score": 0.09237223462248767,
-            "rank": 9
+            "score": 0.0768211869005816,
+            "rank": 11
           }
         }
       },
@@ -2568,7 +2573,7 @@
       "release_date_provenance": "llm_stats",
       "value": {
         "score": 19.9,
-        "raw": 1.6789639750827106,
+        "raw": 1.671473303353553,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "anthropic--claude-opus",
@@ -2597,6 +2602,7 @@
           "anthropic/claude-opus-5.5:batch"
         ],
         "lmarena": [
+          "claude-opus-5.5-high",
           "claude-opus-5.5-max"
         ],
         "llm_stats": [
@@ -2617,18 +2623,19 @@
       "single_source": false,
       "degrees": {
         "lmarena": [
+          "high",
           "max"
         ]
       },
       "default_degree": {
-        "lmarena": "max"
+        "lmarena": "high"
       },
       "composite": null,
       "dimensions": {
-        "webdev": {
+        "text": {
           "value": 100,
           "source": "lmarena",
-          "raw": 1818.4080843495262
+          "raw": 1517.7921223112396
         },
         "reasoning": {
           "value": 97.3,
@@ -2680,9 +2687,15 @@
         }
       },
       "lmarena_scores": {
+        "text": {
+          "high": {
+            "score": 1517.7921223112396,
+            "rank": 1
+          }
+        },
         "webdev": {
           "max": {
-            "score": 1818.4080843495262,
+            "score": 1826.7306745084245,
             "rank": 1
           }
         }
@@ -2796,27 +2809,27 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 73.9,
+          "value": 71.5,
           "source": "lmarena",
-          "raw": 1433.9444221972358
+          "raw": 1434.7282370355003
         },
         "webdev": {
           "value": 42.3,
           "source": "lmarena",
-          "raw": 1392.74130358819
+          "raw": 1393.3056980904194
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1433.9444221972358,
-            "rank": 81
+            "score": 1434.7282370355003,
+            "rank": 84
           }
         },
         "webdev": {
           "base": {
-            "score": 1392.74130358819,
-            "rank": 82
+            "score": 1393.3056980904194,
+            "rank": 87
           }
         }
       },
@@ -2917,14 +2930,14 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 75.4,
+          "value": 72.9,
           "source": "lmarena",
-          "raw": 1438.2469788453327
+          "raw": 1438.569154571346
         },
         "webdev": {
-          "value": 41.3,
+          "value": 41.1,
           "source": "lmarena",
-          "raw": 1385.348969619174
+          "raw": 1384.2466132649959
         },
         "reasoning": {
           "value": 64.1,
@@ -2984,14 +2997,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1438.2469788453327,
-            "rank": 72
+            "score": 1438.569154571346,
+            "rank": 75
           }
         },
         "webdev": {
           "base": {
-            "score": 1385.348969619174,
-            "rank": 87
+            "score": 1384.2466132649959,
+            "rank": 91
           }
         }
       },
@@ -3032,7 +3045,6 @@
           "anthropic/claude-sonnet-4.6:batch"
         ],
         "lmarena": [
-          "Claude Sonnet 4.6",
           "claude-sonnet-4-6"
         ],
         "llm_stats": [
@@ -3053,23 +3065,12 @@
       "single_source": false,
       "degrees": {},
       "default_degree": {},
-      "composite": {
-        "score": 57,
-        "weights": {
-          "lmarena": 1
-        },
-        "method": "proportional_redistribute",
-        "available": {
-          "lmarena": 56.96524667161522,
-          "llm_stats": 71.15
-        },
-        "note": "缺源，权重按比例重分配"
-      },
+      "composite": null,
       "dimensions": {
         "text": {
-          "value": 82.5,
+          "value": 79.5,
           "source": "lmarena",
-          "raw": 1458.263082118117
+          "raw": 1457.8876026982648
         },
         "vision": {
           "value": 89.2,
@@ -3077,34 +3078,9 @@
           "raw": 1282.7186314818323
         },
         "webdev": {
-          "value": 59.6,
+          "value": 59.3,
           "source": "lmarena",
-          "raw": 1520.7071303017478
-        },
-        "agent_praise_complaint": {
-          "value": 55.7,
-          "source": "lmarena",
-          "raw": -0.02166040530034674
-        },
-        "agent_steerability": {
-          "value": 50,
-          "source": "lmarena",
-          "raw": -0.050076995886948306
-        },
-        "agent_bash_recovery_steps": {
-          "value": 70.1,
-          "source": "lmarena",
-          "raw": 0.0503693202116644
-        },
-        "agent_tool_hallucination": {
-          "value": 60.7,
-          "source": "lmarena",
-          "raw": 0.003276209156723553
-        },
-        "agent_task_outcome_explicit": {
-          "value": 48.4,
-          "source": "lmarena",
-          "raw": -0.05777696139071231
+          "raw": 1521.255228715998
         },
         "reasoning": {
           "value": 72.5,
@@ -3177,24 +3153,13 @@
           "source": "llm_stats",
           "raw": 0.796,
           "note": "swe-bench-verified"
-        },
-        "composite": {
-          "value": 57,
-          "source": "composite",
-          "raw": 57
         }
       },
       "lmarena_scores": {
-        "agent": {
-          "base": {
-            "score": -0.01517376664192388,
-            "rank": 31
-          }
-        },
         "text": {
           "base": {
-            "score": 1458.263082118117,
-            "rank": 35
+            "score": 1457.8876026982648,
+            "rank": 39
           }
         },
         "vision": {
@@ -3205,38 +3170,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1520.7071303017478,
-            "rank": 38
-          }
-        },
-        "agent_praise_complaint": {
-          "base": {
-            "score": -0.02166040530034674,
-            "rank": 29
-          }
-        },
-        "agent_steerability": {
-          "base": {
-            "score": -0.050076995886948306,
-            "rank": 38
-          }
-        },
-        "agent_bash_recovery_steps": {
-          "base": {
-            "score": 0.0503693202116644,
-            "rank": 18
-          }
-        },
-        "agent_tool_hallucination": {
-          "base": {
-            "score": 0.003276209156723553,
-            "rank": 22
-          }
-        },
-        "agent_task_outcome_explicit": {
-          "base": {
-            "score": -0.05777696139071231,
-            "rank": 34
+            "score": 1521.255228715998,
+            "rank": 41
           }
         }
       },
@@ -3257,11 +3192,7 @@
       },
       "release_date": "2026-02-17",
       "release_date_provenance": "llm_stats",
-      "value": {
-        "score": 24.6,
-        "raw": 1.8458266904983307,
-        "note": "ln(综合分/平均每M价)"
-      },
+      "value": null,
       "series_key": "anthropic--claude-sonnet-4.6",
       "series_display": "Claude Sonnet 4.6",
       "member_key": "anthropic--claude-sonnet-4.6",
@@ -3464,14 +3395,14 @@
         "livebench": "xhigh"
       },
       "composite": {
-        "score": 73.4,
+        "score": 71.8,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 71.93915043747036,
+          "lmarena": 69.58549139580877,
           "livebench": 76.03971428571428,
           "llm_stats": 84.87500000000001
         },
@@ -3479,9 +3410,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 76.8,
+          "value": 74.3,
           "source": "lmarena",
-          "raw": 1442.1464894477058
+          "raw": 1442.6432270309203
         },
         "vision": {
           "value": 87.8,
@@ -3489,34 +3420,34 @@
           "raw": 1277.1610988806
         },
         "webdev": {
-          "value": 62,
+          "value": 61.7,
           "source": "lmarena",
-          "raw": 1538.225548347194
+          "raw": 1538.9131567383743
         },
         "agent_praise_complaint": {
-          "value": 82.1,
+          "value": 78.9,
           "source": "lmarena",
-          "raw": 0.11034619411382351
+          "raw": 0.09436077693632217
         },
         "agent_steerability": {
-          "value": 76.8,
+          "value": 74.5,
           "source": "lmarena",
-          "raw": 0.08386630983198767
+          "raw": 0.07233367688009101
         },
         "agent_bash_recovery_steps": {
-          "value": 74.7,
+          "value": 73.1,
           "source": "lmarena",
-          "raw": 0.07364045103817007
+          "raw": 0.06573950278490703
         },
         "agent_tool_hallucination": {
           "value": 60.4,
           "source": "lmarena",
-          "raw": 0.0018373567696698956
+          "raw": 0.0018458015724576171
         },
         "agent_task_outcome_explicit": {
-          "value": 65.8,
+          "value": 61.1,
           "source": "lmarena",
-          "raw": 0.028788449183107745
+          "raw": 0.005357526721441519
         },
         "reasoning": {
           "value": 88.7,
@@ -3586,22 +3517,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 73.4,
+          "value": 71.8,
           "source": "composite",
-          "raw": 73.4
+          "raw": 71.8
         }
       },
       "lmarena_scores": {
         "agent": {
           "high": {
-            "score": 0.059695752187351785,
+            "score": 0.047927456979043874,
             "rank": 9
           }
         },
         "text": {
           "high": {
-            "score": 1442.1464894477058,
-            "rank": 62
+            "score": 1442.6432270309203,
+            "rank": 67
           }
         },
         "vision": {
@@ -3612,37 +3543,37 @@
         },
         "webdev": {
           "high": {
-            "score": 1538.225548347194,
-            "rank": 33
+            "score": 1538.9131567383743,
+            "rank": 36
           }
         },
         "agent_praise_complaint": {
           "high": {
-            "score": 0.11034619411382351,
-            "rank": 10
+            "score": 0.09436077693632217,
+            "rank": 9
           }
         },
         "agent_steerability": {
           "high": {
-            "score": 0.08386630983198767,
-            "rank": 4
+            "score": 0.07233367688009101,
+            "rank": 7
           }
         },
         "agent_bash_recovery_steps": {
           "high": {
-            "score": 0.07364045103817007,
-            "rank": 9
+            "score": 0.06573950278490703,
+            "rank": 8
           }
         },
         "agent_tool_hallucination": {
           "high": {
-            "score": 0.0018373567696698956,
-            "rank": 28
+            "score": 0.0018458015724576171,
+            "rank": 27
           }
         },
         "agent_task_outcome_explicit": {
           "high": {
-            "score": 0.028788449183107745,
+            "score": 0.005357526721441519,
             "rank": 22
           }
         }
@@ -3675,8 +3606,8 @@
       "release_date": "2026-06-30",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 43.2,
-        "raw": 2.5041644663924147,
+        "score": 42.8,
+        "raw": 2.4821250068261236,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "anthropic--claude-sonnet",
@@ -3848,16 +3779,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 77.6,
+          "value": 75,
           "source": "lmarena",
-          "raw": 1444.4941963433394
+          "raw": 1444.822682234696
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1444.4941963433394,
-            "rank": 56
+            "score": 1444.822682234696,
+            "rank": 59
           }
         }
       },
@@ -3901,16 +3832,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 72.6,
+          "value": 69.8,
           "source": "lmarena",
-          "raw": 1430.4072331555146
+          "raw": 1429.785600019678
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1430.4072331555146,
-            "rank": 84
+            "score": 1429.785600019678,
+            "rank": 90
           }
         }
       },
@@ -3954,16 +3885,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 76.9,
+          "value": 74.2,
           "source": "lmarena",
-          "raw": 1442.5408821080998
+          "raw": 1442.3706214319582
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1442.5408821080998,
-            "rank": 60
+            "score": 1442.3706214319582,
+            "rank": 68
           }
         }
       },
@@ -4058,9 +3989,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 86,
+          "value": 83,
           "source": "lmarena",
-          "raw": 1468.1952692602167
+          "raw": 1468.0641176955514
         },
         "search": {
           "value": 76.2,
@@ -4071,8 +4002,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1468.1952692602167,
-            "rank": 28
+            "score": 1468.0641176955514,
+            "rank": 31
           }
         },
         "search": {
@@ -4128,7 +4059,7 @@
         "text_to_image": {
           "value": 50.3,
           "source": "lmarena",
-          "raw": 1162.1795114420781
+          "raw": 1162.0627240909162
         },
         "image_edit": {
           "value": 50,
@@ -4139,8 +4070,8 @@
       "lmarena_scores": {
         "text_to_image": {
           "max": {
-            "score": 1162.1795114420781,
-            "rank": 26
+            "score": 1162.0627240909162,
+            "rank": 27
           }
         },
         "image_edit": {
@@ -4188,9 +4119,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 49.3,
+          "value": 49.2,
           "source": "lmarena",
-          "raw": 1156.5642920892888
+          "raw": 1156.5294754325366
         },
         "image_edit": {
           "value": 43,
@@ -4201,7 +4132,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1156.5642920892888,
+            "score": 1156.5294754325366,
             "rank": 28
           }
         },
@@ -4250,9 +4181,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 48.8,
+          "value": 48.7,
           "source": "lmarena",
-          "raw": 1154.1488188614694
+          "raw": 1153.8716377391152
         },
         "image_edit": {
           "value": 46.8,
@@ -4263,8 +4194,8 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1154.1488188614694,
-            "rank": 29
+            "score": 1153.8716377391152,
+            "rank": 30
           }
         },
         "image_edit": {
@@ -4416,9 +4347,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 78.7,
+          "value": 76.2,
           "source": "lmarena",
-          "raw": 1447.5910219281939
+          "raw": 1448.3762933320481
         },
         "vision": {
           "value": 87.1,
@@ -4429,8 +4360,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1447.5910219281939,
-            "rank": 48
+            "score": 1448.3762933320481,
+            "rank": 51
           }
         },
         "vision": {
@@ -5030,16 +4961,16 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 59.4,
+          "value": 59,
           "source": "lmarena",
-          "raw": 1518.9004445467422
+          "raw": 1518.389357551495
         }
       },
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1518.9004445467422,
-            "rank": 40
+            "score": 1518.389357551495,
+            "rank": 44
           }
         }
       },
@@ -5304,7 +5235,7 @@
         "text_to_image": {
           "value": 46.1,
           "source": "lmarena",
-          "raw": 1139.7537637177893
+          "raw": 1139.972042233932
         },
         "image_edit": {
           "value": 51.6,
@@ -5315,7 +5246,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1139.7537637177893,
+            "score": 1139.972042233932,
             "rank": 37
           }
         },
@@ -5366,7 +5297,7 @@
         "text_to_image": {
           "value": 41.6,
           "source": "lmarena",
-          "raw": 1116.4253005554833
+          "raw": 1116.5207962915276
         },
         "image_edit": {
           "value": 40,
@@ -5377,8 +5308,8 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1116.4253005554833,
-            "rank": 45
+            "score": 1116.5207962915276,
+            "rank": 44
           }
         },
         "image_edit": {
@@ -5428,7 +5359,7 @@
         "text_to_image": {
           "value": 41,
           "source": "lmarena",
-          "raw": 1113.0393524639524
+          "raw": 1113.311015844876
         },
         "image_edit": {
           "value": 41.5,
@@ -5439,7 +5370,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1113.0393524639524,
+            "score": 1113.311015844876,
             "rank": 49
           }
         },
@@ -5490,7 +5421,7 @@
         "text_to_image": {
           "value": 47.5,
           "source": "lmarena",
-          "raw": 1147.093186366108
+          "raw": 1147.4660686899308
         },
         "image_edit": {
           "value": 57.6,
@@ -5501,7 +5432,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1147.093186366108,
+            "score": 1147.4660686899308,
             "rank": 35
           }
         },
@@ -5550,9 +5481,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 45.8,
+          "value": 45.7,
           "source": "lmarena",
-          "raw": 1138.4379417169143
+          "raw": 1138.0528039652795
         },
         "image_edit": {
           "value": 56.1,
@@ -5563,7 +5494,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1138.4379417169143,
+            "score": 1138.0528039652795,
             "rank": 38
           }
         },
@@ -5612,9 +5543,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 68.3,
+          "value": 68.2,
           "source": "lmarena",
-          "raw": 1256.3708267679358
+          "raw": 1256.2330581191047
         },
         "image_edit": {
           "value": 74.9,
@@ -5625,7 +5556,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1256.3708267679358,
+            "score": 1256.2330581191047,
             "rank": 10
           }
         },
@@ -5676,9 +5607,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 36.8,
+          "value": 35.5,
           "source": "lmarena",
-          "raw": 1329.4879678126993
+          "raw": 1329.5938228598382
         },
         "vision": {
           "value": 43.4,
@@ -5689,8 +5620,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1329.4879678126993,
-            "rank": 214
+            "score": 1329.5938228598382,
+            "rank": 220
           }
         },
         "vision": {
@@ -5740,9 +5671,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 64.3,
+          "value": 61.9,
           "source": "lmarena",
-          "raw": 1406.931509475791
+          "raw": 1406.547608213721
         },
         "vision": {
           "value": 81.8,
@@ -5753,8 +5684,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1406.931509475791,
-            "rank": 133
+            "score": 1406.547608213721,
+            "rank": 138
           }
         },
         "vision": {
@@ -5802,9 +5733,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 85.5,
+          "value": 82.1,
           "source": "lmarena",
-          "raw": 1466.7007384512058
+          "raw": 1465.6637831625524
         },
         "vision": {
           "value": 89.7,
@@ -5814,14 +5745,14 @@
         "webdev": {
           "value": 48.4,
           "source": "lmarena",
-          "raw": 1437.9553099828024
+          "raw": 1438.8480122224507
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1466.7007384512058,
-            "rank": 30
+            "score": 1465.6637831625524,
+            "rank": 33
           }
         },
         "vision": {
@@ -5832,8 +5763,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1437.9553099828024,
-            "rank": 65
+            "score": 1438.8480122224507,
+            "rank": 68
           }
         }
       },
@@ -5926,9 +5857,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 76.9,
+          "value": 74.1,
           "source": "lmarena",
-          "raw": 1442.3994046988937
+          "raw": 1442.288048890996
         },
         "vision": {
           "value": 84.8,
@@ -5936,16 +5867,16 @@
           "raw": 1265.368917155501
         },
         "webdev": {
-          "value": 40.9,
+          "value": 41.1,
           "source": "lmarena",
-          "raw": 1382.939938051233
+          "raw": 1384.2879210533638
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1442.3994046988937,
-            "rank": 61
+            "score": 1442.288048890996,
+            "rank": 69
           }
         },
         "vision": {
@@ -5956,8 +5887,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1382.939938051233,
-            "rank": 89
+            "score": 1384.2879210533638,
+            "rank": 90
           }
         }
       },
@@ -6134,9 +6065,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 90,
+          "value": 86.8,
           "source": "lmarena",
-          "raw": 1479.4701898730532
+          "raw": 1479.4016845990793
         },
         "vision": {
           "value": 94.6,
@@ -6144,16 +6075,16 @@
           "raw": 1304.4084345336246
         },
         "webdev": {
-          "value": 48.5,
+          "value": 48.4,
           "source": "lmarena",
-          "raw": 1438.8492725716076
+          "raw": 1439.0242783630501
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1479.4701898730532,
-            "rank": 17
+            "score": 1479.4016845990793,
+            "rank": 18
           }
         },
         "vision": {
@@ -6164,8 +6095,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1438.8492725716076,
-            "rank": 64
+            "score": 1439.0242783630501,
+            "rank": 67
           }
         }
       },
@@ -6258,9 +6189,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 66.3,
+          "value": 66.5,
           "source": "lmarena",
-          "raw": 1246.2721013681999
+          "raw": 1247.400868252854
         },
         "image_edit": {
           "value": 74.3,
@@ -6271,7 +6202,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1246.2721013681999,
+            "score": 1247.400868252854,
             "rank": 14
           }
         },
@@ -6320,9 +6251,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 63.7,
+          "value": 63.9,
           "source": "lmarena",
-          "raw": 1232.1631285583567
+          "raw": 1234.0604209730575
         },
         "image_edit": {
           "value": 73.4,
@@ -6333,7 +6264,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1232.1631285583567,
+            "score": 1234.0604209730575,
             "rank": 16
           }
         },
@@ -6480,9 +6411,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 69,
+          "value": 69.1,
           "source": "lmarena",
-          "raw": 1260.2374216994708
+          "raw": 1261.2259528367952
         },
         "image_edit": {
           "value": 73.9,
@@ -6493,7 +6424,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1260.2374216994708,
+            "score": 1261.2259528367952,
             "rank": 9
           }
         },
@@ -6601,9 +6532,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 67.1,
+          "value": 67,
           "source": "lmarena",
-          "raw": 1250.2512926951067
+          "raw": 1250.0350797164904
         },
         "image_edit": {
           "value": 59.9,
@@ -6614,7 +6545,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1250.2512926951067,
+            "score": 1250.0350797164904,
             "rank": 13
           }
         },
@@ -6676,9 +6607,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 67.2,
+          "value": 65,
           "source": "lmarena",
-          "raw": 1415.279948462245
+          "raw": 1415.5124403015784
         },
         "vision": {
           "value": 78.6,
@@ -6686,9 +6617,9 @@
           "raw": 1240.5095072142235
         },
         "webdev": {
-          "value": 23.5,
+          "value": 24,
           "source": "lmarena",
-          "raw": 1254.196532122286
+          "raw": 1255.9047798066492
         },
         "reasoning": {
           "value": 64.1,
@@ -6742,8 +6673,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1415.279948462245,
-            "rank": 121
+            "score": 1415.5124403015784,
+            "rank": 124
           }
         },
         "vision": {
@@ -6754,8 +6685,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1254.196532122286,
-            "rank": 117
+            "score": 1255.9047798066492,
+            "rank": 119
           }
         }
       },
@@ -6889,14 +6820,14 @@
         "livebench": "high"
       },
       "composite": {
-        "score": 58.4,
+        "score": 57,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 48.388605293797134,
+          "lmarena": 46.185917677865625,
           "livebench": 76.95184523809523,
           "llm_stats": 78.9875
         },
@@ -6904,9 +6835,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 90.2,
+          "value": 87,
           "source": "lmarena",
-          "raw": 1480.0754473378818
+          "raw": 1479.8596825863917
         },
         "vision": {
           "value": 92.4,
@@ -6914,34 +6845,34 @@
           "raw": 1295.6086087119418
         },
         "webdev": {
-          "value": 49.6,
+          "value": 49.4,
           "source": "lmarena",
-          "raw": 1446.6860776032818
+          "raw": 1446.3145134914955
         },
         "agent_praise_complaint": {
-          "value": 60.8,
+          "value": 59,
           "source": "lmarena",
-          "raw": 0.004060001641492894
+          "raw": -0.004903778983876617
         },
         "agent_steerability": {
-          "value": 52.9,
+          "value": 52.5,
           "source": "lmarena",
-          "raw": -0.035535908696859464
+          "raw": -0.037400923559625876
         },
         "agent_bash_recovery_steps": {
-          "value": 19.2,
+          "value": 15.3,
           "source": "lmarena",
-          "raw": -0.20404538565613772
+          "raw": -0.22361724435588815
         },
         "agent_tool_hallucination": {
-          "value": 60.1,
+          "value": 59.2,
           "source": "lmarena",
-          "raw": 0.0003495132551663005
+          "raw": -0.004191835265395127
         },
         "agent_task_outcome_explicit": {
-          "value": 49,
+          "value": 45,
           "source": "lmarena",
-          "raw": -0.05511308819873362
+          "raw": -0.07523827588857357
         },
         "reasoning": {
           "value": 84,
@@ -7023,21 +6954,21 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 58.4,
+          "value": 57,
           "source": "composite",
-          "raw": 58.4
+          "raw": 57
         }
       },
       "lmarena_scores": {
         "agent": {
           "base": {
-            "score": -0.05805697353101433,
+            "score": -0.06907041161067187,
             "rank": 38
           }
         },
         "text": {
           "base": {
-            "score": 1480.0754473378818,
+            "score": 1479.8596825863917,
             "rank": 16
           }
         },
@@ -7049,38 +6980,38 @@
         },
         "webdev": {
           "base": {
-            "score": 1446.6860776032818,
-            "rank": 61
+            "score": 1446.3145134914955,
+            "rank": 63
           }
         },
         "agent_praise_complaint": {
           "base": {
-            "score": 0.004060001641492894,
-            "rank": 25
+            "score": -0.004903778983876617,
+            "rank": 26
           }
         },
         "agent_steerability": {
           "base": {
-            "score": -0.035535908696859464,
-            "rank": 33
+            "score": -0.037400923559625876,
+            "rank": 34
           }
         },
         "agent_bash_recovery_steps": {
           "base": {
-            "score": -0.20404538565613772,
+            "score": -0.22361724435588815,
             "rank": 43
           }
         },
         "agent_tool_hallucination": {
           "base": {
-            "score": 0.0003495132551663005,
-            "rank": 30
+            "score": -0.004191835265395127,
+            "rank": 36
           }
         },
         "agent_task_outcome_explicit": {
           "base": {
-            "score": -0.05511308819873362,
-            "rank": 33
+            "score": -0.07523827588857357,
+            "rank": 34
           }
         }
       },
@@ -7112,8 +7043,8 @@
       "release_date": "2026-02-19",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 32.4,
-        "raw": 2.1214057407788682,
+        "score": 31.9,
+        "raw": 2.097141118779237,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "google--gemini-3.1",
@@ -7193,9 +7124,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 91,
+          "value": 87.5,
           "source": "lmarena",
-          "raw": 1482.1079294588812
+          "raw": 1481.2671838498356
         },
         "vision": {
           "value": 96.1,
@@ -7203,9 +7134,9 @@
           "raw": 1310.1635899312562
         },
         "webdev": {
-          "value": 56.8,
+          "value": 56.3,
           "source": "lmarena",
-          "raw": 1499.9195959862527
+          "raw": 1498.5738938833854
         },
         "reasoning": {
           "value": 82,
@@ -7289,12 +7220,12 @@
       "lmarena_scores": {
         "text": {
           "high": {
-            "score": 1482.1079294588812,
-            "rank": 13
+            "score": 1481.2671838498356,
+            "rank": 15
           },
           "medium": {
-            "score": 1475.7232572853893,
-            "rank": 19
+            "score": 1475.7296861241543,
+            "rank": 22
           }
         },
         "vision": {
@@ -7309,12 +7240,12 @@
         },
         "webdev": {
           "high": {
-            "score": 1499.9195959862527,
-            "rank": 47
+            "score": 1498.5738938833854,
+            "rank": 50
           },
           "medium": {
-            "score": 1490.875835284356,
-            "rank": 49
+            "score": 1489.8326401781953,
+            "rank": 52
           }
         }
       },
@@ -7346,7 +7277,7 @@
       "release_date": "2026-05-19",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 47.4,
+        "score": 47.6,
         "raw": 2.6539124306061828,
         "note": "ln(综合分/平均每M价)"
       },
@@ -7423,7 +7354,6 @@
           "google/gemini-3.5-flash-lite:batch"
         ],
         "lmarena": [
-          "Gemini 3.5 Flash Lite",
           "gemini-3.5-flash-lite"
         ],
         "livebench": [
@@ -7456,24 +7386,22 @@
         "livebench": "high"
       },
       "composite": {
-        "score": 41.4,
+        "score": 63.9,
         "weights": {
-          "lmarena": 0.65,
-          "livebench": 0.35
+          "livebench": 1
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 29.302320504851952,
           "livebench": 63.93698809523811,
           "llm_stats": 62.11249999999999
         },
-        "note": null
+        "note": "缺源，权重按比例重分配"
       },
       "dimensions": {
         "text": {
-          "value": 74.4,
+          "value": 71.9,
           "source": "lmarena",
-          "raw": 1435.5426509480046
+          "raw": 1435.663716928853
         },
         "vision": {
           "value": 85.6,
@@ -7481,34 +7409,9 @@
           "raw": 1268.4241317835983
         },
         "webdev": {
-          "value": 49.6,
+          "value": 48.4,
           "source": "lmarena",
-          "raw": 1446.9815452697121
-        },
-        "agent_praise_complaint": {
-          "value": 27.7,
-          "source": "lmarena",
-          "raw": -0.16145020424679424
-        },
-        "agent_steerability": {
-          "value": 34.5,
-          "source": "lmarena",
-          "raw": -0.127580717099363
-        },
-        "agent_bash_recovery_steps": {
-          "value": 2.6,
-          "source": "lmarena",
-          "raw": -0.2871092627029319
-        },
-        "agent_tool_hallucination": {
-          "value": 57,
-          "source": "lmarena",
-          "raw": -0.014963323858964372
-        },
-        "agent_task_outcome_explicit": {
-          "value": 24.7,
-          "source": "lmarena",
-          "raw": -0.17633847947064762
+          "raw": 1439.255207668645
         },
         "reasoning": {
           "value": 60.2,
@@ -7566,22 +7469,16 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 41.4,
+          "value": 63.9,
           "source": "composite",
-          "raw": 41.4
+          "raw": 63.9
         }
       },
       "lmarena_scores": {
-        "agent": {
-          "base": {
-            "score": -0.15348839747574022,
-            "rank": 45
-          }
-        },
         "text": {
           "base": {
-            "score": 1435.5426509480046,
-            "rank": 79
+            "score": 1435.663716928853,
+            "rank": 82
           }
         },
         "vision": {
@@ -7592,38 +7489,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1446.9815452697121,
-            "rank": 60
-          }
-        },
-        "agent_praise_complaint": {
-          "base": {
-            "score": -0.16145020424679424,
-            "rank": 42
-          }
-        },
-        "agent_steerability": {
-          "base": {
-            "score": -0.127580717099363,
-            "rank": 46
-          }
-        },
-        "agent_bash_recovery_steps": {
-          "base": {
-            "score": -0.2871092627029319,
-            "rank": 46
-          }
-        },
-        "agent_tool_hallucination": {
-          "base": {
-            "score": -0.014963323858964372,
-            "rank": 43
-          }
-        },
-        "agent_task_outcome_explicit": {
-          "base": {
-            "score": -0.17633847947064762,
-            "rank": 42
+            "score": 1439.255207668645,
+            "rank": 66
           }
         }
       },
@@ -7655,8 +7522,8 @@
       "release_date": "2026-07-21",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 68.1,
-        "raw": 3.386808644210056,
+        "score": 80.5,
+        "raw": 3.820847124762276,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "google--gemini-3.5",
@@ -7722,14 +7589,14 @@
         "livebench": "high"
       },
       "composite": {
-        "score": 57,
+        "score": 55.7,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 48.12468222248411,
+          "lmarena": 46.00561056318932,
           "livebench": 73.5875119047619,
           "llm_stats": 78.64999999999999
         },
@@ -7737,9 +7604,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 88.8,
+          "value": 86.5,
           "source": "lmarena",
-          "raw": 1476.1426227567108
+          "raw": 1478.3174355421245
         },
         "vision": {
           "value": 93.4,
@@ -7747,34 +7614,34 @@
           "raw": 1299.756291052673
         },
         "webdev": {
-          "value": 61.8,
+          "value": 61.3,
           "source": "lmarena",
-          "raw": 1537.0415573771609
+          "raw": 1536.0529928487006
         },
         "agent_praise_complaint": {
-          "value": 45.2,
+          "value": 42.9,
           "source": "lmarena",
-          "raw": -0.07421293950085484
+          "raw": -0.08545018225329637
         },
         "agent_steerability": {
-          "value": 53.3,
+          "value": 51.5,
           "source": "lmarena",
-          "raw": -0.03374645413752289
+          "raw": -0.042476110729275346
         },
         "agent_bash_recovery_steps": {
-          "value": 35.2,
+          "value": 30.9,
           "source": "lmarena",
-          "raw": -0.1238041200476121
+          "raw": -0.14532114424378828
         },
         "agent_tool_hallucination": {
           "value": 60.6,
           "source": "lmarena",
-          "raw": 0.0031570803654688007
+          "raw": 0.0031484995160013796
         },
         "agent_task_outcome_explicit": {
-          "value": 46.3,
+          "value": 44,
           "source": "lmarena",
-          "raw": -0.06827651111737609
+          "raw": -0.07976079820990833
         },
         "reasoning": {
           "value": 85.1,
@@ -7832,22 +7699,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 57,
+          "value": 55.7,
           "source": "composite",
-          "raw": 57
+          "raw": 55.7
         }
       },
       "lmarena_scores": {
         "agent": {
           "high": {
-            "score": -0.05937658888757943,
-            "rank": 39
+            "score": -0.06997194718405339,
+            "rank": 40
           }
         },
         "text": {
           "high": {
-            "score": 1476.1426227567108,
-            "rank": 18
+            "score": 1478.3174355421245,
+            "rank": 20
           }
         },
         "vision": {
@@ -7858,38 +7725,38 @@
         },
         "webdev": {
           "high": {
-            "score": 1537.0415573771609,
-            "rank": 35
+            "score": 1536.0529928487006,
+            "rank": 38
           }
         },
         "agent_praise_complaint": {
           "high": {
-            "score": -0.07421293950085484,
-            "rank": 34
+            "score": -0.08545018225329637,
+            "rank": 35
           }
         },
         "agent_steerability": {
           "high": {
-            "score": -0.03374645413752289,
-            "rank": 32
+            "score": -0.042476110729275346,
+            "rank": 35
           }
         },
         "agent_bash_recovery_steps": {
           "high": {
-            "score": -0.1238041200476121,
+            "score": -0.14532114424378828,
             "rank": 41
           }
         },
         "agent_tool_hallucination": {
           "high": {
-            "score": 0.0031570803654688007,
+            "score": 0.0031484995160013796,
             "rank": 24
           }
         },
         "agent_task_outcome_explicit": {
           "high": {
-            "score": -0.06827651111737609,
-            "rank": 36
+            "score": -0.07976079820990833,
+            "rank": 35
           }
         }
       },
@@ -7921,8 +7788,8 @@
       "release_date": "2026-07-21",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 63.7,
-        "raw": 3.2321210516182215,
+        "score": 63.3,
+        "raw": 3.2090499307169096,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "google--gemini-3.6",
@@ -7988,14 +7855,14 @@
         "livebench": "high"
       },
       "composite": {
-        "score": 65.8,
+        "score": 65,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 58.7905363702923,
+          "lmarena": 57.50238405475966,
           "livebench": 78.8260119047619,
           "llm_stats": 84.575
         },
@@ -8003,39 +7870,39 @@
       },
       "dimensions": {
         "text": {
-          "value": 93.9,
+          "value": 89.5,
           "source": "lmarena",
-          "raw": 1490.4920154663198
+          "raw": 1487.0043249750909
         },
         "webdev": {
-          "value": 69.6,
+          "value": 68.9,
           "source": "lmarena",
-          "raw": 1594.5640955062843
+          "raw": 1593.3188105553554
         },
         "agent_praise_complaint": {
-          "value": 53,
+          "value": 52.8,
           "source": "lmarena",
-          "raw": -0.035230623068097655
+          "raw": -0.03614740004662187
         },
         "agent_steerability": {
-          "value": 59.4,
+          "value": 60.2,
           "source": "lmarena",
-          "raw": -0.0028055755643177638
+          "raw": 0.0011769816361623109
         },
         "agent_bash_recovery_steps": {
-          "value": 55.8,
+          "value": 53.9,
           "source": "lmarena",
-          "raw": -0.02076991260260974
+          "raw": -0.030439116300206015
         },
         "agent_tool_hallucination": {
-          "value": 59.9,
+          "value": 60,
           "source": "lmarena",
-          "raw": -0.000254241237243491
+          "raw": -0.0001120846125246544
         },
         "agent_task_outcome_explicit": {
-          "value": 65.8,
+          "value": 60.6,
           "source": "lmarena",
-          "raw": 0.028823761729576125
+          "raw": 0.003081220692181641
         },
         "reasoning": {
           "value": 87.8,
@@ -8099,58 +7966,58 @@
           "note": "index_vision"
         },
         "composite": {
-          "value": 65.8,
+          "value": 65,
           "source": "composite",
-          "raw": 65.8
+          "raw": 65
         }
       },
       "lmarena_scores": {
         "agent": {
           "high": {
-            "score": -0.006047318148538505,
-            "rank": 28
+            "score": -0.012488079726201718,
+            "rank": 30
           }
         },
         "text": {
           "high": {
-            "score": 1490.4920154663198,
-            "rank": 8
+            "score": 1487.0043249750909,
+            "rank": 12
           }
         },
         "webdev": {
           "high": {
-            "score": 1594.5640955062843,
-            "rank": 22
+            "score": 1593.3188105553554,
+            "rank": 23
           }
         },
         "agent_praise_complaint": {
           "high": {
-            "score": -0.035230623068097655,
-            "rank": 32
+            "score": -0.03614740004662187,
+            "rank": 31
           }
         },
         "agent_steerability": {
           "high": {
-            "score": -0.0028055755643177638,
-            "rank": 24
+            "score": 0.0011769816361623109,
+            "rank": 22
           }
         },
         "agent_bash_recovery_steps": {
           "high": {
-            "score": -0.02076991260260974,
+            "score": -0.030439116300206015,
             "rank": 35
           }
         },
         "agent_tool_hallucination": {
           "high": {
-            "score": -0.000254241237243491,
-            "rank": 32
+            "score": -0.0001120846125246544,
+            "rank": 29
           }
         },
         "agent_task_outcome_explicit": {
           "high": {
-            "score": 0.028823761729576125,
-            "rank": 21
+            "score": 0.003081220692181641,
+            "rank": 23
           }
         }
       },
@@ -8182,8 +8049,8 @@
       "release_date": "2026-08-13",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 67.7,
-        "raw": 3.3756896221149426,
+        "score": 67.6,
+        "raw": 3.3634570536793085,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "google--gemini-3.7",
@@ -8249,14 +8116,14 @@
         "livebench": "high"
       },
       "composite": {
-        "score": 71.7,
+        "score": 70.9,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 69.41780368338749,
+          "lmarena": 68.21922934390916,
           "livebench": 75.82852380952382,
           "llm_stats": 87.14999999999999
         },
@@ -8264,39 +8131,39 @@
       },
       "dimensions": {
         "text": {
-          "value": 95.4,
+          "value": 92,
           "source": "lmarena",
-          "raw": 1494.673989980363
+          "raw": 1494.3514210983687
         },
         "webdev": {
-          "value": 68.2,
+          "value": 67.2,
           "source": "lmarena",
-          "raw": 1583.7541452139337
+          "raw": 1579.9571506411203
         },
         "agent_praise_complaint": {
-          "value": 86.7,
+          "value": 72.2,
           "source": "lmarena",
-          "raw": 0.1334216515794585
+          "raw": 0.061074418622490745
         },
         "agent_steerability": {
-          "value": 57.6,
+          "value": 67.4,
           "source": "lmarena",
-          "raw": -0.012237917505512397
+          "raw": 0.03721961454168482
         },
         "agent_bash_recovery_steps": {
-          "value": 63.8,
+          "value": 60.7,
           "source": "lmarena",
-          "raw": 0.019094252435097436
+          "raw": 0.003253302734024466
         },
         "agent_tool_hallucination": {
           "value": 60.4,
           "source": "lmarena",
-          "raw": 0.0021757936861703797
+          "raw": 0.0022062848288157966
         },
         "agent_task_outcome_explicit": {
-          "value": 78.6,
+          "value": 80.3,
           "source": "lmarena",
-          "raw": 0.0929913118894733
+          "raw": 0.10172711287071312
         },
         "reasoning": {
           "value": 89.3,
@@ -8360,58 +8227,58 @@
           "note": "index_vision"
         },
         "composite": {
-          "value": 71.7,
+          "value": 70.9,
           "source": "composite",
-          "raw": 71.7
+          "raw": 70.9
         }
       },
       "lmarena_scores": {
         "agent": {
           "high": {
-            "score": 0.047089018416937446,
+            "score": 0.04109614671954579,
             "rank": 13
           }
         },
         "text": {
           "high": {
-            "score": 1494.673989980363,
-            "rank": 6
+            "score": 1494.3514210983687,
+            "rank": 7
           }
         },
         "webdev": {
           "high": {
-            "score": 1583.7541452139337,
-            "rank": 24
+            "score": 1579.9571506411203,
+            "rank": 28
           }
         },
         "agent_praise_complaint": {
           "high": {
-            "score": 0.1334216515794585,
-            "rank": 8
+            "score": 0.061074418622490745,
+            "rank": 13
           }
         },
         "agent_steerability": {
           "high": {
-            "score": -0.012237917505512397,
-            "rank": 26
+            "score": 0.03721961454168482,
+            "rank": 13
           }
         },
         "agent_bash_recovery_steps": {
           "high": {
-            "score": 0.019094252435097436,
-            "rank": 28
+            "score": 0.003253302734024466,
+            "rank": 30
           }
         },
         "agent_tool_hallucination": {
           "high": {
-            "score": 0.0021757936861703797,
-            "rank": 27
+            "score": 0.0022062848288157966,
+            "rank": 26
           }
         },
         "agent_task_outcome_explicit": {
           "high": {
-            "score": 0.0929913118894733,
-            "rank": 8
+            "score": 0.10172711287071312,
+            "rank": 6
           }
         }
       },
@@ -8443,8 +8310,8 @@
       "release_date": "2026-09-02",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 70.2,
-        "raw": 3.461560531389246,
+        "score": 70.1,
+        "raw": 3.4503402173217532,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "google--gemini-3.8",
@@ -8528,16 +8395,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 18.7,
+          "value": 18,
           "source": "lmarena",
-          "raw": 1278.465471096618
+          "raw": 1278.5605541011132
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1278.465471096618,
-            "rank": 260
+            "score": 1278.5605541011132,
+            "rank": 267
           }
         }
       },
@@ -8716,13 +8583,13 @@
         "text_to_image": {
           "value": 44,
           "source": "lmarena",
-          "raw": 1128.9507042450582
+          "raw": 1129.0628993088183
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1128.9507042450582,
+            "score": 1129.0628993088183,
             "rank": 41
           }
         }
@@ -8765,15 +8632,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 47.6,
+          "value": 47.5,
           "source": "lmarena",
-          "raw": 1147.727529146412
+          "raw": 1147.682016336827
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1147.727529146412,
+            "score": 1147.682016336827,
             "rank": 34
           }
         }
@@ -9115,16 +8982,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 20.7,
+          "value": 19,
           "source": "lmarena",
-          "raw": 1284.142981518307
+          "raw": 1281.5113075236336
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1284.142981518307,
-            "rank": 251
+            "score": 1281.5113075236336,
+            "rank": 263
           }
         }
       },
@@ -9174,14 +9041,14 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 46.8,
+          "value": 44.2,
           "source": "lmarena",
-          "raw": 1357.5754488622858
+          "raw": 1354.9791608572523
         },
         "webdev": {
-          "value": 11.6,
+          "value": 12.6,
           "source": "lmarena",
-          "raw": 1166.8991744146815
+          "raw": 1170.1451532970664
         },
         "reasoning": {
           "value": 53.3,
@@ -9223,14 +9090,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1357.5754488622858,
-            "rank": 186
+            "score": 1354.9791608572523,
+            "rank": 195
           }
         },
         "webdev": {
           "base": {
-            "score": 1166.8991744146815,
-            "rank": 128
+            "score": 1170.1451532970664,
+            "rank": 131
           }
         }
       },
@@ -9631,13 +9498,13 @@
         "text_to_image": {
           "value": 42.9,
           "source": "lmarena",
-          "raw": 1123.0295913616837
+          "raw": 1123.2160641185044
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "medium": {
-            "score": 1123.0295913616837,
+            "score": 1123.2160641185044,
             "rank": 43
           }
         }
@@ -9680,16 +9547,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 40.2,
+          "value": 40.3,
           "source": "lmarena",
-          "raw": 1108.6977134682566
+          "raw": 1109.7814290802596
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1108.6977134682566,
-            "rank": 52
+            "score": 1109.7814290802596,
+            "rank": 51
           }
         }
       },
@@ -9731,16 +9598,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 22,
+          "value": 21.9,
           "source": "lmarena",
-          "raw": 1013.3948453792821
+          "raw": 1013.046817820861
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1013.3948453792821,
-            "rank": 72
+            "score": 1013.046817820861,
+            "rank": 73
           }
         }
       },
@@ -9784,14 +9651,14 @@
         "text_to_image": {
           "value": 26.2,
           "source": "lmarena",
-          "raw": 1035.2290282896397
+          "raw": 1035.7197194146624
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1035.2290282896397,
-            "rank": 65
+            "score": 1035.7197194146624,
+            "rank": 66
           }
         }
       },
@@ -9964,9 +9831,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 55.3,
+          "value": 55.4,
           "source": "lmarena",
-          "raw": 1188.3702163317644
+          "raw": 1189.1276769816382
         },
         "image_edit": {
           "value": 63.6,
@@ -9977,11 +9844,11 @@
       "lmarena_scores": {
         "text_to_image": {
           "max": {
-            "score": 1188.3702163317644,
+            "score": 1189.1276769816382,
             "rank": 20
           },
           "base": {
-            "score": 1182.577752665685,
+            "score": 1183.4857760160016,
             "rank": 22
           }
         },
@@ -10307,16 +10174,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 37.2,
+          "value": 37.1,
           "source": "lmarena",
-          "raw": 1093.2859704707994
+          "raw": 1092.6742775833159
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1093.2859704707994,
-            "rank": 55
+            "score": 1092.6742775833159,
+            "rank": 56
           }
         }
       },
@@ -10358,15 +10225,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 54.2,
+          "value": 54.4,
           "source": "lmarena",
-          "raw": 1182.7070063771241
+          "raw": 1183.8410183476153
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1182.7070063771241,
+            "score": 1183.8410183476153,
             "rank": 21
           }
         }
@@ -10409,9 +10276,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 67.8,
+          "value": 67.7,
           "source": "lmarena",
-          "raw": 1254.0677474265985
+          "raw": 1254.0074042608874
         },
         "image_edit": {
           "value": 76.2,
@@ -10422,7 +10289,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1254.0677474265985,
+            "score": 1254.0074042608874,
             "rank": 12
           }
         },
@@ -10471,9 +10338,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 83,
+          "value": 83.2,
           "source": "lmarena",
-          "raw": 1333.9754637193469
+          "raw": 1335.0213617288207
         },
         "image_edit": {
           "value": 81.6,
@@ -10484,7 +10351,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1333.9754637193469,
+            "score": 1335.0213617288207,
             "rank": 4
           }
         },
@@ -10607,14 +10474,14 @@
       "degrees": {},
       "default_degree": {},
       "composite": {
-        "score": 55,
+        "score": 54,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 48.47227425985791,
+          "lmarena": 46.832643808354604,
           "livebench": 67.2567619047619,
           "llm_stats": 76.47500000000001
         },
@@ -10622,9 +10489,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 73.7,
+          "value": 70.8,
           "source": "lmarena",
-          "raw": 1433.499392232071
+          "raw": 1432.7051781671698
         },
         "vision": {
           "value": 82,
@@ -10632,34 +10499,34 @@
           "raw": 1254.3094333120546
         },
         "webdev": {
-          "value": 54.8,
+          "value": 54.3,
           "source": "lmarena",
-          "raw": 1485.0729545345882
+          "raw": 1483.4066915845285
         },
         "agent_praise_complaint": {
-          "value": 36.3,
+          "value": 34.1,
           "source": "lmarena",
-          "raw": -0.11836364146270051
+          "raw": -0.12927576256183293
         },
         "agent_steerability": {
-          "value": 46.8,
+          "value": 46,
           "source": "lmarena",
-          "raw": -0.06577207796573001
+          "raw": -0.07012240791130575
         },
         "agent_bash_recovery_steps": {
-          "value": 63.3,
+          "value": 61.7,
           "source": "lmarena",
-          "raw": 0.016419711603377074
+          "raw": 0.008673986766528197
         },
         "agent_tool_hallucination": {
-          "value": 60,
+          "value": 59.8,
           "source": "lmarena",
-          "raw": -0.00007981149129676623
+          "raw": -0.0008238573434482532
         },
         "agent_task_outcome_explicit": {
-          "value": 35.9,
+          "value": 32.5,
           "source": "lmarena",
-          "raw": -0.12039732418720195
+          "raw": -0.13763586374107606
         },
         "reasoning": {
           "value": 74.5,
@@ -10723,22 +10590,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 55,
+          "value": 54,
           "source": "composite",
-          "raw": 55
+          "raw": 54
         }
       },
       "lmarena_scores": {
         "agent": {
           "base": {
-            "score": -0.05763862870071043,
+            "score": -0.06583678095822697,
             "rank": 37
           }
         },
         "text": {
           "base": {
-            "score": 1433.499392232071,
-            "rank": 82
+            "score": 1432.7051781671698,
+            "rank": 86
           }
         },
         "vision": {
@@ -10749,37 +10616,37 @@
         },
         "webdev": {
           "base": {
-            "score": 1485.0729545345882,
-            "rank": 51
+            "score": 1483.4066915845285,
+            "rank": 54
           }
         },
         "agent_praise_complaint": {
           "base": {
-            "score": -0.11836364146270051,
-            "rank": 39
+            "score": -0.12927576256183293,
+            "rank": 40
           }
         },
         "agent_steerability": {
           "base": {
-            "score": -0.06577207796573001,
-            "rank": 41
+            "score": -0.07012240791130575,
+            "rank": 40
           }
         },
         "agent_bash_recovery_steps": {
           "base": {
-            "score": 0.016419711603377074,
+            "score": 0.008673986766528197,
             "rank": 29
           }
         },
         "agent_tool_hallucination": {
           "base": {
-            "score": -0.00007981149129676623,
-            "rank": 31
+            "score": -0.0008238573434482532,
+            "rank": 32
           }
         },
         "agent_task_outcome_explicit": {
           "base": {
-            "score": -0.12039732418720195,
+            "score": -0.13763586374107606,
             "rank": 40
           }
         }
@@ -10812,8 +10679,8 @@
       "release_date": "2026-06-01",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 93.7,
-        "raw": 4.295015257684252,
+        "score": 93.4,
+        "raw": 4.276666119016055,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "minimax--minimax-m3",
@@ -10857,7 +10724,7 @@
         "webdev": {
           "value": 0,
           "source": "lmarena",
-          "raw": 1081.2821784409698
+          "raw": 1075.4228933432394
         },
         "reasoning": {
           "value": 41.8,
@@ -10881,8 +10748,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1081.2821784409698,
-            "rank": 131
+            "score": 1075.4228933432394,
+            "rank": 134
           }
         }
       },
@@ -10926,16 +10793,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 10.3,
+          "value": 9.9,
           "source": "lmarena",
-          "raw": 1254.8533588877685
+          "raw": 1254.76926275001
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1254.8533588877685,
-            "rank": 280
+            "score": 1254.76926275001,
+            "rank": 287
           }
         }
       },
@@ -11087,14 +10954,14 @@
         "lmarena": "max"
       },
       "composite": {
-        "score": 74.8,
+        "score": 72.6,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 72.43716868239723,
+          "lmarena": 69.0929688191207,
           "livebench": 79.19304761904763,
           "llm_stats": 90.61250000000001
         },
@@ -11102,39 +10969,39 @@
       },
       "dimensions": {
         "text": {
-          "value": 87.5,
+          "value": 85.5,
           "source": "lmarena",
-          "raw": 1472.272610174843
+          "raw": 1475.598307414497
         },
         "webdev": {
-          "value": 78.5,
+          "value": 77.8,
           "source": "lmarena",
-          "raw": 1659.5717658088586
+          "raw": 1659.8729180873972
         },
         "agent_praise_complaint": {
-          "value": 83.6,
+          "value": 76.5,
           "source": "lmarena",
-          "raw": 0.1179146530140236
+          "raw": 0.08226134601475443
         },
         "agent_steerability": {
-          "value": 64,
+          "value": 59.7,
           "source": "lmarena",
-          "raw": 0.019868510965543484
+          "raw": -0.0015663708154384226
         },
         "agent_bash_recovery_steps": {
-          "value": 70.1,
+          "value": 68.7,
           "source": "lmarena",
-          "raw": 0.05028566042372984
+          "raw": 0.04339259999878031
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.003722479337561424
+          "raw": 0.0035894052876912497
         },
         "agent_task_outcome_explicit": {
-          "value": 83.8,
+          "value": 79.9,
           "source": "lmarena",
-          "raw": 0.11913791331907264
+          "raw": 0.09964723999223013
         },
         "reasoning": {
           "value": 90.7,
@@ -11186,58 +11053,58 @@
           "note": "mmmu_pro"
         },
         "composite": {
-          "value": 74.8,
+          "value": 72.6,
           "source": "composite",
-          "raw": 74.8
+          "raw": 72.6
         }
       },
       "lmarena_scores": {
         "agent": {
           "max": {
-            "score": 0.06218584341198621,
-            "rank": 8
+            "score": 0.04546484409560354,
+            "rank": 10
           }
         },
         "text": {
           "max": {
-            "score": 1472.272610174843,
+            "score": 1475.598307414497,
             "rank": 23
           }
         },
         "webdev": {
           "max": {
-            "score": 1659.5717658088586,
+            "score": 1659.8729180873972,
             "rank": 9
           }
         },
         "agent_praise_complaint": {
           "max": {
-            "score": 0.1179146530140236,
-            "rank": 9
+            "score": 0.08226134601475443,
+            "rank": 10
           }
         },
         "agent_steerability": {
           "max": {
-            "score": 0.019868510965543484,
-            "rank": 17
+            "score": -0.0015663708154384226,
+            "rank": 23
           }
         },
         "agent_bash_recovery_steps": {
           "max": {
-            "score": 0.05028566042372984,
-            "rank": 19
+            "score": 0.04339259999878031,
+            "rank": 20
           }
         },
         "agent_tool_hallucination": {
           "max": {
-            "score": 0.003722479337561424,
-            "rank": 11
+            "score": 0.0035894052876912497,
+            "rank": 5
           }
         },
         "agent_task_outcome_explicit": {
           "max": {
-            "score": 0.11913791331907264,
-            "rank": 5
+            "score": 0.09964723999223013,
+            "rank": 7
           }
         }
       },
@@ -11269,8 +11136,8 @@
       "release_date": "2026-07-16",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 32.3,
-        "raw": 2.117593307644212,
+        "score": 31.6,
+        "raw": 2.087740344494531,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "moonshotai--kimi-k3",
@@ -11360,9 +11227,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 68,
+          "value": 65.6,
           "source": "lmarena",
-          "raw": 1417.2977025280304
+          "raw": 1417.4013860575544
         },
         "vision": {
           "value": 67.1,
@@ -11373,8 +11240,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1417.2977025280304,
-            "rank": 115
+            "score": 1417.4013860575544,
+            "rank": 118
           }
         },
         "vision": {
@@ -11444,9 +11311,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 64,
+          "value": 61.7,
           "source": "lmarena",
-          "raw": 1406.0627276186394
+          "raw": 1406.077402704494
         },
         "vision": {
           "value": 70.7,
@@ -11457,8 +11324,8 @@
       "lmarena_scores": {
         "text": {
           "high": {
-            "score": 1406.0627276186394,
-            "rank": 136
+            "score": 1406.077402704494,
+            "rank": 140
           }
         },
         "vision": {
@@ -11469,8 +11336,8 @@
         },
         "webdev": {
           "medium": {
-            "score": 1419.9619395249156,
-            "rank": 72
+            "score": 1417.723825641026,
+            "rank": 75
           }
         }
       },
@@ -11520,9 +11387,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 63.1,
+          "value": 60.8,
           "source": "lmarena",
-          "raw": 1403.680141619309
+          "raw": 1403.4535818543516
         },
         "vision": {
           "value": 76.3,
@@ -11533,8 +11400,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1403.680141619309,
-            "rank": 139
+            "score": 1403.4535818543516,
+            "rank": 142
           }
         },
         "vision": {
@@ -11787,9 +11654,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 52.2,
+          "value": 50.5,
           "source": "lmarena",
-          "raw": 1372.960829107249
+          "raw": 1373.2662638501004
         },
         "vision": {
           "value": 68.9,
@@ -11800,8 +11667,8 @@
       "lmarena_scores": {
         "text": {
           "high": {
-            "score": 1372.960829107249,
-            "rank": 166
+            "score": 1373.2662638501004,
+            "rank": 173
           }
         },
         "vision": {
@@ -11950,9 +11817,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 33.3,
+          "value": 32.3,
           "source": "lmarena",
-          "raw": 1319.7230596037255
+          "raw": 1320.066309479288
         },
         "vision": {
           "value": 58.1,
@@ -11963,8 +11830,8 @@
       "lmarena_scores": {
         "text": {
           "high": {
-            "score": 1319.7230596037255,
-            "rank": 218
+            "score": 1320.066309479288,
+            "rank": 225
           }
         },
         "vision": {
@@ -12162,9 +12029,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 76.7,
+          "value": 74.3,
           "source": "lmarena",
-          "raw": 1441.877879376701
+          "raw": 1442.7162843622666
         },
         "vision": {
           "value": 80.5,
@@ -12175,12 +12042,12 @@
       "lmarena_scores": {
         "text": {
           "high": {
-            "score": 1441.877879376701,
-            "rank": 63
+            "score": 1442.7162843622666,
+            "rank": 65
           },
           "base": {
-            "score": 1422.5730995952028,
-            "rank": 100
+            "score": 1422.1869211567891,
+            "rank": 105
           }
         },
         "vision": {
@@ -12195,12 +12062,12 @@
         },
         "webdev": {
           "medium": {
-            "score": 1391.7047480721521,
-            "rank": 84
+            "score": 1394.3102727078967,
+            "rank": 85
           },
           "base": {
-            "score": 1340.855777514201,
-            "rank": 102
+            "score": 1341.0903384118703,
+            "rank": 105
           }
         }
       },
@@ -12259,9 +12126,9 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 34.6,
+          "value": 34.8,
           "source": "lmarena",
-          "raw": 1336.022988400718
+          "raw": 1337.025976014183
         },
         "reasoning": {
           "value": 62.1,
@@ -12291,8 +12158,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1336.022988400718,
-            "rank": 105
+            "score": 1337.025976014183,
+            "rank": 108
           }
         }
       },
@@ -12405,9 +12272,9 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 22.1,
+          "value": 22.4,
           "source": "lmarena",
-          "raw": 1243.95350088752
+          "raw": 1243.7187038901525
         },
         "reasoning": {
           "value": 21.7,
@@ -12425,8 +12292,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1243.95350088752,
-            "rank": 119
+            "score": 1243.7187038901525,
+            "rank": 122
           }
         }
       },
@@ -12973,9 +12840,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 57.5,
+          "value": 55.9,
           "source": "lmarena",
-          "raw": 1387.9561607181126
+          "raw": 1389.1457266967434
         },
         "healthcare": {
           "value": 57.8,
@@ -12987,8 +12854,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1387.9561607181126,
-            "rank": 154
+            "score": 1389.1457266967434,
+            "rank": 160
           }
         }
       },
@@ -13087,8 +12954,8 @@
         "webdev": {
           "codex-harness": {
             "base": {
-              "score": 1408.9237994131345,
-              "rank": 75
+              "score": 1408.0374935269945,
+              "rank": 78
             }
           }
         }
@@ -13179,14 +13046,14 @@
         "livebench": "xhigh"
       },
       "composite": {
-        "score": 73.6,
+        "score": 72.7,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 70.05976922080683,
+          "lmarena": 68.72316649218139,
           "livebench": 80.18829761904762,
           "llm_stats": 84.72500000000001
         },
@@ -13194,29 +13061,29 @@
       },
       "dimensions": {
         "agent_praise_complaint": {
-          "value": 78.3,
+          "value": 75.1,
           "source": "lmarena",
-          "raw": 0.09140572829159066
+          "raw": 0.07554990876627943
         },
         "agent_steerability": {
-          "value": 73.2,
+          "value": 73.6,
           "source": "lmarena",
-          "raw": 0.06611765251926577
+          "raw": 0.06817512448365565
         },
         "agent_bash_recovery_steps": {
-          "value": 79.3,
+          "value": 77.9,
           "source": "lmarena",
-          "raw": 0.09633708914888195
+          "raw": 0.08956870305684816
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.003691027119799628
+          "raw": 0.003563440579256394
         },
         "agent_task_outcome_explicit": {
-          "value": 58.8,
+          "value": 56.2,
           "source": "lmarena",
-          "raw": -0.006057266559367447
+          "raw": -0.018778014581504965
         },
         "reasoning": {
           "value": 89.7,
@@ -13293,30 +13160,30 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 73.6,
+          "value": 72.7,
           "source": "composite",
-          "raw": 73.6
+          "raw": 72.7
         }
       },
       "lmarena_scores": {
         "agent": {
           "xhigh": {
-            "score": 0.050298846104034116,
-            "rank": 10
+            "score": 0.04361583246090693,
+            "rank": 12
           },
           "base": {
-            "score": 0.026690863035375666,
-            "rank": 20
+            "score": 0.018022780255774286,
+            "rank": 21
           }
         },
         "text": {
           "high": {
-            "score": 1470.9288673754327,
+            "score": 1471.1929266879959,
             "rank": 26
           },
           "base": {
-            "score": 1465.589323633367,
-            "rank": 31
+            "score": 1466.712578912149,
+            "rank": 32
           }
         },
         "vision": {
@@ -13331,52 +13198,52 @@
         },
         "agent_praise_complaint": {
           "xhigh": {
-            "score": 0.09140572829159066,
+            "score": 0.07554990876627943,
             "rank": 12
           },
           "base": {
-            "score": 0.05423090011244425,
-            "rank": 16
+            "score": 0.044381676530919734,
+            "rank": 17
           }
         },
         "agent_steerability": {
           "xhigh": {
-            "score": 0.06611765251926577,
-            "rank": 7
+            "score": 0.06817512448365565,
+            "rank": 8
           },
           "base": {
-            "score": 0.03201411677772825,
-            "rank": 14
+            "score": 0.02657648762374243,
+            "rank": 17
           }
         },
         "agent_bash_recovery_steps": {
           "xhigh": {
-            "score": 0.09633708914888195,
+            "score": 0.08956870305684816,
             "rank": 4
           },
           "base": {
-            "score": 0.06356698488904144,
-            "rank": 15
+            "score": 0.05544467656351304,
+            "rank": 17
           }
         },
         "agent_tool_hallucination": {
           "base": {
-            "score": 0.003722479336630613,
-            "rank": 13
+            "score": 0.0035894052857585734,
+            "rank": 9
           },
           "xhigh": {
-            "score": 0.003691027119799628,
+            "score": 0.003563440579256394,
             "rank": 16
           }
         },
         "agent_task_outcome_explicit": {
           "xhigh": {
-            "score": -0.006057266559367447,
+            "score": -0.018778014581504965,
             "rank": 25
           },
           "base": {
-            "score": -0.02008016593896622,
-            "rank": 29
+            "score": -0.039878344725062354,
+            "rank": 30
           }
         }
       },
@@ -13384,16 +13251,16 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1510.0812329989467,
-              "rank": 43
+              "score": 1512.1701966310861,
+              "rank": 46
             },
             "high": {
-              "score": 1486.4199423900802,
-              "rank": 50
+              "score": 1486.9198452788214,
+              "rank": 53
             },
             "base": {
-              "score": 1457.6115035116686,
-              "rank": 59
+              "score": 1455.4231423083554,
+              "rank": 62
             }
           }
         }
@@ -13425,8 +13292,8 @@
       "release_date": "2026-04-23",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 13,
-        "raw": 1.4364441448053622,
+        "score": 12.9,
+        "raw": 1.4241405036100054,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "openai--gpt-5.5",
@@ -13467,9 +13334,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 68.8,
+          "value": 66.3,
           "source": "lmarena",
-          "raw": 1419.745975030899
+          "raw": 1419.4027341664944
         },
         "vision": {
           "value": 81.3,
@@ -13510,8 +13377,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1419.745975030899,
-            "rank": 109
+            "score": 1419.4027341664944,
+            "rank": 113
           }
         },
         "vision": {
@@ -13738,14 +13605,14 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 64.2,
+        "score": 63.7,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 59.12408419209025,
+          "lmarena": 58.46529952129441,
           "livebench": 73.55938095238095,
           "llm_stats": 81.075
         },
@@ -13753,9 +13620,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 72.4,
+          "value": 70.5,
           "source": "lmarena",
-          "raw": 1429.8880619280424
+          "raw": 1431.7938512757648
         },
         "vision": {
           "value": 83.1,
@@ -13763,29 +13630,29 @@
           "raw": 1258.52524535272
         },
         "agent_praise_complaint": {
-          "value": 53.2,
+          "value": 52.3,
           "source": "lmarena",
-          "raw": -0.033866354139224675
+          "raw": -0.03826526743253045
         },
         "agent_steerability": {
-          "value": 64.2,
+          "value": 63.6,
           "source": "lmarena",
-          "raw": 0.021198888375102976
+          "raw": 0.017772635170035245
         },
         "agent_bash_recovery_steps": {
-          "value": 67.4,
+          "value": 64.5,
           "source": "lmarena",
-          "raw": 0.03699061356416822
+          "raw": 0.022313905289736313
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.003722479340467544
+          "raw": 0.003589405289723402
         },
         "agent_task_outcome_explicit": {
-          "value": 50,
+          "value": 51.2,
           "source": "lmarena",
-          "raw": -0.04994352233825761
+          "raw": -0.04377819028460428
         },
         "reasoning": {
           "value": 85.6,
@@ -13861,22 +13728,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 64.2,
+          "value": 63.7,
           "source": "composite",
-          "raw": 64.2
+          "raw": 63.7
         }
       },
       "lmarena_scores": {
         "agent": {
           "xhigh": {
-            "score": -0.00437957903954871,
-            "rank": 27
+            "score": -0.007673502393527954,
+            "rank": 28
           }
         },
         "text": {
           "xhigh": {
-            "score": 1429.8880619280424,
-            "rank": 86
+            "score": 1431.7938512757648,
+            "rank": 88
           }
         },
         "vision": {
@@ -13887,32 +13754,32 @@
         },
         "agent_praise_complaint": {
           "xhigh": {
-            "score": -0.033866354139224675,
-            "rank": 31
+            "score": -0.03826526743253045,
+            "rank": 32
           }
         },
         "agent_steerability": {
           "xhigh": {
-            "score": 0.021198888375102976,
-            "rank": 16
+            "score": 0.017772635170035245,
+            "rank": 19
           }
         },
         "agent_bash_recovery_steps": {
           "xhigh": {
-            "score": 0.03699061356416822,
-            "rank": 23
+            "score": 0.022313905289736313,
+            "rank": 26
           }
         },
         "agent_tool_hallucination": {
           "xhigh": {
-            "score": 0.003722479340467544,
-            "rank": 2
+            "score": 0.003589405289723402,
+            "rank": 1
           }
         },
         "agent_task_outcome_explicit": {
           "xhigh": {
-            "score": -0.04994352233825761,
-            "rank": 32
+            "score": -0.04377819028460428,
+            "rank": 31
           }
         }
       },
@@ -13920,8 +13787,8 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1519.2524349217535,
-              "rank": 39
+              "score": 1519.887506464861,
+              "rank": 43
             }
           }
         }
@@ -13954,7 +13821,7 @@
       "release_date_provenance": "llm_stats",
       "value": {
         "score": 100,
-        "raw": 4.518678154634648,
+        "raw": 4.51085950651685,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "openai--gpt-5.6",
@@ -14021,14 +13888,14 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 76.6,
+        "score": 75.4,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 74.20913749316115,
+          "lmarena": 72.32551317796975,
           "livebench": 81.05354761904763,
           "llm_stats": 93.05
         },
@@ -14036,9 +13903,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 81.4,
+          "value": 78.7,
           "source": "lmarena",
-          "raw": 1455.0457372771807
+          "raw": 1455.5506809324513
         },
         "vision": {
           "value": 88.5,
@@ -14051,29 +13918,29 @@
           "raw": 1257.2603500980206
         },
         "agent_praise_complaint": {
-          "value": 100,
+          "value": 96.4,
           "source": "lmarena",
-          "raw": 0.2048074531733044
+          "raw": 0.18194248279957526
         },
         "agent_steerability": {
           "value": 73.2,
           "source": "lmarena",
-          "raw": 0.0662429417992641
+          "raw": 0.06612375432135692
         },
         "agent_bash_recovery_steps": {
-          "value": 68.6,
+          "value": 65.6,
           "source": "lmarena",
-          "raw": 0.04301528652212716
+          "raw": 0.027824129987484625
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.003722479339174356
+          "raw": 0.0035894052882170513
         },
         "agent_task_outcome_explicit": {
-          "value": 67.5,
+          "value": 65.7,
           "source": "lmarena",
-          "raw": 0.037440276495158686
+          "raw": 0.02865805705260982
         },
         "reasoning": {
           "value": 91.7,
@@ -14149,22 +14016,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 76.6,
+          "value": 75.4,
           "source": "composite",
-          "raw": 76.6
+          "raw": 75.4
         }
       },
       "lmarena_scores": {
         "agent": {
           "xhigh": {
-            "score": 0.07104568746580574,
-            "rank": 7
+            "score": 0.06162756588984874,
+            "rank": 8
           }
         },
         "text": {
           "xhigh": {
-            "score": 1455.0457372771807,
-            "rank": 37
+            "score": 1455.5506809324513,
+            "rank": 41
           }
         },
         "vision": {
@@ -14181,32 +14048,32 @@
         },
         "agent_praise_complaint": {
           "xhigh": {
-            "score": 0.2048074531733044,
+            "score": 0.18194248279957526,
             "rank": 3
           }
         },
         "agent_steerability": {
           "xhigh": {
-            "score": 0.0662429417992641,
-            "rank": 6
+            "score": 0.06612375432135692,
+            "rank": 9
           }
         },
         "agent_bash_recovery_steps": {
           "xhigh": {
-            "score": 0.04301528652212716,
-            "rank": 21
+            "score": 0.027824129987484625,
+            "rank": 23
           }
         },
         "agent_tool_hallucination": {
           "xhigh": {
-            "score": 0.003722479339174356,
-            "rank": 3
+            "score": 0.0035894052882170513,
+            "rank": 4
           }
         },
         "agent_task_outcome_explicit": {
           "xhigh": {
-            "score": 0.037440276495158686,
-            "rank": 19
+            "score": 0.02865805705260982,
+            "rank": 20
           }
         }
       },
@@ -14214,8 +14081,8 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1617.1376709056278,
-              "rank": 19
+              "score": 1617.3524740259538,
+              "rank": 20
             }
           }
         }
@@ -14247,8 +14114,8 @@
       "release_date": "2026-07-09",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 44.4,
-        "raw": 2.5468376075184906,
+        "score": 44.2,
+        "raw": 2.5310478057858554,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "openai--gpt-5.6",
@@ -14315,14 +14182,14 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 68.1,
+        "score": 67.4,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 62.87997514556112,
+          "lmarena": 61.662310476483086,
           "livebench": 77.93625,
           "llm_stats": 87.92500000000001
         },
@@ -14330,9 +14197,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 78.2,
+          "value": 75.4,
           "source": "lmarena",
-          "raw": 1446.2198901916286
+          "raw": 1446.0613312755786
         },
         "vision": {
           "value": 85.9,
@@ -14340,29 +14207,29 @@
           "raw": 1269.901114114553
         },
         "agent_praise_complaint": {
-          "value": 66.6,
+          "value": 66,
           "source": "lmarena",
-          "raw": 0.03282110059508869
+          "raw": 0.02977494313884188
         },
         "agent_steerability": {
-          "value": 69.9,
+          "value": 68.7,
           "source": "lmarena",
-          "raw": 0.04932391128479646
+          "raw": 0.043394252466757266
         },
         "agent_bash_recovery_steps": {
-          "value": 66.1,
+          "value": 64.7,
           "source": "lmarena",
-          "raw": 0.030484957366016197
+          "raw": 0.023679592354633572
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.0037224793370072007
+          "raw": 0.0035894052854601455
         },
         "agent_task_outcome_explicit": {
-          "value": 51.1,
+          "value": 48.2,
           "source": "lmarena",
-          "raw": -0.04435306994388066
+          "raw": -0.05888043133361576
         },
         "reasoning": {
           "value": 90.6,
@@ -14438,22 +14305,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 68.1,
+          "value": 67.4,
           "source": "composite",
-          "raw": 68.1
+          "raw": 67.4
         }
       },
       "lmarena_scores": {
         "agent": {
           "xhigh": {
-            "score": 0.01439987572780558,
-            "rank": 23
+            "score": 0.008311552382415422,
+            "rank": 24
           }
         },
         "text": {
           "xhigh": {
-            "score": 1446.2198901916286,
-            "rank": 52
+            "score": 1446.0613312755786,
+            "rank": 55
           }
         },
         "vision": {
@@ -14464,32 +14331,32 @@
         },
         "agent_praise_complaint": {
           "xhigh": {
-            "score": 0.03282110059508869,
-            "rank": 20
+            "score": 0.02977494313884188,
+            "rank": 21
           }
         },
         "agent_steerability": {
           "xhigh": {
-            "score": 0.04932391128479646,
-            "rank": 9
+            "score": 0.043394252466757266,
+            "rank": 11
           }
         },
         "agent_bash_recovery_steps": {
           "xhigh": {
-            "score": 0.030484957366016197,
-            "rank": 25
+            "score": 0.023679592354633572,
+            "rank": 24
           }
         },
         "agent_tool_hallucination": {
           "xhigh": {
-            "score": 0.0037224793370072007,
-            "rank": 12
+            "score": 0.0035894052854601455,
+            "rank": 10
           }
         },
         "agent_task_outcome_explicit": {
           "xhigh": {
-            "score": -0.04435306994388066,
-            "rank": 31
+            "score": -0.05888043133361576,
+            "rank": 33
           }
         }
       },
@@ -14497,8 +14364,8 @@
         "webdev": {
           "codex-harness": {
             "xhigh": {
-              "score": 1518.7812325910738,
-              "rank": 41
+              "score": 1520.5492993967744,
+              "rank": 42
             }
           }
         }
@@ -14530,8 +14397,8 @@
       "release_date": "2026-07-09",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 36.7,
-        "raw": 2.275067064100153,
+        "score": 36.6,
+        "raw": 2.264734868862948,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "openai--gpt-5.6",
@@ -14711,14 +14578,14 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 82.8,
+        "score": 81.9,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 83.07325854994029,
+          "lmarena": 81.69111106093668,
           "livebench": 82.16064285714286,
           "llm_stats": 99.36250000000001
         },
@@ -14726,9 +14593,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 77.3,
+          "value": 74.3,
           "source": "lmarena",
-          "raw": 1443.7243904445113
+          "raw": 1442.8889572695782
         },
         "vision": {
           "value": 88.1,
@@ -14736,34 +14603,34 @@
           "raw": 1278.5755227326415
         },
         "webdev": {
-          "value": 96.4,
+          "value": 95.3,
           "source": "lmarena",
-          "raw": 1792.1796354686667
+          "raw": 1791.6525596749589
         },
         "agent_praise_complaint": {
           "value": 100,
           "source": "lmarena",
-          "raw": 0.3279433528085177
+          "raw": 0.34616105909195527
         },
         "agent_steerability": {
-          "value": 59.1,
+          "value": 58.2,
           "source": "lmarena",
-          "raw": -0.0046775276237238095
+          "raw": -0.008904465167246245
         },
         "agent_bash_recovery_steps": {
-          "value": 74.6,
+          "value": 72.9,
           "source": "lmarena",
-          "raw": 0.0728481078443397
+          "raw": 0.06460689557662858
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.003722479337625373
+          "raw": 0.0035894052840959034
         },
         "agent_task_outcome_explicit": {
-          "value": 95.4,
+          "value": 87.4,
           "source": "lmarena",
-          "raw": 0.17699505138174831
+          "raw": 0.13682488173798324
         },
         "reasoning": {
           "value": 92.7,
@@ -14821,22 +14688,22 @@
           "note": "index_vision"
         },
         "composite": {
-          "value": 82.8,
+          "value": 81.9,
           "source": "composite",
-          "raw": 82.8
+          "raw": 81.9
         }
       },
       "lmarena_scores": {
         "agent": {
           "max": {
-            "score": 0.11536629274970146,
+            "score": 0.10845555530468334,
             "rank": 2
           }
         },
         "text": {
           "max": {
-            "score": 1443.7243904445113,
-            "rank": 59
+            "score": 1442.8889572695782,
+            "rank": 64
           }
         },
         "vision": {
@@ -14847,37 +14714,37 @@
         },
         "webdev": {
           "max": {
-            "score": 1792.1796354686667,
+            "score": 1791.6525596749589,
             "rank": 2
           }
         },
         "agent_praise_complaint": {
           "max": {
-            "score": 0.3279433528085177,
+            "score": 0.34616105909195527,
             "rank": 1
           }
         },
         "agent_steerability": {
           "max": {
-            "score": -0.0046775276237238095,
-            "rank": 25
+            "score": -0.008904465167246245,
+            "rank": 27
           }
         },
         "agent_bash_recovery_steps": {
           "max": {
-            "score": 0.0728481078443397,
-            "rank": 11
+            "score": 0.06460689557662858,
+            "rank": 10
           }
         },
         "agent_tool_hallucination": {
           "max": {
-            "score": 0.003722479337625373,
-            "rank": 10
+            "score": 0.0035894052840959034,
+            "rank": 12
           }
         },
         "agent_task_outcome_explicit": {
           "max": {
-            "score": 0.17699505138174831,
+            "score": 0.13682488173798324,
             "rank": 2
           }
         }
@@ -14911,7 +14778,7 @@
       "release_date_provenance": "llm_stats",
       "value": {
         "score": 1.1,
-        "raw": 1.0152306797290587,
+        "raw": 1.0043016091968684,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "openai--gpt-6",
@@ -14939,6 +14806,9 @@
           "openai/gpt-6-luna",
           "openai/gpt-6-luna:batch"
         ],
+        "lmarena": [
+          "gpt-6-luna-max"
+        ],
         "llm_stats": [
           "gpt-6-luna"
         ]
@@ -14955,10 +14825,26 @@
         "text"
       ],
       "single_source": false,
-      "degrees": {},
-      "default_degree": {},
+      "degrees": {
+        "lmarena": [
+          "max"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "max"
+      },
       "composite": null,
       "dimensions": {
+        "text": {
+          "value": 57,
+          "source": "lmarena",
+          "raw": 1392.4179997629763
+        },
+        "webdev": {
+          "value": 68.8,
+          "source": "lmarena",
+          "raw": 1592.646721210178
+        },
         "reasoning": {
           "value": 75,
           "source": "llm_stats",
@@ -14984,7 +14870,20 @@
           "note": "index_vision"
         }
       },
-      "lmarena_scores": {},
+      "lmarena_scores": {
+        "text": {
+          "max": {
+            "score": 1392.4179997629763,
+            "rank": 158
+          }
+        },
+        "webdev": {
+          "max": {
+            "score": 1592.646721210178,
+            "rank": 24
+          }
+        }
+      },
       "lmarena_profiles": {},
       "livebench_scores": {},
       "pricing": {
@@ -15029,6 +14928,7 @@
           "openai/gpt-6-sol:batch"
         ],
         "lmarena": [
+          "GPT 6 Sol (Max)",
           "gpt-6-sol-max"
         ],
         "llm_stats": [
@@ -15055,12 +14955,53 @@
       "default_degree": {
         "lmarena": "max"
       },
-      "composite": null,
+      "composite": {
+        "score": 75.4,
+        "weights": {
+          "lmarena": 1
+        },
+        "method": "proportional_redistribute",
+        "available": {
+          "lmarena": 75.35409841221585,
+          "llm_stats": 86.7375
+        },
+        "note": "缺源，权重按比例重分配"
+      },
       "dimensions": {
-        "webdev": {
-          "value": 82,
+        "text": {
+          "value": 58.2,
           "source": "lmarena",
-          "raw": 1685.8986154645982
+          "raw": 1395.797278939484
+        },
+        "webdev": {
+          "value": 80.6,
+          "source": "lmarena",
+          "raw": 1680.9724563881532
+        },
+        "agent_praise_complaint": {
+          "value": 65.2,
+          "source": "lmarena",
+          "raw": 0.026173060212438592
+        },
+        "agent_steerability": {
+          "value": 91.4,
+          "source": "lmarena",
+          "raw": 0.1569949204216809
+        },
+        "agent_bash_recovery_steps": {
+          "value": 76.7,
+          "source": "lmarena",
+          "raw": 0.08349222849719995
+        },
+        "agent_tool_hallucination": {
+          "value": 60.7,
+          "source": "lmarena",
+          "raw": 0.0035894052835487855
+        },
+        "agent_task_outcome_explicit": {
+          "value": 82.7,
+          "source": "lmarena",
+          "raw": 0.11360284589052783
         },
         "reasoning": {
           "value": 82,
@@ -15085,13 +15026,60 @@
           "source": "llm_stats",
           "raw": 25.99,
           "note": "index_vision"
+        },
+        "composite": {
+          "value": 75.4,
+          "source": "composite",
+          "raw": 75.4
         }
       },
       "lmarena_scores": {
+        "agent": {
+          "max": {
+            "score": 0.07677049206107922,
+            "rank": 6
+          }
+        },
+        "text": {
+          "max": {
+            "score": 1395.797278939484,
+            "rank": 153
+          }
+        },
         "webdev": {
           "max": {
-            "score": 1685.8986154645982,
+            "score": 1680.9724563881532,
             "rank": 5
+          }
+        },
+        "agent_praise_complaint": {
+          "max": {
+            "score": 0.026173060212438592,
+            "rank": 22
+          }
+        },
+        "agent_steerability": {
+          "max": {
+            "score": 0.1569949204216809,
+            "rank": 1
+          }
+        },
+        "agent_bash_recovery_steps": {
+          "max": {
+            "score": 0.08349222849719995,
+            "rank": 6
+          }
+        },
+        "agent_tool_hallucination": {
+          "max": {
+            "score": 0.0035894052835487855,
+            "rank": 13
+          }
+        },
+        "agent_task_outcome_explicit": {
+          "max": {
+            "score": 0.11360284589052783,
+            "rank": 4
           }
         }
       },
@@ -15112,7 +15100,11 @@
       },
       "release_date": "2026-09-22",
       "release_date_provenance": "llm_stats",
-      "value": null,
+      "value": {
+        "score": 44.2,
+        "raw": 2.5310478057858554,
+        "note": "ln(综合分/平均每M价)"
+      },
       "series_key": "openai--gpt-6",
       "series_display": "Gpt 6",
       "member_key": "openai--gpt-6-sol",
@@ -15147,7 +15139,7 @@
         "text_to_image": {
           "value": 41.4,
           "source": "lmarena",
-          "raw": 1115.0473729970572
+          "raw": 1115.6602387837722
         },
         "image_edit": {
           "value": 26.7,
@@ -15158,7 +15150,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1115.0473729970572,
+            "score": 1115.6602387837722,
             "rank": 47
           }
         },
@@ -15209,7 +15201,7 @@
         "text_to_image": {
           "value": 40.3,
           "source": "lmarena",
-          "raw": 1109.4439015287403
+          "raw": 1109.7547301490697
         },
         "image_edit": {
           "value": 23.9,
@@ -15220,8 +15212,8 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1109.4439015287403,
-            "rank": 51
+            "score": 1109.7547301490697,
+            "rank": 52
           }
         },
         "image_edit": {
@@ -15269,9 +15261,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 64.9,
+          "value": 64.8,
           "source": "lmarena",
-          "raw": 1238.7300889047756
+          "raw": 1238.4552092692286
         },
         "image_edit": {
           "value": 70.4,
@@ -15282,7 +15274,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1238.7300889047756,
+            "score": 1238.4552092692286,
             "rank": 15
           }
         },
@@ -15337,9 +15329,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 92,
+          "value": 92.3,
           "source": "lmarena",
-          "raw": 1380.899621191184
+          "raw": 1382.9939222783125
         },
         "image_edit": {
           "value": 87.7,
@@ -15350,7 +15342,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "medium": {
-            "score": 1380.899621191184,
+            "score": 1382.9939222783125,
             "rank": 3
           }
         },
@@ -15399,9 +15391,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 95.8,
+          "value": 95.7,
           "source": "lmarena",
-          "raw": 1401.3066695094585
+          "raw": 1400.9416980966648
         },
         "image_edit": {
           "value": 91.6,
@@ -15412,7 +15404,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1401.3066695094585,
+            "score": 1400.9416980966648,
             "rank": 2
           }
         },
@@ -15463,7 +15455,7 @@
         "text_to_image": {
           "value": 100,
           "source": "lmarena",
-          "raw": 1423.1621434383296
+          "raw": 1423.6048361955234
         },
         "image_edit": {
           "value": 100,
@@ -15474,7 +15466,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1423.1621434383296,
+            "score": 1423.6048361955234,
             "rank": 1
           }
         },
@@ -15803,9 +15795,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 55.8,
+          "value": 55.9,
           "source": "lmarena",
-          "raw": 1191.1241261360628
+          "raw": 1191.6527689469945
         },
         "image_edit": {
           "value": 57.9,
@@ -15816,7 +15808,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1191.1241261360628,
+            "score": 1191.6527689469945,
             "rank": 19
           }
         },
@@ -15865,15 +15857,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 67.9,
+          "value": 68.1,
           "source": "lmarena",
-          "raw": 1254.4638724850483
+          "raw": 1255.934521955782
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1254.4638724850483,
+            "score": 1255.934521955782,
             "rank": 11
           }
         }
@@ -15918,16 +15910,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 19.9,
+          "value": 19.2,
           "source": "lmarena",
-          "raw": 1281.7903929319427
+          "raw": 1281.8820461578912
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1281.7903929319427,
-            "rank": 255
+            "score": 1281.8820461578912,
+            "rank": 261
           }
         }
       },
@@ -15971,16 +15963,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 35.7,
+          "value": 34.4,
           "source": "lmarena",
-          "raw": 1326.303555418854
+          "raw": 1326.4108032668332
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1326.303555418854,
-            "rank": 216
+            "score": 1326.4108032668332,
+            "rank": 222
           }
         }
       },
@@ -16194,27 +16186,27 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 61,
+          "value": 58.7,
           "source": "lmarena",
-          "raw": 1397.6510085029963
+          "raw": 1397.2339429639494
         },
         "webdev": {
-          "value": 21.4,
+          "value": 22.3,
           "source": "lmarena",
-          "raw": 1238.8721313111812
+          "raw": 1243.317799379447
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1397.6510085029963,
-            "rank": 146
+            "score": 1397.2339429639494,
+            "rank": 149
           }
         },
         "webdev": {
           "base": {
-            "score": 1238.8721313111812,
-            "rank": 121
+            "score": 1243.317799379447,
+            "rank": 123
           }
         }
       },
@@ -16316,16 +16308,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 87,
+          "value": 83.8,
           "source": "lmarena",
-          "raw": 1470.9317068152347
+          "raw": 1470.5258772367074
         }
       },
       "lmarena_scores": {
         "text": {
           "max": {
-            "score": 1470.9317068152347,
-            "rank": 25
+            "score": 1470.5258772367074,
+            "rank": 28
           }
         }
       },
@@ -16391,14 +16383,14 @@
       },
       "dimensions": {
         "text": {
-          "value": 74.9,
+          "value": 72.2,
           "source": "lmarena",
-          "raw": 1436.7371645331768
+          "raw": 1436.705470195017
         },
         "webdev": {
-          "value": 51.4,
+          "value": 51.3,
           "source": "lmarena",
-          "raw": 1460.5224598127315
+          "raw": 1460.8853034656033
         },
         "reasoning": {
           "value": 75.8,
@@ -16488,14 +16480,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1436.7371645331768,
-            "rank": 74
+            "score": 1436.705470195017,
+            "rank": 78
           }
         },
         "webdev": {
           "base": {
-            "score": 1460.5224598127315,
-            "rank": 58
+            "score": 1460.8853034656033,
+            "rank": 61
           }
         }
       },
@@ -16527,7 +16519,7 @@
       "release_date": "2026-03-31",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 88.3,
+        "score": 88.5,
         "raw": 4.103823306176644,
         "note": "ln(综合分/平均每M价)"
       },
@@ -16571,27 +16563,27 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 78.3,
+          "value": 75.6,
           "source": "lmarena",
-          "raw": 1446.331797785251
+          "raw": 1446.6473368974587
         },
         "webdev": {
-          "value": 53.9,
+          "value": 54,
           "source": "lmarena",
-          "raw": 1478.7526177630934
+          "raw": 1481.3999267602044
         }
       },
       "lmarena_scores": {
         "text": {
           "max": {
-            "score": 1446.331797785251,
-            "rank": 50
+            "score": 1446.6473368974587,
+            "rank": 54
           }
         },
         "webdev": {
           "max": {
-            "score": 1478.7526177630934,
-            "rank": 52
+            "score": 1481.3999267602044,
+            "rank": 55
           }
         }
       },
@@ -16644,43 +16636,43 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 59.9,
+        "score": 58.8,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 52.74939320834622,
+          "lmarena": 51.11986308888152,
           "livebench": 73.13660714285713
         },
         "note": null
       },
       "dimensions": {
         "agent_praise_complaint": {
-          "value": 44.2,
+          "value": 43.3,
           "source": "lmarena",
-          "raw": -0.07923197081854849
+          "raw": -0.08365029924552403
         },
         "agent_steerability": {
-          "value": 54.5,
+          "value": 53.7,
           "source": "lmarena",
-          "raw": -0.02749490829199322
+          "raw": -0.031534845650140364
         },
         "agent_bash_recovery_steps": {
-          "value": 58.3,
+          "value": 56.3,
           "source": "lmarena",
-          "raw": -0.008339484592022828
+          "raw": -0.018437309474719443
         },
         "agent_tool_hallucination": {
           "value": 59.6,
           "source": "lmarena",
-          "raw": -0.002054259042886031
+          "raw": -0.001760167646821742
         },
         "agent_task_outcome_explicit": {
-          "value": 47.2,
+          "value": 42.7,
           "source": "lmarena",
-          "raw": -0.06414454704589378
+          "raw": -0.08662080076075618
         },
         "reasoning": {
           "value": 83.3,
@@ -16703,46 +16695,46 @@
           "raw": 43.586000000000006
         },
         "composite": {
-          "value": 59.9,
+          "value": 58.8,
           "source": "composite",
-          "raw": 59.9
+          "raw": 58.8
         }
       },
       "lmarena_scores": {
         "agent": {
           "max": {
-            "score": -0.03625303395826887,
+            "score": -0.04440068455559235,
             "rank": 34
           }
         },
         "agent_praise_complaint": {
           "max": {
-            "score": -0.07923197081854849,
-            "rank": 35
+            "score": -0.08365029924552403,
+            "rank": 34
           }
         },
         "agent_steerability": {
           "max": {
-            "score": -0.02749490829199322,
+            "score": -0.031534845650140364,
             "rank": 31
           }
         },
         "agent_bash_recovery_steps": {
           "max": {
-            "score": -0.008339484592022828,
-            "rank": 32
+            "score": -0.018437309474719443,
+            "rank": 33
           }
         },
         "agent_tool_hallucination": {
           "max": {
-            "score": -0.002054259042886031,
-            "rank": 36
+            "score": -0.001760167646821742,
+            "rank": 34
           }
         },
         "agent_task_outcome_explicit": {
           "max": {
-            "score": -0.06414454704589378,
-            "rank": 35
+            "score": -0.08662080076075618,
+            "rank": 36
           }
         }
       },
@@ -16912,16 +16904,16 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 59.1,
+          "value": 58.5,
           "source": "lmarena",
-          "raw": 1517.0453125092138
+          "raw": 1514.7894336140098
         }
       },
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1517.0453125092138,
-            "rank": 42
+            "score": 1514.7894336140098,
+            "rank": 45
           }
         }
       },
@@ -16971,22 +16963,22 @@
       "degrees": {},
       "default_degree": {},
       "composite": {
-        "score": 47.8,
+        "score": 46.1,
         "weights": {
           "lmarena": 1
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 47.83459222327028,
+          "lmarena": 46.130988924723816,
           "llm_stats": 78.13749999999999
         },
         "note": "缺源，权重按比例重分配"
       },
       "dimensions": {
         "text": {
-          "value": 81.1,
+          "value": 78.3,
           "source": "lmarena",
-          "raw": 1454.1959977558622
+          "raw": 1454.4413070932965
         },
         "vision": {
           "value": 87.9,
@@ -16994,29 +16986,29 @@
           "raw": 1277.8134874637242
         },
         "agent_praise_complaint": {
-          "value": 35,
+          "value": 35.7,
           "source": "lmarena",
-          "raw": -0.12495306067404122
+          "raw": -0.12145938741890372
         },
         "agent_steerability": {
-          "value": 49.2,
+          "value": 45.9,
           "source": "lmarena",
-          "raw": -0.053752628661142915
+          "raw": -0.07034218756511343
         },
         "agent_bash_recovery_steps": {
-          "value": 51.3,
+          "value": 49.2,
           "source": "lmarena",
-          "raw": -0.043629564545356825
+          "raw": -0.05382914380928372
         },
         "agent_tool_hallucination": {
-          "value": 57.9,
+          "value": 58,
           "source": "lmarena",
-          "raw": -0.010302261546115687
+          "raw": -0.009871655612180064
         },
         "agent_task_outcome_explicit": {
-          "value": 45.7,
+          "value": 41.8,
           "source": "lmarena",
-          "raw": -0.07149767899158632
+          "raw": -0.09122290247642373
         },
         "reasoning": {
           "value": 78.7,
@@ -17085,22 +17077,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 47.8,
+          "value": 46.1,
           "source": "composite",
-          "raw": 47.8
+          "raw": 46.1
         }
       },
       "lmarena_scores": {
         "agent": {
           "base": {
-            "score": -0.0608270388836486,
-            "rank": 40
+            "score": -0.06934505537638093,
+            "rank": 39
           }
         },
         "text": {
           "base": {
-            "score": 1454.1959977558622,
-            "rank": 39
+            "score": 1454.4413070932965,
+            "rank": 43
           }
         },
         "vision": {
@@ -17111,31 +17103,31 @@
         },
         "agent_praise_complaint": {
           "base": {
-            "score": -0.12495306067404122,
-            "rank": 40
+            "score": -0.12145938741890372,
+            "rank": 39
           }
         },
         "agent_steerability": {
           "base": {
-            "score": -0.053752628661142915,
-            "rank": 39
+            "score": -0.07034218756511343,
+            "rank": 41
           }
         },
         "agent_bash_recovery_steps": {
           "base": {
-            "score": -0.043629564545356825,
-            "rank": 37
+            "score": -0.05382914380928372,
+            "rank": 36
           }
         },
         "agent_tool_hallucination": {
           "base": {
-            "score": -0.010302261546115687,
-            "rank": 41
+            "score": -0.009871655612180064,
+            "rank": 40
           }
         },
         "agent_task_outcome_explicit": {
           "base": {
-            "score": -0.07149767899158632,
+            "score": -0.09122290247642373,
             "rank": 37
           }
         }
@@ -17154,8 +17146,8 @@
       "release_date": "2026-05-31",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 87.9,
-        "raw": 4.09016919081162,
+        "score": 87.1,
+        "raw": 4.053956501316812,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "qwen--qwen3.7",
@@ -17198,15 +17190,15 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 88.1,
+          "value": 85.6,
           "source": "lmarena",
-          "raw": 1473.9515440559937
+          "raw": 1475.8395012564795
         }
       },
       "lmarena_scores": {
         "text": {
           "max": {
-            "score": 1473.9515440559937,
+            "score": 1475.8395012564795,
             "rank": 21
           }
         }
@@ -17261,23 +17253,23 @@
         "livebench": "max"
       },
       "composite": {
-        "score": 70.8,
+        "score": 70.1,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 66.60785243463467,
+          "lmarena": 65.64382905453073,
           "livebench": 78.46089285714287
         },
         "note": null
       },
       "dimensions": {
         "text": {
-          "value": 90.4,
+          "value": 87,
           "source": "lmarena",
-          "raw": 1480.5544386003721
+          "raw": 1479.7953673947534
         },
         "vision": {
           "value": 97.4,
@@ -17285,34 +17277,34 @@
           "raw": 1315.334313394561
         },
         "webdev": {
-          "value": 80,
+          "value": 79.3,
           "source": "lmarena",
-          "raw": 1671.2119243436873
+          "raw": 1671.5369062215836
         },
         "agent_praise_complaint": {
-          "value": 68.4,
+          "value": 68.1,
           "source": "lmarena",
-          "raw": 0.042022436155978005
+          "raw": 0.04074567394374029
         },
         "agent_steerability": {
-          "value": 67.3,
+          "value": 65.4,
           "source": "lmarena",
-          "raw": 0.036270513998374776
+          "raw": 0.026898621590287497
         },
         "agent_bash_recovery_steps": {
-          "value": 68.2,
+          "value": 65.7,
           "source": "lmarena",
-          "raw": 0.041054067187329846
+          "raw": 0.028338103098188627
         },
         "agent_tool_hallucination": {
-          "value": 57.5,
+          "value": 57.8,
           "source": "lmarena",
-          "raw": -0.012471446159352695
+          "raw": -0.011089831159715402
         },
         "agent_task_outcome_explicit": {
-          "value": 71.7,
+          "value": 71.2,
           "source": "lmarena",
-          "raw": 0.05832073968353657
+          "raw": 0.05620315889076721
         },
         "reasoning": {
           "value": 88.2,
@@ -17335,22 +17327,22 @@
           "raw": 64.64666666666666
         },
         "composite": {
-          "value": 70.8,
+          "value": 70.1,
           "source": "composite",
-          "raw": 70.8
+          "raw": 70.1
         }
       },
       "lmarena_scores": {
         "agent": {
           "max": {
-            "score": 0.0330392621731733,
-            "rank": 17
+            "score": 0.028219145272653647,
+            "rank": 20
           }
         },
         "text": {
           "max": {
-            "score": 1480.5544386003721,
-            "rank": 14
+            "score": 1479.7953673947534,
+            "rank": 17
           }
         },
         "vision": {
@@ -17361,38 +17353,38 @@
         },
         "webdev": {
           "max": {
-            "score": 1671.2119243436873,
+            "score": 1671.5369062215836,
             "rank": 6
           }
         },
         "agent_praise_complaint": {
           "max": {
-            "score": 0.042022436155978005,
+            "score": 0.04074567394374029,
             "rank": 18
           }
         },
         "agent_steerability": {
           "max": {
-            "score": 0.036270513998374776,
-            "rank": 13
+            "score": 0.026898621590287497,
+            "rank": 16
           }
         },
         "agent_bash_recovery_steps": {
           "max": {
-            "score": 0.041054067187329846,
+            "score": 0.028338103098188627,
             "rank": 22
           }
         },
         "agent_tool_hallucination": {
           "max": {
-            "score": -0.012471446159352695,
-            "rank": 42
+            "score": -0.011089831159715402,
+            "rank": 41
           }
         },
         "agent_task_outcome_explicit": {
           "max": {
-            "score": 0.05832073968353657,
-            "rank": 16
+            "score": 0.05620315889076721,
+            "rank": 15
           }
         }
       },
@@ -17558,14 +17550,14 @@
       "degrees": {},
       "default_degree": {},
       "composite": {
-        "score": 65.6,
+        "score": 65,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 59.850340659142745,
+          "lmarena": 58.902530061924864,
           "livebench": 76.19415476190476,
           "llm_stats": 85.9625
         },
@@ -17573,34 +17565,34 @@
       },
       "dimensions": {
         "webdev": {
-          "value": 75.3,
+          "value": 74.6,
           "source": "lmarena",
-          "raw": 1636.2726556223574
+          "raw": 1635.7362231574944
         },
         "agent_praise_complaint": {
-          "value": 56.5,
+          "value": 55.8,
           "source": "lmarena",
-          "raw": -0.017306887073768595
+          "raw": -0.021088358347133185
         },
         "agent_steerability": {
-          "value": 50.6,
+          "value": 52.6,
           "source": "lmarena",
-          "raw": -0.04696069558626728
+          "raw": -0.03678680718221139
         },
         "agent_bash_recovery_steps": {
-          "value": 56,
+          "value": 54.9,
           "source": "lmarena",
-          "raw": -0.02003148796854215
+          "raw": -0.025554733660247964
         },
         "agent_tool_hallucination": {
-          "value": 58.3,
+          "value": 58.2,
           "source": "lmarena",
-          "raw": -0.00868399868207348
+          "raw": -0.008826832645837612
         },
         "agent_task_outcome_explicit": {
-          "value": 77.8,
+          "value": 73,
           "source": "lmarena",
-          "raw": 0.08924158578922026
+          "raw": 0.06481998338355166
         },
         "reasoning": {
           "value": 87.4,
@@ -17664,52 +17656,52 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 65.6,
+          "value": 65,
           "source": "composite",
-          "raw": 65.6
+          "raw": 65
         }
       },
       "lmarena_scores": {
         "agent": {
           "base": {
-            "score": -0.0007482967042862503,
-            "rank": 26
+            "score": -0.005487349690375698,
+            "rank": 27
           }
         },
         "webdev": {
           "base": {
-            "score": 1636.2726556223574,
+            "score": 1635.7362231574944,
             "rank": 11
           }
         },
         "agent_praise_complaint": {
           "base": {
-            "score": -0.017306887073768595,
-            "rank": 27
+            "score": -0.021088358347133185,
+            "rank": 28
           }
         },
         "agent_steerability": {
           "base": {
-            "score": -0.04696069558626728,
-            "rank": 37
+            "score": -0.03678680718221139,
+            "rank": 33
           }
         },
         "agent_bash_recovery_steps": {
           "base": {
-            "score": -0.02003148796854215,
+            "score": -0.025554733660247964,
             "rank": 34
           }
         },
         "agent_tool_hallucination": {
           "base": {
-            "score": -0.00868399868207348,
-            "rank": 40
+            "score": -0.008826832645837612,
+            "rank": 38
           }
         },
         "agent_task_outcome_explicit": {
           "base": {
-            "score": 0.08924158578922026,
-            "rank": 10
+            "score": 0.06481998338355166,
+            "rank": 13
           }
         }
       },
@@ -17871,15 +17863,15 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 78.6,
+          "value": 78,
           "source": "lmarena",
-          "raw": 1660.5849055666995
+          "raw": 1661.6148024691886
         }
       },
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1660.5849055666995,
+            "score": 1661.6148024691886,
             "rank": 8
           }
         }
@@ -17938,16 +17930,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 75.7,
+          "value": 73.1,
           "source": "lmarena",
-          "raw": 1439.1655434251022
+          "raw": 1439.177799283725
         }
       },
       "lmarena_scores": {
         "text": {
           "max": {
-            "score": 1439.1655434251022,
-            "rank": 69
+            "score": 1439.177799283725,
+            "rank": 73
           }
         }
       },
@@ -18097,16 +18089,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 41.8,
+          "value": 41.5,
           "source": "lmarena",
-          "raw": 1117.185158057987
+          "raw": 1116.2494967587852
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1117.185158057987,
-            "rank": 44
+            "score": 1116.2494967587852,
+            "rank": 45
           }
         }
       },
@@ -18303,15 +18295,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 45.5,
+          "value": 45.4,
           "source": "lmarena",
-          "raw": 1136.7732329664977
+          "raw": 1136.6761566132918
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1136.7732329664977,
+            "score": 1136.6761566132918,
             "rank": 39
           }
         }
@@ -18405,9 +18397,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 38.5,
+          "value": 38.7,
           "source": "lmarena",
-          "raw": 1099.8952275968404
+          "raw": 1101.2500802516831
         },
         "image_edit": {
           "value": 57.4,
@@ -18418,7 +18410,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1099.8952275968404,
+            "score": 1101.2500802516831,
             "rank": 54
           }
         },
@@ -18467,9 +18459,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 39,
+          "value": 39.1,
           "source": "lmarena",
-          "raw": 1102.7103574158327
+          "raw": 1103.4918727840911
         },
         "image_edit": {
           "value": 57.6,
@@ -18480,7 +18472,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1102.7103574158327,
+            "score": 1103.4918727840911,
             "rank": 53
           }
         },
@@ -18602,15 +18594,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 41.2,
+          "value": 41.3,
           "source": "lmarena",
-          "raw": 1114.0058301636418
+          "raw": 1114.972831403445
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1114.0058301636418,
+            "score": 1114.972831403445,
             "rank": 48
           }
         }
@@ -18625,6 +18617,57 @@
       "series_display": "Recraft V4",
       "member_key": "recraft--recraft-v4",
       "member_display": "Recraft V4",
+      "member_order": 9999
+    },
+    {
+      "canonical": "recraft--recraft-v4.1-flash",
+      "identity": "recraft-v4.1-flash",
+      "family": "recraft-v4.1",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "recraft-v4.1-flash"
+        ]
+      },
+      "display": "Recraft V4.1 Flash",
+      "vendor": "recraft",
+      "theme": "image",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {},
+      "default_degree": {},
+      "composite": null,
+      "dimensions": {
+        "text_to_image": {
+          "value": 38.5,
+          "source": "lmarena",
+          "raw": 1100.3596746925166
+        }
+      },
+      "lmarena_scores": {
+        "text_to_image": {
+          "base": {
+            "score": 1100.3596746925166,
+            "rank": 55
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "recraft--recraft-v4.1",
+      "series_display": "Recraft V4.1",
+      "member_key": "recraft--recraft-v4.1-flash",
+      "member_display": "Recraft V4.1 Flash",
       "member_order": 9999
     },
     {
@@ -18653,15 +18696,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 44.3,
+          "value": 44.6,
           "source": "lmarena",
-          "raw": 1130.6375309544965
+          "raw": 1132.5406421319963
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1130.6375309544965,
+            "score": 1132.5406421319963,
             "rank": 40
           }
         }
@@ -18704,15 +18747,15 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 51.7,
+          "value": 51.6,
           "source": "lmarena",
-          "raw": 1169.3553702267964
+          "raw": 1169.2382022337472
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1169.3553702267964,
+            "score": 1169.2382022337472,
             "rank": 24
           }
         }
@@ -18755,9 +18798,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 70.9,
+          "value": 70.6,
           "source": "lmarena",
-          "raw": 1270.3714957240159
+          "raw": 1268.9026009829524
         },
         "image_edit": {
           "value": 68.2,
@@ -18768,7 +18811,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1270.3714957240159,
+            "score": 1268.9026009829524,
             "rank": 8
           }
         },
@@ -18817,9 +18860,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 76.7,
+          "value": 76.9,
           "source": "lmarena",
-          "raw": 1300.920169657385
+          "raw": 1302.2635903212558
         },
         "image_edit": {
           "value": 71.4,
@@ -18830,8 +18873,8 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1300.920169657385,
-            "rank": 6
+            "score": 1302.2635903212558,
+            "rank": 5
           }
         },
         "image_edit": {
@@ -19047,16 +19090,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 48.7,
+          "value": 49,
           "source": "lmarena",
-          "raw": 1153.8671996548487
+          "raw": 1155.2800383259755
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1153.8671996548487,
-            "rank": 30
+            "score": 1155.2800383259755,
+            "rank": 29
           }
         }
       },
@@ -19259,6 +19302,65 @@
       "series_display": "Vidu Q3",
       "member_key": "shengshu--vidu-q3-pro",
       "member_display": "Vidu Q3 Pro",
+      "member_order": 9999
+    },
+    {
+      "canonical": "stepfun--step-5@Preview",
+      "identity": "step-5",
+      "family": "step-5",
+      "revisions": [
+        "Preview"
+      ],
+      "evaluation_profiles": [],
+      "offerings": {},
+      "source_names": {
+        "lmarena": [
+          "step-5-preview-high"
+        ]
+      },
+      "display": "Step 5 (Preview)",
+      "vendor": "stepfun",
+      "theme": "general",
+      "license": "Proprietary",
+      "open_source": false,
+      "is_moe": null,
+      "context_length": null,
+      "modalities": [],
+      "single_source": true,
+      "degrees": {
+        "lmarena": [
+          "high"
+        ]
+      },
+      "default_degree": {
+        "lmarena": "high"
+      },
+      "composite": null,
+      "dimensions": {
+        "webdev": {
+          "value": 65.2,
+          "source": "lmarena",
+          "raw": 1565.2198243040011
+        }
+      },
+      "lmarena_scores": {
+        "webdev": {
+          "high": {
+            "score": 1565.2198243040011,
+            "rank": 29
+          }
+        }
+      },
+      "lmarena_profiles": {},
+      "livebench_scores": {},
+      "pricing": {},
+      "release_date": null,
+      "release_date_provenance": null,
+      "value": null,
+      "series_key": "stepfun--step-5",
+      "series_display": "Step 5",
+      "member_key": "stepfun--step-5",
+      "member_display": "Step 5",
       "member_order": 9999
     },
     {
@@ -19636,14 +19738,14 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 53.8,
+          "value": 54.7,
           "source": "lmarena",
-          "raw": 1377.2778113965023
+          "raw": 1385.5984608157428
         },
         "webdev": {
-          "value": 38.9,
+          "value": 39.5,
           "source": "lmarena",
-          "raw": 1368.1945362759816
+          "raw": 1372.0211248256792
         },
         "reasoning": {
           "value": 68.4,
@@ -19709,14 +19811,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1377.2778113965023,
-            "rank": 161
+            "score": 1385.5984608157428,
+            "rank": 162
           }
         },
         "webdev": {
           "base": {
-            "score": 1368.1945362759816,
-            "rank": 92
+            "score": 1372.0211248256792,
+            "rank": 94
           }
         }
       },
@@ -19874,16 +19976,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 70.9,
+          "value": 68.4,
           "source": "lmarena",
-          "raw": 1425.4839227590574
+          "raw": 1425.604805926049
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1425.4839227590574,
-            "rank": 93
+            "score": 1425.604805926049,
+            "rank": 97
           }
         }
       },
@@ -20005,16 +20107,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 64.2,
+          "value": 62.1,
           "source": "lmarena",
-          "raw": 1406.7157288032279
+          "raw": 1407.1920372874652
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1406.7157288032279,
-            "rank": 134
+            "score": 1407.1920372874652,
+            "rank": 137
           }
         }
       },
@@ -20062,27 +20164,27 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 61.4,
+          "value": 59.4,
           "source": "lmarena",
-          "raw": 1398.7894645755377
+          "raw": 1399.303959867093
         },
         "webdev": {
-          "value": 10.9,
+          "value": 11.2,
           "source": "lmarena",
-          "raw": 1161.8037526210387
+          "raw": 1159.90620171538
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1398.7894645755377,
-            "rank": 143
+            "score": 1399.303959867093,
+            "rank": 147
           }
         },
         "webdev": {
           "base": {
-            "score": 1161.8037526210387,
-            "rank": 130
+            "score": 1159.90620171538,
+            "rank": 133
           }
         }
       },
@@ -20303,16 +20405,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 74.7,
+          "value": 72,
           "source": "lmarena",
-          "raw": 1436.2364786930038
+          "raw": 1436.1050246919538
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1436.2364786930038,
-            "rank": 77
+            "score": 1436.1050246919538,
+            "rank": 80
           }
         }
       },
@@ -20360,9 +20462,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 64.6,
+          "value": 62.3,
           "source": "lmarena",
-          "raw": 1407.92148991376
+          "raw": 1407.875429392565
         },
         "vision": {
           "value": 68.2,
@@ -20370,16 +20472,16 @@
           "raw": 1199.2828630962192
         },
         "webdev": {
-          "value": 21.6,
+          "value": 22.1,
           "source": "lmarena",
-          "raw": 1240.5613391455736
+          "raw": 1241.6009704499916
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1407.92148991376,
-            "rank": 132
+            "score": 1407.875429392565,
+            "rank": 136
           }
         },
         "vision": {
@@ -20390,8 +20492,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1240.5613391455736,
-            "rank": 120
+            "score": 1241.6009704499916,
+            "rank": 124
           }
         }
       },
@@ -20489,27 +20591,27 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 75,
+          "value": 72.1,
           "source": "lmarena",
-          "raw": 1437.049352526253
+          "raw": 1436.4857750191993
         },
         "webdev": {
-          "value": 17.6,
+          "value": 18.5,
           "source": "lmarena",
-          "raw": 1211.0429630096455
+          "raw": 1214.075778221678
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1437.049352526253,
-            "rank": 73
+            "score": 1436.4857750191993,
+            "rank": 79
           }
         },
         "webdev": {
           "base": {
-            "score": 1211.0429630096455,
-            "rank": 125
+            "score": 1214.075778221678,
+            "rank": 128
           }
         }
       },
@@ -20715,9 +20817,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 79.8,
+          "value": 77,
           "source": "lmarena",
-          "raw": 1450.7395914359724
+          "raw": 1450.6905521603235
         },
         "vision": {
           "value": 84.3,
@@ -20725,9 +20827,9 @@
           "raw": 1263.2020481344448
         },
         "webdev": {
-          "value": 39.6,
+          "value": 39.8,
           "source": "lmarena",
-          "raw": 1373.338585095958
+          "raw": 1374.0930848772625
         },
         "reasoning": {
           "value": 44.2,
@@ -20751,8 +20853,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1450.7395914359724,
-            "rank": 42
+            "score": 1450.6905521603235,
+            "rank": 48
           }
         },
         "vision": {
@@ -20763,8 +20865,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1373.338585095958,
-            "rank": 90
+            "score": 1374.0930848772625,
+            "rank": 93
           }
         }
       },
@@ -20806,9 +20908,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 77.6,
+          "value": 74.9,
           "source": "lmarena",
-          "raw": 1444.3375916713178
+          "raw": 1444.6233872813575
         },
         "search": {
           "value": 46.5,
@@ -20819,8 +20921,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1444.3375916713178,
-            "rank": 57
+            "score": 1444.6233872813575,
+            "rank": 61
           }
         },
         "search": {
@@ -20876,9 +20978,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 79.5,
+          "value": 76.8,
           "source": "lmarena",
-          "raw": 1449.9392941401013
+          "raw": 1450.1390080895862
         },
         "vision": {
           "value": 83.4,
@@ -20894,8 +20996,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1449.9392941401013,
-            "rank": 46
+            "score": 1450.1390080895862,
+            "rank": 49
           }
         },
         "vision": {
@@ -20980,9 +21082,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 61,
+          "value": 58.5,
           "source": "lmarena",
-          "raw": 1397.7328480746648
+          "raw": 1396.8044978186913
         },
         "vision": {
           "value": 75.8,
@@ -20990,9 +21092,9 @@
           "raw": 1229.46625445945
         },
         "webdev": {
-          "value": 37.4,
+          "value": 37.5,
           "source": "lmarena",
-          "raw": 1357.020102769479
+          "raw": 1356.8555615556045
         },
         "search": {
           "value": 27.2,
@@ -21045,8 +21147,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1397.7328480746648,
-            "rank": 145
+            "score": 1396.8044978186913,
+            "rank": 150
           }
         },
         "vision": {
@@ -21057,8 +21159,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1357.020102769479,
-            "rank": 99
+            "score": 1356.8555615556045,
+            "rank": 101
           }
         },
         "search": {
@@ -21096,7 +21198,7 @@
       "release_date": "2026-05-06",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 71.3,
+        "score": 71.5,
         "raw": 3.5017463403227596,
         "note": "ln(综合分/平均每M价)"
       },
@@ -21143,14 +21245,14 @@
       "degrees": {},
       "default_degree": {},
       "composite": {
-        "score": 69.3,
+        "score": 67.5,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 65.84136203249447,
+          "lmarena": 63.09131857110343,
           "livebench": 75.77284523809523,
           "llm_stats": 80.71249999999999
         },
@@ -21158,9 +21260,9 @@
       },
       "dimensions": {
         "text": {
-          "value": 79.6,
+          "value": 75.9,
           "source": "lmarena",
-          "raw": 1450.1299788088197
+          "raw": 1447.4999049877902
         },
         "vision": {
           "value": 90.6,
@@ -21168,9 +21270,9 @@
           "raw": 1288.5430877555339
         },
         "webdev": {
-          "value": 63.9,
+          "value": 63.4,
           "source": "lmarena",
-          "raw": 1552.4256231435443
+          "raw": 1551.93443614734
         },
         "search": {
           "value": 64.9,
@@ -21178,29 +21280,29 @@
           "raw": 1212.646185108397
         },
         "agent_praise_complaint": {
-          "value": 59.8,
+          "value": 55.2,
           "source": "lmarena",
-          "raw": -0.0009777545466470583
+          "raw": -0.02420671912713457
         },
         "agent_steerability": {
-          "value": 71.7,
+          "value": 68.6,
           "source": "lmarena",
-          "raw": 0.058636331985478185
+          "raw": 0.04297410033900201
         },
         "agent_bash_recovery_steps": {
-          "value": 73.2,
+          "value": 72.3,
           "source": "lmarena",
-          "raw": 0.06586716380437885
+          "raw": 0.06138800168994507
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.0037224793382364396
+          "raw": 0.0035894052871228155
         },
         "agent_task_outcome_explicit": {
-          "value": 63.8,
+          "value": 58.7,
           "source": "lmarena",
-          "raw": 0.018785830230915512
+          "raw": -0.006461823911349529
         },
         "reasoning": {
           "value": 87.2,
@@ -21252,22 +21354,22 @@
           "note": "swe-bench-pro"
         },
         "composite": {
-          "value": 69.3,
+          "value": 67.5,
           "source": "composite",
-          "raw": 69.3
+          "raw": 67.5
         }
       },
       "lmarena_scores": {
         "agent": {
           "base": {
-            "score": 0.029206810162472386,
-            "rank": 19
+            "score": 0.01545659285551716,
+            "rank": 22
           }
         },
         "text": {
           "base": {
-            "score": 1450.1299788088197,
-            "rank": 45
+            "score": 1447.4999049877902,
+            "rank": 53
           }
         },
         "vision": {
@@ -21278,8 +21380,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1552.4256231435443,
-            "rank": 30
+            "score": 1551.93443614734,
+            "rank": 33
           }
         },
         "search": {
@@ -21290,32 +21392,32 @@
         },
         "agent_praise_complaint": {
           "base": {
-            "score": -0.0009777545466470583,
-            "rank": 26
+            "score": -0.02420671912713457,
+            "rank": 29
           }
         },
         "agent_steerability": {
           "base": {
-            "score": 0.058636331985478185,
-            "rank": 8
+            "score": 0.04297410033900201,
+            "rank": 12
           }
         },
         "agent_bash_recovery_steps": {
           "base": {
-            "score": 0.06586716380437885,
-            "rank": 14
+            "score": 0.06138800168994507,
+            "rank": 12
           }
         },
         "agent_tool_hallucination": {
           "base": {
-            "score": 0.0037224793382364396,
-            "rank": 5
+            "score": 0.0035894052871228155,
+            "rank": 7
           }
         },
         "agent_task_outcome_explicit": {
           "base": {
-            "score": 0.018785830230915512,
-            "rank": 23
+            "score": -0.006461823911349529,
+            "rank": 24
           }
         }
       },
@@ -21347,8 +21449,8 @@
       "release_date": "2026-07-16",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 53,
-        "raw": 2.852150545075967,
+        "score": 52.5,
+        "raw": 2.8258332367585934,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "xai--grok-4.5",
@@ -21401,14 +21503,14 @@
         "lmarena": "xhigh"
       },
       "composite": {
-        "score": 68.9,
+        "score": 67.9,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 64.01423997103144,
+          "lmarena": 62.385672089351765,
           "livebench": 78.042,
           "llm_stats": 82.25
         },
@@ -21416,29 +21518,29 @@
       },
       "dimensions": {
         "agent_praise_complaint": {
-          "value": 61.8,
+          "value": 59.3,
           "source": "lmarena",
-          "raw": 0.008756169567254779
+          "raw": -0.0036522654771832253
         },
         "agent_steerability": {
-          "value": 69.5,
+          "value": 67,
           "source": "lmarena",
-          "raw": 0.04740907960795537
+          "raw": 0.0348299436083529
         },
         "agent_bash_recovery_steps": {
-          "value": 73.2,
+          "value": 71.5,
           "source": "lmarena",
-          "raw": 0.06592429693958812
+          "raw": 0.05769601843648431
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.003722479341369933
+          "raw": 0.003589405289041281
         },
         "agent_task_outcome_explicit": {
-          "value": 54.9,
+          "value": 53.4,
           "source": "lmarena",
-          "raw": -0.025456026180382008
+          "raw": -0.032821299622901035
         },
         "reasoning": {
           "value": 90.5,
@@ -21490,22 +21592,22 @@
           "note": "livebench math"
         },
         "composite": {
-          "value": 68.9,
+          "value": 67.9,
           "source": "composite",
-          "raw": 68.9
+          "raw": 67.9
         }
       },
       "lmarena_scores": {
         "agent": {
           "xhigh": {
-            "score": 0.02007119985515724,
-            "rank": 21
+            "score": 0.011928360446758848,
+            "rank": 23
           }
         },
         "text": {
           "high": {
-            "score": 1429.8648410703747,
-            "rank": 87
+            "score": 1427.34154784292,
+            "rank": 94
           }
         },
         "vision": {
@@ -21516,38 +21618,38 @@
         },
         "webdev": {
           "high": {
-            "score": 1624.2159267130223,
-            "rank": 16
+            "score": 1620.6103992288927,
+            "rank": 17
           }
         },
         "agent_praise_complaint": {
           "xhigh": {
-            "score": 0.008756169567254779,
-            "rank": 23
+            "score": -0.0036522654771832253,
+            "rank": 25
           }
         },
         "agent_steerability": {
           "xhigh": {
-            "score": 0.04740907960795537,
-            "rank": 11
+            "score": 0.0348299436083529,
+            "rank": 14
           }
         },
         "agent_bash_recovery_steps": {
           "xhigh": {
-            "score": 0.06592429693958812,
-            "rank": 13
+            "score": 0.05769601843648431,
+            "rank": 14
           }
         },
         "agent_tool_hallucination": {
           "xhigh": {
-            "score": 0.003722479341369933,
-            "rank": 1
+            "score": 0.003589405289041281,
+            "rank": 3
           }
         },
         "agent_task_outcome_explicit": {
           "xhigh": {
-            "score": -0.025456026180382008,
-            "rank": 30
+            "score": -0.032821299622901035,
+            "rank": 27
           }
         }
       },
@@ -21579,8 +21681,8 @@
       "release_date": "2026-08-12",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 52.8,
-        "raw": 2.8463618168997225,
+        "score": 52.6,
+        "raw": 2.83174167344476,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "xai--grok-4.6",
@@ -21601,6 +21703,7 @@
           "x-ai/grok-4.7"
         ],
         "lmarena": [
+          "Grok 4.7 (xHigh)",
           "grok-4.7-xhigh"
         ],
         "llm_stats": [
@@ -21627,12 +21730,53 @@
       "default_degree": {
         "lmarena": "xhigh"
       },
-      "composite": null,
+      "composite": {
+        "score": 67.6,
+        "weights": {
+          "lmarena": 1
+        },
+        "method": "proportional_redistribute",
+        "available": {
+          "lmarena": 67.57402781363739,
+          "llm_stats": 85.05
+        },
+        "note": "缺源，权重按比例重分配"
+      },
       "dimensions": {
-        "webdev": {
-          "value": 74.8,
+        "text": {
+          "value": 58.7,
           "source": "lmarena",
-          "raw": 1632.301456495259
+          "raw": 1397.2344693547072
+        },
+        "webdev": {
+          "value": 73.7,
+          "source": "lmarena",
+          "raw": 1629.266689991658
+        },
+        "agent_praise_complaint": {
+          "value": 71.1,
+          "source": "lmarena",
+          "raw": 0.05540388601819868
+        },
+        "agent_steerability": {
+          "value": 55.1,
+          "source": "lmarena",
+          "raw": -0.024476525822029416
+        },
+        "agent_bash_recovery_steps": {
+          "value": 71.3,
+          "source": "lmarena",
+          "raw": 0.056580590453974455
+        },
+        "agent_tool_hallucination": {
+          "value": 60.7,
+          "source": "lmarena",
+          "raw": 0.0035894052844795965
+        },
+        "agent_task_outcome_explicit": {
+          "value": 79.7,
+          "source": "lmarena",
+          "raw": 0.09825333940631131
         },
         "reasoning": {
           "value": 71.4,
@@ -21657,13 +21801,60 @@
           "source": "llm_stats",
           "raw": 19.2,
           "note": "index_healthcare"
+        },
+        "composite": {
+          "value": 67.6,
+          "source": "composite",
+          "raw": 67.6
         }
       },
       "lmarena_scores": {
+        "agent": {
+          "xhigh": {
+            "score": 0.03787013906818693,
+            "rank": 17
+          }
+        },
+        "text": {
+          "xhigh": {
+            "score": 1397.2344693547072,
+            "rank": 148
+          }
+        },
         "webdev": {
           "xhigh": {
-            "score": 1632.301456495259,
-            "rank": 12
+            "score": 1629.266689991658,
+            "rank": 13
+          }
+        },
+        "agent_praise_complaint": {
+          "xhigh": {
+            "score": 0.05540388601819868,
+            "rank": 16
+          }
+        },
+        "agent_steerability": {
+          "xhigh": {
+            "score": -0.024476525822029416,
+            "rank": 29
+          }
+        },
+        "agent_bash_recovery_steps": {
+          "xhigh": {
+            "score": 0.056580590453974455,
+            "rank": 16
+          }
+        },
+        "agent_tool_hallucination": {
+          "xhigh": {
+            "score": 0.0035894052844795965,
+            "rank": 11
+          }
+        },
+        "agent_task_outcome_explicit": {
+          "xhigh": {
+            "score": 0.09825333940631131,
+            "rank": 8
           }
         }
       },
@@ -21684,7 +21875,11 @@
       },
       "release_date": "2026-09-21",
       "release_date_provenance": "llm_stats",
-      "value": null,
+      "value": {
+        "score": 58.8,
+        "raw": 3.0504571732432373,
+        "note": "ln(综合分/平均每M价)"
+      },
       "series_key": "xai--grok-4.7",
       "series_display": "Grok 4.7",
       "member_key": "xai--grok-4.7",
@@ -21719,9 +21914,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 65.9,
+          "value": 63.6,
           "source": "lmarena",
-          "raw": 1411.5315280105817
+          "raw": 1411.5090075473558
         },
         "vision": {
           "value": 70.9,
@@ -21732,8 +21927,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1411.5315280105817,
-            "rank": 128
+            "score": 1411.5090075473558,
+            "rank": 131
           }
         },
         "vision": {
@@ -21847,7 +22042,7 @@
       "release_date": "2026-08-12",
       "release_date_provenance": "catalog",
       "value": {
-        "score": 80,
+        "score": 80.3,
         "raw": 3.8110970868381853,
         "note": "ln(综合分/平均每M价)"
       },
@@ -21888,9 +22083,9 @@
       "composite": null,
       "dimensions": {
         "webdev": {
-          "value": 11.4,
+          "value": 12.2,
           "source": "lmarena",
-          "raw": 1165.1597679223532
+          "raw": 1167.079819746665
         },
         "reasoning": {
           "value": 50.8,
@@ -21914,8 +22109,8 @@
       "lmarena_scores": {
         "webdev": {
           "base": {
-            "score": 1165.1597679223532,
-            "rank": 129
+            "score": 1167.079819746665,
+            "rank": 132
           }
         }
       },
@@ -21962,9 +22157,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 51.9,
+          "value": 51.8,
           "source": "lmarena",
-          "raw": 1170.6026365867922
+          "raw": 1170.261903842464
         },
         "image_edit": {
           "value": 62.7,
@@ -21975,7 +22170,7 @@
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1170.6026365867922,
+            "score": 1170.261903842464,
             "rank": 23
           }
         },
@@ -22030,9 +22225,9 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 76.9,
+          "value": 76.6,
           "source": "lmarena",
-          "raw": 1301.6266527360585
+          "raw": 1300.7641718910454
         },
         "image_edit": {
           "value": 81.9,
@@ -22043,8 +22238,8 @@
       "lmarena_scores": {
         "text_to_image": {
           "low": {
-            "score": 1301.6266527360585,
-            "rank": 5
+            "score": 1300.7641718910454,
+            "rank": 6
           }
         },
         "image_edit": {
@@ -22092,16 +22287,16 @@
       "composite": null,
       "dimensions": {
         "text_to_image": {
-          "value": 50.1,
+          "value": 50.3,
           "source": "lmarena",
-          "raw": 1161.1514408227968
+          "raw": 1162.1827385121605
         }
       },
       "lmarena_scores": {
         "text_to_image": {
           "base": {
-            "score": 1161.1514408227968,
-            "rank": 27
+            "score": 1162.1827385121605,
+            "rank": 26
           }
         }
       },
@@ -22468,9 +22663,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 69.7,
+          "value": 67.7,
           "source": "lmarena",
-          "raw": 1422.1922421417541
+          "raw": 1423.6086984647259
         },
         "vision": {
           "value": 75.4,
@@ -22499,8 +22694,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1422.1922421417541,
-            "rank": 101
+            "score": 1423.6086984647259,
+            "rank": 102
           }
         },
         "vision": {
@@ -22553,14 +22748,14 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 74.8,
+          "value": 72,
           "source": "lmarena",
-          "raw": 1436.4913822407943
+          "raw": 1436.0290524313407
         },
         "webdev": {
-          "value": 47.8,
+          "value": 47.6,
           "source": "lmarena",
-          "raw": 1433.6322892157702
+          "raw": 1432.8625046086247
         },
         "reasoning": {
           "value": 71.8,
@@ -22596,14 +22791,14 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1436.4913822407943,
-            "rank": 75
+            "score": 1436.0290524313407,
+            "rank": 81
           }
         },
         "webdev": {
           "base": {
-            "score": 1433.6322892157702,
-            "rank": 70
+            "score": 1432.8625046086247,
+            "rank": 73
           }
         }
       },
@@ -22645,16 +22840,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 22.6,
+          "value": 21.8,
           "source": "lmarena",
-          "raw": 1289.5623603405934
+          "raw": 1289.6542322877413
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1289.5623603405934,
-            "rank": 244
+            "score": 1289.6542322877413,
+            "rank": 250
           }
         }
       },
@@ -22698,16 +22893,16 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 37.2,
+          "value": 35.9,
           "source": "lmarena",
-          "raw": 1330.722526025713
+          "raw": 1330.827755489451
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1330.722526025713,
-            "rank": 212
+            "score": 1330.827755489451,
+            "rank": 219
           }
         }
       },
@@ -22753,14 +22948,14 @@
         "text": {
           "value": 0,
           "source": "lmarena",
-          "raw": 1225.8158960742753
+          "raw": 1225.9108483082077
         }
       },
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1225.8158960742753,
-            "rank": 292
+            "score": 1225.9108483082077,
+            "rank": 299
           }
         }
       },
@@ -22826,14 +23021,14 @@
         "lmarena": "max"
       },
       "composite": {
-        "score": 69.6,
+        "score": 69.4,
         "weights": {
           "lmarena": 0.65,
           "livebench": 0.35
         },
         "method": "proportional_redistribute",
         "available": {
-          "lmarena": 66.10253328372012,
+          "lmarena": 65.72946757868013,
           "livebench": 76.13780952380952,
           "llm_stats": 90.11250000000001
         },
@@ -22841,39 +23036,39 @@
       },
       "dimensions": {
         "text": {
-          "value": 88.5,
+          "value": 84.5,
           "source": "lmarena",
-          "raw": 1475.0836598142798
+          "raw": 1472.4698932322244
         },
         "webdev": {
-          "value": 73.3,
+          "value": 72.4,
           "source": "lmarena",
-          "raw": 1621.842446071151
+          "raw": 1619.078984091177
         },
         "agent_praise_complaint": {
-          "value": 71.1,
+          "value": 71.3,
           "source": "lmarena",
-          "raw": 0.05538788113039228
+          "raw": 0.05667530238922125
         },
         "agent_steerability": {
-          "value": 63.7,
+          "value": 65.9,
           "source": "lmarena",
-          "raw": 0.01861732781926706
+          "raw": 0.02949391932167661
         },
         "agent_bash_recovery_steps": {
-          "value": 58,
+          "value": 58.5,
           "source": "lmarena",
-          "raw": -0.00993759666930738
+          "raw": -0.007602521142918484
         },
         "agent_tool_hallucination": {
           "value": 60.7,
           "source": "lmarena",
-          "raw": 0.0037224793376893217
+          "raw": 0.003589405289609715
         },
         "agent_task_outcome_explicit": {
-          "value": 77,
+          "value": 72.2,
           "source": "lmarena",
-          "raw": 0.08477324047496171
+          "raw": 0.06108058360941393
         },
         "reasoning": {
           "value": 85.8,
@@ -22937,58 +23132,58 @@
           "note": "index_vision"
         },
         "composite": {
-          "value": 69.6,
+          "value": 69.4,
           "source": "composite",
-          "raw": 69.6
+          "raw": 69.4
         }
       },
       "lmarena_scores": {
         "agent": {
           "max": {
-            "score": 0.0305126664186006,
-            "rank": 18
+            "score": 0.028647337893400605,
+            "rank": 19
           }
         },
         "text": {
           "max": {
-            "score": 1475.0836598142798,
-            "rank": 20
+            "score": 1472.4698932322244,
+            "rank": 25
           }
         },
         "webdev": {
           "max": {
-            "score": 1621.842446071151,
-            "rank": 17
+            "score": 1619.078984091177,
+            "rank": 18
           }
         },
         "agent_praise_complaint": {
           "max": {
-            "score": 0.05538788113039228,
+            "score": 0.05667530238922125,
             "rank": 15
           }
         },
         "agent_steerability": {
           "max": {
-            "score": 0.01861732781926706,
-            "rank": 18
+            "score": 0.02949391932167661,
+            "rank": 15
           }
         },
         "agent_bash_recovery_steps": {
           "max": {
-            "score": -0.00993759666930738,
-            "rank": 33
+            "score": -0.007602521142918484,
+            "rank": 31
           }
         },
         "agent_tool_hallucination": {
           "max": {
-            "score": 0.0037224793376893217,
-            "rank": 9
+            "score": 0.003589405289609715,
+            "rank": 2
           }
         },
         "agent_task_outcome_explicit": {
           "max": {
-            "score": 0.08477324047496171,
-            "rank": 11
+            "score": 0.06108058360941393,
+            "rank": 14
           }
         }
       },
@@ -23006,9 +23201,9 @@
       },
       "pricing": {
         "openrouter": {
-          "prompt": 0.0000014,
-          "completion": 0.0000044,
-          "input_cache_read": 2.6e-7,
+          "prompt": 3.556e-7,
+          "completion": 0.000002574,
+          "input_cache_read": 6.604e-8,
           "currency": "USD",
           "is_listed_price": true
         },
@@ -23020,8 +23215,8 @@
       "release_date": "2026-08-14",
       "release_date_provenance": "llm_stats",
       "value": {
-        "score": 62.2,
-        "raw": 3.1780538303479453,
+        "score": 81.6,
+        "raw": 3.858168153134595,
         "note": "ln(综合分/平均每M价)"
       },
       "series_key": "zhipu--glm-5.3",
@@ -23066,9 +23261,9 @@
       "composite": null,
       "dimensions": {
         "text": {
-          "value": 74.8,
+          "value": 72.4,
           "source": "lmarena",
-          "raw": 1436.4899071922214
+          "raw": 1437.2530586908726
         },
         "vision": {
           "value": 84.1,
@@ -23076,9 +23271,9 @@
           "raw": 1262.4990506551915
         },
         "webdev": {
-          "value": 43.3,
+          "value": 43.2,
           "source": "lmarena",
-          "raw": 1400.346033265378
+          "raw": 1399.8286106456314
         },
         "reasoning": {
           "value": 35,
@@ -23102,8 +23297,8 @@
       "lmarena_scores": {
         "text": {
           "base": {
-            "score": 1436.4899071922214,
-            "rank": 76
+            "score": 1437.2530586908726,
+            "rank": 77
           }
         },
         "vision": {
@@ -23114,8 +23309,8 @@
         },
         "webdev": {
           "base": {
-            "score": 1400.346033265378,
-            "rank": 78
+            "score": 1399.8286106456314,
+            "rank": 81
           }
         }
       },
