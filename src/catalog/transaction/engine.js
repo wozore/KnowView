@@ -6,6 +6,7 @@ const { DIRS, CATALOG_GENERATOR_FILES, SHARED_FILES } = require('../../shared/pa
 const { readJson, writeJsonAtomic, acquireLock, releaseLock } = require('../../shared/json-store');
 const { validateModelIdentityBridgeEntries, readModelIdentityBridge, writeModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { validateCatalogSnapshot } = require('../core/catalog-snapshot-validator');
+const { auditNewCatalogBrandIcons } = require('../catalog-brand-icons');
 const { revisionOf } = require('../core/catalog-revision');
 const { loadCatalogSnapshot, FILE_BY_AREA } = require('../core/catalog-snapshot-store');
 const { planCatalogPatches } = require('../core/catalog-change-planner');
@@ -196,6 +197,18 @@ function runTransaction({ target, options, operation, prepare, result, includeDr
     const hasBridge = Array.isArray(prepared.bridgeEntries);
     const validation = validateCatalogSnapshot(nextSnapshot);
     if (!validation.ok) return { ok: false, code: 'SNAPSHOT_INVALID', errors: validation.errors };
+    const iconAudit = auditNewCatalogBrandIcons(before.snapshot, nextSnapshot, {
+      manifest: options.brandIconManifest,
+      manifestPath: options.brandIconManifestPath,
+      assetRoot: options.brandIconAssetRoot,
+      fsImpl,
+    });
+    if (!iconAudit.ok) return {
+      ok: false,
+      code: iconAudit.issues.some(issue => issue.code === 'CATALOG_BRAND_ICON_MANIFEST_INVALID')
+        ? 'CATALOG_BRAND_ICON_CHECK_FAILED' : 'CATALOG_BRAND_ICON_MISSING',
+      errors: iconAudit.issues,
+    };
     const targetRevision = revisionOf(nextSnapshot);
     let bridgeState = null;
     if (hasBridge) {

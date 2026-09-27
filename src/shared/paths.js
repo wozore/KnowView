@@ -10,6 +10,10 @@ const DATA_DIR = path.join(PROJECT_DIR, 'data');
 const PUBLIC_DIR = path.join(PROJECT_DIR, 'public');
 const RESOURCES_DIR = path.join(PROJECT_DIR, 'resources');
 const CATALOG_DIR = path.join(DATA_DIR, 'catalog');
+const CATALOG_BRAND_ICON_FILES = Object.freeze({
+  manifest: path.join(SRC_DIR, 'web', 'icons', 'manifest.json'),
+  assets: path.join(SRC_DIR, 'web', 'icons'),
+});
 const NEWS_DIR = path.join(DATA_DIR, 'news');
 const NEWS_CONFIG_DIR = path.join(NEWS_DIR, 'config');
 const NEWS_RUNTIME_DIR = path.join(NEWS_DIR, 'runtime');
@@ -146,6 +150,7 @@ const RSS_FEED_PATH = path.join(PUBLIC_DIR, 'feed.xml');
 module.exports = {
   DIRS,
   CATALOG_FILES,
+  CATALOG_BRAND_ICON_FILES,
   CATALOG_GENERATOR_FILES,
   CONCEPT_FILES,
   AI_CONFIG_FILES,

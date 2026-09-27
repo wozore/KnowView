@@ -98,5 +98,6 @@ test('fallback web search stops before Tavily when the confirmed fallback budget
   });
   assert.equal(result.ok, false);
   assert.equal(result.code, 'COST_BUDGET_EXHAUSTED');
+  assert.equal(result.category, 'search_queries');
   assert.equal(calls, 1, 'only the primary provider was called');
 });

@@ -149,7 +149,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 - 如果 `name` 无法稳定转成 ASCII 业务键，需要手工填写 `tool_key`；如果 `vendor_name` 无法稳定转成 ASCII 业务键，需要手工填写 `vendor_key`。
 - `modality` 与 `detail_kind` 共同决定 CatalogProfile。API 模型必须明确 `text`、`video`、`image` 或 `audio`，不能让视频模型落入文本 token/context 假设。
 - `model_key`：`api_model` 类 detail 必填，格式为 `<vendor_key>-<identity>` 的单横线小写键（如 `deepseek-deepseek-v4.1-flash`）；缺失时报 `MODEL_KEY_REQUIRED`，非 `api_model` 携带时报 `MODEL_KEY_NOT_APPLICABLE`。
-- `known_fields` 只放维护者已经确定的结构提示；支持 `theme`、`icon`、`integrated_release_date`、`subscription_plan_refs` 和 `pricing_disclosure`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），合成时仅在模型未给出 `release_date` 且记录不是 `tool` 时作为确定性兜底填入。`subscription_plan_refs` 是显式的同厂商 `subscription_plan` 三级详情引用；`pricing_disclosure` 使用 `{status, text, source_urls}`，状态为 `not_published` 或 `external_usage_cost`，每个 URL 必须与 ResearchResult 中的官方来源匹配。套餐关系不能推断，价格说明不能缺少官方证据；摘要、直接价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
+- `known_fields` 只放维护者已经确定的结构提示；支持 `theme`、`icon`、`integrated_release_date`、`subscription_plan_refs` 和 `pricing_disclosure`。`integrated_release_date` 是模型集成进对比索引的发布日期提示（`YYYY-MM-DD`），只在没有有效的官方首次发布/GA 日期时作为第二顺位确定性来源；若仍无此值，API model/product_variant 可使用模型专属官方 detail 页明确标注的 `updated_date` 作为更新时间替代。`subscription_plan_refs` 是显式的同厂商 `subscription_plan` 三级详情引用；`pricing_disclosure` 使用 `{status, text, source_urls}`，状态为 `not_published` 或 `external_usage_cost`，每个 URL 必须与 ResearchResult 中的官方来源匹配。套餐关系不能推断，价格说明不能缺少官方证据；摘要、直接价格、访问方式与场景仍必须从官方来源正文派生，不能用 `known_fields` 绕过证据门禁。
 - `repair_layers` 用于声明本次确实需要替换的污染层；未列入且已存在的健康层为 `noop`，不会因新增一个模型而重写厂商资料。
 
 生成器对本次新建或替换的记录执行严格完整性校验：每个适用契约字段都必须是非空、类型正确的明确值，禁止 `null`、空字符串、空数组、`unknown/未知` 等占位值。`one_m_context`、`api_pricing` 或 `plan` 确实不适用时，必须使用：
@@ -161,7 +161,7 @@ bat\catalog-generator.bat probe --confirm-cost --tavily-access-mode keyed
 }
 ```
 
-官方来源正文直接支撑字段合成：合成模型一次调用按层生成全部字段，每个字段引用一个或多个 `source_id` 作为 provenance。摘要、特点、场景和适合/不适合说明属于 `DerivedField`，必须保留来源 IDs。官方资料未覆盖任一适用字段时，FieldCoverage 会保持 missing，Draft 不能 Apply。
+官方来源正文直接支撑字段合成：合成模型一次调用按层生成全部字段，每个字段引用一个或多个 `source_id` 作为 provenance。官方页面显式 `dateModified`、`article:modified_time`、`og:updated_time`、语义化 `<time datetime>`、Aliyun `lastModifiedTime` 或可见 `Updated at/更新时间` 会作为 OfficialSource 的 `updated_date` metadata 持久化，并记录 `updated_date_kind` 与 `updated_date_field`；Aliyun Unix 毫秒值按 UTC 日期归一。`release_date` 先取正文支持的首次发布/GA 日期；没有时先取已匹配的 `integrated_release_date`，再取当前模型专属 detail 官方来源的更新时间。该回退 provenance 指向 source ID 和 metadata 字段；不使用 HTTP Date、抓取时间或通用模型目录页。其他摘要、特点、场景和适合/不适合说明属于 `DerivedField`，必须保留来源 IDs。官方资料与允许的日期回退都未覆盖适用字段时，FieldCoverage 保持 missing，Draft 不能 Apply。
 
 ### 普通工具
 
@@ -278,6 +278,10 @@ API 模型会生成三级详情和工具卡；厂商卡、一级、二级是否�
 
 这保证新卡可从厂商一级/二级导航到，不会形成只有数据记录但页面无法到达的孤立分组或详情。
 
+### 厂商一级页的分组与展示顺序
+
+厂商一级页将 `model_series`、`tool_series`、`subscription_series` 分成“模型系列”“工具”“套餐”三个区域。每个区域内部按对应 `vendor-level1.level2_refs` 的顺序展示；新增引用默认追加，维护者应将它放到该厂商产品线中合适的位置。模型系列之间不按成员发布日期或代际自动排序。进入模型系列后，具体模型按 `release_date` 从新到旧排列，缺少有效日期的成员排在后面。
+
 ### 显式修复已有层
 
 修复已 Apply 的污染记录时，优先在 Seed 顶层列出需要替换的层：
@@ -317,8 +321,8 @@ bat\catalog-generator.bat new --seed data\manual\catalog-seed.json --confirm-cos
 1. 根据 `detail_kind + modality` 选择 CatalogProfile，并计算需要研究的 vendor/group/detail scope；
 2. 使用智谱 Web Search 首选、Tavily Search 备用，按官方域名和谓词联想搜索 developer/API/OpenAPI/pricing/credits/specifications 等资料；
 3. `detail` scope 还会把 Seed 的 `official_url` 与 `discovery_sources[kind=official_hint]` 作为指定官方来源直接加入待提取列表；它们不只是信任根，适用于用户已核验的具体 release notes、定价页或产品文档；
-4. canonicalize URL、过滤非官方域名，先直连官方 URL 获取正文，失败时再用 Tavily Extract；
-5. 合成模型不使用 web tools，单段式直接基于各层官方来源正文合成全部层字段与来源 provenance；
+4. canonicalize URL、过滤非官方域名，先直连官方 URL 获取正文和显式页面更新时间 metadata，失败时再用 Tavily Extract；
+5. 合成模型不使用 web tools，单段式直接基于各层官方来源正文合成字段；`release_date` 优先首次发布/GA，之后依次使用匹配的 integrated date 和模型专属官方 detail 页更新时间，并记录来源 provenance；
 6. 计算 FieldCoverage；任一适用字段缺值、占位或未引用官方来源时保持 blocked；
 7. 验证每个字段引用的 source_id 真实存在，并校验记录完整性；
 8. 本地生成每层完整的 `create/replace/noop` LayerPatch，禁止空值、`null`、空数组和 `unknown/未知`；
@@ -344,7 +348,7 @@ bat\catalog-generator.bat new --seed data\manual\catalog-seed.json --confirm-cos
 bat\catalog-generator.bat resume draft-xxxxxxxxxxxx-xxxxxxxx --confirm-cost --tavily-access-mode keyed
 ```
 
-`resume` 只重新研究 FieldCoverage 中仍 missing 字段对应的层 scope，并重新合成，保留已有来源和累计成本账本。即使前一次因网络错误或 `COST_BUDGET_EXHAUSTED` 中断，已完成的 OfficialSources 也会写入失败 Draft，后续不会从已覆盖的 scope 重新开始。
+`resume` 只重新研究 FieldCoverage 中仍 missing 字段对应的层 scope，并重新合成，保留已有来源和累计成本账本。若 `release_date` 仍缺失且模型专属 detail 来源没有可复用的 `updated_date`，会在新增确认的页面额度内重新获取该官方产品页 metadata。即使前一次因网络错误或 `COST_BUDGET_EXHAUSTED` 中断，已完成的 OfficialSources 也会写入失败 Draft，后续不会从已覆盖的 scope 重新开始。
 
 ## 6. 查看草案
 
@@ -608,9 +612,9 @@ node scripts/catalog-generator.js batch --file data/manual/tools/tool-cards-pend
 
 通用 LLM 模型（`detail_kind=api_model` 且属于政策中的 `general_llm` 家族）在批量 prepare 前由「LLM 二级系列分类政策」决定归属，不再默认以模型名建组：
 
-1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v2）声明厂商模型家族、用途、版本轴、允许的目标二级系列、容量与证据状态。`member_lineages` 可声明成员所属产品线，校验每个 newest/previous 系列中同一产品线最多一个成员；`hidden_history_members` 声明迁移时转入历史的详情及日期。同系列可见成员上限 `visible_members` 为 6，第 7 个起按 `release_date` 最旧转入 `hidden_history`。未知厂商/非法规则一律 fail-closed，绝不回退到以具体模型名建组。
-2. **确定性判定**：`src/catalog/series/catalog-series-policy.js` 的 `planSeriesPlacement` 用品牌提示/家族 pattern 识别已知 LLM，直接产出 `existing`（加入已有系列）或 `create`（用政策稳定 id/标题新建）。已知模型不需要 AI，零成本。
-3. **AI 只作 hint**：仅当候选用途/家族无法确定性判定（`needs_ai`，如无任何品牌命中的新模型）且显式放行 `allowAiPlacement` 时，才调用 `catalog-series-placement-ai` 输出 `usage_kind/family/cohort/confidence` 建议，再由政策重算最终归属。AI 低置信、未知家族、与政策冲突一律 fail-closed；缺账本、未放行时直接 `PLACEMENT_MANUAL_REQUIRED`，绝不静默建组。
+1. **政策规则源**：`data/manual/registries/llm-series-policy.json`（schema v3）声明 `task_type_registry`、厂商模型家族、用途、模态、目标二级系列及证据状态。任务类型统一为英文标签并按标准短名和别名归一（如 ASR / speech-to-text → STT、Text-to-Speech → TTS）；`family.task_types` 声明该产品线的能力，型号明确任务时将标准标签写入 L3 与工具卡；系列英文标题的旧名称保存在 `search_terms`。`member_lineages` 和 `hidden_history_members` 继续负责代际唯一与历史转移。
+2. **确定性判定**：`planSeriesPlacement` 优先匹配显式任务类型和厂商家族 pattern，再核对模态；只凭 `audio` 或 `text` 不会把任务自动判成实时语音或通用 LLM。规则命中后直接产出 `existing` 或 `create`，任务标签随 SeriesBundle 写入二级系列。
+3. **AI 只作 hint**：仅当候选家族无法确定（`needs_ai`）且显式放行 `allowAiPlacement` 时，才调用 placement AI 建议 `usage_kind/task_types/family/cohort`，再由政策重算归属。未登记任务类型、未知厂商或任务与家族冲突一律 fail-closed；缺账本、未放行时直接 `PLACEMENT_MANUAL_REQUIRED`，不静默建组。
 4. **名册满员触发迁移**：目标系列 `expected_members` 名册成员已全部在快照且候选不在名册时，新候选返回 `PLACEMENT_MIGRATION_REQUIRED` 并阻断该 seed，**不自动重排既有成员**。需要扩容时由维护者更新政策（声明 newest/previous 代际与名册）后执行系列迁移（见下）。
 5. **人工 placement 仍最高优先**：Seed/待补卡显式指定 `existing_level2_ref` 时直接采用，但必须通过引用 kind/存在性/厂商归属校验，非法即 fail-closed。
 6. **单模型不得充当二级系列卡片**：`model_series` 只有一个 API 模型成员且二级标题与该模型同名时，Catalog 快照校验拒绝落盘；模型应并入更广系列，或使用有来源依据的家族/用途标题。
@@ -727,7 +731,7 @@ node scripts/refresh-vibe-hub-cache.js
 - 搜索或正文提取失败时不允许模型凭记忆猜价格和日期；
 - `api_model` 的 API 可用性、访问条件和价格不能用 `not_applicable` 掩盖；缺失时必须 blocked，并只建议人工考虑 `product_variant`；
 - `resume` 只补 missing 字段对应的层来源，但每次仍需 `--confirm-cost` 授权新的增量硬预算；
-- `retrieved_at` 不是 `release_date` 或 `last_updated_date`；
+- `retrieved_at`、HTTP Date 不是 `release_date` 或 `last_updated_date`；`release_date` 的更新时间替代必须来自模型专属官方页面的显式 metadata，不能从通用页面或抓取时间推导；
 - API 模型要有工具卡；
 - 订阅套餐不能有工具卡；
 - 正式 Apply 前必须人工确认；

@@ -6,5 +6,6 @@ const placement = require('./catalog-series-placement-ai');
 const audit = require('./series-data-audit');
 const bundleContract = require('./series-bundle-contract');
 const bundlePlanner = require('./series-bundle-planner');
+const taskTypes = require('./catalog-series-task-types');
 
-module.exports = { ...policy, ...migration, ...placement, ...audit, ...bundleContract, ...bundlePlanner };
+module.exports = { ...policy, ...migration, ...placement, ...audit, ...bundleContract, ...bundlePlanner, ...taskTypes };

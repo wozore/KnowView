@@ -5,5 +5,6 @@ const store = require('./catalog-draft-store');
 const assistant = require('./catalog-assistant');
 const adapters = require('../intake/catalog-adapters');
 const options = require('./draft-options');
+const { selectLatestCandidateDraft } = require('./catalog-bundle-selection');
 
-module.exports = { ...envelope, ...store, ...assistant, ...adapters, ...options };
+module.exports = { ...envelope, ...store, ...assistant, ...adapters, ...options, selectLatestCandidateDraft };

@@ -1804,6 +1804,10 @@ main:has(#view-compare.active.cmp-wide-active) { max-width: none; }
 .vendor-features .vendor-feature + .vendor-feature { margin-top: 9px; }
 .model-tool-panel { border-top: 1px solid var(--border); padding-top: 20px; }
 .model-tool-panel .intelligence-heading h3 { margin: 0; font-size: 18px; }
+.model-tree-order-note { margin: 0 0 12px; color: var(--text-secondary); font-size: 12px; line-height: 1.5; }
+.vendor-series-section + .vendor-series-section { margin-top: 20px; }
+.vendor-series-section > h4 { margin: 0 0 10px; color: var(--text-secondary); font-size: 15px; }
+.model-tree-date { color: var(--text-secondary); font-size: 12px; }
 .model-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; font-size: 12px; color: var(--text-hint); }
 .model-breadcrumb button, .back-panel-button { border: 0; background: transparent; color: var(--primary); cursor: pointer; font: inherit; padding: 2px 0; }
 .model-breadcrumb button[aria-current="page"] { color: var(--text-secondary); cursor: default; font-weight: 700; }
@@ -1818,6 +1822,7 @@ main:has(#view-compare.active.cmp-wide-active) { max-width: none; }
 .node-kind-badge { display: inline-block; border-radius: 999px; padding: 2px 7px; font-size: 11px; font-weight: 700; }
 .node-kind-badge.group { color: var(--primary); background: var(--primary-light); }
 .node-kind-badge.leaf { color: var(--accent); background: var(--accent-light); }
+.node-kind-badge.task-type { color: var(--text-secondary); background: var(--surface); border: 1px solid var(--border); margin: 0 4px 4px 0; }
 .model-tree-action { color: var(--primary); font-size: 12px; font-weight: 700; margin-top: auto; }
 .model-bulk-compare { flex: none; border: 1px solid var(--primary); background: var(--primary-light); color: var(--primary); border-radius: var(--radius-sm); padding: 7px 10px; cursor: pointer; font-weight: 700; font-size: 12px; }
 .model-bulk-compare:hover { background: var(--primary); color: white; }

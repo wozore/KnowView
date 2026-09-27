@@ -367,7 +367,7 @@ export function openDetail(id, _unused = null, trigger = null, backRef = null) {
 
   if (level1) {
     content.innerHTML = MODAL_CLOSE_HTML + '<div id="openaiDetailBody" class="openai-detail"></div>';
-    content.querySelector('#openaiDetailBody').innerHTML = renderVendorLevel1({ vendor: getVendorCardItem(level1.vendor_key), preview: level1, level2: getVendorLevel2Items(level1.vendor_key) });
+    content.querySelector('#openaiDetailBody').innerHTML = renderVendorLevel1({ vendor: getVendorCardItem(level1.vendor_key), preview: level1, level2: getVendorLevel2Items(level1.vendor_key), details: getCatalogItems('tool-level3') });
     showModal(trigger);
     return;
   }

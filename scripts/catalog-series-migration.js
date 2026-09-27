@@ -52,7 +52,7 @@ function humanReport(plan) {
   lines.push(`- id_map：${JSON.stringify(plan.id_map)}`);
   lines.push('');
   lines.push(`迁移后目标系列（L2）：`);
-  const covered = ['openai', 'anthropic', 'google', 'deepseek', 'zhipu', 'baidu', 'mistral', 'cohere', 'xai', 'minimax', 'moonshot', 'alibaba', 'tencent', 'stepfun', 'xiaomi', 'nvidia'];
+  const covered = ['openai', 'anthropic', 'google', 'deepseek', 'zhipu', 'baidu', 'mistral', 'cohere', 'xai', 'minimax', 'moonshot', 'alibaba', 'tencent', 'stepfun', 'xiaomi', 'nvidia', 'microsoft'];
   for (const l2 of plan.snapshot['vendor-level2']) {
     if (!covered.includes(l2.vendor_key)) continue;
     lines.push(`    ${l2.id} | ${l2.title} | ${(l2.detail_refs || []).length} 成员`);

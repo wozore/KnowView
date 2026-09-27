@@ -49,6 +49,77 @@ test('research keeps trusted official hosts, gathers sources, and tracks Tavily-
   assert.equal(result.cost.spent.extraction_calls, undefined);
 });
 
+test('missing release date reuses and prioritizes an existing model page without searching', async () => {
+  const plan = detailOnlyPlan();
+  const scope = plan.research_scopes.find(item => item.kind === 'detail');
+  const modelUrl = 'https://kling.ai/models/kling-2-6-pro';
+  const genericSources = ['https://kling.ai/official', 'https://kling.ai/pricing'].map(url => ({
+    url, title: 'Official reference', discovered_for: [`detail:${scope.subject.key}`],
+  }));
+  let searchCalls = 0;
+  let acquiredUrls = [];
+  const result = await researchCatalog(plan, {
+    discover: async () => { searchCalls += 1; return { sources: [] }; },
+    acquire: async ({ sources }) => {
+      acquiredUrls = sources.map(source => source.url);
+      return { contents: [{
+        url: modelUrl, updated_date: '2026-09-21', updated_date_kind: 'official_page_update', updated_date_field: 'dateModified',
+      }] };
+    },
+  }, {
+    limits: { search_queries: 0, pages: 1, responses_calls: 0, synthesis_calls: 0 },
+    missingFields: ['detail.release_date'],
+    existingResearch: {
+      official_sources: [
+        ...genericSources,
+        { url: modelUrl, title: 'Kling 2.6 Pro', content: 'Saved model-specific official page', content_origin: 'direct_fetch', discovered_for: [`detail:${scope.subject.key}`] },
+      ],
+      completed_scopes: [`detail:${scope.subject.key}`],
+      cost: { spent: {} },
+    },
+  });
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(searchCalls, 0);
+  assert.deepEqual(acquiredUrls, [modelUrl], 'model-specific date page gets the single available page slot');
+  const source = result.official_sources.find(item => item.url === modelUrl);
+  assert.deepEqual({ date: source.updated_date, kind: source.updated_date_kind, field: source.updated_date_field }, {
+    date: '2026-09-21', kind: 'official_page_update', field: 'dateModified',
+  });
+  assert.deepEqual(result.research_progress.page_update_refetch_attempted_ids, [source.source_id]);
+  assert.equal(result.cost.spent.search_queries, 0);
+  assert.equal(result.cost.spent.pages, 1);
+});
+
+test('专属页面重抓仍无更新时间时下一次恢复重新搜索可用官方页面', async () => {
+  const plan = detailOnlyPlan();
+  const scope = plan.research_scopes.find(item => item.kind === 'detail');
+  const detailRef = `detail:${scope.subject.key}`;
+  const modelUrl = 'https://kling.ai/models/kling-2-6-pro';
+  let searchCalls = 0;
+  const result = await researchCatalog(plan, {
+    discover: async () => { searchCalls += 1; return { sources: [] }; },
+    acquire: async ({ sources }) => ({ contents: sources.map(source => ({
+      url: source.url, updated_date: '2026-09-21', updated_date_kind: 'official_page_update', updated_date_field: 'dateModified',
+    })) }),
+  }, {
+    limits: { search_queries: 2, pages: 2, responses_calls: 0, synthesis_calls: 0 },
+    missingFields: ['detail.release_date'],
+    existingResearch: {
+      official_sources: [{
+        source_id: 'source-kling-model-page', url: modelUrl, title: 'Kling 2.6 Pro',
+        content: 'Saved official model page', content_origin: 'direct_fetch', discovered_for: [detailRef],
+      }],
+      completed_scopes: [detailRef],
+      research_progress: { completed_scopes: [detailRef], page_update_refetch_attempted_ids: ['source-kling-model-page'] },
+      cost: { spent: { search_queries: 0, pages: 1 } },
+    },
+  });
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(searchCalls, 2, '重抓过的专属页没有更新时间后，下一次恢复允许窄域与扩域搜索');
+  assert.equal(result.cost.spent.search_queries, 2);
+  assert.equal(result.cost.spent.pages, 2);
+});
+
 test('identity_verified sources become trust roots and keep authorization metadata', async () => {
   const snapshot = emptySnapshot();
   snapshot['vendor-card'].push({ id: 'vendor-card:stepfun', vendor_key: 'stepfun' });
@@ -144,6 +215,9 @@ test('hard cost ledger stops before exceeding limits', async () => {
   const result = await researchCatalog(plan, adapters({ discover: async () => { discoverCalls += 1; return { sources: [] }; } }), { limits: { search_queries: 0, pages: 0 } });
   assert.equal(result.ok, false);
   assert.equal(result.code, 'COST_BUDGET_EXHAUSTED');
+  assert.equal(result.category, 'search_queries');
+  assert.equal(result.requested, 1);
+  assert.equal(result.remaining, 0);
   assert.equal(discoverCalls, 0);
   assert.equal(result.cost.spent.search_queries, 0);
 });
@@ -178,6 +252,131 @@ test('resume researches only scopes whose fields are still missing', async () =>
   });
   assert.equal(resumed.ok, true);
   assert.deepEqual(requested, ['detail', 'detail:registrant']);
+});
+
+test('fresh research ignores stale field narrowing and covers every current scope', async () => {
+  const plan = planCatalogResearch(seed(), emptySnapshot());
+  const requested = [];
+  const result = await researchCatalog(plan, {
+    discover: async ({ scope, domain_scope }) => {
+      requested.push(`${scope.kind}:${domain_scope || 'seed'}`);
+      return { sources: [{ url: `https://kling.ai/${scope.kind}/${domain_scope || 'seed'}`, title: scope.kind, excerpt: 'Official fact.' }] };
+    },
+    acquire: async ({ sources }) => ({ contents: sources.map(source => ({ url: source.url, content: 'Official fact.' })) }),
+  }, {
+    missingFields: ['detail.release_date'],
+    limits: { search_queries: 6, pages: 8 },
+  });
+  assert.equal(result.ok, true);
+  assert.deepEqual(requested, [
+    'vendor:seed', 'vendor:registrant',
+    'group:seed', 'group:registrant',
+    'detail:seed', 'detail:registrant',
+  ]);
+});
+
+test('resume adds newly required plan scopes to scopes selected by missing fields', async () => {
+  const plan = planCatalogResearch(seed(), emptySnapshot());
+  const vendor = plan.research_scopes.find(scope => scope.kind === 'vendor');
+  const detail = plan.research_scopes.find(scope => scope.kind === 'detail');
+  const requested = [];
+  const result = await researchCatalog(plan, {
+    discover: async ({ scope, domain_scope }) => {
+      requested.push(`${scope.kind}:${domain_scope || 'seed'}`);
+      return { sources: [{ url: `https://kling.ai/${scope.kind}/${domain_scope || 'seed'}`, title: scope.kind, excerpt: 'Official fact.' }] };
+    },
+    acquire: async ({ sources }) => ({ contents: sources.map(source => ({ url: source.url, content: 'Official fact.' })) }),
+  }, {
+    existingResearch: {
+      official_sources: [{ url: 'https://kling.ai/official', title: 'Saved official page', content: 'Reusable body.', content_origin: 'direct_fetch' }],
+      completed_scopes: [`${vendor.kind}:${vendor.subject.key}`, `${detail.kind}:${detail.subject.key}`],
+      cost: { spent: {} },
+    },
+    missingFields: ['detail.release_date'],
+    limits: { search_queries: 8, pages: 8 },
+  });
+  assert.equal(result.ok, true);
+  assert.deepEqual(requested, ['group:seed', 'group:registrant', 'detail:seed', 'detail:registrant']);
+});
+
+test('checkpoint without reusable body reruns all current scopes and retains cumulative spend', async () => {
+  const plan = planCatalogResearch(seed(), emptySnapshot());
+  const requested = [];
+  const result = await researchCatalog(plan, {
+    discover: async ({ scope, domain_scope }) => {
+      requested.push(`${scope.kind}:${domain_scope || 'seed'}`);
+      return { sources: [{ url: `https://kling.ai/${scope.kind}/${domain_scope || 'seed'}`, title: scope.kind, excerpt: 'Official fact.' }] };
+    },
+    acquire: async ({ sources }) => ({ contents: sources.map(source => ({ url: source.url, content: 'Official fact.' })) }),
+  }, {
+    existingResearch: {
+      official_sources: [{ url: 'https://kling.ai/official', title: 'Metadata only' }],
+      completed_scopes: plan.research_scopes.map(scope => `${scope.kind}:${scope.subject.key}`),
+      cost: { spent: { search_queries: 3, pages: 0 } },
+    },
+    missingFields: ['detail.release_date'],
+    limits: { search_queries: 9, pages: 8 },
+  });
+  assert.equal(result.ok, true);
+  assert.deepEqual(requested, [
+    'vendor:seed', 'vendor:registrant',
+    'group:seed', 'group:registrant',
+    'detail:seed', 'detail:registrant',
+  ]);
+  assert.equal(result.cost.spent.search_queries, 9, 'saved spend remains charged while all current scopes are retried');
+});
+
+test('legacy Qwen release_date checkpoint re-fetches only its model page for update metadata', async () => {
+  const snapshot = emptySnapshot();
+  snapshot['vendor-card'].push({ id: 'vendor-card:alibaba', vendor_key: 'alibaba' });
+  snapshot['vendor-level1'].push({ id: 'vendor-level1:alibaba', vendor_key: 'alibaba', level2_refs: [{ kind: 'vendor-level2', id: 'vendor-level2:alibaba:qwen-audio' }] });
+  snapshot['vendor-level2'].push({ id: 'vendor-level2:alibaba:qwen-audio', vendor_key: 'alibaba', detail_refs: [] });
+  const pageUrl = 'https://help.aliyun.com/zh/model-studio/qwen-audio-3-1-asr-flash-streaming';
+  const plan = planCatalogResearch({
+    detail_kind: 'api_model', modality: 'audio', name: 'Qwen Audio 3.1 ASR Flash Streaming',
+    vendor_name: '阿里云', vendor_key: 'alibaba', tool_key: 'qwen-audio-3-1-asr-flash-streaming',
+    model_key: 'alibaba-qwen-audio-3-1-asr-flash-streaming',
+    placement: { existing_level1_ref: { kind: 'vendor-level1', id: 'vendor-level1:alibaba' }, existing_level2_ref: { kind: 'vendor-level2', id: 'vendor-level2:alibaba:qwen-audio' } },
+    known_fields: { theme: 'general' }, discovery_sources: [{ url: pageUrl, kind: 'official_hint' }], official_url: pageUrl,
+  }, snapshot);
+  const detailScope = plan.research_scopes.find(scope => scope.kind === 'detail');
+  const detailRef = `detail:${detailScope.subject.key}`;
+  const modelPage = {
+    source_id: 'source-qwen-model-page', url: pageUrl, title: 'Qwen Audio 3.1 ASR Flash Streaming', excerpt: 'Qwen Audio 3.1 ASR Flash Streaming official API.',
+    content: 'Qwen Audio 3.1 ASR Flash Streaming official model page.', content_origin: 'direct_fetch', discovered_for: [detailRef],
+  };
+  const genericPage = {
+    source_id: 'source-qwen-model-index', url: 'https://help.aliyun.com/zh/model-studio/models', title: 'Models',
+    excerpt: 'Official model catalog.', content: 'Qwen Audio 3.1 ASR Flash Streaming appears in the official model index.',
+    content_origin: 'direct_fetch', discovered_for: [detailRef], updated_date: '2026-09-23',
+    updated_date_kind: 'official_page_update', updated_date_field: 'dateModified',
+  };
+  let acquiredUrls = [];
+  const result = await researchCatalog(plan, {
+    discover: async () => ({ sources: [modelPage, genericPage] }),
+    acquire: async ({ sources }) => {
+      acquiredUrls = sources.map(source => source.url);
+      return { contents: sources.map(source => ({
+        url: source.url, content: 'Qwen Audio 3.1 ASR Flash Streaming official model page refreshed.', content_origin: 'direct_fetch',
+        updated_date: '2026-09-21', updated_date_kind: 'official_page_update', updated_date_field: 'lastModifiedTime',
+      })) };
+    },
+  }, {
+    existingResearch: {
+      official_sources: [modelPage, genericPage],
+      completed_scopes: [detailRef],
+      cost: { spent: { search_queries: 1, pages: 2 } },
+    },
+    missingFields: ['detail.release_date'],
+    limits: { search_queries: 6, pages: 5 },
+  });
+  assert.equal(result.ok, true);
+  assert.deepEqual(acquiredUrls, [pageUrl]);
+  const refreshed = result.official_sources.find(source => source.source_id === 'source-qwen-model-page');
+  assert.equal(refreshed.updated_date, '2026-09-21');
+  assert.equal(refreshed.updated_date_kind, 'official_page_update');
+  assert.equal(refreshed.updated_date_field, 'lastModifiedTime');
+  assert.equal(result.cost.spent.pages, 3, 'metadata refetch is charged to the existing page budget');
 });
 
 test('budget exhaustion preserves partial sources for a missing-field resume', async () => {

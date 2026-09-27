@@ -2,13 +2,15 @@ import { request, listFrom, ApiError } from '../api.js';
 import { state, $, addText, addBadge, clearChildren, showNotice } from '../state.js';
 import { discardButtonFor } from './catalog-draft-discard.js';
 import { planCatalog, prepareCatalog } from './catalog-prepare-report.js';
-
+import { planBundle, prepareBundle, renderCatalogBundles } from './catalog-bundle-panel.js';
 export { planCatalog, prepareCatalog };
+export { renderCatalogBundles };
 export function recoveryControlsFor(draft, content, onRefreshAll) {
   if (!draft.recovery_kind || draft.readiness === 'ready') return;
   const panel = document.createElement('div');
   panel.className = 'recovery-panel';
   addText(panel, 'p', `${draft.error_code || 'DRAFT_BLOCKED'}：${(draft.blocking_reasons || []).join('；')}`, 'item-blocked');
+  if (draft.error_code === 'DRAFT_BASE_REVISION_STALE') { addText(panel, 'p', '此旧 Draft 不会进入当前批次；请保留或丢弃它，并使用当前 Catalog 基线重新准备候选。', 'muted'); discardButtonFor(draft, panel, onRefreshAll); content.appendChild(panel); return; }
   if (draft.missing_fields?.length) addText(panel, 'p', `缺失官方字段：${draft.missing_fields.join('、')}`, 'item-blocked');
   if (draft.suggested_detail_kind) addText(panel, 'p', `建议候选类型：${draft.suggested_detail_kind}`, 'item-blocked');
   const researchCanResume = draft.recovery_mode === 'research_resume' && ['evidence_required', 'seed_or_profile_required'].includes(draft.recovery_kind);
@@ -22,15 +24,28 @@ export function recoveryControlsFor(draft, content, onRefreshAll) {
   controls.className = 'recovery-controls';
   const configFields = Array.isArray(draft.missing_config_fields) ? draft.missing_config_fields : [];
   const inputs = new Map();
-  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', search_provider: 'zhipu_web_search', search_fallback_provider: 'tavily', extract_provider: 'direct_fetch', extract_fallback_provider: 'tavily', search_engine: 'search_std', access_mode: 'keyless' };
+  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', search_provider: 'zhipu_web_search', search_fallback_provider: 'tavily', extract_provider: 'direct_fetch', extract_fallback_provider: 'tavily', search_engine: 'search_std', access_mode: 'keyless', max_search_queries: 8, max_pages: 16, max_responses_calls: 16, max_synthesis_calls: 2 };
+  const numericFields = {
+    max_search_queries: { label: '搜索请求上限', min: 1, max: 20 },
+    max_pages: { label: '官方正文页上限', min: 1, max: 100 },
+    max_responses_calls: { label: 'AI responses 上限', min: 1, max: 50 },
+    max_synthesis_calls: { label: '目录合成上限', min: 1, max: 5 },
+  };
+  const fieldLabels = { model: '模型', provider: 'AI 服务商', protocol: '协议', search_provider: '首选搜索', search_fallback_provider: '备用搜索', extract_provider: '正文获取', extract_fallback_provider: '备用正文提取', search_engine: '搜索引擎', access_mode: 'Tavily 访问模式' };
   for (const field of configFields) {
-    if (!['model', 'provider', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine', 'access_mode'].includes(field)) continue;
+    if (!['model', 'provider', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine', 'access_mode', ...Object.keys(numericFields)].includes(field)) continue;
     const label = document.createElement('label');
     label.className = 'recovery-field';
-    label.textContent = field;
+    label.textContent = fieldLabels[field] || numericFields[field]?.label || field;
     const input = document.createElement('input');
-    input.type = 'text';
-    input.value = defaults[field] || '';
+    const numeric = numericFields[field];
+    input.type = numeric ? 'number' : 'text';
+    if (numeric) {
+      input.min = String(numeric.min);
+      input.max = String(numeric.max);
+      input.step = '1';
+    }
+    input.value = String(defaults[field] || '');
     input.autocomplete = 'off';
     input.spellcheck = false;
     label.appendChild(input);
@@ -66,11 +81,34 @@ export async function recoverDraft(draft, controls, onRefreshAll) {
     if (!plan) {
       const generatorOptions = {};
       for (const [field, input] of controls.inputs) generatorOptions[field] = input.value.trim();
-      plan = await request(`catalog/drafts/${encodeURIComponent(id)}/recovery-plan`, { method: 'POST', body: JSON.stringify({ expected_revision: state.revisions.catalog, generator_options: generatorOptions }) });
+      const requestPlan = expectedRevision => request(`catalog/drafts/${encodeURIComponent(id)}/recovery-plan`, {
+        method: 'POST',
+        body: JSON.stringify({ expected_revision: expectedRevision, generator_options: generatorOptions }),
+      });
+      try {
+        plan = await requestPlan(state.revisions.catalog);
+      } catch (error) {
+        const code = error instanceof ApiError ? error.code || error.payload?.code || error.payload?.error : null;
+        if (error.status !== 409 || code !== 'REVISION_CONFLICT') throw error;
+        const latest = await request('catalog/drafts');
+        const latestRevision = latest.catalog_revision;
+        state.revisions.catalog = latestRevision || state.revisions.catalog;
+        const latestDraft = (latest.items || []).find(item => item.draft_id === id);
+        if (!latestDraft) {
+          if (typeof onRefreshAll === 'function') await onRefreshAll();
+          throw new Error('此 Draft 已不存在或已丢弃，列表已刷新。');
+        }
+        if (!latestRevision || latestDraft.base_revision !== latestRevision) {
+          if (typeof onRefreshAll === 'function') await onRefreshAll();
+          throw new Error('此 Draft 基于旧 Catalog，已刷新列表；需要重新准备候选。');
+        }
+        plan = await requestPlan(latestRevision);
+      }
       state.catalogRecovery.set(id, plan);
       controls.checkbox.disabled = false;
       controls.action.textContent = '确认成本并恢复';
-      controls.result.textContent = `恢复模式：${plan.recovery_mode}；预计新增 responses ${plan.cost_plan?.hard_limits?.responses_calls || 0}、synthesis ${plan.cost_plan?.hard_limits?.synthesis_calls || 0} 次。`;
+      const limits = plan.cost_plan?.hard_limits || {};
+      controls.result.textContent = `恢复模式：${plan.recovery_mode}；搜索 ${limits.search_queries || 0} 次、抓取正文 ${limits.pages || 0} 页、responses ${limits.responses_calls || 0} 次、synthesis ${limits.synthesis_calls || 0} 次。`;
       return;
     }
     if (!controls.checkbox.checked) {
@@ -95,7 +133,7 @@ export async function recoverDraft(draft, controls, onRefreshAll) {
       if (code === 'RECOVERY_TOKEN_CHANGED') {
         msg = '恢复参数或凭据已变化，已重置，请重新生成恢复预览。';
       } else if (code === 'REVISION_CONFLICT') {
-        msg = 'Catalog 正式数据已发生变更，请点击顶部“刷新数据”后再试。';
+        msg = 'Catalog 再次发生变化，恢复计划未创建；请刷新后重试。';
       } else if (code === 'DRAFT_RECOVERY_IN_PROGRESS') {
         msg = '当前 Draft 正在恢复中，请勿重复操作。';
       }
@@ -136,7 +174,6 @@ export async function cleanupCatalogDraft(draft, button, onRefreshAll) {
     button.disabled = false;
   }
 }
-
 export function renderCatalogDrafts(payload, onRefreshAll) {
   state.catalogDrafts = listFrom(payload, ['items', 'drafts']);
   if (payload?.catalog_revision) state.revisions.catalog = payload.catalog_revision;
@@ -172,93 +209,11 @@ export function renderCatalogDrafts(payload, onRefreshAll) {
     root.appendChild(row);
   }
 }
-function bundleTitle(bundle) {   return bundle?.series?.title || bundle?.candidate?.name || bundle?.bundle_id || 'SeriesBundle'; }
-function bundleMembers(bundle) {   return Array.isArray(bundle?.members) ? bundle.members : []; }
-async function reviewBundle(draft, row, onRefreshAll) {   const id = draft.draft_id;   const action = row.querySelector('[data-bundle-review]');   if (action) action.disabled = true;   try {     const review = await request(`catalog/bundles/${encodeURIComponent(id)}/review`, {       method: 'POST',       body: JSON.stringify({}),     });     if (!review?.ok) throw new Error(review?.code || 'Bundle 审核被阻断');     state.catalogBundleReviews.set(id, review);     renderBundleReview(draft, row, review, onRefreshAll);   } catch (error) {     showNotice(error.message || 'Bundle 审核失败。', 'error');   } finally {     if (action) action.disabled = false;   } }
-function renderBundleReview(draft, row, review, onRefreshAll) {   const content = row.querySelector('.item-content');   if (!content) return;   const old = content.querySelector('.bundle-review');   if (old) old.remove();   const panel = document.createElement('div');   panel.className = 'bundle-review';   addText(panel, 'p', `预览已锁定：Catalog revision ${review.current_revision}`, 'item-id');   addText(panel, 'p', `${bundleMembers(review.draft).length} 个成员；请核对后再确认写入。`, 'item-summary');   const toolbar = document.createElement('div');   toolbar.className = 'toolbar';   const apply = document.createElement('button');   apply.type = 'button';   apply.className = 'button button-danger';   apply.textContent = 'Apply Bundle';   const discard = document.createElement('button');   discard.type = 'button';   discard.className = 'button button-quiet';   discard.textContent = '丢弃 Bundle';   toolbar.append(apply, discard);   panel.appendChild(toolbar);   content.appendChild(panel);   apply.addEventListener('click', () => applyBundle(review, apply, onRefreshAll));   discard.addEventListener('click', () => discardBundle(review, discard, onRefreshAll)); }
-async function applyBundle(review, button, onRefreshAll) {   button.disabled = true;   try {     const result = await request('catalog/apply-bundle', {       method: 'POST',       body: JSON.stringify({         draft_id: review.draft_id,         expected_revision: review.current_revision,         bundle_token: review.bundle_token,         confirm: review.confirmation,       }),     });     if (!result?.ok) throw new Error(result?.code || 'Bundle Apply 被拒绝');     state.catalogBundleOutcome = result;     const suffix = result.cleanup_only ? 'cleanup-only 恢复待处理' : result.cleanup_pending ? 'Draft 清理待处理' : result.outcome_pending ? 'pending outcome warning' : '';     showNotice(`Bundle 已应用，目标 revision：${result.target_revision || '未返回'}。${suffix ? `（${suffix}）` : ''}`, result.outcome_pending || result.cleanup_pending ? 'conflict' : 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     showNotice(error.message || 'Bundle Apply 失败。', 'error');   } finally {     button.disabled = false;   } }
-async function discardBundle(review, button, onRefreshAll) {   button.disabled = true;   try {     const result = await request(`catalog/bundles/${encodeURIComponent(review.draft_id)}/discard`, {       method: 'POST',       body: JSON.stringify({ expected_revision: review.current_revision, confirm: review.discard_confirmation }),     });     if (!result?.ok) throw new Error(result?.code || 'Bundle 丢弃被拒绝');     showNotice('Bundle 已丢弃。', 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     showNotice(error.message || 'Bundle 丢弃失败。', 'error');   } finally {     button.disabled = false;   } }
-function renderBundlePlan(payload) {   const root = $('#catalogBundlePlanPreview');   if (!root) return;   clearChildren(root);   if (!payload?.ok) {     addText(root, 'p', payload?.code || 'Bundle 计划被阻断。', 'item-blocked');     return;   }   const resolution = payload.cost_plan || payload.resolution || {};   addText(root, 'p', `身份核验：搜索上限 ${Number(resolution.verification_search_upper_bound || 0)}（备用 ${Number(resolution.verification_search_fallback_upper_bound || 0)}），正文提取备用 ${Number(resolution.verification_extract_upper_bound || 0)}，responses 上限 ${Number(resolution.verification_responses_upper_bound || 0)}。`, 'item-summary');   addText(root, 'p', payload.enrichment_cost?.message || '成员富化成本将在 prepare 阶段按成员上限计入。', 'item-summary');   addText(root, 'p', `本次 ${Number(payload.candidates?.length || 0)} 个系列候选需要确认身份核验与成员富化成本。`, 'item-id'); }
-export async function planBundle(button) {   button.disabled = true;   try {     const plan = await request('catalog/bundle-plan');     state.catalogBundlePlan = plan;     state.catalogBundleEnrichmentToken = null;     if (plan?.catalog_revision) state.revisions.catalog = plan.catalog_revision;     renderBundlePlan(plan);     const prepare = $('#catalogBundlePrepareButton');     if (prepare) prepare.disabled = !plan?.ok || !$('#catalogBundleCostConfirm')?.checked;     showNotice(plan?.ok ? 'Bundle 计划已生成，请确认身份核验与成员富化成本。' : (plan?.code || '当前没有可进入 Bundle 的系列候选。'), plan?.ok ? 'success' : 'error');   } catch (error) {     showNotice(error.message || 'Bundle 计划失败。', 'error');   } finally {     button.disabled = false;   } }
-export async function prepareBundle(button, onRefreshAll) {   const plan = state.catalogBundlePlan;   if (!plan?.ok || !$('#catalogBundleCostConfirm')?.checked) {     showNotice('请先生成 Bundle 计划并确认身份核验与成员富化成本。', 'error');     return;   }   button.disabled = true;   try {     const payload = { pending_revision: plan.pending_revision, catalog_revision: plan.catalog_revision, plan_hash: plan.plan_hash, confirm_cost: true };     if (state.catalogBundleEnrichmentToken) payload.enrichment_confirmation_token = state.catalogBundleEnrichmentToken;     const result = await request('catalog/bundle-prepare', { method: 'POST', body: JSON.stringify(payload) });     if (!result?.ok) {       if (result?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED' || result?.status === 'enrichment_cost_confirmation_required') {         state.catalogBundleEnrichmentToken = result.enrichment_confirmation_token;         const limits = result.enrichment_hard_limits || {};         showNotice(`已计算成员富化上限（搜索 ${Number(limits.max_total_search_queries || 0)} 次，综合调用 ${Number(limits.max_total_synthesis_calls || 0)} 次）。请再次点击准备以确认富化。`, 'warning');         return;       }       throw new Error(result?.code || 'Bundle Draft 准备被阻断');     }     state.catalogBundleEnrichmentToken = null;     showNotice('Bundle Draft 已准备，请逐项审核或丢弃。', 'success');     if (typeof onRefreshAll === 'function') await onRefreshAll();   } catch (error) {     const p = error?.payload;     if (error?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED' || p?.code === 'ENRICHMENT_COST_CONFIRMATION_REQUIRED') {       state.catalogBundleEnrichmentToken = p?.enrichment_confirmation_token || error?.enrichment_confirmation_token;       const limits = p?.enrichment_hard_limits || {};       showNotice(`已计算成员富化上限（搜索 ${Number(limits.max_total_search_queries || 0)} 次，综合调用 ${Number(limits.max_total_synthesis_calls || 0)} 次）。请再次点击准备以确认富化。`, 'warning');       return;     }     showNotice(error.message || 'Bundle Draft 准备失败。', 'error');   } finally {     button.disabled = false;   } }
-export function renderCatalogBundles(payload, onRefreshAll) {
-  state.catalogBundles = listFrom(payload, ['items', 'bundles']);
-  state.catalogBundleReviews.clear();
-  if (payload?.catalog_revision) state.revisions.catalog = payload.catalog_revision;
-  const root = $('#catalogBundleList');
-  const stateNode = $('#catalogBundleState');
-  if (stateNode) stateNode.textContent = `${state.catalogBundles.length} 条`;
-  if (!root) return;
-  clearChildren(root);
-  const outcome = state.catalogBundleOutcome;
-  if (outcome && (outcome.outcome_pending || outcome.cleanup_pending || outcome.cleanup_only)) {
-    addText(root, 'p', `上次 Apply 状态：${outcome.cleanup_only ? 'cleanup-only 恢复待处理' : outcome.cleanup_pending ? 'Draft 清理待处理' : 'pending outcome warning'}。请保留此状态并刷新确认。`, 'item-blocked');
-  }
-  if (!state.catalogBundles.length) {
-    addText(root, 'p', '当前没有待审核 SeriesBundle。', 'empty-state');
-    return;
-  }
-  for (const bundle of state.catalogBundles) {
-    const row = document.createElement('article');
-    row.className = 'queue-item';
-    const content = document.createElement('div');
-    content.className = 'item-content';
-    addText(content, 'h3', bundleTitle(bundle), 'item-title');
-    addText(content, 'p', `状态：${bundle.state || bundle.readiness?.status || 'unknown'}；成员 ${bundleMembers(bundle).length}`, 'item-summary');
-    if (Array.isArray(bundle.deferred_models) && bundle.deferred_models.length) {
-      addText(content, 'p', `延后成员：${bundle.deferred_models.length}`, 'item-blocked');
-    }
-    const toolbar = document.createElement('div');
-    toolbar.className = 'toolbar';
-    if (bundle.state === 'cleanup_pending') {
-      addText(content, 'p', '正式 Catalog 已写入，仅待完成 Draft 清理。', 'item-blocked');
-      const cleanup = document.createElement('button');
-      cleanup.type = 'button';
-      cleanup.className = 'button button-quiet';
-      cleanup.textContent = '执行 Bundle cleanup-only 清理';
-      toolbar.appendChild(cleanup);
-      cleanup.addEventListener('click', () => applyBundle({
-        draft_id: bundle.draft_id,
-        current_revision: state.revisions.catalog || payload.catalog_revision,
-        bundle_token: bundle.bundle_token,
-        confirmation: `APPLY CATALOG BUNDLE ${bundle.bundle_token}`,
-      }, cleanup, onRefreshAll));
-    } else if (bundle.state === 'outcome_pending') {
-      addText(content, 'p', '正式 Catalog 已写入，待收敛 pending outcome。', 'item-blocked');
-      const converge = document.createElement('button');
-      converge.type = 'button';
-      converge.className = 'button button-quiet';
-      converge.textContent = '收敛 pending outcome';
-      toolbar.appendChild(converge);
-      converge.addEventListener('click', () => applyBundle({
-        draft_id: bundle.draft_id,
-        current_revision: state.revisions.catalog || payload.catalog_revision,
-        bundle_token: bundle.bundle_token,
-        confirmation: `APPLY CATALOG BUNDLE ${bundle.bundle_token}`,
-      }, converge, onRefreshAll));
-    } else {
-      const review = document.createElement('button');
-      review.type = 'button';
-      review.className = 'button button-quiet';
-      review.dataset.bundleReview = 'true';
-      review.textContent = '审核预览';
-      toolbar.appendChild(review);
-      const discard = document.createElement('button');
-      discard.type = 'button';
-      discard.className = 'button button-quiet';
-      discard.textContent = '丢弃 Bundle';
-      toolbar.appendChild(discard);
-      review.addEventListener('click', () => reviewBundle(bundle, row, onRefreshAll));
-      discard.addEventListener('click', () => discardBundle({
-        draft_id: bundle.draft_id,
-        current_revision: state.revisions.catalog || payload.catalog_revision,
-        bundle_token: bundle.bundle_token,
-        discard_confirmation: bundle.discard_confirmation || `DISCARD CATALOG BUNDLE ${bundle.bundle_token}`,
-      }, discard, onRefreshAll));
-    }
-    content.appendChild(toolbar);
-    row.append(document.createElement('span'), content);
-    root.appendChild(row);
+function renderBatchBlockers(root, blockers = []) {
+  for (const blocker of blockers) {
+    const label = blocker.candidate_name || blocker.candidate_key || blocker.draft_id || 'Draft';
+    const reasons = Array.isArray(blocker.blocking_reasons) && blocker.blocking_reasons.length ? blocker.blocking_reasons.join('；') : blocker.error_code || blocker.code || '当前不可 Apply';
+    addText(root, 'p', `阻断：${label}（${reasons}）`, 'item-blocked');
   }
 }
 export function renderCatalogBatchPreview(payload) {
@@ -268,6 +223,7 @@ export function renderCatalogBatchPreview(payload) {
   state.catalogBatch = payload?.ok ? payload : null;
   if (!payload?.ok) {
     addText(root, 'p', payload?.code === 'DRAFTS_NOT_READY' ? '暂无可 Apply 的 Draft。' : '批次预览已阻断，请刷新数据后重试。', 'muted');
+    renderBatchBlockers(root, payload.blockers);
     const applyBtn = $('#catalogApplyButton');
     if (applyBtn) applyBtn.disabled = true;
     return;
@@ -283,11 +239,7 @@ export function renderCatalogBatchPreview(payload) {
     const change = draft.change_preview || {};
     addText(root, 'p', `${draft.candidate_key || draft.draft_id}：新增 ${Object.values(change.creates || {}).flat().length}，更新 ${(change.updates || []).length}`, 'item-summary');
   }
-  for (const blocker of payload.blockers || []) {
-    const label = blocker.candidate_key || blocker.draft_id || 'Draft';
-    const reasons = Array.isArray(blocker.blocking_reasons) && blocker.blocking_reasons.length ? blocker.blocking_reasons.join('；') : '当前不可 Apply';
-    addText(root, 'p', `阻断：${label}（${reasons}）`, 'item-blocked');
-  }
+  renderBatchBlockers(root, payload.blockers);
   const applyBtn = $('#catalogApplyButton');
   if (applyBtn) applyBtn.disabled = false;
 }

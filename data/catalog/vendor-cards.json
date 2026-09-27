@@ -913,6 +913,92 @@
         "kind": "vendor-level1",
         "id": "vendor-level1:typesafe"
       }
+    },
+    {
+      "id": "vendor-card:suno-inc",
+      "vendor_key": "suno-inc",
+      "title": "Suno Inc.",
+      "icon": "🧩",
+      "summary": "Suno 是一家打造 AI 音乐创作平台的公司，提供从生成到专业工作站的完整创作体验。",
+      "feature_preview": [
+        {
+          "tone": "positive",
+          "text": "浏览器端生成式工作站 Suno Studio 集成传统 DAW 与 AI 创作"
+        },
+        {
+          "tone": "positive",
+          "text": "付费订阅者拥有歌曲的完整商用权利"
+        },
+        {
+          "tone": "positive",
+          "text": "支持 Voices、Inspo、排除项与人声性别等精细风格控制"
+        },
+        {
+          "tone": "positive",
+          "text": "可导出最多 12 条时间对齐的 WAV 分轨用于专业 DAW 工作流"
+        },
+        {
+          "tone": "positive",
+          "text": "网页、iOS 和 Android 均提供完整创作体验"
+        },
+        {
+          "tone": "positive",
+          "text": "免费用户每天可创作最多 10 首歌曲，无需信用卡"
+        }
+      ],
+      "access_level": "开放",
+      "price_badge": "freemium",
+      "search_terms": [
+        "Suno Inc.",
+        "suno-inc"
+      ],
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:suno-inc"
+      }
+    },
+    {
+      "id": "vendor-card:elevenlabs",
+      "vendor_key": "elevenlabs",
+      "title": "ElevenLabs",
+      "icon": "🤖",
+      "summary": "ElevenLabs 提供 AI 语音基础设施，涵盖语音合成、语音识别、音乐生成与对话式语音代理等能力。",
+      "feature_preview": [
+        {
+          "tone": "positive",
+          "text": "Scribe v2 在 90+ 语言上实现业界领先的转写准确率"
+        },
+        {
+          "tone": "positive",
+          "text": "支持最多 1000 个关键词提示提升识别精度"
+        },
+        {
+          "tone": "positive",
+          "text": "支持词级时间戳与最多 32 说话人分离"
+        },
+        {
+          "tone": "positive",
+          "text": "支持 65 类实体检测与自然语言转写编辑"
+        },
+        {
+          "tone": "positive",
+          "text": "提供实时版 Scribe v2 Realtime，延迟约 150ms"
+        },
+        {
+          "tone": "positive",
+          "text": "Scribe v2 Medical 针对临床音频优化，错误更少"
+        }
+      ],
+      "access_level": "开放",
+      "price_badge": "usage_based",
+      "search_terms": [
+        "ElevenLabs",
+        "elevenlabs"
+      ],
+      "level1_ref": {
+        "kind": "vendor-level1",
+        "id": "vendor-level1:elevenlabs"
+      }
     }
   ]
 }

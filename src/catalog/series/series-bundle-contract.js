@@ -127,11 +127,13 @@ function validateSeriesBundle(bundle, gates = {}) {
   }
   const l2Patch = patches.find(patch => patch.area === 'vendor-level2' && patch.id === series.level2_id && patch.operation !== 'noop');
 
-  // 规则 1：新建 L2 ⇒ 父 L1 replace patch
+  // 规则 1：新建 L2 ⇒ 父 L1 create/replace patch 与 base snapshot 一致
   if (series.mode === 'create') {
-    const l1Patch = patches.find(patch => patch.area === 'vendor-level1' && patch.operation === 'replace'
-      && patch.record?.id === `vendor-level1:${bundle.vendor_key}`);
-    if (!l1Patch) add('BUNDLE_L1_PATCH_MISSING');
+    const parentId = `vendor-level1:${bundle.vendor_key}`;
+    const l1Patch = patches.find(patch => patch.area === 'vendor-level1' && patch.record?.id === parentId
+      && ['create', 'replace'].includes(patch.operation));
+    const parentExists = (gates.snapshot?.['vendor-level1'] || []).some(record => record.id === parentId);
+    if (!l1Patch || (gates.snapshot && l1Patch.operation !== (parentExists ? 'replace' : 'create'))) add('BUNDLE_L1_PATCH_MISSING');
   }
 
   const bundledMembers = bundle.members.filter(member => member.classification === 'bundled');

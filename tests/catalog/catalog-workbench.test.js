@@ -2,8 +2,11 @@
 
 const assert = require('node:assert/strict');
 const test = require('node:test');
+const fs = require('node:fs');
+const path = require('node:path');
 const { candidateKeyOf } = require('../../src/pending/index');
 const { createCatalogWorkbench } = require('../../src/catalog/catalog-workbench');
+const { emptySnapshot } = require('../../src/catalog/core');
 
 
 test('catalog recovery projects safe defaults and rejects sensitive or empty overrides', () => {
@@ -91,6 +94,37 @@ test('catalog workbench keeps cost, plan and explicit apply gates', async () => 
   assert.deepEqual(calls, ['resolve', 'prepare', 'apply']);
 });
 
+test('catalog recovery normalizes numeric budget overrides from browser inputs', () => {
+  const { normalizeRecoveryOptions } = require('../../src/catalog/catalog-workbench-view');
+  const options = normalizeRecoveryOptions({ max_search_queries: '8', max_pages: '16', max_responses_calls: '16', max_synthesis_calls: '2' });
+  assert.equal(options.maxSearchQueries, 8);
+  assert.equal(options.maxPages, 16);
+  assert.equal(options.maxResponsesCalls, 16);
+  assert.equal(options.maxSynthesisCalls, 2);
+});
+
+test('catalog recovery UI exposes every server-accepted budget override', () => {
+  const panel = fs.readFileSync(path.join(__dirname, '../../src/maintainer-web/js/panels/catalog-panel.js'), 'utf8');
+  const bundlePanel = fs.readFileSync(path.join(__dirname, '../../src/maintainer-web/js/panels/catalog-bundle-panel.js'), 'utf8');
+  for (const field of ['max_search_queries', 'max_pages', 'max_responses_calls', 'max_synthesis_calls']) assert.ok(panel.includes(field), field);
+  assert.match(panel, /input\.type = numeric \? 'number' : 'text'/);
+  for (const field of ['limits.search_queries', 'limits.pages', 'limits.responses_calls', 'limits.synthesis_calls']) assert.ok(bundlePanel.includes(field), field);
+  for (const marker of ['retry_summary', 'deferred_candidates', 'has_reusable_research', 'bundles_blocked', 'bundles_mixed', 'blocked_drafts', 'blocked_candidates', 'selection_errors', 'BUNDLE_DRAFT_DUPLICATE', 'renderBundleReviewBlocked', 'renderUnmaterializedBlockers', 'warningsText(result)', 'result.warnings?.length']) assert.ok(bundlePanel.includes(marker), marker);
+  assert.doesNotMatch(bundlePanel, /max_total_(?:search_queries|synthesis_calls)/);
+  assert.match(bundlePanel, /payload\?\.status === 'bundles_blocked'/, 'HTTP 400 blocked-only prepare results must use their status payload');
+  assert.match(bundlePanel, /reportBlockedBundleResult\(payload, onRefreshAll\)/, 'blocked-only results must display counts and refresh the Bundle list');
+  assert.match(bundlePanel, /function invalidateBundlePlan\(\)[\s\S]*state\.catalogBundlePlan = null/, 'completed prepare invalidates the plan snapshot');
+  assert.match(bundlePanel, /async function reportBlockedBundleResult\(result, onRefreshAll\) \{[\s\S]*?invalidateBundlePlan\(\)/, 'blocked prepare clears stale member statuses');
+  assert.match(bundlePanel, /if \(!result\?\.ok\) throw new Error\([\s\S]*?invalidateBundlePlan\(\);\s*if \(result\.status === 'bundles_mixed'\)/, 'successful prepare clears stale plan statuses');
+  assert.match(bundlePanel, /button\.disabled = !state\.catalogBundlePlan\?\.ok/, 'prepare stays disabled until a fresh plan is generated');
+  assert.match(panel, /request\('catalog\/drafts'\)/, 'a stale recovery revision should refresh the draft list');
+  assert.match(panel, /latestDraft\.base_revision !== latestRevision/, 'retry only if the draft is still based on current Catalog');
+  const pendingPanel = fs.readFileSync(path.join(__dirname, '../../src/maintainer-web/js/panels/knowledge-panel.js'), 'utf8');
+  assert.match(pendingPanel, /待 SeriesBundle v4/);
+  assert.match(pendingPanel, /生成 SeriesBundle 计划/);
+  assert.match(pendingPanel, /planButton\.click\(\)/);
+});
+
 test('catalog workbench returns phased blocker details alongside successful drafts', async () => {
   const readyCard = { name: 'Ready Tool', candidate_key: candidateKeyOf('tools', 'Ready Tool'), review_status: 'approved' };
   const blockedCard = { name: 'Blocked Model', candidate_key: candidateKeyOf('tools', 'Blocked Model'), review_status: 'approved', entity_type: 'model', detail_kind_hint: 'api_model' };
@@ -113,6 +147,24 @@ test('catalog workbench returns phased blocker details alongside successful draf
   assert.equal(result.blocked[0].phase, 'identity_verification');
   assert.equal(result.blocked[0].code, 'IDENTITY_NAME_NOT_IN_BODY');
   assert.equal(result.blocked[0].reason, '官方正文未命中 blocked-model');
+});
+
+test('catalog workbench preserves a sanitized batch resolution error', async () => {
+  const card = { name: 'Batch Failure Tool', candidate_key: candidateKeyOf('tools', 'Batch Failure Tool'), review_status: 'approved' };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot: {} }),
+    planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
+    resolveBatchCandidates: async () => { throw new Error('SOURCE_CONTEXT_UNAVAILABLE: shared resolver bootstrap failed'); },
+    listDrafts: () => [],
+  });
+  const plan = coordinator.plan();
+  const result = await coordinator.prepare({ ...plan, confirm_cost: true });
+
+  assert.equal(result.status, 'drafts_blocked');
+  assert.equal(result.blocked.length, 1);
+  assert.equal(result.blocked[0].code, 'SOURCE_RESOLUTION_FAILED');
+  assert.equal(result.blocked[0].reason, 'SOURCE_CONTEXT_UNAVAILABLE: shared resolver bootstrap failed');
 });
 
 test('catalog workbench resolves api_model placement before draft preparation and budgets deferred research', async () => {
@@ -332,12 +384,13 @@ test('catalog workbench batches drafts from same vendor by merging relation patc
   const level1PatchB = { area: 'vendor-level1', id: 'vendor-level1:v1', operation: 'replace', record: { id: 'vendor-level1:v1', level2_refs: [{ id: 'ref-2' }] }, provenance: {} };
   const d1 = { draft_id: 'draft-1', schema_version: 4, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchA] };
   const d2 = { draft_id: 'draft-2', schema_version: 4, state: 'preview_ready', base_revision: 'c-r1', readiness: { status: 'ready' }, layer_patches: [sharedVendor, level1PatchB] };
+  const snapshot = { 'vendor-card': [{ id: 'vendor-card:v1' }], 'vendor-level1': [{ id: 'vendor-level1:v1', level2_refs: [] }] };
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'p-r1', cards: [card1, card2] }),
-    loadCatalog: () => ({ revision: 'c-r1', snapshot: { 'vendor-card': [{ id: 'vendor-card:v1' }], 'vendor-level1': [{ id: 'vendor-level1:v1', level2_refs: [] }] } }),
+    loadCatalog: () => ({ revision: 'c-r1', snapshot }),
     listDrafts: () => [d1, d2],
     reviewCatalogDraftBatch: (ids) => {
-      const plan = { changePreview: { creates: {}, updates: [], noops: [] } };
+      const plan = { snapshot, changePreview: { creates: {}, updates: [], noops: [] } };
       const reviews = [d1, d2].map(d => ({ draft: d, previewHash: 'h', plan }));
       return { ok: true, draft_ids: ids, currentRevision: 'c-r1', batchToken: 'token', reviews, plan };
     },
@@ -350,12 +403,17 @@ test('catalog workbench batches drafts from same vendor by merging relation patc
 test('catalog workbench batches drafts through one preview and one apply', () => {
   const card = { name: 'Batch Tool', candidate_key: candidateKeyOf('tools', 'Batch Tool'), review_status: 'approved' };
   const calls = [];
+  const snapshot = emptySnapshot();
   const drafts = [{ draft_id: 'draft-b', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', seed: { name: 'Batch Tool', candidate_key: card.candidate_key }, readiness: { status: 'ready' } }];
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'pending-r1', cards: [card] }),
-    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
     listDrafts: () => drafts,
-    reviewCatalogDraftBatch: ids => ({ ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews: drafts.map(draft => ({ draft, plan: { changePreview: { creates: { 'tool-card': ['tool-1'] }, updates: [], noops: [] } } })), plan: { changePreview: { creates: { 'tool-card': ['tool-1'] }, updates: [], noops: [] } } }),
+    reviewCatalogDraftBatch: ids => {
+      const plan = { snapshot, changePreview: { creates: { 'tool-card': ['tool-1'] }, updates: [], noops: [] } };
+      const reviews = drafts.map(draft => ({ draft, plan }));
+      return { ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews, plan };
+    },
     applyCatalogDrafts: input => { calls.push(input); return { ok: true, status: 'completed', targetRevision: 'catalog-r2', appliedDraftIds: input.draftIds }; },
   });
   const preview = coordinator.batchPreview();
@@ -368,23 +426,92 @@ test('catalog workbench batches drafts through one preview and one apply', () =>
 
 
 test('catalog batch preview keeps ready drafts usable when other drafts are blocked', () => {
+  const snapshot = emptySnapshot();
   const ready = { draft_id: 'draft-ready', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' }, seed: { name: 'Ready', candidate_key: 'ready-key' } };
   const blocked = { draft_id: 'draft-blocked', schema_version: 4, state: 'preview_blocked', base_revision: 'catalog-r1', readiness: { status: 'blocked', blocking_reasons: ['missing source'] }, seed: { name: 'Blocked', candidate_key: 'blocked-key' } };
+  const staleDuplicate = { draft_id: 'draft-ready-old', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-old', readiness: { status: 'ready' }, seed: { name: 'Ready', candidate_key: 'ready-key' } };
+  const staleDistinct = { draft_id: 'draft-stale-other', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-old', readiness: { status: 'ready' }, seed: { name: 'Old Candidate', candidate_key: 'old-key' } };
   let reviewed;
   const coordinator = createCatalogWorkbench({
     readPending: () => ({ revision: 'pending-r1', cards: [] }),
-    loadCatalog: () => ({ revision: 'catalog-r1' }),
-    listDrafts: () => [ready, blocked],
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
+    listDrafts: () => [ready, blocked, staleDuplicate, staleDistinct],
     reviewCatalogDraftBatch: ids => {
       reviewed = ids;
-      return { ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews: [{ draft: ready, plan: { changePreview: { creates: {}, updates: [], noops: [] } } }], plan: { changePreview: { creates: {}, updates: [], noops: [] } } };
+      return { ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-token', reviews: [{ draft: ready, plan: { snapshot, changePreview: { creates: {}, updates: [], noops: [] } } }], plan: { snapshot, changePreview: { creates: {}, updates: [], noops: [] } } };
     },
   });
   const preview = coordinator.batchPreview();
   assert.equal(preview.ok, true);
   assert.deepEqual(reviewed, ['draft-ready']);
-  assert.equal(preview.blockers.length, 1);
-  assert.equal(preview.blockers[0].draft_id, 'draft-blocked');
+  assert.equal(preview.blockers.length, 2);
+  assert.ok(preview.blockers.some(blocker => blocker.draft_id === 'draft-blocked'));
+  const staleBlocker = preview.blockers.find(blocker => blocker.draft_id === 'draft-stale-other');
+  assert.equal(staleBlocker.error_code, 'DRAFT_BASE_REVISION_STALE');
+  assert.match(staleBlocker.blocking_reasons[0], /catalog-old.*catalog-r1/);
+  assert.equal(preview.blockers.some(blocker => blocker.draft_id === 'draft-ready-old'), false, 'a stale duplicate cannot block a current draft for the same candidate');
+});
+
+test('catalog batch preview blocks new vendor cards that cannot display a brand icon', () => {
+  const snapshot = emptySnapshot();
+  const target = emptySnapshot();
+  target['vendor-card'].push({ id: 'vendor-card:new-vendor', vendor_key: 'new-vendor', title: 'New Vendor' });
+  const draft = { draft_id: 'draft-icon', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' }, seed: { name: 'New Vendor', candidate_key: 'new-vendor' } };
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
+    listDrafts: () => [draft],
+    brandIconOptions: { manifest: { vendor: {}, tool: {}, series: {}, model: {} }, assetExists: () => false },
+    reviewCatalogDraftBatch: ids => ({
+      ok: true, draft_ids: ids, currentRevision: 'catalog-r1', batchToken: 'batch-icon',
+      reviews: [{ draft, plan: { snapshot: target, changePreview: { creates: { 'vendor-card': [target['vendor-card'][0].id] }, updates: [], noops: [] } } }],
+      plan: { snapshot: target, changePreview: { creates: { 'vendor-card': [target['vendor-card'][0].id] }, updates: [], noops: [] } },
+    }),
+  });
+  const preview = coordinator.batchPreview();
+  assert.equal(preview.ok, false);
+  assert.equal(preview.code, 'CATALOG_BRAND_ICON_MISSING');
+  assert.match(preview.blockers[0].blocking_reasons[0], /New Vendor/);
+});
+
+test('catalog draft list labels a ready draft from an old base revision as stale', () => {
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [] }),
+    loadCatalog: () => ({ revision: 'catalog-r2' }),
+    listDrafts: () => [{ draft_id: 'draft-old', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r1', readiness: { status: 'ready' }, seed: { name: 'Old Model' } }],
+  });
+  const item = coordinator.list().items[0];
+  assert.equal(item.state, 'preview_blocked');
+  assert.equal(item.readiness, 'blocked');
+  assert.equal(item.error_code, 'DRAFT_BASE_REVISION_STALE');
+  assert.match(item.blocking_reasons[0], /catalog-r1.*catalog-r2/);
+});
+
+test('successful current Draft reuse supersedes only stale Drafts for the same candidate', async () => {
+  const card = { name: 'Replaceable Model', candidate_key: 'candidate-replaceable', review_status: 'approved' };
+  const currentDraft = {
+    draft_id: 'draft-current', schema_version: 4, state: 'preview_ready', base_revision: 'catalog-r2',
+    seed: { name: card.name, candidate_key: card.candidate_key, vendor_key: 'vendor-a' }, readiness: { status: 'ready' },
+  };
+  const staleDuplicate = {
+    ...currentDraft, draft_id: 'draft-stale-duplicate', base_revision: 'catalog-r1',
+  };
+  const staleOther = {
+    ...currentDraft, draft_id: 'draft-stale-other', base_revision: 'catalog-r1',
+    seed: { name: 'Different Model', candidate_key: 'candidate-other', vendor_key: 'vendor-a' },
+  };
+  const deleted = [];
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r2', snapshot: {} }),
+    listDrafts: () => [currentDraft, staleDuplicate, staleOther],
+    deleteCatalogDraft: draftId => { deleted.push(draftId); return true; },
+    planCatalogDraft: () => ({ ok: true, cost_plan: { hard_limits: {} } }),
+  });
+  const plan = coordinator.plan();
+  const prepared = await coordinator.prepare({ ...plan, confirm_cost: true });
+  assert.equal(prepared.ok, true);
+  assert.deepEqual(deleted, ['draft-stale-duplicate']);
 });
 
 test('catalog prepare reuses a matching ready draft without resolving or preparing again', async () => {
@@ -497,6 +624,26 @@ test('already complete resolution is reported as complete instead of SEED_NOT_RE
   assert.deepEqual(result.blocked, []);
 });
 
+test('already-cataloged tool skips source resolution by exact catalog title/tool_key', async () => {
+  const card = { name: 'Isaac ROS 5.0', candidate_key: candidateKeyOf('tools', 'Isaac ROS 5.0'), detail_kind_hint: 'tool', entity_type: 'tool', review_status: 'approved' };
+  const snapshot = emptySnapshot();
+  snapshot['tool-card'].push({ id: 'tool-card:isaac-ros-5.0', tool_key: 'isaac-ros-5.0', title: 'Isaac ROS 5.0', vendor_key: 'nvidia' });
+  let resolutionCalls = 0;
+  const coordinator = createCatalogWorkbench({
+    readPending: () => ({ revision: 'pending-r1', cards: [card] }),
+    loadCatalog: () => ({ revision: 'catalog-r1', snapshot }),
+    planCatalogDraft: () => { throw new Error('existing tool must be completed before Draft planning'); },
+    resolveBatchCandidates: async () => { resolutionCalls += 1; throw new Error('existing tool must not invoke Web Search'); },
+    listDrafts: () => [],
+  });
+  const plan = coordinator.plan();
+  assert.deepEqual(plan.candidates, []);
+  assert.deepEqual(plan.completed.map(item => item.name), ['Isaac ROS 5.0']);
+  const prepared = await coordinator.prepare(plan);
+  assert.equal(prepared.status, 'candidates_complete');
+  assert.equal(resolutionCalls, 0);
+});
+
 test('目录已有模型在身份/系列核验前按规范 model_key 标记完成', async () => {
   const cards = [
     { name: 'StepAudio 3 ASR', candidate_key: 'candidate-stepaudio', identity_key: 'stepaudio-3-asr', review_status: 'approved', entity_type: 'model', detail_kind_hint: 'api_model' },
@@ -560,6 +707,51 @@ test('projection reclassifies stale manual_required schema failures as retryable
   assert.equal(projected.error_code, 'SCHEMA_INVALID');
 });
 
+test('projection keeps transient retrieval failures research-resumable and provider failures synthesis-only', () => {
+  const { projectDraft } = require('../../src/catalog/catalog-workbench');
+  const retrieval = projectDraft({
+    draft_id: 'draft-search-retry',
+    state: 'failed_retryable',
+    research: { ok: false, official_sources: [] },
+    readiness: { status: 'blocked', blocking_reasons: ['TAVILY_EXTRACT_RATE_LIMITED'] },
+    last_error: { code: 'TAVILY_EXTRACT_RATE_LIMITED', recovery_kind: 'manual_required' },
+  });
+  assert.equal(retrieval.recovery_kind, 'retryable');
+  assert.equal(retrieval.recovery_mode, 'research_resume');
+
+  const synthesis = projectDraft({
+    draft_id: 'draft-provider-retry',
+    state: 'preview_blocked',
+    research: { ok: true, official_sources: [{ source_id: 's1' }] },
+    readiness: { status: 'blocked', blocking_reasons: ['OPENROUTER_TIMEOUT'] },
+    last_error: { code: 'OPENROUTER_TIMEOUT', recovery_kind: 'manual_required' },
+  });
+  assert.equal(synthesis.recovery_kind, 'retryable');
+  assert.equal(synthesis.recovery_mode, 'synthesis_only');
+  assert.equal(synthesis.error_code, 'TIMEOUT');
+
+  const budget = projectDraft({
+    draft_id: 'draft-budget-retry',
+    state: 'failed_retryable',
+    research: { ok: false, official_sources: [] },
+    readiness: { status: 'blocked', blocking_reasons: ['pages 成本预算不足'] },
+    last_error: { code: 'COST_BUDGET_EXHAUSTED', category: 'pages', missing_config_fields: ['max_pages'] },
+  });
+  assert.deepEqual(budget.missing_config_fields, ['max_pages']);
+  assert.equal(budget.recovery_mode, 'research_resume');
+
+  const scribe = projectDraft({
+    draft_id: 'draft-scribe-legacy-provenance',
+    state: 'preview_blocked',
+    research: { ok: true, official_sources: [{ source_id: 'source-1' }] },
+    readiness: { status: 'blocked', blocking_reasons: ['detail.release_date: 派生字段必须引用至少一个官方来源'] },
+    last_error: { code: 'SYNTHESIS_INVALID', error: 'detail.release_date: 派生字段必须引用至少一个官方来源', recovery_kind: 'manual_required' },
+  });
+  assert.equal(scribe.recovery_kind, 'retryable');
+  assert.equal(scribe.recovery_mode, 'synthesis_only');
+  assert.match(scribe.blocking_reasons[0], /detail\.release_date/);
+});
+
 test('projection marks a ready Draft with a now-wrong inferred modality as blocked', () => {
   const { projectDraft } = require('../../src/catalog/catalog-workbench');
   const projected = projectDraft({
@@ -613,19 +805,35 @@ test('Bundle 工作台隔离 v3 Draft、返回 snake_case review DTO 并收口 A
 });
 
 
-test('Bundle 列表按 candidate_key 去重，ready 覆盖同候选旧 blocked Draft', () => {
+test('Bundle 列表按当前版本最新 Draft 选择，不用 ready 状态覆盖新版 blocked', () => {
   const coordinator = createCatalogWorkbench({
     loadCatalog: () => ({ revision: 'catalog-r1' }),
     listCatalogBundles: () => ({
       catalog_revision: 'catalog-r1',
-      items: [{ draft_id: 'draft-old', state: 'preview_blocked', bundle_id: 'bundle-old', candidate: { candidate_key: 'candidate-1', name: 'StepAudio 3' } }],
+      items: [{ draft_id: 'draft-old', state: 'preview_ready', base_revision: 'catalog-r1', updated_at: '2026-09-22T03:38:20.000Z', bundle_id: 'bundle-old', candidate: { candidate_key: 'candidate-1', name: 'StepAudio 3' } }],
       count: 1,
     }),
-    listDrafts: () => [{ draft_id: 'draft-new', schema_version: 4, draft_kind: 'series_bundle', state: 'preview_ready', bundle_id: 'bundle-new', bundle: { candidate: { candidate_key: 'candidate-1', name: 'StepAudio 3' } }, updated_at: '2026-09-22T03:38:20.828Z' }],
+    listDrafts: () => [{ draft_id: 'draft-new', schema_version: 4, draft_kind: 'series_bundle', state: 'preview_blocked', base_revision: 'catalog-r1', bundle_id: 'bundle-new', bundle: { candidate: { candidate_key: 'candidate-1', name: 'StepAudio 3' } }, updated_at: '2026-09-22T03:38:21.000Z' }],
   });
   const result = coordinator.bundleList();
   assert.deepEqual(result.items.map(item => item.draft_id), ['draft-new']);
-  assert.equal(result.items[0].state, 'preview_ready');
+  assert.equal(result.items[0].state, 'preview_blocked');
+  assert.deepEqual(result.items[0].superseded_draft_ids, ['draft-old']);
+});
+
+test('Bundle 列表对相同 updated_at 的同候选 Draft 留空并报告选择冲突', () => {
+  const sameTime = '2026-09-26T00:00:00.000Z';
+  const coordinator = createCatalogWorkbench({
+    loadCatalog: () => ({ revision: 'catalog-r1' }),
+    listCatalogBundles: () => ({ catalog_revision: 'catalog-r1', items: [
+      { draft_id: 'draft-tie-a', state: 'preview_ready', base_revision: 'catalog-r1', updated_at: sameTime, candidate: { candidate_key: 'candidate-tie', name: 'StepAudio 3' } },
+      { draft_id: 'draft-tie-b', state: 'preview_blocked', base_revision: 'catalog-r1', updated_at: sameTime, candidate: { candidate_key: 'candidate-tie', name: 'StepAudio 3' } },
+    ] }),
+    listDrafts: () => [],
+  });
+  const result = coordinator.bundleList();
+  assert.equal(result.items.some(item => item.candidate?.candidate_key === 'candidate-tie'), false);
+  assert.deepEqual(result.selection_errors[0], { candidate_key: 'candidate-tie', code: 'BUNDLE_DRAFT_DUPLICATE', draft_ids: ['draft-tie-a', 'draft-tie-b'] });
 });
 
 test('blocked Bundle 可独立丢弃并由 coordinator 内部注入 allowBundleDiscard 与 operation', async () => {

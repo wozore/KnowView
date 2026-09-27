@@ -124,6 +124,22 @@ test('matchSeries 系列词返回全部可见成员且 role 为 series', () => {
   });
 });
 
+test('matchSeries 保留英文化系列的旧标题搜索别名', () => {
+  const index = buildSeriesIndex({
+    toolCards: [card('hunyuan-image-3')],
+    level2s: [level2('vendor-level2:tencent:hunyuan-image', {
+      title: 'Hunyuan Image Generation',
+      search_terms: ['混元图像与视频生成'],
+      detail_refs: [{ kind: 'tool-level3', id: 'tool-level3:hunyuan-image-3' }],
+    })],
+    level3s: [detail('hunyuan-image-3')],
+  });
+  const result = matchSeries(index, '混元图像与视频生成');
+  assert.ok(result);
+  assert.equal(result.role, 'series');
+  assert.equal(result.entries[0].series_context.series_title, 'Hunyuan Image Generation');
+});
+
 test('matchSeries 更长成员词只返回该成员且 role 为 member', () => {
   const result = matchSeries(sampleIndex(), 'GPT-5.6 Sol 怎么样');
   assert.ok(result);

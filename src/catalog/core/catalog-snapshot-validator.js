@@ -19,6 +19,14 @@ function error(code, path, message) {
   return { code, path, message };
 }
 
+function checkTaskTypes(item, path, errors) {
+  if (item.task_types !== undefined && (!Array.isArray(item.task_types)
+    || item.task_types.some(type => typeof type !== 'string' || !type.trim())
+    || new Set(item.task_types).size !== item.task_types.length)) {
+    errors.push(error('TASK_TYPES_INVALID', `${path}.task_types`, 'task_types 必须是去重的非空字符串数组'));
+  }
+}
+
 function checkUnique(area, items, errors) {
   const ids = new Set();
   items.forEach((item, index) => {
@@ -97,11 +105,16 @@ function checkSeriesFields(normalized, errors) {
     if (item.generation_state !== undefined && item.generation_state !== null && !GENERATION_STATES.includes(item.generation_state)) {
       errors.push(error('GENERATION_STATE_INVALID', `${path}.generation_state`, `无效 generation_state: ${item.generation_state}`));
     }
+    checkTaskTypes(item, path, errors);
+    if (item.search_terms !== undefined && (!Array.isArray(item.search_terms) || item.search_terms.some(term => typeof term !== 'string' || !term.trim()))) {
+      errors.push(error('SEARCH_TERMS_INVALID', `${path}.search_terms`, 'search_terms 必须是非空字符串数组'));
+    }
   });
   checkSingleModelLevel2(level2, detailById, errors);
 
   level3.forEach((item, index) => {
     const path = `tool-level3[${index}]`;
+    checkTaskTypes(item, path, errors);
     if (item.model_key !== undefined && item.model_key !== null && (typeof item.model_key !== 'string' || !isModelKey(item.model_key))) {
       errors.push(error('MODEL_KEY_SYNTAX_INVALID', `${path}.model_key`, `非法 model_key 语法: ${item.model_key}`));
     }
@@ -119,6 +132,7 @@ function checkSeriesFields(normalized, errors) {
 
   cards.forEach((item, index) => {
     const path = `tool-card[${index}]`;
+    checkTaskTypes(item, path, errors);
     if (item.model_key !== undefined && item.model_key !== null && (typeof item.model_key !== 'string' || !isModelKey(item.model_key))) {
       errors.push(error('MODEL_KEY_SYNTAX_INVALID', `${path}.model_key`, `非法 model_key 语法: ${item.model_key}`));
     }

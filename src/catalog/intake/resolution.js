@@ -25,6 +25,7 @@ const {
   identityAdapterOptionsOf,
   identityContextOf,
 } = require('./identity-adapters');
+const { verifyModelCandidate, discoverSeriesMembersSafely } = require('./resolution-model-guards');
 const MODEL_NAME_PATTERN = /(?:GPT|Claude|Gemini|Qwen|Llama|GLM|Mistral|DeepSeek|MiniMax|Grok|Kling)[\s-]?[A-Za-z]*\d/i;
 
 function lookupRegistryForCard(card, options = {}) {
@@ -100,16 +101,20 @@ async function resolveBatchPlacements(seeds, options = {}) {
   const policy = loadSeriesPolicy();
   const base = options.snapshotOf ? options.snapshotOf() : loadCatalogSnapshot().snapshot;
   const projected = cloneSnapshot(base);
+  const committedTargets = new Set((base['vendor-level2'] || []).map(item => item.id));
   const resolve = options.resolveSeriesPlacement || resolveSeriesPlacement;
   const blocked = [];
   for (const seed of seeds || []) {
     if (!seed || seed.detail_kind !== 'api_model') continue;
-    const placement = await resolve(policy, projected, seed, {
+    let placement = await resolve(policy, projected, seed, {
       allowAi: options.allowAiPlacement === true,
       ledger: options.placementLedger,
       suggestPlacement: options.suggestSeriesPlacement,
     });
     if (placement.kind === 'decision') {
+      if (placement.target_mode === 'existing' && !committedTargets.has(placement.target_level2_id)) {
+        placement = { ...placement, target_mode: 'create' };
+      }
       applyPlacementToSeed(seed, placement);
       bumpProjectedSeries(projected, placement, seed);
     } else if (placement.kind === 'migration_required' || placement.kind === 'fail_closed') {
@@ -264,7 +269,12 @@ async function resolveBatchCandidates(cards, options = {}) {
   for (const card of cards || []) {
     const name = String(card.name || card.title || '').trim();
     if (!name) continue;
-    const registryHit = lookupRegistryForCard(card, options);
+    let registryHit;
+    try { registryHit = lookupRegistryForCard(card, options); }
+    catch (error) {
+      unresolved.push({ name, reason: `${error?.code || 'OFFICIAL_REGISTRY_LOOKUP_FAILED'}: ${error?.message || String(error)}` });
+      continue;
+    }
     const isModelAxis = card.entity_type === 'series' || card.entity_type === 'model'
       || card.detail_kind_hint === 'api_model';
     if (isModelAxis) {
@@ -274,24 +284,22 @@ async function resolveBatchCandidates(cards, options = {}) {
         ...(registryHit?.ok && registryHit.official_url ? [registryHit.official_url] : []),
       ].filter(Boolean);
       const registryVendorHint = registryHit?.ok && context?.policy
-        ? normalizeVendorKey(context.policy, registryHit.vendor_name)
+        ? normalizeVendorKey(context.policy, registryHit.vendor_key || registryHit.vendor_name)
         : null;
+      const registeredVendorHint = registryHit?.matched_entry_kind === 'product' ? registryVendorHint : null;
       const identityAliases = [...new Set([
         ...(Array.isArray(card.identity_aliases) ? card.identity_aliases : []),
         ...(Array.isArray(registryHit?.identity_aliases) ? registryHit.identity_aliases : []),
       ])];
-      const result = await verifyFn(
-        {
-          name,
-          entity_type: card.entity_type || 'model',
-          vendor_hint: card.vendor_key || card.vendor_hint || registryVendorHint || registryHit.matched_key || registryHit.vendor_key,
-          official_urls: officialUrls,
-          ...(card.identity_key ? { identity_key: card.identity_key } : {}),
-          ...(identityAliases.length ? { identity_aliases: identityAliases } : {}),
-        },
-        context,
-        identityAdapters,
-      );
+      const result = await verifyModelCandidate(verifyFn, {
+        name,
+        entity_type: card.entity_type || 'model',
+        vendor_hint: card.vendor_key || card.vendor_hint || registryVendorHint || registryHit.matched_key || registryHit.vendor_key,
+        ...(registeredVendorHint ? { registered_vendor_hint: registeredVendorHint } : {}),
+        official_urls: officialUrls,
+        ...(card.identity_key ? { identity_key: card.identity_key } : {}),
+        ...(identityAliases.length ? { identity_aliases: identityAliases } : {}),
+      }, context, identityAdapters);
       if (!result.ok) {
         blocked.push({ name, code: result.code, reason: result.error || '' });
         intakeOutcomes.push(await writeIntakeOutcome(card, 'verification_blocked', options));
@@ -303,15 +311,10 @@ async function resolveBatchCandidates(cards, options = {}) {
       if (result.verdict.entity_class === 'series') {
         let members = { ok: true, members: [] };
         if (options.discoverSeriesMembers !== null) {
-          members = await membersFn(result.verdict, identityAdapters, context);
-          // 成员清单的 AI 建议存在后端波动（同一正文偶发返回空清单）；空清单重试一次，
-          // 仍以官方正文命中为收录闸门（fail-closed 语义不变）
-          if (members.ok && !members.members.length) {
-            members = await membersFn(result.verdict, identityAdapters, context);
-          }
+          members = await discoverSeriesMembersSafely(membersFn, result.verdict, identityAdapters, context);
         }
-        if (!members.ok || !members.members.length) {
-          blocked.push({ name, code: members.code || 'IDENTITY_MEMBERS_INSUFFICIENT', reason: '系列成员证据不足' });
+        if (!members.ok || !Array.isArray(members.members) || !members.members.length) {
+          blocked.push({ name, code: members.code || 'IDENTITY_MEMBERS_INSUFFICIENT', reason: members.error || '系列成员证据不足' });
           intakeOutcomes.push(await writeIntakeOutcome(card, 'deferred_insufficient_evidence', options));
           continue;
         }

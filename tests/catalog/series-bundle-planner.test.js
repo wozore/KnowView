@@ -95,7 +95,12 @@ test('新建 L2 → mode=create 且携带父 L1 replace patch（规则 1）', ()
   const result = plan(snap, [{ name: 'GLM-5.3', model_key: 'zhipu-glm-5-3' }]);
   assert.equal(result.ok, true);
   assert.equal(result.bundle.series.mode, 'create');
-  assert.ok(result.bundle.layer_patches.some(patch => patch.area === 'vendor-level1' && patch.operation === 'replace'), '新建 L2 必须有父 L1 replace');
+  assert.ok(result.bundle.layer_patches.some(patch => patch.area === 'vendor-level1' && patch.operation === 'replace'), '已存在的父 L1 使用 replace');
+  const withoutParent = structuredClone(snap);
+  withoutParent['vendor-level1'] = [];
+  const createdParent = plan(withoutParent, [{ name: 'GLM-5.3', model_key: 'zhipu-glm-5-3' }]);
+  assert.equal(createdParent.ok, true);
+  assert.ok(createdParent.bundle.layer_patches.some(patch => patch.area === 'vendor-level1' && patch.operation === 'create'), '缺失父 L1 时必须 create');
 });
 
 test('容量 6：第 7 个起按 release_date 最旧转 hidden_history，新成员不转', () => {
@@ -165,4 +170,54 @@ test('bundle 携带 base_revisions 与 bridge entries（每个新 api_model 一�
   assert.equal(bundle.schema_version, 1);
   assert.match(bundle.bundle_id, /^bundle-[0-9a-f]{12}$/);
   assert.match(bundle.bundle_token, /^btk-[0-9a-f]{16}$/);
+});
+
+test('SeriesBundle 将成员名称中的 TTS 与 ASR 别名归一后写入模型详情和工具卡', () => {
+  const result = planSeriesBundle({
+    candidate: { candidate_key: 'qwen-audio', name: 'Qwen Audio 3.1', entity_type: 'series' },
+    verdict: {
+      entity_class: 'series', vendor_key: 'alibaba', model_key: 'alibaba-qwen-audio-3-1',
+      series_title: 'Qwen Audio 3.1', family: 'qwen_audio', modality: 'audio',
+      evidence: { official_url: 'https://www.alibabacloud.com/help/en/model-studio/audio-generation', content_hash: 'sha256:qwen' },
+      reasons: ['official model list'],
+    },
+    subModelVerdicts: [
+      { name: 'Qwen Audio 3.1 TTS-Next', model_key: 'alibaba-qwen-audio-3-1-tts-next' },
+      { name: 'Qwen Audio 3.1 ASR-Next', model_key: 'alibaba-qwen-audio-3-1-asr-next' },
+      { name: 'qwen-audio-3.1-realtime-plus', model_key: 'alibaba-qwen-audio-3-1-realtime-plus' },
+    ],
+    policy: POLICY,
+    snapshot: emptySnapshot(),
+    now: new Date('2026-09-25T00:00:00Z'),
+  });
+  assert.equal(result.ok, true);
+  const members = new Map(result.bundle.members.map(member => [member.name, member]));
+  assert.deepEqual(members.get('Qwen Audio 3.1 TTS-Next').task_types, ['TTS']);
+  assert.deepEqual(members.get('Qwen Audio 3.1 ASR-Next').task_types, ['STT']);
+  assert.deepEqual(members.get('qwen-audio-3.1-realtime-plus').task_types, ['Voice']);
+  for (const member of members.values()) {
+    if (member.classification !== 'bundled') continue;
+    const detail = result.bundle.layer_patches.find(patch => patch.area === 'tool-level3' && patch.id === member.detail_id);
+    const card = result.bundle.layer_patches.find(patch => patch.area === 'tool-card' && patch.id === member.tool_card_id);
+    assert.deepEqual(detail.record.task_types, member.task_types);
+    assert.deepEqual(card.record.task_types, member.task_types);
+  }
+});
+
+test('多任务 family 中无法归类的成员在计划阶段清晰阻断', () => {
+  const policy = structuredClone(POLICY);
+  const voice = policy.task_type_registry.Voice;
+  voice.aliases = voice.aliases.filter(alias => alias !== 'realtime');
+  const result = planSeriesBundle({
+    candidate: { candidate_key: 'qwen-audio-unknown-task', name: 'Qwen Audio', entity_type: 'series' },
+    verdict: {
+      entity_class: 'series', vendor_key: 'alibaba', model_key: 'alibaba-qwen-audio',
+      series_title: 'Qwen Audio', family: 'qwen_audio', modality: 'audio',
+      evidence: { official_url: 'https://help.aliyun.com/zh/model-studio/models', content_hash: 'sha256:qwen' },
+    },
+    subModelVerdicts: [{ name: 'qwen-audio-unclassified-member', model_key: 'alibaba-qwen-audio-unclassified-member' }],
+    policy, snapshot: emptySnapshot(),
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'BUNDLE_MEMBER_TASK_TYPES_UNRESOLVED');
 });

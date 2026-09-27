@@ -1,4 +1,4 @@
-import { escapeHtml, safeExternalUrl, formatPrice, renderTimelinessBadge } from '../ui/ui-helpers.js';
+import { escapeHtml, safeExternalUrl, formatPrice, renderTimelinessBadge, renderTaskTypeBadges } from '../ui/ui-helpers.js';
 import { getToolDateDisplay } from '../ui/date-display.mjs';
 import { ICON_ARROW_LEFT, ICON_EXTERNAL } from '../ui/ui-icons.js';
 import { brandIconHtml } from '../ui/brand-icons.js';
@@ -152,7 +152,7 @@ function renderToolLevel3(request = {}) {
     emoji: detail.icon,
   });
   return '<div class="model-index-page model-leaf-page">' + backHtml +
-    '<section class="node-overview model-index-overview"><h2>' + detailIcon + ' ' + escapeHtml(detail.title) + '</h2><div class="vendor">' + vendorHtml + '<a href="' + escapeHtml(safeExternalUrl(detail.official_url)) + '" target="_blank" rel="noopener noreferrer">官网 ' + ICON_EXTERNAL + '</a></div></section>' +
+    '<section class="node-overview model-index-overview"><h2>' + detailIcon + ' ' + escapeHtml(detail.title) + '</h2>' + renderTaskTypeBadges(detail.task_types) + '<div class="vendor">' + vendorHtml + '<a href="' + escapeHtml(safeExternalUrl(detail.official_url)) + '" target="_blank" rel="noopener noreferrer">官网 ' + ICON_EXTERNAL + '</a></div></section>' +
     '<div class="model-leaf-panel"><div class="model-panel-heading"><div><span class="node-kind-badge leaf">具体' + kindLabel + '</span><h4>' + escapeHtml(detail.title) + '</h4>' + (dateDisplay?.freshnessEligible ? renderTimelinessBadge(dateDisplay.value) : '') + '</div>' + compareHtml + '</div>' +
     '<div class="intelligence-item-body"><p>' + escapeHtml(detail.summary || '') + '</p>' + contextHtml + renderFreeTier(detail.free_tier) + renderChineseSupport(detail.chinese_support) + pricingHtml + planHtml + linkedPlansHtml + disclosureHtml + renderScenario('适用场景及说明', detail.applicable_scenarios) + renderScenario('不适用场景及说明', detail.inapplicable_scenarios) + sourceHtml + '</div></div></div>';
 }

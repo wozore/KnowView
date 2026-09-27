@@ -159,6 +159,23 @@ test('厂商建议 aliyun 按已登记别名归一为 alibaba', async () => {
   assert.equal(result.verdict.model_key, 'alibaba-qwen-image-2.1');
 });
 
+test('精确登记的官方产品在建议厂商为 unknown 时使用登记厂商，仍校验正文与官方域', async () => {
+  const { loadSeriesPolicy } = require('../../src/catalog/series');
+  const policy = loadSeriesPolicy();
+  const url = 'https://elevenlabs.io/docs/overview/capabilities/speech-to-text';
+  const result = await verifyModelIdentity(
+    { name: 'Scribe v2', entity_type: 'model', vendor_hint: 'elevenlabs', registered_vendor_hint: 'elevenlabs', identity_aliases: ['scribe_v2'], official_urls: [url] },
+    {
+      policy, snapshot: emptySnapshot(), policyRevision: 'scribe-product-policy', bridgeRevision: 'scribe-bridge', ledger: ledger(),
+      suggestIdentity: async () => goodSuggestion({ vendor_key: 'unknown', identity: 'scribe-v2' }),
+    },
+    adaptersFor([{ url, body_text: 'ElevenLabs Scribe v2 is available for speech-to-text through the official API.' }], [{ url }]),
+  );
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(result.verdict.vendor_key, 'elevenlabs');
+  assert.equal(result.verdict.model_key, 'elevenlabs-scribe-v2');
+});
+
 test('Qwen GitHub 官方仓库精确登记后不被共享 github.com 域冲突拦截', async () => {
   const { loadSeriesPolicy } = require('../../src/catalog/series');
   const policy = loadSeriesPolicy();

@@ -16,7 +16,7 @@ const TOOL_CARD_FIELDS = Object.freeze([
   'id', 'tool_key', 'vendor_key', 'title', 'vendor_label', 'icon', 'summary', 'theme',
   'scenes', 'best_for_preview', 'not_for_preview', 'price_badge',
   'access_level', 'search_terms', 'detail_ref', 'detail_kind',
-  'model_key', 'visibility', 'historical_since',
+  'model_key', 'visibility', 'historical_since', 'task_types',
 ]);
 const VENDOR_LEVEL1_FIELDS = Object.freeze([
   'id', 'vendor_key', 'title', 'icon', 'official_url',
@@ -24,7 +24,7 @@ const VENDOR_LEVEL1_FIELDS = Object.freeze([
 ]);
 const VENDOR_LEVEL2_FIELDS = Object.freeze([
   'id', 'level1_ref', 'vendor_key', 'title', 'official_url', 'summary', 'status',
-  'detail_refs',
+  'detail_refs', 'task_types', 'search_terms',
   'series_kind', 'generation_state',
 ]);
 const TOOL_LEVEL3_FIELDS = Object.freeze([
@@ -33,7 +33,7 @@ const TOOL_LEVEL3_FIELDS = Object.freeze([
   'applicable_scenarios', 'inapplicable_scenarios', 'sources',
   'release_date', 'last_updated_date',
   'free_tier', 'chinese_support', 'subscription_plan_refs', 'pricing_disclosure',
-  'model_key', 'visibility', 'historical_since',
+  'model_key', 'visibility', 'historical_since', 'task_types',
 ]);
 
 const DATE_FIELDS = Object.freeze(['release_date', 'last_updated_date']);
@@ -44,12 +44,11 @@ const DATE_FIELDS = Object.freeze(['release_date', 'last_updated_date']);
 const SERIES_KINDS = Object.freeze(['model_series', 'subscription_series', 'tool_series']);
 const GENERATION_STATES = Object.freeze(['newest', 'previous']);
 const VISIBILITIES = Object.freeze(['visible', 'hidden_history']);
-
 // 各层级条件字段：不做无条件必填检查，存在才校验（存量兼容）。
 const CONDITIONAL_FIELDS = Object.freeze({
-  'tool-level3': Object.freeze(['model_key', 'visibility', 'historical_since', 'free_tier', 'chinese_support', 'subscription_plan_refs', 'pricing_disclosure']),
-  'tool-card': Object.freeze(['model_key', 'visibility', 'historical_since']),
-  'vendor-level2': Object.freeze(['series_kind', 'generation_state']),
+  'tool-level3': Object.freeze(['model_key', 'visibility', 'historical_since', 'free_tier', 'chinese_support', 'subscription_plan_refs', 'pricing_disclosure', 'task_types']),
+  'tool-card': Object.freeze(['model_key', 'visibility', 'historical_since', 'task_types']),
+  'vendor-level2': Object.freeze(['series_kind', 'generation_state', 'task_types', 'search_terms']),
 });
 
 const ALLOWED_FIELDS = Object.freeze({

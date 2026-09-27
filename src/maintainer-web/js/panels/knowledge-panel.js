@@ -117,7 +117,9 @@ export function renderPendingCards(kind, payload, onRefreshAll) {
       addBadge(meta, item.detail_kind_hint, 'detail-kind');
     }
     addBadge(meta, item.review_status || 'pending', item.review_status || 'pending');
-    const stateName = PENDING_STATE_ZH[item.workflow_state] || item.workflow_state || '待审核';
+    const stateName = item.entity_type === 'series' && item.review_status === 'approved'
+      ? '待 SeriesBundle v4'
+      : PENDING_STATE_ZH[item.workflow_state] || item.workflow_state || '待审核';
     addBadge(meta, stateName, String(item.workflow_state || 'pending_review'));
     content.appendChild(meta);
 
@@ -145,12 +147,32 @@ export function renderPendingCards(kind, payload, onRefreshAll) {
     const desc = String(item.description || item.definition || '').trim();
     const pendingDescription = item.workflow_state === 'bundle_review'
       ? '描述：已在 SeriesBundle 预览中补全'
-      : '描述：将在 Draft 预览中补全';
+      : item.entity_type === 'series'
+        ? '系列候选请使用 SeriesBundle v4 准备；普通 Catalog Draft 不处理系列。'
+        : '描述：将在 Draft 预览中补全';
     addText(content, 'p', desc ? `描述：${desc}` : pendingDescription, 'item-description');
 
     // 动作按钮
     const actions = document.createElement('div');
     actions.className = 'item-actions';
+
+    if (kind === 'tools' && item.entity_type === 'series' && item.review_status === 'approved') {
+      const bundleRoute = document.createElement('button');
+      bundleRoute.type = 'button';
+      bundleRoute.className = 'button button-primary';
+      bundleRoute.textContent = '生成 SeriesBundle 计划';
+      bundleRoute.addEventListener('click', () => {
+        const planButton = $('#catalogBundlePlanButton');
+        if (!planButton) {
+          showNotice('找不到 SeriesBundle v4 计划按钮，请刷新工作台。', 'error');
+          return;
+        }
+        planButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        planButton.focus({ preventScroll: true });
+        planButton.click();
+      });
+      actions.appendChild(bundleRoute);
+    }
 
     if (currentMode === 'active') {
       if (item.workflow_state !== 'completed') {

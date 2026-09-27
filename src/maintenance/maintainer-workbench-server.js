@@ -215,6 +215,10 @@ function createMaintainerWorkbenchServer(options = {}) {
         return send(res, 200, result);
       }
       if (method !== 'GET') return send(res, 405, { error: 'METHOD_NOT_ALLOWED' }, { Allow: 'GET' });
+      if (url.pathname === '/favicon.ico') {
+        res.writeHead(204, commonHeaders());
+        return res.end();
+      }
       const file = staticFiles.get(url.pathname);
       if (!file) return send(res, 404, { error: 'NOT_FOUND' });
       const content = fs.readFileSync(file);

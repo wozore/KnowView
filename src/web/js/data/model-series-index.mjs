@@ -70,6 +70,7 @@ function buildSeriesIndex({ toolCards, level2s, level3s }) {
     series.push({
       series_id: group.id,
       series_title: group.title || '',
+      search_terms: Array.isArray(group.search_terms) ? group.search_terms : [],
       vendor_key: group.vendor_key || '',
       member_cards: memberCards,
     });
@@ -78,11 +79,13 @@ function buildSeriesIndex({ toolCards, level2s, level3s }) {
 
   const bySeriesWord = new Map();
   for (const entry of series) {
-    for (const form of deriveWordForms(entry.series_title)) {
-      const key = normalizeWord(form);
-      if (!key) continue;
-      if (!bySeriesWord.has(key)) bySeriesWord.set(key, []);
-      bySeriesWord.get(key).push(entry);
+    for (const word of [entry.series_title, ...entry.search_terms]) {
+      for (const form of deriveWordForms(word)) {
+        const key = normalizeWord(form);
+        if (!key) continue;
+        if (!bySeriesWord.has(key)) bySeriesWord.set(key, []);
+        bySeriesWord.get(key).push(entry);
+      }
     }
   }
 

@@ -28,6 +28,8 @@
 const { normalizeSnapshot, emptySnapshot } = require('../core/catalog-contract');
 const { detailKeyOf, detailRefIdOf } = require('./catalog-series-policy');
 const { validateCatalogSnapshot } = require('../core/catalog-snapshot-validator');
+const { applyMemberTaskTypes } = require('./catalog-series-migration-task-types');
+const { withSeriesRecordMetadata } = require('./catalog-series-task-types');
 
 /** 归一化成员引用：统一为完整 detail ref id；hidden_history 成员不参与可见系列重组。 */
 function memberRef(value) {
@@ -35,12 +37,12 @@ function memberRef(value) {
   return id ? { kind: 'tool-level3', id } : null;
 }
 
-/** 收集厂商全部政策目标系列（含专用/套餐/工具），id → { series, general }。 */
+/** 收集厂商全部政策目标系列（含专用/套餐/工具），id → { series, family, general }。 */
 function allTargetSeriesByVendor(policy, vendor) {
   const byId = {};
   for (const family of vendor.families || []) {
     const general = family.usage_kind === 'general_llm';
-    for (const series of family.series || []) byId[series.id] = { series, general };
+    for (const series of family.series || []) byId[series.id] = { series, family, general };
   }
   return byId;
 }
@@ -58,7 +60,7 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
   const plan = [];
   const consumedIds = new Set();
 
-  for (const [id, { series, general }] of Object.entries(targets)) {
+  for (const [id, { series, family, general }] of Object.entries(targets)) {
     const members = (series.expected_members || [])
       .map(memberRef)
       .filter(ref => ref && detailIdToVendor.get(ref.id) === vendor.vendor_key)
@@ -100,7 +102,7 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
             ])
       : (base ? (base.detail_refs || []).map(ref => ({ kind: 'tool-level3', id: ref.id })) : []);
 
-    const record = base
+    const record = withSeriesRecordMetadata(base
       ? {
           ...base,
           id,
@@ -118,7 +120,7 @@ function planVendorMigration(policy, vendor, level2s, detailIdToVendor, hiddenHi
           summary: '',
           status: 'unknown',
           detail_refs: effectiveMembers,
-        };
+        }, family, series);
 
     plan.push({
       id,
@@ -274,6 +276,7 @@ function planSeriesMigration(policy, snapshotInput, options = {}) {
         changes.push({ area: 'vendor-level2', id: item.id, operation: 'replace', note: `重组为 ${item.record.title}` });
       }
       for (const member of item.members) newParentByDetail.set(detailKeyOf(member), item.id);
+      applyMemberTaskTypes(next, item.members, item.record.task_types, policy.task_type_registry, changes);
       // 移除被本目标合并（非基座）的旧条目，防止旧 id 残留
       for (const removeId of item.removeIds || []) {
         const ridx = next['vendor-level2'].findIndex(x => x.id === removeId);

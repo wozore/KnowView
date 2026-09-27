@@ -32,6 +32,12 @@ export function escapeHtml(value) {
   return div.innerHTML;
 }
 
+export function renderTaskTypeBadges(taskTypes) {
+  return (Array.isArray(taskTypes) ? [...new Set(taskTypes)] : [])
+    .map(type => '<span class="node-kind-badge task-type">' + escapeHtml(type) + '</span>')
+    .join('');
+}
+
 export function safeExternalUrl(value) {
   try {
     const url = new URL(value, window.location.href);

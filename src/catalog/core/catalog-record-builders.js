@@ -67,7 +67,7 @@ function buildLevel1({ vendorKey, title, icon, officialUrl, description, status,
   };
 }
 
-function buildLevel2({ vendorKey, level1Id, groupKey, title, officialUrl, summary, status, detailRefs, seriesKind, generationState }) {
+function buildLevel2({ vendorKey, level1Id, groupKey, title, officialUrl, summary, status, detailRefs, seriesKind, generationState, taskTypes, searchTerms }) {
   if (!seriesKind) throw new Error('SERIES_KIND_REQUIRED');
   if (!SERIES_KINDS.includes(seriesKind)) throw new Error(`SERIES_KIND_INVALID:${seriesKind}`);
   if (generationState !== undefined && generationState !== null && seriesKind !== 'model_series') {
@@ -88,10 +88,20 @@ function buildLevel2({ vendorKey, level1Id, groupKey, title, officialUrl, summar
     series_kind: seriesKind,
   };
   if (generationState !== undefined && generationState !== null) level2.generation_state = generationState;
+  if (taskTypes !== undefined && taskTypes !== null) {
+    if (!Array.isArray(taskTypes)) throw new Error('TASK_TYPES_INVALID');
+    const values = [...new Set(taskTypes.map(type => String(type).trim()).filter(Boolean))];
+    if (values.length) level2.task_types = values;
+  }
+  if (searchTerms !== undefined && searchTerms !== null) {
+    if (!Array.isArray(searchTerms)) throw new Error('SEARCH_TERMS_INVALID');
+    const values = [...new Set(searchTerms.map(term => String(term).trim()).filter(Boolean))];
+    if (values.length) level2.search_terms = values;
+  }
   return level2;
 }
 
-function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, officialUrl, status, summary, oneMContext, apiPricing, plan, applicableScenarios, inapplicableScenarios, sources, releaseDate, lastUpdatedDate, modelKey, visibility, historicalSince, subscriptionPlanRefs, pricingDisclosure }) {
+function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, officialUrl, status, summary, oneMContext, apiPricing, plan, applicableScenarios, inapplicableScenarios, sources, releaseDate, lastUpdatedDate, modelKey, visibility, historicalSince, subscriptionPlanRefs, pricingDisclosure, taskTypes }) {
   const detail = {
     vendor_key: vendorKey,
     detail_kind: detailKind,
@@ -114,10 +124,11 @@ function buildDetail({ vendorKey, detailKind, theme, title, vendorLabel, icon, o
   if (detailKind === 'tool') detail.last_updated_date = lastUpdatedDate;
   if (detailKind === 'api_model' || detailKind === 'product_variant') detail.release_date = releaseDate;
   applyModelFields(detail, { modelKey, visibility, historicalSince, detailKind, name: title });
+  if (taskTypes !== undefined && taskTypes !== null) detail.task_types = [...new Set(taskTypes)];
   return detail;
 }
 
-function buildToolCard({ toolKey, vendorKey, title, vendorLabel, icon, summary, theme, scenes, bestForPreview, notForPreview, priceBadge, accessLevel, searchTerms, detailId, detailKind, modelKey, visibility, historicalSince }) {
+function buildToolCard({ toolKey, vendorKey, title, vendorLabel, icon, summary, theme, scenes, bestForPreview, notForPreview, priceBadge, accessLevel, searchTerms, detailId, detailKind, modelKey, visibility, historicalSince, taskTypes }) {
   if (!TOOL_CARD_KINDS.includes(detailKind)) throw new Error(`TOOL_CARD_KIND_INVALID:${detailKind}`);
   if (!THEMES.includes(theme)) throw new Error(`THEME_INVALID:${theme}`);
   const card = {
@@ -139,6 +150,7 @@ function buildToolCard({ toolKey, vendorKey, title, vendorLabel, icon, summary, 
     detail_kind: detailKind,
   };
   applyModelFields(card, { modelKey, visibility, historicalSince, detailKind, name: title });
+  if (taskTypes !== undefined && taskTypes !== null) card.task_types = [...new Set(taskTypes)];
   return card;
 }
 
@@ -151,7 +163,7 @@ function deriveKeys(seed) {
   const vendorKey = slugify(seed.vendor_key || seed.vendor_name, 'vendor_key');
   // 模型/产品身份键保留数字版本点号（如 5.1），但仍将其它分隔符规范为短横线。
   const toolKey = seed.tool_key ? identityKey(seed.tool_key, 'tool_key') : identityKey(seed.name, 'tool_key');
-  const groupKey = slugify(seed.group_key || seed.placement?.new_group_title || seed.name, 'group_key').replace(/-models$/, '');
+  const groupKey = slugify(seed.group_key || seed.placement_decision?.group_key || seed.placement?.new_group_title || seed.name, 'group_key').replace(/-models$/, '');
   const detailKey = seed.detail_key ? identityKey(seed.detail_key, 'detail_key') : toolKey;
   return { vendorKey, toolKey, groupKey, detailKey };
 }

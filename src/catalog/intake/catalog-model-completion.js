@@ -1,11 +1,34 @@
 'use strict';
 
-const { modelKeyOf } = require('../../shared/model-key-contract');
+const { modelKeyOf, normalizeModelIdentity } = require('../../shared/model-key-contract');
 const { candidateIdentityKeysOf } = require('./model-identity-verification');
 
-function alreadyCompleteInCatalog(card, options, modelIndex, registryLookup) {
+function identityKeyOf(value) {
+  try { return normalizeModelIdentity(value); } catch { return null; }
+}
+
+function alreadyCompleteToolInCatalog(card, options, snapshot, registryLookup) {
+  const identity = identityKeyOf(card?.name || card?.title);
+  if (!identity) return false;
+  let registry = {};
+  try { registry = typeof registryLookup === 'function' ? registryLookup(card, options) || {} : {}; } catch {}
+  const vendorKey = card?.vendor_key || card?.vendor_hint || registry.vendor_key || null;
+  const matchesIdentity = record => identityKeyOf(record?.title) === identity || identityKeyOf(record?.tool_key) === identity;
+  const tools = (Array.isArray(snapshot?.['tool-card']) ? snapshot['tool-card'] : []).filter(matchesIdentity);
+  if (tools.length) return vendorKey ? tools.some(tool => tool.vendor_key === vendorKey) : tools.length === 1;
+  const details = (Array.isArray(snapshot?.['tool-level3']) ? snapshot['tool-level3'] : [])
+    .filter(record => record.detail_kind === 'tool' && matchesIdentity(record));
+  return vendorKey ? details.some(detail => detail.vendor_key === vendorKey) : details.length === 1;
+}
+
+function alreadyCompleteInCatalog(card, options, modelIndex, registryLookup, snapshot) {
   const modelAxis = card?.entity_type === 'model' || card?.detail_kind_hint === 'api_model';
-  if (!modelAxis) return card?.intake_outcome === 'already_complete';
+  if (!modelAxis) {
+    if (card?.intake_outcome === 'already_complete') return true;
+    return card?.entity_type === 'tool' || card?.detail_kind_hint === 'tool'
+      ? alreadyCompleteToolInCatalog(card, options, snapshot, registryLookup)
+      : false;
+  }
   const registry = registryLookup(card, options);
   if (card.model_key && modelIndex.has(card.model_key)) return true;
   const vendorKey = card.vendor_key || card.vendor_hint || registry.vendor_key
@@ -24,4 +47,4 @@ function alreadyCompleteInCatalog(card, options, modelIndex, registryLookup) {
   return false;
 }
 
-module.exports = { alreadyCompleteInCatalog };
+module.exports = { alreadyCompleteInCatalog, alreadyCompleteToolInCatalog };

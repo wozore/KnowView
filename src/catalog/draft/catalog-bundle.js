@@ -1,19 +1,20 @@
 'use strict';
 const { readPending, setIntakeOutcome } = require('../../pending');
 const { loadCatalogSnapshot } = require('../core');
-const { loadSeriesPolicy, planSeriesBundle, validateSeriesBundle, bundlePreviewHashOf, bundleTokenOf } = require('../series');
-const { finalizeSeriesBundles } = require('../series/series-bundle-finalizer');
-const { resolveBatchCandidates, estimateResolutionNeed, catalogModelKeyIndex, lookupRegistryForCard, alreadyCompleteInCatalog } = require('../intake');
+const { loadSeriesPolicy, validateSeriesBundle, bundlePreviewHashOf, bundleTokenOf } = require('../series');
+const { catalogModelKeyIndex, lookupRegistryForCard, alreadyCompleteInCatalog } = require('../intake');
 const { seriesReceiptNames } = require('../intake/identity-receipts');
 const { readModelIdentityBridge } = require('../../shared/model-identity-bridge');
 const { createDraft, readDraft, updateDraft, deleteDraft, listDrafts, acquireBundlePrepareLock, releaseBundlePrepareLock } = require('./catalog-draft-store');
+const { prepareCatalogBundlesImpl: prepareBundleDrafts } = require('./catalog-bundle-prepare');
 const { commitCatalogChange } = require('../transaction');
 const { planHashOf } = require('../catalog-workbench-view');
+const { planCatalogBundleWork, safeEnrichmentError } = require('./catalog-bundle-retry');
+const { selectLatestCandidateDraft } = require('./catalog-bundle-selection');
 const BUNDLE_SCHEMA_VERSION = 4;
 const BUNDLE_DRAFT_KIND = 'series_bundle';
 const REUSABLE_STATES = new Set(['preview_ready', 'preview_blocked']);
-const LISTABLE_STATES = new Set([...REUSABLE_STATES, 'failed_retryable', 'outcome_pending', 'cleanup_pending', 'enrichment_confirmation_required']);
-function reusableBundleDraft(draft) { if (!draft || !REUSABLE_STATES.has(draft.state)) return false; const memberEvidence = (draft.bundle?.members || []).flatMap(member => [member.evidence?.official_url, ...(member.evidence?.official_urls || [])].filter(Boolean)); const authorizedSocial = new Set(memberEvidence.map(url => String(url).trim())); const patchSources = (draft.bundle?.layer_patches || []).flatMap(patch => patch.record?.sources || []).map(source => String(source.url || '').trim()).filter(Boolean); const unauthorizedSocial = patchSources.some(url => { try { const host = new URL(url).hostname.toLowerCase(); return (host === 'x.com' || host === 'twitter.com') && !authorizedSocial.has(url); } catch { return false; } }); return !((draft.bundle?.enrichment_errors || draft.enrichment_errors || []).length || (draft.bundle?.blockers || []).includes('BUNDLE_MEMBER_ENRICHMENT_FAILED') || memberEvidence.some(url => /\/model-map(?:[/?#]|$)/i.test(url)) || unauthorizedSocial); }
+const LISTABLE_STATES = new Set([...REUSABLE_STATES, 'enriching', 'failed_retryable', 'outcome_pending', 'cleanup_pending', 'enrichment_confirmation_required']);
 const activeBundlePrepares = new Map();
 function snapshotOf(options) {
   return typeof options.loadCatalog === 'function' ? options.loadCatalog() : loadCatalogSnapshot();
@@ -37,6 +38,8 @@ function seriesCards(options) {
 function projectBundleDraft(draft, extra = {}) {
   if (!draft) return null;
   const bundle = draft.bundle || {};
+  const errorsByMember = new Map((bundle.enrichment_errors || []).filter(error => error?.model_key).map(error => [error.model_key, error]));
+  const allErrors = (bundle.enrichment_errors || []).map(safeEnrichmentError).filter(Boolean);
   return {
     draft_id: draft.draft_id,
     draft_kind: draft.draft_kind || BUNDLE_DRAFT_KIND,
@@ -55,14 +58,27 @@ function projectBundleDraft(draft, extra = {}) {
       detail_id: member.detail_id || null,
       tool_card_id: member.tool_card_id || null,
       blocking_reasons: member.blocking_reasons || [],
+      enrichment_status: member.enrichment?.status || (errorsByMember.has(member.model_key) ? 'failed' : bundle.enrichment_errors?.length ? 'ready' : (bundle.blockers || []).includes('BUNDLE_MEMBERS_NEED_ENRICHMENT') ? 'pending' : null),
+      enrichment_cost: member.enrichment?.cost ? {
+        total_spent: member.enrichment.cost.total_spent || {},
+        last_attempt_spent: member.enrichment.cost.last_attempt_spent || {},
+        uncertain_spent: member.enrichment.cost.uncertain_spent || {},
+      } : null,
+      missing_fields: member.enrichment?.missing_fields || member.enrichment?.research?.missing_fields || errorsByMember.get(member.model_key)?.missing_fields || [],
+      official_source_count: member.enrichment?.research?.official_sources?.length || errorsByMember.get(member.model_key)?.official_source_count || 0,
+      has_reusable_research: Boolean(member.enrichment?.research?.official_sources?.length),
+      enrichment_error: safeEnrichmentError(member.enrichment?.last_error || errorsByMember.get(member.model_key)),
     })),
     deferred_models: bundle.deferred_models || [],
     readiness: draft.readiness || { status: 'blocked', blocking_reasons: [] },
     cost: bundle.cost || draft.cost || null,
     enrichment_confirmation_token: bundle.enrichment_confirmation_token || null,
     enrichment_hard_limits: bundle.enrichment_hard_limits || null,
+    enrichment_cost_uncertain: bundle.enrichment_cost_uncertain || bundle.cost?.enrichment?.uncertain_spent || {},
+    enrichment_errors: allErrors,
+    retry_generation: bundle.retry_generation || 0,
     preview_hash: bundle.preview_hash || draft.preview_hash || null,
-    last_error: draft.last_error || null,
+    last_error: safeEnrichmentError(draft.last_error),
     updated_at: draft.updated_at || null,
     ...extra,
   };
@@ -70,57 +86,33 @@ function projectBundleDraft(draft, extra = {}) {
 function planCatalogBundles(options = {}) {
   const { pending, cards } = seriesCards(options);
   const catalog = snapshotOf(options);
-  if (!cards.length) {
-    return {
-      ok: false,
-      code: 'SERIES_CANDIDATE_NOT_APPROVED',
-      pending_revision: pending.revision,
-      catalog_revision: catalog.revision,
-      candidates: [],
-      blocking_reasons: ['没有已批准的模型系列待补卡'],
-    };
-  }
-  const plan = {
-    pending_revision: pending.revision,
-    catalog_revision: catalog.revision,
-    candidates: cards.map(card => ({ candidate_key: card.candidate_key, name: card.name })),
-    resolution: estimateResolutionNeed(cards, options.resolveOptions || options),
-  };
-  return {
-    ok: true,
-    status: 'cost_confirmation_required',
-    ...plan,
-    plan_hash: planHashOf(plan),
-    cost_plan: plan.resolution,
-  };
+  return planCatalogBundleWork({ pending, cards, catalog, options });
 }
 function assertPlan(input, options) {
   const planned = planCatalogBundles(options);
   if (!planned.ok) return planned;
-  if (String(input?.pending_revision || '') !== planned.pending_revision
-    || String(input?.catalog_revision || '') !== planned.catalog_revision) {
-    const error = new Error('REVISION_CONFLICT');
-    error.code = 'REVISION_CONFLICT';
-    throw error;
-  }
-  if (String(input?.plan_hash || '') !== planned.plan_hash) {
-    const error = new Error('PLAN_CHANGED');
-    error.code = 'PLAN_CHANGED';
-    throw error;
-  }
+  const revisionsChanged = String(input?.pending_revision || '') !== planned.pending_revision || String(input?.catalog_revision || '') !== planned.catalog_revision;
+  const staleHash = String(input?.plan_hash || '') !== planned.plan_hash;
+  const reuseOnly = Array.isArray(planned.work) && planned.work.length > 0 && planned.work.every(item => item.kind === 'ready' || item.kind === 'blocked');
+  if (revisionsChanged || (staleHash && !reuseOnly)) { const error = new Error(revisionsChanged ? 'REVISION_CONFLICT' : 'PLAN_CHANGED'); error.code = error.message; throw error; }
   return planned;
 }
 function bundleReadiness(bundle) {
   const blockers = Array.isArray(bundle?.blockers) ? bundle.blockers : [];
-  return {
-    status: bundle?.readiness === 'ready' && !blockers.length ? 'ready' : 'blocked',
-    blocking_reasons: [...blockers],
-    warnings: [],
-  };
+  return { status: bundle?.readiness === 'ready' && !blockers.length ? 'ready' : 'blocked', blocking_reasons: [...blockers], warnings: [] };
 }
-function createBundleDraft(bundle, card, stateOverride = null) {
+function supersededBundleError(draft, currentRevision) {
+  const candidateKey = draft.bundle?.candidate?.candidate_key || draft.seed?.candidate_key;
+  const selected = selectLatestCandidateDraft(listDrafts({ schema_version: BUNDLE_SCHEMA_VERSION, draft_kind: BUNDLE_DRAFT_KIND }), candidateKey, currentRevision);
+  if (!selected.ok) return { ok: false, code: selected.code, draft_id: draft.draft_id, draft_ids: selected.draft_ids };
+  if (selected.draft && selected.draft.draft_id !== draft.draft_id) {
+    return { ok: false, code: 'BUNDLE_DRAFT_SUPERSEDED', draft_id: draft.draft_id, selected_draft_id: selected.draft.draft_id };
+  }
+  return null;
+}
+function createBundleDraft(bundle, card, stateOverride = null, draftId = null) {
   const readiness = bundleReadiness(bundle);
-  return createDraft({
+  const draft = {
     schema_version: BUNDLE_SCHEMA_VERSION,
     draft_kind: BUNDLE_DRAFT_KIND,
     state: stateOverride || (readiness.status === 'ready' ? 'preview_ready' : 'preview_blocked'),
@@ -134,7 +126,8 @@ function createBundleDraft(bundle, card, stateOverride = null) {
     preview_hash: bundle.preview_hash,
     readiness,
     last_error: readiness.status === 'ready' ? null : (bundle.enrichment_errors?.[0] || { code: readiness.blocking_reasons[0] || 'BUNDLE_BLOCKED' }),
-  });
+  };
+  return draftId ? updateDraft(draftId, draft, 'catalog-bundle-enrichment-checkpoint') : createDraft(draft);
 }
 function enrichmentLimitsFor(memberCount, options) { return options.enrichmentLimits || options.costPlan?.hard_limits || { search_queries: memberCount * 3, pages: memberCount * 8, responses_calls: memberCount * 8, synthesis_calls: memberCount }; }
 function bundledMembersOf(bundles) { return bundles.flatMap(bundle => (bundle.members || []).filter(member => member.classification === 'bundled')); }
@@ -144,60 +137,7 @@ function hasEnrichmentConfirmation(input, token) { return input.enrichment_confi
 
 async function prepareCatalogBundlesImpl(input = {}, options = {}, planned = null) {
   const plan = planned || assertPlan(input, options);
-  if (!plan.ok) return plan;
-  const { pending, cards } = seriesCards(options);
-  // 核验适配器由 resolution 默认构造（identity-adapters.js）；显式覆盖走 options.resolveOptions.identityAdapters。
-  // 不得把 {discover,acquire,synthesize} 形状的 catalogAdapters 转发为 identityAdapters（形状错配）。
-  const resolveOptions = { ...(options.resolveOptions || {}) };
-  const existing = new Map(listDrafts({ schema_version: BUNDLE_SCHEMA_VERSION, draft_kind: BUNDLE_DRAFT_KIND })
-    .filter(reusableBundleDraft)
-    .filter(draft => draft.base_revision === plan.catalog_revision)
-    .map(draft => [draft.seed?.candidate_key || draft.bundle?.candidate?.candidate_key, draft]));
-  const drafts = [];
-  const blocked = [];
-  for (const card of cards) {
-    const reusable = existing.get(card.candidate_key);
-    if (reusable) drafts.push(projectBundleDraft(reusable));
-  }
-  let resolved;
-  const unresolvedCards = cards.filter(card => !existing.has(card.candidate_key));
-  try {
-    resolved = unresolvedCards.length
-      ? await (options.resolveBatchCandidates || resolveBatchCandidates)(unresolvedCards, resolveOptions)
-      : { series_candidates: [], verification_blocked: [], unresolved: [], intake_outcomes: [] };
-  } catch (error) {
-    return { ok: false, code: 'SERIES_RESOLUTION_FAILED', error: error.message, drafts };
-  }
-  blocked.push(...(resolved.verification_blocked || []), ...(resolved.unresolved || []));
-  const snapshot = snapshotOf(options);
-  const policy = options.policy || loadSeriesPolicy();
-  const bridge = readModelIdentityBridge(options.bridgeFile);
-  const byKey = new Map(cards.map(card => [card.candidate_key, card]));
-  const plannedBundles = [];
-  for (const item of resolved.series_candidates || []) {
-    const card = byKey.get(item.candidate_key) || { candidate_key: item.candidate_key, name: item.name };
-    const plannedBundle = planSeriesBundle({ candidate: { candidate_key: item.candidate_key, name: item.name, entity_type: 'series', modality: card.modality }, verdict: item.verdict, subModelVerdicts: item.members, policy, snapshot: snapshot.snapshot, receipts: item.receipt ? [item.receipt] : [], bridgeRevision: bridge.revision, now: options.now || new Date() });
-    if (!plannedBundle.ok) { blocked.push({ candidate_key: item.candidate_key, name: item.name, code: plannedBundle.code, blocking_reasons: plannedBundle.blockers }); continue; }
-    plannedBundles.push({ item, card, bundle: plannedBundle.bundle });
-  }
-  const bundledMembers = bundledMembersOf(plannedBundles.map(entry => entry.bundle));
-  const enrichmentLimits = enrichmentLimitsFor(bundledMembers.length, options);
-  const enrichmentToken = enrichmentConfirmationToken(plan, plannedBundles.map(entry => entry.bundle), enrichmentLimits);
-  const needsConfirmation = bundledMembers.length > 0 && bundledMembers.some(member => !directEnrichmentAvailable(member, options));
-  if (needsConfirmation && !hasEnrichmentConfirmation(input, enrichmentToken)) {
-    const hasToken = input.enrichment_confirmation_token || input.enrichment_confirmation || input.confirmation_token || input.confirm_enrichment || input.confirm_enrichment_cost;
-    return { ok: false, code: hasToken ? 'ENRICHMENT_CONFIRMATION_INVALID' : 'ENRICHMENT_COST_CONFIRMATION_REQUIRED', status: 'enrichment_cost_confirmation_required', pending_revision: pending.revision, catalog_revision: plan.catalog_revision, plan_hash: plan.plan_hash, enrichment_confirmation_token: enrichmentToken, enrichment_hard_limits: enrichmentLimits, cost_plan: { ...(plan.cost_plan || {}), hard_limits: enrichmentLimits }, drafts, blocked, resolution: { series_candidates: (resolved.series_candidates || []).length, verification_blocked: resolved.verification_blocked || [], intake_outcomes: resolved.intake_outcomes || [] } };
-  }
-  const finalized = await finalizeSeriesBundles(plannedBundles, { snapshot: snapshot.snapshot, policy, bridgeRevision: bridge.revision, adapters: options.bundleAdapters || options.catalogAdapters, generatorOptions: options.generatorOptions || options, enrichmentLimits, enrichmentConfirmationToken: enrichmentToken, sharedLedger: options.sharedLedger, enrichmentSpent: options.enrichmentSpent || options.costSpent, memberEnrichment: options.memberEnrichment || options.enrichmentResults, enrichMember: options.enrichMember, requireInjectedAdapters: options.requireInjectedAdapters, validate: value => validateSeriesBundle(value, { snapshot: snapshot.snapshot, policy, bridgeRevision: bridge.revision }) });
-  for (const { item, card, finalized: result } of finalized.results) {
-    const draft = createBundleDraft(result.bundle, card);
-    drafts.push(projectBundleDraft(draft));
-    if (options.setIntakeOutcome !== null) {
-      try { await (options.setIntakeOutcome || setIntakeOutcome)('tools', item.candidate_key, 'bundled_for_review', pending.revision, options.pendingOptions || {}); }
-      catch (error) { blocked.push({ candidate_key: item.candidate_key, name: item.name, code: error.code || 'INTAKE_OUTCOME_WRITE_FAILED' }); }
-    }
-  }
-  return { ok: drafts.length > 0, status: drafts.length ? 'bundles_ready' : 'bundles_blocked', pending_revision: pending.revision, catalog_revision: plan.catalog_revision, plan_hash: plan.plan_hash, drafts, blocked, resolution: { series_candidates: (resolved.series_candidates || []).length, verification_blocked: resolved.verification_blocked || [], intake_outcomes: resolved.intake_outcomes || [] } };
+  return prepareBundleDrafts(input, options, plan, { snapshotOf, seriesCards, projectBundleDraft, createBundleDraft, enrichmentLimitsFor, bundledMembersOf, directEnrichmentAvailable, enrichmentConfirmationToken, hasEnrichmentConfirmation });
 }
 async function prepareCatalogBundles(input = {}, options = {}) {
   if (input.confirm_cost !== true) return { ok: false, code: 'COST_CONFIRMATION_REQUIRED' };
@@ -212,7 +152,7 @@ async function prepareCatalogBundles(input = {}, options = {}) {
       if (error?.code === 'EEXIST') return { ok: false, code: 'PREPARE_IN_PROGRESS' };
       throw error;
     }
-    try { return await prepareCatalogBundlesImpl(input, options, planned); }
+    try { return await prepareCatalogBundlesImpl(input, options, assertPlan(input, options)); }
     finally {
       try { releaseBundlePrepareLock(lock); } catch {}
     }
@@ -226,6 +166,8 @@ function reviewCatalogBundle(draftId, options = {}) {
   if (draft.schema_version !== BUNDLE_SCHEMA_VERSION || draft.draft_kind !== BUNDLE_DRAFT_KIND) return { ok: false, code: 'BUNDLE_DRAFT_SCHEMA_UNSUPPORTED', draft_id: draftId };
   const current = snapshotOf(options);
   if (draft.base_revision !== current.revision) return { ok: false, code: 'REVISION_CONFLICT', draft_id: draftId, currentRevision: current.revision, baseRevision: draft.base_revision };
+  const superseded = supersededBundleError(draft, current.revision);
+  if (superseded) return superseded;
   const policy = options.policy || loadSeriesPolicy();
   const bridge = readModelIdentityBridge(options.bridgeFile);
   if (Array.isArray(bridge.validation_errors) && bridge.validation_errors.length) {
@@ -395,4 +337,4 @@ async function discardCatalogBundle(draftId, input = {}, options = {}) {
   }
   return { ok: deleteDraft(draftId), draft_id: draftId, outcome: candidateKey ? 'pending' : null };
 }
-module.exports = { BUNDLE_SCHEMA_VERSION, BUNDLE_DRAFT_KIND, projectBundleDraft, planCatalogBundles, prepareCatalogBundles, listCatalogBundles, readCatalogBundle, reviewCatalogBundle, applyCatalogBundle, discardCatalogBundle };
+module.exports = { BUNDLE_SCHEMA_VERSION, BUNDLE_DRAFT_KIND, projectBundleDraft, selectLatestCandidateDraft, planCatalogBundles, prepareCatalogBundles, listCatalogBundles, readCatalogBundle, reviewCatalogBundle, applyCatalogBundle, discardCatalogBundle };

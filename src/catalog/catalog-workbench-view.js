@@ -21,13 +21,13 @@ const { inferModality } = require('./core');
 
 const RETRYABLE_ERROR_CODES = new Set([
   'TIMEOUT', 'RATE_LIMITED', 'PROVIDER_ERROR', 'NETWORK_ERROR',
-  'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED', 'SYNTHESIS_RESUME_FAILED',
+  'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED', 'SYNTHESIS_RESUME_FAILED', 'SYNTHESIS_PROVENANCE_INVALID',
   'OUTPUT_INVALID', 'SCHEMA_INVALID', 'LAYER_PATCH_INVALID',
   'WEB_SEARCH_FALLBACK_FAILED', 'OFFICIAL_SOURCE_FETCH_FAILED',
   'TAVILY_SEARCH_FAILED', 'TAVILY_EXTRACT_FAILED', 'TAVILY_SEARCH_RATE_LIMITED', 'TAVILY_EXTRACT_RATE_LIMITED',
   'ZHIPU_WEB_SEARCH_FAILED', 'ZHIPU_WEB_SEARCH_RATE_LIMITED', 'ZHIPU_WEB_SEARCH_NETWORK_ERROR',
   'ZHIPU_WEB_SEARCH_TIMEOUT', 'ZHIPU_WEB_SEARCH_OUTPUT_INVALID',
-  'RESEARCH_RESUME_FAILED',
+  'RESEARCH_FAILED', 'RESEARCH_DISCOVER_FAILED', 'RESEARCH_ACQUIRE_FAILED', 'RESEARCH_RESUME_FAILED', 'PLANNER_FAILED',
 ]);
 
 const PROJECT_ROOT = DIRS.project;
@@ -61,7 +61,11 @@ function normalizeRecoveryOptions(input, defaults) {
   }
   if (input.extract_provider !== undefined && input.extract_provider !== 'direct_fetch') throw codeError('RECOVERY_OPTIONS_INVALID');
   if (input.extract_fallback_provider !== undefined && input.extract_fallback_provider !== 'tavily') throw codeError('RECOVERY_OPTIONS_INVALID');
-  const merged = assistant.normalizeGeneratorOptions({ ...defaults, ...input });
+  const normalizedInput = { ...input };
+  for (const key of Object.keys(RECOVERY_OPTION_LIMITS)) {
+    if (normalizedInput[key] !== undefined) normalizedInput[key] = Number(normalizedInput[key]);
+  }
+  const merged = assistant.normalizeGeneratorOptions({ ...defaults, ...normalizedInput });
   if (!merged.model || typeof merged.model !== 'string') throw codeError('MODEL_REQUIRED');
   const provider = getProvider(merged.provider);
   if (!provider || provider.protocol !== merged.protocol
@@ -145,7 +149,8 @@ function recoveryDiagnostic(draft) {
   };
   if (draft?.readiness?.status === 'ready') return { recoveryKind: null, errorCode: null, missingFields: [], missingConfigFields: [], suggestedDetailKind: null, reason: null };
   const failure = draft?.last_error || {};
-  let errorCode = assistant.normalizeGatewayErrorCode(failure.code);
+  const retryableProvenanceFailure = assistant.isRetryableSynthesisProvenanceFailure(failure);
+  let errorCode = retryableProvenanceFailure ? 'SYNTHESIS_PROVENANCE_INVALID' : assistant.normalizeGatewayErrorCode(failure.code);
   if (errorCode === 'OUTPUT_INVALID' && /missing field [`']?model/i.test(String(failure.error || ''))) errorCode = 'MODEL_REQUIRED';
   const missingFields = [...new Set([
     ...(Array.isArray(failure.missing_fields) ? failure.missing_fields : []),
@@ -156,7 +161,7 @@ function recoveryDiagnostic(draft) {
   // manual_required），已知 retryable 码强制覆盖，否则该 Draft 在面板上永久丢失恢复入口。
   let recoveryKind = RETRYABLE_ERROR_CODES.has(errorCode) ? 'retryable' : (failure.recovery_kind || null);
   if (!recoveryKind) {
-    if (errorCode === 'MODEL_REQUIRED' || ['AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED', 'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'SEARCH_PROVIDER_UNSUPPORTED', 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED', 'EXTRACT_PROVIDER_UNSUPPORTED', 'EXTRACT_FALLBACK_PROVIDER_UNSUPPORTED', 'SEARCH_ENGINE_UNSUPPORTED', 'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_ENGINE_INVALID', 'ZHIPU_WEB_SEARCH_QUERY_REQUIRED', 'TAVILY_AUTH_REQUIRED', 'TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED'].includes(errorCode)) recoveryKind = 'config_required';
+    if (errorCode === 'MODEL_REQUIRED' || ['AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED', 'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'SEARCH_PROVIDER_UNSUPPORTED', 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED', 'EXTRACT_PROVIDER_UNSUPPORTED', 'EXTRACT_FALLBACK_PROVIDER_UNSUPPORTED', 'SEARCH_ENGINE_UNSUPPORTED', 'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_ENGINE_INVALID', 'ZHIPU_WEB_SEARCH_QUERY_REQUIRED', 'TAVILY_AUTH_REQUIRED', 'TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED', 'WEB_SEARCH_REQUEST_BUDGET_EXCEEDED'].includes(errorCode)) recoveryKind = 'config_required';
     else if (RETRYABLE_ERROR_CODES.has(errorCode)) recoveryKind = 'retryable';
     else if (errorCode === 'PROFILE_MISMATCH_SUSPECTED' || errorCode.startsWith('PLACEMENT_') || errorCode === 'SEED_INVALID') recoveryKind = 'seed_or_profile_required';
     else if (missingFields.length || errorCode === 'SYNTHESIS_COVERAGE_INCOMPLETE') recoveryKind = 'evidence_required';
@@ -173,6 +178,9 @@ function recoveryDiagnostic(draft) {
     TAVILY_ACCESS_MODE_REQUIRED: '缺少 Tavily access mode 配置。',
     TAVILY_SEARCH_AUTH_REQUIRED: 'Tavily 搜索备用使用 keyed 模式但缺少 TAVILY_API_KEY；检查 key 或改用可用的 keyless 模式。',
     TAVILY_EXTRACT_AUTH_REQUIRED: 'Tavily 正文备用使用 keyed 模式但缺少 TAVILY_API_KEY；检查 key 或改用可用的 keyless 模式。',
+    WEB_SEARCH_REQUEST_BUDGET_EXCEEDED: '首选 Web Search 的域名请求数超过当前搜索预算；提高 max_search_queries 后重试。',
+    COST_BUDGET_EXHAUSTED: failure.category ? `${failure.category} 请求预算不足；调整对应预算后重试。` : '本次研究预算不足；检查成本计划并提高相应预算后重试。',
+    SYNTHESIS_PROVENANCE_INVALID: `${sanitizeReason(failure.error || '合成输出引用的来源不在已抓取证据中。')}；可复用现有研究重新合成。`,
     DRAFT_PROFILE_MODALITY_MISMATCH: `Draft 模态与候选不一致，需重新准备。`,
     SYNTHESIS_COVERAGE_INCOMPLETE: missingFields.length ? `缺少官方证据字段：${missingFields.join('、')}` : '官方证据字段不完整。',
     PROFILE_MISMATCH_SUSPECTED: suggestedDetailKind ? `候选类型可能应为 ${suggestedDetailKind}，请修正候选资料。` : '候选类型或 Profile 不匹配。',
