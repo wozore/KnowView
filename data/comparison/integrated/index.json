@@ -1,24 +1,24 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-29T00:58:03.166Z",
-  "model_count": 261,
-  "series_count": 116,
+  "generated_at": "2026-09-30T00:24:37.074Z",
+  "model_count": 263,
+  "series_count": 117,
   "sources": {
     "openrouter": {
-      "fetched_at": "2026-09-27T23:47:42.114Z",
-      "count": 458
+      "fetched_at": "2026-09-30T00:24:37.444Z",
+      "count": 464
     },
     "lmarena": {
-      "fetched_at": "2026-09-27T23:47:57.342Z",
-      "count": 1126
+      "fetched_at": "2026-09-30T00:24:55.519Z",
+      "count": 1142
     },
     "livebench": {
       "fetched_at": "2026-09-17T23:33:10.572Z",
       "count": 58
     },
     "llm_stats": {
-      "fetched_at": "2026-09-27T23:47:57.680Z",
-      "count": 398
+      "fetched_at": "2026-09-30T00:24:55.928Z",
+      "count": 400
     }
   },
   "series": [
@@ -30,7 +30,7 @@
       "order": 9999,
       "member_count": 2,
       "model_count": 2,
-      "max_composite_score": 86.1,
+      "max_composite_score": 86.5,
       "members": [
         {
           "member_key": "anthropic--claude-fable-5",
@@ -43,7 +43,7 @@
               "canonical": "anthropic--claude-fable-5",
               "display": "Claude Fable 5",
               "revision": null,
-              "composite_score": 78.8,
+              "composite_score": 78.4,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -65,87 +65,11 @@
               "canonical": "anthropic--claude-fable-5.1",
               "display": "Claude Fable 5.1",
               "revision": null,
-              "composite_score": 86.1,
+              "composite_score": 86.5,
               "sources": [
                 "openrouter",
                 "lmarena",
                 "livebench",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        }
-      ]
-    },
-    {
-      "series_key": "openai--gpt-6",
-      "display": "Gpt 6",
-      "vendor": "openai",
-      "theme": "general",
-      "order": 9999,
-      "member_count": 3,
-      "model_count": 3,
-      "max_composite_score": 81.9,
-      "members": [
-        {
-          "member_key": "openai--gpt-6-astra",
-          "display": "GPT-6 Astra",
-          "order": 9999,
-          "default_canonical": "openai--gpt-6-astra",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "openai--gpt-6-astra",
-              "display": "GPT-6 Astra",
-              "revision": null,
-              "composite_score": 81.9,
-              "sources": [
-                "openrouter",
-                "lmarena",
-                "livebench",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "openai--gpt-6-luna",
-          "display": "GPT-6 Luna",
-          "order": 9999,
-          "default_canonical": "openai--gpt-6-luna",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "openai--gpt-6-luna",
-              "display": "GPT-6 Luna",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "openrouter",
-                "lmarena",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "openai--gpt-6-sol",
-          "display": "GPT-6 Sol",
-          "order": 9999,
-          "default_canonical": "openai--gpt-6-sol",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "openai--gpt-6-sol",
-              "display": "GPT-6 Sol",
-              "revision": null,
-              "composite_score": 75.4,
-              "sources": [
-                "openrouter",
-                "lmarena",
                 "llm_stats"
               ]
             }
@@ -162,7 +86,7 @@
       "order": 9999,
       "member_count": 2,
       "model_count": 2,
-      "max_composite_score": 79.8,
+      "max_composite_score": 83.7,
       "members": [
         {
           "member_key": "anthropic--claude-opus-5",
@@ -175,7 +99,7 @@
               "canonical": "anthropic--claude-opus-5",
               "display": "Claude Opus 5",
               "revision": null,
-              "composite_score": 79.8,
+              "composite_score": 79.4,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -197,7 +121,83 @@
               "canonical": "anthropic--claude-opus-5.5",
               "display": "Claude Opus 5.5",
               "revision": null,
-              "composite_score": null,
+              "composite_score": 83.7,
+              "sources": [
+                "openrouter",
+                "lmarena",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
+      "series_key": "openai--gpt-6",
+      "display": "Gpt 6",
+      "vendor": "openai",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 3,
+      "model_count": 3,
+      "max_composite_score": 81.2,
+      "members": [
+        {
+          "member_key": "openai--gpt-6-astra",
+          "display": "GPT-6 Astra",
+          "order": 9999,
+          "default_canonical": "openai--gpt-6-astra",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "openai--gpt-6-astra",
+              "display": "GPT-6 Astra",
+              "revision": null,
+              "composite_score": 81.2,
+              "sources": [
+                "openrouter",
+                "lmarena",
+                "livebench",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
+        {
+          "member_key": "openai--gpt-6-luna",
+          "display": "GPT-6 Luna",
+          "order": 9999,
+          "default_canonical": "openai--gpt-6-luna",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "openai--gpt-6-luna",
+              "display": "GPT-6 Luna",
+              "revision": null,
+              "composite_score": 63.2,
+              "sources": [
+                "openrouter",
+                "lmarena",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
+        {
+          "member_key": "openai--gpt-6-sol",
+          "display": "GPT-6 Sol",
+          "order": 9999,
+          "default_canonical": "openai--gpt-6-sol",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "openai--gpt-6-sol",
+              "display": "GPT-6 Sol",
+              "revision": null,
+              "composite_score": 77.6,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -248,7 +248,7 @@
       "order": 9999,
       "member_count": 3,
       "model_count": 3,
-      "max_composite_score": 75.4,
+      "max_composite_score": 75.5,
       "members": [
         {
           "member_key": "openai--gpt-5.6-luna",
@@ -261,7 +261,7 @@
               "canonical": "openai--gpt-5.6-luna",
               "display": "GPT-5.6 Luna",
               "revision": null,
-              "composite_score": 63.7,
+              "composite_score": 63.6,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -283,7 +283,7 @@
               "canonical": "openai--gpt-5.6-sol",
               "display": "GPT-5.6 Sol",
               "revision": null,
-              "composite_score": 75.4,
+              "composite_score": 75.5,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -305,7 +305,7 @@
               "canonical": "openai--gpt-5.6-terra",
               "display": "GPT-5.6 Terra",
               "revision": null,
-              "composite_score": 67.4,
+              "composite_score": 67.1,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -326,7 +326,7 @@
       "order": 30,
       "member_count": 1,
       "model_count": 1,
-      "max_composite_score": 75.2,
+      "max_composite_score": 74.6,
       "members": [
         {
           "member_key": "anthropic--claude-opus-4.8",
@@ -339,7 +339,7 @@
               "canonical": "anthropic--claude-opus-4.8",
               "display": "Claude Opus 4.8",
               "revision": null,
-              "composite_score": 75.2,
+              "composite_score": 74.6,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -506,7 +506,7 @@
       "order": 10,
       "member_count": 4,
       "model_count": 4,
-      "max_composite_score": 72.7,
+      "max_composite_score": 72.6,
       "members": [
         {
           "member_key": "openai--gpt-5.5",
@@ -519,7 +519,7 @@
               "canonical": "openai--gpt-5.5",
               "display": "GPT-5.5",
               "revision": null,
-              "composite_score": 72.7,
+              "composite_score": 72.6,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -697,7 +697,7 @@
       "order": 9999,
       "member_count": 1,
       "model_count": 1,
-      "max_composite_score": 72.6,
+      "max_composite_score": 72,
       "members": [
         {
           "member_key": "moonshotai--kimi-k3",
@@ -710,11 +710,84 @@
               "canonical": "moonshotai--kimi-k3",
               "display": "Kimi K3",
               "revision": null,
-              "composite_score": 72.6,
+              "composite_score": 72,
               "sources": [
                 "openrouter",
                 "lmarena",
                 "livebench",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
+      "series_key": "anthropic--claude-sonnet",
+      "display": "Claude Sonnet",
+      "vendor": "anthropic",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 3,
+      "model_count": 3,
+      "max_composite_score": 71.9,
+      "members": [
+        {
+          "member_key": "anthropic--claude-sonnet-5",
+          "display": "Claude Sonnet 5",
+          "order": 9999,
+          "default_canonical": "anthropic--claude-sonnet-5",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "anthropic--claude-sonnet-5",
+              "display": "Claude Sonnet 5",
+              "revision": null,
+              "composite_score": 71.9,
+              "sources": [
+                "openrouter",
+                "lmarena",
+                "livebench",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
+        {
+          "member_key": "anthropic--claude-sonnet-5-search",
+          "display": "Claude Sonnet 5 Search",
+          "order": 9999,
+          "default_canonical": "anthropic--claude-sonnet-5-search",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "anthropic--claude-sonnet-5-search",
+              "display": "Claude Sonnet 5 Search",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "lmarena"
+              ]
+            }
+          ],
+          "theme": "general"
+        },
+        {
+          "member_key": "anthropic--claude-sonnet-5.5",
+          "display": "Claude Sonnet 5.5",
+          "order": 9999,
+          "default_canonical": "anthropic--claude-sonnet-5.5",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "anthropic--claude-sonnet-5.5",
+              "display": "Claude Sonnet 5.5",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "openrouter",
                 "llm_stats"
               ]
             }
@@ -755,51 +828,29 @@
       ]
     },
     {
-      "series_key": "anthropic--claude-sonnet",
-      "display": "Claude Sonnet",
-      "vendor": "anthropic",
+      "series_key": "moonshotai--kimi-k2.6",
+      "display": "Kimi K2.6",
+      "vendor": "moonshotai",
       "theme": "general",
       "order": 9999,
-      "member_count": 2,
-      "model_count": 2,
-      "max_composite_score": 71.8,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": 70.5,
       "members": [
         {
-          "member_key": "anthropic--claude-sonnet-5",
-          "display": "Claude Sonnet 5",
+          "member_key": "moonshotai--kimi-k2.6-thinking",
+          "display": "kimi-k2.6-thinking",
           "order": 9999,
-          "default_canonical": "anthropic--claude-sonnet-5",
+          "default_canonical": "moonshotai--kimi-k2.6-thinking",
           "variant_count": 1,
           "variants": [
             {
-              "canonical": "anthropic--claude-sonnet-5",
-              "display": "Claude Sonnet 5",
+              "canonical": "moonshotai--kimi-k2.6-thinking",
+              "display": "kimi-k2.6-thinking",
               "revision": null,
-              "composite_score": 71.8,
+              "composite_score": 70.5,
               "sources": [
-                "openrouter",
-                "lmarena",
-                "livebench",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        },
-        {
-          "member_key": "anthropic--claude-sonnet-5-search",
-          "display": "Claude Sonnet 5 Search",
-          "order": 9999,
-          "default_canonical": "anthropic--claude-sonnet-5-search",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "anthropic--claude-sonnet-5-search",
-              "display": "Claude Sonnet 5 Search",
-              "revision": null,
-              "composite_score": null,
-              "sources": [
-                "lmarena"
+                "livebench"
               ]
             }
           ],
@@ -815,7 +866,7 @@
       "order": 9999,
       "member_count": 2,
       "model_count": 2,
-      "max_composite_score": 70.9,
+      "max_composite_score": 70.4,
       "members": [
         {
           "member_key": "google--gemini-3.8-flash",
@@ -828,7 +879,7 @@
               "canonical": "google--gemini-3.8-flash",
               "display": "Gemini 3.8 Flash",
               "revision": null,
-              "composite_score": 70.9,
+              "composite_score": 70.4,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -861,37 +912,6 @@
       ]
     },
     {
-      "series_key": "moonshotai--kimi-k2.6",
-      "display": "Kimi K2.6",
-      "vendor": "moonshotai",
-      "theme": "general",
-      "order": 9999,
-      "member_count": 1,
-      "model_count": 1,
-      "max_composite_score": 70.5,
-      "members": [
-        {
-          "member_key": "moonshotai--kimi-k2.6-thinking",
-          "display": "kimi-k2.6-thinking",
-          "order": 9999,
-          "default_canonical": "moonshotai--kimi-k2.6-thinking",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "moonshotai--kimi-k2.6-thinking",
-              "display": "kimi-k2.6-thinking",
-              "revision": null,
-              "composite_score": 70.5,
-              "sources": [
-                "livebench"
-              ]
-            }
-          ],
-          "theme": "general"
-        }
-      ]
-    },
-    {
       "series_key": "qwen--qwen3.8",
       "display": "Qwen3.8",
       "vendor": "qwen",
@@ -899,7 +919,7 @@
       "order": 50,
       "member_count": 4,
       "model_count": 5,
-      "max_composite_score": 70.1,
+      "max_composite_score": 69.7,
       "members": [
         {
           "member_key": "qwen--qwen3.8",
@@ -912,7 +932,7 @@
               "canonical": "qwen--qwen3.8",
               "display": "Qwen3.8",
               "revision": null,
-              "composite_score": 70.1,
+              "composite_score": 69.7,
               "sources": [
                 "lmarena",
                 "livebench"
@@ -981,7 +1001,7 @@
               "canonical": "qwen--qwen3.8-flash-next",
               "display": "Qwen3.8-Flash-Next",
               "revision": null,
-              "composite_score": 65,
+              "composite_score": 64.5,
               "sources": [
                 "lmarena",
                 "livebench",
@@ -1001,7 +1021,7 @@
       "order": 9999,
       "member_count": 1,
       "model_count": 1,
-      "max_composite_score": 69.4,
+      "max_composite_score": 69.3,
       "members": [
         {
           "member_key": "zhipu--glm-5.3",
@@ -1014,7 +1034,7 @@
               "canonical": "zhipu--glm-5.3",
               "display": "GLM-5.3",
               "revision": null,
-              "composite_score": 69.4,
+              "composite_score": 69.3,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -1112,6 +1132,39 @@
       ]
     },
     {
+      "series_key": "xai--grok-4.7",
+      "display": "Grok 4.7",
+      "vendor": "xai",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": 68,
+      "members": [
+        {
+          "member_key": "xai--grok-4.7",
+          "display": "Grok 4.7",
+          "order": 9999,
+          "default_canonical": "xai--grok-4.7",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "xai--grok-4.7",
+              "display": "Grok 4.7",
+              "revision": null,
+              "composite_score": 68,
+              "sources": [
+                "openrouter",
+                "lmarena",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
       "series_key": "xai--grok-4.6",
       "display": "Grok 4.6",
       "vendor": "xai",
@@ -1119,7 +1172,7 @@
       "order": 9999,
       "member_count": 1,
       "model_count": 1,
-      "max_composite_score": 67.9,
+      "max_composite_score": 67.8,
       "members": [
         {
           "member_key": "xai--grok-4.6",
@@ -1132,7 +1185,7 @@
               "canonical": "xai--grok-4.6",
               "display": "Grok 4.6",
               "revision": null,
-              "composite_score": 67.9,
+              "composite_score": 67.8,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -1178,39 +1231,6 @@
       ]
     },
     {
-      "series_key": "xai--grok-4.7",
-      "display": "Grok 4.7",
-      "vendor": "xai",
-      "theme": "general",
-      "order": 9999,
-      "member_count": 1,
-      "model_count": 1,
-      "max_composite_score": 67.6,
-      "members": [
-        {
-          "member_key": "xai--grok-4.7",
-          "display": "Grok 4.7",
-          "order": 9999,
-          "default_canonical": "xai--grok-4.7",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "xai--grok-4.7",
-              "display": "Grok 4.7",
-              "revision": null,
-              "composite_score": 67.6,
-              "sources": [
-                "openrouter",
-                "lmarena",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
-        }
-      ]
-    },
-    {
       "series_key": "xai--grok-4.5",
       "display": "Grok 4.5",
       "vendor": "xai",
@@ -1218,7 +1238,7 @@
       "order": 9999,
       "member_count": 1,
       "model_count": 1,
-      "max_composite_score": 67.5,
+      "max_composite_score": 67.2,
       "members": [
         {
           "member_key": "xai--grok-4.5",
@@ -1231,7 +1251,7 @@
               "canonical": "xai--grok-4.5",
               "display": "Grok 4.5",
               "revision": null,
-              "composite_score": 67.5,
+              "composite_score": 67.2,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -1252,7 +1272,7 @@
       "order": 9999,
       "member_count": 1,
       "model_count": 1,
-      "max_composite_score": 65,
+      "max_composite_score": 64.9,
       "members": [
         {
           "member_key": "google--gemini-3.7-flash",
@@ -1265,7 +1285,7 @@
               "canonical": "google--gemini-3.7-flash",
               "display": "Gemini 3.7 Flash",
               "revision": null,
-              "composite_score": 65,
+              "composite_score": 64.9,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -1320,7 +1340,7 @@
       "order": 51,
       "member_count": 3,
       "model_count": 5,
-      "max_composite_score": 58.8,
+      "max_composite_score": 58.6,
       "members": [
         {
           "member_key": "qwen--qwen3.7",
@@ -1333,7 +1353,7 @@
               "canonical": "qwen--qwen3.7",
               "display": "Qwen3.7",
               "revision": null,
-              "composite_score": 58.8,
+              "composite_score": 58.6,
               "sources": [
                 "lmarena",
                 "livebench"
@@ -1391,7 +1411,7 @@
               "canonical": "qwen--qwen3.7-plus",
               "display": "Qwen3.7-Plus",
               "revision": null,
-              "composite_score": 46.1,
+              "composite_score": 45.5,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -1411,7 +1431,7 @@
       "order": 9999,
       "member_count": 5,
       "model_count": 6,
-      "max_composite_score": 57,
+      "max_composite_score": 56.5,
       "members": [
         {
           "member_key": "google--gemini-3.1-flash-image-nano-banana-2-web-search",
@@ -1492,7 +1512,7 @@
               "canonical": "google--gemini-3.1-pro@Preview",
               "display": "Gemini 3.1 Pro (Preview)",
               "revision": "Preview",
-              "composite_score": 57,
+              "composite_score": 56.5,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -1566,7 +1586,7 @@
       "order": 9999,
       "member_count": 1,
       "model_count": 1,
-      "max_composite_score": 54,
+      "max_composite_score": 53.7,
       "members": [
         {
           "member_key": "minimax--minimax-m3",
@@ -1579,7 +1599,7 @@
               "canonical": "minimax--minimax-m3",
               "display": "MiniMax M3",
               "revision": null,
-              "composite_score": 54,
+              "composite_score": 53.7,
               "sources": [
                 "openrouter",
                 "lmarena",
@@ -3510,6 +3530,38 @@
               "sources": [
                 "openrouter",
                 "lmarena",
+                "llm_stats"
+              ]
+            }
+          ],
+          "theme": "general"
+        }
+      ]
+    },
+    {
+      "series_key": "openai--gpt-6.1",
+      "display": "Gpt 6.1",
+      "vendor": "openai",
+      "theme": "general",
+      "order": 9999,
+      "member_count": 1,
+      "model_count": 1,
+      "max_composite_score": null,
+      "members": [
+        {
+          "member_key": "openai--gpt-6.1-sol",
+          "display": "GPT-6.1 Sol",
+          "order": 9999,
+          "default_canonical": "openai--gpt-6.1-sol",
+          "variant_count": 1,
+          "variants": [
+            {
+              "canonical": "openai--gpt-6.1-sol",
+              "display": "GPT-6.1 Sol",
+              "revision": null,
+              "composite_score": null,
+              "sources": [
+                "openrouter",
                 "llm_stats"
               ]
             }
@@ -6362,7 +6414,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 78.8,
+      "composite_score": 78.4,
       "degrees": {
         "lmarena": [
           "high"
@@ -6403,7 +6455,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 86.1,
+      "composite_score": 86.5,
       "degrees": {
         "lmarena": [
           "max"
@@ -6798,7 +6850,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 75.2,
+      "composite_score": 74.6,
       "degrees": {
         "lmarena": [
           "high"
@@ -6839,11 +6891,11 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 79.8,
+      "composite_score": 79.4,
       "degrees": {
         "lmarena": [
-          "high",
-          "max"
+          "max",
+          "high"
         ],
         "livebench": [
           "max"
@@ -6880,8 +6932,8 @@
       "member_display": "Claude Opus 5.5",
       "member_order": 9999,
       "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
+      "has_composite": true,
+      "composite_score": 83.7,
       "degrees": {
         "lmarena": [
           "high",
@@ -7112,7 +7164,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 71.8,
+      "composite_score": 71.9,
       "degrees": {
         "lmarena": [
           "high"
@@ -7150,6 +7202,38 @@
       "degrees": {},
       "sources": [
         "lmarena"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "anthropic--claude-sonnet-5.5",
+      "identity": "claude-sonnet-5.5",
+      "family": "claude-sonnet",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "anthropic/claude-sonnet-5.5:batch"
+          }
+        ]
+      },
+      "display": "Claude Sonnet 5.5",
+      "vendor": "anthropic",
+      "theme": "general",
+      "series_key": "anthropic--claude-sonnet",
+      "series_display": "Claude Sonnet",
+      "member_key": "anthropic--claude-sonnet-5.5",
+      "member_display": "Claude Sonnet 5.5",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter",
+        "llm_stats"
       ],
       "file": "data.json"
     },
@@ -8278,7 +8362,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 57,
+      "composite_score": 56.5,
       "degrees": {
         "livebench": [
           "high"
@@ -8461,7 +8545,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 65,
+      "composite_score": 64.9,
       "degrees": {
         "lmarena": [
           "high"
@@ -8502,7 +8586,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 70.9,
+      "composite_score": 70.4,
       "degrees": {
         "lmarena": [
           "high"
@@ -9364,7 +9448,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 54,
+      "composite_score": 53.7,
       "degrees": {},
       "sources": [
         "openrouter",
@@ -9475,7 +9559,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 72.6,
+      "composite_score": 72,
       "degrees": {
         "lmarena": [
           "max"
@@ -10186,7 +10270,7 @@
       "member_order": 0,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 72.7,
+      "composite_score": 72.6,
       "degrees": {
         "lmarena": [
           "xhigh",
@@ -10311,7 +10395,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 63.7,
+      "composite_score": 63.6,
       "degrees": {
         "lmarena": [
           "xhigh"
@@ -10354,7 +10438,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 75.4,
+      "composite_score": 75.5,
       "degrees": {
         "lmarena": [
           "xhigh"
@@ -10397,7 +10481,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 67.4,
+      "composite_score": 67.1,
       "degrees": {
         "lmarena": [
           "xhigh"
@@ -10464,7 +10548,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 81.9,
+      "composite_score": 81.2,
       "degrees": {
         "lmarena": [
           "max"
@@ -10504,8 +10588,8 @@
       "member_display": "GPT-6 Luna",
       "member_order": 9999,
       "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
+      "has_composite": true,
+      "composite_score": 63.2,
       "degrees": {
         "lmarena": [
           "max"
@@ -10542,7 +10626,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 75.4,
+      "composite_score": 77.6,
       "degrees": {
         "lmarena": [
           "max"
@@ -10551,6 +10635,38 @@
       "sources": [
         "openrouter",
         "lmarena",
+        "llm_stats"
+      ],
+      "file": "data.json"
+    },
+    {
+      "canonical": "openai--gpt-6.1-sol",
+      "identity": "gpt-6.1-sol",
+      "family": "gpt-6.1",
+      "revisions": [],
+      "evaluation_profiles": [],
+      "offerings": {
+        "openrouter": [
+          {
+            "kind": "batch",
+            "raw_name": "openai/gpt-6.1-sol:batch"
+          }
+        ]
+      },
+      "display": "GPT-6.1 Sol",
+      "vendor": "openai",
+      "theme": "general",
+      "series_key": "openai--gpt-6.1",
+      "series_display": "Gpt 6.1",
+      "member_key": "openai--gpt-6.1-sol",
+      "member_display": "GPT-6.1 Sol",
+      "member_order": 9999,
+      "member_variant_count": 1,
+      "has_composite": false,
+      "composite_score": null,
+      "degrees": {},
+      "sources": [
+        "openrouter",
         "llm_stats"
       ],
       "file": "data.json"
@@ -11138,7 +11254,7 @@
       "member_order": 9999,
       "member_variant_count": 2,
       "has_composite": true,
-      "composite_score": 58.8,
+      "composite_score": 58.6,
       "degrees": {
         "lmarena": [
           "max"
@@ -11221,7 +11337,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 46.1,
+      "composite_score": 45.5,
       "degrees": {},
       "sources": [
         "openrouter",
@@ -11277,7 +11393,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 70.1,
+      "composite_score": 69.7,
       "degrees": {
         "lmarena": [
           "max"
@@ -11334,7 +11450,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 65,
+      "composite_score": 64.5,
       "degrees": {},
       "sources": [
         "lmarena",
@@ -12712,7 +12828,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 67.5,
+      "composite_score": 67.2,
       "degrees": {},
       "sources": [
         "openrouter",
@@ -12739,7 +12855,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 67.9,
+      "composite_score": 67.8,
       "degrees": {
         "lmarena": [
           "xhigh",
@@ -12771,7 +12887,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 67.6,
+      "composite_score": 68,
       "degrees": {
         "lmarena": [
           "xhigh"
@@ -13232,7 +13348,7 @@
       "member_order": 9999,
       "member_variant_count": 1,
       "has_composite": true,
-      "composite_score": 69.4,
+      "composite_score": 69.3,
       "degrees": {
         "lmarena": [
           "max"
