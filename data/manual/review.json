@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-09-30T18:07:49.699Z",
+  "generated_at": "2026-10-01T06:27:44.319Z",
   "date": "20261001",
-  "total_pending": 2083,
+  "total_pending": 2138,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -14586,6 +14586,391 @@
       "summary": "OpenAI 昨晚除了送大家一次重置机会 还送了很多积分额度 每个人好像不一样，我是 62500积分 看看你们是多少 https://t.co/iW5kZDZ1",
       "suggestion": "人工判断：是否值得收录",
       "review_status": "pending"
+    },
+    {
+      "id": "x-25a8608e03c7010ed8c9",
+      "score": 63.6,
+      "summary": "$BETR < $11 - Better Home & Finance 🔹Historic Win for Shareholders as Garg Grou",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9f7a4787f36ed3065eaa",
+      "score": 63.6,
+      "summary": "$META ’s Muse AI agent surpassed 5M downloads by September 30, according to Sens",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e054274c29cdbb13b857",
+      "score": 58.9,
+      "summary": "The best creative edits open up new possibilities without losing what made the o",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cdc25056fb8ce36277e8",
+      "score": 57.4,
+      "summary": "Voyage AI rerank-3 and rerank-3-lite from @VoyageAI are now on OpenRouter Drop-i",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c86e2f0d2a59f471b651",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (SOL) $DonateStonk CA: 9TLuEBtiyvLq5ZmC6ZzJd7WgKprScEiDvftMMuz2t8YK",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f31bd5470cb63012fcae",
+      "score": 54.9,
+      "summary": "The SGLang Project began with an elegant idea: exploit the structure of complex ",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f3f18a4836e498a26a0c",
+      "score": 54.5,
+      "summary": "Vlad just dumped the RH market...wtf? I think it’s fair to say the Summit didn’t",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-80b16ae9884d387a2b7f",
+      "score": 54.4,
+      "summary": "final configuration for now, just one gpu. sadly the 5070 didnt fully seat into ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f6cf728aa66df19d7828",
+      "score": 53.6,
+      "summary": "SF Tech Week Panel | Speaker Highlight Excited to welcome Akshay Deshpande (@aks",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0122a7c4c37a904585cb",
+      "score": 53.4,
+      "summary": "Googleの新AI「Gemini 4 Argon」、出力100万トークンに。まずサイバー防御側へ https://t.co/ixrQD1BKoO #AI #t",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-eb2060d192e56577b62d",
+      "score": 52.8,
+      "summary": "Blind Hacker has discovered a high-severity AI supply-chain vulnerability in XXX",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-94210ad629d680ee1636",
+      "score": 52.7,
+      "summary": "Every firm's customer service agents are about to be overwhelmed with Dots &amp;",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c1783111b2b8030173ff",
+      "score": 52.4,
+      "summary": "After looking around the industry and drawing inspiration from other prop firms,",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-24a16db2217f5b9bc832",
+      "score": 52.4,
+      "summary": "Angie Jones' work at @AgenticAIFdn inspires me greatly, and it will be a dream c",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7d1b890d079e2e789132",
+      "score": 52.1,
+      "summary": "All you need to estimate if you can run a local model is 3 metrics: 1. VRAM (GiB",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b931b41f4b08cc3726bb",
+      "score": 51.9,
+      "summary": "$GOOG drops Gemini 4 Argon — frontier model for coding, knowledge work, and cybe",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-509c84d99f8b1fb12978",
+      "score": 51.8,
+      "summary": "AI and open-source today: OpenAI released GPT-6.1 Sol, delivering near-Astra cod",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c2bc3983842f7d1b8271",
+      "score": 51.5,
+      "summary": "Inworld has acquired Ultravox, a platform for building voice agents that listen,",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-13cb1c640c2ea50ce7b8",
+      "score": 51.5,
+      "summary": "Aider (@paulgauthier): Automatically generates precise git commit messages with ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ed150be44c6e10391de9",
+      "score": 51.5,
+      "summary": "How I’ll do it is pretty straightforward: 1) Start with latest and greatest open",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7acb7c18cb23c483e949",
+      "score": 51.4,
+      "summary": "I’ve decided I’m gonna start working on my own Open Source AI model (line, hopef",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0182392b0c74663da48c",
+      "score": 51.3,
+      "summary": "New API: /tools Let agents fetch data from the Server Tools Marketplace, includi",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1750f1cb8db1f1794801",
+      "score": 50.2,
+      "summary": "🤖 AI Signal (SOL) $SHAREABLE CA: 69NvmbxyCj5bTWU8QzU8ZWCtzJXGq8yu4ghPivPe6GHt S",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-328c230b9cf068f8f72d",
+      "score": 49.5,
+      "summary": "One prompt built and deployed a visual AI agent for a manufacturing line in unde",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c8a1e58bd26f595f9314",
+      "score": 48.5,
+      "summary": "The Runway AI Summit is happening now in San Francisco. Runway co-founder and co",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f5c9836fbcaec87a3099",
+      "score": 48.2,
+      "summary": "At today's AI Summit, Runway CTO Kamil Sindi shared more on our first World Inte",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b036941ca534704f5057",
+      "score": 46.6,
+      "summary": "https://t.co/iSHwimpFjT",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0325505c4e5919999c2d",
+      "score": 46.6,
+      "summary": "BREAKING 🔥: Google announced Gemini 4 Argon, a new frontier model for \"complex ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6eacf8963371584cf053",
+      "score": 46.6,
+      "summary": "Ideogram released Ideogram 4.5 image model for precise editing! > The model is a",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-938927ff566d4a0780e0",
+      "score": 46.3,
+      "summary": "Announcing Gemini 4 Argon, our new frontier model. Argon is built to sustain dee",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-d1dc863842ea6717293f",
+      "score": 46.3,
+      "summary": "Some use the LLM to optimize the harness; some distill what the harness does int",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b8602f3e9766b7abff70",
+      "score": 46.2,
+      "summary": "Mercury Decide from @_inception_ai is live on OpenRouter, free for early access.",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e9cccb24cb6bf489d24f",
+      "score": 46,
+      "summary": "Google’s new Gemini 4 Argon equals GPT-6 Astra on the Artificial Analysis Intell",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-41f34d782b727dda77b4",
+      "score": 45.8,
+      "summary": "New Research: We are releasing ExplorationBench, a benchmark for measuring how A",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-75c2c0419a889b72adb6",
+      "score": 45.7,
+      "summary": "1/ @HeyGen Video 1 is now on OpenRouter. Built for businesses. In blind side-by-",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cbd1e9a85f9037594fd4",
+      "score": 45.6,
+      "summary": "The agentic era runs on fast inference. @AlphaSenseInc, a leading AI market inte",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-051127d775383c64590c",
+      "score": 45.6,
+      "summary": "Creatify has launched Boreal-H3, a video model for ad production, and an Ad Agen",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e44e062cf6dcd6f5fd88",
+      "score": 45.5,
+      "summary": "The classic founder question — “What’s your biggest pain point?” — is mostly use",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e258d1906cb4414d4621",
+      "score": 45.4,
+      "summary": "Utopai X (based on MiniMax H3) debuts at #2 on the Artificial Analysis Text to V",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1c31d499bb2450012db4",
+      "score": 45.3,
+      "summary": "In an in-depth Q&amp;A, the Runway Research team talks real-time models, generat",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b64ac989b954b360c140",
+      "score": 45.3,
+      "summary": "Runway Head of Robotics Andy Chen laid out Runway's unique approach to robotics,",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f4c8d993f2b78576191d",
+      "score": 45.2,
+      "summary": "Introducing Gemini 4 Argon – our new frontier model. It’s built for complex work",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-580f6c56744c1e434855",
+      "score": 45.2,
+      "summary": "Cognition is the first customer running @NVIDIA Vera Rubin, powered by @CoreWeav",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-d88d61a5839292a847b6",
+      "score": 45.2,
+      "summary": "Introducing Praxis-1, an open-weight World Action Model that turns our video pre",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-64caae277d2ba0032341",
+      "score": 45.2,
+      "summary": "Ideogram launched Ideogram 4.5, an image editing model, live now in Ideogram, th",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1a88f980cac55bf32bbd",
+      "score": 45,
+      "summary": "Small teams are taking on more with AI—from finding customers to building produc",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-0a22be0705448b18b1d0",
+      "score": 44.8,
+      "summary": "Introducing Runway Ads, an autonomous engine for performance marketing. Since Ju",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5c1e6e23678f8acbce09",
+      "score": 40.7,
+      "summary": "Google is working on Security review featue for Google AI Studio. &gt; \"Apply se",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-80cb1bb46977ac3a40e0",
+      "score": 40.7,
+      "summary": "And its a 3-way race again….",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-fdb6239be0ee75b708e7",
+      "score": 40.7,
+      "summary": "Mint is a new Green on ChatGPT app! The best change 💪👀 https://t.co/a9N1kx3X4j",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-922f3ed33de672ae2a41",
+      "score": 40.5,
+      "summary": "Skills are coming as a separate attachment menu for Claude chats on mobile. That",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e0944a5ef2e1914d4666",
+      "score": 40.1,
+      "summary": "Ideogram 4.5 has arrived on Pika. Now you can edit an image to your heart's cont",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ee2e693bccede4e563a2",
+      "score": 39.9,
+      "summary": "We loved cohosting the official afterparty to @openai's DevDay. Congratulations ",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c6b10fd7c77358b924ee",
+      "score": 39.7,
+      "summary": "This is one of the most important questions of the age: Who decides what happens",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-942a9df0fe599070cfc2",
+      "score": 39.6,
+      "summary": "Astra Ultrafast 🤯 https://t.co/z0SqLqLoZD https://t.co/9zpd6vvWPj",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
@@ -16671,6 +17056,61 @@
     "[40.3] Excited to partner with @reactorworld to bring Vidu S2 Avatar to more creators w\n    建议：人工判断：是否值得收录",
     "[39.1] The full-powered KLING 4.0 in action 🎬 #Kling4 #KlingAI #KlingModeOn\n    建议：人工判断：是否值得收录",
     "[38.4] 正在现场看Lib TV AI 短片黑客松48小时创作作品展演 有一些片子在很大一部分情节画面上我都分不清是生成的了，感觉和实拍一样😐 现在我感觉很大问题是AI\n    建议：人工判断：是否值得收录",
-    "[38.3] OpenAI 昨晚除了送大家一次重置机会 还送了很多积分额度 每个人好像不一样，我是 62500积分 看看你们是多少 https://t.co/iW5kZDZ1\n    建议：人工判断：是否值得收录"
+    "[38.3] OpenAI 昨晚除了送大家一次重置机会 还送了很多积分额度 每个人好像不一样，我是 62500积分 看看你们是多少 https://t.co/iW5kZDZ1\n    建议：人工判断：是否值得收录",
+    "[63.6] $BETR < $11 - Better Home & Finance 🔹Historic Win for Shareholders as Garg Grou\n    建议：个人使用/成本体验，建议 discarded",
+    "[63.6] $META ’s Muse AI agent surpassed 5M downloads by September 30, according to Sens\n    建议：个人使用/成本体验，建议 discarded",
+    "[58.9] The best creative edits open up new possibilities without losing what made the o\n    建议：AI 产品/工具，建议 approved",
+    "[57.4] Voyage AI rerank-3 and rerank-3-lite from @VoyageAI are now on OpenRouter Drop-i\n    建议：AI 产品/工具，建议 approved",
+    "[56.1] 🤖 AI Signal (SOL) $DonateStonk CA: 9TLuEBtiyvLq5ZmC6ZzJd7WgKprScEiDvftMMuz2t8YK\n    建议：个人使用/成本体验，建议 discarded",
+    "[54.9] The SGLang Project began with an elegant idea: exploit the structure of complex \n    建议：AI 行业事件，建议 approved",
+    "[54.5] Vlad just dumped the RH market...wtf? I think it’s fair to say the Summit didn’t\n    建议：AI 行业事件，建议 approved",
+    "[54.4] final configuration for now, just one gpu. sadly the 5070 didnt fully seat into \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[53.6] SF Tech Week Panel | Speaker Highlight Excited to welcome Akshay Deshpande (@aks\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[53.4] Googleの新AI「Gemini 4 Argon」、出力100万トークンに。まずサイバー防御側へ https://t.co/ixrQD1BKoO #AI #t\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.8] Blind Hacker has discovered a high-severity AI supply-chain vulnerability in XXX\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.7] Every firm's customer service agents are about to be overwhelmed with Dots &amp;\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[52.4] After looking around the industry and drawing inspiration from other prop firms,\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.4] Angie Jones' work at @AgenticAIFdn inspires me greatly, and it will be a dream c\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.1] All you need to estimate if you can run a local model is 3 metrics: 1. VRAM (GiB\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.9] $GOOG drops Gemini 4 Argon — frontier model for coding, knowledge work, and cybe\n    建议：个人使用/成本体验，建议 discarded",
+    "[51.8] AI and open-source today: OpenAI released GPT-6.1 Sol, delivering near-Astra cod\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] Inworld has acquired Ultravox, a platform for building voice agents that listen,\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[51.5] Aider (@paulgauthier): Automatically generates precise git commit messages with \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] How I’ll do it is pretty straightforward: 1) Start with latest and greatest open\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.4] I’ve decided I’m gonna start working on my own Open Source AI model (line, hopef\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.3] New API: /tools Let agents fetch data from the Server Tools Marketplace, includi\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[50.2] 🤖 AI Signal (SOL) $SHAREABLE CA: 69NvmbxyCj5bTWU8QzU8ZWCtzJXGq8yu4ghPivPe6GHt S\n    建议：个人使用/成本体验，建议 discarded",
+    "[49.5] One prompt built and deployed a visual AI agent for a manufacturing line in unde\n    建议：AI 行业事件，建议 approved",
+    "[48.5] The Runway AI Summit is happening now in San Francisco. Runway co-founder and co\n    建议：AI 行业事件，建议 approved",
+    "[48.2] At today's AI Summit, Runway CTO Kamil Sindi shared more on our first World Inte\n    建议：AI 行业事件，建议 approved",
+    "[46.6] https://t.co/iSHwimpFjT\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.6] BREAKING 🔥: Google announced Gemini 4 Argon, a new frontier model for \"complex \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.6] Ideogram released Ideogram 4.5 image model for precise editing! > The model is a\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.3] Announcing Gemini 4 Argon, our new frontier model. Argon is built to sustain dee\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.3] Some use the LLM to optimize the harness; some distill what the harness does int\n    建议：人工判断：是否值得收录",
+    "[46.2] Mercury Decide from @_inception_ai is live on OpenRouter, free for early access.\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46] Google’s new Gemini 4 Argon equals GPT-6 Astra on the Artificial Analysis Intell\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[45.8] New Research: We are releasing ExplorationBench, a benchmark for measuring how A\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.7] 1/ @HeyGen Video 1 is now on OpenRouter. Built for businesses. In blind side-by-\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[45.6] The agentic era runs on fast inference. @AlphaSenseInc, a leading AI market inte\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.6] Creatify has launched Boreal-H3, a video model for ad production, and an Ad Agen\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.5] The classic founder question — “What’s your biggest pain point?” — is mostly use\n    建议：人工判断：是否值得收录",
+    "[45.4] Utopai X (based on MiniMax H3) debuts at #2 on the Artificial Analysis Text to V\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.3] In an in-depth Q&amp;A, the Runway Research team talks real-time models, generat\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.3] Runway Head of Robotics Andy Chen laid out Runway's unique approach to robotics,\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.2] Introducing Gemini 4 Argon – our new frontier model. It’s built for complex work\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.2] Cognition is the first customer running @NVIDIA Vera Rubin, powered by @CoreWeav\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.2] Introducing Praxis-1, an open-weight World Action Model that turns our video pre\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.2] Ideogram launched Ideogram 4.5, an image editing model, live now in Ideogram, th\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45] Small teams are taking on more with AI—from finding customers to building produc\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.8] Introducing Runway Ads, an autonomous engine for performance marketing. Since Ju\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[40.7] Google is working on Security review featue for Google AI Studio. &gt; \"Apply se\n    建议：人工判断：是否值得收录",
+    "[40.7] And its a 3-way race again….\n    建议：人工判断：是否值得收录",
+    "[40.7] Mint is a new Green on ChatGPT app! The best change 💪👀 https://t.co/a9N1kx3X4j\n    建议：人工判断：是否值得收录",
+    "[40.5] Skills are coming as a separate attachment menu for Claude chats on mobile. That\n    建议：人工判断：是否值得收录",
+    "[40.1] Ideogram 4.5 has arrived on Pika. Now you can edit an image to your heart's cont\n    建议：人工判断：是否值得收录",
+    "[39.9] We loved cohosting the official afterparty to @openai's DevDay. Congratulations \n    建议：人工判断：是否值得收录",
+    "[39.7] This is one of the most important questions of the age: Who decides what happens\n    建议：人工判断：是否值得收录",
+    "[39.6] Astra Ultrafast 🤯 https://t.co/z0SqLqLoZD https://t.co/9zpd6vvWPj\n    建议：人工判断：是否值得收录"
   ]
 }
