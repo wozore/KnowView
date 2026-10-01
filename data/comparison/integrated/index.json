@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-30T00:24:37.074Z",
-  "model_count": 263,
-  "series_count": 117,
+  "generated_at": "2026-10-01T00:32:13.840Z",
+  "model_count": 262,
+  "series_count": 116,
   "sources": {
     "openrouter": {
       "fetched_at": "2026-09-30T00:24:37.444Z",
@@ -2207,38 +2207,6 @@
             }
           ],
           "theme": "video"
-        }
-      ]
-    },
-    {
-      "series_key": "mistral--devstral",
-      "display": "Devstral",
-      "vendor": "mistral",
-      "theme": "general",
-      "order": 71,
-      "member_count": 1,
-      "model_count": 1,
-      "max_composite_score": null,
-      "members": [
-        {
-          "member_key": "mistral--devstral-medium",
-          "display": "Devstral Medium",
-          "order": 9999,
-          "default_canonical": "mistral--devstral-medium@2025-07",
-          "variant_count": 1,
-          "variants": [
-            {
-              "canonical": "mistral--devstral-medium@2025-07",
-              "display": "Devstral Medium (2025-07)",
-              "revision": "2025-07",
-              "composite_score": null,
-              "sources": [
-                "lmarena",
-                "llm_stats"
-              ]
-            }
-          ],
-          "theme": "general"
         }
       ]
     },
@@ -9454,33 +9422,6 @@
         "openrouter",
         "lmarena",
         "livebench",
-        "llm_stats"
-      ],
-      "file": "data.json"
-    },
-    {
-      "canonical": "mistral--devstral-medium@2025-07",
-      "identity": "devstral-medium",
-      "family": "devstral-medium",
-      "revisions": [
-        "2025-07"
-      ],
-      "evaluation_profiles": [],
-      "offerings": {},
-      "display": "Devstral Medium (2025-07)",
-      "vendor": "mistral",
-      "theme": "general",
-      "series_key": "mistral--devstral",
-      "series_display": "Devstral",
-      "member_key": "mistral--devstral-medium",
-      "member_display": "Devstral Medium",
-      "member_order": 9999,
-      "member_variant_count": 1,
-      "has_composite": false,
-      "composite_score": null,
-      "degrees": {},
-      "sources": [
-        "lmarena",
         "llm_stats"
       ],
       "file": "data.json"
