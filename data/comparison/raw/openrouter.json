@@ -1,6 +1,41 @@
 {
-  "fetched_at": "2026-09-30T00:24:37.444Z",
+  "fetched_at": "2026-10-02T00:45:37.861Z",
   "data": [
+    {
+      "id": "apodex/apodex-1.1-mini:free",
+      "name": "Apodex: Apodex 1.1 Mini (free)",
+      "created": 1790875335,
+      "hugging_face_id": null,
+      "context_length": 262144,
+      "modality": "text->text",
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 0,
+      "completion": 0,
+      "input_cache_read": null
+    },
+    {
+      "id": "unbiased/pareto-26.10-preview",
+      "name": "Pareto 26.10 Preview",
+      "created": 1790863623,
+      "hugging_face_id": null,
+      "context_length": 1048576,
+      "modality": "text+image->text",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "prompt": 8e-7,
+      "completion": 0.0000032,
+      "input_cache_read": 3e-8
+    },
     {
       "id": "openai/gpt-6.1-sol-pro",
       "name": "OpenAI: GPT-6.1 Sol Pro",
@@ -21,25 +56,6 @@
       "input_cache_read": 1e-7
     },
     {
-      "id": "openai/gpt-6.1-sol-pro:batch",
-      "name": "OpenAI: GPT-6.1 Sol Pro (batch)",
-      "created": 1790702886,
-      "hugging_face_id": null,
-      "context_length": 1050000,
-      "modality": "text+image+file->text",
-      "input_modalities": [
-        "file",
-        "image",
-        "text"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0.000001,
-      "completion": 0.000005,
-      "input_cache_read": 5e-8
-    },
-    {
       "id": "openai/gpt-6.1-sol",
       "name": "OpenAI: GPT-6.1 Sol",
       "created": 1790702882,
@@ -57,25 +73,6 @@
       "prompt": 0.000002,
       "completion": 0.00001,
       "input_cache_read": 1e-7
-    },
-    {
-      "id": "openai/gpt-6.1-sol:batch",
-      "name": "OpenAI: GPT-6.1 Sol (batch)",
-      "created": 1790702882,
-      "hugging_face_id": null,
-      "context_length": 1050000,
-      "modality": "text+image+file->text",
-      "input_modalities": [
-        "file",
-        "image",
-        "text"
-      ],
-      "output_modalities": [
-        "text"
-      ],
-      "prompt": 0.000001,
-      "completion": 0.000005,
-      "input_cache_read": 5e-8
     },
     {
       "id": "anthropic/claude-sonnet-5.5",
@@ -513,7 +510,7 @@
       "name": "Xiaomi: MiMo-V2.6-Flash",
       "created": 1790021264,
       "hugging_face_id": "XiaomiMiMo/MiMo-V2.6-Flash-RL",
-      "context_length": 1048576,
+      "context_length": 1050000,
       "modality": "text+image+audio+video->text",
       "input_modalities": [
         "text",
@@ -655,9 +652,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.5e-7,
+      "prompt": 1.431e-7,
       "completion": 0.0000035,
-      "input_cache_read": 1.5e-7
+      "input_cache_read": 1.431e-7
     },
     {
       "id": "~deepseek/deepseek-flash-latest",
@@ -673,9 +670,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 2e-8,
+      "prompt": 2.7e-8,
       "completion": 6e-7,
-      "input_cache_read": 2e-8
+      "input_cache_read": 2.7e-8
     },
     {
       "id": "inference-net/schematron-v2-turbo",
@@ -858,9 +855,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 3e-7,
-      "completion": 0.0000012,
-      "input_cache_read": 6e-9
+      "prompt": 3e-8,
+      "completion": 5e-7,
+      "input_cache_read": 1e-8
     },
     {
       "id": "deepseek/deepseek-v4.1-flash:batch",
@@ -1377,9 +1374,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.2e-7,
-      "completion": 0.000004,
-      "input_cache_read": 1.2e-7
+      "prompt": 1.06e-7,
+      "completion": 0.000002653,
+      "input_cache_read": 1.76e-7
     },
     {
       "id": "tencent/hy-mt2-7b",
@@ -1413,7 +1410,7 @@
       ],
       "prompt": 0.0000014,
       "completion": 0.0000044,
-      "input_cache_read": 2.6e-7
+      "input_cache_read": 1.4e-7
     },
     {
       "id": "z-ai/glm-5.3:batch",
@@ -1759,9 +1756,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.2e-8,
-      "completion": 0.00000125,
-      "input_cache_read": 1e-8
+      "prompt": 1.08e-8,
+      "completion": 0.00000128,
+      "input_cache_read": 1.08e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash-0731",
@@ -1776,9 +1773,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.8e-8,
-      "completion": 3.2e-7,
-      "input_cache_read": 1.8e-8
+      "prompt": 1.08e-8,
+      "completion": 0.00000128,
+      "input_cache_read": 1.08e-8
     },
     {
       "id": "thinkingmachines/inkling-small",
@@ -2042,9 +2039,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.000001,
+      "prompt": 9.5e-7,
       "completion": 0.00000405,
-      "input_cache_read": 1.7e-7
+      "input_cache_read": 1.6e-7
     },
     {
       "id": "thinkingmachines/inkling:free",
@@ -2102,9 +2099,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.000003,
-      "completion": 0.000015,
-      "input_cache_read": 3e-7
+      "prompt": 3.654e-7,
+      "completion": 0.00001,
+      "input_cache_read": 3.654e-7
     },
     {
       "id": "moonshotai/kimi-k3:batch",
@@ -2656,9 +2653,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.449e-7,
+      "prompt": 4.1e-7,
       "completion": 0.00000399,
-      "input_cache_read": 1.159e-7
+      "input_cache_read": 2.6e-7
     },
     {
       "id": "openrouter/fusion",
@@ -2691,8 +2688,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6.562e-7,
-      "completion": 0.0000033,
+      "prompt": 6.712e-7,
+      "completion": 0.00000335,
       "input_cache_read": 1.8e-7
     },
     {
@@ -2801,9 +2798,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6e-7,
-      "completion": 0.0000024,
-      "input_cache_read": 1.2e-7
+      "prompt": 5e-7,
+      "completion": 0.0000022,
+      "input_cache_read": 1e-7
     },
     {
       "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -3244,9 +3241,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4e-7,
-      "completion": 0.000009,
-      "input_cache_read": 4e-7
+      "prompt": 3.654e-7,
+      "completion": 0.00001,
+      "input_cache_read": 3.654e-7
     },
     {
       "id": "~google/gemini-flash-latest",
@@ -3470,9 +3467,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 9.5526e-7,
-      "completion": 0.00000191052,
-      "input_cache_read": 7.9605e-8
+      "prompt": 2.088e-7,
+      "completion": 4.176e-7,
+      "input_cache_read": 1.74e-8
     },
     {
       "id": "deepseek/deepseek-v4-flash",
@@ -3487,9 +3484,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.4e-7,
-      "completion": 2.8e-7,
-      "input_cache_read": 2.8e-8
+      "prompt": 4.2e-8,
+      "completion": 8.4e-8,
+      "input_cache_read": 8.4e-9
     },
     {
       "id": "tencent/hy3-preview",
@@ -3615,9 +3612,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 6.5e-7,
-      "completion": 0.00000341,
-      "input_cache_read": 1.5e-7
+      "prompt": 4.3415e-7,
+      "completion": 0.000001828,
+      "input_cache_read": 7.312e-8
     },
     {
       "id": "anthropic/claude-opus-4.7",
@@ -3670,9 +3667,9 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 0.0000014,
-      "completion": 0.0000044,
-      "input_cache_read": 2.6e-7
+      "prompt": 9.646e-7,
+      "completion": 0.0000030316,
+      "input_cache_read": 1.7914e-7
     },
     {
       "id": "google/gemma-4-26b-a4b-it",
@@ -5082,7 +5079,7 @@
       ],
       "prompt": 3e-7,
       "completion": 9e-7,
-      "input_cache_read": 5.5e-8
+      "input_cache_read": 5e-8
     },
     {
       "id": "openrouter/bodybuilder",
@@ -6416,8 +6413,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4.815e-8,
-      "completion": 1.9305e-7,
+      "prompt": 1e-7,
+      "completion": 3e-7,
       "input_cache_read": null
     },
     {
@@ -6699,7 +6696,7 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 4e-7,
+      "prompt": 5.5e-7,
       "completion": 0.0000022,
       "input_cache_read": null
     },
@@ -6912,8 +6909,8 @@
       "output_modalities": [
         "text"
       ],
-      "prompt": 1.3e-7,
-      "completion": 5.2e-7,
+      "prompt": 1.2e-7,
+      "completion": 5e-7,
       "input_cache_read": null
     },
     {
