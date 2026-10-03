@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-10-02T18:01:21.013Z",
+  "generated_at": "2026-10-03T05:40:18.470Z",
   "date": "20261003",
-  "total_pending": 3048,
+  "total_pending": 3098,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -21341,6 +21341,356 @@
       "summary": "Codex 全球大重置 将于名改天太平洋标准时间上午 10 点开始 北京时间次日凌晨 2:00",
       "suggestion": "人工判断：是否值得收录",
       "review_status": "pending"
+    },
+    {
+      "id": "x-cee873f2827bf7a2a320",
+      "score": 63.5,
+      "summary": "Google Fitbit Air Launches in India at ₹13,999 With AI Health Coach https://t.co",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e7896626f56466e53c96",
+      "score": 63.5,
+      "summary": "Protocols shouldn’t launch with AI-only audits. I’m opening 4 manual security re",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8b4dc9efb7cede2d581f",
+      "score": 63.5,
+      "summary": "Join this live demo to see how AI in Fusion PLM helps product teams streamline c",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-94f6f6e42845c2ebea33",
+      "score": 63.5,
+      "summary": "New on https://t.co/OoCdWx63I9: YouArt AI Feature Launch Video Generator YouArt'",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c90ad799ea93171dda5b",
+      "score": 58.4,
+      "summary": "https://t.co/rPOiSyjWRe",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-4ae34b9d8c5a17c58579",
+      "score": 58.2,
+      "summary": "https://t.co/GxvdtoUfVI",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c6a0b063eacf1ce17751",
+      "score": 57.8,
+      "summary": "Maket has launched Maket 2.0, an all-in-one AI platform for designing a new home",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-4d150f6bbd4f92471dd5",
+      "score": 56.2,
+      "summary": "🤖 AI Signal (SOL) $Dan CA: DbRL5KRAun9g4CWs2MVZsitxee61CapEBgx17WzQjpYG PitBull",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a25454c49596f6e945a8",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (SOL) $SYMBIOTE CA: Cv3DkGpXCiMeacQSWrshtrZjWkzVKpPUxfYz5RMQpump Sy",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cee91ff77a9733da7051",
+      "score": 56.1,
+      "summary": "🤖 AI Signal (SOL) Meme Accelerationism CA: HPcL5AHbrhPp4y5ewZWMTZRA3AQT32NuAuXB",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-eb1f953c5a50342617f4",
+      "score": 55.8,
+      "summary": "TITLE AI News: UK Dementia Funding, AI Safety Warnings and Google Chips in Orbit",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e71e46f2128919674393",
+      "score": 55.6,
+      "summary": "TITLE AI News: UK Dementia Funding, AI Safety Warnings and Google Chips in Orbit",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-68233908b9f086ff8759",
+      "score": 54,
+      "summary": "When Rollouts catches a regression, it finds the offending PR and opens an issue",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-efb8aa62751d5f98ece3",
+      "score": 53.1,
+      "summary": "Open doors for open weights 🚀 @vLLM and Cohere are co-hosting a meetup in Toron",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e277cadcb9d70ca54542",
+      "score": 53.1,
+      "summary": "Gamma/Claude design style slides, but model agnostic and open source. ShipSlides",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b813ea6005a69fda23e5",
+      "score": 53,
+      "summary": "Decision models are eating a slice of \"agent\" work: route, classify, pick 1 of N",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5e867640805f5891a527",
+      "score": 52.2,
+      "summary": "This one is for the crypto guys...! I'm working on a Chrome extension that lets ",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-3bee2b237137b3fa6b94",
+      "score": 52.1,
+      "summary": "Spent some time actually going through these local AI projects instead of just s",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e622be65c71ac23e5419",
+      "score": 51.7,
+      "summary": "Chinese models have two levels of censorship, one embedded in the weights that a",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7f5777a182ee128b3cb6",
+      "score": 51.5,
+      "summary": "AstaBrief, a fast report-gen model in Asta6, is now open-source. Malshe's releas",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-97d53986898cf511ae11",
+      "score": 51.5,
+      "summary": "What stuck with me from this episode isn’t the score. It’s that they pulled the ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1b5003628c77e1db0011",
+      "score": 50.1,
+      "summary": "🤖 AI Signal (SOL) $AR CA: DDHfLVRgDWpJXTVEPyM2TSC87X92BJgemCyLDzpLowSj AR pets ",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f4737f956cbd96be979a",
+      "score": 49.2,
+      "summary": "Your Claude Code workflow doesn’t have to stop at one agent. https://t.co/1fRrkc",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7cb019ed27a2acba4343",
+      "score": 48.4,
+      "summary": "ElevenLabs is now FedRAMP 20x Class A Certified. FedRAMP is how federal agencies",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ed5b4221309c8850ab42",
+      "score": 48.1,
+      "summary": "Bilibili released a family of open translation models on September 30. The famil",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f6304014bd3e834bdf00",
+      "score": 48,
+      "summary": "The Runway AI Summit closed with Runway co-founder and co-CEO Cristóbal Valenzue",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b6425db07f358a8a560e",
+      "score": 47.7,
+      "summary": "1/ That's a wrap on @AIconference! Throughout two days one question was on repea",
+      "suggestion": "推文线程（内容可能截断），建议展开正文核验后定",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c522f29d1428579a9892",
+      "score": 46.8,
+      "summary": "MAI voice models are also available through OpenRouter. Learn more here: https:/",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1f81fb24abc5c989295e",
+      "score": 46.8,
+      "summary": "OpenZL shipped version 0.3.0 on 29 September, and the release puts a neural netw",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1b4e642a44c90d5423ab",
+      "score": 46.6,
+      "summary": "LLM News | 2026-10-03 Local AI execution and open-source implementation are at t",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-72713c5e650b735cc18f",
+      "score": 46.5,
+      "summary": "Federated Agent Optimization asks how organizations could share agent improvemen",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9b4fa8d5c44bb60f0bd0",
+      "score": 46.3,
+      "summary": "Build expressive voice agents with MAI models now in LiveKit. Learn more here: h",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-93e35244a206e03c9c03",
+      "score": 46.3,
+      "summary": "We're hiring an AI-native content creator Your job: make AI video that people ac",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-89eb0c502375d0a776be",
+      "score": 46.2,
+      "summary": "META 🔥: Muse Gadgets and Muse Home Link have been announced! > Muse Gadgets is ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7daaa77a677e3357bc45",
+      "score": 46,
+      "summary": "Compare AI models side by side with the Artificial Analysis model comparison too",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-81c0cc0cc55efd6d95aa",
+      "score": 45.9,
+      "summary": "Eleven v4, our most expressive voice model, is now in ElevenReader. Listen to an",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-41abbff0fe88b9887b77",
+      "score": 45.6,
+      "summary": "New: Model Router Benchmarks Compare 7 routers side by side on quality, speed, a",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a224ac72ce28c33401e8",
+      "score": 45.5,
+      "summary": "The same model, with the same weights, scores 62% in one agent harness and 33% i",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f44f43e9b9a0f5e04e45",
+      "score": 45.5,
+      "summary": "Just joined FOUND and got a $36.96 pending reward. Member #002,074. Claim opens ",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c0eaab48dba56a51e4d0",
+      "score": 45.4,
+      "summary": "Try Grok 4.7 in Ramp Router, now 50% off until October 6th",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-40bab391710e2e693790",
+      "score": 45.3,
+      "summary": "Tip: quickly access all your recent AI sessions across all agents and, of course",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b47c9b55255fc47f943f",
+      "score": 44.9,
+      "summary": "Following gold-medal-level performance from our AI models across five competitio",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a1a1a2087b6e715d530e",
+      "score": 44.8,
+      "summary": "Canva Head of AI Research Stefano Corazza, ElevenLabs CRO Ashley Kramer and Nebi",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7718b4a4118e91f1dff6",
+      "score": 44.5,
+      "summary": "Our CPO @zedlewski & product team joined @aakashgupta to show how we use AI to g",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-987787826155da08719d",
+      "score": 44.1,
+      "summary": "🤖 AI Signal (SOL) $SIGOTCHi CA: 8kgMA8xDaHt8KDJH5S5quYD5VzPJz2NgDjqsXdkTpump Si",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-5881626d4dddfe68b0f8",
+      "score": 40.7,
+      "summary": "Many thanks to The Information for sitting down with our Executive Chairman Sean",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-f144e19b2bad6149bc44",
+      "score": 40.5,
+      "summary": "Lots of inventive things made with Claude these past few weeks. A few of our fav",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-1f8e646c40ae3a4ee393",
+      "score": 40.5,
+      "summary": "Yes! I think there is too much \"we're so early\" self-congratulation here. Many s",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e3eb451b0731c763c8c9",
+      "score": 40.3,
+      "summary": "Looks like profile picture support is coming to Claude apps! This feature has be",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-7e30740a864bef58b85a",
+      "score": 39.2,
+      "summary": "ngl we nailed it too https://t.co/CsTMWzgZPm https://t.co/ccnLfs3jGp",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
@@ -24391,6 +24741,56 @@
     "[45.8] “We find that on medium-length, well-defined accounting tasks, frontier AI model\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[44] 你现在可以定制自己的 Claude Code 了： 包括改UI界面、拦住危险命令、逐步查看代码改动 Claude Code 中的 Mods 升级：它允许通过 J\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
     "[44] Ideogram 4.5：让 AI 连续改图，少动你没要求改的地方 主打“高精度局部编辑”与“超强一致性”的图像编辑模型 在连续多轮改图时，减少偏色、细节走样和\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
-    "[37.8] Codex 全球大重置 将于名改天太平洋标准时间上午 10 点开始 北京时间次日凌晨 2:00\n    建议：人工判断：是否值得收录"
+    "[37.8] Codex 全球大重置 将于名改天太平洋标准时间上午 10 点开始 北京时间次日凌晨 2:00\n    建议：人工判断：是否值得收录",
+    "[63.5] Google Fitbit Air Launches in India at ₹13,999 With AI Health Coach https://t.co\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] Protocols shouldn’t launch with AI-only audits. I’m opening 4 manual security re\n    建议：个人使用/成本体验，建议 discarded",
+    "[63.5] Join this live demo to see how AI in Fusion PLM helps product teams streamline c\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] New on https://t.co/OoCdWx63I9: YouArt AI Feature Launch Video Generator YouArt'\n    建议：AI 产品/工具，建议 approved",
+    "[58.4] https://t.co/rPOiSyjWRe\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[58.2] https://t.co/GxvdtoUfVI\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[57.8] Maket has launched Maket 2.0, an all-in-one AI platform for designing a new home\n    建议：AI 产品/工具，建议 approved",
+    "[56.2] 🤖 AI Signal (SOL) $Dan CA: DbRL5KRAun9g4CWs2MVZsitxee61CapEBgx17WzQjpYG PitBull\n    建议：个人使用/成本体验，建议 discarded",
+    "[56.1] 🤖 AI Signal (SOL) $SYMBIOTE CA: Cv3DkGpXCiMeacQSWrshtrZjWkzVKpPUxfYz5RMQpump Sy\n    建议：个人使用/成本体验，建议 discarded",
+    "[56.1] 🤖 AI Signal (SOL) Meme Accelerationism CA: HPcL5AHbrhPp4y5ewZWMTZRA3AQT32NuAuXB\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[55.8] TITLE AI News: UK Dementia Funding, AI Safety Warnings and Google Chips in Orbit\n    建议：AI 行业事件，建议 approved",
+    "[55.6] TITLE AI News: UK Dementia Funding, AI Safety Warnings and Google Chips in Orbit\n    建议：AI 行业事件，建议 approved",
+    "[54] When Rollouts catches a regression, it finds the offending PR and opens an issue\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[53.1] Open doors for open weights 🚀 @vLLM and Cohere are co-hosting a meetup in Toron\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[53.1] Gamma/Claude design style slides, but model agnostic and open source. ShipSlides\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[53] Decision models are eating a slice of \"agent\" work: route, classify, pick 1 of N\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.2] This one is for the crypto guys...! I'm working on a Chrome extension that lets \n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[52.1] Spent some time actually going through these local AI projects instead of just s\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.7] Chinese models have two levels of censorship, one embedded in the weights that a\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] AstaBrief, a fast report-gen model in Asta6, is now open-source. Malshe's releas\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] What stuck with me from this episode isn’t the score. It’s that they pulled the \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[50.1] 🤖 AI Signal (SOL) $AR CA: DDHfLVRgDWpJXTVEPyM2TSC87X92BJgemCyLDzpLowSj AR pets \n    建议：个人使用/成本体验，建议 discarded",
+    "[49.2] Your Claude Code workflow doesn’t have to stop at one agent. https://t.co/1fRrkc\n    建议：AI 行业事件，建议 approved",
+    "[48.4] ElevenLabs is now FedRAMP 20x Class A Certified. FedRAMP is how federal agencies\n    建议：AI 行业事件，建议 approved",
+    "[48.1] Bilibili released a family of open translation models on September 30. The famil\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[48] The Runway AI Summit closed with Runway co-founder and co-CEO Cristóbal Valenzue\n    建议：AI 行业事件，建议 approved",
+    "[47.7] 1/ That's a wrap on @AIconference! Throughout two days one question was on repea\n    建议：推文线程（内容可能截断），建议展开正文核验后定",
+    "[46.8] MAI voice models are also available through OpenRouter. Learn more here: https:/\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.8] OpenZL shipped version 0.3.0 on 29 September, and the release puts a neural netw\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.6] LLM News | 2026-10-03 Local AI execution and open-source implementation are at t\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.5] Federated Agent Optimization asks how organizations could share agent improvemen\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.3] Build expressive voice agents with MAI models now in LiveKit. Learn more here: h\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.3] We're hiring an AI-native content creator Your job: make AI video that people ac\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46.2] META 🔥: Muse Gadgets and Muse Home Link have been announced! > Muse Gadgets is \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[46] Compare AI models side by side with the Artificial Analysis model comparison too\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.9] Eleven v4, our most expressive voice model, is now in ElevenReader. Listen to an\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.6] New: Model Router Benchmarks Compare 7 routers side by side on quality, speed, a\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.5] The same model, with the same weights, scores 62% in one agent harness and 33% i\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.5] Just joined FOUND and got a $36.96 pending reward. Member #002,074. Claim opens \n    建议：个人使用/成本体验，建议 discarded",
+    "[45.4] Try Grok 4.7 in Ramp Router, now 50% off until October 6th\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[45.3] Tip: quickly access all your recent AI sessions across all agents and, of course\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.9] Following gold-medal-level performance from our AI models across five competitio\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.8] Canva Head of AI Research Stefano Corazza, ElevenLabs CRO Ashley Kramer and Nebi\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.5] Our CPO @zedlewski & product team joined @aakashgupta to show how we use AI to g\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.1] 🤖 AI Signal (SOL) $SIGOTCHi CA: 8kgMA8xDaHt8KDJH5S5quYD5VzPJz2NgDjqsXdkTpump Si\n    建议：个人使用/成本体验，建议 discarded",
+    "[40.7] Many thanks to The Information for sitting down with our Executive Chairman Sean\n    建议：人工判断：是否值得收录",
+    "[40.5] Lots of inventive things made with Claude these past few weeks. A few of our fav\n    建议：人工判断：是否值得收录",
+    "[40.5] Yes! I think there is too much \"we're so early\" self-congratulation here. Many s\n    建议：人工判断：是否值得收录",
+    "[40.3] Looks like profile picture support is coming to Claude apps! This feature has be\n    建议：人工判断：是否值得收录",
+    "[39.2] ngl we nailed it too https://t.co/CsTMWzgZPm https://t.co/ccnLfs3jGp\n    建议：人工判断：是否值得收录"
   ]
 }
