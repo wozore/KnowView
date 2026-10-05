@@ -23,6 +23,8 @@ const { generateRss } = require('../../content/generate-rss');
 const { readJson, writeJsonAtomic } = require('../../shared/json-store');
 const { DIRS, NEWS_FILES, CATALOG_FILES } = require('../../shared/paths');
 const { loadDotEnv } = require('../../shared/env');
+const { unreviewedCandidates, checkAutoRepair } = require('./news-review-progress');
+const { createFactCheckBatch, importFactCheckResults } = require('../../news/min/fact-check-handoff');
 
 function requireMutation(name, value) {
   if (typeof value !== 'function') throw new Error(`${name} mutation API 不可用`);
@@ -142,15 +144,28 @@ function createDefaultNewsApi(options = {}) {
       try { return await repairPromise; }
       finally { repairPromise = null; }
     },
+    factCheckBatch: ({ limit = 10, ids = null } = {}) => {
+      const config = readJson(NEWS_FILES.configV2, {});
+      if (config.review?.fact_check_mode !== 'codex_mcp') throw new Error('当前查证模式不是 Codex MCP');
+      return createFactCheckBatch(minStore.readMinStore(), { limit, ids });
+    },
+    importFactCheckResults: payload => {
+      const config = readJson(NEWS_FILES.configV2, {});
+      if (config.review?.fact_check_mode !== 'codex_mcp') throw new Error('当前查证模式不是 Codex MCP');
+      const current = minStore.readMinStore();
+      const expectedRevision = minStore.revisionOfMinStore(current);
+      const result = minStore.commitMinStoreMutation(
+        store => importFactCheckResults(store, payload),
+        { expectedRevision, runId: `min-fact-check-import-${Date.now()}` },
+      );
+      const { store, ...summary } = result;
+      return summary;
+    },
     publish: () => publishNewsProjectionDirect(catalogApi),
   };
 }
 
-let repairInFlight = null;
-let lastAutoRepairRevision = null;
-let lastAutoRepairError = null;
-
-function handleNewsReview({ store, news, options, newsProjection }, filter = null) {
+function handleNewsReview({ store, news, options, newsProjection, newsReviewState }, filter = null) {
   const currentStore = store();
   const allCandidates = currentStore.candidates || [];
   const counts = {
@@ -160,29 +175,16 @@ function handleNewsReview({ store, news, options, newsProjection }, filter = nul
     total: allCandidates.length,
   };
   const allPending = allCandidates.filter(item => item.review_status === 'pending');
-  const unreviewed = allPending.filter(item => {
-    const hasL1 = Boolean(item.l1_review && item.l1_review.verdict != null);
-    const hasAdvice = Boolean(item.ai_advice?.verdict);
-    return !hasL1 && !hasAdvice;
-  });
+  const unreviewed = unreviewedCandidates(allPending);
   if ((!filter || filter === 'pending') && unreviewed.length > 0) {
     const revision = news.revisionOfStore(currentStore);
-    if (options.autoRepair !== false && typeof news.repairNews === 'function'
-      && !repairInFlight && lastAutoRepairRevision !== revision) {
-      lastAutoRepairRevision = revision;
-      lastAutoRepairError = null;
-      repairInFlight = Promise.resolve().then(() => news.repairNews({ limit: unreviewed.length }));
-      repairInFlight.catch(error => { lastAutoRepairError = error?.message || String(error); })
-        .finally(() => { repairInFlight = null; });
-    }
+    const progress = checkAutoRepair({ store, news, options, state: newsReviewState }, unreviewed, revision, allPending.length);
     const enrichingResult = {
       revision,
-      status: 'enriching',
-      message: lastAutoRepairError
-        ? `GLM 初审失败：${lastAutoRepairError}。请点击下方按钮重试。`
-        : `GLM 正在进行 AI 初审分流与汉化（待初审: ${unreviewed.length} / 待审总数: ${allPending.length}）`,
+      status: progress.failed ? 'failed' : 'enriching',
+      message: progress.message,
       unreviewed_count: unreviewed.length,
-      items: [],
+      items: progress.failed ? newsProjection(allPending).items : [],
     };
     return filter ? { ...enrichingResult, counts, filter } : enrichingResult;
   }

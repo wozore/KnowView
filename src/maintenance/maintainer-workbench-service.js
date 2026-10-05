@@ -97,6 +97,7 @@ function createMaintainerWorkbenchService(options = {}) {
     const value = news.readStore();
     return value && Array.isArray(value.candidates) ? value : { candidates: [] };
   };
+  const newsReviewState = { inFlight: null, attemptedRevision: null, failedKey: null, error: null };
   const newsProjection = (items = store().candidates) => ({ revision: news.revisionOfStore(store()), items });
   const toolUpdates = () => toolUpdatesProjection(tools);
   const getWorkspaceStatus = () => checkWorkspaceStatus({
@@ -152,7 +153,13 @@ function createMaintainerWorkbenchService(options = {}) {
       };
     },
     newsReview(filter = null) {
-      return handleNewsReview({ store, news, options, newsProjection }, filter);
+      return handleNewsReview({ store, news, options, newsProjection, newsReviewState }, filter);
+    },
+    factCheckBatch(query = {}) {
+      return news.factCheckBatch(query);
+    },
+    importFactCheckResults(payload) {
+      return news.importFactCheckResults(payload);
     },
     async repairNews(body = {}) {
       return news.repairNews(body);

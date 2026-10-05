@@ -1,7 +1,7 @@
 'use strict';
 
 const crypto = require('crypto');
-const { canonicalizeUrl } = require('../../shared/tavily-client');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
 
 const DEFAULT_LIMITS = Object.freeze({
   search_queries: 3,
@@ -201,7 +201,7 @@ function normalizeSource(source, roots, authorizedUrls = new Set()) {
   };
   for (const field of ['updated_date', 'updated_date_kind', 'updated_date_field']) delete normalized[field];
   Object.assign(normalized, pageUpdateMetadataOf(source) || {});
-  if (normalized.content && !['direct_fetch', 'tavily_extract'].includes(normalized.content_origin)) normalized.content = '';
+  if (normalized.content && normalized.content_origin !== 'direct_fetch') normalized.content = '';
   return normalized;
 }
 
@@ -307,7 +307,7 @@ async function researchCatalog(plan, adapters, options = {}) {
       if (!reservation.ok) return failWithProgress(costFailure(reservation));
       const discovered = await callResearchAdapter(adapters.discover, { plan, scope, missing_predicates: scope.predicates, ledger }, 'RESEARCH_DISCOVER_FAILED');
       if (discovered?.ok === false) return failWithProgress({ ...discovered, failed_scope: key });
-      if (discovered?.fallback_error) warnings.push(`${scope.kind}: 备用搜索失败（${discovered.fallback_error.code || 'WEB_SEARCH_FAILED'}）`);
+      if (discovered?.search_error) warnings.push(`${scope.kind}: 搜索失败，使用已登记的官方来源（${discovered.search_error.code || 'WEB_SEARCH_FAILED'}）`);
       const discoveredSources = Array.isArray(discovered?.sources) ? discovered.sources : [];
       const knownUrls = new Set(sources.map(source => source.url));
       const declaredUrls = new Set(authorizedSourcesOf(plan.seed || {}).map(source => canonicalizeUrl(source.url)).filter(Boolean));
@@ -324,7 +324,7 @@ async function researchCatalog(plan, adapters, options = {}) {
           const widened = await callResearchAdapter(adapters.discover, { plan, scope, missing_predicates: scope.predicates, ledger, domain_scope: 'registrant' }, 'RESEARCH_DISCOVER_FAILED');
           if (widened?.ok === false) warnings.push(`${scope.kind}: 扩域搜索失败已忽略（${widened.code || 'RESEARCH_DISCOVER_FAILED'}）`);
           else {
-            if (widened?.fallback_error) warnings.push(`${scope.kind}: 扩域备用搜索失败（${widened.fallback_error.code || 'WEB_SEARCH_FAILED'}）`);
+            if (widened?.search_error) warnings.push(`${scope.kind}: 扩域搜索失败（${widened.search_error.code || 'WEB_SEARCH_FAILED'}）`);
             addSources(sources, Array.isArray(widened?.sources) ? widened.sources : [], scope, roots, warnings, authorizedUrls);
           }
         } else {
@@ -356,7 +356,7 @@ async function researchCatalog(plan, adapters, options = {}) {
         const fetched = byUrl.get(source.url);
         if (fetched?.content) {
           source.content = String(fetched.content).trim();
-          source.content_origin = fetched.content_origin || 'tavily_extract';
+          source.content_origin = fetched.content_origin || 'direct_fetch';
         }
         Object.assign(source, pageUpdateMetadataOf(fetched) || {});
       }

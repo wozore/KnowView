@@ -21,7 +21,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://cursor.com/changelog",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -49,7 +49,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://github.blog/changelog/label/copilot",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -106,7 +106,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.trae.ai/ide/changelog",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -158,7 +158,7 @@
           "kind": "release_notes",
           "review_mode": "ai_fallback",
           "url": "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product"
         }
       ],
@@ -188,7 +188,7 @@
           "kind": "release_notes",
           "review_mode": "ai_fallback",
           "url": "https://seed.bytedance.com/zh/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product"
         }
       ],
@@ -237,7 +237,7 @@
           "kind": "release_notes",
           "review_mode": "ai_fallback",
           "url": "https://platform.stability.ai/docs/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -363,7 +363,7 @@
           "kind": "release_notes",
           "review_mode": "ai_fallback",
           "url": "https://docs.replit.com/updates",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -391,7 +391,7 @@
           "kind": "release_notes",
           "review_mode": "ai_fallback",
           "url": "https://docs.devin.ai/release-notes/overview",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -420,7 +420,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://www.augmentcode.com/changelog",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -479,7 +479,7 @@
           "kind": "release_notes",
           "review_mode": "ai_fallback",
           "url": "https://junie.jetbrains.com/whats-new",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -507,7 +507,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://kiro.dev/changelog/cli/",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -620,7 +620,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.qoder.com/release-notes/desktop",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -649,7 +649,7 @@
           "kind": "release_notes",
           "review_mode": "ai_fallback",
           "url": "https://www.codebuddy.ai/docs/ide/release-notes/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "ide_extension",
           "date_mode": "latest"
         }
@@ -681,7 +681,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://www.antigravity.google/docs/cli/changelog/",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -742,7 +742,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://docs.x.ai/developers/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -770,7 +770,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://docs.x.ai/developers/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -800,7 +800,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://zcode.z.ai/en/docs/agents",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -828,7 +828,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://cloud.baidu.com/doc/APPBUILDER/index.html",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -856,7 +856,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://mistral.ai/products/vibe/",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -883,7 +883,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://mistral.ai/products/",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -907,7 +907,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://www.kimi.com/en/help/kimi-work/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -935,7 +935,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://www.kimi.com/code/docs/en/",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -1123,7 +1123,7 @@
           "kind": "release_notes",
           "review_mode": "deterministic",
           "url": "https://www.codebuddy.ai/docs/ide/release-notes/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1151,7 +1151,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://developer.meta.com/ai",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -1180,7 +1180,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://platform.stepfun.com/docs",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1209,7 +1209,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://mimo.mi.com",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -1238,7 +1238,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://aistudio.xiaomimimo.com",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1267,7 +1267,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.api.nvidia.com/nim/docs/product",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -1295,7 +1295,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://thinkingmachines.ai/tinker",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -1324,7 +1324,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://console.upstage.ai/docs",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1352,7 +1352,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.perplexity.ai/docs/resources/changelog",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "product",
           "date_mode": "latest"
         }
@@ -1379,7 +1379,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.perplexity.ai/docs/resources/changelog",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1408,7 +1408,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1437,7 +1437,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://blog.reve.com",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1466,7 +1466,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://lumalabs.ai/news",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1493,7 +1493,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.lumalabs.ai",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -1522,7 +1522,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.bfl.ai/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1552,7 +1552,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://docs.bfl.ai/release-notes",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }
@@ -1582,7 +1582,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://www.lingguang.com",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1610,7 +1610,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://www.lingguang.com",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1639,7 +1639,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://www.vidu.cn",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "desktop",
           "date_mode": "latest"
         }
@@ -1668,7 +1668,7 @@
           "kind": "changelog",
           "review_mode": "deterministic",
           "url": "https://platform.vidu.cn/docs/update",
-          "collector": "tavily_extract",
+          "collector": "direct_fetch",
           "product_surface": "cli",
           "date_mode": "latest"
         }

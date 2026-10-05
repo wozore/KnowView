@@ -47,6 +47,5 @@ module.exports = {
   parseArgs,
   main,
   readSeed: commands.readSeed,
-  tavilyAccessModeFromFlags: commands.tavilyAccessModeFromFlags,
   generatorOptionsFromFlags: commands.generatorOptionsFromFlags,
 };

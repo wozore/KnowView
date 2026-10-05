@@ -162,7 +162,7 @@ async function summarizeWithExternal(item, options = {}) {
   return { ok: true, summary: parsed.summary, key_points: parsed.key_points, raw: content };
 }
 
-/** 审核建议（本地）：成功返回 { ok:true, verdict, reasons, confidence, confidence_range, raw }。 */
+/** 审核建议（本地）：成功返回结构化判断、置信区间、事实查证任务与原始结果。 */
 async function reviewContent(item, options = {}) {
   const blocked = requireLocalKey(options) || requireFetch(options);
   if (blocked) return blocked;
@@ -182,7 +182,7 @@ async function reviewContent(item, options = {}) {
   if (!parsed) {
     return { ok: false, error: `本地模型输出无法解析为审核建议：${content.slice(0, 60)}`, code: 'invalid_review' };
   }
-  return { ok: true, verdict: parsed.verdict, reasons: parsed.reasons, confidence: parsed.confidence, confidence_range: parsed.confidence_range || null, raw: content };
+  return { ok: true, verdict: parsed.verdict, reasons: parsed.reasons, confidence: parsed.confidence, confidence_range: parsed.confidence_range || null, assessment: parsed.assessment || null, fact_check: parsed.fact_check || null, raw: content };
 }
 
 /** 审核建议（外部 provider）：返回结构同 reviewContent。 */
@@ -205,7 +205,7 @@ async function reviewWithExternal(item, options = {}) {
   if (!parsed) {
     return { ok: false, error: `${providerLabel(options)} 输出无法解析为审核建议：${content.slice(0, 60)}`, code: 'invalid_review' };
   }
-  return { ok: true, verdict: parsed.verdict, reasons: parsed.reasons, confidence: parsed.confidence, confidence_range: parsed.confidence_range || null, raw: content };
+  return { ok: true, verdict: parsed.verdict, reasons: parsed.reasons, confidence: parsed.confidence, confidence_range: parsed.confidence_range || null, assessment: parsed.assessment || null, fact_check: parsed.fact_check || null, raw: content };
 }
 
 /** 内容本地化翻译（本地）：成功返回 { ok:true, title, description, raw }。 */

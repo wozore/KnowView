@@ -1,16 +1,11 @@
 'use strict';
 
 /**
- * refresh-vibe-hub-cache.js —— 定时刷新 vibe-hub 概念缓存（CI 入口）
- *
- * 由 .github/workflows/refresh-vibe-hub-cache.yml 每日触发（北京 19:00 / UTC 11:00）。
- * 只刷新 `fetched_at` 距今 > TTL（默认 3 天）的缓存条目；缓存文件不存在时跳过
- * （首次空缓存零网络）；全新鲜时零网络。存在刷新失败条目时 ok=false 且进程以
- * 非零退出码结束（CI 红灯），失败条目原样保留、旧缓存继续生效。
- * 纯 HTTP，不消耗任何 API 额度，也不读任何 API Key。
+ * refresh-vibe-hub-cache.js —— VibeHub 概念缓存刷新入口（当前联网功能关闭）
  */
 
 const { loadDotEnv } = require('../src/shared/env');
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledResult } = require('../src/shared/external-operation-policy');
 
 const {
   loadVibeHubCache,
@@ -19,6 +14,11 @@ const {
 } = require('../src/catalog/concept/index');
 
 async function main(argv = [], options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) {
+    const report = { ...externalNetworkDisabledResult('EXTERNAL_NETWORK_DISABLED'), status: 'disabled' };
+    if (!options.silent) console.log(JSON.stringify(report, null, 2));
+    return report;
+  }
   loadDotEnv();
   const cache = loadVibeHubCache(options);
   const entryCount = Object.keys(cache.entries || {}).length;

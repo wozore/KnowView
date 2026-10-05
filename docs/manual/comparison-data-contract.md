@@ -2,6 +2,8 @@
 
 > 版本：2026-08-22 v2.1。配合 `comparison-data-sources.md`（设计决策）阅读。本文定义 `data/comparison/` 的**数据文件契约**与**前端渲染规则映射**，是数据管线与前端共同的唯一事实源。设计决策如有冲突，以本文为准并回写设计文档。
 
+> 当前对比数据仅作为静态快照展示。外网抓取与自动重建入口已关闭；下文保留数据文件和算法契约。
+
 ## 1. 文件布局
 
 ```
@@ -331,7 +333,7 @@ AI 审计不参与 `rebuild`，也不得直接写入 `models-alias.json`。确�
 
 1. datasets-server rows API 主用、hyparquet 后备（零依赖，CI 不装 npm）。
 2. 综合分 rebuild 预计算：缺源按比例重分配，无源则缺。
-3. 调度：GitHub Actions cron 每日 + workflow_dispatch；全绿才重建 integrated；auto-commit `data/comparison/`。
+3. 当前不配置数据刷新调度；外网抓取与 integrated 自动重建均关闭。
 4. AA 二期，本期不做（aa-internal.json 不建）。
 5. 校验接入 validate.js：integrated 一致性 / canonical 唯一 / 同厂商可见 display 唯一 / alias 一对一 / 不同明确修订版不混分 / composite 与 raw 可复算 / raw schema。网络抽检延后。
 6. 前端零依赖：柱状图 CSS、雷达图手写 SVG；对比页文案走 i18n。

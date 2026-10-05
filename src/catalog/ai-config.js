@@ -13,9 +13,9 @@ const DEFAULT_MODULE_CONFIGS = Object.freeze({
     enabled: true,
     provider: DEFAULT_PROVIDER_NAME,
     search_provider: 'zhipu_web_search',
-    search_fallback_provider: 'tavily',
+    search_fallback_provider: 'zhipu_web_search',
     extract_provider: 'direct_fetch',
-    extract_fallback_provider: 'tavily',
+    extract_fallback_provider: 'direct_fetch',
     search_engine: 'search_std',
     model: DEFAULT_PROVIDER.defaultModel,
     protocol: DEFAULT_PROVIDER.protocol,
@@ -59,17 +59,11 @@ function validateModuleConfig(moduleName, config) {
         code: 'RETRIEVAL_PROVIDER_UNSUPPORTED',
       });
     }
-    if (!['tavily', 'zhipu_web_search'].includes(config.search_provider)) {
-      throw Object.assign(new Error(`模块 ${moduleName} 的 search_provider 不受支持: ${config.search_provider}`), { code: 'SEARCH_PROVIDER_UNSUPPORTED' });
-    }
-    if (!['tavily', 'zhipu_web_search'].includes(config.search_fallback_provider)) {
-      throw Object.assign(new Error(`模块 ${moduleName} 的 search_fallback_provider 不受支持: ${config.search_fallback_provider}`), { code: 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED' });
+    if (config.search_provider !== 'zhipu_web_search') {
+      throw Object.assign(new Error(`模块 ${moduleName} 的搜索 provider 必须是 zhipu_web_search`), { code: 'SEARCH_PROVIDER_UNSUPPORTED' });
     }
     if (config.extract_provider !== 'direct_fetch') {
       throw Object.assign(new Error(`模块 ${moduleName} 的 extract_provider 不受支持: ${config.extract_provider}`), { code: 'EXTRACT_PROVIDER_UNSUPPORTED' });
-    }
-    if (config.extract_fallback_provider !== 'tavily') {
-      throw Object.assign(new Error(`模块 ${moduleName} 的 extract_fallback_provider 不受支持: ${config.extract_fallback_provider}`), { code: 'EXTRACT_FALLBACK_PROVIDER_UNSUPPORTED' });
     }
     if (!['search_std', 'search_pro', 'search_pro_sogou', 'search_pro_quark'].includes(config.search_engine)) {
       throw Object.assign(new Error(`模块 ${moduleName} 的 search_engine 不受支持: ${config.search_engine}`), { code: 'SEARCH_ENGINE_UNSUPPORTED' });

@@ -1,11 +1,11 @@
 /**
- * scripts/build-news.js — 热点构建管线 CLI 入口（热点管线 v2 为默认）
+ * scripts/build-news.js — 热点构建管线 CLI 入口（外网采集当前关闭）
  *
  * 双重角色：直接运行时为 CLI（node scripts/build-news.js）；被 require 时
  * 导出 v2 入口（main / mainMin / buildMinFixtureOptions）。
  *
  * 用法：
- *   node scripts/build-news.js                        # 热点管线 v2（默认；调 runMin；缺 API key 各平台降级不崩）
+ *   node scripts/build-news.js                        # 热点管线 v2（当前由外网访问策略关闭）
  *   node scripts/build-news.js --platforms youtube    # 分时采集：仅跑 YouTube（每日 20:00 触发，到期闸在管线内）
  *   node scripts/build-news.js --platforms x          # 分时采集：仅跑 X（每日 13:00 / 22:00）
  *   node scripts/build-news.js --platforms youtube,x  # 双平台采集（默认同缺省）
@@ -25,8 +25,7 @@ const { createNewsCatalogApi } = require('../src/maintenance/workbench/news-doma
 
 // ── 热点管线 v2 CLI 入口（默认 / --platforms 分时）────────────────
 // 只做接线：调 runMin 编排，不重写任何 v2 模块。
-// 无 API key 时 YouTube/X 采集器各自降级返回空（coverage.status='failed'），
-// AI 步骤（分类/审核/总结/本地化）缺外部 provider key 即时降级，管线不抛错。
+// 热点采集与 AI 加工均受共享外网访问策略关闭门禁保护。
 async function mainMin(platforms) {
   const { runMin } = require('../src/news/min/pipeline-min');
   const fixture = process.argv.includes('--fixture');
@@ -46,7 +45,7 @@ async function mainMin(platforms) {
   if (process.argv.includes('--scheduled')) options.scheduled = true;
   const { coverage, minCandidates, publicItems } = await runMin(options);
   if (coverage.status === 'disabled') {
-    console.log('ℹ️ 热点采集已关闭（data/news/config/news-config-v2.json: collection.enabled 未严格设为 true）');
+    console.log('ℹ️ 热点采集已关闭（项目外网访问策略）');
     return { coverage, minCandidates, publicItems };
   }
   const youtube = coverage.collectors && coverage.collectors.youtube;

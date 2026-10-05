@@ -12,6 +12,8 @@
 
 'use strict';
 
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledError } = require('../../../shared/external-operation-policy');
+
 const DEFAULT_BASE_URL = 'https://api.twitterapi.io';
 const DEFAULT_TIMEOUT_MS = 15000;
 const DEFAULT_MAX_RETRIES = 2;
@@ -51,6 +53,7 @@ class AdvancedSearchClient {
    * @private
    */
   async _executeSingleAttempt(url) {
+    if (!EXTERNAL_NETWORK_ENABLED) throw externalNetworkDisabledError('NEWS_NETWORK_DISABLED');
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 

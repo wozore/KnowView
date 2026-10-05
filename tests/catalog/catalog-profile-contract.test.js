@@ -141,7 +141,7 @@ test('model names provide a modality fallback when the approved pending card omi
   assert.equal(inferModality({ detail_kind: 'api_model', name: 'GPT-6 Luna', modality: 'audio' }), 'audio', '显式人工模态优先');
 });
 
-test('research search budget includes Zhipu domain fan-out, domain widening, and Tavily fallback', () => {
+test('research search budget includes Zhipu domain fan-out and domain widening only', () => {
   const plan = {
     seed: {
       official_url: 'https://docs.openai.com/models',
@@ -152,19 +152,19 @@ test('research search budget includes Zhipu domain fan-out, domain widening, and
     },
     research_scopes: [{ kind: 'detail', predicates: ['api_available'] }],
   };
-  const options = { searchProvider: 'zhipu_web_search', searchFallbackProvider: 'tavily', maxSearchQueries: 1 };
+  const options = { searchProvider: 'zhipu_web_search', searchFallbackProvider: 'zhipu_web_search', maxSearchQueries: 1 };
   const limits = researchLimits(options, plan);
   const estimate = estimateResearchCost(plan, limits, options);
   assert.equal(estimate.estimated_search_queries, 7);
-  assert.equal(estimate.estimated_search_fallback_queries, 2);
-  assert.equal(estimate.estimated_extract_fallback_upper_bound, 1);
-  assert.equal(limits.search_queries, 9);
+  assert.equal(estimate.estimated_search_fallback_queries, 0);
+  assert.equal(estimate.estimated_extract_fallback_upper_bound, 0);
+  assert.equal(limits.search_queries, 7);
   assert.equal(researchLimits({
     search_provider: 'zhipu_web_search',
-    search_fallback_provider: 'tavily',
+    search_fallback_provider: 'zhipu_web_search',
     max_search_queries: 1,
     max_pages: 13,
     max_responses_calls: 17,
     max_synthesis_calls: 2,
-  }, plan).search_queries, 9, '恢复计划的 snake_case 配置也计入备用与域 fan-out');
+  }, plan).search_queries, 7, '恢复计划的 snake_case 配置按智谱请求量计费');
 });

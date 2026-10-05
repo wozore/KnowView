@@ -1,5 +1,5 @@
 /**
- * deliver-news-data-pr.js —— GitHub Actions 新闻 Data PR 交付薄包装
+ * deliver-news-data-pr.js —— 新闻 Data PR 交付入口（GitHub 仓库操作当前关闭）
  */
 
 'use strict';
@@ -15,6 +15,7 @@ const {
   syncDataPrBaseline,
   assertCandidateRetention,
 } = require('../src/news/delivery');
+const { GITHUB_REPOSITORY_OPERATIONS_ENABLED, githubRepositoryOperationDisabledError } = require('../src/shared/external-operation-policy');
 
 function parseArgs(argv = process.argv.slice(2)) {
   const args = {};
@@ -36,6 +37,7 @@ function parseArgs(argv = process.argv.slice(2)) {
 // 不做整体 trim：git status -z 的首条目以前导空格开头（状态位 " M " 的一部分），
 // trim 会破坏 slice(3) 的路径解析；需要去空白的位置各自显式 trim。
 function defaultRunner(command, args) {
+  if (!GITHUB_REPOSITORY_OPERATIONS_ENABLED && ['git', 'gh'].includes(command)) throw githubRepositoryOperationDisabledError();
   return execFileSync(command, args, {
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -165,6 +167,7 @@ function writeOutput(filePath, values) {
 }
 
 async function runDelivery({ args = parseArgs(), run = defaultRunner, outputWriter = writeOutput } = {}) {
+  if (!GITHUB_REPOSITORY_OPERATIONS_ENABLED) throw githubRepositoryOperationDisabledError();
   const changedFiles = assertCleanOutsideData(run);
   const batch = args.batch || `batch-${new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 15)}`;
   if (changedFiles.length === 0) {
@@ -185,12 +188,8 @@ async function runDelivery({ args = parseArgs(), run = defaultRunner, outputWrit
   return output;
 }
 
-/**
- * 基线播种模式（--sync-baseline）：管线运行前调用，把开放 Data PR 分支上的
- * 六个运行时文件写回工作树，作为本次采集的读入基线。要求当前工作树完全干净，
- * 防止覆盖维护者本地未提交数据。
- */
 async function runBaselineSync({ args = parseArgs(), run = defaultRunner, outputWriter = writeOutput, logWriter = message => process.stdout.write(`${message}\n`), rootDir = process.cwd() } = {}) {
+  if (!GITHUB_REPOSITORY_OPERATIONS_ENABLED) throw githubRepositoryOperationDisabledError();
   const raw = run('git', ['status', '--porcelain', '-z', '--untracked-files=all']);
   const dirty = raw ? raw.split('\0').filter(Boolean) : [];
   if (dirty.length > 0) {

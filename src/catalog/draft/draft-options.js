@@ -17,11 +17,10 @@ function normalizeGeneratorOptions(options = {}) {
     model: valueOf('model', 'model', defaultProvider.defaultModel),
     protocol: valueOf('protocol', 'protocol', defaultProvider.protocol),
     searchProvider: valueOf('searchProvider', 'search_provider', 'zhipu_web_search'),
-    searchFallbackProvider: valueOf('searchFallbackProvider', 'search_fallback_provider', 'tavily'),
+    searchFallbackProvider: valueOf('searchFallbackProvider', 'search_fallback_provider', 'zhipu_web_search'),
     extractProvider: valueOf('extractProvider', 'extract_provider', 'direct_fetch'),
-    extractFallbackProvider: valueOf('extractFallbackProvider', 'extract_fallback_provider', 'tavily'),
+    extractFallbackProvider: valueOf('extractFallbackProvider', 'extract_fallback_provider', 'direct_fetch'),
     searchEngine: valueOf('searchEngine', 'search_engine', 'search_std'),
-    accessMode: valueOf('accessMode', 'access_mode', undefined),
     timeoutMs: valueOf('timeoutMs', 'timeout_ms', undefined),
     maxSearchQueries: valueOf('maxSearchQueries', 'max_search_queries', undefined),
     maxPages: valueOf('maxPages', 'max_pages', undefined),
@@ -64,34 +63,24 @@ function officialDomainsOf(plan, widened = false) {
 function searchRequestUpperBounds(plan, options = {}) {
   const scopes = Array.isArray(plan?.research_scopes) ? plan.research_scopes : [];
   const primaryProvider = options.searchProvider ?? options.search_provider ?? 'zhipu_web_search';
-  const fallbackProvider = options.searchFallbackProvider ?? options.search_fallback_provider ?? 'tavily';
   const scopeCount = Math.min(scopes.length, options.maxSearchQueries ?? options.max_search_queries ?? 4);
-  const fallback = fallbackProvider && fallbackProvider !== primaryProvider ? fallbackProvider : '';
   const primaryDomains = officialDomainsOf(plan, false);
   const widenedDomains = officialDomainsOf(plan, true);
   let primary = 0;
-  let backup = 0;
   for (let index = 0; index < scopeCount; index += 1) {
     primary += plannedWebSearchRequests({ provider: primaryProvider, includeDomains: primaryDomains });
     primary += plannedWebSearchRequests({ provider: primaryProvider, includeDomains: widenedDomains });
-    if (fallback) {
-      backup += plannedWebSearchRequests({ provider: fallback, includeDomains: primaryDomains });
-      backup += plannedWebSearchRequests({ provider: fallback, includeDomains: widenedDomains });
-    }
   }
-  return { primary, fallback: backup };
+  return { primary };
 }
 
 function researchLimits(options = {}, plan = null) {
   const primarySearchLimit = options.maxSearchQueries ?? options.max_search_queries ?? 4;
-  const primaryProvider = options.searchProvider ?? options.search_provider ?? 'zhipu_web_search';
-  const fallbackProvider = options.searchFallbackProvider ?? options.search_fallback_provider ?? 'tavily';
-  const hasSearchFallback = Boolean(fallbackProvider && fallbackProvider !== primaryProvider);
   const requestBounds = plan ? searchRequestUpperBounds(plan, options) : null;
   return {
     search_queries: requestBounds
-      ? Math.max(primarySearchLimit * (hasSearchFallback ? 2 : 1), requestBounds.primary + requestBounds.fallback)
-      : primarySearchLimit * (hasSearchFallback ? 2 : 1),
+      ? Math.max(primarySearchLimit, requestBounds.primary)
+      : primarySearchLimit,
     pages: options.maxPages ?? options.max_pages ?? 8,
     responses_calls: options.maxResponsesCalls ?? options.max_responses_calls ?? 12,
     synthesis_calls: options.maxSynthesisCalls ?? options.max_synthesis_calls ?? 1,
@@ -112,8 +101,8 @@ function estimateResearchCost(plan, limits, options = {}) {
     hard_limits: { ...limits },
     planned_scopes: scopes,
     estimated_search_queries: requestBounds.primary,
-    estimated_search_fallback_queries: requestBounds.fallback,
-    estimated_extract_fallback_upper_bound: Math.min(scopes, options.maxSearchQueries ?? 4),
+    estimated_search_fallback_queries: 0,
+    estimated_extract_fallback_upper_bound: 0,
     estimated_synthesis_calls: scopes ? 1 : 0,
     worst_case_responses_calls: Math.min(limits.responses_calls, (scopes ? 1 : 0) + maxRepairCalls),
   };

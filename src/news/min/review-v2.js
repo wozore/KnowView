@@ -13,8 +13,8 @@
  *   L0 l0HardFilter —— 规则式硬过滤，零成本、零外部依赖。缺 title/url/published_at、
  *                       非 AI 主题（未命中 config.keywords.content_keywords）、明显广告/推广
  *                       词 → 直接剔除（discarded，带 discard_reason）。
- *   L1 l1AiReview   —— AI 初步审核（复用 content-reviewer.reviewCandidate → DeepSeek）。
- *                       approve/discard 达到置信度门槛时自动分流；hold、低置信度与失败留给人工。
+ *   L1 l1AiReview   —— AI 初步审核（复用 content-reviewer.reviewCandidate）。
+ *                       结构化审核门禁满足条件时自动分流；其余情况留给人工。
  *                       可选把点赞最高的 topN 条评论（item.comments，YouTube v2 已采集
  *                       { text, likeCount }）追加进审核输入（TOP_COMMENTS 段）。
  *   L2 l2AiAdvice   —— AI 辅助建议（给人工看的），复用 reviewCandidate，**不自动改状态**，
@@ -24,15 +24,15 @@
  * 绝不 reject、绝不误杀。
  *
  * 注入点：options.reviewCandidate 可替换真实 reviewCandidate（测试 mock 用），
- * 缺省回落到 content-reviewer 的真实实现；options.verifyAdviceWithWeb 可替换
- * hold/discard 建议的联网查证复判（fail-open，config.review.web_verify 控制，
- * 显式 false 关闭）。
+ * 缺省回落到 content-reviewer 的真实实现；options.verifyAdviceWithWeb 可替换。
+ * 查证只针对 L2 标记的具体事实，方式由 config.review.fact_check_mode 控制。
  */
 
 'use strict';
 
 const { reviewCandidate, runPool } = require('../classify/content-reviewer');
-const { verifyAdviceWithWeb, createWebSearchBudget } = require('../classify/web-verifier');
+const { verifyAdviceWithWeb, createWebSearchBudget, factCheckModeOf } = require('../classify/web-verifier');
+const { reviewAssessmentGate } = require('../classify/review-assessment');
 
 // ═══════════════════════════════════════════════════════════════
 // 常量与默认值
@@ -40,10 +40,6 @@ const { verifyAdviceWithWeb, createWebSearchBudget } = require('../classify/web-
 
 // L1 评论输入：点赞最高 N 条（config.review.l1_comments_top_n 缺省）
 const DEFAULT_COMMENTS_TOP_N = 10;
-// L1 自动通过置信度门槛（config.review.l1_confidence_auto_approve 缺省）
-const DEFAULT_AUTO_APPROVE_CONFIDENCE = 0.85;
-// L1 自动剔除置信度门槛（config.review.l1_confidence_auto_discard 缺省）
-const DEFAULT_AUTO_DISCARD_CONFIDENCE = 0.9;
 // L0 广告/推广信号词（英文大小写不敏感，中文直接子串匹配）
 const ADVERTISING_RE = /sponsored|advertisement|推广|广告|affiliate|佣金/i;
 // YouTube 简介中的明确 AI 生成/合成内容披露模板。
@@ -174,14 +170,23 @@ async function l1AiReview(item, options = {}) {
       reasons: Array.isArray(result.reasons) ? result.reasons : [],
       confidence: 0,
       confidence_range: result.confidence_range || null,
+      assessment: result.assessment || null,
+      assessment_gate_preview: { action: 'manual', reason: 'llm_failed' },
+      fact_check: result.fact_check || null,
       llm_error: result.llm_error || null,
     };
   }
+  const assessment = result.assessment || null;
+  const factCheck = result.fact_check || null;
   return {
     verdict: result.verdict,
     reasons: Array.isArray(result.reasons) ? result.reasons : [],
     confidence: Number(result.confidence) || 0,
     confidence_range: result.confidence_range || null,
+    assessment,
+    assessment_gate_preview: reviewAssessmentGate(result.verdict, assessment, factCheck, result.web_verification),
+    fact_check: factCheck,
+    web_verification: result.web_verification || null,
     llm_error: result.llm_error || null,
   };
 }
@@ -205,49 +210,54 @@ async function l2AiAdvice(item, options = {}) {
  * 根据 L1 结果分流为 approved、discarded 或附 L2 建议的 pending 条目。
  * @private
  */
-async function resolveL1Decision(item, l1Review, thresholds, options, config) {
-  const { verdict, confidence } = l1Review;
-  const highConfidenceApprove = verdict === 'approve' && confidence >= thresholds.autoApproveConfidence;
-  const highConfidenceDiscard = verdict === 'discard' && confidence >= thresholds.autoDiscardConfidence;
+async function resolveL1Decision(item, l1Review, options, config, l2Enabled) {
+  const gate = reviewAssessmentGate(
+    l1Review.verdict, l1Review.assessment, l1Review.fact_check, l1Review.web_verification,
+  );
+  const routedL1Review = { ...l1Review, assessment_gate_preview: gate };
 
-  if (highConfidenceApprove) {
+  if (gate.action === 'approve_candidate') {
     return {
       kept: {
         ...item,
         review_status: 'approved',
-        l1_review: { ...l1Review, reasons: [] },
+        l1_review: { ...routedL1Review, reasons: [] },
         ai_advice: null,
       },
     };
   }
-  if (highConfidenceDiscard) {
+  if (gate.action === 'discard_candidate') {
     return {
       discarded: {
         ...item,
         review_status: 'discarded',
         discard_reason: 'ai_discard',
         discard_stage: 'l1',
-        l1_review: { ...l1Review, reasons: [] },
+        l1_review: { ...routedL1Review, reasons: [] },
         ai_advice: null,
       },
     };
   }
 
-  const advice = thresholds.l2Enabled
+  const advice = l2Enabled
     ? await l2AiAdvice(item, { ...options, config })
     : null;
-  // hold/discard 建议联网查证复判（fail-open）；options.verifyAdviceWithWeb 供测试注入，
-  // config.review.web_verify 显式 false 时关闭（与核验接入前行为一致）
+  // 仅对标记了关键事实的建议查证（fail-open）；options.verifyAdviceWithWeb 供测试注入，
   let finalAdvice = advice;
-  if (finalAdvice && config?.review?.web_verify !== false) {
+  if (finalAdvice && factCheckModeOf(config) !== 'off') {
     const verifyAdvice = options.verifyAdviceWithWeb || verifyAdviceWithWeb;
     finalAdvice = await verifyAdvice(item, finalAdvice, { ...options, config });
+  }
+  if (finalAdvice?.assessment) {
+    finalAdvice = { ...finalAdvice, assessment_gate_preview: reviewAssessmentGate(
+      finalAdvice.verdict, finalAdvice.assessment, finalAdvice.fact_check, finalAdvice.web_verification,
+    ) };
   }
   return {
     kept: {
       ...item,
       review_status: 'pending',
-      l1_review: l1Review,
+      l1_review: routedL1Review,
       ai_advice: finalAdvice,
     },
   };
@@ -257,7 +267,7 @@ async function resolveL1Decision(item, l1Review, thresholds, options, config) {
  * 单条候选审核评定辅助函数（L0 硬审 → L1 AI 审 → 自动分流 / L2 建议）。
  * @private
  */
-async function evaluateReviewItem(item, config, options, thresholds) {
+async function evaluateReviewItem(item, config, options, l2Enabled) {
   if (!item || typeof item !== 'object') return null;
 
   const hard = l0HardFilter(item, config);
@@ -279,10 +289,15 @@ async function evaluateReviewItem(item, config, options, thresholds) {
     verdict: l1.verdict,
     reasons: l1.reasons || [],
     confidence: l1.confidence || 0,
+    confidence_range: l1.confidence_range || null,
+    assessment: l1.assessment || null,
+    assessment_gate_preview: l1.assessment_gate_preview || null,
+    fact_check: l1.fact_check || null,
+    web_verification: l1.web_verification || null,
     llm_error: l1.llm_error || null,
   };
 
-  return resolveL1Decision(item, l1Review, thresholds, options, config);
+  return resolveL1Decision(item, l1Review, options, config, l2Enabled);
 }
 
 /**
@@ -296,29 +311,24 @@ async function evaluateReviewItem(item, config, options, thresholds) {
  * @param {object} config - news-config-v2.json（读 review / keywords 段）
  * @param {object} [options] - 透传 reviewCandidate 选项 + options.reviewCandidate 注入 mock
  * @returns {Promise<{ kept: Array, discarded: Array, advice: Array }>}
- *   - kept:      需要人工处理的项（hold / 低置信度 / L1 失败），以及高置信度
- *                approve 的自动 approved 项；前者为 pending，后者为 approved。
- *   - discarded: L0 硬审不过或 L1 高置信 discard 的项。
+ *   - kept:      需要人工处理的项（门禁未满足 / L1 失败），以及门禁通过的
+ *                approve 候选项；前者为 pending，后者为 approved。
+ *   - discarded: L0 硬审不过或结构化门禁确认可剔除的项。
  *   - advice:    pending 项对应的 l2AiAdvice 建议对象列表；自动分流项不调用 L2。
  */
 async function applyL1Verdicts(items, config, options = {}) {
   const source = Array.isArray(items) ? items : [];
-  const autoApproveConfidence = Number(config && config.review && config.review.l1_confidence_auto_approve)
-    || DEFAULT_AUTO_APPROVE_CONFIDENCE;
-  const autoDiscardConfidence = Number(config && config.review && config.review.l1_confidence_auto_discard)
-    || DEFAULT_AUTO_DISCARD_CONFIDENCE;
   const l2Enabled = !(config && config.review && config.review.l2_enabled === false);
   const concurrency = Number(config && config.collection && config.collection.concurrency) || 5;
-  const thresholds = { autoApproveConfidence, autoDiscardConfidence, l2Enabled };
-  const searchBudget = options.searchBudget || (config?.review?.web_search_provider === 'zhipu_web_search'
-    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+  const searchBudget = options.searchBudget || (config?.review?.fact_check_mode === 'web_search_api'
+    ? createWebSearchBudget(config?.review?.web_search_max_requests_per_run)
     : null);
   const reviewOptions = { ...options, searchBudget };
 
   const result = new Array(source.length); // result[index] = { kept } | { discarded } | null
 
   await runPool(source, concurrency, async (item, index) => {
-    const outcome = await evaluateReviewItem(item, config, reviewOptions, thresholds);
+    const outcome = await evaluateReviewItem(item, config, reviewOptions, l2Enabled);
     if (outcome) {
       result[index] = outcome;
     }
@@ -342,6 +352,4 @@ module.exports = {
   applyL1Verdicts,
   AI_DISCLOSURE_PATTERNS,
   DEFAULT_COMMENTS_TOP_N,
-  DEFAULT_AUTO_APPROVE_CONFIDENCE,
-  DEFAULT_AUTO_DISCARD_CONFIDENCE,
 };

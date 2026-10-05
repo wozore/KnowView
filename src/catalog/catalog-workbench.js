@@ -110,7 +110,7 @@ function createCatalogWorkbench(options = {}) {
         const costPlan = result.cost_plan || (placementDeferred
           ? {
             hard_limits: assistant.researchLimits(generatorOptions, researchBound),
-            estimated_extract_fallback_upper_bound: Math.min(3, generatorOptions.maxSearchQueries ?? 4),
+            estimated_extract_fallback_upper_bound: 0,
           }
           : null);
         plans.push({
@@ -151,16 +151,16 @@ function createCatalogWorkbench(options = {}) {
           return total;
         }, {}),
         vendor_search_primary_upper_bound: resolutionNeed.vendor_search_primary_upper_bound,
-        vendor_search_fallback_upper_bound: resolutionNeed.vendor_search_fallback_upper_bound,
+        vendor_search_fallback_upper_bound: 0,
         vendor_search_upper_bound: resolutionNeed.vendor_search_upper_bound,
         vendor_responses_upper_bound: resolutionNeed.vendor_responses_upper_bound,
         verification_search_primary_upper_bound: resolutionNeed.verification_search_primary_upper_bound,
+        verification_search_fallback_upper_bound: 0,
         verification_search_upper_bound: resolutionNeed.verification_search_upper_bound,
-        verification_search_fallback_upper_bound: resolutionNeed.verification_search_fallback_upper_bound,
         verification_extract_upper_bound: resolutionNeed.verification_extract_upper_bound,
         verification_responses_upper_bound: resolutionNeed.verification_responses_upper_bound,
+        estimated_extract_fallback_upper_bound: 0,
         placement_ai_calls_upper_bound: placementAiUpperBound,
-        extract_fallback_upper_bound: plans.reduce((total, entry) => total + Number(entry.cost_plan?.estimated_extract_fallback_upper_bound || 0), 0),
       },
     };
   }
@@ -233,7 +233,7 @@ function createCatalogWorkbench(options = {}) {
     const merged = normalizeRecoveryOptions(rawOptions, generatorOptions);
     const result = recoveryPlanFn(draftId, { expectedRevision, generatorOptions: merged });
     if (!result?.ok) return result;
-    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, search_provider: merged.searchProvider, search_fallback_provider: merged.searchFallbackProvider, extract_provider: merged.extractProvider, extract_fallback_provider: merged.extractFallbackProvider, search_engine: merged.searchEngine, ...(merged.accessMode ? { access_mode: merged.accessMode } : {}) } };
+    return { ...result, generator_options: { model: merged.model, provider: merged.provider, protocol: merged.protocol, search_provider: merged.searchProvider, extract_provider: merged.extractProvider, search_engine: merged.searchEngine } };
   }
   async function resume(draftId, input = {}) {
     if (input.confirm_cost !== true) return { ok: false, code: 'COST_CONFIRMATION_REQUIRED' };

@@ -10,6 +10,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
   needsL1Review,
+  needsStructuredRescreen,
   needsL2Advice,
   needsSummary,
   needsLocalize,
@@ -23,9 +24,18 @@ const {
 const {
   repairIncompleteCandidates,
 } = require('../../src/news/min/min-repair');
+const { createWebSearchBudget } = require('../../src/news/classify/web-verifier');
 
-// 联网查证透传桩：建议原样返回，离线测试绝不触达 Tavily（真实实现见 web-verifier.test.js）
+// 查证透传桩：建议原样返回，离线测试不触达真实搜索服务。
 const verifyAdviceStub = async (item, advice) => advice;
+const approveAssessment = {
+  topic_relevance: 'in_scope', subject_clarity: 'specific', information_value: 'substantive',
+  source_quality: 'unknown', evidence_status: 'sufficient', decision_basis: 'clear_relevant_content',
+};
+const discardAssessment = {
+  topic_relevance: 'out_of_scope', subject_clarity: 'broad', information_value: 'low',
+  source_quality: 'unknown', evidence_status: 'sufficient', decision_basis: 'clear_off_topic',
+};
 
 // ── 第 1 组：纯函数判定 ─────────────────────────────────────
 
@@ -49,27 +59,40 @@ test('needsL1Review：只有 pending 且无有效 verdict 的条目需要审核'
   }), false);
 });
 
-test('needsL2Advice：hold/discard 建议缺 web_verification 需补核验，approve/已核验跳过', () => {
+test('needsStructuredRescreen：只选待审且没有完整旧 L1 结构化维度的条目', () => {
+  assert.equal(needsStructuredRescreen({
+    review_status: 'pending', l1_review: { verdict: 'hold', confidence: 0.7 },
+  }), true);
+  assert.equal(needsStructuredRescreen({
+    review_status: 'pending', l1_review: { verdict: 'approve', assessment: approveAssessment },
+  }), false);
+  assert.equal(needsStructuredRescreen({
+    review_status: 'approved', l1_review: { verdict: 'approve' },
+  }), false);
+  assert.equal(needsStructuredRescreen({
+    review_status: 'pending', reviewed_at: '2026-09-28T00:00:00Z', l1_review: { verdict: 'hold' },
+  }), false);
+  assert.equal(needsStructuredRescreen({
+    review_status: 'pending', l1_review: { verdict: null, llm_error: 'offline' },
+  }), false);
+});
+
+test('needsL2Advice：只在缺少有效 L2 建议时重跑，不受查证痕迹影响', () => {
   const base = { review_status: 'pending', l1_review: { verdict: 'hold', confidence: 0.5 } };
   // 缺建议 → 需要
   assert.equal(needsL2Advice({ ...base }), true);
-  // hold/discard 且缺核验痕迹 → 需要补核验（历史与遗漏建议）
-  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'hold', confidence: 0.5 } }), true);
-  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'discard', confidence: 0.9 } }), true);
+  // 已有建议，即使查证失败也不重跑模型
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'hold', confidence: 0.5 } }), false);
+  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'discard', confidence: 0.9, web_verification: { search_error: 'RATE_LIMITED' } } }), false);
   // approve 建议不重做（避免重复花钱）
   assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'approve', confidence: 0.9 } }), false);
-  // 已核验（带 web_verification 痕迹）不重做
+  // 查证任务状态不改变 L2 完整性
   assert.equal(needsL2Advice({
     ...base,
-    ai_advice: { verdict: 'hold', confidence: 0.5, web_verification: { query: 'T', searched_at: '2026-09-16T00:00:00Z' } },
+    ai_advice: { verdict: 'hold', confidence: 0.5, web_verification: { status: 'awaiting_agent' } },
   }), false);
   // verdict 为 null（LLM 失败）仍算缺失
   assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: null, llm_error: 'x' } }), true);
-  // 开关关闭（webVerifyEnabled=false）：保持旧语义，有 verdict 即不需要
-  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'hold', confidence: 0.5 } }, true, false), false);
-  assert.equal(needsL2Advice({ ...base, ai_advice: { verdict: 'approve', confidence: 0.9 } }, true, false), false);
-  // 开关关闭但缺建议 → 仍需要
-  assert.equal(needsL2Advice({ ...base }, true, false), true);
 });
 
 test('needsSummary：非 discarded 且无 summary 且有素材的条目需要摘要', () => {
@@ -177,10 +200,10 @@ test('enrichMinCandidates：分批处理、调用 mock、每批落盘', async ()
   // Mock reviewCandidate：c1 高置信 approve，c2 高置信 discard，c3 hold
   const reviewCandidateMock = async item => {
     if (item.id === 'c1') {
-      return { verdict: 'approve', confidence: 0.95, reasons: ['好的工具'] };
+      return { verdict: 'approve', confidence: 0.95, reasons: ['好的工具'], assessment: approveAssessment };
     }
     if (item.id === 'c2') {
-      return { verdict: 'discard', confidence: 0.95, reasons: ['广告内容'] };
+      return { verdict: 'discard', confidence: 0.95, reasons: ['广告内容'], assessment: { ...discardAssessment, decision_basis: 'advertising_or_spam' } };
     }
     return { verdict: 'hold', confidence: 0.6, reasons: ['信息不足'] };
   };
@@ -262,7 +285,7 @@ test('enrichMinCandidates：dryRun 模式下不写盘', async () => {
     skipSummary: true,
     skipLocalize: true,
     writeStore: () => { wrote = true; },
-    reviewCandidate: async () => ({ verdict: 'approve', confidence: 0.95 }),
+    reviewCandidate: async () => ({ verdict: 'approve', confidence: 0.95, assessment: approveAssessment }),
   });
 
   assert.equal(result.dryRun, true);
@@ -364,7 +387,7 @@ test('needsSummary 与 force：带有 transcript_summarized_at 的条目受保�
   assert.equal(protectedItem.summary, '高阶付费 DeepSeek 字幕总结');
 });
 
-test('executeCandidateReview：高置信 approved 时清理旧的 discard 标记', async () => {
+test('executeCandidateReview：结构化门禁通过时清理旧的 discard 标记', async () => {
   const candidate = {
     id: 'd1',
     review_status: 'pending',
@@ -378,7 +401,7 @@ test('executeCandidateReview：高置信 approved 时清理旧的 discard 标记
     writeStore: () => {},
     skipSummary: true,
     skipLocalize: true,
-    reviewCandidate: async () => ({ verdict: 'approve', confidence: 0.95 }),
+    reviewCandidate: async () => ({ verdict: 'approve', confidence: 0.95, assessment: approveAssessment }),
   });
 
   assert.equal(candidate.review_status, 'approved');
@@ -422,7 +445,7 @@ test('needsRepair 与 countRepairWork：准确识别残缺项并统计', () => {
     summary: '已有摘要',
   }), true);
 
-  // pending 全部齐全（hold 建议已带联网核验痕迹）
+  // pending 全部齐全（已有 L2 建议即可）
   assert.equal(needsRepair({
     review_status: 'pending',
     title: 'T',
@@ -519,7 +542,7 @@ test('repairIncompleteCandidates：零成本优先与本地失败回退外部', 
 
   const reviewCandidateA = async item => {
     if (item.id === 'c1') {
-      return { verdict: 'approve', confidence: 0.92, reasons: ['本地A通过'] };
+      return { verdict: 'approve', confidence: 0.92, reasons: ['本地A通过'], assessment: approveAssessment };
     }
     return { verdict: null, reasons: [], confidence: 0, llm_error: 'local_failed' };
   };
@@ -546,9 +569,9 @@ test('repairIncompleteCandidates：零成本优先与本地失败回退外部', 
 
   const reviewCandidateB = async item => {
     if (item.id === 'c2') {
-      return { verdict: 'discard', confidence: 0.95, reasons: ['外部B判定广告'] };
+      return { verdict: 'discard', confidence: 0.95, reasons: ['外部B判定广告'], assessment: { ...discardAssessment, decision_basis: 'advertising_or_spam' } };
     }
-    return { verdict: 'approve', confidence: 0.88, reasons: ['外部B通过'] };
+    return { verdict: 'approve', confidence: 0.88, reasons: ['外部B通过'], assessment: approveAssessment };
   };
 
   let savedRunId = null;
@@ -578,6 +601,128 @@ test('repairIncompleteCandidates：零成本优先与本地失败回退外部', 
   // discarded 项绝不吸纳摘要与翻译修复
   assert.equal(candidates[1].summary, undefined);
   assert.equal(candidates[1].localizations, undefined);
+});
+
+test('repairIncompleteCandidates：失败的初审覆盖过期错误并保持 pending', async () => {
+  const candidate = {
+    id: 'stuck-review', review_status: 'pending', title: 'AI news',
+    l1_review: { verdict: null, llm_error: '缺少 ZHIPU_API_KEY' },
+    ai_advice: { verdict: null, llm_error: '缺少 ZHIPU_API_KEY' },
+  };
+  const result = await repairIncompleteCandidates({ candidates: [candidate] }, { review: { fact_check_mode: 'off' } }, {
+    apiKeyB: 'test-key', skipSummary: true, skipLocalize: true,
+    reviewCandidateB: async () => { throw new Error('provider rejected current input'); },
+    writeStore: () => {},
+  });
+  assert.equal(result.repairedReview, 0);
+  assert.equal(candidate.review_status, 'pending');
+  assert.equal(candidate.l1_review.verdict, null);
+  assert.equal(candidate.l1_review.llm_error, 'provider rejected current input');
+  assert.equal(candidate.ai_advice.llm_error, 'provider rejected current input');
+});
+
+test('repairIncompleteCandidates：联网查证失败的存量建议不会触发 GLM 重跑', async () => {
+  const candidates = [
+    { id: 'pilot-a', review_status: 'pending', title: 'A', l1_review: { verdict: 'hold' }, ai_advice: { verdict: 'hold', web_verification: { search_error: 'TAVILY_SEARCH_FAILED' } } },
+    { id: 'pilot-b', review_status: 'pending', title: 'B', l1_review: { verdict: 'hold' }, ai_advice: { verdict: 'hold', web_verification: { search_error: 'TAVILY_SEARCH_FAILED' } } },
+  ];
+  const calls = [];
+  let searched = false;
+  const result = await repairIncompleteCandidates({ candidates }, { review: { l2_enabled: true, fact_check_mode: 'codex_mcp' } }, {
+    ids: ['pilot-b'], skipSummary: true, skipLocalize: true,
+    apiKeyB: 'test-key',
+    reviewCandidateB: async item => { calls.push(item.id); return { verdict: 'hold', reasons: [], confidence: 0.6 }; },
+    searchWeb: async () => { searched = true; return { ok: true, sources: [] }; },
+    verifyAdviceWithWeb: async (_item, advice) => ({ ...advice, web_verification: { provider: 'zhipu_web_search', results: [] } }),
+    writeStore: () => {},
+  });
+  assert.deepEqual(calls, []);
+  assert.equal(searched, false);
+  assert.equal(result.totalTargets, 0);
+  assert.equal(candidates[0].ai_advice.web_verification.search_error, 'TAVILY_SEARCH_FAILED');
+  assert.equal(candidates[1].ai_advice.web_verification.search_error, 'TAVILY_SEARCH_FAILED');
+});
+
+test('repairIncompleteCandidates：结构化存量复筛只调用 L1，自动通过并保留人工待审建议', async () => {
+  const legacyAdvice = {
+    verdict: 'discard', reasons: ['历史 L2 建议'], confidence: 0.9,
+    web_verification: { search_error: 'TAVILY_SEARCH_FAILED' },
+  };
+  const candidates = [
+    {
+      id: 'legacy-approve', review_status: 'pending', title: 'AI 产品发布',
+      l1_review: { verdict: 'hold', confidence: 0.5, reasons: ['旧版 L1'] },
+      ai_advice: structuredClone(legacyAdvice),
+    },
+    {
+      id: 'legacy-manual', review_status: 'pending', title: 'AI 产品细节不明',
+      l1_review: { verdict: 'hold', confidence: 0.5, reasons: ['旧版 L1'] },
+      ai_advice: structuredClone(legacyAdvice),
+    },
+  ];
+  const store = { candidates };
+  const calls = [];
+  let verifyCalled = false;
+  const result = await repairIncompleteCandidates(store, {
+    review: { l2_enabled: true, fact_check_mode: 'codex_mcp' },
+  }, {
+    ids: candidates.map(item => item.id), limit: 2, concurrency: 1,
+    rescreenStructured: true, skipSummary: true, skipLocalize: true,
+    apiKeyB: 'test-key', retryDelayMs: 0, writeStore: () => {},
+    reviewCandidateB: async item => {
+      calls.push(item.id);
+      if (item.id === 'legacy-approve') {
+        return { verdict: 'approve', confidence: 0.1, reasons: [], assessment: approveAssessment };
+      }
+      return {
+        verdict: 'hold', confidence: 0.8, reasons: ['对象仍有歧义'],
+        assessment: { ...approveAssessment, subject_clarity: 'ambiguous' },
+      };
+    },
+    verifyAdviceWithWeb: async () => { verifyCalled = true; throw new Error('复筛不应重跑 L2 或搜索'); },
+  });
+
+  assert.equal(result.totalTargets, 2);
+  assert.equal(result.repairedReview, 2);
+  assert.deepEqual(calls.sort(), ['legacy-approve', 'legacy-manual']);
+  assert.equal(verifyCalled, false);
+  assert.equal(candidates[0].review_status, 'approved', '低置信度不阻止满足结构化门禁的通过');
+  assert.equal(candidates[0].ai_advice, null);
+  assert.equal(candidates[1].review_status, 'pending');
+  assert.deepEqual(candidates[1].ai_advice, legacyAdvice, '人工待审项沿用旧 L2 建议，避免二次模型/搜索调用');
+  assert.deepEqual(candidates[1].l1_review.assessment_gate_preview, {
+    action: 'manual', reason: 'criteria_not_satisfied',
+  });
+});
+
+test('repairIncompleteCandidates：历史搜索错误记录不进入模型或搜索重试', async () => {
+  const candidate = {
+    id: 'stale-web-result', review_status: 'pending', title: 'Muse AI glasses launch',
+    l1_review: { verdict: 'hold', confidence: 0.4 },
+    ai_advice: { verdict: 'hold', reasons: ['待查证'], confidence: 0.4,
+      web_verification: { provider: 'tavily', search_error: 'TAVILY_SEARCH_FAILED' } },
+  };
+  const store = { candidates: [candidate] };
+  const searchedProviders = [];
+  let reviewCalls = 0;
+  const result = await repairIncompleteCandidates(store, {
+    review: { l2_enabled: true, fact_check_mode: 'web_search_api', web_search_provider: 'zhipu_web_search', web_search_max_requests_per_run: 1 },
+  }, {
+    ids: [candidate.id], limit: 1, skipSummary: true, skipLocalize: true,
+    searchBudget: createWebSearchBudget(1),
+    reviewCandidateB: async () => { reviewCalls += 1; return { verdict: 'hold', reasons: ['仍需人工判断'], confidence: 0.5, reviewer: 'test' }; },
+    searchWeb: async request => {
+      searchedProviders.push(request.provider);
+      return { ok: true, provider: request.provider, sources: [{ title: 'Meta announcement', url: 'https://about.fb.com/news/', excerpt: 'Muse AI glasses launch' }] };
+    },
+    writeStore: () => {},
+  });
+
+  assert.deepEqual(searchedProviders, []);
+  assert.equal(reviewCalls, 0);
+  assert.equal(result.totalTargets, 0);
+  assert.equal(candidate.ai_advice.web_verification.search_error, 'TAVILY_SEARCH_FAILED');
+  assert.equal(result.remainingIncomplete, 0);
 });
 
 test('repairIncompleteCandidates：本地通道假翻译不抢占外部真翻译', async () => {
@@ -992,7 +1137,7 @@ test('repairIncompleteCandidates：可显式关闭外部通道', async () => {
     skipLocalize: true,
     externalEnabled: false,
     dryRun: true,
-    reviewCandidateA: async () => ({ verdict: 'approve', confidence: 0.99 }),
+    reviewCandidateA: async () => ({ verdict: 'approve', confidence: 0.99, assessment: approveAssessment }),
     reviewCandidateB: async () => {
       externalReviewCalled = true;
       return { verdict: 'discard', confidence: 0.99 };
@@ -1090,7 +1235,7 @@ test('enrichMinCandidates：force 失败时回滚既有摘要与翻译', async (
   assert.equal(candidate.localizations.zh.description, '既有描述');
 });
 
-test('enrichMinCandidates：hold 建议接入联网查证，web_verification 随 ai_advice 写入', async () => {
+test('enrichMinCandidates：可核实事实生成待 Codex 查证标记', async () => {
   const candidate = {
     id: 'web-verify',
     review_status: 'pending',
@@ -1098,30 +1243,20 @@ test('enrichMinCandidates：hold 建议接入联网查证，web_verification 随
   };
   const store = { candidates: [candidate] };
 
-  const result = await enrichMinCandidates(store, {}, {
+  const result = await enrichMinCandidates(store, { review: { fact_check_mode: 'codex_mcp' } }, {
     skipSummary: true,
     skipLocalize: true,
     dryRun: true,
-    reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.5, reasons: ['需联网核实官方来源'] }),
-    verifyAdviceWithWeb: async (item, advice) => ({
-      ...advice,
-      web_verification: {
-        query: item.title,
-        searched_at: '2026-09-16T00:00:00Z',
-        results: [{ title: '官方公告', url: 'https://blog.google/x' }],
-      },
-    }),
+    reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.5, reasons: ['需核实发布日期'], fact_check: { needed: true, claim: 'Gemini 3.8 Live 已正式发布', query: 'Gemini 3.8 Live 发布' } }),
   });
 
   assert.equal(result.reviewed, 1);
   assert.equal(candidate.ai_advice.verdict, 'hold');
+  assert.equal(candidate.ai_advice.web_verification.status, 'awaiting_agent');
   assert.equal(candidate.ai_advice.web_verification.query, 'Gemini 3.8 Live 发布');
-  assert.deepEqual(candidate.ai_advice.web_verification.results, [
-    { title: '官方公告', url: 'https://blog.google/x' },
-  ]);
 });
 
-test('enrichMinCandidates：存量 hold/discard 建议缺核验痕迹时补核验，approve 与已核验项跳过', async () => {
+test('enrichMinCandidates：已有 L2 建议不会因缺查证痕迹而重跑', async () => {
   const candidates = [
     {
       id: 'stale-hold',
@@ -1154,7 +1289,7 @@ test('enrichMinCandidates：存量 hold/discard 建议缺核验痕迹时补核�
   const store = { candidates };
 
   const work = countEnrichmentWork(candidates);
-  assert.equal(work.review, 1, '只有缺核验痕迹的存量 hold 建议计入审核工作量');
+  assert.equal(work.review, 0, '三条记录都有 L2 建议');
 
   const verifyTargets = [];
   const result = await enrichMinCandidates(store, {}, {
@@ -1168,19 +1303,15 @@ test('enrichMinCandidates：存量 hold/discard 建议缺核验痕迹时补核�
     },
   });
 
-  assert.deepEqual(verifyTargets, ['stale-hold'], '只对缺核验痕迹的存量建议补核验');
-  assert.equal(result.reviewed, 1);
-  // stale-hold：L2 建议重新生成并经核验后写回，状态与 L1 结论不动
-  assert.equal(candidates[0].ai_advice.verdict, 'hold');
-  assert.equal(candidates[0].ai_advice.web_verification.query, '存量挂起');
-  assert.equal(candidates[0].review_status, 'pending', '补核验不得改动审核状态');
-  assert.equal(candidates[0].l1_review.verdict, 'hold', '补核验不得重跑 L1');
-  // 已核验项与 approve 建议项完全不进目标，原样保留
+  assert.deepEqual(verifyTargets, []);
+  assert.equal(result.reviewed, 0);
+  // 所有存量建议保持原样；单独的查证导出流程负责处理未查证事实
+  assert.deepEqual(candidates[0].ai_advice, { verdict: 'hold', confidence: 0.5, reasons: ['历史建议'] });
   assert.deepEqual(candidates[1].ai_advice, { verdict: 'hold', confidence: 0.5, web_verification: { query: '已核验挂起' } });
   assert.deepEqual(candidates[2].ai_advice, { verdict: 'approve', confidence: 0.9 });
 });
 
-test('enrichMinCandidates：web_verify=false 时不核验且存量建议不重做（旧语义）', async () => {
+test('enrichMinCandidates：查证关闭时不调用查证器，已有建议不重做', async () => {
   const candidates = [
     {
       id: 'stale-hold',
@@ -1195,11 +1326,11 @@ test('enrichMinCandidates：web_verify=false 时不核验且存量建议不重�
   ];
   const store = { candidates };
 
-  const work = countEnrichmentWork(candidates, { l2Enabled: true, webVerifyEnabled: false });
-  assert.equal(work.review, 1, '开关关闭时存量 hold 建议不算缺失（旧语义），仅新条目缺 L1');
+  const work = countEnrichmentWork(candidates, { l2Enabled: true });
+  assert.equal(work.review, 1, '仅新条目缺 L1');
 
   let verifyCalled = false;
-  await enrichMinCandidates(store, { review: { web_verify: false } }, {
+  await enrichMinCandidates(store, { review: { fact_check_mode: 'off' } }, {
     skipSummary: true,
     skipLocalize: true,
     writeStore: () => {},
@@ -1276,6 +1407,24 @@ test('repairIncompleteCandidates：写回遇到并发修改时安全合并，人
   assert.equal(merged.l1_review, undefined);
   // 仍缺失的摘要被通道 A 结果补齐
   assert.equal(merged.summary, '通道A摘要');
+});
+
+test('repairIncompleteCandidates：并发写入后仍保留最新初审失败原因', async () => {
+  const candidate = {
+    id: 'failed-concurrent', review_status: 'pending', title: 'AI news',
+    l1_review: { verdict: null, llm_error: '旧错误' },
+  };
+  const store = { schema_version: 1, updated_at: '2026-09-27T00:00:00Z', candidates: [candidate] };
+  const fresh = { schema_version: 1, updated_at: '2026-09-27T00:00:01Z', candidates: [structuredClone(candidate)] };
+  let written;
+  await repairIncompleteCandidates(store, { review: { fact_check_mode: 'off' } }, {
+    apiKeyB: 'test-key', skipSummary: true, skipLocalize: true,
+    reviewCandidateB: async () => ({ verdict: null, reasons: [], confidence: 0, llm_error: '本轮请求失败' }),
+    readStore: () => structuredClone(fresh),
+    writeStore: value => { written = value; },
+  });
+  assert.equal(written.candidates[0].review_status, 'pending');
+  assert.equal(written.candidates[0].l1_review.llm_error, '本轮请求失败');
 });
 
 test('repairIncompleteCandidates：严格遵守不变量门禁（人工审核与受保护字幕）', async () => {

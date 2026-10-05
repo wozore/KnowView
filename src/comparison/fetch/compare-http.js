@@ -1,5 +1,7 @@
 'use strict';
 
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledError } = require('../../shared/external-operation-policy');
+
 /**
  * compare-http.js — 模型对比抓取共享 HTTP 层（Node 内置 fetch，零依赖）
  *
@@ -17,6 +19,7 @@ const DEFAULT_UA = 'KnowView-comparison/0.1 (+https://github.com/wozore/KnowView
  * @returns {Promise<string>} 响应文本
  */
 async function fetchText(url, options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) throw externalNetworkDisabledError('COMPARISON_NETWORK_DISABLED');
   const retries = options.retries == null ? 2 : options.retries;
   const timeoutMs = options.timeoutMs == null ? 45000 : options.timeoutMs;
   const ua = options.ua || DEFAULT_UA;

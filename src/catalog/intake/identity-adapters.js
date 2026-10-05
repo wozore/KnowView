@@ -12,8 +12,7 @@
  * 身份建议走 requestStructuredJson（AI 只建议，最终归属由核验层程序重算）。
  */
 
-const { searchWebWithFallback, plannedWebSearchRequests } = require('../../shared/web-search');
-const { extractTavily } = require('../../shared/tavily-client');
+const { searchWeb, plannedWebSearchRequests } = require('../../shared/web-search');
 const { canonicalizeUrl } = require('../../shared/web-source-contract');
 const { fetchOfficialSources } = require('./official-source-fetch');
 const { requestStructuredJson } = require('../../shared/llm-gateway');
@@ -29,21 +28,13 @@ const { readIdentityReceipts } = require('./identity-receipts');
 /** resolution/bundle 转发只透传白名单键，防止上层无关 options 误入真实凭据面。 */
 function identityAdapterOptionsOf(options = {}) {
   return {
-    searchApiKey: options.searchApiKey,
     webSearchApiKey: options.webSearchApiKey,
     fetchImpl: options.fetchImpl,
     timeoutMs: options.timeoutMs,
-    accessMode: options.accessMode,
-    fallbackToKey: options.fallbackToKey,
     maxSearchResults: options.maxSearchResults,
-    searchDepth: options.searchDepth,
     searchProvider: options.searchProvider,
-    searchFallbackProvider: options.searchFallbackProvider,
     searchEngine: options.searchEngine,
     extractProvider: options.extractProvider,
-    extractFallbackProvider: options.extractFallbackProvider,
-    extractDepth: options.extractDepth,
-    chunksPerSource: options.chunksPerSource,
     provider: options.provider,
     model: options.model,
     apiKey: options.apiKey,
@@ -67,7 +58,6 @@ async function discoverOfficialSources(input, options = {}) {
     .map(url => canonicalizeUrl(url)).filter(Boolean);
   const includeDomains = officialDomainsOf(declaredUrls);
   const provider = options.searchProvider || 'zhipu_web_search';
-  const fallbackProvider = options.searchFallbackProvider ?? 'tavily';
   const primaryRequests = plannedWebSearchRequests({ provider, includeDomains });
   if (primaryRequests > 1 && input.ledger?.reserve) {
     const reservation = input.ledger.reserve('search_queries', primaryRequests - 1);
@@ -76,15 +66,11 @@ async function discoverOfficialSources(input, options = {}) {
       return declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
     }
   }
-  const result = await searchWebWithFallback({
+  const result = await searchWeb({
     provider,
-    fallbackProvider,
-    fallbackLedger: input.ledger,
-    providerApiKeys: { zhipu_web_search: options.webSearchApiKey, tavily: options.searchApiKey },
+    apiKey: options.webSearchApiKey,
     fetchImpl: options.fetchImpl,
     timeoutMs: options.timeoutMs,
-    accessMode: options.accessMode,
-    fallbackToKey: options.fallbackToKey,
     query: `${name} official`,
     ...(includeDomains.length ? { includeDomains } : {}),
     searchDepth: options.searchDepth || 'advanced',
@@ -93,9 +79,7 @@ async function discoverOfficialSources(input, options = {}) {
   });
   if (!result.ok && !declaredUrls.length) throw new Error(`${result.code || 'WEB_SEARCH_FAILED'}: ${result.error || '官方源发现失败'}`);
   if (!result.ok && declaredUrls.length) return declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
-  if (!result.sources.length && result.fallback_error && !declaredUrls.length) {
-    throw new Error(`${result.fallback_error.code || 'WEB_SEARCH_FALLBACK_FAILED'}: ${result.fallback_error.error || '官方源发现失败'}`);
-  }
+  if (!result.sources.length && !declaredUrls.length) throw new Error(`WEB_SEARCH_NO_RESULTS: ${name} official`);
   const declared = declaredUrls.map(url => ({ url, title: `${name} Official`, source_kind: 'official' }));
   const discovered = result.sources.map(source => ({ ...source, source_kind: 'official' }));
   const seen = new Set();
@@ -118,36 +102,8 @@ async function acquireOfficialSources(sources, options = {}) {
   const relevant = page => !expectedIdentityKeys.length || expectedIdentityKeys.some(key => identityAppearsInBody(key, page.body_text));
   const directByUrl = new Map(direct.pages.map(page => [page.url, page]));
   const pending = normalized.filter(source => !directByUrl.has(source.url) || !relevant(directByUrl.get(source.url)));
-  if (!pending.length) return direct.pages;
-  if ((options.extractFallbackProvider ?? 'tavily') !== 'tavily') {
-    if (direct.pages.length) return direct.pages;
-    throw new Error('OFFICIAL_SOURCE_FETCH_FAILED: 官方页面直连未取得正文，且未配置正文提取备用 provider');
-  }
-  // extract 相关性 query 用来源标题拼接（discover 检索词为 "<name> official"，标题携带候选名上下文）。
-  const query = [options.candidateName, ...(options.identityAliases || []), ...pending.map(source => source?.title)].filter(Boolean).join(' ');
-  const result = await extractTavily({
-    apiKey: options.searchApiKey,
-    fetchImpl: options.fetchImpl,
-    timeoutMs: options.timeoutMs,
-    accessMode: options.accessMode,
-    fallbackToKey: options.fallbackToKey,
-    urls: pending.map(source => source.url),
-    query,
-    extractDepth: options.extractDepth || 'advanced',
-    chunksPerSource: options.chunksPerSource,
-  });
-  if (!result.ok) {
-    if (direct.pages.length) return direct.pages;
-    throw new Error(`${result.code || 'TAVILY_EXTRACT_FAILED'}: ${result.error || '官方正文获取失败'}`);
-  }
-  const extracted = result.contents
-    .map(item => ({ url: item.url, body_text: String(item.content || '').trim() }))
-    .filter(page => page.body_text);
-  for (const page of extracted) {
-    const current = directByUrl.get(page.url);
-    if (!current || !relevant(current) || relevant(page)) directByUrl.set(page.url, page);
-  }
-  return [...directByUrl.values()];
+  if (direct.pages.length) return direct.pages;
+  throw new Error('OFFICIAL_SOURCE_FETCH_FAILED: 官方页面直连未取得可用正文');
 }
 
 /** 官方源适配器工厂：{ discoverOfficialSources, acquireOfficialSources }（核验层契约形状）。 */

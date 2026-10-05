@@ -25,9 +25,9 @@ test('catalog recovery projects safe defaults and rejects sensitive or empty ove
   assert.equal(result.ok, true);
   assert.equal(calls[0].input.generatorOptions.model, 'deepseek-v4-flash');
   assert.equal(calls[0].input.generatorOptions.searchProvider, 'zhipu_web_search');
-  assert.equal(calls[0].input.generatorOptions.searchFallbackProvider, 'tavily');
+  assert.equal(calls[0].input.generatorOptions.searchFallbackProvider, 'zhipu_web_search');
   assert.equal(calls[0].input.generatorOptions.extractProvider, 'direct_fetch');
-  assert.equal(calls[0].input.generatorOptions.extractFallbackProvider, 'tavily');
+  assert.equal(calls[0].input.generatorOptions.extractFallbackProvider, 'direct_fetch');
   assert.equal(calls[0].input.generatorOptions.searchEngine, 'search_std');
   assert.throws(() => coordinator.recoveryPlan('draft-blocked', {
     expected_revision: 'catalog-r1',
@@ -207,12 +207,12 @@ test('catalog workbench resolves api_model placement before draft preparation an
   const plan = coordinator.plan();
   assert.equal(plan.ok, true);
   assert.equal(plan.entries[0].status, 'placement_deferred');
-  assert.equal(plan.cost_plan.search_queries, 10);
+  assert.equal(plan.cost_plan.search_queries, 6);
   assert.equal(plan.cost_plan.pages, 3);
   assert.equal(plan.cost_plan.responses_calls, 4);
   assert.equal(plan.cost_plan.synthesis_calls, 1);
-  assert.equal(plan.cost_plan.verification_search_upper_bound, 2);
-  assert.equal(plan.cost_plan.verification_search_fallback_upper_bound, 1);
+  assert.equal(plan.cost_plan.verification_search_upper_bound, 1);
+  assert.equal(plan.cost_plan.verification_search_fallback_upper_bound, 0);
   assert.equal(plan.cost_plan.verification_responses_upper_bound, 4);
   assert.equal(plan.cost_plan.placement_ai_calls_upper_bound, 1);
 
@@ -713,8 +713,8 @@ test('projection keeps transient retrieval failures research-resumable and provi
     draft_id: 'draft-search-retry',
     state: 'failed_retryable',
     research: { ok: false, official_sources: [] },
-    readiness: { status: 'blocked', blocking_reasons: ['TAVILY_EXTRACT_RATE_LIMITED'] },
-    last_error: { code: 'TAVILY_EXTRACT_RATE_LIMITED', recovery_kind: 'manual_required' },
+    readiness: { status: 'blocked', blocking_reasons: ['OFFICIAL_SOURCE_FETCH_FAILED'] },
+    last_error: { code: 'OFFICIAL_SOURCE_FETCH_FAILED', recovery_kind: 'manual_required' },
   });
   assert.equal(retrieval.recovery_kind, 'retryable');
   assert.equal(retrieval.recovery_mode, 'research_resume');
@@ -870,9 +870,9 @@ test('Bundle 计划和准备拿到 Catalog 默认 Web Search 配置与备用预�
     identityReceipts: [],
     generatorOptions: {
       searchProvider: 'zhipu_web_search',
-      searchFallbackProvider: 'tavily',
+      searchFallbackProvider: 'zhipu_web_search',
       extractProvider: 'direct_fetch',
-      extractFallbackProvider: 'tavily',
+      extractFallbackProvider: 'direct_fetch',
     },
     planCatalogBundles: options => {
       receivedOptions = options;
@@ -881,9 +881,9 @@ test('Bundle 计划和准备拿到 Catalog 默认 Web Search 配置与备用预�
   });
   assert.equal(coordinator.bundlePlan().ok, true);
   assert.equal(receivedOptions.resolveOptions.searchProvider, 'zhipu_web_search');
-  assert.equal(receivedOptions.resolveOptions.searchFallbackProvider, 'tavily');
+  assert.equal(receivedOptions.resolveOptions.searchFallbackProvider, 'zhipu_web_search');
   assert.equal(receivedOptions.resolveOptions.extractProvider, 'direct_fetch');
-  assert.equal(receivedOptions.generatorOptions.extractFallbackProvider, 'tavily');
+  assert.equal(receivedOptions.generatorOptions.extractFallbackProvider, 'direct_fetch');
 });
 
 test('普通 Catalog plan 和 prepare 排除 series candidate，series 只能由 Bundle 入口处理', async () => {

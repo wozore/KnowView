@@ -18,7 +18,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const { canonicalizeUrl } = require('../../src/shared/tavily-client');
+const { canonicalizeUrl } = require('../../src/shared/web-source-contract');
 const {
   readPendingCards,
   dedupeBatchCandidates,
@@ -121,11 +121,11 @@ test('estimateResolutionNeed：registry 命中免 vendor 解析，核验与备�
   assert.equal(need.cards_free, 1);
   assert.equal(need.cards_paid, 2);
   assert.equal(need.vendor_search_primary_upper_bound, 2);
-  assert.equal(need.vendor_search_fallback_upper_bound, 2);
-  assert.equal(need.vendor_search_upper_bound, 4, '首选加备用搜索按未命中数估算');
+  assert.equal(need.vendor_search_fallback_upper_bound, 0);
+  assert.equal(need.vendor_search_upper_bound, 2, '每个未命中候选最多一次厂商搜索');
   assert.equal(need.verification_search_primary_upper_bound, 3, '每个候选按官方域 fan-out 估算身份搜索');
-  assert.equal(need.verification_search_fallback_upper_bound, 3);
-  assert.equal(need.verification_search_upper_bound, 6);
+  assert.equal(need.verification_search_fallback_upper_bound, 0);
+  assert.equal(need.verification_search_upper_bound, 3);
   assert.equal(need.verification_extract_upper_bound, 9);
   assert.equal(need.verification_responses_upper_bound, 12, '身份建议允许一次格式重试，成本上限按实际响应次数估算');
 });
@@ -437,16 +437,13 @@ test('resolveBatchCandidates 多候选 outcome 写入逐次 fresh-read，不复�
   assert.deepEqual(final.cards.map(card => card.intake_outcome), ['already_complete', 'already_complete']);
 });
 
-test('resolveOfficialSource fail-closed：缺 name / 缺 TAVILY key 均不抛错', async () => {
+test('resolveOfficialSource fail-closed：缺 name / 缺 Web Search key 均不抛错', async () => {
   const noName = await resolveOfficialSource('   ');
   assert.equal(noName.ok, false);
   assert.equal(noName.code, 'VENDOR_RESOLUTION_NAME_REQUIRED');
-  const noKey = await resolveOfficialSource('SomeTool', { searchApiKey: '', fetchImpl: async () => {} });
+  const noKey = await resolveOfficialSource('SomeTool', { webSearchApiKey: '', fetchImpl: async () => {} });
   assert.equal(noKey.ok, false);
-  assert.equal(noKey.code, 'TAVILY_SEARCH_FAILED'); // 缺 key 走 keyless，mock fetchImpl 返回非法响应 → FAILED
-  const noKeyKeyed = await resolveOfficialSource('SomeTool', { searchApiKey: '', accessMode: 'keyed', fetchImpl: async () => {} });
-  assert.equal(noKeyKeyed.ok, false);
-  assert.match(noKeyKeyed.code, /TAVILY_.*_AUTH_REQUIRED/); // keyed 模式下缺 key 仍 fail-closed
+  assert.equal(noKey.code, 'ZHIPU_WEB_SEARCH_AUTH_REQUIRED');
 });
 
 // ── 第 4 组：批量顶层编排 ──────────────────────────────────────
@@ -789,14 +786,14 @@ test('update_sources 可选契约：合法 GitHub Release/File 与厂商 changel
           {
             kind: 'changelog',
             url: 'https://acme.example/changelog',
-            collector: 'tavily_extract',
+            collector: 'direct_fetch',
             review_mode: 'ai_fallback',
             product_surface: 'product',
           },
           {
             kind: 'release_notes',
             url: 'https://acme.example/release-notes',
-            collector: 'tavily_extract',
+            collector: 'direct_fetch',
             review_mode: 'ai_fallback',
             product_surface: 'desktop',
           },
@@ -856,7 +853,7 @@ test('update_sources 严格拒绝错误来源边界、组合、重复和未知�
   assert.match(validate([{ ...release, url: 'https://github.com/acme/sample-tool/tags' }]).errors.join(','), /GITHUB_URL_REPOSITORY_MISMATCH/);
   assert.match(validate([{ ...release, url: 'http://github.com/acme/sample-tool/releases' }]).errors.join(','), /HTTPS_REQUIRED/);
   assert.match(validate([{ ...release, url: 'https://acme.example/pricing' }]).errors.join(','), /PRICING_URL_FORBIDDEN/);
-  assert.match(validate([{ ...release, collector: 'tavily_extract' }]).errors.join(','), /COLLECTOR_KIND_MISMATCH/);
+  assert.match(validate([{ ...release, collector: 'direct_fetch' }]).errors.join(','), /COLLECTOR_KIND_MISMATCH/);
   assert.match(validate([{ ...release, unexpected: true }]).errors.join(','), /UNKNOWN_FIELD/);
   assert.match(validate([{ ...release }, { ...release }]).errors.join(','), /DUPLICATE_URL/);
   assert.match(validate([{
@@ -873,7 +870,7 @@ test('update_sources 严格拒绝错误来源边界、组合、重复和未知�
   assert.match(validate([{
     kind: 'changelog',
     url: 'https://github.com/acme/sample-tool/releases',
-    collector: 'tavily_extract',
+        collector: 'direct_fetch',
             review_mode: 'ai_fallback',
     product_surface: 'cli',
   }]).errors.join(','), /GITHUB_KIND_REQUIRED/);

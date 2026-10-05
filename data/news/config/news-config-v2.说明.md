@@ -71,12 +71,11 @@ X 预算采用请求级预占与四桶分配策略（热半区 7,500 = 账号 5,
 |---|---|---|
 | `l1_input_include_comments` | `true` | L1 AI 审核是否把点赞最高 N 条评论拼进输入 |
 | `l1_comments_top_n` | `10` | L1 审核取评论条数（点赞最高前 N） |
-| `l1_confidence_auto_discard` | `0.9` | L1 判 discard 且置信度 ≥ 此值才自动剔除 |
 | `l2_enabled` | `true` | 是否生成 L2 AI 辅助建议（供人工参考，不自动改状态） |
-| `web_verify` | `true` | hold/discard 建议是否进行联网核验 |
-| `web_search_provider` | `tavily` | 联网核验搜索 provider：`tavily` 或 `zhipu_web_search`；智谱调用按次计费 |
+| `fact_check_mode` | `codex_mcp` | 事实查证方式：`off` 关闭、`web_search_api` 直连 Web Search API、`codex_mcp` 导出 Codex 人工小批任务 |
+| `web_search_provider` | `zhipu_web_search` | 仅 `web_search_api` 模式使用的搜索 provider |
 | `web_search_engine` | `search_std` | 智谱 Web Search 引擎：`search_std`、`search_pro`、`search_pro_sogou`、`search_pro_quark` |
-| `web_verify_max_searches_per_run` | `10` | 使用智谱 provider 时单次运行最多搜索请求数，超限保持 fail-open |
+| `web_search_max_requests_per_run` | `10` | 仅 `web_search_api` 模式生效的单次运行请求上限 |
 
 ## keywords —— 关键词表与提纯
 

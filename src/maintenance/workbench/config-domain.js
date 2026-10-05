@@ -7,14 +7,14 @@ const { loadAiModuleConfig } = require('../../catalog/ai-config');
 const { AI_PROVIDERS } = require('../../shared/providers');
 
 const CREDENTIALS = Object.freeze({
-  zhipu: 'ZHIPU_API_KEY', deepseek: 'DEEPSEEK_API_KEY', tavily: 'TAVILY_API_KEY',
+  zhipu: 'ZHIPU_API_KEY', deepseek: 'DEEPSEEK_API_KEY',
   youtube: 'YOUTUBE_API_KEY', x: 'X_API_KEY', openai: 'OPENAI_API_KEY', anthropic: 'ANTHROPIC_API_KEY',
 });
 const SOURCE_NAMES = Object.freeze(['openrouter', 'lmarena', 'livebench', 'llm_stats']);
 const NEWS_FIELDS = Object.freeze({
   schedule: ['youtube_cron', 'youtube_tz', 'youtube_interval_hours', 'youtube_window_days', 'x_cron_hot', 'x_cron_cold', 'x_tz', 'tool_update_review_hour_utc', 'tool_update_review_minute_utc'],
   collection: ['enabled', 'youtube_search_max_per_run', 'youtube_search_cost_units', 'youtube_daily_quota_units', 'youtube_videos_batch_size', 'youtube_comments_top_n', 'x_credits_per_hot_run', 'x_credits_per_cold_run', 'x_credits_per_tweet', 'x_credits_per_article', 'x_tweets_per_request_max', 'max_output_items_daily', 'min_output_items_daily', 'max_output_with_youtube', 'review_top_pure_x', 'review_top_with_youtube', 'ai_top_input_max', 'concurrency', 'request_timeout_ms', 'max_retries', 'retry_base_ms'],
-  review: ['l1_input_include_comments', 'l1_comments_top_n', 'l1_confidence_auto_approve', 'l1_confidence_auto_discard', 'l2_enabled', 'web_verify', 'web_search_provider', 'web_search_engine', 'web_verify_max_searches_per_run'],
+  review: ['l1_input_include_comments', 'l1_comments_top_n', 'l2_enabled', 'fact_check_mode', 'web_search_provider', 'web_search_engine', 'web_search_max_requests_per_run'],
   feedback: ['tool_feedback', 'concept_feedback', 'llm_extract', 'llm_model'],
   transcripts: ['notify_count'],
 });
@@ -303,11 +303,11 @@ function projectProviders(providers) {
 
 function projectCatalog(config, providers) {
   const source = 'source_default';
-  if (!isObject(config) || ['provider', 'model', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine'].some(key => typeof config[key] !== 'string' || !config[key].trim())) throw failure();
+  if (!isObject(config) || ['provider', 'model', 'protocol', 'search_provider', 'extract_provider', 'search_engine'].some(key => typeof config[key] !== 'string' || !config[key].trim())) throw failure();
   if (config.enabled !== undefined) assertType(config.enabled, value => typeof value === 'boolean');
   const limits = ['timeout_ms', 'max_search_queries', 'max_pages', 'max_responses_calls', 'max_synthesis_calls', 'max_repair_calls'];
   return group('catalog_ai', 'Catalog AI', [
-    section('effective', 'Effective configuration', valueItems(config, ['enabled', 'provider', 'model', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine'], source), []),
+    section('effective', 'Effective configuration', valueItems(config, ['enabled', 'provider', 'model', 'protocol', 'search_provider', 'extract_provider', 'search_engine'], source), []),
     section('limits', 'Limits', valueItems(config, limits, source), []),
     section('providers', 'Provider registry', [], [collection('providers', 'Providers', projectProviders(providers), 'source_default')]),
   ]);

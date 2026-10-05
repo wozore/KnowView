@@ -2,7 +2,7 @@
  * identity-adapters.test.js — 身份核验层适配器全离线回归
  *
  * 测试原理：fetchImpl 全部注入 fake（绝不真实联网），断言 discover/acquire
- * 的 Web Search/Tavily 备用请求与官方正文直连/提取回退语义、
+ * 的智谱 Web Search 请求与官方正文直连语义、
  * suggest 的结构化建议链路；resolution 级验证未注入 identityAdapters 时
  * 默认构造被采用（核验链路真实推进而非秒失败）。
  *
@@ -32,7 +32,7 @@ const VALID_SUGGESTION = {
   reasons: ['official docs'],
 };
 
-test('identity verification ledger reserves search fallback and series-member retry upper bounds', () => {
+test('identity verification ledger reserves Web Search and series-member retry upper bounds', () => {
   const context = identityContextOf({
     identityBudgetSize: 2,
     identitySnapshotOf: () => emptySnapshot(),
@@ -41,7 +41,6 @@ test('identity verification ledger reserves search fallback and series-member re
     bridgeRevision: 'bridge-r1',
     identityReceipts: [],
     searchProvider: 'zhipu_web_search',
-    searchFallbackProvider: 'tavily',
   });
   assert.equal(context.ledger.snapshot().limits.search_queries, 4);
   assert.equal(context.ledger.snapshot().limits.pages, 6);
@@ -61,7 +60,7 @@ test('discover：保留已声明来源，同时按官方域执行智谱定向搜
     return jsonResponse({ search_result: [{ link: 'https://platform.openai.com/docs/gpt-5-6', title: 'GPT-5.6', content: 'official page' }] });
   };
   const adapters = createIdentityVerificationAdapters({
-    fetchImpl, accessMode: 'keyed', searchApiKey: 'search-key', webSearchApiKey: 'web-search-key', maxSearchResults: 3, searchDepth: 'basic',
+    fetchImpl, webSearchApiKey: 'web-search-key', maxSearchResults: 3, searchEngine: 'search_std',
   });
   const sources = await adapters.discoverOfficialSources({
     name: 'GPT-5.6',
@@ -80,75 +79,53 @@ test('discover：official_urls 为空时不传 include_domains', async () => {
   const calls = [];
   const fetchImpl = async (endpoint, init) => {
     calls.push(JSON.parse(init.body));
-    return jsonResponse({ results: [] });
+    return jsonResponse({ search_result: [{ link: 'https://example.com/some-model', title: 'Some Model', content: 'official' }] });
   };
-  const adapters = createIdentityVerificationAdapters({ fetchImpl, searchProvider: 'tavily', searchFallbackProvider: 'tavily', accessMode: 'keyed', searchApiKey: 'k' });
+  const adapters = createIdentityVerificationAdapters({ fetchImpl, searchProvider: 'zhipu_web_search', webSearchApiKey: 'zk' });
   const sources = await adapters.discoverOfficialSources({ name: 'Some Model', entity_type: 'model', official_urls: [] });
-  assert.equal('include_domains' in calls[0], false);
-  assert.deepEqual(sources, []);
+  assert.equal('search_domain_filter' in calls[0], false);
+  assert.equal(sources.length, 1);
+  assert.equal(sources[0].url, 'https://example.com/some-model');
 });
 
-test('discover：首选和备用搜索都失败时保留失败错误', async () => {
+test('discover：智谱 Web Search 限流时保留失败错误', async () => {
   const fetchImpl = async () => ({ ok: false, status: 429, json: async () => ({ error: 'rate limited' }) });
-  const adapters = createIdentityVerificationAdapters({ fetchImpl, searchProvider: 'tavily', searchFallbackProvider: 'tavily', accessMode: 'keyed', searchApiKey: 'k' });
+  const adapters = createIdentityVerificationAdapters({ fetchImpl, searchProvider: 'zhipu_web_search', webSearchApiKey: 'zk' });
   await assert.rejects(
     () => adapters.discoverOfficialSources({ name: 'X Model', entity_type: 'model', official_urls: [] }),
-    /TAVILY_SEARCH_RATE_LIMITED/,
+    /ZHIPU_WEB_SEARCH_RATE_LIMITED/,
   );
 });
 
 // ── acquire：官方正文获取（核验层契约）────────────────────────────
 
-test('acquire：直连失败后 Tavily Extract 读取剩余官方正文', async () => {
+test('acquire：直连失败时报告正文获取失败', async () => {
   const calls = [];
-  const fetchImpl = async (endpoint, init) => {
-    calls.push({ endpoint: String(endpoint), body: init.body ? JSON.parse(init.body) : null });
-    if (String(endpoint).startsWith('https://openai.com/')) return { ok: false, status: 503, text: async () => '' };
-    return jsonResponse({
-      results: [
-        { url: 'https://openai.com/a', raw_content: 'GPT-5.6 body' },
-        { url: 'https://openai.com/b', content: 'second body' },
-        { url: 'https://openai.com/c', raw_content: '   ' },
-      ],
-      failed_results: [],
-    });
+  const fetchImpl = async endpoint => {
+    calls.push(String(endpoint));
+    return { ok: false, status: 503, text: async () => '' };
   };
-  const adapters = createIdentityVerificationAdapters({
-    fetchImpl, accessMode: 'keyed', searchApiKey: 'k', chunksPerSource: 2, extractDepth: 'basic',
-  });
-  const pages = await adapters.acquireOfficialSources([
+  const adapters = createIdentityVerificationAdapters({ fetchImpl });
+  await assert.rejects(() => adapters.acquireOfficialSources([
     { url: 'https://openai.com/a/', title: 'GPT-5.6' },
     { url: 'not-a-url', title: 'skipped' },
-  ]);
-  assert.equal(calls.length, 2);
-  assert.equal(calls[0].endpoint, 'https://openai.com/a/');
-  assert.equal(calls[1].endpoint, 'https://api.tavily.com/extract');
-  assert.deepEqual(calls[1].body.urls, ['https://openai.com/a/']);
-  assert.equal(calls[1].body.query, 'GPT-5.6');
-  assert.equal(calls[1].body.chunks_per_source, 2);
-  assert.equal(calls[1].body.extract_depth, 'basic');
-  assert.deepEqual(pages, [
-    { url: 'https://openai.com/a', body_text: 'GPT-5.6 body' },
-    { url: 'https://openai.com/b', body_text: 'second body' },
-  ]);
+  ]), /OFFICIAL_SOURCE_FETCH_FAILED/);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0], 'https://openai.com/a/');
 });
 
-test('acquire：直连正文没有候选名时使用 Tavily Extract 补取相关正文', async () => {
+test('acquire：直连正文没有候选名时保留直连结果且不使用正文提取服务', async () => {
   const calls = [];
-  const fetchImpl = async (endpoint, init = {}) => {
+  const fetchImpl = async endpoint => {
     calls.push(String(endpoint));
-    if (String(endpoint) === 'https://docs.example.com/models') {
-      return { ok: true, status: 200, text: async () => '<html><body>模型文档目录</body></html>' };
-    }
-    return jsonResponse({ results: [{ url: 'https://docs.example.com/models', raw_content: 'Qwen-Image-2.1 is available through the official API.' }] });
+    return { ok: true, status: 200, text: async () => '<html><body>模型文档目录</body></html>' };
   };
-  const adapters = createIdentityVerificationAdapters({ fetchImpl, accessMode: 'keyed', searchApiKey: 'extract-key' });
+  const adapters = createIdentityVerificationAdapters({ fetchImpl });
   const pages = await adapters.acquireOfficialSources([
     { url: 'https://docs.example.com/models', title: 'Qwen-Image-2.1 Official' },
   ], { candidateName: 'Qwen-Image-2.1', candidateIdentityKeys: ['qwen-image-2.1'] });
-  assert.equal(calls.length, 2);
-  assert.ok(calls[1].includes('/extract'));
-  assert.match(pages[0].body_text, /Qwen-Image-2\.1/);
+  assert.equal(calls.length, 1);
+  assert.equal(pages[0].body_text, '模型文档目录');
 });
 
 test('acquire：无有效 urls 直接返回空数组且不发起请求', async () => {
@@ -159,12 +136,12 @@ test('acquire：无有效 urls 直接返回空数组且不发起请求', async (
   assert.equal(called, 0);
 });
 
-test('acquire：extract 失败抛错', async () => {
+test('acquire：正文直连失败抛错', async () => {
   const fetchImpl = async () => ({ ok: false, status: 422, text: async () => 'bad request' });
-  const adapters = createIdentityVerificationAdapters({ fetchImpl, accessMode: 'keyed', searchApiKey: 'k' });
+  const adapters = createIdentityVerificationAdapters({ fetchImpl });
   await assert.rejects(
     () => adapters.acquireOfficialSources([{ url: 'https://openai.com/a' }]),
-    /TAVILY_EXTRACT_FAILED/,
+    /OFFICIAL_SOURCE_FETCH_FAILED/,
   );
 });
 
@@ -226,15 +203,13 @@ test('suggest：缺 provider key → {ok:false} 且不发起请求', async () =>
 
 test('identityAdapterOptionsOf 只透传白名单键', () => {
   const picked = identityAdapterOptionsOf({
-    searchApiKey: 'sk', fetchImpl: async () => {}, timeoutMs: 5, accessMode: 'keyed', fallbackToKey: false,
-    maxSearchResults: 3, searchDepth: 'basic', searchFallbackProvider: 'tavily', extractProvider: 'direct_fetch', extractFallbackProvider: 'tavily', extractDepth: 'basic', chunksPerSource: 2,
+    webSearchApiKey: 'sk', fetchImpl: async () => {}, timeoutMs: 5,
+    maxSearchResults: 3, searchProvider: 'zhipu_web_search', extractProvider: 'direct_fetch',
     provider: 'zhipu', model: 'm', apiKey: 'k',
     ledger: { evil: true }, registry: { evil: true }, identityLedger: { evil: true },
   });
   assert.deepEqual(Object.keys(picked).sort(), [
-    'accessMode', 'apiKey', 'chunksPerSource', 'extractDepth', 'extractFallbackProvider', 'extractProvider', 'fallbackToKey', 'fetchImpl',
-    'maxSearchResults', 'model', 'provider', 'searchApiKey', 'searchDepth', 'searchEngine', 'searchFallbackProvider',
-    'searchProvider', 'timeoutMs', 'webSearchApiKey',
+    'apiKey', 'extractProvider', 'fetchImpl', 'maxSearchResults', 'model', 'provider', 'searchEngine', 'searchProvider', 'timeoutMs', 'webSearchApiKey',
   ]);
 });
 

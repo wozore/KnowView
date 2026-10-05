@@ -1,5 +1,7 @@
 'use strict';
 
+const { EXTERNAL_NETWORK_ENABLED } = require('../../shared/external-operation-policy');
+
 /**
  * vibe-hub-evidence.js —— vibe-hub.org 概念页提取与本地缓存（概念批量生成补充证据）
  *
@@ -19,7 +21,7 @@
  * （name/alternateName/description），正文 `.prerequisite-links`（先知道=相关概念）、
  * `.alias-row`（也常被叫作=别名）、`.reference-title/.reference-source`（来源）为补充。
  *
- * 注入点（测试用，仿 tavily-client.js）：
+ * 注入点（测试用）：
  *   options.readCache / options.writeCache    缓存读写注入（缺省文件实现）
  *   options.fetchImpl                          网络注入（替换真实 fetch）
  *   options.now / options.sleep               时钟与休眠注入
@@ -226,6 +228,7 @@ async function throttle(options = {}) {
  * @returns {{ ok: true, extracted: object }|{ ok: false, reason: string }}
  */
 async function fetchPage(slug, options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return { ok: false, reason: 'EXTERNAL_NETWORK_DISABLED' };
   const fetchImpl = options.fetchImpl || (typeof fetch === 'function' ? fetch : null);
   if (!fetchImpl) return { ok: false, reason: 'VIBE_HUB_NO_FETCH' };
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;

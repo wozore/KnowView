@@ -24,16 +24,16 @@ export function recoveryControlsFor(draft, content, onRefreshAll) {
   controls.className = 'recovery-controls';
   const configFields = Array.isArray(draft.missing_config_fields) ? draft.missing_config_fields : [];
   const inputs = new Map();
-  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', search_provider: 'zhipu_web_search', search_fallback_provider: 'tavily', extract_provider: 'direct_fetch', extract_fallback_provider: 'tavily', search_engine: 'search_std', access_mode: 'keyless', max_search_queries: 8, max_pages: 16, max_responses_calls: 16, max_synthesis_calls: 2 };
+  const defaults = { model: 'glm-5.3-flash', provider: 'zhipu', protocol: 'messages', search_provider: 'zhipu_web_search', search_fallback_provider: 'zhipu_web_search', extract_provider: 'direct_fetch', extract_fallback_provider: 'direct_fetch', search_engine: 'search_std', max_search_queries: 8, max_pages: 16, max_responses_calls: 16, max_synthesis_calls: 2 };
   const numericFields = {
     max_search_queries: { label: '搜索请求上限', min: 1, max: 20 },
     max_pages: { label: '官方正文页上限', min: 1, max: 100 },
     max_responses_calls: { label: 'AI responses 上限', min: 1, max: 50 },
     max_synthesis_calls: { label: '目录合成上限', min: 1, max: 5 },
   };
-  const fieldLabels = { model: '模型', provider: 'AI 服务商', protocol: '协议', search_provider: '首选搜索', search_fallback_provider: '备用搜索', extract_provider: '正文获取', extract_fallback_provider: '备用正文提取', search_engine: '搜索引擎', access_mode: 'Tavily 访问模式' };
+  const fieldLabels = { model: '模型', provider: 'AI 服务商', protocol: '协议', search_provider: 'Web Search', search_fallback_provider: '搜索备用', extract_provider: '正文获取', extract_fallback_provider: '正文失败处理', search_engine: '搜索引擎' };
   for (const field of configFields) {
-    if (!['model', 'provider', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine', 'access_mode', ...Object.keys(numericFields)].includes(field)) continue;
+    if (!['model', 'provider', 'protocol', 'search_provider', 'search_fallback_provider', 'extract_provider', 'extract_fallback_provider', 'search_engine', ...Object.keys(numericFields)].includes(field)) continue;
     const label = document.createElement('label');
     label.className = 'recovery-field';
     label.textContent = fieldLabels[field] || numericFields[field]?.label || field;

@@ -2,6 +2,7 @@
 
 const { envValue } = require('./env');
 const { normalizeSources } = require('./web-source-contract');
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledResult } = require('./external-operation-policy');
 
 const SEARCH_ENDPOINT = 'https://open.bigmodel.cn/api/paas/v4/web_search';
 const SEARCH_ENGINES = new Set(['search_std', 'search_pro', 'search_pro_sogou', 'search_pro_quark']);
@@ -54,6 +55,7 @@ function timeoutSignal(timeoutMs) {
 }
 
 async function searchZhipu(options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult('ZHIPU_WEB_SEARCH_DISABLED');
   const query = queryOf(options);
   if (!query) return failure('ZHIPU_WEB_SEARCH_QUERY_REQUIRED', '缺少智谱搜索 query');
   if (!engineOf(options)) return failure('ZHIPU_WEB_SEARCH_ENGINE_INVALID', '不支持的智谱搜索引擎');

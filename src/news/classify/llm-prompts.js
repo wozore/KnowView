@@ -4,16 +4,19 @@
  * 覆盖四个任务：L1 内容分类、内容总结、审核建议、本地化翻译。
  * 网络调用在 llm-provider.js；每日 top 挑选与关键词提纯的构造在 llm-selection.js。
  *
- * 输入裁剪（控 token 成本）：标题 ≤200 字符、描述 ≤600 字符、字幕截断前 3000 字符。
+ * 输入裁剪（控 token 成本）：标题 ≤200 字符、初审描述 ≤2000 字符、其余描述 ≤600 字符、字幕截断前 3000 字符。
  * 归一化容忍模型输出的代码块围栏、首尾噪声与中文标签映射，无法映射时返回 null
  * 由调用方降级，绝不抛错。
  */
 
 'use strict';
 
+const { normalizeReviewAssessment } = require('./review-assessment');
+
 // ── 输入裁剪常量 ──
 const TITLE_MAX = 200;
 const DESC_MAX = 600;
+const REVIEW_DESC_MAX = 2000;
 // 字幕输入截断（字符）：控 token 成本，足够覆盖一条视频的核心内容。
 const SUMMARY_MAX_TRANSCRIPT_CHARS = 3000;
 
@@ -64,8 +67,8 @@ const SUMMARY_USER_PROMPT_TEMPLATE = `请为下面这条 AI 资讯生成内容�
 只输出 JSON：`;
 
 // ── 审核建议常量 ──
-// 审核输出上限（token）：verdict + reasons + confidence，短于总结。
-const REVIEW_MAX_TOKENS = 200;
+// 审核输出上限（token）：结构化审核维度和可选事实核验字段需要完整 JSON，320 会截断部分回答。
+const REVIEW_MAX_TOKENS = 768;
 // 总结输入截断（字符）：作为审核输入素材之一，控 token 成本。
 const REVIEW_MAX_SUMMARY_CHARS = 800;
 // 联网核验结果追加截断（字符）：web-verifier 证据文本的兜底上限。
@@ -98,25 +101,46 @@ const REVIEW_USER_PROMPT_TEMPLATE = `请为下面这条 AI 资讯做初步审核
   "verdict": "discard | hold | approve",
   "confidence_range": "0-20% | 20-40% | 40-60% | 60-80% | 80-90% | 90-100%",
   "confidence": 0.0,
-  "reasons": ["理由1", "理由2"]
+  "reasons": ["理由1", "理由2"],
+  "assessment": {
+    "topic_relevance": "in_scope | out_of_scope | uncertain",
+    "subject_clarity": "specific | broad | ambiguous",
+    "information_value": "substantive | low | uncertain",
+    "source_quality": "primary | credible_secondary | unknown | not_applicable",
+    "evidence_status": "sufficient | needs_content | needs_source | needs_fact_check | inconclusive",
+    "decision_basis": "clear_relevant_content | clear_off_topic | advertising_or_spam | duplicate | clearly_low_value | political_context_only | insufficient_content | unverified_fact | uncertain"
+  },
+  "fact_check": { "needed": false, "claim": "", "query": "" }
 }
 判定标准：
 - discard：明显无关的内容（非 AI 主题、广告/垃圾、纯标题党、低质量搬运等）。
 - hold：存疑或信息不足（信息不全、疑似搬运、无法判断相关性等），需要人工细看，并给出 1~2 条具体理由。
 - approve：与 AI 主题明确相关且有实质信息量，建议通过。
+- assessment.topic_relevance 只按内容本身判断是否属于 AI 领域；仅带 AI 标签、关键词或工具名不等于相关。
+- assessment.subject_clarity：specific 表示具体模型、产品、工具、方法或工作流可识别；broad 表示仅有宽泛领域概览；ambiguous 表示主要对象或内容承诺不清。
+- 以国家竞争、外交或政治评论为主，AI 只作背景词，且没有具体模型/产品/研究/应用或实际 AI 政策事实时，必须判 discard，并设为 out_of_scope、low、political_context_only、sufficient。此时现有文字已足以判断 AI 只是政治叙事背景；不能因为缺字幕、描述被截断或来源未知而改判 hold。泛谈“中国如何追赶 AI”、AI 竞赛或宏观算力生态，不因提及 DeepSeek、芯片、数据中心而自动算作 AI 实质资讯。
+- assessment.information_value 判断原文是否包含具体进展、方法、结果或有用说明；只把 AI 当制作工具的娱乐内容通常为 low。
+- assessment.source_quality：primary 表示发布方对自身产品/研究的一手说明；credible_secondary 表示可识别的可信二手来源；unknown 表示当前材料无法判断；not_applicable 仅用于没有需要依赖来源确认的实质事实的教程、演示或观点内容。assessment.evidence_status：sufficient 表示当前可见原文足以判断相关性与信息价值且没有未解决关键事实；needs_content 表示缺少原文关键段落/字幕；needs_source 表示缺少可追溯来源；needs_fact_check 表示具体主张需查证；inconclusive 表示查证仍不能定论。来源身份未知时不得猜测。
+- assessment.decision_basis 记录主导结论的单一原因；approve 用 clear_relevant_content，discard 只在明确时用 clear_off_topic、advertising_or_spam、duplicate 或 clearly_low_value，其余按实际缺口填写。
+- 不要仅因为没有字幕、生成摘要或描述截断就判信息不足。摘要来自同一条目，不是独立证据。现有文字若已明确具体对象和用途，应标 sufficient；只有缺失部分会改变相关性、对象识别或信息价值判断时，才标 needs_content。
+- 作者介绍自己制作的 AI 工具或工作流不自动等于广告；有具体功能和用途时按实质内容评估。明确的赞助、返佣或纯引流仍按广告处理。
 - confidence_range：按证据充分程度选择一个区间，不要把它当作统计概率：
   - 0-20%：几乎没有可核验信息，或审核请求失败。
   - 20-40%：只有极少线索，相关性或内容实质很不确定。
   - 40-60%：有部分线索，但关键信息缺失，仍明显需要人工确认。
   - 60-80%：主题和内容大致明确，但证据、来源或实质信息仍不完整。
-  - 80-90%：证据较充分，只有少量边界问题，尚不足以自动处理。
-  - 90-100%：有充分、直接且一致的证据，可以进入自动分流候选。
-- confidence：填写所选区间的下界（例如 60-80% 填 0.60），不得填写区间外的数值。区间比单个数值更重要。
-- 自动分流阈值：approve 达到 0.85、discard 达到 0.90 才会自动处理；只有选择 90-100% 区间时才允许触发自动分流。
-- 如果 approve 的区间为 90-100% 或 discard 的区间为 90-100%，只输出 verdict、confidence_range 和 confidence，不要输出 reasons。
-- 其他情况必须输出 1~2 条简短、具体的 reasons。
-- 对标题/描述里出现的最新模型名、版本号，如果你的知识无法确认其真实性，不要断言“不存在/编造/标题党”，一律判 hold 并在 reasons 里写明“需联网核实官方来源”；如果输入中附有“联网核验结果”，以核验结果为准修订判断，并在 reasons 中引用证据。
+  - 80-90%：当前材料大体充分，仍有少量不确定因素。
+  - 90-100%：当前材料充分、直接且一致。
+- confidence：填写所选区间的下界（例如 60-80% 填 0.60），仅作审核痕迹；不能用它改变 verdict 或绕过 assessment 条件。
+- reasons 始终输出 1~2 条简短、具体的理由。
+- 正式自动通过候选必须同时满足：verdict=approve、topic_relevance=in_scope、subject_clarity=specific、information_value=substantive、evidence_status=sufficient、decision_basis=clear_relevant_content，且没有未解决的 fact_check。
+- 正式自动丢弃必须有充分证据，并且是明确离题，或明确广告/垃圾、重复、明显低价值、纯政治背景；其他情况保持 hold 供人工审核。来源质量单独记录，不作为自动通过的硬门槛。
+- fact_check.needed 与 verdict 独立：任何 verdict 都可为 true；仅在存在一条具体、可核实且会改变审核结论的事实主张时标记，例如新型号发布、收购、价格、能力或基准数字，而当前材料无法确认它。信息量少、广告、无关内容、重复、主观评价或仅需看原视频的质量问题不触发搜索，填 false。
+- needed=true 时 claim 精确概括输入中待核实的主张，不添加新事实；query 给出不超过 70 字的搜索词。否则 claim/query 都填空字符串。
+- 对最新模型名或版本号无法确认真伪时，判 hold 并提出明确 fact_check 主张，不要断言“不存在/编造”。如果附有“联网核验结果”，以来源证据为准修订判断。
 标题：{title}
+发布平台、发布者与链接：{source_context}
+描述完整性：{description_status}
 描述：{description}
 字幕：{transcript}
 内容总结：{summary}
@@ -153,6 +177,11 @@ function sanitizeSurrogates(str) {
   return str.replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, '');
 }
 
+function clipPromptText(value, maxChars) {
+  const cleaned = sanitizeSurrogates(String(value || ''));
+  return sanitizeSurrogates(cleaned.slice(0, maxChars));
+}
+
 // 宽松 JSON 解析：容忍 ```json 围栏与前后噪声，取首个平衡 {...} 片段。
 function parseJsonLoose(raw) {
   if (!raw) return null;
@@ -170,14 +199,14 @@ function parseJsonLoose(raw) {
 }
 
 /** 描述截断上限：数字直接当上限（兼容旧签名），对象取 maxDescChars。 */
-function maxDescCharsOf(options) {
-  return (typeof options === 'number' ? options : options?.maxDescChars) ?? DESC_MAX;
+function maxDescCharsOf(options, fallback = DESC_MAX) {
+  return (typeof options === 'number' ? options : options?.maxDescChars) ?? fallback;
 }
 
 // ── L1 分类 payload / 归一化 ──
 function buildClassifyPayload(item, model) {
-  const title = String(item.title || '').slice(0, TITLE_MAX);
-  const description = String(item.description || '').slice(0, DESC_MAX);
+  const title = clipPromptText(item.title, TITLE_MAX);
+  const description = clipPromptText(item.description, DESC_MAX);
   const prompt = USER_PROMPT_TEMPLATE.replace('{title}', title).replace('{description}', description);
   return {
     model,
@@ -217,12 +246,11 @@ function normalizeLabel(raw) {
 // ── 总结 payload / 归一化 ──
 function buildSummaryPayload(item, model, options = {}) {
   const maxDesc = maxDescCharsOf(options);
-  const title = sanitizeSurrogates(String(item.title || '')).slice(0, TITLE_MAX);
-  const description = sanitizeSurrogates(String(item.description || '')).slice(0, maxDesc);
-  const transcript = sanitizeSurrogates(String(item.transcript || ''))
+  const title = clipPromptText(item.title, TITLE_MAX);
+  const description = clipPromptText(item.description, maxDesc);
+  const transcript = clipPromptText(String(item.transcript || '')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, SUMMARY_MAX_TRANSCRIPT_CHARS);
+    .trim(), SUMMARY_MAX_TRANSCRIPT_CHARS);
   const prompt = SUMMARY_USER_PROMPT_TEMPLATE
     .replace('{title}', title || '（无标题）')
     .replace('{description}', description || '（无描述）')
@@ -261,18 +289,24 @@ function buildExternalJsonChatPayload(chatPayload) {
 
 // ── 审核建议 payload / 归一化 ──
 function buildReviewPayload(item, model, options = {}) {
-  const maxDesc = maxDescCharsOf(options);
-  const title = sanitizeSurrogates(String(item.title || '')).slice(0, TITLE_MAX);
-  const description = sanitizeSurrogates(String(item.description || '')).slice(0, maxDesc);
-  const transcript = sanitizeSurrogates(String(item.transcript || ''))
+  const maxDesc = maxDescCharsOf(options, REVIEW_DESC_MAX);
+  const title = clipPromptText(item.title, TITLE_MAX);
+  const description = clipPromptText(item.description, maxDesc);
+  const sourceContext = clipPromptText(String(item.source_context || '').trim(), 800)
+    || '（未提供发布者或来源链接信息）';
+  const descriptionStatus = item.description_truncated === true
+    ? '描述已截断，可能缺少后续内容'
+    : '描述未标记为截断';
+  const transcript = clipPromptText(String(item.transcript || '')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, SUMMARY_MAX_TRANSCRIPT_CHARS);
-  const summary = sanitizeSurrogates(String(item.summary || '')).trim().slice(0, REVIEW_MAX_SUMMARY_CHARS);
-  const webEvidence = sanitizeSurrogates(String(options.webEvidence || '')).trim().slice(0, REVIEW_MAX_WEB_EVIDENCE_CHARS);
+    .trim(), SUMMARY_MAX_TRANSCRIPT_CHARS);
+  const summary = clipPromptText(String(item.summary || '').trim(), REVIEW_MAX_SUMMARY_CHARS);
+  const webEvidence = clipPromptText(String(options.webEvidence || '').trim(), REVIEW_MAX_WEB_EVIDENCE_CHARS);
   // 函数式替换：内容含 $& 等 replace 模式序列时不会被解释，与 webEvidence 的写法对齐
   let prompt = REVIEW_USER_PROMPT_TEMPLATE
     .replace('{title}', () => title || '（无标题）')
+    .replace('{source_context}', () => sourceContext)
+    .replace('{description_status}', () => descriptionStatus)
     .replace('{description}', () => description || '（无描述）')
     .replace('{transcript}', () => transcript || '（无字幕）')
     .replace('{summary}', () => summary || '（无总结）');
@@ -309,14 +343,22 @@ function normalizeReview(raw) {
     : (Number.isFinite(parsedConfidence) ? Math.max(0, Math.min(1, parsedConfidence)) : 0);
   const result = { verdict, reasons, confidence };
   if (confidenceRange) result.confidence_range = confidenceRange;
+  const assessment = normalizeReviewAssessment(data?.assessment);
+  if (assessment) result.assessment = assessment;
+  if (data?.fact_check && typeof data.fact_check === 'object' && !Array.isArray(data.fact_check)) {
+    const claim = clipPromptText(String(data.fact_check.claim || '').trim(), 200);
+    const query = clipPromptText(String(data.fact_check.query || '').trim(), 70);
+    const needed = data.fact_check.needed === true && claim.length >= 8;
+    result.fact_check = { needed, claim: needed ? claim : '', query: needed ? (query || claim.slice(0, 70)) : '' };
+  }
   return result;
 }
 
 // ── 本地化 payload / 归一化 ──
 function buildLocalizePayload(item, model, options = {}) {
   const maxDesc = maxDescCharsOf(options);
-  const title = sanitizeSurrogates(String(item.title || '')).slice(0, TITLE_MAX);
-  const description = sanitizeSurrogates(String(item.description || '')).slice(0, maxDesc);
+  const title = clipPromptText(item.title, TITLE_MAX);
+  const description = clipPromptText(item.description, maxDesc);
   const prompt = LOCALIZE_USER_PROMPT_TEMPLATE
     .replace('{title}', title || '（无标题）')
     .replace('{description}', description || '（无描述）');

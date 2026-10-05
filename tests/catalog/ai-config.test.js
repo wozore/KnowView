@@ -38,9 +38,9 @@ test('loads catalog config from modules and keeps module boundaries', () => {
   assert.equal(config.timeout_ms, 9000);
   assert.equal(config.max_search_queries, 4);
   assert.equal(config.search_provider, 'zhipu_web_search');
-  assert.equal(config.search_fallback_provider, 'tavily');
+  assert.equal(config.search_fallback_provider, 'zhipu_web_search');
   assert.equal(config.extract_provider, 'direct_fetch');
-  assert.equal(config.extract_fallback_provider, 'tavily');
+  assert.equal(config.extract_fallback_provider, 'direct_fetch');
 });
 
 test('rejects protocol mismatch before execution', () => {

@@ -65,7 +65,7 @@ test('buildSeriesPlacementInput 字段白名单，不含密钥/正文', () => {
   const input = buildSeriesPlacementInput({ candidate: candidate(), policy, currentSeries: [] });
   const raw = JSON.stringify(input);
   assert.match(raw, /GLM-5\.4/);
-  assert.doesNotMatch(raw, /api[_-]?key|DEEPSEEK|TAVILY|sk-|Authorization/i);
+  assert.doesNotMatch(raw, /api[_-]?key|DEEPSEEK|ZHIPU_WEB_SEARCH|sk-|Authorization/i);
   assert.ok(input.candidate && typeof input.candidate.name === 'string');
   assert.ok(input.policy_scope && Array.isArray(input.policy_scope.families));
   assert.ok(input.policy_scope.families.some(f => f.family === 'glm' && f.usage_kind === 'general_llm'));

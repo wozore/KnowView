@@ -9,14 +9,12 @@ const RETRYABLE_CODES = new Set([
   'WEB_SEARCH_FALLBACK_FAILED', 'OFFICIAL_SOURCE_FETCH_FAILED',
   'SYNTHESIS_INCOMPLETE', 'SYNTHESIS_EMPTY', 'SYNTHESIS_FAILED', 'SYNTHESIS_RESUME_FAILED', 'SYNTHESIS_PROVENANCE_INVALID',
   'OUTPUT_INVALID', 'SCHEMA_INVALID', 'COST_BUDGET_EXHAUSTED', 'LAYER_PATCH_INVALID',
-  'TAVILY_SEARCH_FAILED', 'TAVILY_EXTRACT_FAILED', 'TAVILY_SEARCH_RATE_LIMITED', 'TAVILY_EXTRACT_RATE_LIMITED',
   'ZHIPU_WEB_SEARCH_FAILED', 'ZHIPU_WEB_SEARCH_RATE_LIMITED', 'ZHIPU_WEB_SEARCH_TIMEOUT', 'ZHIPU_WEB_SEARCH_NETWORK_ERROR', 'ZHIPU_WEB_SEARCH_OUTPUT_INVALID',
   'RESEARCH_FAILED', 'RESEARCH_DISCOVER_FAILED', 'RESEARCH_ACQUIRE_FAILED', 'RESEARCH_RESUME_FAILED', 'PLANNER_FAILED',
 ]);
 const CONFIG_CODES = new Set([
   'MODEL_REQUIRED', 'AUTH_REQUIRED', 'ENDPOINT_INVALID', 'AI_PROVIDER_UNSUPPORTED',
   'AI_PROTOCOL_MISMATCH', 'RETRIEVAL_PROVIDER_UNSUPPORTED', 'SEARCH_PROVIDER_UNSUPPORTED', 'SEARCH_ENGINE_UNSUPPORTED',
-  'TAVILY_AUTH_REQUIRED', 'TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED', 'TAVILY_ACCESS_MODE_REQUIRED',
   'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_ENGINE_INVALID', 'ZHIPU_WEB_SEARCH_QUERY_REQUIRED',
   'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED', 'EXTRACT_PROVIDER_UNSUPPORTED', 'EXTRACT_FALLBACK_PROVIDER_UNSUPPORTED',
   'WEB_SEARCH_REQUEST_BUDGET_EXCEEDED',
@@ -37,7 +35,7 @@ function normalizeGatewayErrorCode(code) {
   if (stage) return stage[1];
   // Preserve retrieval-provider codes: recovery mode uses them to decide whether
   // official-source research itself must be resumed.
-  if (raw.startsWith('TAVILY_') || raw.startsWith('ZHIPU_WEB_SEARCH_')) return raw;
+  if (raw.startsWith('ZHIPU_WEB_SEARCH_')) return raw;
   const providerError = raw.match(PROVIDER_ERROR_SUFFIX_RE);
   if (providerError) return providerError[1];
   return raw;
@@ -94,7 +92,6 @@ function missingConfigFieldsOf(failure, errorCode) {
   if (errorCode === 'EXTRACT_PROVIDER_UNSUPPORTED') return ['extract_provider'];
   if (errorCode === 'EXTRACT_FALLBACK_PROVIDER_UNSUPPORTED') return ['extract_fallback_provider'];
   if (errorCode === 'SEARCH_ENGINE_UNSUPPORTED') return ['search_engine'];
-  if (['TAVILY_ACCESS_MODE_REQUIRED', 'TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED'].includes(errorCode)) return ['access_mode'];
   return Array.isArray(failure?.missing_config_fields) ? failure.missing_config_fields.filter(field => typeof field === 'string') : [];
 }
 

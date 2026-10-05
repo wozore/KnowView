@@ -45,31 +45,15 @@ function csvFlag(value) {
     : String(value).split(',').map(item => item.trim()).filter(Boolean);
 }
 
-function tavilyAccessModeFromFlags(flags = {}) {
-  const value = flags.tavily_access_mode;
-  if (value === undefined || value === true) {
-    throw new Error('TAVILY_ACCESS_MODE_REQUIRED: 联网目录命令必须显式提供 --tavily-access-mode keyed|keyless');
-  }
-  const mode = String(value).trim().toLowerCase();
-  if (!['keyed', 'keyless'].includes(mode)) {
-    throw new Error(`TAVILY_ACCESS_MODE_INVALID: 不支持的 Tavily access mode: ${value}`);
-  }
-  return mode;
-}
-
 function generatorOptionsFromFlags(flags = {}) {
-  const accessMode = tavilyAccessModeFromFlags(flags);
   const configured = loadGeneratorConfig();
   return {
     ...normalizeGeneratorOptions({
       ...configured,
       ...(flags.search_provider ? { search_provider: flags.search_provider } : {}),
-      ...(flags.search_fallback_provider ? { search_fallback_provider: flags.search_fallback_provider } : {}),
       ...(flags.extract_provider ? { extract_provider: flags.extract_provider } : {}),
-      ...(flags.extract_fallback_provider ? { extract_fallback_provider: flags.extract_fallback_provider } : {}),
       ...(flags.search_engine ? { search_engine: flags.search_engine } : {}),
     }),
-    accessMode,
   };
 }
 
@@ -263,7 +247,6 @@ async function runCommand(parsed = { positional: [], flags: {} }, io) {
     const batchOptions = generatorOptionsFromFlags(flags);
     const result = await runBatchFromCards(cards, {
       generatorOptions: batchOptions,
-      accessMode: batchOptions.accessMode,
       dryRun: flags.dry_run === true,
       fromPreview: flags.from_preview === true,
       confirmCost: flags.confirm_cost === true,
@@ -341,6 +324,5 @@ async function runCommand(parsed = { positional: [], flags: {} }, io) {
 module.exports = {
   runCommand,
   readSeed,
-  tavilyAccessModeFromFlags,
   generatorOptionsFromFlags,
 };

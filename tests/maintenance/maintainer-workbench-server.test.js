@@ -16,6 +16,7 @@ function request(port, method, pathname, options = {}) {
 
 const service = Object.freeze({
   overview: () => ({ ok: 'overview' }), clearWorkspace: () => ({ ok: true, status: 'cleared' }), newsReview: () => ({ items: [] }), reviewNews: body => ({ body }),
+  factCheckBatch: query => ({ task_count: query.limit, ids: query.ids }), importFactCheckResults: body => ({ imported: body.results.length }),
   keywords: () => ({ list: null }), generateKeywords: async () => ({ generated: 'keywords' }), applyKeywords: body => ({ body }), top: () => ({ items: [] }), generateTop: async () => ({ generated: 'top' }), applyTop: body => ({ body }),
   publishNews: () => ({ published: true }), publishPreview: () => ({ items: [] }), toolUpdates: () => ({ items: [] }), previewToolUpdates: () => ({ ok: true, preview_hash: 'hash' }), applyToolUpdates: body => ({ ok: true, body }), reviewToolUpdate: (key, body) => ({ key, body }), uploadTranscript: body => ({ ok: true, candidate_id: body.candidate_id }), summarizeTranscripts: body => ({ ok: true, summarized: (body.ids || []).map(id => ({ id })) }), conceptPreviews: () => ({ preview: null }),
   pendingTools: () => ({ revision: 'p-r1', items: [] }), pendingConcepts: () => ({ revision: 'p-r1', items: [] }), reviewPendingTool: body => ({ ok: true, candidate_key: body.candidate_key, revision: 'p-r2' }), reviewPendingConcept: body => ({ ok: true, candidate_key: body.candidate_key, revision: 'p-r2' }), extractKnowledge: async () => ({ ok: true, tools_pending: 0, concepts_pending: 0 }), config: () => ({ schema_version: 1, mode: 'read_only', groups: [] }), catalogPlan: () => ({ ok: true, plan_hash: 'plan-h', catalog_revision: 'c-r1', pending_revision: 'p-r1' }), catalogPrepare: async () => ({ ok: true, drafts: [] }), catalogDrafts: () => ({ items: [] }), catalogDraft: id => ({ draft_id: id }), catalogReview: id => ({ ok: true, draft_id: id, current_revision: 'c-r1', preview_hash: 'ph' }), catalogRecoveryPlan: (id, body) => ({ ok: true, draft_id: id, body }), catalogResume: async (id, body) => ({ ok: true, draft: { draft_id: id }, body }), catalogDiscard: (id, body) => ({ ok: true, draft_id: id, expected_revision: body?.expected_revision }), catalogApply: body => ({ ok: true, body }), catalogBatchPreview: () => ({ ok: true, batch_token: 'batch-token', draft_ids: ['draft-abc'] }), catalogApplyBatch: body => ({ ok: true, body }), catalogBundleReview: id => ({ ok: true, draft_id: id, current_revision: 'c-r1', bundle_token: 'bt', confirmation: 'APPLY CATALOG BUNDLE bt', discard_confirmation: 'DISCARD CATALOG BUNDLE bt', draft: { draft_id: id, members: [] } }), catalogBundleApply: body => ({ ok: true, target_revision: 'c-r2', dist_built: true, cleanup_pending: false, cleanup_only: false, outcome_warning: null, body }), catalogBundleDiscard: (id, body) => ({ ok: true, draft_id: id, body }), catalogBundles: () => ({ catalog_revision: 'c-r1', items: [] }), catalogBundle: id => ({ draft_id: id }), catalogBundlePlan: () => ({ ok: true }), catalogBundlePrepare: body => ({ ok: true, body }), conceptPlan: async () => ({ ok: true, plan_hash: 'cplan-h', glossary_revision: 'g-r1', pending_revision: 'p-r1' }), conceptPrepare: async () => ({ ok: true, preview: null }), conceptApply: body => ({ ok: true, added: (body.terms || []).map(term => ({ term })) }),
@@ -367,6 +368,31 @@ test('Bundle prepare 端点支持 enrichment_confirmation_token 二阶段确认�
   assert.equal(blockedBody.status, 'bundles_blocked');
   assert.deepEqual(blockedBody.counts, { ready: 0, blocked: 1, blocked_drafts: 1, blocked_candidates: 0 });
   assert.equal(blockedBody.drafts[0].members[0].enrichment_error.code, 'SOURCE_RESOLUTION_FAILED');
+});
+
+test('Codex 查证批次接口通过受保护的导出与导入路由', async t => {
+  const app = createMaintainerWorkbenchServer({ service, token: 'test-token' });
+  t.after(() => app.close());
+  const { port } = await app.start();
+  const auth = { Authorization: 'Bearer test-token', Origin: `http://127.0.0.1:${port}` };
+  const batch = await request(port, 'GET', '/api/workbench/v1/news/fact-check/tasks?limit=4&ids=a,b,c,d', { headers: auth });
+  assert.equal(batch.status, 200);
+  assert.deepEqual(JSON.parse(batch.body), { task_count: 4, ids: ['a', 'b', 'c', 'd'] });
+  const results = Array.from({ length: 10 }, (_, taskIndex) => ({
+    id: `candidate-${taskIndex}`,
+    fingerprint: 'a'.repeat(64),
+    conclusion: 'inconclusive',
+    summary: 's'.repeat(1000),
+    sources: Array.from({ length: 5 }, (_, sourceIndex) => ({
+      title: `source-${sourceIndex}`, url: `https://example.com/${sourceIndex}`, excerpt: 'e'.repeat(1000),
+    })),
+  }));
+  const imported = await request(port, 'POST', '/api/workbench/v1/news/fact-check/import', {
+    body: { schema_version: 1, kind: 'news_fact_check_results', mode: 'codex_mcp', search_tool: 'webSearchPrime', results },
+    headers: auth,
+  });
+  assert.equal(imported.status, 200);
+  assert.deepEqual(JSON.parse(imported.body), { imported: 10 });
 });
 
 test('所有工作台 GET 在调用 service 前要求 Bearer，配置读取失败不泄露内部信息', async t => {

@@ -5,7 +5,8 @@ const {
   updateSourcesForProduct,
   validateUpdateSource,
 } = require('../url-registry/official-url-registry');
-const { canonicalizeUrl, extractTavily } = require('../../shared/tavily-client');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
+const { EXTERNAL_NETWORK_ENABLED } = require('../../shared/external-operation-policy');
 const { explicitDates } = require('./tool-update-evidence');
 const { htmlToText, sameSourceOrigin, fetchHtmlText } = require('./html-collector');
 
@@ -56,6 +57,7 @@ function sleepFor(options, milliseconds) {
 }
 
 async function requestWithRetry(url, options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return errorResult('EXTERNAL_NETWORK_DISABLED', '项目外网访问已关闭');
   const fetchImpl = options.fetchImpl || globalThis.fetch;
   if (typeof fetchImpl !== 'function') return errorResult('UPDATE_COLLECTOR_FETCH_UNAVAILABLE', '当前运行环境无 fetch');
   const retries = Number.isInteger(options.retries) ? Math.max(0, Math.min(options.retries, 3)) : DEFAULT_RETRIES;
@@ -296,10 +298,9 @@ async function collectGithubFile(productKey, source, options = {}) {
   };
 }
 
-async function collectTavilySource(productKey, source, options = {}) {
+async function collectDirectSource(productKey, source, options = {}) {
   const url = canonicalizeUrl(source.url);
-  // 优先直接抓取官方页面 HTML：Tavily Extract 对 JS 渲染/缓存页经常丢失 changelog 条目日期。
-  // 仅当 HTML 文本能解析出至少一个日期时才采用，否则回退 Tavily Extract（HTML 可能是 JS 空壳/反爬页）。
+  // 直连官方 HTML 并提取显式日期；正文获取失败或无日期时报告失败，不将搜索摘要当作正文证据。
   const html = await fetchHtmlText(url, options);
   if (html.ok && html.final_url && !sameSourceOrigin(url, html.final_url)) {
     return errorResult('UPDATE_HTML_REDIRECT_UNTRUSTED', '官方更新源重定向到了不同产品域名', {
@@ -317,40 +318,15 @@ async function collectTavilySource(productKey, source, options = {}) {
         officialPublishedAt: null,
         content: html.text,
         status: 'ready',
-        diagnostics: { collector: 'tavily_extract', html_fallback: true },
+        diagnostics: { collector: 'direct_fetch' },
       }, options),
     };
   }
-  const result = await extractTavily({
-    ...options,
-    urls: [url],
-    query: undefined,
-  });
-  if (!result.ok) return result;
-  const match = result.contents.find(content => canonicalizeUrl(content.url) === url && String(content.content || '').trim());
-  if (!match) {
-    const failed = result.failed.find(item => canonicalizeUrl(item.url) === url);
-    return errorResult('TAVILY_EXTRACT_SOURCE_EMPTY', failed?.error || 'Tavily Extract 未返回目标来源正文', {
-      html_error: html.error || null,
-      failed_results: result.failed,
-      usage: result.usage || null,
+  return errorResult(html.ok ? 'UPDATE_HTML_DATES_UNAVAILABLE' : 'UPDATE_HTML_FETCH_FAILED',
+    html.error || '直连更新页没有可识别的日期', {
+      source_url: url,
+      html_status: html.status || null,
     });
-  }
-  return {
-    ok: true,
-    evidence: evidenceOf(productKey, source, {
-      detailId: `${productKey}:${url}`,
-      url,
-      title: titleFromUrl(url),
-      officialPublishedAt: null,
-      content: match.content,
-      status: 'ready',
-      diagnostics: {
-        collector: 'tavily_extract',
-        usage: result.usage || null,
-      },
-    }, options),
-  };
 }
 
 async function collectUpdateEvidence(productKey, source, options = {}) {
@@ -358,7 +334,7 @@ async function collectUpdateEvidence(productKey, source, options = {}) {
   if (validationErrors.length) return errorResult('UPDATE_SOURCE_INVALID', '更新源未通过 registry 契约校验', { errors: validationErrors });
   if (source.collector === 'github_web_release') return collectGithubRelease(productKey, source, options);
   if (source.collector === 'github_web_file') return collectGithubFile(productKey, source, options);
-  if (source.collector === 'tavily_extract') return collectTavilySource(productKey, source, options);
+  if (source.collector === 'direct_fetch') return collectDirectSource(productKey, source, options);
   return errorResult('UPDATE_COLLECTOR_UNSUPPORTED', `不支持的 collector: ${source.collector}`);
 }
 
@@ -391,7 +367,7 @@ module.exports = {
   fetchHtmlText,
   collectGithubRelease,
   collectGithubFile,
-  collectTavilySource,
+  collectDirectSource,
   collectUpdateEvidence,
   collectProductUpdateEvidence,
 };

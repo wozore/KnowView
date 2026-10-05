@@ -33,6 +33,7 @@ const { buildReviewList } = require('./review-list');
 const { collectPlatforms } = require('./pipeline-collect');
 const { writeJsonAtomic } = require('../../shared/json-store');
 const { NEWS_FILES } = require('../../shared/paths');
+const { EXTERNAL_NETWORK_ENABLED } = require('../../shared/external-operation-policy');
 const {
   buildLastRunRecord,
   isCollectionEnabled,
@@ -65,7 +66,7 @@ async function runMin(options = {}) {
   const coverage = {
     run_id: runId,
     status: 'running',
-    collection_enabled: isCollectionEnabled(config),
+    collection_enabled: EXTERNAL_NETWORK_ENABLED && isCollectionEnabled(config),
     started_at: now.toISOString(),
     collectors: {
       youtube: { status: 'not_run', items: 0, error: null, quota: null },
@@ -190,12 +191,12 @@ async function runMin(options = {}) {
   let kept = [];
   let discarded = [];
   const reviewFn = options.review || applyL1Verdicts;
-  // 本地 Bonsai 初审调优参数（与修复通道 A 对齐）：30s 请求超时 + 描述上下文 1000 字符
+  // 本地 Bonsai 初审调优参数（与修复通道 A 对齐）：30s 请求超时 + 描述上下文 2000 字符
   const reviewOptions = {
     ...options,
     config,
     timeoutMs: options.timeoutMs ?? 30000,
-    maxDescChars: options.maxDescChars ?? 1000,
+    maxDescChars: options.maxDescChars ?? 2000,
   };
   try {
     const result = await reviewFn(l0Passed, config, reviewOptions);

@@ -15,6 +15,7 @@
 'use strict';
 
 const crypto = require('crypto');
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledError } = require('../../shared/external-operation-policy');
 
 function hash(value) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 20);
@@ -61,6 +62,7 @@ function numberOrNull(value) {
  * 额度不足不是网络问题，重试不会让额度恢复。
  */
 async function requestText(url, options, config, beforeAttempt = null) {
+  if (!EXTERNAL_NETWORK_ENABLED) throw externalNetworkDisabledError('NEWS_NETWORK_DISABLED');
   const timeout = config.collection.request_timeout_ms;
   const fetchImpl = options.fetchImpl || fetch;
   const requestOptions = { ...options };

@@ -62,9 +62,66 @@ export function addAiAdvice(content, advice, label = 'AI 建议', item = null, o
   if (confidenceDisplayValue.suffix) addText(confidenceLabel, 'span', confidenceDisplayValue.suffix);
   head.appendChild(confidenceLabel);
   box.appendChild(head);
-  if (item) addText(box, 'p', uiHelpers.reviewMaterials(item).present.length ? `审核材料：已有${uiHelpers.reviewMaterials(item).present.join('、')}` : '审核材料：没有可用材料', 'ai-advice-materials');
+  if (item) {
+    const materials = uiHelpers.reviewMaterials(item);
+    const present = materials.present.length ? `已有${materials.present.join('、')}` : '没有可用材料';
+    const truncation = materials.descriptionTruncated ? '；描述已截断' : '';
+    addText(box, 'p', `审核材料：${present}${truncation}`, 'ai-advice-materials');
+  }
+  addReviewAssessment(box, advice.assessment, label);
+  addAssessmentGatePreview(box, advice.assessment_gate_preview, 'L2 建议');
   for (const reason of reasons.slice(0, 3)) addText(box, 'p', reason, 'ai-advice-reason');
+  const verification = advice.web_verification;
+  if (verification && typeof verification === 'object') {
+    const status = verification.status === 'awaiting_agent' ? '待 Codex 查证'
+      : verification.status === 'completed' ? '已完成事实查证'
+        : verification.status === 'failed' ? '查证未完成' : '';
+    if (status) addText(box, 'p', status, 'ai-advice-materials');
+    if (verification.claim) addText(box, 'p', `待核实事实：${verification.claim}`, 'ai-advice-reason');
+    if (verification.conclusion) {
+      const labels = { supports: '来源支持', contradicts: '来源反驳', inconclusive: '来源不足以判断' };
+      addText(box, 'p', `查证结论：${labels[verification.conclusion] || verification.conclusion}${verification.summary ? `；${verification.summary}` : ''}`, 'ai-advice-reason');
+    }
+    for (const source of (Array.isArray(verification.sources) ? verification.sources : []).slice(0, 5)) {
+      let parsed;
+      try { parsed = new URL(source.url); } catch { continue; }
+      if (!['http:', 'https:'].includes(parsed.protocol)) continue;
+      const link = document.createElement('a');
+      link.href = parsed.href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = String(source.title || parsed.hostname).slice(0, 200);
+      box.appendChild(link);
+      if (source.excerpt) addText(box, 'p', String(source.excerpt).slice(0, 500), 'ai-advice-materials');
+    }
+  }
   content.appendChild(box);
+}
+
+function addReviewAssessment(container, assessment, label) {
+  if (!assessment || typeof assessment !== 'object') return;
+  const values = [
+    ['topic_relevance', { in_scope: '相关', out_of_scope: '不相关', uncertain: '相关性不确定' }],
+    ['subject_clarity', { specific: '主题具体', broad: '主题宽泛', ambiguous: '主题有歧义' }],
+    ['information_value', { substantive: '有实质信息', low: '信息价值低', uncertain: '信息价值不确定' }],
+    ['source_quality', { primary: '一手来源', credible_secondary: '可信二手来源', unknown: '来源不明', not_applicable: '无需依赖来源' }],
+    ['evidence_status', { sufficient: '现有证据足够', needs_content: '缺少内容', needs_source: '缺少来源', needs_fact_check: '需查证事实', inconclusive: '证据无法定论' }],
+  ];
+  const summary = values.map(([field, labels]) => labels[assessment[field]]).filter(Boolean);
+  if (summary.length) addText(container, 'p', `${label}判断维度：${summary.join('；')}`, 'ai-advice-materials');
+}
+
+function addAssessmentGatePreview(container, preview, phase = 'L1 初审') {
+  const labels = {
+    approve_candidate: '符合自动通过条件',
+    discard_candidate: '符合自动丢弃条件',
+    manual: '保留人工审核',
+  };
+  const label = labels[preview?.action];
+  if (label) {
+    const prefix = phase === 'L1 初审' ? 'L1 正式分流判断' : `${phase}（不改审核状态）`;
+    addText(container, 'p', `${prefix}：${label}`, 'ai-advice-materials');
+  }
 }
 
 export function queueItem(item, resource, options = {}, onAction = null) {
@@ -109,6 +166,13 @@ export function queueItem(item, resource, options = {}, onAction = null) {
     ? (item.ai_suggestion ? '审核建议（AI 复核）' : item.review_decision ? '审核建议（规则判定）' : '审核建议')
     : 'AI 建议';
   addAiAdvice(content, advice, adviceLabel, isTool ? null : item, { tool: isTool, showWithoutAdvice: isTool && !toolAdvice });
+  if (!isTool) {
+    addReviewAssessment(content, item.l1_review?.assessment, 'L1 初审');
+    addAssessmentGatePreview(content, item.l1_review?.assessment_gate_preview, 'L1 初审');
+    if (item.l1_review?.fact_check?.needed && item.l1_review.fact_check.claim) {
+      addText(content, 'p', `L1 待核实事实：${item.l1_review.fact_check.claim}`, 'ai-advice-reason');
+    }
+  }
   if (isTool && !toolAdvice) {
     addText(content, 'p', '审核建议：当前未生成语义建议，请结合官方证据与状态信息判断。', 'ai-advice-materials');
   }

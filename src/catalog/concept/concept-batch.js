@@ -9,7 +9,7 @@
  *
  * 设计决策（用户已拍板）：
  *   - 不自动 apply：batch 只合成出预览文件并停下，apply 等待人工显式确认。
- *   - 不调 Tavily：概念非工具，证据来自已人工 approved 摘要即可；vibe-hub 纯 HTTP 零 API 成本。
+ *   - 不发起 Web Search：概念非工具，证据来自已人工 approved 摘要即可；vibe-hub 纯 HTTP 零 API 成本。
  *   - 证据主次：approved 摘要为主证据（可信、可溯源、不易幻觉）；vibe-hub 为补充
  *     （定义/别名/相关概念/权威出处，利于 source 字段）。vibe-hub 失败静默跳过，不阻塞合成。
  *   - 失败隔离：单概念合成失败跳过保留，不阻塞后续（对齐 pipeline-min 降级不抛错哲学）。

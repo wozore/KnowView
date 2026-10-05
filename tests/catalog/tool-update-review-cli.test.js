@@ -12,7 +12,7 @@ const {
   runApply,
 } = require('../../scripts/tool-update-review');
 
-function sampleRegistry(collector = 'tavily_extract', reviewMode = 'ai_fallback') {
+function sampleRegistry(collector = 'direct_fetch', reviewMode = 'ai_fallback') {
   return {
     schema_version: 1,
     kind: 'official_product_url_registry',
@@ -66,7 +66,7 @@ function scanDeps(overrides = {}) {
         product_key: 'sample',
         detail_id: 'tool-level3:sample',
         source_type: 'changelog',
-        collector: 'tavily_extract',
+        collector: 'direct_fetch',
         url: 'https://example.com/changelog',
         title: 'Official changelog',
         official_published_at: '2026-08-11T12:00:00Z',
@@ -104,16 +104,15 @@ function scanDeps(overrides = {}) {
 }
 
 test('tool update CLI parses positional command and kebab-case flags', () => {
-  assert.deepEqual(parseArgs(['scan', '--tavily-access-mode', 'keyless', '--confirm-cost', '--products', 'gemini-cli,qoder']), {
+  assert.deepEqual(parseArgs(['scan', '--confirm-cost', '--products', 'gemini-cli,qoder']), {
     positional: ['scan'],
-    flags: { tavily_access_mode: 'keyless', confirm_cost: true, products: 'gemini-cli,qoder' },
+    flags: { confirm_cost: true, products: 'gemini-cli,qoder' },
   });
 });
 
-test('scan requires explicit Tavily access mode and never calls Apply', async () => {
+test('scan needs no vendor-specific Search mode and never calls Apply', async () => {
   const deps = scanDeps();
-  await assert.rejects(() => runScan({ products: 'sample' }, deps), /TAVILY_ACCESS_MODE_REQUIRED/);
-  const result = await runScan({ products: 'sample', tavily_access_mode: 'keyless', confirm_cost: true, as_of: '2026-08-25' }, deps);
+  const result = await runScan({ products: 'sample', confirm_cost: true, as_of: '2026-08-25' }, deps);
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(result.catalog_apply, false);
   assert.equal(deps.applyCalled, false);
@@ -122,13 +121,13 @@ test('scan requires explicit Tavily access mode and never calls Apply', async ()
 test('deterministic scan 不调用 AI 且写入确定性 decision', async () => {
   let aiCalls = 0;
   const deps = scanDeps({
-    registry: sampleRegistry('tavily_extract', 'deterministic'),
+    registry: sampleRegistry('direct_fetch', 'deterministic'),
     suggestReview: async () => {
       aiCalls += 1;
       throw new Error('deterministic scan must not call AI');
     },
   });
-  const result = await runScan({ products: 'sample', mode: 'deterministic', tavily_access_mode: 'keyless', confirm_cost: true, as_of: '2026-08-25' }, deps);
+  const result = await runScan({ products: 'sample', mode: 'deterministic', confirm_cost: true, as_of: '2026-08-25' }, deps);
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(aiCalls, 0);
   assert.equal(result.deterministic_count, 1);
@@ -147,7 +146,7 @@ test('scan 通过本地模型汉化工具审核内容后写入候选', async () 
     },
     mergeQueue: candidates => ({ file: 'test', appended: candidates.length, refreshed: 0, reopened: 0, queue: { items: candidates } }),
   });
-  const result = await runScan({ products: 'sample', tavily_access_mode: 'keyless', confirm_cost: true, as_of: '2026-08-25' }, deps);
+  const result = await runScan({ products: 'sample', confirm_cost: true, as_of: '2026-08-25' }, deps);
   assert.equal(result.ok, true, JSON.stringify(result));
   assert.equal(localized, 1);
   assert.equal(result.queue.item_count, 1);
@@ -183,7 +182,7 @@ test('localizeToolCandidate 先走外部摘要再交给本地模型翻译', asyn
 });
 
 test('DeepSeek scan requires explicit cost confirmation', async () => {
-  const result = await main(['scan', '--products', 'sample', '--provider', 'deepseek', '--tavily-access-mode', 'keyless'], scanDeps());
+  const result = await main(['scan', '--products', 'sample', '--provider', 'deepseek'], scanDeps());
   assert.equal(result.ok, false);
   assert.equal(result.code, 'TOOL_UPDATE_REVIEW_COST_CONFIRM_REQUIRED');
 });

@@ -139,8 +139,7 @@ function draftRecoveryOf(draft) {
   const classified = classifyFailure({ ok: false, code: errorCode, error: failure.error }, null);
   const researchComplete = draft?.research?.ok === true
     || (draft?.research?.ok !== false && Array.isArray(draft?.research?.official_sources) && draft.research.official_sources.length > 0 && !draft.research_progress?.failed_scope);
-  const synthesisOnly = researchComplete && ['config_required', 'retryable'].includes(classified.recovery_kind)
-    && !String(errorCode).startsWith('TAVILY_');
+  const synthesisOnly = researchComplete && ['config_required', 'retryable'].includes(classified.recovery_kind);
   return {
     ...classified,
     error_code: errorCode,
@@ -159,11 +158,8 @@ function cleanGeneratorOptionsForToken(options = {}, researchPlan = null) {
     model: norm.model,
     protocol: norm.protocol,
     search_provider: norm.searchProvider,
-    search_fallback_provider: norm.searchFallbackProvider,
     extract_provider: norm.extractProvider,
-    extract_fallback_provider: norm.extractFallbackProvider,
     search_engine: norm.searchEngine,
-    ...(norm.accessMode ? { access_mode: norm.accessMode } : {}),
     max_search_queries: norm.maxSearchQueries ?? 4,
     max_pages: limits.pages,
     max_responses_calls: limits.responses_calls,

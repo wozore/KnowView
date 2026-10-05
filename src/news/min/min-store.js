@@ -4,12 +4,12 @@
  * 在热点管线中的位置：v2 审核（review-v2）落地后、每日公开投影
  * （daily-projection）之前。与 v2 审核/评分层同属独立数据通道，
  * 使用单状态轴：
- *   review_status = 'pending'（保留，待人工）| 'approved'（人工通过）| 'discarded'（剔除）
+ *   review_status = 'pending'（待定）| 'approved'（进入已通过候选池）| 'discarded'（剔除）
  *
  * 数据文件：data/news/runtime/min-candidates.json（不发布到 dist/）
  *   schema:
  *     { schema_version: 1, updated_at: <ISO>|null,
- *       candidates: [ { ...item, review_status, reviewed_at, ai_advice } ] }
+ *       candidates: [ { ...item, review_status, reviewed_at, l1_review, ai_advice } ] }
  *
  * 合并语义：新条目按 id 覆盖内容字段；已存在条目**保留既有 review_status**，
  * 人工审核结论不因重新采集被重置（与决策 55/70 审计语义一致）；

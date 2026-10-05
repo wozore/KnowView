@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { CATALOG_GENERATOR_FILES } = require('../../shared/paths');
 const { readJson, writeJsonAtomic } = require('../../shared/json-store');
-const { canonicalizeUrl } = require('../../shared/tavily-client');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
 const { REVIEW_MODES } = require('../tool-update/tool-update-review-contract');
 const { DATE_PATTERN } = require('../tool-update/tool-update-evidence');
 
@@ -42,13 +42,13 @@ const FORBIDDEN_PRODUCT_PREFIXES = new Set(['ai', 'agent', 'coding agent', 'code
 const PRODUCT_LIFECYCLES = new Set(['active', 'deprecated', 'discontinued', 'unknown']);
 
 const UPDATE_SOURCE_KINDS = Object.freeze(['github_releases', 'github_file', 'changelog', 'release_notes']);
-const UPDATE_SOURCE_COLLECTORS = Object.freeze(['github_web_release', 'github_web_file', 'tavily_extract']);
+const UPDATE_SOURCE_COLLECTORS = Object.freeze(['github_web_release', 'github_web_file', 'direct_fetch']);
 const UPDATE_SOURCE_SURFACES = Object.freeze(['product', 'cli', 'desktop', 'ide_extension']);
 const UPDATE_SOURCE_COLLECTOR_BY_KIND = Object.freeze({
   github_releases: 'github_web_release',
   github_file: 'github_web_file',
-  changelog: 'tavily_extract',
-  release_notes: 'tavily_extract',
+  changelog: 'direct_fetch',
+  release_notes: 'direct_fetch',
 });
 const UPDATE_SOURCE_FIELDS = Object.freeze(['kind', 'url', 'collector', 'product_surface', 'repository', 'tag_prefix', 'include_prerelease', 'date_mode', 'review_mode']);
 const GITHUB_REPOSITORY_PATTERN = /^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?\/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?$/;

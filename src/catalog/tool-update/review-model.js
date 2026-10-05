@@ -3,7 +3,7 @@
 const crypto = require('crypto');
 const { CATALOG_GENERATOR_FILES } = require('../../shared/paths');
 const { readJson } = require('../../shared/json-store');
-const { canonicalizeUrl } = require('../../shared/tavily-client');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
 const { normalizeToolUpdateReviewValue } = require('./tool-update-review-contract');
 const { sourceForEvidence } = require('./tool-update-review-planner');
 

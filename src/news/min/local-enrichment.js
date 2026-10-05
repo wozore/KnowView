@@ -61,7 +61,7 @@ function countEnrichmentWork(candidates, options = {}) {
 
     if (!options.skipReview) {
       if (force ? (c.review_status === 'pending' && !c.reviewed_at)
-        : needsReviewWork(c, { l2Enabled, webVerifyEnabled: options.webVerifyEnabled !== false })) {
+        : needsReviewWork(c, { l2Enabled })) {
         review += 1;
       }
     }
@@ -133,10 +133,8 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
   const dryRun = options.dryRun === true;
   const limit = options.limit != null ? nonNegativeInteger(options.limit, null, 'options.limit') : null;
   const l2Enabled = config?.review?.l2_enabled !== false && options.l2Enabled !== false;
-  // config.review.web_verify 显式 false 关闭联网核验（缺省启用）
-  const webVerifyEnabled = config?.review?.web_verify !== false;
-  const searchBudget = options.searchBudget || (config?.review?.web_search_provider === 'zhipu_web_search'
-    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+  const searchBudget = options.searchBudget || (config?.review?.fact_check_mode === 'web_search_api'
+    ? createWebSearchBudget(config?.review?.web_search_max_requests_per_run)
     : null);
   const apiKey = options.apiKeyLocal || options.apiKey || 'local-bonsai';
   // 本轮开始时的候选层 revision，用于逐批并发安全落盘（每批写回后滚动更新）
@@ -163,7 +161,7 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
     let hasWork = false;
     if (!options.skipReview) {
       if (force ? (c.review_status === 'pending' && !c.reviewed_at)
-        : needsReviewWork(c, { l2Enabled, webVerifyEnabled })) hasWork = true;
+        : needsReviewWork(c, { l2Enabled })) hasWork = true;
     }
     if (!options.skipSummary && !hasWork) {
       const isProtectedSummary = Boolean(c.transcript_summarized_at || c.transcript_summary_llm === 'deepseek');
@@ -240,9 +238,9 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
 
     // ── 步骤 3.1: L1 审核（缺 L1 的走完整 L1→L2 流程）──
     if (!options.skipReview) {
-      // 仅缺 L2 建议的条目（含缺核验痕迹的存量建议补核验）：只补建议，不重跑 L1、不改状态。
-      // 必须在 L1 池执行前筛选，避免本轮刚生成、核验失败未挂痕迹的建议被二次筛中重跑。
-      const l2Targets = force ? [] : batch.filter(c => needsL2Advice(c, l2Enabled, webVerifyEnabled));
+      // 仅缺 L2 建议的条目：只补建议，不重跑 L1、不改状态。
+      // 已有建议的查证由独立队列处理，不会因查证失败重复调用模型。
+      const l2Targets = force ? [] : batch.filter(c => needsL2Advice(c, l2Enabled));
       const l1Targets = batch.filter(c => (force ? (c.review_status === 'pending' && !c.reviewed_at) : needsL1Review(c)));
       await runPool(l1Targets, concurrency, async item => {
         const verdict = await executeCandidateReview(item, config, enrichOptions);
@@ -346,7 +344,6 @@ async function enrichMinCandidates(store, config = {}, options = {}) {
         ...options,
         locale,
         l2Enabled,
-        webVerifyEnabled,
       });
       baseRevision = writeResult.baseRevision;
     }

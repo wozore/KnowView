@@ -64,6 +64,7 @@
           <button class="button button-quiet" id="newsTabAll" data-status="all" type="button">全部 (<span id="newsTotalCount">0</span>)</button>
         </div>
         <div class="toolbar"><label class="check-all"><input type="checkbox" id="newsSelectAll"> <span>全选所列候选</span></label><span class="selection-count" id="newsSelectionCount">0 条已选</span><button class="button button-danger" id="newsDiscardButton" type="button" disabled>丢弃所选</button><button class="button button-primary" id="newsApproveButton" type="button" disabled>批准所选</button><button class="button button-quiet" id="newsRevertButton" type="button" disabled>回退为待审</button></div>
+        <div class="toolbar"><button class="button button-quiet" id="newsFactCheckExportButton" type="button">导出 10 条 Codex 查证任务</button><label class="button button-quiet" for="newsFactCheckImportFile">导入 Codex 查证结果</label><input id="newsFactCheckImportFile" type="file" accept="application/json,.json" hidden></div>
         <div class="item-list" id="newsList" aria-live="polite"></div>
       </section>
       <section class="panel panel-keywords" id="keywordsPanel" aria-labelledby="keywordsTitle">

@@ -3,7 +3,7 @@
 /**
  * review-scan.js — 工具更新审核的 preflight 环境检查与 scan 采集命令实现
  *
- * 职责：preflight 只读探测（GitHub / Tavily / 外部 provider 成本提示）；
+ * 职责：preflight 只读探测（GitHub / 外部 provider 成本提示）；
  * scan 按产品登记表采集官方更新证据 → 确定性规划 → 歧义项按 hybrid 模式请求
  * AI 建议 → 汉化 → 合并写入独立审核队列。任何路径都不写五模块目录、不 Apply。
  *
@@ -12,6 +12,7 @@
  */
 
 const { CATALOG_GENERATOR_FILES } = require('../../shared/paths');
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledResult } = require('../../shared/external-operation-policy');
 const { loadCatalogSnapshot, createCostLedger } = require('../core/index');
 const {
   loadProductUrlRegistry,
@@ -26,7 +27,6 @@ const {
   planToolUpdateCandidate,
   mergeAndWriteReviewQueue,
 } = require('./index');
-const { probeTavily } = require('../../shared/tavily-client');
 const { localizeEnabled, externalSummaryEnabled } = require('./review-localize');
 
 const GITHUB_RATE_LIMIT_URL = 'https://api.github.com/rate_limit';
@@ -53,15 +53,6 @@ function modeOf(flags) {
   return mode;
 }
 
-function accessModeOf(flags, required) {
-  if (!required && flags.tavily_access_mode === undefined) return undefined;
-  const value = flags.tavily_access_mode;
-  if (value === undefined || value === true) throw new Error('TAVILY_ACCESS_MODE_REQUIRED: 含 Tavily 来源的命令必须显式提供 --tavily-access-mode keyed|keyless');
-  const mode = String(value).trim().toLowerCase();
-  if (!['keyed', 'keyless'].includes(mode)) throw new Error(`TAVILY_ACCESS_MODE_INVALID: ${value}`);
-  return mode;
-}
-
 function registryValidation(registry, deps = {}) {
   if (deps.validateRegistry) return deps.validateRegistry(registry);
   return validateProductUrlRegistry(registry);
@@ -80,15 +71,11 @@ function sourceListForProducts(keys, registry) {
   return keys.flatMap(productKey => updateSourcesForProduct(productKey, { registry }));
 }
 
-function sourceNeedsTavily(sources) {
-  return sources.some(source => source.collector === 'tavily_extract');
-}
-
 function sourceCount(sources) {
   return {
     total: sources.length,
-    github: sources.filter(source => source.collector !== 'tavily_extract').length,
-    tavily: sources.filter(source => source.collector === 'tavily_extract').length,
+    github: sources.filter(source => source.collector !== 'direct_fetch').length,
+    direct_fetch: sources.filter(source => source.collector === 'direct_fetch').length,
   };
 }
 
@@ -106,6 +93,7 @@ function failureSummary(productKey, failure) {
 }
 
 async function defaultGithubProbe(options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult('EXTERNAL_NETWORK_DISABLED');
   const fetchImpl = options.fetchImpl || globalThis.fetch;
   if (typeof fetchImpl !== 'function') return { ok: false, code: 'GITHUB_FETCH_UNAVAILABLE' };
   try {
@@ -120,12 +108,12 @@ async function defaultGithubProbe(options = {}) {
 }
 
 async function runPreflight(flags = {}, deps = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return { ...externalNetworkDisabledResult('EXTERNAL_NETWORK_DISABLED'), command: 'preflight', status: 'disabled' };
   const registry = deps.loadRegistry ? deps.loadRegistry() : loadProductUrlRegistry();
   const validation = registryValidation(registry, deps);
   if (!validation.ok) return { ok: false, command: 'preflight', code: 'PRODUCT_URL_REGISTRY_INVALID', errors: validation.errors };
   const keys = selectedProductKeys(flags, registry);
   const sources = sourceListForProducts(keys, registry);
-  const accessMode = accessModeOf(flags, sourceNeedsTavily(sources));
   const mode = modeOf(flags);
   const provider = providerOf(flags);
   const localizationsEnabled = localizeEnabled(flags);
@@ -133,18 +121,9 @@ async function runPreflight(flags = {}, deps = {}) {
   const checks = {};
 
   const githubProbe = deps.probeGithub || defaultGithubProbe;
-  checks.github = sources.some(source => source.collector !== 'tavily_extract')
+  checks.github = sources.some(source => source.collector.startsWith('github_'))
     ? await githubProbe({ fetchImpl: deps.fetchImpl })
     : { ok: true, skipped: true };
-  if (sourceNeedsTavily(sources)) {
-    const tavilyProbe = deps.probeTavily || probeTavily;
-    checks.tavily = await tavilyProbe({
-      accessMode,
-      fallbackToKey: false,
-      apiKey: deps.searchApiKey,
-      fetchImpl: deps.fetchImpl,
-    });
-  } else checks.tavily = { ok: true, skipped: true };
   if (localizationsEnabled || (mode === 'hybrid' && aiFallbackSources)) {
     checks.ai = deps.aiProbe ? await deps.aiProbe() : { ok: true, requires_confirm_cost: true };
   } else checks.ai = { ok: true, skipped: true };
@@ -155,7 +134,6 @@ async function runPreflight(flags = {}, deps = {}) {
     command: 'preflight',
     status: ok ? 'ready' : 'blocked',
     provider,
-    access_mode: accessMode || null,
     mode,
     products: keys,
     source_count: sourceCount(sources),
@@ -164,12 +142,12 @@ async function runPreflight(flags = {}, deps = {}) {
 }
 
 async function runScan(flags = {}, deps = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return { ...externalNetworkDisabledResult('EXTERNAL_NETWORK_DISABLED'), command: 'scan', status: 'disabled' };
   const registry = deps.loadRegistry ? deps.loadRegistry() : loadProductUrlRegistry();
   const validation = registryValidation(registry, deps);
   if (!validation.ok) return { ok: false, command: 'scan', code: 'PRODUCT_URL_REGISTRY_INVALID', errors: validation.errors };
   const keys = selectedProductKeys(flags, registry);
   const sources = sourceListForProducts(keys, registry);
-  const accessMode = accessModeOf(flags, sourceNeedsTavily(sources));
   const mode = modeOf(flags);
   const provider = providerOf(flags);
   const mayUseAi = mode === 'hybrid' && sources.some(source => source.review_mode !== 'deterministic');
@@ -199,8 +177,6 @@ async function runScan(flags = {}, deps = {}) {
     const product = registry.products[productKey];
     const collected = await collect(productKey, {
       registry,
-      accessMode,
-      fallbackToKey: false,
       fetchImpl: deps.fetchImpl,
     });
     for (const failure of collected.failed || []) failures.push(failureSummary(productKey, failure));
@@ -277,7 +253,6 @@ async function runScan(flags = {}, deps = {}) {
     status: failures.length ? 'partial' : 'ready',
     provider,
     mode,
-    access_mode: accessMode || null,
     products: keys,
     evidence_count: candidates.length,
     candidate_count: candidates.length,
@@ -297,11 +272,9 @@ module.exports = {
   csvFlag,
   providerOf,
   modeOf,
-  accessModeOf,
   localizeEnabled,
   registryValidation,
   selectedProductKeys,
-  sourceNeedsTavily,
   runPreflight,
   runScan,
 };

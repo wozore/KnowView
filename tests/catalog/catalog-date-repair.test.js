@@ -147,7 +147,7 @@ const REVIEW_REGISTRY = {
       update_sources: [{
         kind: 'changelog',
         url: 'https://example.com/changelog',
-        collector: 'tavily_extract',
+        collector: 'direct_fetch',
         product_surface: 'product',
         review_mode: 'ai_fallback',
       }],
@@ -162,7 +162,7 @@ function reviewCandidate(current, overrides = {}) {
     product_key: 'sample',
     detail_id: 'sample:release',
     source_type: 'changelog',
-    collector: 'tavily_extract',
+    collector: 'direct_fetch',
     url: 'https://example.com/changelog',
     title: 'Official changelog',
     official_published_at: `${date}T12:00:00Z`,

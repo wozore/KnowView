@@ -1,6 +1,7 @@
 'use strict';
 
 const { canonicalizeUrl } = require('../../shared/web-source-contract');
+const { EXTERNAL_NETWORK_ENABLED } = require('../../shared/external-operation-policy');
 
 function isIsoDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ''))) return false;
@@ -106,6 +107,7 @@ async function fetchOfficialSources(sources, options = {}) {
   const normalized = (Array.isArray(sources) ? sources : [])
     .map(source => ({ ...source, url: canonicalizeUrl(source?.url) }))
     .filter(source => source.url);
+  if (!EXTERNAL_NETWORK_ENABLED) return { ok: false, pages: [], failed: normalized.map(source => ({ url: source.url, error: 'EXTERNAL_NETWORK_DISABLED' })) };
   const fetchFn = options.fetchImpl || (typeof fetch === 'function' ? fetch : null);
   if (!fetchFn) return { ok: false, pages: [], failed: normalized.map(source => ({ url: source.url, error: 'FETCH_UNAVAILABLE' })) };
   const pages = [];

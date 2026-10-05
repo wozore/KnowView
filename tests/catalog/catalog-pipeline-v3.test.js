@@ -167,7 +167,7 @@ test('assistant prepares a research-resume plan for evidence-blocked Drafts', ()
   });
   try {
     const result = recoveryPlanForDraft(draft.draft_id, { expectedRevision: current.revision, generatorOptions: { model: 'deepseek-v4-flash' } });
-    assert.deepEqual(result, { ok: true, draft_id: draft.draft_id, expected_revision: current.revision, recovery_kind: 'evidence_required', recovery_mode: 'research_resume', error_code: 'SYNTHESIS_COVERAGE_INCOMPLETE', missing_fields: ['detail.summary'], missing_config_fields: [], suggested_detail_kind: null, cost_plan: { mode: 'research_resume', hard_limits: { search_queries: 8, pages: 8, responses_calls: 12, synthesis_calls: 1 }, previous_cost: null }, generator_options: { model: 'deepseek-v4-flash' }, recovery_token: result.recovery_token });
+    assert.deepEqual(result, { ok: true, draft_id: draft.draft_id, expected_revision: current.revision, recovery_kind: 'evidence_required', recovery_mode: 'research_resume', error_code: 'SYNTHESIS_COVERAGE_INCOMPLETE', missing_fields: ['detail.summary'], missing_config_fields: [], suggested_detail_kind: null, cost_plan: { mode: 'research_resume', hard_limits: { search_queries: 4, pages: 8, responses_calls: 12, synthesis_calls: 1 }, previous_cost: null }, generator_options: { model: 'deepseek-v4-flash' }, recovery_token: result.recovery_token });
   } finally {
     deleteDraft(draft.draft_id);
   }

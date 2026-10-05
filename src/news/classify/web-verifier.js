@@ -1,10 +1,9 @@
 /**
- * web-verifier.js —— 审核建议联网查证（统一 Web Search + LLM 复判）
+ * web-verifier.js —— 按 L2 事实主张路由人工 MCP 或直接 Web Search 查证
  *
  * 背景：审核 LLM 只靠训练记忆判断真伪，会把真实存在的最新模型误判为"编造"。
- * 本模块对 verdict 为 hold/discard 的建议做一次联网查证：用标题搜统一 Web Search，
- * 把前 5 条结果的 title+url+content 拼成证据文本（webEvidence）追加进审核
- * prompt 复判一次，让"知识无法确认"的建议有官方来源可依。
+ * 只有 advice.fact_check 明确标出可核实事实时才查证。Codex MCP 方式登记人工任务；
+ * 直连 Web Search API 将结果追加进审核 prompt 复判。
  *
  * 铁律：全程 fail-open —— 搜索失败/复判失败/任何异常都不向上抛，
  * 绝不阻断审核流程；失败时原 advice 原样返回，
@@ -12,7 +11,7 @@
  *
  * 注入点：options.searchWeb / options.reviewFn 可替换真实实现（测试 mock 用）。
  * search 只接收白名单参数（provider/providerOptions/query/maxResults/timeoutMs/fetchImpl），上层审核 LLM 的
- * apiKey/provider/model/config 绝不透传给 Tavily（防跨服务凭据泄漏与限流被误判
+ * apiKey/provider/model/config 绝不透传给 Web Search transport（防跨服务凭据泄漏与限流被误判
  * AUTH_REQUIRED）；复判 review 仍按 l2AiAdvice 的方式透传 options 给 reviewCandidate。
  */
 
@@ -43,15 +42,19 @@ function createWebSearchBudget(limit = 10) {
 }
 
 function searchProviderOf(options = {}) {
-  return options.searchProvider || options.config?.review?.web_search_provider || 'tavily';
+  return options.searchProvider || options.config?.review?.web_search_provider || 'zhipu_web_search';
 }
 
 function searchEngineOf(options = {}) {
   return options.searchEngine || options.config?.review?.web_search_engine || 'search_std';
 }
 
-function searchQueryOf(item) {
-  return String(item?.title || '').trim().slice(0, QUERY_MAX_CHARS);
+function factCheckModeOf(config) {
+  return String(config?.review?.fact_check_mode || 'off');
+}
+
+function searchQueryOf(item, advice) {
+  return String(advice?.fact_check?.query || advice?.fact_check?.claim || item?.title || '').trim().slice(0, QUERY_MAX_CHARS);
 }
 
 /** 前 5 条结果拼成证据文本：[n] 标题 / URL / 内容截断。 */
@@ -69,7 +72,7 @@ function buildWebEvidence(sources) {
 }
 
 /**
- * 对 hold/discard 的审核建议做联网查证复判（fail-open，绝不抛错）。
+ * 对明确标记了关键事实主张的审核建议做联网查证复判（fail-open，绝不抛错）。
  *
  * @param {object} item - 候选条目（取 title 作查询词）
  * @param {object|null} advice - 待复核的审核建议；非 hold/discard 原样返回
@@ -77,11 +80,25 @@ function buildWebEvidence(sources) {
  * @returns {Promise<object|null>} 复判成功采用新 advice，否则原 advice；均尽力挂 web_verification
  */
 async function verifyAdviceWithWeb(item, advice, options = {}) {
-  if (!advice || (advice.verdict !== 'hold' && advice.verdict !== 'discard')) return advice;
-  const query = searchQueryOf(item);
+  if (!advice || !['approve', 'hold', 'discard'].includes(advice.verdict)) return advice;
+  const claim = String(advice.fact_check?.claim || '').trim();
+  if (advice.fact_check?.needed !== true || claim.length < 8) return advice;
+  const mode = options.factCheckMode || factCheckModeOf(options.config);
+  if (mode === 'off') return advice;
+  const query = searchQueryOf(item, advice);
   if (!query) return advice;
 
   const searchedAt = options.now || new Date().toISOString();
+  if (mode === 'codex_mcp') {
+    return { ...advice, web_verification: {
+      status: 'awaiting_agent', provider: 'zhipu_web_search_prime_mcp', claim, query, requested_at: searchedAt,
+    } };
+  }
+  if (mode !== 'web_search_api') {
+    return { ...advice, web_verification: {
+      status: 'failed', claim, query, searched_at: searchedAt, search_error: 'FACT_CHECK_MODE_UNSUPPORTED',
+    } };
+  }
   const provider = searchProviderOf(options);
   const engine = searchEngineOf(options);
   if (provider === 'zhipu_web_search') {
@@ -91,6 +108,7 @@ async function verifyAdviceWithWeb(item, advice, options = {}) {
       return {
         ...advice,
         web_verification: {
+          status: 'failed', claim,
           query,
           searched_at: searchedAt,
           search_error: reserved.code || 'WEB_SEARCH_BUDGET_EXHAUSTED',
@@ -118,6 +136,7 @@ async function verifyAdviceWithWeb(item, advice, options = {}) {
     return {
       ...advice,
       web_verification: {
+        status: 'failed', claim,
         query,
         searched_at: searchedAt,
         provider,
@@ -130,6 +149,7 @@ async function verifyAdviceWithWeb(item, advice, options = {}) {
     return {
       ...advice,
       web_verification: {
+        status: 'failed', claim,
         query,
         searched_at: searchedAt,
         provider,
@@ -140,6 +160,7 @@ async function verifyAdviceWithWeb(item, advice, options = {}) {
 
   const sources = Array.isArray(searchResult.sources) ? searchResult.sources : [];
   const verification = {
+    status: 'completed', claim,
     query,
     searched_at: searchedAt,
     provider,
@@ -164,5 +185,6 @@ async function verifyAdviceWithWeb(item, advice, options = {}) {
 
 module.exports = {
   createWebSearchBudget,
+  factCheckModeOf,
   verifyAdviceWithWeb,
 };

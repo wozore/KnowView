@@ -2,80 +2,35 @@
 
 > AI 世界太快，我们替你看明白。
 
-知览（KnowView）是一个开源、免费的 AI 信息编辑部，面向中文用户整理 AI 热点、工具、模型、概念与场景资料，提供浏览、解释和比较入口。项目不接受厂商赞助、付费排名或影响事实呈现的商业置换。
+知览是面向中文用户的 AI 工具、模型、热点和概念资料展示项目。项目已停止主动维护，现有数据仅作为静态快照保留。
 
-## 快速开始
+## 当前状态
+
+- 外网访问、AI 调用、信息采集和数据更新入口已关闭；站内搜索只检索本地快照。
+- GitHub Actions、自动部署、反馈模板和 Data PR 交付入口已从项目配置中移除。
+- 页面可能仍能从此前的托管地址访问；该地址会继续展示最后一次发布的内容，直到仓库托管设置被单独调整。
+- 项目不再接收或处理 Bug、数据纠错和收录建议。
+
+## 本地浏览
+
+页面通过相对路径读取静态文件，请从项目目录启动仅绑定本机的静态服务器：
 
 ```bash
-python -m http.server 8000
-# 浏览器打开 http://localhost:8000/dist/
+python -m http.server 8000 --bind 127.0.0.1
 ```
 
-项目使用原生 HTML/CSS/JS、Node.js 20 和静态 JSON，无 npm 依赖或运行时后端。页面通过 `fetch` 读取数据，因此应使用 HTTP 服务访问。改动 `src/` 或 `data/` 后需运行构建脚本，再刷新页面：
+在浏览器打开 `http://127.0.0.1:8000/dist/`。若需从当前源码重建本地页面：
 
 ```bash
 node scripts/build-dist.js
 ```
 
-## 验证
+`dist/` 是构建产物，不要手工修改。静态页面、JSON 与品牌图标由本地服务提供；自动联网获取资料的功能不可用。
 
-```bash
-node scripts/validate.js
-node --test --test-concurrency=1 tests/
-```
+## 项目资料
 
-> 全量测试限定在 `tests/` 目录：避免 `node --test` 无路径时递归扫描仓库根部的本地符号链接（如 `.obsidian`），并以单并发规避共享运行文件（`data/news/runtime/`）的偶发竞争。
-> Node 20 使用目录参数 `tests/`；Node 24 请改用 glob：`node --test --test-concurrency=1 "tests/**/*.test.js"`。
-
-## 开发者入口契约
-
-本项目没有 `package.json`、npm 依赖或运行时后端；标准入口是仓库根目录执行的 Node.js 脚本。常规改动按以下顺序验证：
-
-1. `node scripts/validate.js`：校验目录、热点、对比数据和公开 HTML；
-2. `node --test --test-concurrency=1 tests/`：运行全量回归（Node 24 使用上面的 glob 写法）；
-3. `node scripts/build-dist.js`：将 `src/`、`data/` 和 `public/` 重建到可丢弃的 `dist/`；
-4. `python -m http.server 8000`：从仓库根目录启动静态服务器，再访问 `http://localhost:8000/dist/`；
-5. 配置 `config/browser.local.json` 后运行 `node scripts/browser-acceptance.js`：执行 Edge/CDP 真实页面验收。
-
-维护者入口按领域分开：`scripts/build-news.js` 负责热点采集，`scripts/news-cli.js` 负责 `min-review` 审核命令，`scripts/publish-news.js` 负责公开投影，`scripts/fetch-comparison.js` 负责模型对比，`scripts/catalog-generator.js` 与 `scripts/concept-generator.js` 负责目录/概念生成。改动 `src/` 或 `data/` 后必须先重建 `dist/`；不要手工修改 `dist/`。
-
-真实运行管线前，CLI 会从仓库根目录 `.env` 读取配置；不要把 API Key、Cookie、密码、令牌或本地私密配置写入仓库、Issue、Pull Request 或文档。
-
-真实页面验收需要 Edge/CDP 配置，运行：
-
-```bash
-node scripts/browser-acceptance.js
-```
-
-## 产品边界
-
-- 看热点：浏览经过整理的 AI 公开信息；
-- 找工具：按类型和场景查阅工具、模型与套餐资料；
-- 比模型：查看公开评测数据和比较口径；
-- 懂概念：阅读 AI 术语解释；
-- 看场景和编辑精选：从维护者整理的资料入口开始探索。
-
-“编辑精选”和“场景资料”不是基于个人画像的自动推荐。知览不承诺个性化匹配、“最适合你”的自动结论、实时 AI 问答或任何收录对象的永久可用性。当前 AI 搜索入口仍包含静态演示，不代表已经接入实时 AI 搜索。
-
-## 数据与内容
-
-价格、访问条件、版本和日期会随地区、套餐、版本和时间变化。官方宣传、独立评测、公开数据和维护者整理会分别处理；比较分数不能单独代表所有真实场景下的绝对排名。详情见[编辑与数据政策](docs/manual/editorial-and-data-policy.md)。
-
-## 部署与自动更新
-
-- `main` 分支推送后由 GitHub Actions 构建并部署静态站；
-- 热点采集由配置开关和 GitHub Actions 变量共同控制，默认关闭时不会请求外部 API；
-- 热点、模型对比和工具更新管线各自失败隔离，并保留可审计的运行记录；
-- 项目使用的环境变量只应存在于仓库根目录本地 `.env` 或 GitHub Actions Secrets/Variables，不能提交到仓库。
-
-详细的维护者操作以当前仓库中的工作流和脚本为准。不要把 API Key、Cookie、密码、令牌或私有配置写入 Issue、Pull Request、数据文件或文档。
-
-## 参与方式
-
-- [贡献与内容上传规则](CONTRIBUTING.md)：数据、热点、代码和文档提交要求；
-- [反馈与支持](SUPPORT.md)：普通用户反馈、Bug、收录线索和处理预期；
-- [安全政策](SECURITY.md)：安全和隐私问题的私密报告方式；
-- [行为准则](CODE_OF_CONDUCT.md)：参与项目讨论时的基本规则；
-- [MIT 许可证](LICENSE)：代码和相关软件文件的许可条款。
-
-知览处于 MVP 测试和公开筹备阶段。发现数据错误或页面问题时，请优先使用[反馈与支持](SUPPORT.md)，不要在公开内容中提交任何敏感信息。
+- [项目介绍](ABOUT.md)
+- [反馈与支持状态](SUPPORT.md)
+- [安全状态](SECURITY.md)
+- [编辑与数据政策](docs/manual/editorial-and-data-policy.md)
+- [MIT 许可证](LICENSE)

@@ -108,7 +108,9 @@ async function enrichArticle(item, rawTweet, { client, budgetLedger, diagnostics
     const body = extractArticleText(payload);
     if (body) {
       const base = item.description || '';
-      item.description = [body, base].filter(Boolean).join('\n\n').slice(0, 600);
+      const description = [body, base].filter(Boolean).join('\n\n');
+      item.description = description.slice(0, 2000);
+      item.description_truncated = description.length > 2000;
     }
     budgetLedger.settle(reservation, 1, 100, Boolean(body));
   } catch (err) {

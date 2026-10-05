@@ -2,21 +2,21 @@
 
 > 当前实现事实、模块边界和数据流。设计理由见 [架构决策](decisions.md)，运维命令见 [运维操作](operations.md)，未来长期演进见本地维护者工作稿开发计划。
 
+> **当前运行状态：** 项目已转为静态归档。共享策略关闭所有外网请求与 GitHub 仓库操作；GitHub Actions 工作流已从仓库配置中移除。浏览器保留本地快照浏览、筛选、比较和搜索。
+
 ## 定位与技术栈
 
-知览（KnowView）是部署在 GitHub Pages 的开源 AI 信息聚合与编辑部平台。浏览器使用原生 HTML/CSS/JS，构建脚本使用 Node.js 20；项目无 npm 依赖，以 Git 管理静态 JSON，构建产物为 `dist/`。
+知览（KnowView）是以静态归档方式保留的 AI 信息聚合与编辑部项目。浏览器使用原生 HTML/CSS/JS，构建脚本使用 Node.js 20；项目无 npm 依赖，以静态 JSON 展示资料，构建产物为 `dist/`。
 
 当前为环 B（MVP 交付），提供 AI 搜索、工具库、场景、对比、AI 热点、编辑精选、AI 概念和关于八个视图。
 
 ## 系统拓扑
 
 ```text
-工具/对比/场景/概念 JSON ───────────────┐
-YouTube、X → 热点构建 ─────────────────┤→ 浏览器静态站 → GitHub Pages
-多源上游数据 → 对比/概念刷新 ───────────┘
+本地 JSON 快照 → 浏览器静态站 → 本机静态服务器
 ```
 
-六个 GitHub Actions 工作流分别负责热点采集、热点发布、对比数据刷新、工具更新周审、Vibe Hub 概念缓存刷新以及构建部署；触发时间与写入范围见 [运维操作](operations.md)。
+代码保留原有的采集和构建模块以供项目阅读；共享运行策略会在任何外网请求前拒绝请求。仓库不再配置 GitHub Actions 工作流。
 
 ## 目录与模块边界
 
@@ -84,14 +84,10 @@ data/catalog/{glossary,scenes,featured}.json
 ### AI 热点
 
 ```text
-YouTube search.list ─────────────┐
-X（TwitterAPI.io）──────────────┤→ pipeline-min.js（runMin）
-                                 ├→ 去重 → L0 硬过滤 → 分类 → 评分 → L1/L2 审核
-                                 ├→ min-candidates.json（候选落地）
-                                 └→ publish-news.js → hotspots.json
+本地热点快照 → 浏览器展示
 ```
 
-`pipeline-min.js`（`runMin`）编排采集、去重、L0 规则硬过滤、分类、基于历史库的评分、L1/L2 审核和每日公开投影；候选落地到 `min-candidates.json`，长期质量写入 `source-history.json`。发布阶段 `publish-news.js` 从 approved 且被选中的候选重建 `hotspots.json` 并生成 RSS。失败不得以空结果覆盖上一版有效 `hotspots.json`。
+外部采集、AI 分类与审核、候选交付和自动发布均不再运行。浏览器只读取项目中已有的热点快照。
 
 核心模块：
 
@@ -108,13 +104,10 @@ X（TwitterAPI.io）──────────────┤→ pipeline-mi
 
 平台来源、时间窗口和降级边界以 [质量标准](content-quality.md) 为准。
 
-### 对比数据与概念缓存刷新
+### 对比数据与概念缓存
 
 ```text
-多源上游（OpenRouter / LMArena / LiveBench / llm-stats）→ fetch-comparison.js → rebuild-comparison.js
-  → 维度归一化与模型对齐 → data/comparison/integrated/
-
-Vibe Hub 概念术语 → refresh-vibe-hub-cache.js → data/manual/registries/vibe-hub-cache.json
+data/comparison/integrated/ 与 data/catalog/glossary.json → 浏览器读取
 ```
 
 ### RSS / SEO
@@ -126,7 +119,7 @@ src/web/ → generate-og-image.js → OG 图
 
 ## 当前边界
 
-已实现静态八视图、热点管线 v2（采集、去重、分类、审核、评分、候选与公开投影）、模型对比数据管理、规则评分、证据与溯源、管理 CLI、单元测试和部署前校验。
+当前保留静态八视图、热点快照、模型对比快照、规则与证据处理源代码，以及离线项目校验工具。外网信息获取和 GitHub 仓库操作处于关闭状态。
 
 当前 MVP 不包含：
 

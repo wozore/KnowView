@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const {
   collectGithubRelease,
   collectGithubFile,
-  collectTavilySource,
+  collectDirectSource,
   collectUpdateEvidence,
   collectProductUpdateEvidence,
   fileTargetFromSource,
@@ -49,11 +49,11 @@ function fileSource(overrides = {}) {
   };
 }
 
-function tavilySource(overrides = {}) {
+function directSource(overrides = {}) {
   return {
     kind: 'changelog',
     url: 'https://acme.example/changelog',
-    collector: 'tavily_extract',
+    collector: 'direct_fetch',
     product_surface: 'product',
     review_mode: 'deterministic',
     ...overrides,
@@ -199,10 +199,10 @@ test('GitHub file Tags 页面、路径穿越和非法 ref 均拒绝且不发请�
   assert.equal(calls, 0);
 });
 
-test('Tavily collector 优先抓取官方 HTML 正文，不调用 Tavily Extract', async () => {
+test('direct collector 从官方 HTML 提取带日期的更新证据', async () => {
   const calls = [];
-  const source = tavilySource();
-  const result = await collectTavilySource('sample-tool', source, {
+  const source = directSource();
+  const result = await collectDirectSource('sample-tool', source, {
     fetchImpl: async (url, init) => {
       calls.push({ url, init });
       return response('# Official changelog\n\n## Aug 21, 2026\n\n- New feature');
@@ -214,51 +214,43 @@ test('Tavily collector 优先抓取官方 HTML 正文，不调用 Tavily Extract
   assert.equal(calls[0].url, source.url);
   assert.equal(result.evidence.url, source.url);
   assert.equal(result.evidence.official_published_at, null);
-  assert.equal(result.evidence.diagnostics.html_fallback, true);
+  assert.equal(result.evidence.diagnostics.collector, 'direct_fetch');
   assert.match(result.evidence.excerpt, /Aug 21, 2026/);
 });
 
-test('Tavily HTML 跨产品重定向直接失败，不采纳错误产品正文', async () => {
-  const source = tavilySource({ url: 'https://windsurf.example/changelog' });
-  const result = await collectTavilySource('windsurf', source, {
+test('direct HTML 跨产品重定向直接失败，不采纳错误产品正文', async () => {
+  const source = directSource({ url: 'https://windsurf.example/changelog' });
+  const result = await collectDirectSource('windsurf', source, {
     fetchImpl: async () => response('# Devin Desktop changelog\\n\\n## Aug 21, 2026', { url: 'https://docs.devin.ai/release-notes/overview' }),
   });
   assert.equal(result.ok, false);
   assert.equal(result.code, 'UPDATE_HTML_REDIRECT_UNTRUSTED');
   assert.equal(result.final_url, 'https://docs.devin.ai/release-notes/overview');
 });
-test('HTML 抓取失败或空正文时回退 Tavily Extract，且不调用 Search', async () => {
+test('HTML 抓取失败或没有日期时返回失败，不调用备用提取服务', async () => {
   const calls = [];
-  const source = tavilySource();
-  const result = await collectTavilySource('sample-tool', source, {
-    accessMode: 'keyless',
-    keylessMinIntervalMs: 0,
-    keylessState: { lastAtMs: 0, cooldownUntilMs: 0, cooldownKind: '', stats: { keylessCalls: 0, keyedCalls: 0, keylessCapHits: 0, keylessRateLimitHits: 0, keylessFallbacks: 0, cooldownTriggers: 0 } },
+  const source = directSource();
+  const result = await collectDirectSource('sample-tool', source, {
     fetchImpl: async (url, init) => {
       calls.push({ url, init, ...(init && init.body ? { body: JSON.parse(init.body) } : {}) });
-      if (url === source.url) return response('<html><body></body></html>');
-      return response({ results: [{ url: source.url, raw_content: '# Official changelog\n\n## August 2026\n\n- New feature' }], failed_results: [] });
+      return response('<html><body>No dated update here</body></html>');
     },
     now: NOW,
   });
-  assert.equal(result.ok, true);
-  assert.equal(calls.length, 2);
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'UPDATE_HTML_DATES_UNAVAILABLE');
+  assert.equal(calls.length, 1);
   assert.equal(calls[0].url, source.url);
-  assert.equal(calls[1].url, 'https://api.tavily.com/extract');
-  assert.deepEqual(calls[1].body.urls, [source.url]);
-  assert.equal(Object.hasOwn(calls[1].body, 'query'), false);
-  assert.equal(result.evidence.url, source.url);
-  assert.equal(result.evidence.official_published_at, null);
 });
 
 test('统一入口拒绝非法 source，产品批量入口保留逐源失败隔离', async () => {
   const registry = {
     schema_version: 1,
     products: {
-      sample: { update_sources: [tavilySource(), { ...tavilySource(), url: 'http://bad.example/changelog' }] },
+      sample: { update_sources: [directSource(), { ...directSource(), url: 'http://bad.example/changelog' }] },
     },
   };
-  const single = await collectUpdateEvidence('sample', { ...tavilySource(), repository: 'not-allowed' }, {
+  const single = await collectUpdateEvidence('sample', { ...directSource(), repository: 'not-allowed' }, {
     fetchImpl: async () => { throw new Error('不应请求'); },
   });
   assert.equal(single.ok, false);
@@ -267,18 +259,13 @@ test('统一入口拒绝非法 source，产品批量入口保留逐源失败隔�
   let calls = 0;
   const batch = await collectProductUpdateEvidence('sample', {
     registry,
-    accessMode: 'keyless',
-    keylessMinIntervalMs: 0,
-    keylessState: { lastAtMs: 0, cooldownUntilMs: 0, cooldownKind: '', stats: { keylessCalls: 0, keyedCalls: 0, keylessCapHits: 0, keylessRateLimitHits: 0, keylessFallbacks: 0, cooldownTriggers: 0 } },
     fetchImpl: async (url) => {
       calls += 1;
-      return url.includes('tavily.com')
-        ? response({ results: [], failed_results: [] })
-        : response('<html><body></body></html>');
+      return response('<html><body></body></html>');
     },
   });
   assert.equal(batch.ok, false);
   assert.equal(batch.evidence.length, 0);
   assert.equal(batch.failed.length, 2);
-  assert.equal(calls, 2, '合法来源 HTML 空后回退一次 Tavily Extract，非法 HTTP 来源不发请求');
+  assert.equal(calls, 1, '合法来源只发起一次 HTTP 正文直连，非法 HTTP 来源不发请求');
 });

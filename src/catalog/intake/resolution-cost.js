@@ -6,13 +6,12 @@ const { canonicalizeUrl } = require('../../shared/web-source-contract');
 function searchProvidersOf(options = {}) {
   return {
     primary: options.searchProvider ?? options.search_provider ?? 'zhipu_web_search',
-    fallback: options.searchFallbackProvider ?? options.search_fallback_provider ?? 'tavily',
+    fallback: options.searchFallbackProvider ?? options.search_fallback_provider ?? 'zhipu_web_search',
   };
 }
 
 function searchAttemptMultiplier(options = {}) {
-  const providers = searchProvidersOf(options);
-  return providers.fallback && providers.fallback !== providers.primary ? 2 : 1;
+  return 1;
 }
 
 function officialUrlsOf(card, registryHit) {
@@ -26,15 +25,13 @@ function officialUrlsOf(card, registryHit) {
 function identitySearchRequestBounds(cards, options = {}, lookupRegistryForCard) {
   const { primary, fallback } = searchProvidersOf(options);
   let primaryRequests = 0;
-  let fallbackRequests = 0;
   for (const card of cards || []) {
     const registry = typeof lookupRegistryForCard === 'function' ? lookupRegistryForCard(card, options) : null;
     const urls = officialUrlsOf(card, registry);
     const includeDomains = [...new Set(urls.map(url => new URL(url).hostname.toLowerCase().replace(/^www\./, '')))];
     primaryRequests += plannedWebSearchRequests({ provider: primary, includeDomains });
-    if (fallback && fallback !== primary) fallbackRequests += plannedWebSearchRequests({ provider: fallback, includeDomains });
   }
-  return { primary: primaryRequests, fallback: fallbackRequests };
+  return { primary: primaryRequests, fallback: 0 };
 }
 
 function estimateResolutionNeed(cards, options = {}, lookupRegistryForCard) {

@@ -9,7 +9,7 @@ if not "%~1"=="" goto :run
 cls
 echo 工具更新审核维护入口
 echo.
-echo 1. 环境检查（GitHub / Tavily；AI fallback 可选）
+echo 1. 环境检查（GitHub；AI fallback 可选）
 echo 2. 确定性扫描并生成待审核队列（GLM 汉化，产生 API 费用）
 echo 3. 打开审核 JSON
 echo 4. 预览 approved 日期变更
@@ -28,17 +28,17 @@ if "%CHOICE%"=="0" goto :done
 goto :menu
 
 :preflight
-node scripts\tool-update-review.js preflight --mode deterministic --tavily-access-mode keyless
+node scripts\tool-update-review.js preflight --mode deterministic
 pause
 goto :menu
 
 :scan
-node scripts\tool-update-review.js scan --mode deterministic --tavily-access-mode keyless --confirm-cost
+node scripts\tool-update-review.js scan --mode deterministic --confirm-cost
 pause
 goto :menu
 
 :hybrid
-node scripts\tool-update-review.js scan --mode hybrid --tavily-access-mode keyless --confirm-cost
+node scripts\tool-update-review.js scan --mode hybrid --confirm-cost
 pause
 goto :menu
 

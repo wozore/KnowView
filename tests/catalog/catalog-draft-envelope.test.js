@@ -104,21 +104,21 @@ test('failed research preserves bounded failure diagnostics', () => {
     research: {
       ...research(),
       ok: false,
-      code: 'TAVILY_SEARCH_FAILED',
-      error: 'Tavily 搜索失败',
+      code: 'ZHIPU_WEB_SEARCH_FAILED',
+      error: '智谱 Web Search 失败',
       response_status: 'error',
       output_types: ['message'],
       output_preview: 'x'.repeat(1200),
     },
     synthesis: null,
   });
-  assert.equal(envelope.last_error.code, 'TAVILY_SEARCH_FAILED');
+  assert.equal(envelope.last_error.code, 'ZHIPU_WEB_SEARCH_FAILED');
   assert.equal(envelope.last_error.response_status, 'error');
   assert.equal(envelope.last_error.output_preview.length, 1200);
 });
 
 test('search auth and provider config failures remain config-recoverable', () => {
-  for (const code of ['TAVILY_SEARCH_AUTH_REQUIRED', 'TAVILY_EXTRACT_AUTH_REQUIRED', 'ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED']) {
+  for (const code of ['ZHIPU_WEB_SEARCH_AUTH_REQUIRED', 'SEARCH_FALLBACK_PROVIDER_UNSUPPORTED']) {
     assert.equal(classifyFailure({ ok: false, code }, null).recovery_kind, 'config_required', code);
   }
 });
@@ -130,7 +130,7 @@ test('provider transport and research/planner failures retain a recovery path', 
   assert.equal(normalizeGatewayErrorCode('OPENROUTER_TIMEOUT'), 'TIMEOUT');
   assert.equal(normalizeGatewayErrorCode('CUSTOM_GATEWAY_RATE_LIMITED'), 'RATE_LIMITED');
   assert.equal(normalizeGatewayErrorCode('OPENAI_COMPAT_SCHEMA_INVALID'), 'SCHEMA_INVALID');
-  assert.equal(normalizeGatewayErrorCode('TAVILY_EXTRACT_RATE_LIMITED'), 'TAVILY_EXTRACT_RATE_LIMITED');
+  assert.equal(normalizeGatewayErrorCode('ZHIPU_WEB_SEARCH_RATE_LIMITED'), 'ZHIPU_WEB_SEARCH_RATE_LIMITED');
   assert.equal(classifyFailure({ ok: false, code: 'WEB_SEARCH_REQUEST_BUDGET_EXCEEDED' }, null).recovery_kind, 'config_required');
 
   const budgetBlocked = buildCatalogDraftEnvelope({

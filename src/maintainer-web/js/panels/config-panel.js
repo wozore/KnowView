@@ -96,8 +96,6 @@ const CONFIG_LABELS = Object.freeze({
     retry_base_ms: '重试基础间隔（毫秒）',
     l1_input_include_comments: 'L1 输入包含评论',
     l1_comments_top_n: 'L1 评论前 N 条',
-    l1_confidence_auto_approve: 'L1 自动通过置信度',
-    l1_confidence_auto_discard: 'L1 自动丢弃置信度',
     l2_enabled: 'L2 审核开关',
     tool_feedback: '工具反馈',
     concept_feedback: '概念反馈',

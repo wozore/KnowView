@@ -79,12 +79,11 @@ function validateNewsConfigCore(data, reject) {
     reject('NEWS_CONFIG_REQUEST_MAX_INVALID', `x_tweets_per_request_max 应为不小于 ${X_TWEETS_MIN_PER_REQUEST_MAX} 整数`);
   }
   const review = data.review;
-  if (!review || typeof review !== 'object' || Array.isArray(review)) {
-    reject('NEWS_CONFIG_REVIEW_INVALID', 'news-config-v2.json.review 应为对象');
-  } else {
-    if (!['tavily', 'zhipu_web_search'].includes(review.web_search_provider)) reject('NEWS_CONFIG_SEARCH_PROVIDER_INVALID', 'review.web_search_provider 不受支持');
-    if (!['search_std', 'search_pro', 'search_pro_sogou', 'search_pro_quark'].includes(review.web_search_engine)) reject('NEWS_CONFIG_SEARCH_ENGINE_INVALID', 'review.web_search_engine 不受支持');
-    if (!isNonNegInt(review.web_verify_max_searches_per_run)) reject('NEWS_CONFIG_SEARCH_BUDGET_INVALID', 'review.web_verify_max_searches_per_run 应为非负整数');
+  if (!review || typeof review !== 'object' || Array.isArray(review)) reject('NEWS_CONFIG_REVIEW_INVALID', 'news-config-v2.json.review 应为对象'); else {
+    if (Object.prototype.hasOwnProperty.call(review, 'web_verify')) reject('NEWS_CONFIG_FACT_CHECK_FIELD_INVALID', 'review contains unsupported fact-check field: web_verify');
+    else if (!['off', 'web_search_api', 'codex_mcp'].includes(review.fact_check_mode)) reject('NEWS_CONFIG_FACT_CHECK_MODE_INVALID', 'review.fact_check_mode 必须是 off、web_search_api 或 codex_mcp');
+    if (review.web_search_provider !== 'zhipu_web_search') reject('NEWS_CONFIG_SEARCH_PROVIDER_INVALID', 'review.web_search_provider 必须是 zhipu_web_search'); if (!['search_std', 'search_pro', 'search_pro_sogou', 'search_pro_quark'].includes(review.web_search_engine)) reject('NEWS_CONFIG_SEARCH_ENGINE_INVALID', 'review.web_search_engine 不受支持');
+    if (!isNonNegInt(review.web_search_max_requests_per_run)) reject('NEWS_CONFIG_SEARCH_BUDGET_INVALID', 'review.web_search_max_requests_per_run 应为非负整数');
   }
 }
 

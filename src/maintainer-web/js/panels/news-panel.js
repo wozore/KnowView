@@ -16,6 +16,15 @@ import {
 } from './common.js';
 
 let currentNewsFilter = 'pending';
+let reviewPollTimer = null;
+
+function scheduleReviewRefresh(onRefreshAll) {
+  if (reviewPollTimer) window.clearTimeout(reviewPollTimer);
+  reviewPollTimer = window.setTimeout(() => {
+    reviewPollTimer = null;
+    if (currentNewsFilter === 'pending' && !state.loading.has('news')) loadNewsReview(onRefreshAll);
+  }, 10000);
+}
 
 export async function reviewNews(decision, button, onRefreshAll) {
   const ids = [...state.selected.news];
@@ -65,37 +74,99 @@ function updateButtonVisibility(filter) {
   }
 }
 
+function appendRepairButton(root, onRefreshAll) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'secondary-button';
+  btn.style.marginTop = '8px';
+  btn.textContent = '手动重试 GLM 修复';
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    btn.textContent = '正在 GLM 修复…';
+    try {
+      const result = unwrap(await request('news/repair', { method: 'POST', body: JSON.stringify({}) }));
+      const repaired = Number(result?.repaired?.repairedReview || 0);
+      showNotice(repaired > 0 ? `GLM 已补齐 ${repaired} 条初审结论。` : 'GLM 修复已结束，但没有补齐初审结论。', repaired > 0 ? 'success' : 'error');
+      if (typeof onRefreshAll === 'function') await onRefreshAll();
+    } catch (err) {
+      showNotice(`GLM 修复失败：${err.message || err}`, 'error');
+      btn.disabled = false;
+      btn.textContent = '重试 GLM 修复';
+    }
+  });
+  root.appendChild(btn);
+}
+
+function showFailedReviews(value, items, onRefreshAll) {
+  const root = $('#newsList');
+  const note = document.createElement('div');
+  addText(note, 'p', value.message || 'AI 初审未完成，请检查候选错误。', 'error-state');
+  appendRepairButton(note, onRefreshAll);
+  root.prepend(note);
+  const cards = root.querySelectorAll('.queue-item');
+  items.forEach((item, index) => {
+    if (item.review_status !== 'pending' || item.l1_review?.verdict || item.ai_advice?.verdict) return;
+    const error = item.l1_review?.llm_error || item.ai_advice?.llm_error || '没有记录具体错误';
+    addText(cards[index].querySelector('.item-content'), 'p', `上次记录的初审错误：${String(error).slice(0, 240)}`, 'error-state');
+  });
+  setLoadState('newsState', `${value.unreviewed_count} 条初审失败`, 'error');
+}
+
+async function exportFactCheckTasks(button) {
+  button.disabled = true;
+  try {
+    const batch = unwrap(await request('news/fact-check/tasks?limit=10'));
+    const blob = new Blob([JSON.stringify(batch, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `news-fact-check-${batch.batch_id || 'batch'}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    showNotice(batch.task_count ? `已导出 ${batch.task_count} 条查证任务；在 Codex 中使用 webSearchPrime 查证后导入结果。` : '当前没有待查证任务。', batch.task_count ? 'success' : 'error');
+  } catch (error) {
+    showNotice(`导出查证任务失败：${error.message || error}`, 'error');
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function importFactCheckFile(input, onRefreshAll) {
+  const file = input.files?.[0];
+  if (!file) return;
+  input.disabled = true;
+  try {
+    const payload = JSON.parse(await file.text());
+    const result = unwrap(await request('news/fact-check/import', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }));
+    showNotice(`已导入 ${result.imported || 0} 条查证结果；审核状态保持待人工决定。`, 'success');
+    if (typeof onRefreshAll === 'function') await onRefreshAll();
+  } catch (error) {
+    showNotice(`导入查证结果失败：${error.message || error}`, 'error');
+  } finally {
+    input.value = '';
+    input.disabled = false;
+  }
+}
+
 export function loadNewsReview(onRefreshAll) {
   const filter = currentNewsFilter;
   updateButtonVisibility(filter);
   return loadResource('news', `news/review?status=${encodeURIComponent(filter)}`, (payload) => {
     const value = unwrap(payload) || {};
     if (value.counts) updateTabCounts(value.counts);
+    if (reviewPollTimer) window.clearTimeout(reviewPollTimer);
+    reviewPollTimer = null;
     if (value.status === 'enriching') {
       const root = $('#newsList');
       clearChildren(root);
       addText(root, 'p', `🤖 ${value.message || 'GLM 正在进行 AI 初审分流与汉化，请稍候...'}`, 'panel-note');
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'secondary-button';
-      btn.style.marginTop = '8px';
-      btn.textContent = '立即运行 GLM 修复';
-      btn.addEventListener('click', async () => {
-        btn.disabled = true;
-        btn.textContent = '正在 GLM 修复…';
-        try {
-          await request('news/repair', { method: 'POST', body: JSON.stringify({}) });
-          showNotice('GLM 修复已完成，正在刷新…', 'success');
-          if (typeof onRefreshAll === 'function') onRefreshAll();
-        } catch (err) {
-          showNotice(`自愈修复失败：${err.message || err}`, 'error');
-          btn.disabled = false;
-          btn.textContent = '重试 GLM 修复';
-        }
-      });
-      root.appendChild(btn);
+      appendRepairButton(root, onRefreshAll);
       setLoadState('newsState', 'AI 初审中…', 'loading');
       updateSelectionControls('news');
+      scheduleReviewRefresh(onRefreshAll);
       return;
     }
     const emptyMsg = filter === 'approved'
@@ -103,15 +174,21 @@ export function loadNewsReview(onRefreshAll) {
       : filter === 'discarded'
         ? '当前没有已丢弃的新闻。'
         : '当前没有待首审新闻。';
-    renderQueue('news', 'newsList', listFrom(payload, ['items', 'candidates', 'queue', 'news']), 'newsState', {
+    const items = listFrom(payload, ['items', 'candidates', 'queue', 'news']);
+    renderQueue('news', 'newsList', items, 'newsState', {
       selectable: true,
       empty: emptyMsg,
     });
+    if (value.status === 'failed') showFailedReviews(value, items, onRefreshAll);
   }, { rootId: 'newsList', stateId: 'newsState' });
 }
 
 export function setupNewsPanel(onRefreshAll) {
   bindSelection('news', 'newsList', 'newsSelectAll');
+  const exportButton = $('#newsFactCheckExportButton');
+  if (exportButton) exportButton.addEventListener('click', () => exportFactCheckTasks(exportButton));
+  const importInput = $('#newsFactCheckImportFile');
+  if (importInput) importInput.addEventListener('change', () => importFactCheckFile(importInput, onRefreshAll));
   const approveBtn = $('#newsApproveButton');
   if (approveBtn) {
     approveBtn.addEventListener('click', (event) => reviewNews('approved', event.currentTarget, onRefreshAll));

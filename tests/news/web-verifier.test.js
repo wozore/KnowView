@@ -5,7 +5,7 @@
  *   全部注入 fake searchWeb / reviewFn，不发真实网络与 LLM 请求：
  *     1. approve 建议不触发查证，原样返回；
  *     2. hold/discard 触发查证，复判成功采用新 advice 并挂 web_verification.results；
- *     3. 搜索抛错 / 返回 ok:false（Tavily 限流的真实形态）→ 原 advice + search_error；
+ *     3. 搜索抛错 / 返回 ok:false（Web Search 限流）→ 原 advice + search_error；
  *     4. 复判 LLM 失败（verdict null 或抛错）→ 原 advice + web_verification 照挂；
  *     5. 查询词取标题并截断 120 字符；空结果不复判；
  *     6. REVIEW_USER_PROMPT_TEMPLATE 含"无法确认真伪判 hold"认识论条款；
@@ -22,7 +22,12 @@ const { verifyAdviceWithWeb, createWebSearchBudget } = require('../../src/news/c
 const { REVIEW_USER_PROMPT_TEMPLATE, buildReviewPayload } = require('../../src/news/classify/llm-prompts');
 
 const ITEM = { title: 'Gemini 3.8 Live 发布', description: '新模型介绍' };
-const HOLD_ADVICE = { verdict: 'hold', reasons: ['需联网核实官方来源'], confidence: 0.4 };
+const HOLD_ADVICE = {
+  verdict: 'hold', reasons: ['需核实具体事实'], confidence: 0.4,
+  fact_check: { needed: true, claim: 'Gemini 3.8 Live 已正式发布', query: 'Gemini 3.8 Live 发布' },
+};
+const searchBudget = () => createWebSearchBudget(10);
+const verifyDirect = (item, advice, options = {}) => verifyAdviceWithWeb(item, advice, { factCheckMode: 'web_search_api', ...options });
 
 /** 成功搜索的 fake：返回两条来源并记录调用。 */
 function fakeSearchOk(sources = [
@@ -42,7 +47,7 @@ function fakeSearchOk(sources = [
 test('approve 建议不触发搜索，原样返回', async () => {
   let searched = false;
   const advice = { verdict: 'approve', reasons: [], confidence: 0.9 };
-  const result = await verifyAdviceWithWeb(ITEM, advice, {
+  const result = await verifyDirect(ITEM, advice, {
     searchWeb: async () => { searched = true; return { ok: true, sources: [] }; },
     reviewFn: async () => { throw new Error('不应复判'); },
   });
@@ -51,19 +56,34 @@ test('approve 建议不触发搜索，原样返回', async () => {
   assert.equal(result.web_verification, undefined);
 });
 
+test('approve 建议标记关键事实时进入事实查证', async () => {
+  const advice = {
+    verdict: 'approve', reasons: [], confidence: 0.9,
+    fact_check: { needed: true, claim: 'OpenAI 推出了更高档 ChatGPT Pro 套餐', query: 'OpenAI 新 Pro 套餐' },
+  };
+  const result = await verifyAdviceWithWeb(ITEM, advice, {
+    factCheckMode: 'codex_mcp',
+    now: '2026-09-28T00:00:00.000Z',
+  });
+  assert.equal(result.verdict, 'approve');
+  assert.equal(result.web_verification.status, 'awaiting_agent');
+  assert.equal(result.web_verification.claim, advice.fact_check.claim);
+});
+
 test('advice 为 null 或 verdict 缺失时原样返回', async () => {
   let searched = false;
   const searchWeb = async () => { searched = true; return { ok: true, sources: [] }; };
-  assert.equal(await verifyAdviceWithWeb(ITEM, null, { searchWeb }), null);
+  assert.equal(await verifyDirect(ITEM, null, { searchWeb }), null);
   const noVerdict = { reasons: ['仅错误信息'], confidence: 0 };
-  assert.equal(await verifyAdviceWithWeb(ITEM, noVerdict, { searchWeb }), noVerdict);
+  assert.equal(await verifyDirect(ITEM, noVerdict, { searchWeb }), noVerdict);
   assert.equal(searched, false);
 });
 
 test('discard 建议同样触发查证', async () => {
   const search = fakeSearchOk();
-  const advice = { verdict: 'discard', reasons: ['疑似编造'], confidence: 0.9 };
-  const result = await verifyAdviceWithWeb(ITEM, advice, {
+  const advice = { ...HOLD_ADVICE, verdict: 'discard', reasons: ['疑似编造'], confidence: 0.9 };
+  const result = await verifyDirect(ITEM, advice, {
+    searchBudget: searchBudget(),
     searchWeb: search.fn,
     reviewFn: async () => ({ verdict: 'discard', reasons: ['官方无此模型'], confidence: 0.9 }),
   });
@@ -77,7 +97,8 @@ test('discard 建议同样触发查证', async () => {
 test('hold + 搜索成功 + 复判成功 → 采用复判 advice 且带 web_verification.results', async () => {
   const search = fakeSearchOk();
   const reviewCalls = [];
-  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  const result = await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
     searchWeb: search.fn,
     reviewFn: async (item, options) => {
       reviewCalls.push(options);
@@ -108,7 +129,9 @@ test('hold + 搜索成功 + 复判成功 → 采用复判 advice 且带 web_veri
 test('查询词取标题并截断到 120 字符', async () => {
   const longTitle = '超长标题'.repeat(50); // 200 字符
   const search = fakeSearchOk();
-  await verifyAdviceWithWeb({ title: longTitle }, HOLD_ADVICE, {
+  const advice = { ...HOLD_ADVICE, fact_check: { needed: true, claim: longTitle, query: longTitle } };
+  await verifyDirect({ title: longTitle }, advice, {
+    searchBudget: searchBudget(),
     searchWeb: search.fn,
     reviewFn: async () => ({ verdict: 'hold', reasons: [], confidence: 0.4 }),
   });
@@ -119,20 +142,22 @@ test('查询词取标题并截断到 120 字符', async () => {
 test('搜索成功但无有效结果 → 不复判，保留原 advice 并挂空 results', async () => {
   const search = fakeSearchOk([]);
   let reviewed = false;
-  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  const result = await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
     searchWeb: search.fn,
     reviewFn: async () => { reviewed = true; return { verdict: 'approve', reasons: [], confidence: 0.9 }; },
   });
   assert.equal(reviewed, false);
   assert.equal(result.verdict, 'hold');
-  assert.deepEqual(result.reasons, ['需联网核实官方来源']);
+  assert.deepEqual(result.reasons, ['需核实具体事实']);
   assert.deepEqual(result.web_verification.results, []);
 });
 
 // ── 第 3 组：fail-open 降级 ─────────────────────────────────
 
 test('搜索抛错 → 原 advice 不变 + web_verification.search_error 存在', async () => {
-  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  const result = await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
     searchWeb: async () => { throw new Error('network down'); },
     reviewFn: async () => { throw new Error('不应复判'); },
   });
@@ -146,18 +171,20 @@ test('搜索抛错 → 原 advice 不变 + web_verification.search_error 存在'
 });
 
 test('搜索返回 ok:false（限流）→ search_error 记录错误码', async () => {
-  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
-    searchWeb: async () => ({ ok: false, code: 'TAVILY_SEARCH_RATE_LIMITED', error: 'keyless 限流' }),
+  const result = await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
+    searchWeb: async () => ({ ok: false, code: 'ZHIPU_WEB_SEARCH_RATE_LIMITED', error: 'request rate limited' }),
     reviewFn: async () => { throw new Error('不应复判'); },
   });
   assert.equal(result.verdict, 'hold');
   assert.deepEqual(result.reasons, HOLD_ADVICE.reasons);
-  assert.equal(result.web_verification.search_error, 'TAVILY_SEARCH_RATE_LIMITED');
+  assert.equal(result.web_verification.search_error, 'ZHIPU_WEB_SEARCH_RATE_LIMITED');
 });
 
 test('复判 LLM 失败（verdict null）→ 原 advice + web_verification 仍在', async () => {
   const search = fakeSearchOk();
-  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  const result = await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
     searchWeb: search.fn,
     reviewFn: async () => ({ verdict: null, reasons: [], confidence: 0, llm_error: 'llm_failed' }),
   });
@@ -171,7 +198,8 @@ test('复判 LLM 失败（verdict null）→ 原 advice + web_verification 仍�
 
 test('复判 LLM 抛错 → 原 advice + web_verification 仍在，绝不向上抛', async () => {
   const search = fakeSearchOk();
-  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  const result = await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
     searchWeb: search.fn,
     reviewFn: async () => { throw new Error('review exploded'); },
   });
@@ -181,22 +209,39 @@ test('复判 LLM 抛错 → 原 advice + web_verification 仍在，绝不向上�
   assert.ok(Array.isArray(result.web_verification.results));
 });
 
-test('标题为空时无法构造查询词 → 原样返回不搜索', async () => {
+test('未标记具体待核实事实时不搜索', async () => {
   let searched = false;
-  const advice = { verdict: 'hold', reasons: ['x'], confidence: 0.4 };
-  const result = await verifyAdviceWithWeb({ title: '   ' }, advice, {
+  const advice = { verdict: 'hold', reasons: ['x'], confidence: 0.4, fact_check: { needed: false, claim: '', query: '' } };
+  const result = await verifyDirect(ITEM, advice, {
     searchWeb: async () => { searched = true; return { ok: true, sources: [] }; },
   });
   assert.equal(searched, false);
   assert.equal(result, advice);
 });
 
+test('Codex MCP 模式只登记任务，不调用 HTTP 搜索', async () => {
+  let searched = false;
+  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+    factCheckMode: 'codex_mcp',
+    now: '2026-09-27T00:00:00.000Z',
+    searchWeb: async () => { searched = true; return { ok: true, sources: [] }; },
+  });
+  assert.equal(searched, false);
+  assert.equal(result.web_verification.status, 'awaiting_agent');
+  assert.equal(result.web_verification.provider, 'zhipu_web_search_prime_mcp');
+  assert.equal(result.web_verification.query, HOLD_ADVICE.fact_check.query);
+});
+
 // ── 第 4 组：prompt 认识论修正与 webEvidence 拼装 ───────────
 
-test('REVIEW_USER_PROMPT_TEMPLATE 含"无法确认真伪判 hold"与"以核验结果为准"条款', () => {
-  assert.ok(REVIEW_USER_PROMPT_TEMPLATE.includes('需联网核实官方来源'));
+test('REVIEW_USER_PROMPT_TEMPLATE 与结构化正式门禁一致且留足 JSON 输出空间', () => {
+  assert.ok(REVIEW_USER_PROMPT_TEMPLATE.includes('fact_check.needed'));
   assert.ok(REVIEW_USER_PROMPT_TEMPLATE.includes('联网核验结果'));
   assert.ok(REVIEW_USER_PROMPT_TEMPLATE.includes('不要断言'));
+  assert.ok(REVIEW_USER_PROMPT_TEMPLATE.includes('正式自动通过候选'));
+  assert.ok(REVIEW_USER_PROMPT_TEMPLATE.includes('confidence'));
+  assert.equal(REVIEW_USER_PROMPT_TEMPLATE.includes('自动分流阈值'), false);
+  assert.ok(buildReviewPayload(ITEM, 'model').max_tokens >= 700, '结构化维度输出预算应足以容纳完整 JSON');
 });
 
 test('buildReviewPayload 把 webEvidence 拼在"只输出 JSON："之前', () => {
@@ -216,12 +261,13 @@ test('buildReviewPayload 把 webEvidence 拼在"只输出 JSON："之前', () =>
 
 test('search 只收到白名单参数，LLM apiKey/provider/model/config 绝不透传给 Web Search', async () => {
   const search = fakeSearchOk();
-  await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
     // 模拟上层 reviewCandidate 选项整体混入：含 LLM 凭据与配置
     apiKey: 'sk-llm-secret-key',
     provider: 'deepseek',
     model: 'deepseek-chat',
-    config: { review: { web_verify: true } },
+    config: { review: { fact_check_mode: 'web_search_api' } },
     searchWeb: search.fn,
     reviewFn: async () => ({ verdict: 'approve', reasons: ['官方来源证实'], confidence: 0.9 }),
     timeoutMs: 12345,
@@ -230,9 +276,9 @@ test('search 只收到白名单参数，LLM apiKey/provider/model/config 绝不�
 
   assert.equal(search.calls.length, 1);
   const sent = search.calls[0];
-  // 泄漏面：LLM key 若透传，keyless 429 回退 keyed 时会被当 Tavily Bearer 发出
+  // 搜索 transport 只收到独立的 Web Search 配置，不接收审核模型凭据。
   assert.equal(sent.apiKey, undefined);
-  assert.equal(sent.provider, 'tavily');
+  assert.equal(sent.provider, 'zhipu_web_search');
   assert.equal(sent.model, undefined);
   assert.equal(sent.config, undefined);
   assert.deepEqual(sent.providerOptions, { engine: 'search_std' });
@@ -246,7 +292,8 @@ test('search 只收到白名单参数，LLM apiKey/provider/model/config 绝不�
 
 test('search 白名单：未传 timeoutMs/fetchImpl 时只发搜索路由字段', async () => {
   const search = fakeSearchOk();
-  await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  await verifyDirect(ITEM, HOLD_ADVICE, {
+    searchBudget: searchBudget(),
     apiKey: 'sk-llm-secret-key',
     searchWeb: search.fn,
     reviewFn: async () => ({ verdict: 'hold', reasons: [], confidence: 0.4 }),
@@ -256,7 +303,7 @@ test('search 白名单：未传 timeoutMs/fetchImpl 时只发搜索路由字段'
 
 test('zhipu_web_search 缺少共享预算时 fail-open 且不发搜索', async () => {
   let called = false;
-  const result = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, {
+  const result = await verifyDirect(ITEM, HOLD_ADVICE, {
     config: { review: { web_search_provider: 'zhipu_web_search', web_search_engine: 'search_std' } },
     searchWeb: async () => { called = true; return { ok: true, sources: [] }; },
   });
@@ -268,8 +315,8 @@ test('zhipu_web_search 共享预算按运行累计并在耗尽后 fail-open', as
   const budget = createWebSearchBudget(1);
   const search = fakeSearchOk([]);
   const options = { searchProvider: 'zhipu_web_search', searchBudget: budget, searchWeb: search.fn };
-  const first = await verifyAdviceWithWeb(ITEM, HOLD_ADVICE, options);
-  const second = await verifyAdviceWithWeb({ title: '第二条核验' }, HOLD_ADVICE, options);
+  const first = await verifyDirect(ITEM, HOLD_ADVICE, options);
+  const second = await verifyDirect({ title: '第二条核验' }, HOLD_ADVICE, options);
   assert.equal(first.web_verification.search_error, undefined);
   assert.equal(second.web_verification.search_error, 'WEB_SEARCH_BUDGET_EXHAUSTED');
   assert.equal(search.calls.length, 1);

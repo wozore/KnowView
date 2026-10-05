@@ -20,6 +20,24 @@ const { CATALOG_GENERATOR_FILES, CONCEPT_FILES } = require('../src/shared/paths'
 // ── min-review 人类可读输出（与既有 CLI 文案一致） ──────────────
 
 function printMinReview(action, flags, result) {
+  if (action === 'fact-check-list') {
+    if (flags.json) console.log(JSON.stringify(result, null, 2));
+    else console.log(`✅ 已生成 ${result.task_count} 条 Codex 事实查证任务${result.task_count ? `（batch ${result.batch_id}；加 --json 导出任务）` : ''}`);
+    return;
+  }
+  if (action === 'fact-check-import') {
+    console.log(`✅ 已导入 ${result.imported} 条事实查证结果；结论仍由人工审核决定。`);
+    return;
+  }
+  if (action === 'fact-check-rescreen') {
+    if (flags.json) {
+      console.log(JSON.stringify(result, null, 2));
+      return;
+    }
+    console.log(`✅ L2 重筛 ${result.updated}/${result.selected} 条：需联网 ${result.fact_check_needed}，无需联网 ${result.no_search_needed}，失败 ${result.failed}。`);
+    if (result.failed_ids?.length) console.log(`失败候选：${result.failed_ids.join(',')}`);
+    return;
+  }
   if (action === 'list' && !flags.manual && !flags.json) {
     console.log(`v2 候选层（min-candidates.json）：共 ${result.total} 条，列出 ${result.shown} 条`);
     if (result.candidates.length === 0) {
@@ -103,6 +121,7 @@ function printMinReview(action, flags, result) {
   }
   if (action === 'repair') {
     console.log('🔧 热点候选 GLM 修复 (repair)：');
+    if (flags.rescreen_structured) console.log('   模式: 仅重筛缺少完整 L1 结果的 pending 候选，复用已有 L2 建议');
     console.log(`   残缺总数: ${result.stats.total} 条 | 待修复审核: ${result.stats.review} | 待修复摘要: ${result.stats.summary} | 待修复翻译: ${result.stats.localize}`);
     if (result.repaired === null) {
       console.log('✅ 所有候选数据完整，无需修复。');
@@ -110,6 +129,9 @@ function printMinReview(action, flags, result) {
     }
     const repaired = result.repaired;
     console.log(`✅ GLM 修复完成：修复审核 ${repaired.repairedReview} 条，摘要 ${repaired.repairedSummary} 条，翻译 ${repaired.repairedLocalize} 条，剩余残缺: ${repaired.remainingIncomplete}`);
+    if (repaired.rescreenFailedIds?.length) {
+      console.log(`本批 L1 失败 ${repaired.rescreenFailedIds.length} 条，后续可单独重试：${repaired.rescreenFailedIds.join(',')}`);
+    }
     if (result.review_list) {
       console.log(`✅ 已同步安全更新待审清单：${result.review_list.file}（待人工审核: ${result.review_list.total_pending} 条，保留人工已审状态）`);
     } else if (result.review_list_skipped) {

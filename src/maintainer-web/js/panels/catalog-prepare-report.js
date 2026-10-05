@@ -38,7 +38,7 @@ function blockerPhase(item) {
   if (code.startsWith('PLACEMENT_')) return PHASE_LABELS.placement;
   if (code.startsWith('SERIES_')) return PHASE_LABELS.series_routing;
   if (code.startsWith('PENDING_')) return PHASE_LABELS.candidate_conversion;
-  if (code.startsWith('SOURCE_') || code.startsWith('VENDOR_') || code.startsWith('TAVILY_')) return PHASE_LABELS.source_resolution;
+  if (code.startsWith('SOURCE_') || code.startsWith('VENDOR_') || code.startsWith('ZHIPU_WEB_SEARCH_')) return PHASE_LABELS.source_resolution;
   if (code.startsWith('DRAFT_')) return PHASE_LABELS.draft_generation;
   return PHASE_LABELS.catalog_prepare;
 }

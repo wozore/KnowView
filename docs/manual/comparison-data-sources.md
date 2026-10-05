@@ -2,7 +2,9 @@
 
 > 核实时间：2026-08-18（第一轮）+ 2026-08-18（第二轮复核实）
 > 目的：为「AI 模型对比页面」确定可用数据源及其获取方式。本文记录**只读核实结论**，含可用/不可用判定、逐字段验证与工程坑。
-> 核实手段：WebSearch / Tavily（extract）+ GitHub MCP + curl 实测（OpenRouter、arena.ai、hf-mirror、datasets-server、llm-stats 等端点）。
+> 核实手段：Web Search + GitHub MCP + curl 实测（OpenRouter、arena.ai、hf-mirror、datasets-server、llm-stats 等端点）。
+
+> 当前仓库已关闭外网请求与自动数据刷新。本记录保留数据源选择及核验依据，所列获取通路不再由项目运行。
 
 ## 一、结论速览（定稿）
 
@@ -26,7 +28,7 @@
 - **⚠️ API 实测（2026-08-18，临时 key）**：
   - 认证：`X-API-Key: <key>` 头（Bearer 头不识别）
   - **`/api/v2/language/models` 与 model detail 均需 Pro 订阅**（免费 key 报错 `requires a Pro subscription`）→ **免费 key 访问不了语言模型数据**
-  - 替代路径（内部参考可用）：公开站 `artificialanalysis.ai/models` 表格为**客户端渲染**，原始 HTML 无数据，需浏览器渲染抓取（Tavily extract 已验证可拿；当前 **159 模型 / 84 开源**）
+  - 替代路径（内部参考可用）：公开站 `artificialanalysis.ai/models` 表格为**客户端渲染**，原始 HTML 无数据，需浏览器渲染；自动直连获取不支持客户端渲染内容（2026-08-18 核实为 **159 模型 / 84 开源**）
   - Intelligence Index 现为 **0-100 量纲**（实测 Claude Opus 5 (max)=63、GPT-5.6 Sol=61、Kimi K3 (max)=60 开源最高）；另有输出速度（top Celeris-1=1495 t/s）、延迟/TTFT、上下文、blended/input/output 定价等维度
 - 免费层另受限：每日 100 请求、无 benchmark 分项、无 per-provider 数据
 - 文档：<https://artificialanalysis.ai/data-api/>
@@ -49,7 +51,7 @@
 | Tool Hallucination | 1.13%±0.19% | 1.13% [0.94,1.32] | ✅ |
 | Sessions | 19,739 | 19,739 | ✅ |
 
-- **当前 49 个模型**（官方数据集实测），前沿精选为主，非全量；站点直连 403（Cloudflare），数据集经 hf-mirror 可达；如需核对站点实时值，Tavily/browser 抓取可拿全表（本轮核对即用此法）
+- **当前 49 个模型**（官方数据集实测），前沿精选为主，非全量；站点直连 403（Cloudflare），数据集经 hf-mirror 可达；核对站点实时值需浏览器抓取（本轮核对即用此法）
 - **同一官方数据集覆盖 arena 全部榜单**（22 个 config，2026-08-18 复核数据集仓库文件清单）：
   - **11 个主榜**：`agent`、`text`、`vision`、`webdev`、`document`、`search`、`text_to_image`、`image_edit`、`image_to_video`、`text_to_video`、`video_edit`（无独立 `code` 榜，Code Arena 已演进为 Fullstack Code Arena 并入 `webdev`）
   - **agent 子维度 5 个**：`agent_praise_complaint` / `agent_steerability` / `agent_bash_recovery_steps` / `agent_tool_hallucination` / `agent_task_outcome_explicit`
@@ -243,7 +245,7 @@
 - **LMArena**：agent 榜 49 模型；`score` 为净提升比例（负分正常，如 -18.9%），越高越好、**归一化需处理负值**；`score_ci_lower/upper`、`observation_count/session_count` **不进对比维度**（不可见/不作评价），仅数据源核实保留；其余 21 个 config 字段同构、量纲各自不同
 - **SWE-bench**：实时数据走 **SWE-bench-Live** `reports-0605.jsonl`（`name/set/total/resolved/date/url`，resolved% 自动算）；旧 `swe-bench/experiments` 的 `results.json` 状态桶结构（no_generation/generated/…/resolved）已过时，仅作历史参考
 - **LiveBench**：`livebench/model_judgment`（HF，split=leaderboard）逐题 score 0/1，按 task/category 聚合成分；月度刷新 + 防污染
-- **AA**：API `/language/models` **需 Pro 订阅**（免费 key 实测 `requires a Pro subscription`，认证头 `X-API-Key`）；内部参考改走公开页 Tavily 抓取（表格客户端渲染，原始 HTML 无数据）；当前 159 模型 / 84 开源
+- **AA**：API `/language/models` **需 Pro 订阅**（免费 key 实测 `requires a Pro subscription`，认证头 `X-API-Key`）；内部参考需浏览器抓取公开页（表格客户端渲染，原始 HTML 无数据）；2026-08-18 核实为 159 模型 / 84 开源
 - **llm-stats**：358 模型（343 有 `index_general`），150 proprietary + ~208 非 proprietary；`index_general` 可负（-12.9 ~ +57.4），归一化需处理负值；数据在 Next.js RSC flight payload 提取，不依赖 DOM 结构
 
 ## 来源

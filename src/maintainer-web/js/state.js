@@ -196,6 +196,6 @@ export const uiHelpers = {
       const val = item && item[field];
       return val === undefined || val === null || String(val).trim() === '';
     }).map(([, label]) => label);
-    return { present, missing };
+    return { present, missing, descriptionTruncated: item?.description_truncated === true };
   },
 };

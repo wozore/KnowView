@@ -21,6 +21,7 @@ const {
   textFromResponse,
 } = require('./ai-transport');
 const { ensureLocalModel } = require('./local-model');
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledResult } = require('./external-operation-policy');
 const {
   diagnosticsOf,
   extractJsonValues,
@@ -59,6 +60,7 @@ function useGlmForLocal(options = {}) {
  * 实际运行时把 local provider 或 localhost 端点改走 GLM；注入替身 fetch 时保留协议适配测试入口。
  */
 async function resolveTransportRoute(payload, options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult('AI_NETWORK_DISABLED');
   options = useGlmForLocal(options);
   const isLocal = options.provider === 'local' || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/.test(options.endpoint || '');
   if (isLocal) {
@@ -147,6 +149,7 @@ async function resolveTransportRoute(payload, options = {}) {
  * 返回归一化文本与原始数据。
  */
 async function requestLlmText(payload, options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult('AI_NETWORK_DISABLED');
   const route = await resolveTransportRoute(payload, options);
   if (!route.ok) return route;
 
@@ -166,6 +169,7 @@ async function requestLlmText(payload, options = {}) {
  * 统一结构化 JSON 提取网关：多协议分流、成本预占、JSON 提取、截断诊断与 schema 校验。
  */
 async function requestStructuredJson({ kind, instructions, input, maxOutputTokens, ledger, validate }, options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult('AI_NETWORK_DISABLED');
   options = useGlmForLocal(options);
   const isLocal = options.provider === 'local' || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/.test(options.endpoint || '');
   if (isLocal) {

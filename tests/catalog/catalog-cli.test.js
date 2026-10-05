@@ -3,7 +3,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { pendingCandidateToSeed } = require('../../src/pending/index');
-const { parseArgs, tavilyAccessModeFromFlags, generatorOptionsFromFlags } = require('../../scripts/catalog-generator');
+const { parseArgs, generatorOptionsFromFlags } = require('../../scripts/catalog-generator');
 const { publicPreview } = require('../../scripts/catalog-date-repair');
 const { probeCatalogCapabilities } = require('../../src/catalog/intake/index');
 const { loadGeneratorConfig, normalizeGeneratorOptions } = require('../../src/catalog/draft/index');
@@ -48,19 +48,11 @@ test('catalog generator CLI parses cost confirmation and seed flags', () => {
   assert.equal(parsed.flags.confirm_cost, true);
 });
 
-test('catalog generator requires and propagates explicit Tavily access mode', () => {
-  const parsed = parseArgs(['batch', '--file', 'cards.json', '--dry-run', '--tavily-access-mode', 'keyed']);
-  assert.equal(parsed.flags.tavily_access_mode, 'keyed');
-  assert.equal(tavilyAccessModeFromFlags(parsed.flags), 'keyed');
-  assert.equal(generatorOptionsFromFlags(parsed.flags).accessMode, 'keyed');
-  assert.throws(
-    () => tavilyAccessModeFromFlags({}),
-    /TAVILY_ACCESS_MODE_REQUIRED/,
-  );
-  assert.throws(
-    () => tavilyAccessModeFromFlags({ tavily_access_mode: 'auto' }),
-    /TAVILY_ACCESS_MODE_INVALID/,
-  );
+test('catalog generator CLI no longer accepts a Tavily access mode', () => {
+  const parsed = parseArgs(['batch', '--file', 'cards.json', '--dry-run']);
+  assert.equal(parsed.flags.file, 'cards.json');
+  assert.equal(parsed.flags.dry_run, true);
+  assert.equal('tavilyAccessModeFromFlags' in require('../../scripts/catalog-generator'), false);
 });
 
 test('catalog generator CLI parses product registry flags and keeps legacy vendor syntax', () => {
@@ -105,22 +97,21 @@ test('catalog module config maps snake_case limits to internal options', () => {
   const options = normalizeGeneratorOptions(loadGeneratorConfig());
   assert.equal(options.provider, 'zhipu');
   assert.equal(options.searchProvider, 'zhipu_web_search');
-  assert.equal(options.searchFallbackProvider, 'tavily');
+  assert.equal(options.searchFallbackProvider, 'zhipu_web_search');
   assert.equal(options.extractProvider, 'direct_fetch');
-  assert.equal(options.extractFallbackProvider, 'tavily');
+  assert.equal(options.extractFallbackProvider, 'direct_fetch');
   assert.equal(options.searchEngine, 'search_std');
   assert.equal(options.model, 'glm-5.3-flash');
   assert.equal(options.protocol, 'messages');
   assert.equal(options.timeoutMs, 180000);
   assert.equal(options.maxSearchQueries, 4);
   assert.equal(options.maxRepairCalls, 1);
-  assert.equal(normalizeGeneratorOptions({ access_mode: 'keyed' }).accessMode, 'keyed');
+  assert.equal(normalizeGeneratorOptions({}).accessMode, undefined);
 });
 
-test('default capability probe uses Zhipu Web Search without requiring Tavily for success', async () => {
+test('catalog capability probe uses only Zhipu Web Search', async () => {
   const result = await probeCatalogCapabilities({
     apiKey: 'test-key',
-    searchApiKey: '',
     webSearchApiKey: 'zhipu-test-key',
     fetchImpl: async () => ({ ok: true, status: 200, json: async () => ({ search_result: [{ link: 'https://example.com', title: 'x' }] }) }),
   });
@@ -128,10 +119,10 @@ test('default capability probe uses Zhipu Web Search without requiring Tavily fo
   assert.equal(result.search_provider, 'zhipu_web_search');
 });
 
-test('Tavily capability probe fails closed without the default provider key', async () => {
+test('catalog capability probe fails closed without the synthesis provider key', async () => {
   const result = await probeCatalogCapabilities({
     apiKey: '',
-    searchApiKey: '',
+    webSearchApiKey: 'zhipu-test-key',
     fetchImpl: async () => ({ ok: true, status: 200, json: async () => ({ results: [] }) }),
   });
   assert.equal(result.ok, false);

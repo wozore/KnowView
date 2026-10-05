@@ -137,7 +137,7 @@
 
 ## 5. 防回退与机械门禁体系
 
-1. **CI 检查接入**：[scripts/check-standards.js](../../scripts/check-standards.js) 前置接入 [scripts/validate.js](../../scripts/validate.js)，现有 6 个 GitHub Actions 工作流经该入口运行检查；检测到违规时返回失败。是否阻止合并还取决于仓库分支保护设置，不能由脚本存在推定。
+1. **本地检查接入**：[scripts/check-standards.js](../../scripts/check-standards.js) 前置接入 [scripts/validate.js](../../scripts/validate.js)；本地运行该入口时，检测到违规会返回失败。仓库当前没有 GitHub Actions 工作流。
 2. **白名单只减不增**：[scripts/check-standards.whitelist.json](../../scripts/check-standards.whitelist.json) 带精确 count 校验，违规增加报 `whitelist-growth` 阻断。
 3. **静态检测 7 大项**：
    - `dependency-direction`（单向依赖/域间隔离/深路径私引）；
@@ -177,7 +177,7 @@
 ### 6.2 运行时、数据和授权边界
 
 - API key 只允许存在于仓库根目录 `.env`，不得读取、打印、复制或写入代码、日志、草稿、JSON、Issue 或文档。项目 CLI 自行加载环境；经授权的真实自定义运行先调用 `src/shared/env` 的 `loadDotEnv()`，离线测试注入替身配置，不加载真实 `.env`、不触网、不读真实 Key。
-- 目录生成保持 fail-closed：默认需要 `ZHIPU_API_KEY`（切换 provider 时可能是 `DEEPSEEK_API_KEY`）和 `TAVILY_API_KEY`；失败时不得手写目录记录替代研究或合成。
+- 目录生成保持 fail-closed：默认需要 `ZHIPU_API_KEY`（切换结构化合成 provider 时可能是 `DEEPSEEK_API_KEY`）；失败时不得手写目录记录替代研究或合成。
 - `config/catalog-generator.local.json` 和 `config/browser.local.json` 是本地配置，不作为隐式修复提交。
 - `dist/` 只能通过 `node scripts/build-dist.js` 生成，禁止手改。
 - 不执行未经用户明确授权的真实付费 API、发布、部署、`git commit`、`git push`、`git merge` 或重置维护者改动。

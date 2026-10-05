@@ -18,7 +18,10 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { reviewContent } = require('../../src/news/classify/llm-provider');
-const { buildReviewPayload, normalizeReview } = require('../../src/news/classify/llm-prompts');
+const {
+  buildClassifyPayload, buildSummaryPayload, buildReviewPayload, buildLocalizePayload, normalizeReview,
+} = require('../../src/news/classify/llm-prompts');
+const { reviewAssessmentGate } = require('../../src/news/classify/review-assessment');
 const {
   collectReviewSource,
   reviewCandidate,
@@ -46,20 +49,23 @@ function mockFetch(respond) {
 test('buildReviewPayload 裁剪标题/描述/字幕/总结并替换占位符', () => {
   const payload = buildReviewPayload({
     title: 't'.repeat(300),
-    description: 'd'.repeat(700),
+    description: 'd'.repeat(2200),
     transcript: 'x'.repeat(5000),
     summary: 's'.repeat(900),
   });
   const user = payload.messages[1].content;
   assert.ok(user.includes('t'.repeat(200)));
   assert.ok(!user.includes('t'.repeat(300)));
-  assert.ok(user.includes('d'.repeat(600)));
+  assert.ok(user.includes('d'.repeat(2000)));
+  assert.ok(!user.includes('d'.repeat(2200)));
   assert.ok(user.includes('x'.repeat(3000)));   // 字幕截断前 3000 字符
   assert.ok(!user.includes('x'.repeat(5000)));
   assert.ok(user.includes('s'.repeat(800)));    // 总结截断前 800 字符
   assert.ok(!user.includes('s'.repeat(900)));
   assert.ok(user.includes('confidence_range'));
   assert.ok(user.includes('60-80%'));
+  assert.ok(user.includes('政治评论'));
+  assert.ok(user.includes('political_context_only'));
   assert.ok(user.includes('confidence 是所选区间的下界') || user.includes('confidence：填写所选区间的下界'));
 });
 
@@ -76,6 +82,25 @@ test('buildReviewPayload 内容含 $ 替换模式序列时不污染 prompt', () 
   const tricky = '$&$`$\'$1$$';
   const user = buildReviewPayload({ title: tricky, description: tricky, transcript: tricky, summary: tricky }).messages[1].content;
   assert.equal(user.split(tricky).length - 1, 4, '四个字段原样出现，未被替换模式改写');
+});
+
+test('AI 输入截断不能把 emoji 截成孤立代理字符', () => {
+  const item = {
+    title: 't'.repeat(199) + '😀',
+    description: 'd'.repeat(599) + '😀',
+    transcript: 'x'.repeat(2999) + '😀',
+    summary: 's'.repeat(799) + '😀',
+  };
+  const payloads = [
+    buildClassifyPayload(item, 'test'),
+    buildSummaryPayload(item, 'test'),
+    buildReviewPayload({ ...item, description: 'd'.repeat(1999) + '😀' }, 'test', { webEvidence: 'w'.repeat(2999) + '😀' }),
+    buildLocalizePayload(item, 'test'),
+  ];
+  const unpaired = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
+  for (const payload of payloads) {
+    assert.equal(unpaired.test(payload.messages[1].content), false);
+  }
 });
 
 test('normalizeReview 解析标准 JSON', () => {
@@ -115,6 +140,37 @@ test('normalizeReview 非法/越界 confidence 钳制到 0-1，非法 verdict �
   assert.equal(normalizeReview('{"verdict":"maybe","confidence":0.9}'), null);   // 非法 verdict
   assert.equal(normalizeReview('不是 JSON'), null);
   assert.equal(normalizeReview(''), null);
+});
+
+test('structured gate preview requires complete evidence and defers unresolved claims', () => {
+  const supported = {
+    topic_relevance: 'in_scope', subject_clarity: 'specific', information_value: 'substantive', source_quality: 'primary',
+    evidence_status: 'sufficient', decision_basis: 'clear_relevant_content',
+  };
+  assert.deepEqual(reviewAssessmentGate('approve', supported, { needed: false }), {
+    action: 'approve_candidate', reason: 'criteria_satisfied',
+  });
+  assert.deepEqual(reviewAssessmentGate('approve', supported, { needed: true }), {
+    action: 'manual', reason: 'fact_check_required',
+  });
+  assert.deepEqual(reviewAssessmentGate('approve', { ...supported, subject_clarity: 'broad' }, { needed: false }), {
+    action: 'manual', reason: 'criteria_not_satisfied',
+  });
+  assert.deepEqual(reviewAssessmentGate('approve', {
+    ...supported,
+    source_quality: 'unknown',
+    evidence_status: 'needs_fact_check',
+    decision_basis: 'unverified_fact',
+  }, { needed: true }, {
+    status: 'completed', conclusion: 'supports', sources: [{ title: 'Official source', url: 'https://example.com' }],
+  }), { action: 'approve_candidate', reason: 'criteria_satisfied' });
+  assert.deepEqual(reviewAssessmentGate('discard', null, { needed: false }), {
+    action: 'manual', reason: 'assessment_incomplete',
+  });
+  assert.deepEqual(reviewAssessmentGate('discard', {
+    topic_relevance: 'out_of_scope', subject_clarity: 'broad', information_value: 'low', source_quality: 'unknown',
+    evidence_status: 'sufficient', decision_basis: 'political_context_only',
+  }, { needed: false }), { action: 'discard_candidate', reason: 'criteria_satisfied' });
 });
 
 // ── 第 2 组：reviewContent 降级语义 ─────────────────
@@ -168,12 +224,14 @@ test('reviewContent 成功：传递区间置信度并使用区间下界', async 
 
 test('collectReviewSource 提取标题/描述/字幕/总结（字幕支持对象或字符串）', () => {
   assert.deepEqual(collectReviewSource({ title: 't', description: 'd', transcript: { text: '字幕' }, summary: '总结' }), {
-    title: 't', description: 'd', transcript: '字幕', summary: '总结',
+    title: 't', description: 'd', transcript: '字幕', summary: '总结', source_context: '', description_truncated: false,
   });
   assert.deepEqual(collectReviewSource({ title: 't', transcript: '字幕文本' }), {
-    title: 't', description: '', transcript: '字幕文本', summary: null,
+    title: 't', description: '', transcript: '字幕文本', summary: null, source_context: '', description_truncated: false,
   });
-  assert.deepEqual(collectReviewSource({ title: 't' }), { title: 't', description: '', transcript: null, summary: null });
+  assert.deepEqual(collectReviewSource({ title: 't' }), {
+    title: 't', description: '', transcript: null, summary: null, source_context: '', description_truncated: false,
+  });
 });
 
 test('reviewCandidate 无素材：返回 no_source 不调 LLM', async () => {
@@ -255,7 +313,7 @@ test('reviewCandidates：LLM 全失败时 reviewed=0 且不写 ai_review（不�
   assert.ok(items[0].ai_review_llm_error);                // 留错误痕迹便于排查
 });
 
-test('L1 高置信 approve/discard 自动分流，pending 的 L2 建议经联网核验后写入', async () => {
+test('L1 自动分流，L2 标记可核实事实后登记 Codex 查证任务', async () => {
   let calls = 0;
   const verifyTargets = [];
   const items = [
@@ -263,11 +321,27 @@ test('L1 高置信 approve/discard 自动分流，pending 的 L2 建议经联网
     { id: 'discard', title: 'AI 内容', url: 'https://example.com/d', published_at: '2026-08-09T00:00:00Z', description: 'AI topic is unrelated to the product' },
     { id: 'hold', title: 'AI 存疑内容', url: 'https://example.com/h', published_at: '2026-08-09T00:00:00Z', description: 'AI topic unclear' },
   ];
-  const verdicts = { approve: { verdict: 'approve', confidence: 0.9, reasons: ['不应保留'] }, discard: { verdict: 'discard', confidence: 0.95, reasons: ['不应保留'] }, hold: { verdict: 'hold', confidence: 0.6, reasons: ['需要人工确认'] } };
+  const verdicts = {
+    approve: {
+      verdict: 'approve', confidence: 0.1, reasons: ['保留结构化审核痕迹'],
+      assessment: {
+        topic_relevance: 'in_scope', subject_clarity: 'specific', information_value: 'substantive',
+        source_quality: 'unknown', evidence_status: 'sufficient', decision_basis: 'clear_relevant_content',
+      },
+    },
+    discard: {
+      verdict: 'discard', confidence: 0.1, reasons: ['保留结构化审核痕迹'],
+      assessment: {
+        topic_relevance: 'out_of_scope', subject_clarity: 'broad', information_value: 'low',
+        source_quality: 'unknown', evidence_status: 'sufficient', decision_basis: 'political_context_only',
+      },
+    },
+    hold: { verdict: 'hold', confidence: 0.6, reasons: ['需要人工确认'], fact_check: { needed: true, claim: 'Gemini 3.8 Live 已正式发布', query: 'Gemini 3.8 Live 发布' } },
+  };
   const result = await applyL1Verdicts(items, {
     keywords: { content_keywords: ['ai'] },
     collection: { concurrency: 1 },
-    review: { l1_confidence_auto_approve: 0.85, l1_confidence_auto_discard: 0.9, l2_enabled: true },
+    review: { l2_enabled: true, fact_check_mode: 'codex_mcp' },
   }, {
     reviewCandidate: async item => { calls += 1; return verdicts[item.id]; },
     verifyAdviceWithWeb: async (item, advice) => {
@@ -279,18 +353,38 @@ test('L1 高置信 approve/discard 自动分流，pending 的 L2 建议经联网
   assert.equal(byId.get('approve').review_status, 'approved');
   assert.equal(byId.get('discard').review_status, 'discarded');
   assert.equal(byId.get('hold').review_status, 'pending');
+  assert.equal(byId.get('approve').l1_review.confidence, 0.1, '结构化门禁通过时不再被旧置信度阈值拦住');
+  assert.equal(byId.get('discard').l1_review.assessment_gate_preview.action, 'discard_candidate');
   assert.deepEqual(byId.get('approve').l1_review.reasons, []);
   assert.deepEqual(byId.get('discard').l1_review.reasons, []);
   assert.equal(calls, 4, 'L1 3 次 + pending 的 L2 1 次');
-  // 主管线接线：pending 项的 hold 建议必须经过核验并携带 web_verification 痕迹
-  assert.deepEqual(verifyTargets, [{ id: 'hold', verdict: 'hold' }], '仅 hold/discard 建议触发核验');
+  assert.deepEqual(verifyTargets, [{ id: 'hold', verdict: 'hold' }], '只有显式标记事实核验的建议进入查证流程');
   assert.equal(byId.get('hold').ai_advice.verdict, 'hold');
   assert.equal(byId.get('hold').ai_advice.web_verification.query, 'AI 存疑内容');
+  assert.equal(byId.get('hold').ai_advice.fact_check.needed, true);
   // 自动分流项无建议、无核验
   assert.equal(byId.get('approve').ai_advice, null);
 });
 
-test('config.review.web_verify=false：主管线 L2 建议不核验，行为与接入前一致', async () => {
+test('L1 缺少完整结构化审核维度时保持 pending，即使置信度很高', async () => {
+  const result = await applyL1Verdicts([{
+    id: 'incomplete', title: 'AI 产品', url: 'https://example.com/i',
+    published_at: '2026-08-09T00:00:00Z', description: 'AI tool release',
+  }], {
+    keywords: { content_keywords: ['ai'] },
+    collection: { concurrency: 1 },
+    review: { l2_enabled: false, fact_check_mode: 'off' },
+  }, {
+    reviewCandidate: async () => ({ verdict: 'approve', confidence: 0.99, reasons: ['缺结构化判断'] }),
+  });
+  const [item] = result.kept;
+  assert.equal(item.review_status, 'pending');
+  assert.deepEqual(item.l1_review.assessment_gate_preview, {
+    action: 'manual', reason: 'assessment_incomplete',
+  });
+});
+
+test('fact_check_mode=off：主管线不调用查证器', async () => {
   let verifyCalled = false;
   const items = [
     { id: 'hold', title: 'AI 存疑内容', url: 'https://example.com/h', published_at: '2026-08-09T00:00:00Z', description: 'AI topic unclear' },
@@ -298,12 +392,12 @@ test('config.review.web_verify=false：主管线 L2 建议不核验，行为与�
   const result = await applyL1Verdicts(items, {
     keywords: { content_keywords: ['ai'] },
     collection: { concurrency: 1 },
-    review: { l2_enabled: true, web_verify: false },
+    review: { l2_enabled: true, fact_check_mode: 'off' },
   }, {
     reviewCandidate: async () => ({ verdict: 'hold', confidence: 0.6, reasons: ['需要人工确认'] }),
     verifyAdviceWithWeb: async () => { verifyCalled = true; return null; },
   });
-  assert.equal(verifyCalled, false, '开关显式 false 时绝不调用核验');
+  assert.equal(verifyCalled, false, 'off 模式不调用查证器');
   assert.equal(result.kept[0].ai_advice.verdict, 'hold');
   assert.equal(result.kept[0].ai_advice.web_verification, undefined);
 });

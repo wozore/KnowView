@@ -3,7 +3,7 @@
  *
  * 在批量生成链路（②→③）中的位置：厂商/官方源解析的第一道命中源。
  * 维护者把已知工具的官方域名人工登记到 data/manual/registries/official-url-registry.json，
- * 批量生成时优先查表，命中就不必花 Tavily/DeepSeek 去搜索解析。
+ * 批量生成时优先查表，命中就不必花搜索或结构化提取额度。
  *
  * 数据形状：
  *   厂商表 data/manual/registries/official-url-registry.json：
@@ -24,7 +24,7 @@ const { CATALOG_GENERATOR_FILES } = require('../../shared/paths');
 const productRegistry = require('./product-registry');
 const { loadProductUrlRegistry } = productRegistry;
 const { readJson, writeJsonAtomic } = require('../../shared/json-store');
-const { canonicalizeUrl } = require('../../shared/tavily-client');
+const { canonicalizeUrl } = require('../../shared/web-source-contract');
 
 /** 归一化 key：trim + NFKC + 小写（用于登记表匹配与写入键）。 */
 function normalizeKey(value) {

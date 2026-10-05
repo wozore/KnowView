@@ -10,8 +10,10 @@ function serviceWith(state) {
     // 注入不存在的临时 topFile，避免读取真实 data/manual/top.json 使测试非幂等。
     topFile: path.join(os.tmpdir(), 'knowview-wb-no-top.json'),
     newsApi: {
-      readStore: () => state.store, revisionOfStore: () => 'news-r1',
+      readStore: () => state.store, revisionOfStore: () => state.revision || 'news-r1',
       repairNews: state.repairNews,
+      factCheckBatch: query => state.factCheckBatch(query),
+      importFactCheckResults: payload => state.importFactCheckResults(payload),
       commit: (mutation, options) => { state.commits.push(options); const result = mutation(state.store); state.store = result.store; return { ...result, revision: 'news-r2' }; },
       reviewMutation: (store, ids, decision) => ({ store, updated: ids.length, missing: [], not_pending: [], changed: ids.length, decision }),
       topMutation: (store, ids, selected) => ({ store, updated: ids.length, missing: [], not_approved: [], changed: ids.length, selected }),
@@ -34,6 +36,17 @@ test('GET projections include revisions and items without commits', () => {
   assert.deepEqual(conceptPreview.items, [{ term: 'RAG' }]);
   assert.equal(conceptPreview.status, 'legacy_preview');
   assert.equal(state.commits.length, 0);
+});
+
+test('事实查证任务导出与结果导入委托新闻 API', () => {
+  const state = {
+    store: { candidates: [] }, commits: [],
+    factCheckBatch: query => ({ task_count: query.limit, ids: query.ids }),
+    importFactCheckResults: payload => ({ imported: payload.results.length }),
+  };
+  const service = serviceWith(state);
+  assert.deepEqual(service.factCheckBatch({ limit: 3, ids: ['a', 'b', 'c'] }), { task_count: 3, ids: ['a', 'b', 'c'] });
+  assert.deepEqual(service.importFactCheckResults({ results: [{ id: 'a' }] }), { imported: 1 });
 });
 
 test('newsReview() 在有未完成初审条目时返回 enriching 锁定状态与门禁统计', () => {
@@ -78,6 +91,44 @@ test('newsReview() 重复读取同一 revision 只启动一次自动修复', asy
   assert.equal(calls, 1);
 });
 
+test('newsReview() 自动修复无进展时显示失败并停止重复请求', async () => {
+  let calls = 0;
+  const state = {
+    store: { candidates: [{ id: 'stuck', review_status: 'pending', l1_review: { verdict: null, llm_error: '最新审核失败' } }] },
+    commits: [],
+    repairNews: async () => { calls += 1; state.revision = 'news-r2'; },
+  };
+  const service = serviceWith(state);
+  assert.equal(service.newsReview('pending').status, 'enriching');
+  await new Promise(resolve => setImmediate(resolve));
+  const failed = service.newsReview('pending');
+  assert.equal(failed.status, 'failed');
+  assert.equal(failed.items.length, 1);
+  assert.match(failed.message, /仍有 1 条未得到有效初审结论/);
+  state.revision = 'news-r3';
+  service.newsReview('pending');
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(calls, 1, '相同未完成条目不能随 revision 改变无限重试');
+});
+
+test('newsReview() 重启后不自动重试已被 GLM 1301 拒绝的条目', async () => {
+  let calls = 0;
+  const state = {
+    store: { candidates: [{
+      id: 'rejected', review_status: 'pending',
+      l1_review: { verdict: null, llm_error: 'ZhipuAI HTTP 400: {"code":"1301"}' },
+    }] },
+    commits: [],
+    repairNews: async () => { calls += 1; },
+  };
+  const service = serviceWith(state);
+  const result = service.newsReview('pending');
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(result.status, 'failed');
+  assert.match(result.message, /1301/);
+  assert.equal(calls, 0);
+});
+
 test('top() 只返回 top.json 池内且已 approved 的项', () => {
   const os = require('os');
   const fs = require('fs');
@@ -104,7 +155,7 @@ test('top() 只返回 top.json 池内且已 approved 的项', () => {
 });
 
 test('toolUpdates separates latest current pending items from historical evidence', () => {
-  const source = { kind: 'changelog', url: 'https://example.com/changelog', collector: 'tavily_extract', product_surface: 'product' };
+  const source = { kind: 'changelog', url: 'https://example.com/changelog', collector: 'direct_fetch', product_surface: 'product' };
   const registry = { products: { sample: { name: 'Sample', update_sources: [source] } } };
   const oldItem = { candidate_key: 'old', product_key: 'sample', source_url: source.url, collector: source.collector, proposed_date: '2026-08-20', status: 'candidate', review_status: 'approved', blocked_reasons: [], evidence: {} };
   const newItem = { candidate_key: 'new', product_key: 'sample', source_url: source.url, collector: source.collector, proposed_date: '2026-08-22', status: 'blocked', review_status: 'pending', blocked_reasons: ['EVIDENCE_DATE_MISSING'], evidence: {} };

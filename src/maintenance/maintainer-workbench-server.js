@@ -133,7 +133,9 @@ function createMaintainerWorkbenchServer(options = {}) {
             res.removeListener('close', abortResponse);
           };
         }
-        const body = method === 'POST' ? await readJsonBody(req, route === '/news/transcripts/upload' ? TRANSCRIPT_UPLOAD_MAX_BYTES : MAX_BODY_BYTES) : null;
+        const bodyLimit = route === '/news/transcripts/upload' ? TRANSCRIPT_UPLOAD_MAX_BYTES
+          : route === '/news/fact-check/import' ? 256 * 1024 : MAX_BODY_BYTES;
+        const body = method === 'POST' ? await readJsonBody(req, bodyLimit) : null;
         let result;
         if (method === 'GET' && route === '/overview') result = service.overview();
         else if (method === 'GET' && route === '/config') result = service.config();
@@ -143,6 +145,12 @@ function createMaintainerWorkbenchServer(options = {}) {
         }
         else if (method === 'GET' && route === '/news/review') result = service.newsReview(url.searchParams.get('status') || 'pending');
         else if (method === 'POST' && route === '/news/review') result = service.reviewNews(body);
+        else if (method === 'GET' && route === '/news/fact-check/tasks') {
+          const idsParam = url.searchParams.get('ids');
+          const ids = idsParam ? [...new Set(idsParam.split(',').map(id => id.trim()).filter(Boolean))] : null;
+          result = service.factCheckBatch({ limit: Number(url.searchParams.get('limit') || 10), ids });
+        }
+        else if (method === 'POST' && route === '/news/fact-check/import') result = service.importFactCheckResults(body);
         else if (method === 'POST' && route === '/news/repair') result = service.repairNews(body);
         else if (method === 'GET' && route === '/news/keywords') result = service.keywords(url.searchParams.get('purpose') || 'content');
         else if (method === 'POST' && route === '/news/keywords/generate') result = service.generateKeywords(body);

@@ -1,5 +1,7 @@
 'use strict';
 
+const { EXTERNAL_NETWORK_ENABLED } = require('../../shared/external-operation-policy');
+
 const DEFAULT_TIMEOUT_MS = 15000;
 
 function htmlToText(html) {
@@ -27,6 +29,7 @@ function sameSourceOrigin(left, right) {
 }
 
 async function fetchHtmlText(url, options = {}) {
+  if (!EXTERNAL_NETWORK_ENABLED) return { ok: false, code: 'EXTERNAL_NETWORK_DISABLED', error: '项目外网访问已关闭' };
   const fetchImpl = options.fetchImpl || globalThis.fetch;
   if (typeof fetchImpl !== 'function') return { ok: false, code: 'UPDATE_COLLECTOR_FETCH_UNAVAILABLE', error: '当前运行环境无 fetch' };
   try {

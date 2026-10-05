@@ -1,6 +1,7 @@
 'use strict';
 
 const { AI_PROTOCOLS, DEFAULT_PROVIDER_NAME, apiKeyForProvider, resolveProvider } = require('./providers');
+const { EXTERNAL_NETWORK_ENABLED, externalNetworkDisabledResult } = require('./external-operation-policy');
 
 const DEFAULT_BASE_URL = 'https://api.deepseek.com';
 const DEFAULT_RESPONSES_ENDPOINT = `${DEFAULT_BASE_URL}/responses`;
@@ -46,6 +47,7 @@ async function requestResponses(payload, options = {}) {
   if (!resolved.ok) return resolved;
   const provider = resolved.provider;
   const prefix = providerPrefix(provider);
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult(`${prefix}_NETWORK_DISABLED`);
   if (provider.protocol !== AI_PROTOCOLS.RESPONSES) {
     return { ok: false, code: 'AI_PROTOCOL_UNSUPPORTED', error: `provider=${providerName} 使用 ${provider.protocol}，当前只实现 Responses API` };
   }
@@ -106,6 +108,7 @@ async function requestChatCompletions(payload, options = {}) {
   if (!resolved.ok) return resolved;
   const provider = resolved.provider;
   const prefix = providerPrefix(provider);
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult(`${prefix}_NETWORK_DISABLED`);
   if (provider.protocol !== AI_PROTOCOLS.CHAT && options.protocol !== AI_PROTOCOLS.CHAT && !options.endpoint) {
     return { ok: false, code: 'AI_PROTOCOL_UNSUPPORTED', error: `provider=${providerName} 使用 ${provider.protocol}，chat 通道只支持 CHAT 协议` };
   }
@@ -165,6 +168,7 @@ async function requestMessages(payload, options = {}) {
   if (!resolved.ok) return resolved;
   const provider = resolved.provider;
   const prefix = providerPrefix(provider);
+  if (!EXTERNAL_NETWORK_ENABLED) return externalNetworkDisabledResult(`${prefix}_NETWORK_DISABLED`);
   if (provider.protocol !== AI_PROTOCOLS.MESSAGES) {
     return { ok: false, code: 'AI_PROTOCOL_UNSUPPORTED', error: `provider=${providerName} 使用 ${provider.protocol}，messages 通道只支持 MESSAGES 协议` };
   }

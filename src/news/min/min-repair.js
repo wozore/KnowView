@@ -14,6 +14,7 @@ const { revisionOfMinStore } = require('./min-store');
 const { getProvider, DEFAULT_PROVIDER_NAME, apiKeyForProvider } = require('../../shared/providers');
 const {
   needsL1Review,
+  needsStructuredRescreen,
   needsL2Advice,
   needsSummary,
   needsLocalize,
@@ -69,20 +70,24 @@ async function runRepairChannel(items, config, channelOpts) {
     const l1Targets = items.filter(c => {
       if (c.reviewed_at) return false;
       if (c.review_status === 'discarded' || c.review_status === 'approved') return false;
-      return needsL1Review(c);
+      return needsL1Review(c) || (channelOpts.rescreenStructured === true && needsStructuredRescreen(c));
     });
     const l2Targets = items.filter(c => {
       if (c.reviewed_at) return false;
       if (c.review_status !== 'pending') return false;
-      return needsL2Advice(c, channelOpts.l2Enabled !== false, channelOpts.webVerifyEnabled !== false);
+      return needsL2Advice(c, channelOpts.l2Enabled !== false);
     });
     if (l1Targets.length > 0) {
       await runPool(l1Targets, conc, async item => {
         try {
           await executeCandidateReview(item, config, channelOpts);
           if (item.l1_review?.verdict) stats.reviewed += 1;
-        } catch {
-          /* 隔离异常 */
+        } catch (error) {
+          const message = error?.message || String(error);
+          item.l1_review = { verdict: null, reasons: [], confidence: 0, llm_error: message };
+          item.ai_advice = channelOpts.rescreenStructured === true && item.ai_advice?.verdict
+            ? item.ai_advice
+            : { verdict: null, reasons: [], confidence: 0, reviewer: 'llm_failed', llm_error: message };
         }
       });
     }
@@ -124,24 +129,22 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   const locale = options.locale || 'zh';
   const dryRun = options.dryRun === true;
   const l2Enabled = config?.review?.l2_enabled !== false;
-  // config.review.web_verify 显式 false 关闭联网核验（缺省启用）
-  const webVerifyEnabled = config?.review?.web_verify !== false;
-  const searchBudget = options.searchBudget || (config?.review?.web_search_provider === 'zhipu_web_search'
-    ? createWebSearchBudget(config?.review?.web_verify_max_searches_per_run)
+  const searchBudget = options.searchBudget || (config?.review?.fact_check_mode === 'web_search_api'
+    ? createWebSearchBudget(config?.review?.web_search_max_requests_per_run)
     : null);
   const repairLimit = nonNegativeInteger(options.limit, DEFAULT_REPAIR_LIMIT, 'options.limit');
+  const selectedIds = options.ids === undefined ? null : new Set(options.ids.map(String));
   // 请求期间的基准 revision，用于并发安全落盘
   const baseRevision = revisionOfMinStore(store);
 
   // 1. 筛选出残缺条目
-  const rawTargets = candidates.filter(c => needsRepair(c, {
+  const rawTargets = candidates.filter(c => (!selectedIds || selectedIds.has(String(c?.id))) && (needsRepair(c, {
     locale,
     l2Enabled,
-    webVerifyEnabled,
     skipReview: options.skipReview === true,
     skipSummary: options.skipSummary === true,
     skipLocalize: options.skipLocalize === true,
-  }));
+  }) || (options.rescreenStructured === true && needsStructuredRescreen(c))));
   const targets = rawTargets.slice(0, repairLimit);
 
   const resultStats = {
@@ -152,17 +155,20 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     channelASuccesses: { reviewed: 0, summarized: 0, localized: 0 },
     channelBSuccesses: { reviewed: 0, summarized: 0, localized: 0 },
     remainingIncomplete: 0,
+    rescreenFailedIds: [],
   };
 
   if (targets.length === 0) {
     resultStats.remainingIncomplete = countRepairWork(candidates, {
       locale,
       l2Enabled,
-      webVerifyEnabled,
       skipReview: options.skipReview === true,
       skipSummary: options.skipSummary === true,
       skipLocalize: options.skipLocalize === true,
     }).total;
+    if (options.rescreenStructured === true) {
+      resultStats.remainingIncomplete += candidates.filter(needsStructuredRescreen).length;
+    }
     return resultStats;
   }
 
@@ -176,10 +182,11 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   const channelAOpts = {
     ...options,
     timeoutMs: options.channelA?.timeoutMs ?? 30000,
-    maxDescChars: options.channelA?.maxDescChars ?? 1000,
+    maxDescChars: options.channelA?.maxDescChars ?? 2000,
     concurrency: options.channelA?.concurrency ?? 3,
     l2Enabled,
-    webVerifyEnabled,
+    rescreenStructured: options.rescreenStructured === true,
+    reuseExistingAdvice: options.rescreenStructured === true,
     external: false,
     apiKey: options.apiKeyA || 'local-bonsai',
     fetchImpl: options.fetchImplA || options.fetchImpl,
@@ -195,7 +202,8 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
     timeoutMs: options.channelB?.timeoutMs ?? 60000,
     concurrency: options.channelB?.concurrency ?? options.concurrency ?? 5,
     l2Enabled,
-    webVerifyEnabled,
+    rescreenStructured: options.rescreenStructured === true,
+    reuseExistingAdvice: options.rescreenStructured === true,
     external: true,
     provider: externalProvider,
     model: options.channelB?.model || options.modelB || options.model || externalProviderInfo.defaultModel,
@@ -231,14 +239,16 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
 
     // ── 审核结论合并 ──
     if (!target.reviewed_at) {
-      const hadReviewDefect = needsL1Review(target) || needsL2Advice(target, l2Enabled, webVerifyEnabled);
+      const hadReviewDefect = needsL1Review(target)
+        || needsL2Advice(target, l2Enabled)
+        || (options.rescreenStructured === true && needsStructuredRescreen(target));
       if (hadReviewDefect) {
-        const aSuccess = Boolean(a.l1_review?.verdict && (
+        const aSuccess = injectedLocalChannel && Boolean(a.l1_review?.verdict && (
           a.review_status !== 'pending' ||
           a.ai_advice?.verdict ||
           !l2Enabled
         ));
-        const bSuccess = Boolean(b.l1_review?.verdict && (
+        const bSuccess = options.externalEnabled !== false && Boolean(b.l1_review?.verdict && (
           b.review_status !== 'pending' ||
           b.ai_advice?.verdict ||
           !l2Enabled
@@ -258,6 +268,14 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
           if (b.discard_reason) target.discard_reason = b.discard_reason; else delete target.discard_reason;
           if (b.discard_stage) target.discard_stage = b.discard_stage; else delete target.discard_stage;
           resultStats.repairedReview += 1;
+        } else if (b.l1_review || b.ai_advice) {
+          if (!b.l1_review?.verdict) {
+            target.l1_review = {
+              ...(b.l1_review || { verdict: null, reasons: [], confidence: 0 }),
+              llm_error: b.l1_review?.llm_error || b.ai_advice?.llm_error || 'GLM 未返回有效初审结论',
+            };
+          }
+          if (b.ai_advice && !b.ai_advice.verdict) target.ai_advice = b.ai_advice;
         }
       }
     }
@@ -341,7 +359,6 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
       ...options,
       locale,
       l2Enabled,
-      webVerifyEnabled,
     });
     resultStats.writeMerged = writeResult.merged;
   }
@@ -349,11 +366,14 @@ async function repairIncompleteCandidates(store, config = {}, options = {}) {
   resultStats.remainingIncomplete = countRepairWork(candidates, {
     locale,
     l2Enabled,
-    webVerifyEnabled,
     skipReview: options.skipReview === true,
     skipSummary: options.skipSummary === true,
     skipLocalize: options.skipLocalize === true,
   }).total;
+  if (options.rescreenStructured === true) {
+    resultStats.remainingIncomplete += candidates.filter(needsStructuredRescreen).length;
+    resultStats.rescreenFailedIds = targets.filter(item => !item.l1_review?.verdict).map(item => String(item.id));
+  }
   return resultStats;
 }
 

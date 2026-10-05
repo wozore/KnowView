@@ -1,6 +1,6 @@
 # 热点信息操作全流程
 
-> 本文档逐模块梳理本仓库「AI 热点」从采集、处理、审核到发布的全链路。**所有描述均依据当前源码**（`src/news/**`、`src/content/**`、`scripts/**`、`.github/workflows/**`），以**热点管线 v2**（默认主链）为准。
+> 本文梳理「AI 热点」代码中的采集、处理、审核和发布链路。外网访问策略已关闭，自动采集与发布不再运行；流程细节保留用于阅读项目实现。代码位置见 `src/news/**`、`src/content/**` 和 `scripts/**`。
 >
 > 2026-08-08：v1 管线（旧重架构：registry/scheduler/quota/candidates 双轴、`build-news.js` 旧编排、`news-sources.json` 来源清单等）已整体删除，v2 是**唯一**主链（构建默认走 `runMin`，`--min` 仅兼容 no-op）。历史背景见 §十六。
 >
@@ -84,7 +84,7 @@
 
 ### 2.4 review / long_term_quality / keywords / scoring / feedback / transcripts / manual_folder
 
-- `review`：`l1_input_include_comments true`（L1 审核把点赞最高 N 条评论拼进输入）、`l1_comments_top_n 10`、`l1_confidence_auto_approve 0.85`（L1 判 approve 且置信度 ≥ 此值自动落 approved）、`l1_confidence_auto_discard 0.9`（L1 判 discard 且置信度 ≥ 此值才自动剔除）、`l2_enabled true`（L2 AI 建议供人工参考）、`web_verify true`（hold/discard 建议联网查证，显式 false 关闭）。
+- `review`：`l1_input_include_comments true`（L1 审核把点赞最高 N 条评论拼进输入）、`l1_comments_top_n 10`、`l2_enabled true`（L2 AI 建议供人工参考）、`fact_check_mode codex_mcp`（由 Codex MCP 按需查证，可切换为 `web_search_api` 或 `off`）。L1 状态分流由结构化审核门禁决定，置信度只作记录，不再作为自动通过/剔除阈值。
 - `long_term_quality`：`observation_period_count 3`（样本 ≤3 走中性）、`observation_score_range [20,60]`（3~4 个样本走观察分）、`window_n 10`（滑动窗口最近 10 个样本）、`window_months_youtube 6` / `window_months_x 2`（窗口时限）、`min_samples 5`（≥5 走真实长期分）、`neutral_score 50`。
 - `keywords`：`content_keywords` 36 词（L0 硬过滤判定与提纯基准）、`youtube_queries` 20 条（YouTube 采集搜索词）、`x_discovery_queries` 4 条（X 关键词发现），`excluded_content_keywords / excluded_youtube_queries / excluded_x_discovery_queries` 三段排除词（与正式段重叠即校验失败），`refine_rule_top_n 30 / refine_batch_size 8 / refine_max_output 20 / refine_timeout_ms 600000`（提纯参数）。
 - `scoring.weights`（六权重合计 1.00）：`long_term_quality 0.20 / recent_timeliness 0.15 / light_user_experience 0.05 / source_reliability 0.15 / interaction_quality 0.15 / type_preference 0.30`；`type_preference_score`：`ai_tool 90 / ai_product 90 / ai_concept 70 / ai_industry 60 / ai_technology 50 / other 30 / unclassified 30`；`neutral_score 50`。
@@ -239,9 +239,13 @@ final_score = clamp(Σ weight_i × score_i, 0, 100)   （config.scoring.weights�
 ### 7.4 AI 审核建议（content-reviewer.js + web-verifier.js）
 
 - v2 中本模块**只保留** `reviewCandidate / reviewCandidates / runPool`（+ `VERDICTS / AUTO_APPLY_VERDICTS / collectReviewSource`）——旧的 `applyAiReviewVerdicts` / `enrichCandidateReviews` 批量钩子已随 v1 删除。v2 的 L0/L1/L2 审核编排统一在 **`src/news/min/review-v2.js`**（§八）中复用 `reviewCandidate`。
-- `reviewCandidate(item)`：对标题+描述+字幕+总结做 LLM 审核，输出 `{ verdict: approve|hold|discard, reasons, confidence, ... }`；LLM 失败 → `verdict null`（不误杀）。`options.webEvidence` 可注入联网核验证据文本（追加进审核 prompt，供复判修订判断）。
-- **联网查证（web-verifier.js `verifyAdviceWithWeb`）**：审核 LLM 只凭训练记忆判断真伪，会把真实发布的最新模型误判为"编造"（2026-09-16 Gemini 3.8 Live 事故）。因此 verdict 为 `hold`/`discard` 的建议会自动用标题搜一次 Tavily（共享 `searchTavily`，keyless→keyed 降级），把前 5 条结果拼成证据复判一次，最终建议挂 `web_verification = { query, searched_at, results | search_error }` 随 `ai_advice` 持久化供人工追溯。**全程 fail-open**：搜索/复判失败不抛错、不阻断管线，原建议保留；搜索无有效结果时跳过复判省一次 LLM 调用。
-- **联网核验开关**：`config.review.web_verify` 缺省启用，仅显式设置为 `false` 时关闭；关闭后不搜索、不复判，也不为已有建议补核验，保持旧行为。该开关只控制语义查证成本，L0 完整性/广告等必要门禁不受影响。
+- `reviewCandidate(item)`：对标题、最多 2000 字描述、发布平台/发布者/链接、字幕与总结做 LLM 审核，输出 `{ verdict, reasons, confidence_range, confidence, assessment, fact_check }`；assessment 分开记录主题相关性、主题具体程度、信息价值、来源质量、证据状态和判断主因。缺少字幕或生成摘要本身不构成信息不足；描述是否在 2000 字处截断会随审核输入标出。LLM 失败 → `verdict null`（不误杀）。具体关键事实即使出现在 `approve` 建议中，也可标记 `fact_check.needed=true`。
+- **AI 主题边界**：国家竞争或政治评论仅把 AI 当背景、没有具体模型/产品/研究/应用或实际 AI 政策事实时，按离题低价值处理；只出现 DeepSeek、芯片或“AI 竞赛”字样不足以证明内容属于 AI 资讯。
+- **按需事实查证（web-verifier.js `verifyAdviceWithWeb`）**：简单识别、无关、广告、重复和主观质量问题由 L2 文本判断，不触发搜索。仅具体、可核实且可能改变结论的主张触发查证，verdict 为 approve 也适用。`fact_check_mode=codex_mcp` 时工作台导出最多 10 条任务，Codex 调用 Zhipu Coding Plan 的 `webSearchPrime` MCP 后导入事实结论与来源；`web_search_api` 时按配置预算直连智谱 Web Search API 并用证据复判；`off` 时关闭查证。导入后更新结构化门禁预演，但只写证据与预演字段，不改 `review_status`。
+- **历史搜索失败复筛**：运行 node scripts/news-cli.js min-review fact-check-rescreen --limit 10，用 L2 重新判断最多 10 条 Tavily 失败记录是否包含可核实事实。该命令只覆盖 L2 建议；L2 失败保留原建议，人工状态与 L1 结论不变。标记需要查证的记录进入 Codex 队列。
+- **结构化 L1 存量复筛**：旧版 L1 缺少结构化维度或上一轮 L1 调用失败时，使用 `min-review repair --rescreen-structured --ids <最多 100 个明确 ID> --limit <1..ID 数> --skip-summary --skip-localize --no-refresh-review-list` 分批重跑 L1。仅处理待审且未人工定案的目标；通过/剔除按新门禁更新状态，继续待审的条目沿用已有 L2 建议，不会因此重跑 L2 或搜索。
+- 工作台的事实查证导出只包含 L2 明确标记需核实的事实。旧搜索错误如需单独试点，可在只读 CLI 导出时加 include_history=true；历史错误本身不会直接进入默认搜索队列。
+- **Codex 小批流程**：在新闻首审面板点“导出 10 条 Codex 查证任务”，将 JSON 保存在仓库工作目录并用 node scripts/news-fact-check-codex.js 启动 Codex CLI；新闻查证启动器默认使用 gpt-6-luna，可通过 Codex CLI 参数覆盖。把任务交给 Codex 使用 webSearchPrime MCP 执行，再填写 result_template 并另存为结果 JSON。启动器从根目录 .env 读取 ZHIPU_API_KEY 并映射给 Coding Plan MCP，只将该凭据传给 Codex 进程；可先运行 node scripts/news-fact-check-codex.js --check 检查配置状态。回到工作台选择“导入 Codex 查证结果”。导出只选 pending 且仍需查证的候选，优先取分数较高项；导入会检查任务批次标识、查证方式、候选指纹、待审状态、结论枚举和来源 URL；不匹配时拒绝整批写入。命令入口为 node scripts/news-cli.js min-review fact-check-list --limit 10 --json 和 node scripts/news-cli.js min-review fact-check-import --file <结果文件>。
 
 ### 7.5 内容本地化（content-localizer.js）
 
@@ -250,7 +254,7 @@ final_score = clamp(Σ weight_i × score_i, 0, 100)   （config.scoring.weights�
 - **公开语义**：`localizations` 是公开字段进公开投影（中文以数据文件形式存储，前端按语言读取）；`localizations_meta`（localizer/generated_at/input_chars/llm_error）是内部字段，经 `MIN_INTERNAL_FIELDS` 剔除。
 - **质量门禁**：中文标题或描述原样复述英文、输出缺字段时不写公开翻译，`localizations_meta.zh.llm_error` 记录原因；修复命令只对这类输出和暂时性网络错误做有上限的重试。
 - `enrichCandidateLocalizations` 仍在，v2 由 `runMin` 第 9 步经 `localizeCandidates` 批量调用（只处理无 `localizations[locale]` 的候选，不重复花钱）。
-- **执行时机**：放总结/审核之后、投影之前——只消费原文 title/desc，与总结/审核无依赖，放最后避免影响审核用原文素材。
+- **执行时机**：放总结/审核之后、投影之前——只消费原文 title/desc，与总结/审核无依赖，放最后避免影响审核用原文素材。L1 先于总结运行，因此审核提示不能把缺少生成摘要本身视为信息不足。
 
 ---
 
@@ -261,14 +265,14 @@ final_score = clamp(Σ weight_i × score_i, 0, 100)   （config.scoring.weights�
 本模块**只对传入条目计算判定并原样展开（+ 审核痕迹字段），不自己写 store**，是否持久化由 `runMin` 决定。
 
 - **L0 `l0HardFilter(item, config)`**：规则式硬过滤，零成本零外部依赖。`incomplete`（缺 title/url/published_at）/ `not_ai`（title+description 未命中任一 `content_keywords`）/ `advertising`（命中 `sponsored|advertisement|推广|广告|affiliate|佣金` 等）/ `ai_generated_disclosure`（简介命中明确 AI 生成披露模板，硬排除且不落盘）→ `{ pass:false, reason }`。
-- **L1 `l1AiReview`**：复用 `content-reviewer.reviewCandidate` 调外部 provider；`config.review.l1_input_include_comments=true` 且候选有评论时，把点赞最高 `l1_comments_top_n`（10）条评论拼进输入（`[TOP_COMMENTS]` 段），让 AI 过滤无关/吵架评论。**判定分流**：
-  - 高置信通过：`verdict==='approve'` 且 `confidence ≥ l1_confidence_auto_approve`（0.85）时自动落 `review_status:'approved'`（保留入库，但仍须人工确认 `top_selected:true` 才进入公开展示）；
-  - 高置信剔除：`verdict==='discard'` 且 `confidence ≥ l1_confidence_auto_discard`（0.9）时自动落 `review_status:'discarded'`；
-  - 待审保留：`hold`、低置信度或 LLM 失败（verdict null）落 `review_status:'pending'`，并进入 L2 生成辅助建议供人工参考。
-- **L2 `l2AiAdvice`**：AI 辅助建议（给人工看的），复用 `reviewCandidate`，**不自动改状态**；`l2_enabled=false` 时跳过。建议生成后经 `web-verifier.verifyAdviceWithWeb` 联网查证复判（hold/discard 才触发，fail-open，见 §7.4），`ai_advice.web_verification` 记录查证痕迹。
+- **L1 `l1AiReview`**：复用 `content-reviewer.reviewCandidate` 调外部 provider；`config.review.l1_input_include_comments=true` 且候选有评论时，把点赞最高 `l1_comments_top_n`（10）条评论拼进输入（`[TOP_COMMENTS]` 段），让 AI 过滤无关/吵架评论。结构化维度现在直接决定正式 `review_status`；置信度保留作审计信息，不参与状态分流。关键事实被标记为待查证时，必须获得已完成且有来源支持的查证结果，否则留待人工。**判定分流**：
+  - 自动通过候选：`verdict==='approve'` 且 `topic_relevance=in_scope`、`subject_clarity=specific`、`information_value=substantive`、证据充分，并以 `clear_relevant_content` 为判断依据时落 `review_status:'approved'`（保留入库，但仍须人工确认 `top_selected:true` 才进入公开展示）；
+  - 自动剔除：`verdict==='discard'` 且结构化依据明确为跑题、广告/垃圾、重复、明显低价值或纯政治背景，且证据充分时落 `review_status:'discarded'`；
+  - 待审保留：结构化维度缺失、不确定、证据不足、事实查证未支持或 LLM 失败时落 `review_status:'pending'`，并进入 L2 生成辅助建议供人工参考。置信度高低不会覆盖上述条件。
+- **L2 `l2AiAdvice`**：AI 辅助建议（给人工看的），复用 `reviewCandidate`，**不自动改状态**；`l2_enabled=false` 时跳过。L2 对任一 verdict 都可提出具体事实查证；已有建议不会因为搜索失败而重跑。查证状态、结论和来源记录在 `ai_advice.web_verification`（见 §7.4）。
 - **批量入口 `applyL1Verdicts`**：`{ kept, discarded, advice }`。
-  - `kept`：包含高置信自动通过项（`review_status:'approved'`）以及需要人工审核的待审项（`review_status:'pending'`，附 `ai_advice`）；
-  - `discarded`：L0 硬审不过（带 `discard_stage:'l0'`）或 L1 高置信 discard（带 `discard_stage:'l1'`）；
+  - `kept`：包含结构化门禁自动通过候选（`review_status:'approved'`）以及需要人工审核的待审项（`review_status:'pending'`，附 `ai_advice`）；
+  - `discarded`：L0 硬审不过（带 `discard_stage:'l0'`）或结构化门禁确认可剔除的项（带 `discard_stage:'l1'`）；
   - `advice`：仅 pending 项对应的 `l2AiAdvice` 建议对象列表（自动通过/剔除项不调用 L2）。L1/L2 按 `concurrency` 并发、保持输入顺序。
 
 ### 8.2 公开资格门禁（news-public-gate.js，v2 精简为 4 个导出）
@@ -464,7 +468,7 @@ collect-news.yml 构建 → Data PR（白名单六运行时文件，news/review/
 | AI 分类 | [content-classifier.js](../src/news/classify/content-classifier.js) | `classifyRuleBased`、`classifyCandidate`、`classifyCandidates`、`confirmContentType` |
 | AI 总结 | [content-summarizer.js](../src/news/classify/content-summarizer.js) | `summarizeCandidate`、`summarizeCandidates`、`enrichCandidateSummaries` |
 | AI 审核建议 | [content-reviewer.js](../src/news/classify/content-reviewer.js) | `reviewCandidate`、`reviewCandidates`、`runPool`（无 applyAiReviewVerdicts/enrichCandidateReviews） |
-| 审核联网查证 | [web-verifier.js](../src/news/classify/web-verifier.js) | `verifyAdviceWithWeb`（hold/discard 建议 Tavily 查证 + 证据复判，fail-open） |
+| 审核事实查证 | [web-verifier.js](../src/news/classify/web-verifier.js) | `verifyAdviceWithWeb`（按 L2 的具体事实主张路由 Codex MCP 或智谱 Web Search API） |
 | AI 本地化 | [content-localizer.js](../src/news/classify/content-localizer.js) | `collectLocalizeSource`、`localizeCandidate`、`localizeCandidates`、`enrichCandidateLocalizations` |
 | LLM 网关 | [llm-gateway.js](../src/shared/llm-gateway.js) | `requestStructuredJson`、`requestLlmText`、`resolveTransportRoute` |
 | news AI 任务层 | [llm-provider.js](../src/news/classify/llm-provider.js) | `classifyContent`、`summarizeContent`、`reviewContent`、`localizeContent`、`selectTopItems`、`refineKeywords` |

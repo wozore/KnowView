@@ -1,6 +1,6 @@
 'use strict';
 
-const { canonicalizeUrl } = require('../shared/tavily-client');
+const { canonicalizeUrl } = require('../shared/web-source-contract');
 const { isVagueName } = require('./rules');
 
 /**

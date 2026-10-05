@@ -23,9 +23,10 @@ const BASE_VALID_CONFIG = {
     x_tweets_per_request_max: 20,
   },
   review: {
-    web_search_provider: 'tavily',
+    fact_check_mode: 'codex_mcp',
+    web_search_provider: 'zhipu_web_search',
     web_search_engine: 'search_std',
-    web_verify_max_searches_per_run: 10,
+    web_search_max_requests_per_run: 10,
   },
   x_accounts: [
     'OpenAI', 'deepseek_ai', 'ChatGPTapp', 'midjourney', 'GroqLLC', 'lmsysorg',
@@ -97,6 +98,7 @@ test('validateNewsConfig 拒绝弃用字段 (fail-closed)', () => {
     [{ ...BASE_VALID_CONFIG, keywords: { ...BASE_VALID_CONFIG.keywords, excluded_keywords: ['robot'] } }, 'keywords.excluded_keywords'],
     [{ ...BASE_VALID_CONFIG, schedule: { ...BASE_VALID_CONFIG.schedule, x_cron_first: '0 5 * * *' } }, 'schedule.x_cron_first'],
     [{ ...BASE_VALID_CONFIG, schedule: { ...BASE_VALID_CONFIG.schedule, x_cron_second: '0 14 * * *' } }, 'schedule.x_cron_second'],
+    [{ ...BASE_VALID_CONFIG, review: { ...BASE_VALID_CONFIG.review, web_verify: false } }, 'web_verify'],
   ];
 
   for (const [cfg, field] of deprecatedCases) {
@@ -104,6 +106,16 @@ test('validateNewsConfig 拒绝弃用字段 (fail-closed)', () => {
     assert.equal(res.valid, false, `包含旧字段 ${field} 时应被拒绝`);
     assert.ok(res.errors.some(msg => msg.includes(field)), `错误信息应指出 ${field}`);
   }
+});
+
+test('validateNewsConfig 只接受已声明的事实查证方式', () => {
+  for (const mode of ['off', 'web_search_api', 'codex_mcp']) {
+    const result = collectErrors(validateNewsConfig, { ...BASE_VALID_CONFIG, review: { ...BASE_VALID_CONFIG.review, fact_check_mode: mode } });
+    assert.equal(result.valid, true, `${mode} 应有效`);
+  }
+  const invalid = collectErrors(validateNewsConfig, { ...BASE_VALID_CONFIG, review: { ...BASE_VALID_CONFIG.review, fact_check_mode: 'tavily' } });
+  assert.equal(invalid.valid, false);
+  assert.ok(invalid.errors.some(message => message.includes('fact_check_mode')));
 });
 
 test('validateNewsConfig 拒绝非法 collection 字段', () => {

@@ -49,7 +49,7 @@ const {
   applyTopSelectedList,
   scoreOf,
 } = require('../min/review-list');
-const { runEnrichFlow, runRepairFlow } = require('./min-review-flows');
+const { runEnrichFlow, runRepairFlow, runFactCheckCommand } = require('./min-review-flows');
 const {
   MAX_AI_TOP_INPUT,
   buildAiTopPayload,
@@ -182,6 +182,10 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
     }
 
     return { total: store.candidates.length, shown: rows.length, by_review_status: byReviewStatus, candidates: rows };
+  }
+
+  if (action === 'fact-check-rescreen' || action === 'fact-check-list' || action === 'fact-check-import') {
+    return runFactCheckCommand(action, flags, config);
   }
 
   if (action === 'set') {
@@ -372,7 +376,7 @@ async function minReviewCommand(action, flags = {}, deps = {}) {
     return { ...result, file: flags.file };
   }
 
-  throw new Error(`未知 min-review 命令: ${action}。支持：list | set | batch | enrich | repair | transcripts | feedback | refine | refine-apply | ai-top | top-selected | top-apply | apply | archive`);
+  throw new Error(`未知 min-review 命令: ${action}。支持：list | set | batch | enrich | repair | fact-check-rescreen | fact-check-list | fact-check-import | transcripts | feedback | refine | refine-apply | ai-top | top-selected | top-apply | apply | archive`);
 }
 
 module.exports = {

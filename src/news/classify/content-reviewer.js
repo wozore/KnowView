@@ -9,28 +9,23 @@
  * ═══════════════════════════════════════════════════════════════
  * 职责
  * ═══════════════════════════════════════════════════════════════
- *   对候选的 标题 + 描述 + 字幕 + 内容总结 做 LLM 初步审核，
- *   输出 ai_review 建议 { verdict: approve|hold|discard, reasons, confidence }。
- *   - 初筛：discard（明显无关）保留相关；approve（建议通过）待人工最终决定；
+ *   对候选的 标题 + 描述 + 来源信息 + 字幕 + 内容总结 做 LLM 初步审核，
+ *   输出 verdict、结构化判断维度、理由、把握区间与事实查证任务。
+ *   - 审核状态由 review-v2 的确定性门禁应用；公开展示仍需维护者选择 Top；
  *   - 任何 LLM 失败（缺 key/网络/超时/输出无法解析）resolve 降级对象、verdict 置 null，
  *     绝不 reject、绝不误杀 —— 候选保持 pending，人工照常审核；
- *   - 输入素材自适应：候选有 transcript / summary 才拼入，无则自动只用其余部分。
+ *   - 输入素材自适应：候选有 transcript / summary 才拼入，并标明描述截断情况。
  *
- * 公开语义（用户拍板）：ai_review 是候选上的内部建议字段，**不进公开投影**
- * （min-store 的 MIN_INTERNAL_FIELDS 剔除），仅供审核侧使用，前端零改动。
+ * 审核建议字段不进入公开投影；维护者审核面板读取这些内部字段展示判断维度和查证状态。
  *
- * 自动化档位（用户拍板）：review_auto_apply=true 且 confidence ≥ autoMinConfidence
- * 时，discard/hold 由 AI 自动落 review_status（reviewer='ai_review'，审计可追溯、
- * 可恢复）；**approve 永不自动落**——通过必须由人 review set/batch。
- *
- * 成本控制：默认关闭（review_enabled）、每轮上限（review_max_items_per_run）、
- * 只审核没有 ai_review 的候选（不重复花钱）、并发池限流（复用采集 concurrency）。
+ * 本模块只生成建议，不直接修改候选状态；失败会保留人工复核路径。
  */
 
 'use strict';
 
 const { reviewContent, reviewWithExternal } = require('./llm-provider');
 const { providerOf, modelOf } = require('./loadContentTaskConfig');
+const { reviewAssessmentGate } = require('./review-assessment');
 
 // 合法判定集合（与 llm-prompts.js 的判定集合一致）
 const VERDICTS = Object.freeze(['approve', 'hold', 'discard']);
@@ -77,7 +72,24 @@ function collectReviewSource(item) {
     transcript = rawTranscript.text.trim();
   }
   const summary = String(item?.summary || '').trim() || null;
-  return { title, description, transcript, summary };
+  const descriptionTruncated = item?.description_truncated === true
+    || (item?.description_truncated == null && description.length >= 600);
+  const sourceContext = [
+    item?.platform ? `平台：${String(item.platform).slice(0, 40)}` : '',
+    item?.author_name ? `发布者：${String(item.author_name).slice(0, 120)}` : '',
+    item?.url ? `原始链接：${String(item.url).slice(0, 300)}` : '',
+    ...(Array.isArray(item?.explicit_links)
+      ? item.explicit_links.slice(0, 5).map(url => `正文链接：${String(url).slice(0, 300)}`)
+      : []),
+  ].filter(Boolean).join('\n');
+  return {
+    title,
+    description,
+    transcript,
+    summary,
+    source_context: sourceContext,
+    description_truncated: descriptionTruncated,
+  };
 }
 
 /**
@@ -115,6 +127,10 @@ async function reviewCandidate(item, options = {}) {
         verdict: llm.verdict,
         reasons: llm.reasons,
         confidence: llm.confidence,
+        confidence_range: llm.confidence_range || null,
+        assessment: llm.assessment || null,
+        assessment_gate_preview: reviewAssessmentGate(llm.verdict, llm.assessment, llm.fact_check),
+        ...(llm.fact_check ? { fact_check: llm.fact_check } : {}),
         reviewer: `llm_${provider}`,
         generated_at: now,
         input_chars: inputChars,

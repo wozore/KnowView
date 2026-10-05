@@ -38,7 +38,7 @@ function adapters(overrides = {}) {
   };
 }
 
-test('research keeps trusted official hosts, gathers sources, and tracks Tavily-only costs', async () => {
+test('research keeps trusted official hosts, gathers sources, and tracks Web Search costs', async () => {
   const plan = detailOnlyPlan();
   const result = await researchCatalog(plan, adapters(), { limits: { search_queries: 2, pages: 4 } });
   assert.equal(result.ok, true);
