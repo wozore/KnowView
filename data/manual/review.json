@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "kind": "review_candidates",
-  "generated_at": "2026-10-04T17:00:34.672Z",
+  "generated_at": "2026-10-05T06:07:57.964Z",
   "date": "20261005",
-  "total_pending": 3167,
+  "total_pending": 3200,
   "note": "待人工审核清单：请逐条设置 review_status（pending/approved/discarded）。应用结论：双击 bat/apply-review.bat（或 node scripts/news-cli.js min-review apply --file 本文件），应用后自动生成 top 名单（ai-top）供二次审核；approved 才进后续 top-selected/publish。",
   "candidates": [
     {
@@ -22174,6 +22174,237 @@
       "summary": "The supplement aisle has a branding problem. Everything sounds like a laboratory",
       "suggestion": "人工判断：是否值得收录",
       "review_status": "pending"
+    },
+    {
+      "id": "x-21955bd618ddbd71d34b",
+      "score": 67,
+      "summary": "https://t.co/vGSuzWODWz is up for grabs! ​The ultimate brandable domain for AI, ",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cb02a1aabb42e245812c",
+      "score": 66.4,
+      "summary": "【AIニュース🤖】 生成AIは「作る」から「再利用する」段階へ リコーは社内約1万200件のDifyアプリから約50件を企業向けに公開 開発だけでなく審査・共",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c91aef76ecfebe945795",
+      "score": 63.5,
+      "summary": "A surprising number of “AI infrastructure” announcements seem to skip straight p",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-c00f94c00cf938348cfc",
+      "score": 63.5,
+      "summary": "47 sites. Every gap was real. Every build was intentional. ━━━━━━━━━━━━━━━━━━━━━",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-2cfa09fa9ffe2e541804",
+      "score": 63.5,
+      "summary": "https://t.co/DXuy1ZjMNJ",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6baf6600d50c23270987",
+      "score": 63.5,
+      "summary": "Welcome Guap AI, a pre-launch San Francisco venture building data co-ownership a",
+      "suggestion": "AI 产品/工具，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-82add82a1a71a9eba023",
+      "score": 63.5,
+      "summary": "8JSBpETT1oF3oqABG63Bw1ps5vsiBUZZpUjdvR1Qpump $ALEX pressure is building on Lion ",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-bb5baefac4b7562af42e",
+      "score": 56,
+      "summary": "🤖 AI Signal (SOL) T800 CA: 3M4EPrHdBxxRDCb8q2RTDQ3oDTi3QGi3iMgVxifqpump T800 is",
+      "suggestion": "偏离 AI 核心（金融/NFT），建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-212da92718edfbde2d0e",
+      "score": 56,
+      "summary": "🤖 AI Signal (SOL) $pDOG CA: 6gjy9q1Cw2nG838mXkAE4LFn2Y599KHjQ7KLANdQC6Fn Fourth",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-11566316b9092c383b8e",
+      "score": 55.4,
+      "summary": "Before OpenAI became one of the biggest AI companies in the world, Elon Musk was",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-e3a875e5ef412fd589a5",
+      "score": 54.7,
+      "summary": "🇰🇷🚨 SOUTH KOREA INVESTIGATES AI-ASSISTED HACKING CAMPAIGN AGAINST 7 FINANCIAL",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-fe0bb7ac7c352e4db22d",
+      "score": 54.5,
+      "summary": "SaaS companies are buying developer attention on the wrong platforms. For develo",
+      "suggestion": "AI 行业事件，建议 approved",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9e9b103d1458e2a3d46b",
+      "score": 53.2,
+      "summary": "Model Distillation vs Quantization - since a ton of people don't know the differ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-64bb533ba478589a2899",
+      "score": 53,
+      "summary": "Currently Training a 300M Parameter 100 Tok/param Ternary 1.58bit Model from scr",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-874b8f1b204bdfe40ca6",
+      "score": 52.4,
+      "summary": "🤖 AI DAILY REPORT 🤖 Sunday, October 4, 2026 ─── 🚀 BREAKTHROUGH MODELS & RELEA",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-3e9f1bd0bfc9162d802d",
+      "score": 52.3,
+      "summary": "SI (AI) agents on Coinbase, Sept 14–21: Grok ~60% Custom tools ~22% Claude ~13% ",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8b9bdb30b811888bd885",
+      "score": 52,
+      "summary": "https://t.co/t82rBMuTvU",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-126ae7c79befdeecf6d0",
+      "score": 51.8,
+      "summary": "$NVDA-backed Reflection is building an open-weight model to take on DeepSeek and",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-092ba3346f23588a3b59",
+      "score": 51.5,
+      "summary": "$GOOGL closed Friday at $343.50. Gemini 4 gives the bulls something to work with",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-8a7f8b82e177adc34676",
+      "score": 51.5,
+      "summary": "When does intervention become necessary - and into what, exactly? From Arrested ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-51388a08f2cc4cfa0787",
+      "score": 51.5,
+      "summary": "most robot benchmarks are already dead the day they launch. models memorize the ",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-6492c7fe73a31de1c3dc",
+      "score": 51.5,
+      "summary": "Alibaba's Qwen team dropped a 7B open-weight image model that does text-to-image",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-a8a36701d40c9678f621",
+      "score": 51.5,
+      "summary": "LLM downloaded, yet loading still takes minutes, even tens of minutes. - The wai",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-15e8187ad1659e2cacbe",
+      "score": 51.5,
+      "summary": "nvidia-backed reflection is about to release an open-weight frontier model, axio",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-cf64ae62e8ba7e22ea80",
+      "score": 51.5,
+      "summary": "https://t.co/HOkr9PneL2",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9ef4051e285c53897ac5",
+      "score": 51.5,
+      "summary": "Es wird sich vor allem im Open-Source-Bereich auszahlen, weil die Existenz der P",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-d3c845c17abe2d60be5a",
+      "score": 50,
+      "summary": "都说了 AI 的能力不是你的能力 你用AI整的视频充其量就是能看，视频和文字一样，都是怎么解释和翻译一些东西给特定的人群 需要编排、策划和反复的打磨才有可能有效",
+      "suggestion": "AI 概念，建议看内容后定（学习类多为日志）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-2b8a423758cc0f9545e6",
+      "score": 45.5,
+      "summary": "My personal experience on using WURK{https://t.co/anBWrnYgNO}: Microtask Platfor",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-76247d3cd1247b44b570",
+      "score": 45.5,
+      "summary": "If I had money to throw at it, I'd use a spendy LLM to make a blender plugin + t",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-ef8d115660240cd287a3",
+      "score": 45.3,
+      "summary": "\"create the ultimate brutalist city builder. you should have lots of controls ov",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-66a2f489c52964f9b847",
+      "score": 44.3,
+      "summary": "OpenAI and Anthropic weekly: DevDay 2026, Sonnet 5.5, FTC probe, Australia apolo",
+      "suggestion": "AI 技术/研究，建议 approved（如无重大争议）",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-9ebb6573618515ed423b",
+      "score": 44,
+      "summary": "🤖 AI Signal (SOL) $TENOR CA: vdzvLw7m4y1dyJr9RSVuP1p2ap5W28Hz6M9hbYNpump Tenor,",
+      "suggestion": "个人使用/成本体验，建议 discarded",
+      "review_status": "pending"
+    },
+    {
+      "id": "x-b2124287bf03d9ec0d3d",
+      "score": 39.8,
+      "summary": "Anthropic started prompting more users to participate into a 15 minutes voice in",
+      "suggestion": "人工判断：是否值得收录",
+      "review_status": "pending"
     }
   ],
   "human_lines": [
@@ -25343,6 +25574,39 @@
     "[44.1] 🤖 AI Signal (SOL) $SI CA: 8PUwvh7uX5CPoyX1prMgP4jFP9E2ETJq9erBP8kRgSZ6 Intellig\n    建议：个人使用/成本体验，建议 discarded",
     "[40.8] Elon looked at a $14 billion taxpayer savings number and said, basically, aim hi\n    建议：个人使用/成本体验，建议 discarded",
     "[38.5] 这让 XiaoHuAI 咋办 XiaoHuSI 🙁\n    建议：人工判断：是否值得收录",
-    "[38.4] The supplement aisle has a branding problem. Everything sounds like a laboratory\n    建议：人工判断：是否值得收录"
+    "[38.4] The supplement aisle has a branding problem. Everything sounds like a laboratory\n    建议：人工判断：是否值得收录",
+    "[67] https://t.co/vGSuzWODWz is up for grabs! ​The ultimate brandable domain for AI, \n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[66.4] 【AIニュース🤖】 生成AIは「作る」から「再利用する」段階へ リコーは社内約1万200件のDifyアプリから約50件を企業向けに公開 開発だけでなく審査・共\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] A surprising number of “AI infrastructure” announcements seem to skip straight p\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] 47 sites. Every gap was real. Every build was intentional. ━━━━━━━━━━━━━━━━━━━━━\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] https://t.co/DXuy1ZjMNJ\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] Welcome Guap AI, a pre-launch San Francisco venture building data co-ownership a\n    建议：AI 产品/工具，建议 approved",
+    "[63.5] 8JSBpETT1oF3oqABG63Bw1ps5vsiBUZZpUjdvR1Qpump $ALEX pressure is building on Lion \n    建议：个人使用/成本体验，建议 discarded",
+    "[56] 🤖 AI Signal (SOL) T800 CA: 3M4EPrHdBxxRDCb8q2RTDQ3oDTi3QGi3iMgVxifqpump T800 is\n    建议：偏离 AI 核心（金融/NFT），建议 discarded",
+    "[56] 🤖 AI Signal (SOL) $pDOG CA: 6gjy9q1Cw2nG838mXkAE4LFn2Y599KHjQ7KLANdQC6Fn Fourth\n    建议：个人使用/成本体验，建议 discarded",
+    "[55.4] Before OpenAI became one of the biggest AI companies in the world, Elon Musk was\n    建议：AI 行业事件，建议 approved",
+    "[54.7] 🇰🇷🚨 SOUTH KOREA INVESTIGATES AI-ASSISTED HACKING CAMPAIGN AGAINST 7 FINANCIAL\n    建议：AI 行业事件，建议 approved",
+    "[54.5] SaaS companies are buying developer attention on the wrong platforms. For develo\n    建议：AI 行业事件，建议 approved",
+    "[53.2] Model Distillation vs Quantization - since a ton of people don't know the differ\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[53] Currently Training a 300M Parameter 100 Tok/param Ternary 1.58bit Model from scr\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.4] 🤖 AI DAILY REPORT 🤖 Sunday, October 4, 2026 ─── 🚀 BREAKTHROUGH MODELS & RELEA\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[52.3] SI (AI) agents on Coinbase, Sept 14–21: Grok ~60% Custom tools ~22% Claude ~13% \n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[52] https://t.co/t82rBMuTvU\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.8] $NVDA-backed Reflection is building an open-weight model to take on DeepSeek and\n    建议：个人使用/成本体验，建议 discarded",
+    "[51.5] $GOOGL closed Friday at $343.50. Gemini 4 gives the bulls something to work with\n    建议：个人使用/成本体验，建议 discarded",
+    "[51.5] When does intervention become necessary - and into what, exactly? From Arrested \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] most robot benchmarks are already dead the day they launch. models memorize the \n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] Alibaba's Qwen team dropped a 7B open-weight image model that does text-to-image\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] LLM downloaded, yet loading still takes minutes, even tens of minutes. - The wai\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] nvidia-backed reflection is about to release an open-weight frontier model, axio\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] https://t.co/HOkr9PneL2\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[51.5] Es wird sich vor allem im Open-Source-Bereich auszahlen, weil die Existenz der P\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[50] 都说了 AI 的能力不是你的能力 你用AI整的视频充其量就是能看，视频和文字一样，都是怎么解释和翻译一些东西给特定的人群 需要编排、策划和反复的打磨才有可能有效\n    建议：AI 概念，建议看内容后定（学习类多为日志）",
+    "[45.5] My personal experience on using WURK{https://t.co/anBWrnYgNO}: Microtask Platfor\n    建议：人工判断：是否值得收录",
+    "[45.5] If I had money to throw at it, I'd use a spendy LLM to make a blender plugin + t\n    建议：人工判断：是否值得收录",
+    "[45.3] \"create the ultimate brutalist city builder. you should have lots of controls ov\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44.3] OpenAI and Anthropic weekly: DevDay 2026, Sonnet 5.5, FTC probe, Australia apolo\n    建议：AI 技术/研究，建议 approved（如无重大争议）",
+    "[44] 🤖 AI Signal (SOL) $TENOR CA: vdzvLw7m4y1dyJr9RSVuP1p2ap5W28Hz6M9hbYNpump Tenor,\n    建议：个人使用/成本体验，建议 discarded",
+    "[39.8] Anthropic started prompting more users to participate into a 15 minutes voice in\n    建议：人工判断：是否值得收录"
   ]
 }
